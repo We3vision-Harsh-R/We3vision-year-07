@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  lastLoginAt  DateTime?
+}
+
+// One row per editable website page. `draft` is what the editor works on,
+// `published` is what visitors see. Both hold { sections: [...] } JSON.
+model Page {
+  id             String        @id @default(cuid())
+  slug           String        @unique
+  title          String
+  seoTitle       String        @default("")
+  seoDescription String        @default("")
+  draft          Json?
+  published      Json?
+  publishedAt    DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  versions       PageVersion[]
+}
+
+// Snapshot taken on every publish (we keep the latest 10 per page).
+model PageVersion {
+  id        String   @id @default(cuid())
+  pageId    String
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  content   Json
+  createdAt DateTime @default(now())
+
+  @@index([pageId, createdAt])
+}
+
+// Key/value JSON store for site-wide settings (key "site" = logo text, contact, nav, footer).
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String   @default("")
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

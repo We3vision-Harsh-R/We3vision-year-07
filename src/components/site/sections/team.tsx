@@ -1,0 +1,33 @@
+import { Reveal } from "../reveal";
+import { SectionHead, Wide } from "../ui";
+import type { SectionComponent } from "./shared";
+
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase())
+    .join("");
+
+/** People cards: round monogram avatar (initials), name and role. */
+export const Team: SectionComponent<"team"> = ({ data }) => (
+  <section id="team" className="py-24 sm:py-32">
+    <Wide>
+      <SectionHead chip={data.chip} heading={data.heading} />
+      <div className="mx-auto mt-16 grid max-w-[860px] gap-5 sm:grid-cols-3">
+        {data.members.map((m, i) => (
+          <Reveal key={i} delay={i * 90} className="h-full">
+            <article className="card-glass flex h-full flex-col items-center rounded-[19px] border border-violet/[0.12] p-8 text-center backdrop-blur-md">
+              <span className="grid size-24 place-items-center rounded-full border border-violet/25 bg-[linear-gradient(180deg,#341d44,#12051f)] shadow-[inset_0_1px_0_rgba(211,135,255,0.3),0_14px_40px_rgba(90,30,160,0.35)]">
+                <span className="text-vfade text-3xl font-semibold tracking-tight">{initials(m.name)}</span>
+              </span>
+              <h3 className="mt-6 text-xl font-semibold tracking-tight text-violet">{m.name}</h3>
+              <p className="mt-1.5 text-sm text-orchid">{m.role}</p>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </Wide>
+  </section>
+);

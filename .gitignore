@@ -1,0 +1,25 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+/build
+
+# prisma generated client (created by `npm install` -> postinstall)
+/src/generated
+
+# env files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+.vercel
+.devdb
+.claude/worktrees/
