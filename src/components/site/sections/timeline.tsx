@@ -3,23 +3,24 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Reveal } from "../reveal";
 import { OfficeStage } from "../timeline-office";
-import { BenchTop, BushTop, PersonTop, TimelineDefs, TreeTop } from "../timeline-art";
+import { BenchTop, BushTop, PersonTop, TreeTop } from "../timeline-art";
 import { SectionHead, Wide } from "../ui";
 import type { SectionComponent } from "./shared";
 
 // Vertical timeline: a glowing line down the middle, years on one side and glass cards on the other (stacked on phones).
-// The story walks along it, seen from above: three founders in blazers (Smit, Harsh, Vatsal) walk down the line while you scroll.
+// The story walks along it, seen from above: three founders (Smit, Harsh, Vatsal) walk down the line while you scroll, Harsh in front.
 // At `leaveYear` two of them drop out of the journey: each sits down on his own bench in a small garden beside the line (there is
 // room for it under that year), and the centre one keeps walking. At `partnerYear` a fourth one (Parth) joins him and they walk
 // on side by side. The line ends in the last screen, the office of `finalYear`: a huge year, the goal of the company and the seven
 // teams at work, where the two of them walk in over the big year and sit down in their boss chairs.
 
-const GAP = 60; // px between the three while they walk together
+const GAP = 76; // px between the three while they walk one behind the other (a figure is 66 px high)
 const ZONE = 280; // height of the garden under the leave year
 const BENCH_A = 74; // the benches (px under the start of the garden)
 const BENCH_B = 186;
 const SIDE = 60; // how far from the line the benches stand
-const ABREAST = 24; // the two founders walk this far to the left / right of the line
+const ABREAST = 34; // the two founders walk this far to the left / right of the line (a figure is 47 px wide)
+const PHONE_GAP = 52; // on a phone the partner walks this far to the right of the line
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const ease = (t: number) => t * t * (3 - 2 * t);
@@ -63,6 +64,7 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
     let lineX = 0;
     let zoneTop = 0; // y where the garden starts (under the leave year)
     let wide = true;
+    let joinSide = 1; // which side of the line he waits on: the one without the year text
     let raf = 0;
     let idleT = 0;
     let lastY = -1;
@@ -77,6 +79,8 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
       const d0 = dots[0].getBoundingClientRect();
       lineX = d0.left - or.left + d0.width / 2;
       wide = window.innerWidth >= 640;
+      const jp0 = dots[joinAt].closest("li")?.querySelector("p");
+      joinSide = wide && jp0 && jp0.getBoundingClientRect().left > d0.left ? -1 : 1;
       const li = dots[leave].closest("li");
       const lb = li ? li.getBoundingClientRect().bottom - or.top : ys[leave] + 200;
       zoneTop = lb - ZONE + 30;
@@ -107,14 +111,14 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
       const moving = Math.abs(gy - lastY) > 0.2;
       lastY = gy;
 
-      // the partner joins at his year: he walks in from the right and then they go on side by side
-      const jp = clamp((gy - (ys[joinAt] - 110)) / 150);
+      // the partner joins at his year: from the moment the centre one has crossed it, they go on side by side
+      const jp = clamp((gy - ys[joinAt]) / 110);
       const jpe = ease(jp);
       const dx = wide ? ABREAST : 0;
 
-      const poses: { y: number; x: number; face: string; pose: string; wave: boolean; show: boolean }[] = [];
-      // 0 Smit, 1 Harsh, 2 Vatsal
-      [Math.min(gy - GAP, seatA), gy, Math.min(gy + GAP, seatB)].forEach((y, i) => {
+      const poses: { y: number; x: number; face: string; pose: string; wave: boolean; show: boolean; a?: number; tag?: string }[] = [];
+      // 0 Smit, 1 Harsh, 2 Vatsal: Harsh walks in front, Vatsal and Smit follow him
+      [Math.min(gy - 2 * GAP, seatA), gy, Math.min(gy - GAP, seatB)].forEach((y, i) => {
         const seat = i === 0 ? seatA : i === 2 ? seatB : null;
         const sat = seat !== null && y >= seat - 0.5;
         let x = i === 1 ? lineX - dx * jpe : lineX;
@@ -126,18 +130,32 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
           if (near > 0.02) face = side < 0 ? "left" : "right";
           if (sat) face = side < 0 ? "right" : "left"; // sitting, he looks back at the line
         }
-        const wave = sat && gy > (seat as number) - 140 && gy < (seat as number) + 160;
-        poses.push({ y, x, face, pose: sat ? "sit" : moving ? "walk" : "idle", wave, show: true });
+        // the two who follow him come in out of a blur at the start of the line; once seated they wave after him
+        const a = i === 1 ? 1 : clamp((y - (ys[0] - 24)) / 56);
+        const wave = sat && gy - (seat as number) < 420;
+        poses.push({ y, x, face, pose: sat ? "sit" : moving ? "walk" : "idle", wave, show: true, a, tag: i === 2 ? "r" : "l" });
       });
-      // 3 the partner
+      // 3 the partner: he stands at his year from the start, waves when the centre one comes near and, once that one has
+      // crossed him, goes on with him side by side
+      const py = ys[joinAt];
+      const near = gy > py - 150 && gy < py + 20;
       poses.push({
-        y: gy - (1 - jpe) * 24,
-        x: lerp(lineX + (wide ? 300 : 210), lineX + (wide ? ABREAST : 36), jpe),
-        face: jp < 0.92 ? "left" : "down",
-        pose: moving || jp < 1 ? "walk" : "idle",
-        wave: false,
-        show: jp > 0.001,
+        // coming over from the far side he drops back for a moment so that they do not walk through each other
+        y: Math.max(py, gy) - (joinSide < 0 ? 30 * Math.sin(Math.PI * jpe) : 0),
+        x: lerp(lineX + (wide ? 56 : PHONE_GAP) * joinSide, lineX + (wide ? ABREAST : PHONE_GAP), jpe),
+        face: jp > 0.5 ? "down" : joinSide < 0 ? "right" : "left",
+        pose: jp > 0 && moving ? "walk" : "idle",
+        wave: near,
+        show: true,
+        // his name stands on the side away from the one he waits for
+        tag: jp < 0.5 && joinSide < 0 ? "l" : "r",
       });
+      // on a phone there is no room beside the line for the name of the one who walks on the line
+      if (!wide) {
+        poses.forEach((p, i) => {
+          p.tag = i === 1 && jp > 0.1 ? "none" : "r";
+        });
+      }
 
       poses.forEach((p, i) => {
         const el = personRefs.current[i];
@@ -147,8 +165,13 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
         if (el.dataset.face !== p.face) el.dataset.face = p.face;
         const wv = p.wave ? "true" : "false";
         if (el.dataset.wave !== wv) el.dataset.wave = wv;
+        if (p.tag && el.dataset.tag !== p.tag) el.dataset.tag = p.tag;
         // the two walkers who go on are taken over by the last screen once it is pinned
         el.style.visibility = p.show && !(pinned && (i === 1 || i === 3)) ? "visible" : "hidden";
+        // the newcomer comes in out of a blur
+        const al = p.a ?? 1;
+        el.style.opacity = al.toFixed(3);
+        el.style.filter = al < 0.999 ? `blur(${((1 - al) * 9).toFixed(1)}px)` : "";
       });
 
       // the garden appears when the first of them gets near it
@@ -164,8 +187,8 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
       const cx = W / 2;
       const cy = H * (W / H < 0.9 ? 0.62 : 0.58);
       const olLeft = or.left;
-      const starts = [olLeft + lineX - dx, olLeft + lineX + (wide ? ABREAST : 36)];
-      const finals = [cx - 30 * u, cx + 30 * u];
+      const starts = [olLeft + lineX - dx, olLeft + lineX + (wide ? ABREAST : PHONE_GAP)];
+      const finals = [cx - 38 * u, cx + 38 * u];
       const stageMoving = Math.abs(s - lastS) > 0.0004;
       lastS = s;
       stagePersons.forEach((el, k) => {
@@ -180,7 +203,6 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
         const wv = sat && s > 0.6 && s < 0.85 ? "true" : "false";
         if (el.dataset.wave !== wv) el.dataset.wave = wv;
       });
-      office.style.setProperty("--sp", sp.toFixed(3));
 
       window.clearTimeout(idleT);
       idleT = window.setTimeout(() => {
@@ -224,7 +246,6 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
       <Wide>
         <SectionHead chip={data.chip} heading={data.heading} />
         <ol ref={olRef} className="tl-ol relative mx-auto mt-16 max-w-[880px] pb-24">
-          <TimelineDefs />
           <span aria-hidden className="absolute bottom-0 left-[17px] top-0 w-px bg-gradient-to-b from-transparent via-violet/35 to-violet/35 sm:left-1/2" />
           {data.items.map((item, i) => {
             const right = i % 2 === 0; // desktop: even items on the right, odd on the left
@@ -273,6 +294,7 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
                 key={i}
                 ref={(el) => void (personRefs.current[i] = el)}
                 className="tl-p"
+                data-tag={i >= 2 ? "r" : "l"}
                 data-pose="idle"
                 data-face="down"
                 data-wave="false"

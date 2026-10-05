@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Avatar } from "../avatar";
 import { BrandTile } from "../brand-mark";
 import { SmartLink } from "../smart-link";
 import { Chip } from "../ui";
@@ -330,19 +331,13 @@ export const BrandBoard: SectionComponent<"brandBoard"> = ({ data }) => {
                 </>,
               )}
 
-              {/* the guide: the same little character as everywhere on the site, seen from above (only the top of its head
-                  shows; hands and feet show while it walks) */}
+              {/* the guide: the same little character as everywhere on the site, seen from above (the picture of the top view;
+                  it rocks while it walks) */}
               <div ref={avRef} className="av" data-state="sit" data-dir="down" data-on="true">
                 <div className="av-body">
                   <span className="av-shadow" />
                   <div className="av-hop">
-                    <span className="av-foot l" />
-                    <span className="av-foot r" />
-                    <span className="av-hand l" />
-                    <span className="av-hand r" />
-                    <span className="av-ear l" />
-                    <span className="av-ear r" />
-                    <span className="av-head" />
+                    <Avatar view="toplite" className="cg cg-top av-fig" />
                   </div>
                 </div>
               </div>

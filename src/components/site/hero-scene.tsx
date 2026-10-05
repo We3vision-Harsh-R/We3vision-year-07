@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { AiChat } from "./ai-chat";
+import { Avatar } from "./avatar";
 import { clamp } from "./anim-utils";
 import { ICONS } from "./icons";
 import { ParticleSphere } from "./particle-sphere";
@@ -338,45 +339,9 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
             </span>
             <div ref={avRef} className="hub-av" data-show="false" data-state="idle" data-face="right" aria-hidden>
               <div className="hub-av-body">
-                <svg viewBox="0 0 28 40" width="28" height="40" fill="none">
-                  <defs>
-                    <linearGradient id="g-shirt" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stopColor="hsl(calc(var(--th) + 359.7) calc(100% * var(--ts)) 81.96%)" />
-                      <stop offset="1" stopColor="hsl(calc(var(--th) + 344.55) calc(74.36% * var(--ts)) 61.76%)" />
-                    </linearGradient>
-                    <linearGradient id="g-hair" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stopColor="hsl(calc(var(--th) + 351.09) calc(48.18% * var(--ts)) 56.86%)" />
-                      <stop offset="1" stopColor="hsl(calc(var(--th) + 347.91) calc(58.02% * var(--ts)) 15.88%)" />
-                    </linearGradient>
-                  </defs>
-                  <ellipse cx="14" cy="38.4" rx="9.5" ry="2.2" fill="rgba(0,0,0,0.38)" />
-                  <g className="g-body">
-                    {/* the limbs on the far side (darker), the body, then the limbs on the near side */}
-                    <g className="g-leg g-back" opacity="0.7">
-                      <rect x="12.2" y="23" width="4.4" height="13" rx="2.2" fill="hsl(calc(var(--th) + 346.91) calc(60% * var(--ts)) 10.78%)" />
-                      <path d="M11.4 35.2h8.2c1.2 0 2 .8 2 1.8v.5h-10.2z" fill="hsl(calc(var(--th) + 61.45) calc(58.93% * var(--ts)) 78.04%)" />
-                    </g>
-                    <g className="g-arm g-back" opacity="0.7">
-                      <rect x="12.8" y="13.5" width="3.4" height="10.5" rx="1.7" fill="hsl(calc(var(--th) + 343.91) calc(50.59% * var(--ts)) 50%)" />
-                      <circle cx="14.5" cy="24" r="1.7" fill="#d9a888" />
-                    </g>
-                    <rect x="8.2" y="12" width="11.6" height="13.5" rx="4.6" fill="url(#g-shirt)" />
-                    <path d="M10 14.2c1.4-.8 3.2-1 5-.6" stroke="rgba(255,255,255,0.45)" strokeWidth="1" strokeLinecap="round" />
-                    <circle cx="14" cy="7.4" r="6.3" fill="#f4c3a2" />
-                    <path d="M7.6 7.6C7.2 2.6 10.6.7 14.4.9c3.6.2 6.1 2.7 5.9 6.4-1.4-1.7-3.7-2.6-6.4-2.4-2.7.2-5 1.1-6.3 2.7z" fill="url(#g-hair)" />
-                    <circle cx="12.1" cy="8.2" r="1.1" fill="#d9a888" />
-                    <circle cx="18.1" cy="7.9" r="0.95" fill="hsl(calc(var(--th) + 347.91) calc(58.02% * var(--ts)) 15.88%)" />
-                    <circle cx="17" cy="10" r="1.2" fill="#f08d9a" opacity="0.55" />
-                    <g className="g-leg g-front">
-                      <rect x="12.2" y="23" width="4.4" height="13" rx="2.2" fill="hsl(calc(var(--th) + 347.91) calc(58.02% * var(--ts)) 15.88%)" />
-                      <path d="M11.4 35.2h8.2c1.2 0 2 .8 2 1.8v.5h-10.2z" fill="hsl(calc(var(--th) + 76) calc(81.25% * var(--ts)) 87.45%)" />
-                    </g>
-                    <g className="g-arm g-front">
-                      <rect x="12.8" y="13.5" width="3.4" height="10.5" rx="1.7" fill="hsl(calc(var(--th) + 348.93) calc(81.6% * var(--ts)) 68.04%)" />
-                      <circle cx="14.5" cy="24" r="1.7" fill="#f4c3a2" />
-                    </g>
-                  </g>
-                </svg>
+                {/* standing: the front view; walking: the walking pose (it faces right, flipped for left) */}
+                <Avatar view="front" className="cg hub-sp hub-sp-idle" />
+                <Avatar view="walk" className="cg hub-sp hub-sp-walk" />
               </div>
             </div>
             {cards.map((card, i) => {

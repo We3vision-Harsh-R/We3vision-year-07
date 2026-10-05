@@ -437,9 +437,9 @@ html.theme-anim {
   }
 }
 
-/* The guide: a tiny cartoon (28 x 40 px SVG) that walks along the rail. The script moves it (translateX) and sets data-state
-   (walk / idle), data-face (right / left) and data-show. It comes in out of a blur (it grows from its feet, sharpens and fades
-   in) and goes out into a blur (when you scroll back up). Its feet stand on the rail, right under the box it stops at. */
+/* The guide: the cartoon of the site (public/avatar), 42 x 54 px, walks along the rail. The script moves it (translateX) and sets
+   data-state (walk / idle), data-face (right / left) and data-show. It comes in out of a blur (it grows from its feet, sharpens
+   and fades in) and goes out into a blur (when you scroll back up). Its feet stand on the rail, right under the box it stops at. */
 .hub-av {
   position: absolute;
   top: 0;
@@ -465,9 +465,9 @@ html.theme-anim {
   content: "";
   position: absolute;
   bottom: -5px;
-  left: -20px;
-  width: 40px;
-  height: 10px;
+  left: -24px;
+  width: 48px;
+  height: 11px;
   border-radius: 50%;
   background: radial-gradient(closest-side, var(--ac), transparent);
   filter: blur(3px);
@@ -476,71 +476,50 @@ html.theme-anim {
 .hub-av-body {
   position: absolute;
   bottom: -2px;
-  left: -14px;
-  width: 28px;
-  height: 40px;
+  left: -21px;
+  width: 42px;
+  height: 54px;
   transform-origin: 50% 100%;
-}
-.hub-av-body svg {
-  display: block;
-  overflow: visible;
 }
 .hub-av[data-face="left"] .hub-av-body {
   transform: scaleX(-1);
 }
-.g-leg,
-.g-arm {
-  transform-box: fill-box;
-  transform-origin: 50% 6%;
-}
-.g-body {
-  transform-box: fill-box;
+.hub-av-body .hub-sp {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
   transform-origin: 50% 100%;
+}
+.hub-av[data-state="idle"] .hub-sp-idle {
+  opacity: 1;
   animation: g-breathe 2.6s ease-in-out infinite;
 }
-.hub-av[data-state="walk"] .g-body {
-  animation: g-bob 0.4s ease-in-out infinite;
-}
-.hub-av[data-state="walk"] .g-leg.g-front,
-.hub-av[data-state="walk"] .g-arm.g-back {
-  animation: g-swing-a 0.4s ease-in-out infinite alternate;
-}
-.hub-av[data-state="walk"] .g-leg.g-back,
-.hub-av[data-state="walk"] .g-arm.g-front {
-  animation: g-swing-b 0.4s ease-in-out infinite alternate;
-}
-@keyframes g-swing-a {
-  from {
-    transform: rotate(-30deg);
-  }
-  to {
-    transform: rotate(30deg);
-  }
-}
-@keyframes g-swing-b {
-  from {
-    transform: rotate(30deg);
-  }
-  to {
-    transform: rotate(-30deg);
-  }
+.hub-av[data-state="walk"] .hub-sp-walk {
+  opacity: 1;
+  animation: g-bob 0.9s ease-in-out infinite;
 }
 @keyframes g-bob {
   0%,
   100% {
-    transform: translateY(0) rotate(2deg);
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  25%,
+  75% {
+    transform: translateY(-3px) rotate(0deg);
   }
   50% {
-    transform: translateY(-1.6px) rotate(2deg);
+    transform: translateY(0) rotate(1.5deg);
   }
 }
 @keyframes g-breathe {
   0%,
   100% {
-    transform: translateY(0);
+    transform: scaleY(1);
   }
   50% {
-    transform: translateY(-0.7px);
+    transform: scaleY(1.02);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -550,12 +529,17 @@ html.theme-anim {
     filter: none;
     scale: 1;
   }
-  .g-body,
-  .hub-av[data-state="walk"] .g-body,
-  .hub-av[data-state="walk"] .g-leg,
-  .hub-av[data-state="walk"] .g-arm {
-    animation: none;
+  .hub-sp {
+    animation: none !important;
   }
+}
+
+/* The cartoon guide is a vector drawing (components/site/avatar.tsx, public/avatar/*.svg). Its shirt, trousers and badge are filled
+   with theme colours (--th, --ts) and with the colour of the person (--tone, set on the figure or on a parent), so the guide wears
+   the colour the visitor picked. */
+.cg {
+  display: block;
+  overflow: visible;
 }
 
 .hub-panel {
@@ -1293,8 +1277,8 @@ html.theme-anim {
   line-height: 1.55;
 }
 
-/* the little helper: seen from above, so only the top of its head shows (26 px, the size of an icon); its hands and feet only
-   show while it walks, and swing like in a walk cycle. It turns to face the way it walks. */
+/* the little helper: the cartoon guide seen from above (the top view in public/avatar, 28 x 36 px). It rocks while it walks and turns
+   to face the way it walks. */
 .at-stage {
   position: relative;
 }
@@ -1313,10 +1297,10 @@ html.theme-anim {
 }
 .av-body {
   position: absolute;
-  top: -13px;
-  left: -13px;
-  width: 26px;
-  height: 26px;
+  top: -18px;
+  left: -14px;
+  width: 28px;
+  height: 36px;
   transition: transform 0.25s ease;
 }
 .av-shadow {
@@ -1333,128 +1317,14 @@ html.theme-anim {
 .av-hop {
   inset: 0;
 }
-.av-head {
-  top: 50%;
-  left: 50%;
-  width: 15px;
-  height: 15px;
-  margin: -7.5px 0 0 -7.5px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 38% 34%, hsl(calc(var(--th) + 351.4) calc(39.68% * var(--ts)) 50.59%), hsl(calc(var(--th) + 347.91) calc(58.02% * var(--ts)) 15.88%) 72%);
-  box-shadow:
-    inset 0 -1px 2px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.18);
-}
-.av-head::after {
-  content: "";
+.av-fig {
   position: absolute;
-  bottom: 2px;
-  left: 50%;
-  width: 7px;
-  height: 3px;
-  margin-left: -3.5px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4); /* the hairline at the front shows which way it looks */
-}
-.av-ear,
-.av-hand {
-  top: 50%;
-  width: 5px;
-  height: 5px;
-  margin-top: -2.5px;
-  border-radius: 50%;
-  background: #f2bf9f;
-}
-.av-ear.l {
-  left: 3px;
-}
-.av-ear.r {
-  right: 3px;
-}
-.av-hand {
-  width: 6px;
-  height: 6px;
-  margin-top: -3px;
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-.av-hand.l {
-  left: 0;
-}
-.av-hand.r {
-  right: 0;
-}
-.av-foot {
-  left: 50%;
-  top: 50%;
-  width: 6px;
-  height: 9px;
-  margin-top: -4.5px;
-  border-radius: 3px;
-  background: hsl(calc(var(--th) + 76) calc(81.25% * var(--ts)) 87.45%);
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-.av-foot.l {
-  margin-left: -8px;
-}
-.av-foot.r {
-  margin-left: 2px;
-}
-.av[data-state="walk"] .av-hand,
-.av[data-state="walk"] .av-foot {
-  opacity: 1;
-}
-.av[data-state="walk"] .av-hand.l {
-  animation: av-step-b 0.34s ease-in-out infinite alternate;
-}
-.av[data-state="walk"] .av-hand.r {
-  animation: av-step-a 0.34s ease-in-out infinite alternate;
-}
-.av[data-state="walk"] .av-foot.r {
-  animation: av-foot-b 0.34s ease-in-out infinite alternate;
-}
-.av[data-state="walk"] .av-foot.l {
-  animation: av-foot-a 0.34s ease-in-out infinite alternate;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 .av[data-state="hop"] .av-hop {
   animation: av-hop 0.42s ease-out;
-}
-.av[data-state="hop"] .av-hand {
-  opacity: 1;
-  transform: translateY(-5px);
-}
-@keyframes av-step-a {
-  from {
-    transform: translateY(-6px);
-  }
-  to {
-    transform: translateY(6px);
-  }
-}
-@keyframes av-step-b {
-  from {
-    transform: translateY(6px);
-  }
-  to {
-    transform: translateY(-6px);
-  }
-}
-@keyframes av-foot-a {
-  from {
-    transform: translateY(-9px);
-  }
-  to {
-    transform: translateY(9px);
-  }
-}
-@keyframes av-foot-b {
-  from {
-    transform: translateY(9px);
-  }
-  to {
-    transform: translateY(-9px);
-  }
 }
 @keyframes av-hop {
   45% {
@@ -3369,10 +3239,11 @@ html.tp-open .tp-fab {
   top: 0;
   left: 0;
   z-index: 6;
-  width: 56px;
-  height: 79px;
-  margin: -40px 0 0 -28px;
+  width: 47px;
+  height: 66px;
+  margin: -33px 0 0 -23.5px;
   will-change: transform;
+  transition: opacity 0.3s linear;
 }
 .tl-pt {
   display: block;
@@ -3388,10 +3259,51 @@ html.tp-open .tp-fab {
 .tl-p[data-face="right"] {
   --rot: -90deg;
 }
+/* The top view moves as a whole. Walking is one smooth cycle (two steps: a sway to one side, a small dip, a sway to the other side)
+   that is always set up and only paused while the person stands, so it starts and stops without a jump. A wave is a wag. */
+.tl-pt > .cg {
+  width: 100%;
+  height: 100%;
+}
+.tl-headg,
+.av-fig {
+  transform-origin: 50% 62%;
+  animation: tl-walk 0.9s ease-in-out infinite paused;
+}
+.tl-p[data-pose="walk"] .tl-headg,
+.of-walker[data-pose="walk"] .tl-headg,
+.av[data-state="walk"] .av-fig {
+  animation-play-state: running;
+}
+.tl-p[data-wave="true"] .tl-headg {
+  animation: tl-wag 0.55s ease-in-out infinite alternate;
+}
+@keyframes tl-walk {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(4.5deg) translateX(0.5px) scale(1.045);
+  }
+  75% {
+    transform: rotate(-4.5deg) translateX(-0.5px) scale(1.045);
+  }
+}
+@keyframes tl-wag {
+  from {
+    transform: rotate(-10deg) translateY(-1px);
+  }
+  to {
+    transform: rotate(12deg) translateY(1px);
+  }
+}
+/* the name of a person stands beside the figure (not above it); data-tag says on which side */
 .tl-tag {
   position: absolute;
-  left: 50%;
-  top: -22px;
+  left: calc(100% - 2px);
+  top: 50%;
   padding: 1px 8px;
   border: 1px solid color-mix(in srgb, var(--color-violet) 30%, transparent);
   border-radius: 999px;
@@ -3401,60 +3313,14 @@ html.tp-open .tp-fab {
   font-weight: 600;
   letter-spacing: 0.02em;
   white-space: nowrap;
-  transform: translateX(-50%);
+  transform: translateY(-50%);
 }
-.tl-bz {
-  fill: var(--bz);
-  stroke: var(--bz-f);
-  stroke-width: 0.5;
+.tl-p[data-tag="l"] .tl-tag {
+  left: auto;
+  right: calc(100% - 2px);
 }
-.tl-lapel {
-  fill: none;
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90%);
-  stroke-width: 0.9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.tl-btn {
-  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
-}
-.tl-hand {
-  fill: #f4c3a2;
-}
-.tl-ear {
-  fill: #f2bf9f;
-}
-.tl-foot {
-  fill: hsl(calc(var(--th) + 76) calc(81% * var(--ts)) 87%);
-}
-/* the walk: opposite feet and hands swing */
-.tl-p[data-pose="walk"] .tl-foot-l,
-.tl-p[data-pose="walk"] .tl-hand-r {
-  animation: tl-step-a 0.36s ease-in-out infinite alternate;
-}
-.tl-p[data-pose="walk"] .tl-foot-r,
-.tl-p[data-pose="walk"] .tl-hand-l {
-  animation: tl-step-b 0.36s ease-in-out infinite alternate;
-}
-@keyframes tl-step-a {
-  from {
-    transform: translateY(-3px);
-  }
-  to {
-    transform: translateY(3px);
-  }
-}
-@keyframes tl-step-b {
-  from {
-    transform: translateY(3px);
-  }
-  to {
-    transform: translateY(-3px);
-  }
-}
-/* a seated one waves a hand towards the line when the walker passes */
-.tl-p[data-wave="true"] .tl-hand-r {
-  animation: tl-wave 0.5s ease-in-out infinite alternate;
+.tl-p[data-tag="none"] .tl-tag {
+  display: none;
 }
 @keyframes tl-wave {
   from {
@@ -3538,12 +3404,6 @@ html.tp-open .tp-fab {
   stroke: hsl(calc(var(--th) + 14) calc(36% * var(--ts)) 22%);
   stroke-width: 1;
 }
-@media (prefers-reduced-motion: reduce) {
-  .tl-p .tl-foot,
-  .tl-p .tl-hand {
-    animation: none !important;
-  }
-}
 
 /* ---------------------------------------------------------------------------------------------------------------------------------
    The office of the last year (components/site/timeline-office.tsx, timeline-boards.tsx): a full screen seen from above. The big
@@ -3567,11 +3427,13 @@ html.tp-open .tp-fab {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 60% 60% at 50% 46%, hsl(calc(var(--th) + 345) calc(46% * var(--ts)) 15%), transparent 82%),
-    linear-gradient(rgba(255, 255, 255, 0.016) 1px, transparent 1px) 0 0 / calc(var(--p) * 64) calc(var(--p) * 64),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.016) 1px, transparent 1px) 0 0 / calc(var(--p) * 64) calc(var(--p) * 64),
-    hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 8%);
+  /* the floor: one flat tone of the page colour itself (a touch lighter than the page). No pattern, no extra colours. */
+  background: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4%);
+}
+.of-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 .of[data-layout="wide"] .of-tall-only,
 .of[data-layout="tall"] .of-wide-only {
@@ -3732,9 +3594,9 @@ html.tp-open .tp-fab {
   --ink: hsl(calc(var(--th) + 349) calc(58% * var(--ts)) 25%);
   position: absolute;
   z-index: 4;
-  width: 25px;
-  height: 35px;
-  margin: -17px 0 0 -12.5px;
+  width: 21px;
+  height: 29px;
+  margin: -14.5px 0 0 -10.5px;
 }
 .of-pp .tl-pt {
   display: block;
@@ -3747,43 +3609,9 @@ html.tp-open .tp-fab {
   transform-box: fill-box;
   transform-origin: 50% 60%;
 }
-.tl-seat .tl-foot {
-  display: none;
-}
-/* working at the laptop: the hands are on the keyboard and tap, the head nods a little */
-.tl-seat .tl-hand-l {
-  transform: translate(6px, 4px);
-}
-.tl-seat .tl-hand-r {
-  transform: translate(-6px, 4px);
-}
-.of-pp[data-role="type"] .tl-hand-l {
-  animation: of-type-l 0.24s ease-in-out infinite alternate;
-  animation-delay: var(--d);
-}
-.of-pp[data-role="type"] .tl-hand-r {
-  animation: of-type-r 0.3s ease-in-out infinite alternate;
-  animation-delay: var(--d);
-}
 .of-pp[data-role="type"] .tl-headg {
   animation: of-nod 3.4s ease-in-out infinite;
   animation-delay: var(--d);
-}
-@keyframes of-type-l {
-  from {
-    transform: translate(6px, 2px);
-  }
-  to {
-    transform: translate(6px, 6px);
-  }
-}
-@keyframes of-type-r {
-  from {
-    transform: translate(-6px, 6px);
-  }
-  to {
-    transform: translate(-6px, 2px);
-  }
 }
 @keyframes of-nod {
   0%,
@@ -3802,9 +3630,6 @@ html.tp-open .tp-fab {
 .of-pp[data-role="talk"] .tl-headg {
   animation: of-turn 1.6s ease-in-out infinite;
 }
-.of-pp[data-role="talk"] .tl-hand-r {
-  animation: of-gest 0.55s ease-in-out infinite alternate;
-}
 @keyframes of-turn {
   0%,
   100% {
@@ -3814,31 +3639,8 @@ html.tp-open .tp-fab {
     transform: rotate(12deg);
   }
 }
-@keyframes of-gest {
-  from {
-    transform: translate(-3px, 3px);
-  }
-  to {
-    transform: translate(-9px, -3px);
-  }
-}
-/* the one at the board: he stands, explains and draws */
-.of-pp[data-role="pres"] .tl-foot {
-  display: block;
-}
-.of-pp[data-role="pres"] .tl-hand-r {
-  animation: of-draw-hand 0.9s ease-in-out infinite alternate;
-}
 .of-pp[data-role="pres"] .tl-headg {
   animation: of-nod 2.6s ease-in-out infinite;
-}
-@keyframes of-draw-hand {
-  from {
-    transform: translate(-4px, 4px);
-  }
-  to {
-    transform: translate(-1px, 12px);
-  }
 }
 
 /* ---- the wall boards ---- */
@@ -4086,6 +3888,7 @@ html.tp-open .tp-fab {
   display: block;
 }
 .of-win {
+  display: none; /* the floor stays calm: no coloured light strips */
   top: 0;
   height: calc(var(--p) * 11);
   border-radius: 0 0 calc(var(--p) * 5) calc(var(--p) * 5);
@@ -4136,25 +3939,18 @@ html.tp-open .tp-fab {
   top: 0;
   left: 0;
   z-index: 2;
-  width: calc(var(--p) * 25);
-  height: calc(var(--p) * 35);
-  margin: calc(var(--p) * -17) 0 0 calc(var(--p) * -12.5);
+  width: calc(var(--p) * 21);
+  height: calc(var(--p) * 29);
+  margin: calc(var(--p) * -14.5) 0 0 calc(var(--p) * -10.5);
   will-change: transform;
 }
 .of-walker-in {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   height: 100%;
 }
 .of-walker-in .tl-pt {
   transform: none;
-}
-.of-walker[data-pose="walk"] .tl-foot-l,
-.of-walker[data-pose="walk"] .tl-hand-r {
-  animation: tl-step-a 0.36s ease-in-out infinite alternate;
-}
-.of-walker[data-pose="walk"] .tl-foot-r,
-.of-walker[data-pose="walk"] .tl-hand-l {
-  animation: tl-step-b 0.36s ease-in-out infinite alternate;
 }
 
 /* the end of the line, the boss chairs and the desk of the two founders */
@@ -4206,10 +4002,10 @@ html.tp-open .tp-fab {
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 .of-chair-l {
-  left: calc(50% - var(--p) * 30);
+  left: calc(50% - var(--p) * 38);
 }
 .of-chair-r {
-  left: calc(50% + var(--p) * 30);
+  left: calc(50% + var(--p) * 38);
 }
 .of-boss-desk {
   position: absolute;
@@ -4252,9 +4048,9 @@ html.tp-open .tp-fab {
 /* the two founders in the last screen are bigger than the people at the tables and follow the unit of the drawing */
 .of-sp {
   z-index: 6;
-  width: calc(var(--p) * 54);
-  height: calc(var(--p) * 76);
-  margin: calc(var(--p) * -38) 0 0 calc(var(--p) * -27);
+  width: calc(var(--p) * 46);
+  height: calc(var(--p) * 64);
+  margin: calc(var(--p) * -32) 0 0 calc(var(--p) * -23);
   visibility: hidden;
 }
 
@@ -4328,10 +4124,9 @@ html.tp-open .tp-fab {
   line-height: 1.45;
 }
 @media (prefers-reduced-motion: reduce) {
-  .of-pp .tl-hand,
   .of-pp .tl-headg,
-  .of-walker .tl-foot,
-  .of-walker .tl-hand,
+  .tl-p .tl-headg,
+  .of-walker .tl-headg,
   .bd-draw,
   .bd-blink,
   .bd-tap,
@@ -4394,4 +4189,428 @@ html.tp-open .tp-fab {
   .shimmer-line {
     animation: none;
   }
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   "At a glance" (components/site/highlights-scenes.tsx): a little cartoon scene above every number. */
+.gl {
+  --gl-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --gl-b: hsl(calc(var(--th) + 344) calc(74% * var(--ts)) 58%);
+  --gl-d: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 17%);
+  --gl-e: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 10%);
+  --gl-w: hsl(calc(var(--th) + 76) calc(70% * var(--ts)) 86%);
+  --gl-g: hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 44%);
+}
+.gl-svg {
+  display: block;
+  width: min(100%, 440px);
+  height: auto;
+  margin: 0 auto 4px;
+  overflow: visible;
+}
+.gl-star {
+  opacity: 0.45;
+}
+.gl[data-in="true"] .gl-star {
+  animation: gl-tw 3.2s ease-in-out infinite var(--d);
+}
+@keyframes gl-tw {
+  50% {
+    opacity: 1;
+  }
+}
+/* things that grow / drop in when the card comes into view */
+.gl-rise,
+.gl-pop,
+.gl-candle,
+.gl-pin,
+.gl-flagpole,
+.gl-plane {
+  opacity: 0;
+}
+.gl-rise,
+.gl-pop {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.gl-rise {
+  transform: scaleY(0.04);
+}
+.gl-pop {
+  transform: scale(0.2);
+}
+.gl-candle,
+.gl-pin {
+  transform: translateY(-8px);
+}
+.gl-flagpole {
+  transform: translateY(28px);
+}
+.gl[data-in="true"] .gl-rise {
+  opacity: 1;
+  transform: none;
+  transition:
+    transform 1s cubic-bezier(0.2, 0.9, 0.3, 1.12) var(--d, 0s),
+    opacity 0.3s ease-out var(--d, 0s);
+}
+.gl[data-in="true"] .gl-pop {
+  opacity: 1;
+  transform: none;
+  transition:
+    transform 0.55s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s),
+    opacity 0.25s ease-out var(--d, 0s);
+}
+.gl[data-in="true"] .gl-candle,
+.gl[data-in="true"] .gl-pin,
+.gl[data-in="true"] .gl-flagpole {
+  opacity: 1;
+  transform: none;
+  transition:
+    transform 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) var(--d, 0s),
+    opacity 0.3s ease-out var(--d, 0s);
+}
+.gl[data-in="true"] .gl-plane {
+  opacity: 1;
+  transition: opacity 0.4s ease-out 1.2s;
+}
+.gl-win {
+  opacity: 0.18;
+}
+.gl[data-in="true"] .gl-win {
+  animation: gl-on 0.5s ease-out forwards var(--d, 0s);
+}
+@keyframes gl-on {
+  to {
+    opacity: 1;
+  }
+}
+.gl-flag {
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+}
+.gl[data-in="true"] .gl-flag {
+  animation: gl-flag 1.4s ease-in-out infinite alternate;
+}
+@keyframes gl-flag {
+  from {
+    transform: scaleX(1) skewY(-5deg);
+  }
+  to {
+    transform: scaleX(0.84) skewY(5deg);
+  }
+}
+.gl-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.gl[data-in="true"] .gl-flame {
+  animation: gl-flame 0.45s ease-in-out infinite alternate var(--d, 0s);
+}
+@keyframes gl-flame {
+  from {
+    transform: scale(0.85, 0.95);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.1, 1.18);
+    opacity: 1;
+  }
+}
+.gl-conf {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+.gl[data-in="true"] .gl-conf {
+  animation: gl-fall 3.4s linear infinite var(--d, 0s);
+}
+@keyframes gl-fall {
+  0% {
+    transform: translateY(-10px) rotate(0);
+    opacity: 0;
+  }
+  12%,
+  85% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(176px) rotate(var(--r, 90deg));
+    opacity: 0;
+  }
+}
+.gl[data-in="true"] .gl-arc {
+  animation: gl-dash 1.2s linear infinite;
+}
+@keyframes gl-dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+/* the little guide: a hop, a wiggle (waving) and a breath */
+.gl-hop {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.gl[data-in="true"] .gl-kid[data-m="idle"] .gl-hop {
+  animation: gl-breathe 2.4s ease-in-out infinite alternate var(--d, 0s);
+}
+.gl[data-in="true"] .gl-kid[data-m="wave"] .gl-hop {
+  animation: gl-wiggle 0.7s ease-in-out infinite alternate var(--d, 0s);
+}
+.gl[data-in="true"] .gl-kid[data-m="up"] .gl-hop {
+  animation: gl-hop 0.62s ease-in-out infinite alternate var(--d, 0s);
+}
+.gl:hover .gl-kid .gl-hop {
+  animation: gl-hop 0.32s ease-in-out infinite alternate;
+}
+@keyframes gl-breathe {
+  to {
+    transform: scaleY(1.02);
+  }
+}
+@keyframes gl-wiggle {
+  from {
+    transform: rotate(-2.5deg);
+  }
+  to {
+    transform: rotate(2.5deg) translateY(-1px);
+  }
+}
+@keyframes gl-hop {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-6px) rotate(1.5deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gl * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .gl-rise,
+  .gl-pop,
+  .gl-candle,
+  .gl-pin,
+  .gl-flagpole,
+  .gl-plane {
+    opacity: 1;
+    transform: none;
+  }
+  .gl-win {
+    opacity: 1;
+  }
+  .gl-conf {
+    display: none;
+  }
+}
+
+/* the top view is mostly dark hair: a little lift keeps it readable on the dark page */
+.cg-top {
+  filter: brightness(1.2) saturate(1.1);
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   The office v5: walls on the edges (a doorway at the top, where the line of the timeline comes in), a café and chairs at the tables. */
+.of-walls {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.of-wall {
+  position: absolute;
+  background: hsl(calc(var(--th) + 347.58) calc(46% * var(--ts)) 17%);
+  box-shadow:
+    inset 0 0 0 1px hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.16),
+    0 calc(var(--p) * 5) calc(var(--p) * 12) rgba(0, 0, 0, 0.5);
+}
+.of-wall-t {
+  top: 0;
+  height: calc(var(--p) * 16);
+}
+.of-wall-t1 {
+  left: 0;
+  width: calc(50% - var(--p) * 34);
+}
+.of-wall-t2 {
+  right: 0;
+  width: calc(50% - var(--p) * 34);
+}
+/* windows in the top wall */
+.of-wall-t::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--p) * 4) calc(var(--p) * 12);
+  border-radius: calc(var(--p) * 2);
+  background: repeating-linear-gradient(90deg, hsl(calc(var(--th) + 340) calc(70% * var(--ts)) 72% / 0.2) 0 calc(var(--p) * 26), transparent calc(var(--p) * 26) calc(var(--p) * 40));
+}
+.of-wall-l,
+.of-wall-r {
+  top: 0;
+  bottom: 0;
+  width: calc(var(--p) * 14);
+}
+.of-wall-l {
+  left: 0;
+}
+.of-wall-r {
+  right: 0;
+}
+.of-wall-b {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--p) * 12);
+}
+.of-door {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: calc(var(--p) * 68);
+  height: calc(var(--p) * 18);
+  margin-left: calc(var(--p) * -34);
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3), transparent);
+}
+/* chairs (empty or not) at the tables */
+.of-chair {
+  position: absolute;
+  display: block;
+  width: 20px;
+  height: 18px;
+  margin: -9px 0 0 -10px;
+  border-radius: 7px;
+  background: hsl(calc(var(--th) + 14) calc(28% * var(--ts)) 25%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  z-index: 3;
+}
+/* the café: a floor of its own, a counter, small round tables with cups, a sofa */
+.cf-floor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 226px;
+  border-radius: 18px;
+  background: hsl(calc(var(--th) + 22) calc(30% * var(--ts)) 17% / 0.6);
+  box-shadow: inset 0 0 0 1px hsl(calc(var(--th) + 22) calc(60% * var(--ts)) 70% / 0.14);
+  z-index: 1;
+}
+.cf-bar {
+  position: absolute;
+  left: 16px;
+  top: 46px;
+  width: 268px;
+  height: 22px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 22) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 24%));
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+.cf-mach {
+  position: absolute;
+  left: 12px;
+  top: 4px;
+  width: 26px;
+  height: 14px;
+  border-radius: 4px;
+  background: hsl(calc(var(--th) + 340) calc(20% * var(--ts)) 14%);
+  box-shadow: 0 0 6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+}
+.cf-cup {
+  position: absolute;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 76) calc(70% * var(--ts)) 88%);
+}
+.cf-cake {
+  position: absolute;
+  right: 16px;
+  top: 4px;
+  width: 30px;
+  height: 14px;
+  border-radius: 7px;
+  background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 78%);
+  box-shadow: inset 0 0 0 2px hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 60%);
+}
+.cf-table {
+  position: absolute;
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 30%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 3px 8px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+.of-cup {
+  position: absolute;
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 76) calc(70% * var(--ts)) 90%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.of-cup::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: -3px;
+  width: 3px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  filter: blur(1px);
+  animation: of-steam 2.4s ease-out infinite;
+}
+@keyframes of-steam {
+  0% {
+    transform: translateY(0) scale(0.7);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-9px) scale(1.3);
+    opacity: 0;
+  }
+}
+.cf-sofa {
+  position: absolute;
+  left: 60px;
+  top: 182px;
+  width: 180px;
+  height: 30px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 24%));
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  z-index: 2;
+}
+.cf-plant {
+  position: absolute;
+  left: 282px;
+  top: 206px;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 32%, hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 44%), hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 22%) 70%);
+  box-shadow: 0 0 0 3px hsl(calc(var(--th) + 14) calc(34% * var(--ts)) 24%);
+  z-index: 3;
+}
+
+/* the year is written on the floor: everybody (the founders, the walkers, the tables) is above it; only the goal card is above all */
+.of-center {
+  z-index: auto;
+}
+.of-year {
+  z-index: 1;
+}
+.of-goal {
+  z-index: 7;
 }

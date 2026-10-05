@@ -1,54 +1,15 @@
-// Artwork of the timeline (sections/timeline.tsx), everything seen from ABOVE like the little guide of the brand board: the three
-// founders in blazers (head, ears, shoulders, hands and feet), the park benches and the trees of the garden. All colours come
-// from CSS classes (.tl-*, see globals.css) that follow the visitor's colour theme.
+// Artwork of the timeline (sections/timeline.tsx), everything seen from ABOVE: the people (the cartoon guide of the site), the park
+// benches and the trees of the garden. All colours come from CSS classes (.tl-*, see globals.css) that follow the visitor's theme.
+import { Avatar } from "./avatar";
 
-/** Gradients of the characters; rendered once. */
-export function TimelineDefs() {
+/** The guide of the site seen from above, facing down (the vector drawing in public/avatar). The shirt follows the colour theme. The
+ *  walk, the wave and the work at the table are small movements of the whole figure (.tl-headg). `lite` has fewer shapes (for the many
+ *  little people of the office). */
+export function PersonTop({ seated = false, lite = false }: { hair?: number; seated?: boolean; lite?: boolean } = {}) {
   return (
-    <svg width="0" height="0" aria-hidden className="absolute">
-      <defs>
-        <radialGradient id="tl-hair" cx="0.38" cy="0.34" r="0.78">
-          <stop offset="0" stopColor="hsl(calc(var(--th) + 358) calc(40% * var(--ts)) 48%)" />
-          <stop offset="0.72" stopColor="hsl(calc(var(--th) + 349) calc(58% * var(--ts)) 25%)" />
-          <stop offset="1" stopColor="hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 17%)" />
-        </radialGradient>
-        {[
-          [20, 30],
-          [-24, 22],
-          [60, 38],
-        ].map(([o, l], i) => (
-          <radialGradient key={i} id={`tl-hair${i + 1}`} cx="0.38" cy="0.34" r="0.78">
-            <stop offset="0" stopColor={`hsl(calc(var(--th) + ${349 + o}) calc(44% * var(--ts)) ${l + 22}%)`} />
-            <stop offset="0.72" stopColor={`hsl(calc(var(--th) + ${349 + o}) calc(52% * var(--ts)) ${l - 8}%)`} />
-            <stop offset="1" stopColor={`hsl(calc(var(--th) + ${349 + o}) calc(52% * var(--ts)) ${l - 14}%)`} />
-          </radialGradient>
-        ))}
-      </defs>
-    </svg>
-  );
-}
-
-/** A founder seen from above, facing down (30 x 42). The feet and the hands swing while he walks (.tl-p[data-pose="walk"]). */
-export function PersonTop({ hair = 0, seated = false }: { hair?: number; seated?: boolean } = {}) {
-  return (
-    <svg viewBox="-15 -17 30 42" className={seated ? "tl-pt tl-seat" : "tl-pt"} fill="none" aria-hidden>
-      <ellipse cx="0" cy="3" rx="13" ry="13.5" fill="#000" fillOpacity="0.3" />
-      <ellipse className="tl-foot tl-foot-l" cx="-4.4" cy="14" rx="2.4" ry="3.7" />
-      <ellipse className="tl-foot tl-foot-r" cx="4.4" cy="14" rx="2.4" ry="3.7" />
-      <ellipse className="tl-bz" cx="0" cy="3.4" rx="10.8" ry="6" />
-      <path className="tl-lapel" d="M-3.6 5.2L0 9.4l3.6-4.2" />
-      <circle className="tl-btn" cx="0" cy="10.8" r="0.7" />
-      <circle className="tl-hand tl-hand-l" cx="-11.4" cy="8.4" r="2.2" />
-      <circle className="tl-hand tl-hand-r" cx="11.4" cy="8.4" r="2.2" />
-      <circle className="tl-ear" cx="-7.9" cy="-0.8" r="1.9" />
-      <circle className="tl-ear" cx="7.9" cy="-0.8" r="1.9" />
-      <g className="tl-headg">
-        <circle cx="0" cy="-1" r="7.4" fill={`url(#tl-hair${hair ? hair : ""})`} />
-        <circle cx="0" cy="-1" r="7.4" stroke="#fff" strokeOpacity="0.18" strokeWidth="0.4" />
-        <path d="M-3.8 4.2c2.4 1 5.2 1 7.6 0" stroke="#fff" strokeOpacity="0.42" strokeWidth="1" strokeLinecap="round" />
-        <path d="M-4.6 -5.2c1.7-1.5 3.8-2.1 5.9-1.7" stroke="#fff" strokeOpacity="0.28" strokeWidth="0.9" strokeLinecap="round" />
-      </g>
-    </svg>
+    <span className={seated ? "tl-pt tl-seat" : "tl-pt"} aria-hidden>
+      <Avatar view={lite ? "toplite" : "top"} className="cg cg-top tl-headg" />
+    </span>
   );
 }
 
