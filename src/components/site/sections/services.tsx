@@ -12,7 +12,8 @@ export const Services: SectionComponent<"services"> = ({ data }) => (
           {data.buttonLabel}
         </ButtonLink>
       </SectionHead>
-      <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* 4 cards sit best as 2 x 2 (3 columns would leave one card alone on the second row) */}
+      <div className={`mt-16 grid gap-5 sm:grid-cols-2 ${data.cards.length === 4 ? "" : "lg:grid-cols-3"}`}>
         {data.cards.map((card, i) => (
           <Reveal key={i} delay={(i % 3) * 90} className="h-full">
             <article className="card-glass group flex h-full flex-col items-center rounded-[19px] border border-violet/[0.08] p-7 text-center transition duration-300 hover:-translate-y-1 hover:border-violet/30 hover:shadow-[0_20px_50px_rgba(120,40,180,0.25)]">

@@ -192,11 +192,6 @@ html.has-custom-cursor * {
    Timeline of p: the ball + 7 + texts blast apart (until ~0.25, particle-sphere)  ->  the seven boxes drop in one after another
    at the top 0.38-0.82  ->  after that everything is hover: the open service blurs all other boxes, a line runs down from its box
    to a rail and the sub-services (with a short description) appear below the rail. The hero is 300vh long. */
-@property --nx {
-  syntax: "<length>";
-  inherits: true;
-  initial-value: 50px;
-}
 @property --ac {
   syntax: "<color>";
   inherits: true;
@@ -211,7 +206,7 @@ html.has-custom-cursor * {
   z-index: 10;
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
-  padding-top: 18px;
+  padding-top: clamp(84px, 11vh, 104px); /* the logo tile sits above the row, with some air */
 }
 .hub-row {
   display: flex;
@@ -223,7 +218,7 @@ html.has-custom-cursor * {
 .hub-item {
   flex: 1 1 0;
   min-width: 0;
-  --a: clamp(0, calc((var(--p, 0) - 0.38 - var(--i, 0) * 0.055) / 0.07), 1); /* one box after the other, dropping in from the top */
+  --a: clamp(0, calc((var(--p, 0) - 0.4 - var(--i, 0) * 0.05) / 0.12), 1); /* one box after the other, slowly dropping in from the top while the dots at the sides fade away */
   opacity: var(--a);
   transform: translate3d(0, calc((1 - var(--a)) * -28px), 0) scale(calc(0.94 + 0.06 * var(--a)));
   filter: blur(calc((1 - var(--a)) * 8px));
@@ -283,88 +278,263 @@ html.has-custom-cursor * {
 }
 
 .hub-stage {
-  --gap: clamp(34px, 8vh, 78px);
+  --gap: clamp(44px, 8vh, 78px);
   position: relative;
   display: grid;
   margin-top: var(--gap);
-  opacity: clamp(0, calc((var(--p, 0) - 0.38) / 0.07), 1); /* goes together with the boxes when you scroll back up */
-  transition:
-    --nx 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
-    --ac 0.45s;
+  transition: --ac 0.45s;
 }
-.hub-stage > .hub-panel,
-.hub-stage > .hub-hint {
+.hub-stage > .hub-panel {
   grid-area: 1 / 1;
 }
-.hub-drop {
-  position: absolute;
-  left: var(--nx);
-  top: calc(var(--gap) * -1);
-  width: 2px;
-  height: var(--gap);
-  margin-left: -1px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--ac) 20%, transparent), var(--ac));
-  box-shadow: 0 0 10px var(--ac);
-  transform: scaleY(0);
-  transform-origin: top;
-  opacity: 0;
-  transition: transform 0.35s, opacity 0.3s;
-}
+/* the rail under the boxes: the ground the guide walks on; it glows around the guide (--ax is its position, set by the script) */
 .hub-rail {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.17) 6%, rgba(255, 255, 255, 0.17) 94%, transparent);
+  /* once all the boxes are in, the rail and every line of the first service come down together out of a blur */
+  opacity: 0;
+  transform: translateY(-30px);
+  filter: blur(6px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.95s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.8s ease;
+}
+.hub-stage[data-in="true"] .hub-rail {
+  opacity: 1;
+  transform: none;
+  filter: none;
 }
 .hub-rail::after {
   content: "";
   position: absolute;
   inset: -1px 0;
-  background: radial-gradient(ellipse 40% 100% at var(--nx) 50%, var(--ac), transparent);
+  background: radial-gradient(ellipse 18% 100% at var(--ax, -200px) 50%, var(--ac), transparent);
   opacity: 0;
   transition: opacity 0.4s;
-}
-.hub-node {
-  position: absolute;
-  top: -4.5px;
-  left: var(--nx);
-  width: 9px;
-  height: 9px;
-  margin-left: -4.5px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow:
-    0 0 12px 3px var(--ac),
-    0 0 0 6px color-mix(in srgb, var(--ac) 18%, transparent);
-  opacity: 0;
-  transform: scale(0);
-  transition: transform 0.35s 0.15s, opacity 0.3s 0.15s;
-}
-.hub-stage[data-open="true"] .hub-drop {
-  transform: scaleY(1);
-  opacity: 1;
 }
 .hub-stage[data-open="true"] .hub-rail::after {
   opacity: 1;
 }
-.hub-stage[data-open="true"] .hub-node {
-  transform: scale(1);
-  opacity: 1;
+/* the road (still seen from the front: one line the guide stands on): the part behind the guide stays lit, a dashed lane under
+   it drifts slowly, a soft light runs along it now and then and every box has a stop (tick + dot) on it */
+.hub-rail::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: var(--ax, 0px);
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--ac) 80%, transparent));
+  opacity: 0.8;
+}
+.hub-dash {
+  position: absolute;
+  top: 9px;
+  left: 3%;
+  right: 3%;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0 7px, transparent 7px 17px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  animation: hub-dash 1.8s linear infinite;
+}
+@keyframes hub-dash {
+  to {
+    background-position-x: -17px;
+  }
+}
+.hub-pulse {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 140px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(243, 215, 255, 0.85), transparent);
+  filter: blur(1px);
+  opacity: 0;
+  animation: hub-pulse 7s ease-in-out infinite 1.5s;
+}
+@keyframes hub-pulse {
+  0% {
+    transform: translateX(-140px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.7;
+  }
+  62% {
+    opacity: 0.7;
+  }
+  78%,
+  100% {
+    transform: translateX(1180px);
+    opacity: 0;
+  }
+}
+.hub-tick {
+  position: absolute;
+  top: 0;
+  left: calc((100% - (var(--n, 7) - 1) * 8px) / var(--n, 7) * (var(--i) + 0.5) + var(--i) * 8px);
+  width: 1px;
+  height: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent);
+  transition: height 0.4s, background 0.4s;
+}
+.hub-tick::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: -2.5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #12061f;
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s, scale 0.4s;
+}
+.hub-tick[data-on="true"] {
+  height: 16px;
+  background: linear-gradient(180deg, var(--ac), transparent);
+}
+.hub-tick[data-on="true"]::after {
+  border-color: var(--ac);
+  background: var(--ac);
+  box-shadow: 0 0 10px 2px var(--ac);
+  scale: 1.25;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hub-dash,
+  .hub-pulse {
+    animation: none;
+  }
 }
 
-.hub-hint {
-  padding-top: 44px;
-  color: rgba(227, 182, 255, 0.7);
-  font-size: 0.9rem;
-  letter-spacing: 0.04em;
-  text-align: center;
+/* The guide: a tiny cartoon (28 x 40 px SVG) that walks along the rail. The script moves it (translateX) and sets data-state
+   (walk / idle), data-face (right / left) and data-show. It comes in out of a blur (it grows from its feet, sharpens and fades
+   in) and goes out into a blur (when you scroll back up). Its feet stand on the rail, right under the box it stops at. */
+.hub-av {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s;
+  filter: blur(9px);
+  scale: 0.55;
+  transition:
+    opacity 0.7s ease,
+    filter 0.7s ease,
+    scale 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
-.hub[data-active="false"] .hub-hint {
-  opacity: clamp(0, calc((var(--p, 0) - 0.8) / 0.1), 1);
+.hub-av[data-show="true"] {
+  opacity: 1;
+  filter: blur(0);
+  scale: 1;
+}
+.hub-av::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: -20px;
+  width: 40px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--ac), transparent);
+  filter: blur(3px);
+  opacity: 0.8;
+}
+.hub-av-body {
+  position: absolute;
+  bottom: -2px;
+  left: -14px;
+  width: 28px;
+  height: 40px;
+  transform-origin: 50% 100%;
+}
+.hub-av-body svg {
+  display: block;
+  overflow: visible;
+}
+.hub-av[data-face="left"] .hub-av-body {
+  transform: scaleX(-1);
+}
+.g-leg,
+.g-arm {
+  transform-box: fill-box;
+  transform-origin: 50% 6%;
+}
+.g-body {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: g-breathe 2.6s ease-in-out infinite;
+}
+.hub-av[data-state="walk"] .g-body {
+  animation: g-bob 0.4s ease-in-out infinite;
+}
+.hub-av[data-state="walk"] .g-leg.g-front,
+.hub-av[data-state="walk"] .g-arm.g-back {
+  animation: g-swing-a 0.4s ease-in-out infinite alternate;
+}
+.hub-av[data-state="walk"] .g-leg.g-back,
+.hub-av[data-state="walk"] .g-arm.g-front {
+  animation: g-swing-b 0.4s ease-in-out infinite alternate;
+}
+@keyframes g-swing-a {
+  from {
+    transform: rotate(-30deg);
+  }
+  to {
+    transform: rotate(30deg);
+  }
+}
+@keyframes g-swing-b {
+  from {
+    transform: rotate(30deg);
+  }
+  to {
+    transform: rotate(-30deg);
+  }
+}
+@keyframes g-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-1.6px) rotate(2deg);
+  }
+}
+@keyframes g-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.7px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hub-av,
+  .hub-av[data-show="true"] {
+    transition: none;
+    filter: none;
+    scale: 1;
+  }
+  .g-body,
+  .hub-av[data-state="walk"] .g-body,
+  .hub-av[data-state="walk"] .g-leg,
+  .hub-av[data-state="walk"] .g-arm {
+    animation: none;
+  }
 }
 
 .hub-panel {
@@ -374,7 +544,7 @@ html.has-custom-cursor * {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(12px);
+  transform: translateY(-14px);
   transition: opacity 0.25s, transform 0.4s, visibility 0s 0.25s;
 }
 .hub-panel[data-on="true"] {
@@ -382,7 +552,7 @@ html.has-custom-cursor * {
   visibility: visible;
   pointer-events: auto;
   transform: none;
-  transition: opacity 0.35s 0.12s, transform 0.5s 0.12s, visibility 0s;
+  transition: opacity 0.6s, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s;
 }
 .hub-head {
   display: flex;
@@ -444,13 +614,16 @@ html.has-custom-cursor * {
   padding: clamp(14px, 2.6vh, 26px) 0 clamp(16px, 3vh, 30px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.2s, transform 0.2s;
+  transform: translateY(-26px);
+  filter: blur(4px);
+  transition: opacity 0.2s, transform 0.2s, filter 0.2s;
 }
+/* all the lines of a service (and their texts) come down together, none after the other */
 .hub-panel[data-on="true"] .hub-subs li {
   opacity: 1;
   transform: none;
-  transition: opacity 0.4s calc(var(--k) * 70ms + 200ms), transform 0.5s calc(var(--k) * 70ms + 200ms);
+  filter: none;
+  transition: opacity 0.7s, transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.7s;
 }
 .hub-sn {
   padding-top: 3px;
@@ -464,6 +637,30 @@ html.has-custom-cursor * {
   font-size: clamp(1rem, 1.35vw, 1.2rem);
   font-weight: 600;
   letter-spacing: -0.01em;
+}
+/* a sub-service that has its own page is a link: its name gets an arrow on hover */
+.hub-sl {
+  display: block;
+  border-radius: 8px;
+  transition: transform 0.25s;
+}
+.hub-sl h3::after {
+  content: "→";
+  margin-left: 8px;
+  color: var(--ac);
+  opacity: 0;
+  transform: translateX(-6px);
+  display: inline-block;
+  transition: opacity 0.25s, transform 0.25s;
+}
+.hub-sl:hover,
+.hub-sl:focus-visible {
+  transform: translateX(3px);
+}
+.hub-sl:hover h3::after,
+.hub-sl:focus-visible h3::after {
+  opacity: 1;
+  transform: none;
 }
 .hub-subs p {
   margin: 6px 0 0;
@@ -487,7 +684,7 @@ html.has-custom-cursor * {
 /* iPhone: two rows of boxes (4 + 3), the open service below them */
 @media (max-width: 699px) {
   .hub {
-    padding-top: 14px;
+    padding-top: 84px; /* clears the logo tile at the top */
   }
   .hub-row {
     flex-wrap: wrap;
@@ -506,26 +703,97 @@ html.has-custom-cursor * {
     border-radius: 8px;
   }
   .hub-stage {
-    --gap: 16px;
+    --gap: 12px;
   }
-  .hub-drop,
-  .hub-node {
+  .hub-av,
+  .hub-dash,
+  .hub-pulse,
+  .hub-tick,
+  .hub-rail::before {
     display: none;
   }
   .hub-panel {
-    padding-top: 22px;
+    padding-top: 14px;
   }
   .hub-subs {
     grid-template-columns: 1fr;
   }
   .hub-subs li {
-    padding: 10px 0 12px;
+    padding: 7px 0 8px;
+  }
+  .hub-subs h3 {
+    font-size: 0.98rem;
+  }
+  .hub-subs p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 3px;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  .hub-head {
+    gap: 8px;
+    padding-bottom: 8px;
   }
   .hub-title {
+    margin: 4px 0 6px;
     font-size: 1.45rem;
   }
   .hub-sum {
-    font-size: 0.88rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+  .hub-more {
+    padding: 6px 14px;
+    font-size: 0.78rem;
+  }
+  /* the far boxes are not blurred as hard: on a phone they are small */
+  .hub[data-active="true"] .hub-item[data-on="false"] .hub-box {
+    filter: none;
+    opacity: 0.6;
+    transform: none;
+  }
+}
+
+/* Short screens (small laptops, tablets on their side): the open service is made more compact so it ends above the chat bar */
+@media (max-height: 800px) and (min-width: 700px) {
+  .hub-stage {
+    --gap: 36px;
+  }
+  .hub-panel {
+    padding-top: 18px;
+  }
+  .hub-head {
+    padding-bottom: 12px;
+  }
+  .hub-title {
+    margin: 4px 0 6px;
+    font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+  }
+  .hub-sum {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .hub-subs li {
+    padding: 10px 0 12px;
+  }
+  .hub-subs p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 4px;
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  .ai-wrap {
+    bottom: 108px;
   }
 }
 
@@ -766,7 +1034,1920 @@ html.has-custom-cursor * {
 }
 @media (max-width: 639px) {
   .ai-wrap {
-    bottom: 100px;
+    bottom: 92px;
+  }
+}
+
+/* Giant swiping word (Brand Design hero): every letter is a window onto a vertical strip of letters that slides up */
+.rw {
+  position: relative;
+  display: inline-block;
+  color: #f6ebff;
+}
+.rw-word {
+  display: flex;
+  justify-content: center;
+  font-size: clamp(5.5rem, 16.5vw, 16rem);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+  filter: drop-shadow(0 0 40px rgba(211, 135, 255, 0.3));
+}
+/* the width of a slot is set by the script: it follows the letter that is shown (and morphs while the letter swipes) */
+.rw-slot {
+  display: block;
+  flex: none;
+}
+.rw-win {
+  display: block;
+  height: 1.12em;
+  overflow: hidden;
+}
+.rw-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0.9em; /* empty space between two letters of the strip: the next letter only comes in after the old one has left */
+  will-change: transform;
+}
+.rw-cell {
+  display: block;
+  height: 1.12em;
+  line-height: 1.12em;
+  text-align: center;
+  white-space: nowrap;
+}
+.rw-clock {
+  color: rgba(227, 182, 255, 0.7);
+  font: 500 0.78rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.18em;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* "By hand -> with AI" switches (sections/automate.tsx): every row is a problem, a switch and its AI solution. The switches flip one
+   after the other when the list scrolls into view: the problem fades back, the solution comes into focus. */
+.at {
+  margin-top: 64px;
+}
+.at-head {
+  display: grid;
+  grid-template-columns: 1fr 96px 1.15fr;
+  align-items: center;
+  gap: 0 24px;
+  padding: 0 8px 16px;
+  color: #8f6da3;
+  font: 700 0.76rem / 1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.at-head-r {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.at-head-r > span {
+  color: #d387ff;
+}
+.at-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #cdb8e0;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.at-count b {
+  color: #fff;
+  font-weight: 700;
+}
+.at-count:hover {
+  border-color: rgba(211, 135, 255, 0.55);
+  background: rgba(211, 135, 255, 0.1);
+}
+.at-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  list-style: none;
+}
+.at-row {
+  display: grid;
+  grid-template-columns: 1fr 96px 1.15fr;
+  align-items: center;
+  gap: 0 24px;
+  padding: 22px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.7s;
+}
+.at-row[data-on="true"] {
+  background: linear-gradient(90deg, transparent 35%, rgba(211, 135, 255, 0.07));
+}
+.at-problem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #e6d6f5;
+  font-size: 1.08rem;
+  font-weight: 500;
+  transition: opacity 0.6s, color 0.6s;
+}
+.at-problem svg {
+  color: #8f6da3;
+}
+.at-row[data-on="true"] .at-problem {
+  color: #9d86b3;
+  opacity: 0.4;
+}
+.at-switch {
+  position: relative;
+  width: 64px;
+  height: 34px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
+}
+.at-switch i {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #8f7aa6;
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.4s,
+    box-shadow 0.5s;
+}
+.at-switch:hover {
+  border-color: rgba(211, 135, 255, 0.55);
+}
+.at-row[data-on="true"] .at-switch {
+  border-color: rgba(211, 135, 255, 0.7);
+  background: linear-gradient(90deg, rgba(211, 135, 255, 0.25), rgba(249, 197, 197, 0.2));
+  box-shadow: 0 0 24px rgba(211, 135, 255, 0.35);
+}
+.at-row[data-on="true"] .at-switch i {
+  background: #fff;
+  box-shadow: 0 0 14px rgba(211, 135, 255, 0.9);
+  transform: translateX(30px);
+}
+/* the text of the solution is dim until its switch is on; then every letter turns white, one after the other */
+.at-solution em {
+  opacity: 0.4;
+  transition: opacity 0.5s;
+}
+.at-row[data-on="true"] .at-solution em {
+  opacity: 1;
+}
+.at-w {
+  display: inline-block;
+  white-space: nowrap;
+}
+.at-ch {
+  color: #77628f;
+}
+.at-row[data-on="true"] .at-ch {
+  animation: at-letter 0.6s ease-out both;
+  animation-delay: calc(var(--c) * 14ms);
+}
+@keyframes at-letter {
+  0% {
+    color: #77628f;
+    text-shadow: none;
+  }
+  35% {
+    color: #fff;
+    text-shadow: 0 0 14px #d387ff;
+  }
+  100% {
+    color: #fff;
+    text-shadow: 0 0 0 transparent;
+  }
+}
+@keyframes at-flash {
+  from {
+    box-shadow:
+      0 0 0 0 rgba(211, 135, 255, 0.75),
+      0 0 24px rgba(211, 135, 255, 0.35);
+  }
+  to {
+    box-shadow:
+      0 0 0 20px rgba(211, 135, 255, 0),
+      0 0 24px rgba(211, 135, 255, 0.35);
+  }
+}
+.at-row[data-on="true"] .at-switch {
+  animation: at-flash 0.9s ease-out;
+}
+.at-solution em {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border: 1px solid rgba(211, 135, 255, 0.45);
+  border-radius: 999px;
+  color: #d387ff;
+  font: 600 0.62rem / 1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-style: normal;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.at-solution p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+/* the little helper: seen from above, so only the top of its head shows (26 px, the size of an icon); its hands and feet only
+   show while it walks, and swing like in a walk cycle. It turns to face the way it walks. */
+.at-stage {
+  position: relative;
+}
+.av {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.av[data-on="true"] {
+  opacity: 1;
+}
+.av-body {
+  position: absolute;
+  top: -13px;
+  left: -13px;
+  width: 26px;
+  height: 26px;
+  transition: transform 0.25s ease;
+}
+.av-shadow {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  filter: blur(2.5px);
+}
+.av-hop,
+.av-hop > span {
+  position: absolute;
+}
+.av-hop {
+  inset: 0;
+}
+.av-head {
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  margin: -7.5px 0 0 -7.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #8a4fb3, #2a1140 72%);
+  box-shadow:
+    inset 0 -1px 2px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+.av-head::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 7px;
+  height: 3px;
+  margin-left: -3.5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4); /* the hairline at the front shows which way it looks */
+}
+.av-ear,
+.av-hand {
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background: #f2bf9f;
+}
+.av-ear.l {
+  left: 3px;
+}
+.av-ear.r {
+  right: 3px;
+}
+.av-hand {
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.av-hand.l {
+  left: 0;
+}
+.av-hand.r {
+  right: 0;
+}
+.av-foot {
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 9px;
+  margin-top: -4.5px;
+  border-radius: 3px;
+  background: #f9c5c5;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.av-foot.l {
+  margin-left: -8px;
+}
+.av-foot.r {
+  margin-left: 2px;
+}
+.av[data-state="walk"] .av-hand,
+.av[data-state="walk"] .av-foot {
+  opacity: 1;
+}
+.av[data-state="walk"] .av-hand.l {
+  animation: av-step-b 0.34s ease-in-out infinite alternate;
+}
+.av[data-state="walk"] .av-hand.r {
+  animation: av-step-a 0.34s ease-in-out infinite alternate;
+}
+.av[data-state="walk"] .av-foot.r {
+  animation: av-foot-b 0.34s ease-in-out infinite alternate;
+}
+.av[data-state="walk"] .av-foot.l {
+  animation: av-foot-a 0.34s ease-in-out infinite alternate;
+}
+.av[data-state="hop"] .av-hop {
+  animation: av-hop 0.42s ease-out;
+}
+.av[data-state="hop"] .av-hand {
+  opacity: 1;
+  transform: translateY(-5px);
+}
+@keyframes av-step-a {
+  from {
+    transform: translateY(-6px);
+  }
+  to {
+    transform: translateY(6px);
+  }
+}
+@keyframes av-step-b {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(-6px);
+  }
+}
+@keyframes av-foot-a {
+  from {
+    transform: translateY(-9px);
+  }
+  to {
+    transform: translateY(9px);
+  }
+}
+@keyframes av-foot-b {
+  from {
+    transform: translateY(9px);
+  }
+  to {
+    transform: translateY(-9px);
+  }
+}
+@keyframes av-hop {
+  45% {
+    transform: translateY(-6px) scale(1.2);
+  }
+}
+@media (max-width: 899px) {
+  .at-head {
+    grid-template-columns: 1fr auto;
+  }
+  .at-head > span[aria-hidden] {
+    display: none;
+  }
+  .at-head-r > span {
+    display: none;
+  }
+  .at-row {
+    grid-template-columns: 1fr 64px;
+    gap: 14px 16px;
+  }
+  .at-solution {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Industries as a radar (components/site/industries-orbit.tsx): the industries sit on a ring around a glowing centre, a soft sweep
+   turns behind them, the selected one lights up its spoke and its text appears beside the radar. */
+.orb-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+  align-items: center;
+  justify-content: center;
+  gap: 72px;
+}
+.orb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+.orb-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--s);
+  height: var(--s);
+  border: 1px dashed rgba(211, 135, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.orb-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(211, 135, 255, 0.24), transparent 26%);
+  -webkit-mask-image: radial-gradient(circle, transparent 7%, #000 8%);
+  mask-image: radial-gradient(circle, transparent 7%, #000 8%);
+  animation: orb-spin 9s linear infinite;
+}
+.orb-cross {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.07);
+}
+.orb-cross-h {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+}
+.orb-cross-v {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+}
+.orb-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: #f6e2ff;
+  box-shadow:
+    0 0 18px 4px rgba(211, 135, 255, 0.7),
+    0 0 0 8px rgba(211, 135, 255, 0.14);
+  animation: orb-beat 3s ease-in-out infinite;
+}
+.orb-spoke {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 39%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(var(--a));
+  transform-origin: 0 50%;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+.orb-spoke[data-on="true"] {
+  background: linear-gradient(90deg, rgba(211, 135, 255, 0.1), #d387ff);
+  box-shadow: 0 0 10px rgba(211, 135, 255, 0.7);
+}
+.orb-node {
+  position: absolute;
+  top: calc(50% + 39% * sin(var(--a)));
+  left: calc(50% + 39% * cos(var(--a)));
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: -29px 0 0 -29px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(211, 135, 255, 0.08));
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: #cdb8e0;
+  cursor: pointer;
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.3s,
+    color 0.3s,
+    box-shadow 0.4s;
+}
+.orb-node:hover,
+.orb-node:focus-visible {
+  border-color: rgba(211, 135, 255, 0.5);
+}
+.orb-node[data-on="true"] {
+  border-color: rgba(211, 135, 255, 0.85);
+  color: #fff;
+  transform: scale(1.2);
+  box-shadow:
+    0 0 0 6px rgba(211, 135, 255, 0.12),
+    0 0 30px rgba(211, 135, 255, 0.45);
+}
+.orb-label {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 50%;
+  color: #8f6da3;
+  font: 500 0.7rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  transition: color 0.3s;
+}
+.orb-node[data-flip="true"] .orb-label {
+  top: auto;
+  bottom: calc(100% + 9px); /* the labels of the lower industries go above their circle, so all labels stay inside the ring */
+}
+.orb-node[data-on="true"] .orb-label {
+  color: #fff;
+}
+/* narrow phones: smaller circles and labels that wrap, so none is cut off at the edge of the screen */
+@media (max-width: 560px) {
+  .orb-node {
+    width: 46px;
+    height: 46px;
+    margin: -23px 0 0 -23px;
+  }
+  .orb-label {
+    width: 76px;
+    font-size: 0.6rem;
+    line-height: 1.2;
+    text-align: center;
+    white-space: normal;
+  }
+}
+.orb-detail {
+  position: relative;
+}
+.orb-detail > * {
+  animation: orb-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.orb-detail > :nth-child(2) {
+  animation-delay: 0.06s;
+}
+.orb-detail > :nth-child(3) {
+  animation-delay: 0.12s;
+}
+.orb-detail > :nth-child(4) {
+  animation-delay: 0.18s;
+}
+.orb-detail > :nth-child(5) {
+  animation-delay: 0.24s;
+}
+.orb-index {
+  display: block;
+  color: #8f6da3;
+  font: 500 0.8rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.2em;
+}
+.orb-icon {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin-top: 22px;
+  border: 1px solid rgba(211, 135, 255, 0.3);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #2a1140, #1b0b2a);
+  box-shadow: 0 0 40px rgba(211, 135, 255, 0.2);
+  color: #d387ff;
+}
+.orb-title {
+  margin: 22px 0 0;
+  background: linear-gradient(180deg, #fff 30%, #e2b4ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+.orb-text {
+  max-width: 48ch;
+  margin: 16px 0 0;
+  color: #dcc8ee;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+.orb-progress {
+  display: block;
+  max-width: 260px;
+  height: 2px;
+  margin-top: 34px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+.orb-progress i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #f9c5c5, #d387ff);
+  transform-origin: left;
+  animation: orb-progress linear forwards;
+}
+.orb-progress[data-paused="true"] i {
+  animation: none;
+  opacity: 0.3;
+}
+@keyframes orb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orb-beat {
+  0%,
+  100% {
+    box-shadow:
+      0 0 18px 4px rgba(211, 135, 255, 0.7),
+      0 0 0 8px rgba(211, 135, 255, 0.14);
+  }
+  50% {
+    box-shadow:
+      0 0 26px 8px rgba(211, 135, 255, 0.85),
+      0 0 0 16px rgba(211, 135, 255, 0.05);
+  }
+}
+@keyframes orb-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes orb-progress {
+  from {
+    transform: scaleX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb-sweep,
+  .orb-dot {
+    animation: none;
+  }
+}
+@media (max-width: 899px) {
+  .orb-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+  .orb {
+    max-width: 380px;
+    margin: 0 auto;
+  }
+}
+
+/* Flow diagram (tools -> AI core -> actions): blueprint look with mono type, thin frame with corner plus signs. When it scrolls into view
+   (data-live="true", set by sections/flow.tsx) the boxes rise one by one, the wires draw themselves and light pulses start to flow
+   along them: data goes DOWN the top wires to the core, and the actions leave it through the bottom wires. */
+.flow {
+  --line: rgba(255, 255, 255, 0.16);
+  --glow: #d387ff;
+  position: relative;
+  margin-top: 64px;
+  padding: 34px 30px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(211, 135, 255, 0.015));
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.flow-plus {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+}
+.flow-plus::before,
+.flow-plus::after {
+  content: "";
+  position: absolute;
+  background: rgba(255, 255, 255, 0.85);
+}
+.flow-plus::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+}
+.flow-plus::after {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  transform: translateY(-50%);
+}
+.flow-plus.tl,
+.flow-plus.c-tl {
+  top: -7px;
+  left: -7px;
+}
+.flow-plus.tr,
+.flow-plus.c-tr {
+  top: -7px;
+  right: -7px;
+}
+.flow-plus.bl,
+.flow-plus.c-bl {
+  bottom: -7px;
+  left: -7px;
+}
+.flow-plus.br,
+.flow-plus.c-br {
+  right: -7px;
+  bottom: -7px;
+}
+.flow-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  color: #8f6da3;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.flow-head span:last-child {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+.flow-foot {
+  margin: 22px 0 0;
+}
+.flow-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.flow-row > li {
+  padding: 0 5px; /* the centre of every cell is exactly where its wire is */
+}
+.flow-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 78px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(211, 135, 255, 0.04));
+  color: #cdb8e0;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+  transition:
+    opacity 0.6s ease,
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.3s,
+    color 0.3s,
+    background 0.3s;
+  transition-delay: calc(var(--base, 0ms) + var(--k, 0) * 90ms), calc(var(--base, 0ms) + var(--k, 0) * 90ms), 0s, 0s, 0s;
+}
+.flow-box:hover {
+  border-color: rgba(211, 135, 255, 0.5);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(211, 135, 255, 0.12));
+  color: #fff;
+}
+.flow-wires {
+  position: relative;
+  height: 70px;
+}
+.w {
+  position: absolute;
+  background: var(--line);
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.w-v {
+  left: var(--x);
+  width: 1px;
+  height: 35px;
+  transform-origin: top;
+}
+.w-h {
+  right: var(--l);
+  left: var(--l);
+  top: 35px;
+  height: 1px;
+  transform-origin: center;
+}
+.w-c {
+  left: 50%;
+  width: 1px;
+  height: 35px;
+  transform-origin: top;
+}
+.is-in .w-v {
+  top: 0;
+  transition-delay: calc(var(--base) + var(--i) * 60ms);
+}
+.is-in .w-h {
+  transition-delay: calc(var(--base) + 400ms);
+}
+.is-in .w-c {
+  top: 35px;
+  transition-delay: calc(var(--base) + 700ms);
+}
+.is-out .w-c {
+  top: 0;
+  transition-delay: var(--base);
+}
+.is-out .w-h {
+  transition-delay: calc(var(--base) + 250ms);
+}
+.is-out .w-v {
+  top: 35px;
+  transition-delay: calc(var(--base) + 500ms + var(--i) * 60ms);
+}
+.pulse {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.w-v .pulse,
+.w-c .pulse {
+  top: 0;
+  left: -0.5px;
+  width: 2px;
+  height: 18px;
+  background: linear-gradient(180deg, transparent, var(--glow));
+}
+.w-h .pulse {
+  top: -0.5px;
+  width: 70px;
+  height: 2px;
+}
+.flow-core {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 220px;
+  height: 54px;
+  margin: 0 auto;
+  border: 1px solid rgba(211, 135, 255, 0.55);
+  background: linear-gradient(180deg, rgba(211, 135, 255, 0.2), rgba(211, 135, 255, 0.06));
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    opacity 0.6s ease 1.2s,
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s;
+}
+.flow-core i {
+  width: 9px;
+  height: 9px;
+  background: var(--glow);
+  box-shadow: 0 0 12px var(--glow);
+}
+
+/* hidden until the diagram scrolls into view (only when JavaScript runs) */
+.flow[data-live="false"] .flow-box {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.flow[data-live="false"] .flow-core {
+  opacity: 0;
+  transform: scale(0.92);
+}
+.flow[data-live="false"] .w-v,
+.flow[data-live="false"] .w-c {
+  transform: scaleY(0);
+}
+.flow[data-live="false"] .w-h {
+  transform: scaleX(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flow:not([data-live="false"]) .pulse {
+    animation-duration: 2.8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  .flow:not([data-live="false"]) .flow-core {
+    animation: flow-breathe 3.2s ease-in-out 2.2s infinite;
+  }
+  /* data flows down the top wires to the core */
+  .is-in .w-v .pulse {
+    animation-name: flow-down;
+    animation-delay: calc(var(--base) + 1500ms + var(--i) * 350ms);
+  }
+  .is-in .pulse-l {
+    left: 0;
+    background: linear-gradient(90deg, transparent, var(--glow));
+    animation-name: flow-in-l;
+    animation-delay: calc(var(--base) + 2400ms);
+  }
+  .is-in .pulse-r {
+    right: 0;
+    background: linear-gradient(270deg, transparent, var(--glow));
+    animation-name: flow-in-r;
+    animation-delay: calc(var(--base) + 2400ms);
+  }
+  .is-in .w-c .pulse {
+    animation-name: flow-down;
+    animation-delay: calc(var(--base) + 3300ms);
+  }
+  /* the actions leave through the bottom wires */
+  .is-out .w-c .pulse {
+    animation-name: flow-down;
+    animation-delay: calc(var(--base) + 1500ms);
+  }
+  .is-out .pulse-l {
+    left: 0;
+    background: linear-gradient(270deg, transparent, var(--glow));
+    animation-name: flow-out-l;
+    animation-delay: calc(var(--base) + 2400ms);
+  }
+  .is-out .pulse-r {
+    right: 0;
+    background: linear-gradient(90deg, transparent, var(--glow));
+    animation-name: flow-out-r;
+    animation-delay: calc(var(--base) + 2400ms);
+  }
+  .is-out .w-v .pulse {
+    animation-name: flow-down;
+    animation-delay: calc(var(--base) + 3300ms + var(--i) * 350ms);
+  }
+}
+@keyframes flow-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  15% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+}
+@keyframes flow-in-l {
+  0% {
+    opacity: 0;
+    left: -70px;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    left: calc(50% - 70px);
+  }
+}
+@keyframes flow-in-r {
+  0% {
+    opacity: 0;
+    right: -70px;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    right: calc(50% - 70px);
+  }
+}
+@keyframes flow-out-l {
+  0% {
+    opacity: 0;
+    left: calc(50% - 70px);
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    left: -70px;
+  }
+}
+@keyframes flow-out-r {
+  0% {
+    opacity: 0;
+    right: calc(50% - 70px);
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    right: -70px;
+  }
+}
+@keyframes flow-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(211, 135, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 36px rgba(211, 135, 255, 0.4);
+  }
+}
+@media (max-width: 899px) {
+  .flow {
+    padding: 28px 16px 24px;
+  }
+  .flow-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px 0;
+  }
+  .flow-wires {
+    height: 36px;
+  }
+  .flow-wires > * {
+    display: none;
+  }
+  .flow-wires .w-c {
+    display: block;
+    top: 0;
+    height: 36px;
+  }
+}
+
+/* Sliding pills (project photos), measured from the Bungee template: every photo is 181 x 520 px on a 1376 px wide screen
+   (width = 0.348 x height), fully rounded top and bottom, 10 px apart, sliding left at about 59 px/s (3.25 s per photo). The
+   loop is seamless because the list is there twice and the track moves by exactly one list (in px, so a photo that grows does
+   not shift it). The sides fade over 13 % of the width and the lower part melts into the page.
+   Pointing at a photo stops the row and opens it into a rounded square as wide as three photos, growing equally to both sides
+   (the track slides half of the growth to the left): the other photos step aside, fade back, and the project info appears. */
+@property --melt {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 40%;
+}
+.arch-gallery {
+  --h: clamp(300px, 37.8vw, 560px);
+  --w: calc(var(--h) * 0.348); /* one pill */
+  --grow: calc(var(--w) * 2 + 20px); /* how much wider the opened photo gets (3 pills wide) */
+  position: relative;
+  overflow: hidden;
+  padding: 24px 0 8px;
+  /* the sides fade out and the lower part fades into the page itself (a mask, so the page shows through - no dark band) */
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 13.3%, #000 86.8%, transparent 100%),
+    linear-gradient(180deg, #000 calc(100% - var(--melt)), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 13.3%, #000 86.8%, transparent 100%),
+    linear-gradient(180deg, #000 calc(100% - var(--melt)), transparent 100%);
+  mask-composite: intersect;
+  transition: --melt 0.5s;
+}
+.arch-gallery:has(.arch:hover, .arch:focus-visible) {
+  --melt: 0%; /* the opened photo is shown clear, all the way down */
+}
+.arch-track {
+  display: flex;
+  width: max-content;
+  translate: 0 0;
+  animation: arch-slide calc(var(--n, 8) * 3.25s) linear infinite;
+  transition: translate 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.arch-gallery:hover .arch-track,
+.arch-gallery:focus-within .arch-track {
+  animation-play-state: paused;
+}
+.arch-gallery:has(.arch:hover, .arch:focus-visible) .arch-track {
+  translate: calc(var(--grow) * -0.5) 0;
+}
+.arch-group {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0 10px 0 0;
+  list-style: none;
+}
+.arch {
+  position: relative;
+  flex: none;
+  width: var(--w);
+  height: var(--h);
+  overflow: hidden;
+  border-radius: calc(var(--w) / 2); /* a full pill */
+  outline: none;
+  background:
+    radial-gradient(120% 70% at 30% 20%, rgba(255, 255, 255, 0.45), transparent 60%),
+    linear-gradient(170deg, var(--a), var(--b));
+  transition:
+    width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-radius 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.5s,
+    filter 0.5s;
+}
+.arch-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.arch:hover,
+.arch:focus-visible {
+  width: calc(var(--w) + var(--grow));
+  border-radius: 34px; /* soft corners: the pill becomes a rounded square */
+}
+.arch:hover .arch-img,
+.arch:focus-visible .arch-img {
+  transform: scale(1.04);
+}
+.arch-gallery:has(.arch:hover, .arch:focus-visible) .arch:not(:hover, :focus-visible) {
+  opacity: 0.5;
+  filter: blur(2px) saturate(0.8);
+}
+
+/* project info on the opened photo: a dark soft scrim at the bottom keeps the small text readable on any photo */
+.arch-info {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 90px 30px 30px;
+  background: linear-gradient(180deg, transparent, rgba(10, 3, 20, 0.78) 55%, rgba(10, 3, 20, 0.9));
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+.arch:hover .arch-info,
+.arch:focus-visible .arch-info {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s 0.25s, transform 0.6s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.arch-cat {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.arch-title {
+  margin: 12px 0 0;
+  color: #fff;
+  font-size: clamp(1.4rem, 2.1vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.arch-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 10px 0 0;
+  max-width: 44ch;
+  color: #eadcf7;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+@keyframes arch-slide {
+  to {
+    transform: translateX(calc(var(--n, 8) * (var(--w) + 10px) * -1));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .arch-track {
+    animation: none;
+  }
+}
+
+/* Brand board section (about the service). It is a tall track with a pinned screen: the tag on top, the heading + text under it,
+   and below them the board (left) and the list of services (right). While you scroll, the guide walks the board from box to box,
+   the street lights up ahead of it and the list item next to the box it is at lights up. The board is 436 x 572 px: two columns
+   of 208 px with a 20 px street between them. */
+.bb-track {
+  position: relative;
+  height: 470vh;
+}
+.bb-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  height: 100vh;
+  place-items: center;
+  overflow: hidden;
+  padding: 16px 0 104px; /* room for the menu pill at the bottom */
+  box-sizing: border-box;
+}
+.bb {
+  width: 1160px;
+  max-width: 100%;
+  padding: 0 40px;
+  zoom: var(--fit, 1);
+}
+.bb-top {
+  text-align: center;
+}
+.bb-head {
+  margin: 0 auto;
+  text-align: center;
+}
+.bb-row {
+  display: grid;
+  grid-template-columns: 436px 480px;
+  justify-content: center;
+  gap: 80px;
+  margin-top: 52px;
+}
+.bb-board {
+  position: relative;
+  width: 436px;
+  max-width: 100%;
+  height: 572px;
+}
+
+/* the streets: dark strips with a dashed middle line; the lit part grows down the main street (--fill) as the guide moves on */
+.bb-road,
+.bb-side {
+  position: absolute;
+  border: 1px solid rgba(211, 135, 255, 0.14);
+  background: rgba(8, 2, 16, 0.55);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
+}
+.bb-road {
+  --fill: 0px;
+  top: 0;
+  bottom: 0;
+  left: 208px;
+  width: 20px;
+  border-radius: 10px;
+  border-color: rgba(211, 135, 255, 0.22);
+}
+.bb-road::before,
+.bb-side::before {
+  content: "";
+  position: absolute;
+  background: repeating-linear-gradient(180deg, rgba(243, 215, 255, 0.26) 0 7px, transparent 7px 15px);
+}
+.bb-road::before {
+  top: 8px;
+  bottom: 8px;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+}
+.bb-road-fill {
+  position: absolute;
+  top: var(--top);
+  left: 50%;
+  width: 4px;
+  margin-left: -2px;
+  height: var(--fill);
+  border-radius: 2px;
+  background: linear-gradient(180deg, #f3d7ff, #d387ff);
+  box-shadow: 0 0 12px 2px rgba(211, 135, 255, 0.75);
+  transition: height 0.9s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.bb-side {
+  width: 208px;
+  height: 20px;
+  border-radius: 10px;
+}
+.bb-side::before {
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: repeating-linear-gradient(90deg, rgba(243, 215, 255, 0.2) 0 7px, transparent 7px 15px);
+}
+
+/* the boxes (as before: 208 px wide, 128 px or 276 px tall), each with a little gate on the side that faces the main street */
+.bb-tile {
+  position: absolute;
+  width: 208px;
+  cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.bb-in {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid rgba(211, 135, 255, 0.16);
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(60, 24, 92, 0.55), rgba(22, 8, 38, 0.7));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  opacity: 0.58;
+  transition:
+    border-color 0.5s,
+    box-shadow 0.5s,
+    opacity 0.5s;
+}
+.bb-tile:hover .bb-in {
+  opacity: 0.9;
+  border-color: rgba(211, 135, 255, 0.4);
+}
+.bb-tile[data-on="true"] {
+  transform: translateY(-4px) scale(1.025);
+}
+.bb-tile[data-on="true"] .bb-in {
+  opacity: 1;
+  border-color: rgba(211, 135, 255, 0.65);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 18px 46px -12px rgba(176, 90, 255, 0.55);
+}
+.bb-gate {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 24px;
+  margin-top: -12px;
+  border-radius: 3px;
+  background: rgba(211, 135, 255, 0.4);
+  transition: background 0.5s, box-shadow 0.5s;
+}
+.bb-tile[data-side="l"] .bb-gate {
+  right: -3px;
+}
+.bb-tile[data-side="r"] .bb-gate {
+  left: -3px;
+}
+.bb-tile[data-on="true"] .bb-gate {
+  background: #f3d7ff;
+  box-shadow: 0 0 12px 2px rgba(211, 135, 255, 0.85);
+}
+.bb-cap {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(243, 215, 255, 0.6);
+}
+
+/* 0 strategy = the start: target rings (the guide sits in the bullseye) and a flag */
+.bb-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border: 1px solid rgba(211, 135, 255, 0.35);
+  border-radius: 50%;
+}
+.bb-ring.r1 {
+  width: 104px;
+  height: 104px;
+}
+.bb-ring.r2 {
+  width: 68px;
+  height: 68px;
+}
+.bb-ring.r3 {
+  width: 36px;
+  height: 36px;
+  background: rgba(211, 135, 255, 0.14);
+}
+.bb-tile[data-k="0"][data-on="true"] .bb-ring {
+  animation: bb-pulse 2.6s ease-out infinite;
+}
+.bb-tile[data-k="0"][data-on="true"] .bb-ring.r2 {
+  animation-delay: 0.25s;
+}
+.bb-tile[data-k="0"][data-on="true"] .bb-ring.r3 {
+  animation-delay: 0.5s;
+}
+@keyframes bb-pulse {
+  0%,
+  100% {
+    scale: 1;
+  }
+  35% {
+    scale: 1.12;
+    border-color: rgba(243, 215, 255, 0.8);
+  }
+}
+.bb-flag {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 22px;
+  height: 34px;
+}
+.bb-flag i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  border-radius: 1px;
+  background: rgba(243, 215, 255, 0.7);
+}
+.bb-flag b {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  width: 18px;
+  height: 13px;
+  background: linear-gradient(135deg, #f9c5c5, #d387ff);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+/* 1 logo: the mark turns up, a glow breathes behind it */
+.bb-tile[data-k="1"] .bb-in {
+  display: grid;
+  place-items: center;
+}
+.bb-tile[data-k="1"] .bb-in::before {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(211, 135, 255, 0.4), transparent);
+  opacity: 0.35;
+  transition: opacity 0.6s;
+}
+.bb-tile[data-k="1"][data-on="true"] .bb-in::before {
+  opacity: 1;
+}
+.bb-logo-mark {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.bb-tile[data-k="1"][data-on="true"] .bb-logo-mark {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+/* 2 identity: type + colours */
+.bb-aa {
+  position: absolute;
+  top: 12px;
+  left: 18px;
+  font-size: 4.4rem;
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: #f3d7ff;
+}
+.bb-swatches {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+}
+.bb-swatches i {
+  width: 34px;
+  height: 34px;
+  margin-right: -8px;
+  border-radius: 50%;
+  border: 2px solid #1b0b2a;
+  transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+.bb-tile[data-k="2"][data-on="true"] .bb-swatches i {
+  transform: translateY(-14px);
+}
+.bb-tile[data-k="2"][data-on="true"] .bb-swatches i:nth-child(2) {
+  transition-delay: 0.07s;
+}
+.bb-tile[data-k="2"][data-on="true"] .bb-swatches i:nth-child(3) {
+  transition-delay: 0.14s;
+}
+.bb-tile[data-k="2"][data-on="true"] .bb-swatches i:nth-child(4) {
+  transition-delay: 0.21s;
+}
+
+/* 3 guidelines: a spec sheet whose lines draw themselves */
+.bb-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(211, 135, 255, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(211, 135, 255, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.bb-line {
+  position: absolute;
+  left: 18px;
+  height: 7px;
+  border-radius: 4px;
+  background: rgba(243, 215, 255, 0.5);
+  transform-origin: left;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.bb-line.l1 {
+  top: 24px;
+  width: 52%;
+  background: #d387ff;
+}
+.bb-line.l2 {
+  top: 48px;
+  width: 78%;
+}
+.bb-line.l3 {
+  top: 66px;
+  width: 64%;
+}
+.bb-line.l4 {
+  top: 84px;
+  width: 40%;
+}
+.bb-tile[data-k="3"]:not([data-on="true"]) .bb-line {
+  transform: scaleX(0.35);
+}
+.bb-tile[data-k="3"][data-on="true"] .bb-line.l2 {
+  transition-delay: 0.1s;
+}
+.bb-tile[data-k="3"][data-on="true"] .bb-line.l3 {
+  transition-delay: 0.2s;
+}
+.bb-tile[data-k="3"][data-on="true"] .bb-line.l4 {
+  transition-delay: 0.3s;
+}
+
+/* 4 collateral: two cards and a tag fan out */
+.bb-card {
+  position: absolute;
+  width: 74px;
+  height: 46px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.bb-card i {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.85);
+}
+.bb-card b {
+  position: absolute;
+  left: 8px;
+  bottom: 9px;
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.bb-card.c1 {
+  top: 28px;
+  left: 22px;
+  background: linear-gradient(140deg, #8d4fe0, #5a2a9c);
+  transform: rotate(-8deg);
+}
+.bb-card.c2 {
+  top: 44px;
+  left: 64px;
+  background: linear-gradient(140deg, #f3d7ff, #d387ff);
+  transform: rotate(6deg);
+}
+.bb-card.c2 i,
+.bb-card.c2 b {
+  background: rgba(40, 14, 70, 0.7);
+}
+.bb-tag {
+  position: absolute;
+  top: 24px;
+  right: 22px;
+  width: 16px;
+  height: 26px;
+  border-radius: 4px 4px 8px 8px;
+  background: #f9c5c5;
+  transform: rotate(10deg);
+  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.bb-tile[data-k="4"][data-on="true"] .bb-card.c1 {
+  transform: translate(-6px, -4px) rotate(-14deg);
+}
+.bb-tile[data-k="4"][data-on="true"] .bb-card.c2 {
+  transform: translate(8px, 2px) rotate(12deg);
+}
+.bb-tile[data-k="4"][data-on="true"] .bb-tag {
+  transform: translateY(-6px) rotate(20deg);
+}
+
+/* the guide on the board: the same little character as on the rest of the site (.av), a bit smaller so it fits the street */
+.bb-board .av {
+  z-index: 6;
+}
+.bb-board .av-body {
+  scale: 0.72;
+}
+.bb-board .av[data-state="sit"] .av-body {
+  scale: 0.9;
+}
+.bb-board .av[data-state="sit"] .av-hop {
+  animation: bb-sit 3.2s ease-in-out infinite;
+}
+@keyframes bb-sit {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1px) scale(1.04);
+  }
+}
+
+/* copy: heading + text (centred, under the tag) */
+.bb-lead {
+  margin: 24px auto 0;
+  max-width: 920px;
+  text-wrap: balance;
+  font-size: clamp(1.7rem, 2.35vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1.16;
+  letter-spacing: -0.035em;
+  color: #f3d7ff;
+}
+.bb-lead span {
+  opacity: calc(0.2 + 0.8 * var(--k, 1));
+  transition: opacity 0.3s;
+}
+.bb-lead span.hi {
+  color: #d387ff;
+}
+.bb-body {
+  max-width: 780px;
+  margin: 24px auto 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  text-wrap: balance;
+  color: rgba(243, 215, 255, 0.72);
+}
+
+/* the list: five equal rows, a rail beside them that fills like the street (one stop per box) and the button at the end */
+.bb-list {
+  display: flex;
+  flex-direction: column;
+  height: 572px;
+}
+.bb-list-intro {
+  flex: none;
+  margin: 0 0 14px;
+  padding-left: 40px;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(243, 215, 255, 0.55);
+}
+.bb-items {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bb-rail {
+  position: absolute;
+  left: 9px;
+  top: calc(50% / var(--n, 5));
+  bottom: calc(50% / var(--n, 5));
+  width: 2px;
+  border-radius: 1px;
+  background: rgba(211, 135, 255, 0.18);
+}
+.bb-rail i {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(var(--rail, 0) * 100%);
+  border-radius: 1px;
+  background: linear-gradient(180deg, #f3d7ff, #d387ff);
+  box-shadow: 0 0 10px 1px rgba(211, 135, 255, 0.7);
+}
+.bb-item {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding-left: 40px;
+}
+.bb-node {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: 50%;
+  border: 2px solid rgba(211, 135, 255, 0.35);
+  background: #12061f;
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s, scale 0.4s;
+}
+.bb-item[data-lit="true"] .bb-node {
+  border-color: #d387ff;
+  background: #d387ff;
+}
+.bb-item[data-on="true"] .bb-node {
+  border-color: #f3d7ff;
+  background: #f3d7ff;
+  box-shadow: 0 0 14px 3px rgba(211, 135, 255, 0.8);
+  scale: 1.2;
+}
+.bb-item button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: rgba(243, 215, 255, 0.5);
+  cursor: pointer;
+  transition:
+    background 0.5s,
+    border-color 0.5s,
+    color 0.4s;
+}
+.bb-item button:hover {
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(211, 135, 255, 0.18);
+}
+.bb-item[data-on="true"] button {
+  color: #fff;
+  border-color: rgba(211, 135, 255, 0.4);
+  background: linear-gradient(100deg, rgba(211, 135, 255, 0.16), rgba(211, 135, 255, 0.03));
+  box-shadow: 0 14px 34px -16px rgba(176, 90, 255, 0.55);
+}
+.bb-n {
+  flex: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: rgba(211, 135, 255, 0.7);
+}
+.bb-item[data-on="true"] .bb-n {
+  color: #f3d7ff;
+}
+.bb-t {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.bb-p {
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.bb-x {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: rgba(243, 215, 255, 0.45);
+  transition: color 0.4s;
+}
+.bb-item[data-on="true"] .bb-x {
+  color: rgba(243, 215, 255, 0.82);
+}
+.bb-end {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 48px;
+  margin-top: 22px;
+  padding-left: 40px;
+}
+.bb-cta {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 26px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.55;
+  transition: opacity 0.6s, transform 0.5s, box-shadow 0.6s, filter 0.3s;
+}
+.bb-cta:hover {
+  filter: brightness(1.1);
+}
+.bb-list[data-done="true"] .bb-cta {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 34px -8px rgba(211, 135, 255, 0.65);
+}
+.bb-note {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: rgba(243, 215, 255, 0.5);
+}
+/* Phones (up to 700 px): the tag, heading and text scroll away as normal text; then ONLY the board is pinned (scaled to the width
+   of the screen) with the step the guide is at shown under it, and the button at the end. Same scroll-driven walk as on a laptop. */
+@media (max-width: 700px) {
+  .bb-track {
+    height: auto;
+  }
+  .bb-stage {
+    position: static;
+    display: block;
+    height: auto;
+    padding: 72px 0 90px;
+    overflow: visible;
+  }
+  .bb {
+    zoom: 1;
+    padding: 0 16px;
+  }
+  .bb-lead {
+    font-size: 1.6rem;
+  }
+  .bb-body {
+    font-size: 0.95rem;
+  }
+  .bb-pin {
+    height: 250vh;
+    margin-top: 28px;
+  }
+  .bb-row {
+    position: sticky;
+    top: 78px;
+    zoom: var(--fit, 1);
+    grid-template-columns: 436px;
+    gap: 22px;
+    margin-top: 0;
+  }
+  .bb-list {
+    height: auto;
+  }
+  .bb-list-intro,
+  .bb-rail,
+  .bb-node {
+    display: none;
+  }
+  .bb-items {
+    display: block;
+  }
+  .bb-item {
+    display: none;
+    padding-left: 0;
+    min-height: 92px;
+  }
+  .bb-item[data-on="true"] {
+    display: block;
+  }
+  .bb-item button {
+    min-height: 92px;
+    padding: 12px 18px;
+  }
+  .bb-end {
+    height: auto;
+    margin-top: 18px;
+    padding-left: 0;
+    flex-wrap: wrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bb-tile[data-k="0"][data-on="true"] .bb-ring,
+  .bb-board .av[data-state="sit"] .av-hop {
+    animation: none;
   }
 }
 

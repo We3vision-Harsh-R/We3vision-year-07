@@ -35,7 +35,15 @@ export function CustomCursor() {
       cy += (y - cy) * k;
       // the 8px box is centred on the pointer (hence -4)
       root.style.transform = `translate3d(${(cx - 4).toFixed(2)}px, ${(cy - 4).toFixed(2)}px, 0)`;
+      if (Math.abs(x - cx) < 0.05 && Math.abs(y - cy) < 0.05) {
+        frame = 0; // it has caught up with the mouse: sleep until the mouse moves again
+        last = 0;
+        return;
+      }
       frame = requestAnimationFrame(loop);
+    };
+    const wake = () => {
+      if (!frame) frame = requestAnimationFrame(loop);
     };
 
     const onMove = (e: PointerEvent) => {
@@ -48,6 +56,7 @@ export function CustomCursor() {
         root.dataset.visible = "true";
       }
       root.dataset.mode = (e.target as Element | null)?.closest(CLICKABLE) ? "pointer" : "default";
+      wake();
     };
     const onLeave = () => {
       visible = false;
@@ -61,8 +70,6 @@ export function CustomCursor() {
     window.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
     document.documentElement.addEventListener("mouseleave", onLeave);
-    frame = requestAnimationFrame(loop);
-
     return () => {
       cancelAnimationFrame(frame);
       document.documentElement.classList.remove("has-custom-cursor");
@@ -83,7 +90,11 @@ export function CustomCursor() {
       className="group pointer-events-none fixed left-0 top-0 z-[9999] h-2 w-2 opacity-0 transition-opacity duration-200 data-[visible=true]:opacity-100"
     >
       {/* Glow behind the cursor */}
-      <div className="absolute -left-6 -top-6 size-14 rounded-full bg-violet opacity-60 mix-blend-color-dodge blur-[60px]" />
+      {/* (a plain soft gradient: a blurred, blended circle that follows the mouse makes the whole page repaint on every move) */}
+      <div
+        className="absolute -left-24 -top-24 size-52 rounded-full opacity-70"
+        style={{ background: "radial-gradient(closest-side, rgba(211,135,255,0.34), rgba(211,135,255,0.12) 55%, transparent)" }}
+      />
 
       {/* Default cursor: arrow */}
       <svg

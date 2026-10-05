@@ -103,6 +103,20 @@ export function IndustryIcon({ name, className }: { name: string; className?: st
         <path d="M18 9c1.300.6 2 1.700 2 3s-.7 2.400-2 3M7 15.500l1 4h2.500l-1-3.500" />
       </svg>
     );
+  if (/financ|insur|bank/.test(n))
+    return (
+      <svg {...line} className={className}>
+        <path d="M3 9l9-5 9 5M5 9v8M9.500 9v8M14.500 9v8M19 9v8M3 20h18" />
+      </svg>
+    );
+  if (/logist|transport|deliver|shipping/.test(n))
+    return (
+      <svg {...line} className={className}>
+        <path d="M3 6h11v10H3zM14 9h4l3 3v4h-7" />
+        <circle cx="7" cy="18" r="1.800" />
+        <circle cx="17" cy="18" r="1.800" />
+      </svg>
+    );
   if (/corporate|enterprise|business|company/.test(n))
     return (
       <svg {...line} className={className}>

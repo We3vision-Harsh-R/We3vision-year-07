@@ -32,7 +32,7 @@ export const HOME_SECTIONS: PageSection[] = [
         title: "Brand Design",
         href: "/brand-identity",
         summary: "Brand identity design that gives your business a clear, consistent look: strategy, logo, colours, typography and brand assets.",
-        subs: "Brand strategy | Your business goals, audience and brand direction defined before any design starts.\nLogo design | A logo, colours and typography that reflect your business and speak to your audience.\nVisual identity & guidelines | One consistent visual system, with brand guidelines your team can follow.\nMarketing collateral | Brand assets for graphic design, website design and advertising creatives.",
+        subs: "Brand strategy | Your business goals, audience and brand direction defined before any design starts. | /brand-identity/brand-strategy\nLogo design | A logo, colours and typography that reflect your business and speak to your audience. | /brand-identity/logo-design\nVisual identity & guidelines | One consistent visual system, with brand guidelines your team can follow. | /brand-identity/visual-identity-guidelines\nMarketing collateral | Brand assets for graphic design, website design and advertising creatives. | /brand-identity/marketing-collateral",
       },
       {
         title: "Web\nDevelopment",

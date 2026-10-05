@@ -22,17 +22,17 @@ export function rng(seed: number) {
 }
 
 /** Soft round glow, drawn once and stamped thousands of times. */
-export function makeSprite(color: RGB, softness: number) {
+export function makeSprite(color: RGB, softness: number, px = 64) {
   const c = document.createElement("canvas");
-  c.width = c.height = 64;
+  c.width = c.height = px;
   const g = c.getContext("2d");
   if (!g) return c;
-  const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  const grad = g.createRadialGradient(px / 2, px / 2, 0, px / 2, px / 2, px / 2);
   grad.addColorStop(0, rgba(color, 1));
   grad.addColorStop(0.05 + softness * 0.25, rgba(color, 0.5));
   grad.addColorStop(0.35 + softness * 0.3, rgba(color, 0.12));
   grad.addColorStop(1, rgba(color, 0));
   g.fillStyle = grad;
-  g.fillRect(0, 0, 64, 64);
+  g.fillRect(0, 0, px, px);
   return c;
 }

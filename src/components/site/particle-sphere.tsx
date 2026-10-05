@@ -130,10 +130,11 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
     if (!host) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const sprites = { core: makeSprite(CORE, 0.55), mid: makeSprite(MID, 0.55), deep: makeSprite(DEEP, 0.55) };
+    const sprites = { core: makeSprite(CORE, 0.55, 32), mid: makeSprite(MID, 0.55, 32), deep: makeSprite(DEEP, 0.55, 32) };
 
     // --- layout (set on resize) ---
     let W = 0, H = 0, R = 1, cx = 0, cy = 0, dpr = 1;
+    let quality = 1; // goes down on a slow machine (fewer particles, 1x pixels)
 
     // --- sphere particles ---
     let N = 0;
@@ -219,7 +220,7 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
     // Lays the two lines out for the current screen size. Each line gets as many particles as its letters need.
     const buildTexts = () => {
       const family = getComputedStyle(document.documentElement).getPropertyValue("--font-dm-sans").trim();
-      const F = clamp(W * 0.036, 28, 46); // font size on screen, px
+      const F = W < 768 ? clamp(W * 0.092, 30, 40) : clamp(W * 0.04, 30, 56); // font size on screen, px
       const place = [
         { text: above, y: Math.max(98, cy - R * 1.22) },
         { text: below, y: Math.min(H - 160, cy + R * 1.4) },
@@ -232,7 +233,7 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
         const s = samples.get(p.text);
         if (!s) continue;
         lines.push({ xs: s.xs, ys: s.ys, y: p.y - cy });
-        total += Math.round(clamp((s.xs.length * (F / 72) * (F / 72)) / 4.5, 250, 1800));
+        total += Math.round(clamp((s.xs.length * (F / 72) * (F / 72)) / 3.6, 300, 1200));
       }
       T = lines.length ? total : 0;
       bodyT = makeBody(T);
@@ -244,11 +245,11 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
       const rnd = rng(313);
       let at = 0;
       for (const ln of lines) {
-        const count = Math.round(clamp((ln.xs.length * (F / 72) * (F / 72)) / 4.5, 250, 1800));
+        const count = Math.round(clamp((ln.xs.length * (F / 72) * (F / 72)) / 3.6, 300, 1200));
         for (let k = 0; k < count && at < T; k++, at++) {
           const p = Math.floor(rnd() * ln.xs.length);
-          ttx[at] = (ln.xs[p] + (rnd() - 0.5) * 0.012) * F;
-          tty[at] = ln.y + (ln.ys[p] + (rnd() - 0.5) * 0.012) * F;
+          ttx[at] = (ln.xs[p] + (rnd() - 0.5) * 0.005) * F;
+          tty[at] = ln.y + (ln.ys[p] + (rnd() - 0.5) * 0.005) * F;
           const y = rnd() * 2 - 1;
           const a = rnd() * TAU;
           const r = Math.sqrt(1 - y * y);
@@ -257,7 +258,7 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
           thy[at] = y * kk;
           thz[at] = Math.sin(a) * r * kk;
           tseed[at] = rnd();
-          tsize[at] = clamp(F * 0.1, 3, 5.5) * (0.8 + rnd() * 0.4);
+          tsize[at] = clamp(F * 0.085, 2.6, 4.6) * (0.85 + rnd() * 0.3);
           tcls[at] = rnd() < 0.6 ? 0 : 1;
         }
       }
@@ -267,14 +268,14 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
       const rect = host.getBoundingClientRect();
       W = Math.max(1, Math.round(rect.width));
       H = Math.max(1, Math.round(rect.height));
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, quality < 1 ? 1 : 1.5);
       canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(H * dpr);
       R = Math.min(W * 0.3, H * 0.34, 330) * scale;
       cx = W / 2;
       cy = H * 0.46;
       const small = W < 768;
-      const want = Math.round((small ? 1800 : 4200) * Math.min(1, scale * 1.4));
+      const want = Math.round((small ? 800 : 1700) * Math.min(1, scale * 1.4) * quality);
       if (N !== want) buildSphere(want);
     };
 
@@ -285,6 +286,8 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
     let rawP = 0, lastRaw = 0; // scroll progress of the whole hero (0..1), to feel how fast it is scrolled
     const ripples: Ripple[] = [];
     let raf = 0, last = 0, visible = true, alive = true;
+    let emptied = false;
+    let slow = 0; // frames in a row that took too long
 
     // latest ball rotation + centre, so a click can be mapped onto the ball
     const cur = { cosA: 1, sinA: 0, cosB: 1, sinB: 0, px: 0, py: 0 };
@@ -300,7 +303,7 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
     let ptrX = -1e4, ptrY = -1e4; // pointer, in screen pixels
     let mpx = -1e4, mpy = -1e4; // pointer, in canvas pixels
     let scrollV = 0; // how fast the page is being scrolled (progress per second); every scroll shakes the loose particles
-    const WIND = 7000;
+    const WIND = 4500;
     let rX = 0, rY = 0; // resting place (result of restOf)
     const restOf = (f: Flight, i: number) => {
       if (f.kind[i] !== 1) {
@@ -390,6 +393,19 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
     const draw = (dt: number) => {
       time += dt;
       const sp = clamp(sceneP);
+      // the particles that settled in the heaps at the sides do not stay: while the services open, they go out of focus and fade away
+      const hf = easeInOut(clamp((rawP - 0.4) / 0.24));
+      if (hf >= 1 && sp >= 1) {
+        // every dot has faded away: clear the canvas once and do no more work until you scroll back
+        if (!emptied) {
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.clearRect(0, 0, W, H);
+          emptied = true;
+        }
+        lastRaw = rawP;
+        return;
+      }
+      emptied = false;
       const sdt = reduceMotion ? 0 : Math.min(dt, 0.04); // physics step
       scrollV = sdt > 0 ? clamp((rawP - lastRaw) / sdt, -0.6, 0.6) : 0;
       lastRaw = rawP;
@@ -415,7 +431,7 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
       const cosA = Math.cos(A), sinA = Math.sin(A), cosB = Math.cos(B), sinB = Math.sin(B);
       const px = cx + ox, py = cy + oy + (reduceMotion ? 0 : Math.sin(time * 0.4) * 4); // gentle floating motion
       const P = 2.6;
-      const dot = (6 * R) / 198; // dot size scales with the ball
+      const dot = (6.8 * R) / 198; // dot size scales with the ball
       const lx = 0.15, ly = 0.7, lz = 0.7;
       const ll = Math.hypot(lx, ly, lz);
 
@@ -496,6 +512,10 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
           scrY = fy;
           sizeK = 1 - 0.4 * fe;
           a *= fl.kind[i] === 1 ? 1 - 0.45 * fe : fl.kind[i] === 2 ? 1 - fe : 1;
+          if (fl.kind[i] !== 2) {
+            a *= 1 - hf;
+            sizeK *= 1 + 1.7 * hf;
+          }
         }
 
         if (a < 0.01) continue;
@@ -539,6 +559,10 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
             scrY = fy;
             sizeK = 1 - 0.4 * fe;
             a *= mfl.kind[i] === 1 ? 1 - 0.45 * fe : mfl.kind[i] === 2 ? 1 - fe : 1;
+            if (mfl.kind[i] !== 2) {
+              a *= 1 - hf;
+              sizeK *= 1 + 1.7 * hf;
+            }
           }
           if (a < 0.01) continue;
           const s = dot * 1.15 * 0.55 * msize[i] * 1.9 * (1 + flash * 0.5) * sizeK;
@@ -568,6 +592,10 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
             scrY = fy;
             sizeK = 1 - 0.4 * fe;
             a *= tfl.kind[i] === 1 ? 1 - 0.45 * fe : tfl.kind[i] === 2 ? 1 - fe : 1;
+            if (tfl.kind[i] !== 2) {
+              a *= 1 - hf;
+              sizeK *= 1 + 1.7 * hf;
+            }
           }
           if (a < 0.01) continue;
           const s = tsize[i] * (1 + flash * 0.3) * sizeK * 1.9;
@@ -590,8 +618,18 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
         return;
       }
       const dt = last ? Math.min((now - last) / 1000, 0.2) : 0;
+      if (sceneP < 0.01 && dt > 0 && dt < 0.03) return; // the ball only turns slowly: about 33 frames a second are plenty
       last = now;
       draw(dt);
+      // a machine that cannot keep up gets fewer particles and 1x pixels (once)
+      if (quality === 1 && !emptied && sceneP < 0.02) {
+        slow = dt > 0.03 ? slow + 1 : Math.max(0, slow - 2);
+        if (slow > 40) {
+          quality = 0.6;
+          setup();
+          buildTexts();
+        }
+      }
     };
 
     const onMove = (e: PointerEvent) => {
@@ -624,7 +662,7 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
       if (started || !alive) return;
       started = true;
       setup();
-      buildMark(Math.round((W < 768 ? 700 : 1300) * Math.min(1, scale * 1.5)));
+      buildMark(Math.round((W < 768 ? 320 : 600) * Math.min(1, scale * 1.5)));
       buildTexts();
       draw(0);
       if (!reduceMotion) raf = requestAnimationFrame(frame);

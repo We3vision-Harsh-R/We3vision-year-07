@@ -3,26 +3,35 @@ import type { PageSection } from "@/lib/cms/pages";
 import type { SectionType } from "@/lib/cms/sections";
 import type { SiteSettings } from "@/lib/cms/settings";
 import { Advantages } from "./advantages";
+import { ArchGallery } from "./arch-gallery";
+import { Automate } from "./automate";
 import { Backdrop } from "./backdrop";
 import { Blogs } from "./blogs";
 import { Contact } from "./contact";
+import { Faq } from "./faq";
+import { Flow } from "./flow";
 import { Hero } from "./hero";
 import { Highlights } from "./highlights";
 import { Industries } from "./industries";
 import { PageHero } from "./page-hero";
+import { Process } from "./process";
 import { Reach } from "./reach";
 import type { SectionComponent } from "./shared";
 import { Services } from "./services";
+import { BrandBoard } from "./brand-board";
 import { Story } from "./story";
 import { Strengths } from "./strengths";
+import { Tags } from "./tags";
 import { Team } from "./team";
 import { Timeline } from "./timeline";
+import { WordHero } from "./word-hero";
 
 // Adding a section type: define it in lib/cms/sections.ts, build the component, register it here.
 // TypeScript enforces that every section type has a renderer with matching data.
 const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   hero: Hero,
   story: Story,
+  brandBoard: BrandBoard,
   strengths: Strengths,
   services: Services,
   highlights: Highlights,
@@ -33,6 +42,13 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   contact: Contact,
   backdrop7: Backdrop,
   pageHero: PageHero,
+  wordHero: WordHero,
+  archGallery: ArchGallery,
+  flow: Flow,
+  automate: Automate,
+  faq: Faq,
+  process: Process,
+  tags: Tags,
   timeline: Timeline,
   team: Team,
 };

@@ -9,6 +9,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // development only: lets other computers on the same Wi-Fi open the dev server (http://<this PC's IP>:3000)
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*"],
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
