@@ -21,7 +21,6 @@ export const ABOUT_SEO = {
 };
 
 export const ABOUT_SECTIONS: PageSection[] = [
-  section("backdrop7", {}),
   section("pageHero", {
     chip: "About Us",
     heading: "Empowering Digital Transformation\nThrough Innovation",
@@ -85,6 +84,14 @@ export const ABOUT_SECTIONS: PageSection[] = [
   section("timeline", {
     chip: "Our Journey",
     heading: "Our Journey:\nRoadmap",
+    names: "Smit\nHarsh\nVatsal",
+    leaveYear: "2021",
+    partnerName: "Parth",
+    partnerYear: "2023",
+    finalYear: "2027",
+    goalTitle: "Our goal for 2027",
+    goalText: "To grow We3vision into a brand that people love to work with: a company clients trust and recommend, where seven teams keep building more value for every project.",
+    teams: "Brand Design\nWeb Development\nMobile App Development\nAI Development\nMetaverse Solutions\nUI/UX Design\nCRM Development",
     items: [
       { year: "2019", text: "Founded in Surat, Gujarat, with a vision to deliver innovative and customer-focused IT solutions." },
       { year: "2020", text: "Expanded core services to web and app design and development." },
