@@ -12,7 +12,7 @@ type Item = { label: string; href: string };
 //  * it slides in from below when the page loads.
 // Frosted glass: strong blur + colour boost of what is behind, a light-to-violet tint, a bright top edge and a soft drop shadow.
 const GLASS =
-  "border border-white/[0.14] bg-[linear-gradient(180deg,rgba(255,255,255,0.09),rgba(211,135,255,0.17))] backdrop-blur-[24px] backdrop-saturate-[1.6] shadow-[inset_0_1px_0_rgba(255,255,255,0.3),inset_0_-1px_0_rgba(211,135,255,0.2),0_12px_40px_rgba(0,0,0,0.4)]";
+  "border border-white/[0.14] bg-[linear-gradient(180deg,rgba(255,255,255,0.09),hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.17))] backdrop-blur-[24px] backdrop-saturate-[1.6] shadow-[inset_0_1px_0_rgba(255,255,255,0.3),inset_0_-1px_0_hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.2),0_12px_40px_rgba(0,0,0,0.4)]";
 const SPRING = "ease-[cubic-bezier(0.16,1,0.3,1)]"; // fast start, long soft landing (like the template's spring)
 const SIZE = 54;
 

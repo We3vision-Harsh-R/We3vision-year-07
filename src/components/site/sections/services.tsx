@@ -16,7 +16,7 @@ export const Services: SectionComponent<"services"> = ({ data }) => (
       <div className={`mt-16 grid gap-5 sm:grid-cols-2 ${data.cards.length === 4 ? "" : "lg:grid-cols-3"}`}>
         {data.cards.map((card, i) => (
           <Reveal key={i} delay={(i % 3) * 90} className="h-full">
-            <article className="card-glass group flex h-full flex-col items-center rounded-[19px] border border-violet/[0.08] p-7 text-center transition duration-300 hover:-translate-y-1 hover:border-violet/30 hover:shadow-[0_20px_50px_rgba(120,40,180,0.25)]">
+            <article className="card-glass group flex h-full flex-col items-center rounded-[19px] border border-violet/[0.08] p-7 text-center transition duration-300 hover:-translate-y-1 hover:border-violet/30 hover:shadow-[0_20px_50px_hsl(calc(var(--th)_+_350.29)_calc(63.64%_*_var(--ts))_43.14%_/_0.25)]">
               <IconTile index={i} />
               <h3 className="text-vfade mt-6 whitespace-pre-line pb-1 text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.03em]">{card.title}</h3>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-orchid">{card.description}</p>

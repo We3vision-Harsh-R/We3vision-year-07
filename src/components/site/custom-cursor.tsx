@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { THEME_EVENT, loadTheme } from "@/lib/theme";
 
 // Same structure as the template's cursor: one 8px box centred on the mouse that holds
 //  - a soft violet glow (56px circle, blurred, colour-dodge),
@@ -8,9 +9,16 @@ import { useEffect, useRef } from "react";
 //  - the "You" tag (gradient border) 16px right/below the pointer.
 const CLICKABLE = 'a[href], button:not(:disabled), [role="button"], [role="tab"], summary, label[for], select';
 
+const subscribeName = (cb: () => void) => {
+  window.addEventListener(THEME_EVENT, cb);
+  return () => window.removeEventListener(THEME_EVENT, cb);
+};
+const readName = () => loadTheme()?.name || "You";
+
 /** Custom mouse cursor. Only on devices with a real mouse; elsewhere the normal cursor is untouched. */
 export function CustomCursor() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const name = useSyncExternalStore(subscribeName, readName, () => "You"); // the visitor's own name when they gave one (theme picker), else "You"
 
   useEffect(() => {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
@@ -93,7 +101,7 @@ export function CustomCursor() {
       {/* (a plain soft gradient: a blurred, blended circle that follows the mouse makes the whole page repaint on every move) */}
       <div
         className="absolute -left-24 -top-24 size-52 rounded-full opacity-70"
-        style={{ background: "radial-gradient(closest-side, rgba(211,135,255,0.34), rgba(211,135,255,0.12) 55%, transparent)" }}
+        style={{ background: "radial-gradient(closest-side, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.34), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.12) 55%, transparent)" }}
       />
 
       {/* Default cursor: arrow */}
@@ -114,12 +122,12 @@ export function CustomCursor() {
         />
         <defs>
           <linearGradient id="cursor-arrow-fill" x1="13" y1="1" x2="13" y2="25" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#180B23" />
-            <stop offset=".755" stopColor="#392149" />
+            <stop stopColor="hsl(calc(var(--th) + 348.5) calc(52.17% * var(--ts)) 9.02%)" />
+            <stop offset=".755" stopColor="hsl(calc(var(--th) + 352) calc(37.74% * var(--ts)) 20.78%)" />
           </linearGradient>
           <linearGradient id="cursor-arrow-stroke" x1="13" y1="1" x2="13" y2="25" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#8353A1" />
-            <stop offset="1" stopColor="#341D45" />
+            <stop stopColor="hsl(calc(var(--th) + 352.92) calc(31.97% * var(--ts)) 47.84%)" />
+            <stop offset="1" stopColor="hsl(calc(var(--th) + 350.5) calc(40.82% * var(--ts)) 19.22%)" />
           </linearGradient>
         </defs>
       </svg>
@@ -144,12 +152,12 @@ export function CustomCursor() {
         </g>
         <defs>
           <linearGradient id="cursor-hand-fill" x1="10.5" y1="2" x2="10.5" y2="27.164" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#180B23" />
-            <stop offset=".755" stopColor="#392149" />
+            <stop stopColor="hsl(calc(var(--th) + 348.5) calc(52.17% * var(--ts)) 9.02%)" />
+            <stop offset=".755" stopColor="hsl(calc(var(--th) + 352) calc(37.74% * var(--ts)) 20.78%)" />
           </linearGradient>
           <linearGradient id="cursor-hand-stroke" x1="7.041" y1=".18" x2="12.741" y2="21.453" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#8353A1" />
-            <stop offset="1" stopColor="#341D45" />
+            <stop stopColor="hsl(calc(var(--th) + 352.92) calc(31.97% * var(--ts)) 47.84%)" />
+            <stop offset="1" stopColor="hsl(calc(var(--th) + 350.5) calc(40.82% * var(--ts)) 19.22%)" />
           </linearGradient>
           <clipPath id="cursor-hand-clip">
             <path fill="#fff" d="M0 0h24v24H0z" />
@@ -158,9 +166,9 @@ export function CustomCursor() {
       </svg>
 
       {/* The "You" tag */}
-      <div className="absolute left-5 top-5 z-[1] overflow-hidden rounded-md bg-[linear-gradient(180deg,#8353a1,#341d44)] p-px">
-        <div className="rounded-[5px] bg-[linear-gradient(180deg,#0d0316,#341d44)] px-1.5 py-1">
-          <p className="whitespace-pre font-[family-name:var(--font-inter)] text-sm font-semibold leading-[18px] text-violet">You</p>
+      <div className="absolute left-5 top-5 z-[1] overflow-hidden rounded-md bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_352.92)_calc(31.97%_*_var(--ts))_47.84%),hsl(calc(var(--th)_+_351.38)_calc(40.21%_*_var(--ts))_19.02%))] p-px">
+        <div className="rounded-[5px] bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_347.58)_calc(76%_*_var(--ts))_4.9%),hsl(calc(var(--th)_+_351.38)_calc(40.21%_*_var(--ts))_19.02%))] px-1.5 py-1">
+          <p className="whitespace-pre font-[family-name:var(--font-inter)] text-sm font-semibold leading-[18px] text-violet">{name}</p>
         </div>
       </div>
     </div>

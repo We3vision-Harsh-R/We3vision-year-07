@@ -39,7 +39,7 @@ export function Chip({ children, lines = false }: { children: React.ReactNode; l
     );
   }
   return (
-    <span className="inline-flex items-center rounded-full border border-violet/30 bg-violet/10 px-4 py-1.5 text-sm font-medium text-violet shadow-[0_0_24px_rgba(211,135,255,0.15)]">
+    <span className="inline-flex items-center rounded-full border border-violet/30 bg-violet/10 px-4 py-1.5 text-sm font-medium text-violet shadow-[0_0_24px_hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.15)]">
       {children}
     </span>
   );

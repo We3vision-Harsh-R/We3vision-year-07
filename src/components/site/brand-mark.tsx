@@ -4,12 +4,12 @@ export function BrandGlyph({ className = "" }: { className?: string }) {
     <svg viewBox="0 0 32 32" className={className} fill="none" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <defs>
         <linearGradient id="brand-light" gradientUnits="userSpaceOnUse" x1="16" y1="4" x2="16" y2="28">
-          <stop offset="0" stopColor="#f6dcff" />
-          <stop offset="1" stopColor="#c185f2" />
+          <stop offset="0" stopColor="hsl(calc(var(--th) + 0.57) calc(100% * var(--ts)) 93.14%)" />
+          <stop offset="1" stopColor="hsl(calc(var(--th) + 349.03) calc(80.74% * var(--ts)) 73.53%)" />
         </linearGradient>
         <linearGradient id="brand-dark" gradientUnits="userSpaceOnUse" x1="16" y1="4" x2="16" y2="28">
-          <stop offset="0" stopColor="#a35ee0" />
-          <stop offset="1" stopColor="#5d2a8c" />
+          <stop offset="0" stopColor="hsl(calc(var(--th) + 347.85) calc(67.71% * var(--ts)) 62.35%)" />
+          <stop offset="1" stopColor="hsl(calc(var(--th) + 347.22) calc(53.85% * var(--ts)) 35.69%)" />
         </linearGradient>
       </defs>
       <path d="M5 7 L11 24" stroke="url(#brand-light)" />
@@ -24,9 +24,9 @@ export function BrandGlyph({ className = "" }: { className?: string }) {
 export function BrandTile({ className = "size-11" }: { className?: string }) {
   return (
     <span
-      className={`grid shrink-0 place-items-center rounded-xl bg-[linear-gradient(180deg,rgba(211,135,255,0.45),rgba(211,135,255,0.08))] p-px shadow-[0_8px_24px_rgba(0,0,0,0.35)] ${className}`}
+      className={`grid shrink-0 place-items-center rounded-xl bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.45),hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.08))] p-px shadow-[0_8px_24px_rgba(0,0,0,0.35)] ${className}`}
     >
-      <span className="grid size-full place-items-center rounded-[11px] bg-[linear-gradient(180deg,#0d0316,#341d44)]">
+      <span className="grid size-full place-items-center rounded-[11px] bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_347.58)_calc(76%_*_var(--ts))_4.9%),hsl(calc(var(--th)_+_351.38)_calc(40.21%_*_var(--ts))_19.02%))]">
         <BrandGlyph className="size-[58%]" />
       </span>
     </span>

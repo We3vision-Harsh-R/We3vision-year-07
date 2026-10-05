@@ -17,11 +17,11 @@ export const Blogs: SectionComponent<"blogs"> = ({ data }) => (
           <Reveal key={i} delay={i * 90} className="h-full">
             <SmartLink
               href={post.href || "#"}
-              className="card-glass group block h-full overflow-hidden rounded-[19px] border border-violet/[0.08] transition duration-300 hover:-translate-y-1 hover:border-violet/30 hover:shadow-[0_20px_50px_rgba(120,40,180,0.25)]"
+              className="card-glass group block h-full overflow-hidden rounded-[19px] border border-violet/[0.08] transition duration-300 hover:-translate-y-1 hover:border-violet/30 hover:shadow-[0_20px_50px_hsl(calc(var(--th)_+_350.29)_calc(63.64%_*_var(--ts))_43.14%_/_0.25)]"
             >
               <div className="relative aspect-[16/9] overflow-hidden">
                 <Img src={post.image} alt="" className="size-full object-cover transition duration-500 group-hover:scale-105" />
-                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#1b0b2a] via-transparent to-transparent" />
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[hsl(calc(var(--th)_+_346.97)_calc(58.49%_*_var(--ts))_10.39%)] via-transparent to-transparent" />
                 {post.category && (
                   <span className="absolute left-4 top-4 rounded-full border border-violet/30 bg-void/70 px-3.5 py-1 text-xs font-medium text-violet backdrop-blur">{post.category}</span>
                 )}

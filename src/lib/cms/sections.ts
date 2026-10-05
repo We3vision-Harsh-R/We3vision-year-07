@@ -363,7 +363,7 @@ export const SECTIONS = {
         key: "items",
         label: "Photos",
         itemLabel: "Photo",
-        max: 16,
+        max: 40,
         fields: [
           { kind: "url", key: "image", label: "Photo", hint: "Put the file in public/images/projects/ and write /images/projects/name.webp here. Empty = a soft colour placeholder." },
           { kind: "text", key: "title", label: "Project name", max: 60, hint: "Shown when the photo opens on hover." },

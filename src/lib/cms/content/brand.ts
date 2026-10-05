@@ -34,6 +34,17 @@ const contact = (heading: string, text: string, button: string) => section("cont
 // Main page
 // ---------------------------------------------------------------------------------------------------------------------
 
+// 30 placeholder projects for the sliding pills: the 8 own artworks of /images/showcase in a mixed order, with numbered names so
+// they are easy to find and replace in the admin panel (real photo: put the file in public/images/projects/ and set "image").
+const SHOWCASE_IMAGES = ["peach", "rainbow", "silk", "leaf", "flowers", "swing", "tree", "dunes"];
+const SHOWCASE_LABELS = ["Brand identity", "Logo design", "Visual identity", "Brand strategy", "Marketing collateral"];
+const SHOWCASE = Array.from({ length: 30 }, (_, i) => ({
+  image: `/images/showcase/${SHOWCASE_IMAGES[(i * 3) % SHOWCASE_IMAGES.length]}.svg`,
+  title: `Project ${String(i + 1).padStart(2, "0")}`,
+  category: SHOWCASE_LABELS[i % SHOWCASE_LABELS.length],
+  text: "A short description of the project: the client's goal and what we designed for them.",
+}));
+
 export const BRAND_SEO = {
   title: "Brand Identity Design Services in Surat, India | We3vision",
   description:
@@ -61,18 +72,7 @@ export const BRAND_SECTIONS: PageSection[] = [
   // public/images/projects/ and set "image" to /images/projects/<file>.webp (here or in the admin panel).
   // Pointing at a photo opens it into a rounded square (3 pills wide) with the name, a small label and a short description.
   // The texts below are PLACEHOLDERS: write the real client project info together with the real photos.
-  section("archGallery", {
-    items: [
-      { image: "/images/showcase/peach.svg", title: "Your project here", category: "Brand identity", text: "A short description of the project: the client's goal and what we designed for them." },
-      { image: "/images/showcase/rainbow.svg", title: "Your project here", category: "Logo design", text: "A short description of the project: the client's goal and what we designed for them." },
-      { image: "/images/showcase/silk.svg", title: "Your project here", category: "Visual identity", text: "A short description of the project: the client's goal and what we designed for them." },
-      { image: "/images/showcase/leaf.svg", title: "Your project here", category: "Brand strategy", text: "A short description of the project: the client's goal and what we designed for them." },
-      { image: "/images/showcase/flowers.svg", title: "Your project here", category: "Marketing collateral", text: "A short description of the project: the client's goal and what we designed for them." },
-      { image: "/images/showcase/swing.svg", title: "Your project here", category: "Brand identity", text: "A short description of the project: the client's goal and what we designed for them." },
-      { image: "/images/showcase/tree.svg", title: "Your project here", category: "Logo design", text: "A short description of the project: the client's goal and what we designed for them." },
-      { image: "/images/showcase/dunes.svg", title: "Your project here", category: "Visual identity", text: "A short description of the project: the client's goal and what we designed for them." },
-    ],
-  }),
+  section("archGallery", { items: SHOWCASE }),
   // Not one long text column: a live brand board (5 tiles that light up one by one with the list), a large sentence that
   // fills with light while scrolling, and the services as a hoverable list. The words are the old site's, unchanged.
   section("brandBoard", {

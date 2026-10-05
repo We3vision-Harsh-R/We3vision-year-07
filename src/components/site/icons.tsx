@@ -46,7 +46,7 @@ export function IconTile({ index = 0, large = false }: { index?: number; large?:
   const Icon = ICONS[index % ICONS.length];
   return (
     <span
-      className={`grid shrink-0 place-items-center rounded-xl border border-violet/20 bg-[linear-gradient(180deg,#2a1140,#1b0b2a)] shadow-[inset_0_1px_0_rgba(211,135,255,0.2),0_8px_24px_rgba(0,0,0,0.3)] ${
+      className={`grid shrink-0 place-items-center rounded-xl border border-violet/20 bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_347.91)_calc(58.02%_*_var(--ts))_15.88%),hsl(calc(var(--th)_+_346.97)_calc(58.49%_*_var(--ts))_10.39%))] shadow-[inset_0_1px_0_hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.2),0_8px_24px_rgba(0,0,0,0.3)] ${
         large ? "size-14" : "size-11"
       }`}
     >

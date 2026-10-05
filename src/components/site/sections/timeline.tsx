@@ -19,7 +19,7 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => (
               </Reveal>
               <span
                 aria-hidden
-                className="absolute left-[11px] top-3 size-3.5 rounded-full bg-violet shadow-[0_0_0_5px_rgba(211,135,255,0.18),0_0_22px_rgba(211,135,255,0.7)] sm:static sm:col-start-2 sm:row-start-1 sm:mx-auto sm:mt-3"
+                className="absolute left-[11px] top-3 size-3.5 rounded-full bg-violet shadow-[0_0_0_5px_hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.18),0_0_22px_hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.7)] sm:static sm:col-start-2 sm:row-start-1 sm:mx-auto sm:mt-3"
               />
             </li>
           );

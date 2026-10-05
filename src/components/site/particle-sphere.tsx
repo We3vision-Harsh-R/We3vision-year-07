@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { TAU, clamp, easeInOut, easeOut, makeSprite, rgba, rng, smoothstep, type RGB } from "./anim-utils";
+import { TAU, clamp, easeInOut, easeOut, makeSprite, rgba, rng, shiftRgb, smoothstep, type RGB } from "./anim-utils";
+import { THEME_EVENT, liveTheme } from "@/lib/theme";
 
 // Hero scene canvas: a slowly turning ball of glowing violet dots with a character (default "7") made of particles in
 // its centre. Particles fly in when the page loads, ripple when you click the ball and follow the mouse a little.
@@ -130,7 +131,27 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
     if (!host) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const sprites = { core: makeSprite(CORE, 0.55, 32), mid: makeSprite(MID, 0.55, 32), deep: makeSprite(DEEP, 0.55, 32) };
+    // the glow sprites and the halo are painted in the visitor's theme colour (and again whenever the theme changes)
+    let sprites = { core: makeSprite(CORE, 0.55, 32), mid: makeSprite(MID, 0.55, 32), deep: makeSprite(DEEP, 0.55, 32) };
+    let halo: RGB = HALO;
+    const paintTheme = () => {
+      const t = liveTheme();
+      sprites = { core: makeSprite(shiftRgb(CORE, t.h, t.s), 0.55, 32), mid: makeSprite(shiftRgb(MID, t.h, t.s), 0.55, 32), deep: makeSprite(shiftRgb(DEEP, t.h, t.s), 0.55, 32) };
+      halo = shiftRgb(HALO, t.h, t.s);
+    };
+    paintTheme();
+    let themeRaf = 0;
+    const onTheme = () => {
+      // follow the colour while the page animates to it (about one second)
+      cancelAnimationFrame(themeRaf);
+      const t0 = performance.now();
+      const tick = () => {
+        paintTheme();
+        if (performance.now() - t0 < 1100 && alive) themeRaf = requestAnimationFrame(tick);
+      };
+      themeRaf = requestAnimationFrame(tick);
+    };
+    window.addEventListener(THEME_EVENT, onTheme);
 
     // --- layout (set on resize) ---
     let W = 0, H = 0, R = 1, cx = 0, cy = 0, dpr = 1;
@@ -445,9 +466,9 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
       if (haloFade > 0.01) {
         const hr = R * 1.5;
         const g = ctx.createRadialGradient(px, py, 0, px, py, hr);
-        g.addColorStop(0, rgba(HALO, 0.3 * haloFade));
-        g.addColorStop(0.55, rgba(HALO, 0.08 * haloFade));
-        g.addColorStop(1, rgba(HALO, 0));
+        g.addColorStop(0, rgba(halo, 0.3 * haloFade));
+        g.addColorStop(0.55, rgba(halo, 0.08 * haloFade));
+        g.addColorStop(1, rgba(halo, 0));
         ctx.fillStyle = g;
         ctx.fillRect(px - hr, py - hr, hr * 2, hr * 2);
       }
@@ -530,8 +551,8 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
         if (markProgress > 0.02 && haloFade > 0.01) {
           const g = ctx.createRadialGradient(px, py, 0, px, py, markR * 1.8);
           const ga = 0.35 * markProgress * haloFade;
-          g.addColorStop(0, rgba(HALO, ga));
-          g.addColorStop(1, rgba(HALO, 0));
+          g.addColorStop(0, rgba(halo, ga));
+          g.addColorStop(1, rgba(halo, 0));
           ctx.fillStyle = g;
           ctx.globalAlpha = 1;
           ctx.fillRect(px - markR * 1.8, py - markR * 1.8, markR * 3.6, markR * 3.6);
@@ -711,6 +732,8 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
       observer.disconnect();
       window.removeEventListener("hero-progress", onProgress);
       window.removeEventListener("hero-raw", onRaw);
+      window.removeEventListener(THEME_EVENT, onTheme);
+      cancelAnimationFrame(themeRaf);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onDown);
     };

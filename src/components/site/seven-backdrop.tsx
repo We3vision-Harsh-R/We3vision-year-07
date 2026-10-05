@@ -18,14 +18,14 @@ const PW = `M${NODE.x} ${NODE.y}L870 810L1070 450L1270 810L1470 ${NODE.y}`; // t
 function Tube({ id, t }: { id: string; t: number }) {
   return (
     <>
-      <use href={`#${id}`} stroke="#8a3cf0" strokeWidth={t + 110} opacity=".3" filter="url(#mono-blur-xl)" />
-      <use href={`#${id}`} stroke="rgba(211,135,255,0.62)" strokeWidth={t + 14} />
-      <use href={`#${id}`} stroke="#0f0419" strokeWidth={t} />
+      <use href={`#${id}`} stroke="hsl(calc(var(--th) + 342) calc(85.71% * var(--ts)) 58.82%)" strokeWidth={t + 110} opacity=".3" filter="url(#mono-blur-xl)" />
+      <use href={`#${id}`} stroke="hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.62)" strokeWidth={t + 14} />
+      <use href={`#${id}`} stroke="hsl(calc(var(--th) + 347.43) calc(72.41% * var(--ts)) 5.69%)" strokeWidth={t} />
       <use href={`#${id}`} stroke="rgba(255,255,255,0.17)" strokeWidth={t - 26} />
-      <use href={`#${id}`} stroke="#12051f" strokeWidth={t - 30} />
+      <use href={`#${id}`} stroke="hsl(calc(var(--th) + 346) calc(72.22% * var(--ts)) 7.06%)" strokeWidth={t - 30} />
       <g mask={`url(#mask-${id})`}>
         <use href={`#${id}`} stroke="url(#mono-glow)" strokeWidth={t - 44} filter="url(#mono-blur-md)" opacity=".9" />
-        <use href={`#${id}`} stroke="#e3b6ff" strokeWidth="28" filter="url(#mono-blur-md)" opacity=".32" />
+        <use href={`#${id}`} stroke="hsl(calc(var(--th) + 352.99) calc(100% * var(--ts)) 85.69%)" strokeWidth="28" filter="url(#mono-blur-md)" opacity=".32" />
       </g>
       <use href={`#${id}`} stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
     </>
@@ -72,15 +72,15 @@ export function SevenBackdrop() {
               <feGaussianBlur stdDeviation="28" />
             </filter>
             <linearGradient id="mono-glow" gradientUnits="userSpaceOnUse" x1="0" y1="250" x2="1600" y2="850">
-              <stop offset="0" stopColor="#4f1fa8" />
-              <stop offset="0.35" stopColor="#8a44e6" />
-              <stop offset="0.7" stopColor="#6a2fd0" />
-              <stop offset="1" stopColor="#2a0e58" />
+              <stop offset="0" stopColor="hsl(calc(var(--th) + 337.02) calc(68.84% * var(--ts)) 39.02%)" />
+              <stop offset="0.35" stopColor="hsl(calc(var(--th) + 341.93) calc(76.42% * var(--ts)) 58.43%)" />
+              <stop offset="0.7" stopColor="hsl(calc(var(--th) + 337.99) calc(63.14% * var(--ts)) 50%)" />
+              <stop offset="1" stopColor="hsl(calc(var(--th) + 338.7) calc(72.55% * var(--ts)) 20%)" />
             </linearGradient>
             <radialGradient id="node-core" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0" stopColor="#f6e6ff" />
-              <stop offset="0.35" stopColor="#c58bff" />
-              <stop offset="1" stopColor="#5a24b8" />
+              <stop offset="0" stopColor="hsl(calc(var(--th) + 354.4) calc(100% * var(--ts)) 95.1%)" />
+              <stop offset="0.35" stopColor="hsl(calc(var(--th) + 346) calc(100% * var(--ts)) 77.25%)" />
+              <stop offset="1" stopColor="hsl(calc(var(--th) + 337.89) calc(67.27% * var(--ts)) 43.14%)" />
             </radialGradient>
             <mask id="mask-p7" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="1000">
               <use href="#p7" stroke="#fff" strokeWidth={T7 - 34} />
@@ -95,11 +95,11 @@ export function SevenBackdrop() {
 
           {/* junction node where the 7 turns into the W */}
           <g transform={`translate(${NODE.x} ${NODE.y})`}>
-            <circle r="230" fill="#8a3cf0" opacity=".28" filter="url(#mono-blur-xl)" />
-            <circle r="182" fill="#0f0419" stroke="rgba(211,135,255,0.65)" strokeWidth="4" />
+            <circle r="230" fill="hsl(calc(var(--th) + 342) calc(85.71% * var(--ts)) 58.82%)" opacity=".28" filter="url(#mono-blur-xl)" />
+            <circle r="182" fill="hsl(calc(var(--th) + 347.43) calc(72.41% * var(--ts)) 5.69%)" stroke="hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.65)" strokeWidth="4" />
             <circle r="168" stroke="rgba(255,255,255,0.18)" strokeWidth="2" />
-            <circle r="140" stroke="rgba(211,135,255,0.55)" strokeWidth="10" strokeDasharray="2 17" />
-            <circle r="108" fill="#12051f" stroke="rgba(211,135,255,0.7)" strokeWidth="3" />
+            <circle r="140" stroke="hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.55)" strokeWidth="10" strokeDasharray="2 17" />
+            <circle r="108" fill="hsl(calc(var(--th) + 346) calc(72.22% * var(--ts)) 7.06%)" stroke="hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.7)" strokeWidth="3" />
             <circle r="78" fill="url(#mono-glow)" opacity=".9" />
             <circle r="52" fill="url(#node-core)" />
             <circle r="52" stroke="rgba(255,255,255,0.7)" strokeWidth="2" />
@@ -109,8 +109,8 @@ export function SevenBackdrop() {
 
         {/* thin lights flowing along the strokes and through the node (light layer: no blur, cheap to animate) */}
         <svg {...svgProps}>
-          <use href="#p7" stroke="#f1d8ff" strokeWidth="3" strokeDasharray="3 60 140 60" className="flow-line" opacity=".9" />
-          <use href="#pw" stroke="#f1d8ff" strokeWidth="3" strokeDasharray="3 60 140 60" className="flow-line flow-line-slow" opacity=".9" />
+          <use href="#p7" stroke="hsl(calc(var(--th) + 354.46) calc(100% * var(--ts)) 92.35%)" strokeWidth="3" strokeDasharray="3 60 140 60" className="flow-line" opacity=".9" />
+          <use href="#pw" stroke="hsl(calc(var(--th) + 354.46) calc(100% * var(--ts)) 92.35%)" strokeWidth="3" strokeDasharray="3 60 140 60" className="flow-line flow-line-slow" opacity=".9" />
           <path d={`M0 ${NODE.y}H1600M${NODE.x} 0V1000`} stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
           {[-300, 300].map((d) => (
             <rect key={d} x={NODE.x + d - 4} y={NODE.y - 4} width="8" height="8" fill="rgba(255,255,255,0.4)" />
@@ -122,7 +122,7 @@ export function SevenBackdrop() {
       </div>
 
       {/* breathing glow */}
-      <div className="animate-glow absolute left-1/2 top-1/2 size-[70vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(150,70,230,0.26),transparent)]" />
+      <div className="animate-glow absolute left-1/2 top-1/2 size-[70vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,hsl(calc(var(--th)_+_346)_calc(76.19%_*_var(--ts))_58.82%_/_0.26),transparent)]" />
 
       {/* blueprint frame, centre line and corner squares */}
       <div className="absolute inset-x-[7%] inset-y-[9%] border border-white/[0.1]" />
@@ -140,7 +140,7 @@ export function SevenBackdrop() {
       {/* fine dots + film grain + dark edges */}
       <div className="bg-dots absolute inset-0 opacity-60" />
       <div className="bg-grain absolute inset-0 opacity-[0.1] mix-blend-overlay" />
-      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_50%,transparent_55%,rgba(8,2,14,0.85))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_50%,transparent_55%,hsl(calc(var(--th)_+_346)_calc(75%_*_var(--ts))_3.14%_/_0.85))]" />
     </div>
   );
 }

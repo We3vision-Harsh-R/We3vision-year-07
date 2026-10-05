@@ -36,3 +36,24 @@ export function makeSprite(color: RGB, softness: number, px = 64) {
   g.fillRect(0, 0, px, px);
   return c;
 }
+
+/**
+ * The same colour in the visitor's theme (see lib/theme.ts): hue turned by (theme hue - 284), saturation x the theme's factor,
+ * lightness untouched. Canvas drawing cannot use the CSS variables, so it asks for its colours through this.
+ */
+export function shiftRgb(c: RGB, th: number, ts: number): RGB {
+  const r = c[0] / 255, g = c[1] / 255, b = c[2] / 255;
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
+  const l = (mx + mn) / 2;
+  if (!d) return c;
+  let s = d / (1 - Math.abs(2 * l - 1));
+  let h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  h = (((h * 60 + (th - 284)) % 360) + 360) % 360;
+  s = Math.min(1, s * ts);
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    return Math.round((l - a * Math.max(-1, Math.min(k - 3, Math.min(9 - k, 1)))) * 255);
+  };
+  return [f(0), f(8), f(4)];
+}

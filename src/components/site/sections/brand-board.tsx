@@ -8,7 +8,7 @@ import type { SectionComponent } from "./shared";
 
 const PHONE = 700; // up to this width the layout is the phone one
 const STICK = 78; // phones: how far from the top of the screen the board stays pinned
-const SWATCHES =["#d387ff", "#f3d7ff", "#b98cff", "#f9c5c5"];
+const SWATCHES =["hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%)", "hsl(calc(var(--th) + 358) calc(100% * var(--ts)) 92.16%)", "hsl(calc(var(--th) + 339.48) calc(100% * var(--ts)) 77.45%)", "hsl(calc(var(--th) + 76) calc(81.25% * var(--ts)) 87.45%)"];
 
 // The board (436 x 572 px) is five boxes with a 20 px street between them. The main street runs down the middle (x = 218),
 // side streets run through the gaps between the boxes of one column. The little guide (seen from above) sits in the first box
