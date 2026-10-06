@@ -3,6 +3,7 @@ import { CustomCursor } from "@/components/site/custom-cursor";
 import { FloatingNav } from "@/components/site/floating-nav";
 import { Footer } from "@/components/site/footer";
 import { LogoMark } from "@/components/site/logo-mark";
+import { SiteScrollbar } from "@/components/site/site-scrollbar";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { ThemeProvider } from "@/components/site/theme-picker";
 import { getSiteSettings } from "@/lib/cms/queries";
@@ -12,6 +13,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <div className="relative overflow-x-clip">
       <SmoothScroll />
+      <SiteScrollbar />
       <CustomCursor />
       <ThemeProvider />
       <Background />

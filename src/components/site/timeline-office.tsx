@@ -53,7 +53,7 @@ function Pp({ x, y, rot = 0, role, k, tone }: { x: number; y: number; rot?: numb
       data-role={role}
       style={{ left: x, top: y, "--rot": `${rot}deg`, "--tone": tone + ((k * 17) % 40) - 20, "--d": `${((k * 0.37) % 1.6).toFixed(2)}s` } as React.CSSProperties}
     >
-      <PersonTop seated={role !== "pres"} lite />
+      <PersonTop seated={role !== "pres"} />
     </span>
   );
 }
@@ -329,7 +329,7 @@ export function OfficeStage({ teams, finalYear, goalTitle, goalText, names }: { 
       {WALKER_TONES.map((tone, i) => (
         <div key={i} data-walker="" className="of-walker" style={{ "--tone": tone } as React.CSSProperties}>
           <div className="of-walker-in">
-            <PersonTop lite />
+            <PersonTop />
           </div>
         </div>
       ))}

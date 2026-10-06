@@ -257,7 +257,7 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
               >
                 <Reveal className={`col-start-2 sm:row-start-1 ${right ? "sm:col-start-3" : "sm:col-start-1 sm:text-right"}`}>
                   <p className="text-vfade pb-1 text-[2.4rem] font-semibold leading-none tracking-[-0.04em] sm:text-5xl">{item.year}</p>
-                  <div className="card-glass mt-3 rounded-[19px] border border-violet/[0.12] p-5 text-sm leading-relaxed text-orchid backdrop-blur-md">{item.text}</div>
+                  <div className="card-glass mt-3 rounded-[19px] border border-violet/[0.12] p-5 text-base leading-relaxed text-orchid backdrop-blur-md">{item.text}</div>
                 </Reveal>
                 <span
                   aria-hidden

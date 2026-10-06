@@ -1,14 +1,13 @@
 // Artwork of the timeline (sections/timeline.tsx), everything seen from ABOVE: the people (the cartoon guide of the site), the park
 // benches and the trees of the garden. All colours come from CSS classes (.tl-*, see globals.css) that follow the visitor's theme.
-import { Avatar } from "./avatar";
+import { GuideTop } from "./avatar";
 
-/** The guide of the site seen from above, facing down (the vector drawing in public/avatar). The shirt follows the colour theme. The
- *  walk, the wave and the work at the table are small movements of the whole figure (.tl-headg). `lite` has fewer shapes (for the many
- *  little people of the office). */
-export function PersonTop({ seated = false, lite = false }: { hair?: number; seated?: boolean; lite?: boolean } = {}) {
+/** The guide of the site seen from above, facing down (the rigged figure of avatar.tsx): feet and hands step while it walks, the head
+ *  turns, the hands type at a table (see .ch-top in globals.css). */
+export function PersonTop({ seated = false }: { seated?: boolean } = {}) {
   return (
     <span className={seated ? "tl-pt tl-seat" : "tl-pt"} aria-hidden>
-      <Avatar view={lite ? "toplite" : "top"} className="cg cg-top tl-headg" />
+      <GuideTop />
     </span>
   );
 }

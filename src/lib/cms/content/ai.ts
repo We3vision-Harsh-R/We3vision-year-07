@@ -62,6 +62,15 @@ export const AI_SECTIONS: PageSection[] = [
   section("story", {
     body: "*AI development* means building software that can *learn from your data* and make decisions or predictions without being told every single step. A normal program always follows the same fixed rules. An AI system finds patterns, understands text and images, and gets better as it sees more examples.\n\nAt We3vision we build *custom AI solutions*: *chatbots, recommendation systems, AI search, computer vision, predictive models* and custom machine learning tools. We use *machine learning, natural language processing and deep learning* to build intelligent systems that grow with your business, and every project is built from scratch around your goals and the tools you already use.",
   }),
+  section("guide", {
+    chip: "Meet the AI guide",
+    heading: "Ask the\nrobot buddy",
+    text: "Our guide works with a friendly robot buddy. Ask it a question with the buttons and see how an AI assistant answers, then move your mouse and watch it follow you.",
+    scene: "ai",
+    tips: "Hi! Ask my robot buddy something with the buttons below.\nAI can answer customers, sort leads and predict demand.\nSimple bots can be ready in 2–3 weeks.\nMove your mouse: the robot watches you too.",
+    buttonLabel: "",
+    buttonHref: "",
+  }),
   // Not a plain list: every problem has a switch that flips by itself ("by hand" -> "with AI") when it scrolls into view
   section("automate", {
     chip: "What AI can automate",

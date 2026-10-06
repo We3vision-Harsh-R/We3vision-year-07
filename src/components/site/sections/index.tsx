@@ -10,6 +10,7 @@ import { Blogs } from "./blogs";
 import { Contact } from "./contact";
 import { Faq } from "./faq";
 import { Flow } from "./flow";
+import { Guide } from "./guide";
 import { Hero } from "./hero";
 import { Highlights } from "./highlights";
 import { Industries } from "./industries";
@@ -50,10 +51,11 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   process: Process,
   tags: Tags,
   timeline: Timeline,
+  guide: Guide,
   team: Team,
 };
 
-type AnyRenderer = ComponentType<{ data: Record<string, unknown>; site: SiteSettings }>;
+type AnyRenderer = ComponentType<{ data: Record<string, unknown>; site: SiteSettings; sectionId?: string }>;
 
 /** Renders the sections of a page (used by the live pages AND the admin draft preview). */
 export function PageSections({ sections, site }: { sections: PageSection[]; site: SiteSettings }) {
@@ -61,7 +63,7 @@ export function PageSections({ sections, site }: { sections: PageSection[]; site
     <>
       {sections.map((section) => {
         const Component = RENDERERS[section.type] as unknown as AnyRenderer;
-        return <Component key={section.id} data={section.data} site={site} />;
+        return <Component key={section.id} data={section.data} site={site} sectionId={section.id} />;
       })}
     </>
   );

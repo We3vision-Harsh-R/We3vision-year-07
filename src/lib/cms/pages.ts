@@ -13,6 +13,26 @@ import {
   VISUAL_IDENTITY_SEO,
 } from "./content/brand";
 import { HOME_SECTIONS, HOME_SEO } from "./content/home";
+import {
+  ANIMATION_SECTIONS,
+  ANIMATION_SEO,
+  CRM_SECTIONS,
+  CRM_SEO,
+  GRAPHICS_SECTIONS,
+  GRAPHICS_SEO,
+  METAVERSE_SECTIONS,
+  METAVERSE_SEO,
+  MOBILE_SECTIONS,
+  MOBILE_SEO,
+  MODELING_SECTIONS,
+  MODELING_SEO,
+  SEO_SECTIONS,
+  SEO_SEO,
+  UIUX_SECTIONS,
+  UIUX_SEO,
+  WEBDEV_SECTIONS,
+  WEBDEV_SEO,
+} from "./content/services";
 import { emptyValue, normalize } from "./fields";
 import { SECTIONS, isSectionType, type SectionType } from "./sections";
 
@@ -41,6 +61,61 @@ export const PAGES = {
     path: "/ai",
     defaultSeo: AI_SEO,
     defaultContent: { sections: AI_SECTIONS } satisfies PageContent,
+  },
+  // The other main services (content from the old site, see content/services.ts)
+  "webdev": {
+    title: "Web Development",
+    path: "/webdev",
+    defaultSeo: WEBDEV_SEO,
+    defaultContent: { sections: WEBDEV_SECTIONS } satisfies PageContent,
+  },
+  "mobile": {
+    title: "Mobile App Development",
+    path: "/mobile",
+    defaultSeo: MOBILE_SEO,
+    defaultContent: { sections: MOBILE_SECTIONS } satisfies PageContent,
+  },
+  "metaverse": {
+    title: "Metaverse Solutions",
+    path: "/metaverse",
+    defaultSeo: METAVERSE_SEO,
+    defaultContent: { sections: METAVERSE_SECTIONS } satisfies PageContent,
+  },
+  "ui-ux-design": {
+    title: "UI/UX Design",
+    path: "/ui-ux-design",
+    defaultSeo: UIUX_SEO,
+    defaultContent: { sections: UIUX_SECTIONS } satisfies PageContent,
+  },
+  "crm": {
+    title: "CRM Development",
+    path: "/crm",
+    defaultSeo: CRM_SEO,
+    defaultContent: { sections: CRM_SECTIONS } satisfies PageContent,
+  },
+  "animation": {
+    title: "2D/3D Animation",
+    path: "/animation",
+    defaultSeo: ANIMATION_SEO,
+    defaultContent: { sections: ANIMATION_SECTIONS } satisfies PageContent,
+  },
+  "3d-modeling": {
+    title: "3D Modeling",
+    path: "/3d-modeling",
+    defaultSeo: MODELING_SEO,
+    defaultContent: { sections: MODELING_SECTIONS } satisfies PageContent,
+  },
+  "graphics": {
+    title: "Graphics & UI/UX Design",
+    path: "/graphics",
+    defaultSeo: GRAPHICS_SEO,
+    defaultContent: { sections: GRAPHICS_SECTIONS } satisfies PageContent,
+  },
+  "seo": {
+    title: "SEO Optimization",
+    path: "/seo",
+    defaultSeo: SEO_SEO,
+    defaultContent: { sections: SEO_SECTIONS } satisfies PageContent,
   },
   // Brand Design: the main page and one page per sub-service (all under /brand-identity)
   "brand-identity": {

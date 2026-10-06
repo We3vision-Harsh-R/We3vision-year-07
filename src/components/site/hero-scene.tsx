@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { AiChat } from "./ai-chat";
-import { Avatar } from "./avatar";
+import { GuideFront, GuideSide } from "./avatar";
 import { clamp } from "./anim-utils";
 import { ICONS } from "./icons";
 import { ParticleSphere } from "./particle-sphere";
@@ -340,8 +340,8 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
             <div ref={avRef} className="hub-av" data-show="false" data-state="idle" data-face="right" aria-hidden>
               <div className="hub-av-body">
                 {/* standing: the front view; walking: the walking pose (it faces right, flipped for left) */}
-                <Avatar view="front" className="cg hub-sp hub-sp-idle" />
-                <Avatar view="walk" className="cg hub-sp hub-sp-walk" />
+                <GuideFront className="hub-sp hub-sp-idle" />
+                <GuideSide className="hub-sp hub-sp-walk" />
               </div>
             </div>
             {cards.map((card, i) => {
@@ -367,7 +367,7 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
                     )}
                   </header>
                   {subs.length > 0 && (
-                    <ul className="hub-subs">
+                    <ul className="hub-subs" style={{ "--cols": Math.min(subs.length, 4) } as CSSProperties}>
                       {subs.map((s, j) => (
                         <li key={j} style={{ "--k": j } as CSSProperties}>
                           <span className="hub-sn">{String(j + 1).padStart(2, "0")}</span>

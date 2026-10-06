@@ -33,6 +33,15 @@ export const ABOUT_SECTIONS: PageSection[] = [
   section("story", {
     body: "We3vision Private Limited is a *leading IT service company*, founded in *2019* and based in *Surat, India*. We blend technology, design and strategy to deliver high-performance solutions across *Web Development, App Development, AR, VR, XR, CGI & 3D Animation, CRM, ERP* and *Digital Branding*.\n\nOur mission: with a skilled team, strong values and a vision for innovation, we have delivered custom digital solutions for companies across India and the globe. Whether it's building a dynamic website or creating immersive virtual experiences, we're here to *turn your ideas into impactful realities*.\n\nDirector & COO: *Parth Patel*. Headquarters and development office: *Surat, Gujarat*. Company size: *11–50 employees*.",
   }),
+  section("guide", {
+    chip: "Meet the guide",
+    heading: "Say hello to\nour guide",
+    text: "This is the little guide of We3vision. Click it, move your mouse around and give it a high five. You will meet it again on the way through the page.",
+    scene: "hello",
+    tips: "Hi! I am the guide of We3vision.\nWe are a Surat-based studio, working since 2019.\nWeb, AI, AR/VR, metaverse, apps, CRM and 3D: we do it all.\nScroll down to see our journey. I will be there too!",
+    buttonLabel: "",
+    buttonHref: "",
+  }),
   section("highlights", {
     chip: "At a glance",
     items: [

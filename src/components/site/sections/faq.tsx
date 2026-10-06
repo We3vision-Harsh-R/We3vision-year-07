@@ -40,7 +40,7 @@ export const Faq: SectionComponent<"faq"> = ({ data }) => {
                 </h3>
                 <div id={`faq-${i}`} role="region" className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
                   <div className="overflow-hidden">
-                    <p className={`pb-7 pr-10 text-[0.95rem] leading-relaxed text-orchid transition-opacity duration-500 ${isOpen ? "opacity-100" : "opacity-0"}`}>{q.answer}</p>
+                    <p className={`pb-7 pr-10 text-base leading-[1.7] text-orchid transition-opacity duration-500 ${isOpen ? "opacity-100" : "opacity-0"}`}>{q.answer}</p>
                   </div>
                 </div>
               </div>

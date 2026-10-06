@@ -23,7 +23,7 @@ export const WordHero: SectionComponent<"wordHero"> = ({ data, site }) => (
       <LiveClock timezone={data.timezone} label={data.clockLabel} />
     </div>
     {site.social.length > 0 && (
-      <nav aria-label="Social links" className="absolute bottom-32 right-8 hidden items-center gap-2 text-xs tracking-[0.18em] text-orchid lg:flex">
+      <nav aria-label="Social links" className="absolute bottom-32 right-8 hidden items-center gap-2 text-sm tracking-[0.12em] text-orchid lg:flex">
         {site.social.map((s, i) => (
           <Fragment key={s.href}>
             {i > 0 && <span aria-hidden>/</span>}

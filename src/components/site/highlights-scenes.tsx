@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
-import { AVATAR_SIZE } from "./avatar";
+import { GuideFrontG } from "./avatar";
 
 /* "At a glance": every number lives in a little cartoon scene of its own (founded = an office going up with a flag, years = a
    birthday party, team = a crowd of colleagues, offices = two buildings and a paper plane between them). The scenes are drawn
@@ -18,36 +18,27 @@ type KidProps = {
   pop?: boolean;
 };
 
-// the drawings of the guide (public/avatar): which view, and where the top of the head is (for the party hat)
-const POSE = {
-  idle: { view: "front", hx: 0.5, hy: 0.035 },
-  wave: { view: "present", hx: 0.4, hy: 0.06 },
-  up: { view: "point", hx: 0.44, hy: 0.02 },
-} as const;
+// where the top of the head is in the drawing (100 x 150), for the party hat
+const HEAD = { x: 0.5, y: 0.04 };
 
-/** The little guide of the site (the cartoon, front view); its shirt follows the colour of the theme. */
+/** The little guide of the site (the rigged figure, front view): waves, cheers or stands; its shirt follows the colour of the theme. */
 function Kid({ x, y, s = 1, tone = 354, mode = "idle", hat = false, delay = 0, pop = false }: KidProps) {
-  const p = POSE[mode];
-  const [vw, vh] = AVATAR_SIZE[p.view];
-  const h = 54 * s;
-  const w = (h * vw) / vh;
+  const h = 58 * s;
+  const w = (h * 100) / 150;
   const x0 = x - w / 2;
   const y0 = y - h;
-  const hatX = x0 + w * p.hx;
-  const hatY = y0 + h * p.hy;
   return (
     <g>
-      <ellipse cx={x} cy={y - 1} rx={w * 0.42} ry={3.2 * s} fill="rgba(0,0,0,0.4)" />
       <g className={pop ? "gl-pop" : undefined} style={{ "--d": `${delay}s` } as CSSProperties}>
         <g className="gl-kid" data-m={mode} style={{ "--d": `${delay}s` } as CSSProperties}>
           <g className="gl-hop">
-            <svg x={x0} y={y0} width={w} height={h} viewBox={`0 0 ${vw} ${vh}`} preserveAspectRatio="xMidYMax meet" style={{ "--tone": tone } as CSSProperties}>
-              <use href={`/avatar/${p.view}.svg#a`} />
+            <svg x={x0} y={y0} width={w} height={h} viewBox="0 0 100 150" style={{ "--tone": tone, overflow: "visible" } as CSSProperties}>
+              <GuideFrontG />
             </svg>
             {hat && (
-              <g transform={`translate(${hatX.toFixed(1)} ${hatY.toFixed(1)}) scale(${s})`}>
-                <path d="M-6 2 0 -13 6 2z" fill="var(--gl-a)" stroke="var(--gl-e)" strokeWidth="0.6" />
-                <circle cx="0" cy="-13.4" r="2" fill="var(--gl-w)" />
+              <g transform={`translate(${(x0 + w * HEAD.x).toFixed(1)} ${(y0 + h * HEAD.y).toFixed(1)}) scale(${s})`}>
+                <path d="M-6 3 0 -12 6 3z" fill="var(--gl-a)" stroke="var(--gl-e)" strokeWidth="0.6" />
+                <circle cx="0" cy="-12.4" r="2" fill="var(--gl-w)" />
               </g>
             )}
           </g>

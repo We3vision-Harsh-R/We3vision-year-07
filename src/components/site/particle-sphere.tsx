@@ -199,7 +199,7 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
     let bodyM = makeBody(0);
 
     const buildMark = (count: number) => {
-      const family = getComputedStyle(document.documentElement).getPropertyValue("--font-dm-sans").trim();
+      const family = getComputedStyle(document.documentElement).getPropertyValue("--font-poppins").trim();
       const pts = sampleText(mark, family);
       if (!pts) {
         M = 0;
@@ -240,7 +240,7 @@ export function ParticleSphere({ mark = "7", above = "", below = "", scale = 1 }
 
     // Lays the two lines out for the current screen size. Each line gets as many particles as its letters need.
     const buildTexts = () => {
-      const family = getComputedStyle(document.documentElement).getPropertyValue("--font-dm-sans").trim();
+      const family = getComputedStyle(document.documentElement).getPropertyValue("--font-poppins").trim();
       const F = W < 768 ? clamp(W * 0.092, 30, 40) : clamp(W * 0.04, 30, 56); // font size on screen, px
       const place = [
         { text: above, y: Math.max(98, cy - R * 1.22) },

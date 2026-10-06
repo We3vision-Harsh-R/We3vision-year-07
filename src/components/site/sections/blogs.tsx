@@ -23,7 +23,7 @@ export const Blogs: SectionComponent<"blogs"> = ({ data }) => (
                 <Img src={post.image} alt="" className="size-full object-cover transition duration-500 group-hover:scale-105" />
                 <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[hsl(calc(var(--th)_+_346.97)_calc(58.49%_*_var(--ts))_10.39%)] via-transparent to-transparent" />
                 {post.category && (
-                  <span className="absolute left-4 top-4 rounded-full border border-violet/30 bg-void/70 px-3.5 py-1 text-xs font-medium text-violet backdrop-blur">{post.category}</span>
+                  <span className="absolute left-4 top-4 rounded-full border border-violet/30 bg-void/70 px-3.5 py-1 text-sm font-medium text-violet backdrop-blur">{post.category}</span>
                 )}
               </div>
               <h3 className="p-6 text-xl font-semibold leading-snug tracking-[-0.01em] text-violet">{post.title}</h3>

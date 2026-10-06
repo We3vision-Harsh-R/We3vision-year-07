@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Avatar } from "../avatar";
+import { GuideTop } from "../avatar";
 import { BrandTile } from "../brand-mark";
 import { SmartLink } from "../smart-link";
 import { Chip } from "../ui";
@@ -337,7 +337,7 @@ export const BrandBoard: SectionComponent<"brandBoard"> = ({ data }) => {
                 <div className="av-body">
                   <span className="av-shadow" />
                   <div className="av-hop">
-                    <Avatar view="toplite" className="cg cg-top av-fig" />
+                    <GuideTop className="av-fig" />
                   </div>
                 </div>
               </div>

@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
-import { DM_Sans, Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const dmSans = DM_Sans({
+// The brand font of We3vision: Poppins, used for everything on the website and in the admin panel.
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-dm-sans",
+  variable: "--font-poppins",
   display: "swap",
 });
-
-// Inter is only used for the "You" tag of the custom cursor (same as the template).
-const inter = Inter({ subsets: ["latin"], weight: ["600"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
@@ -25,7 +23,7 @@ const THEME_BOOT = `(function(){try{if(location.pathname.indexOf("/admin")===0)r
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html lang="en" className={poppins.variable} suppressHydrationWarning>
       <body>
         <Script id="theme-boot" strategy="beforeInteractive">
           {THEME_BOOT}

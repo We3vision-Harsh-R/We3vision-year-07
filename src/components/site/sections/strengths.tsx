@@ -19,7 +19,7 @@ export const Strengths: SectionComponent<"strengths"> = ({ data }) => {
                 <div>
                   <IconTile index={0} />
                   <h3 className={`${title} mt-10 md:mt-24`}>{first.title}</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-orchid">{first.description}</p>
+                  <p className="mt-4 text-base leading-[1.7] text-orchid">{first.description}</p>
                 </div>
                 <div className="mx-auto w-full max-w-[340px]">
                   <ArtTile index={0} />
@@ -34,7 +34,7 @@ export const Strengths: SectionComponent<"strengths"> = ({ data }) => {
                   <article className="card-glass flex h-full flex-col rounded-[19px] border border-violet/[0.08] p-6 sm:p-10">
                     <IconTile index={i + 1} />
                     <h3 className={`${title} mt-8`}>{item.title}</h3>
-                    <p className="mb-8 mt-4 text-sm leading-relaxed text-orchid">{item.description}</p>
+                    <p className="mb-8 mt-4 text-base leading-[1.7] text-orchid">{item.description}</p>
                     <div className="mt-auto">
                       <ArtTile index={i + 1} />
                     </div>

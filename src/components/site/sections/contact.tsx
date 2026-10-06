@@ -32,7 +32,7 @@ export const Contact: SectionComponent<"contact"> = ({ data, site }) => (
             <Reveal key={card.title} delay={i * 90} className="h-full">
               <address className="card-glass h-full rounded-[19px] border border-violet/[0.08] p-6 not-italic">
                 <p className="text-vfade pb-1 text-xl font-semibold tracking-tight">{card.title}</p>
-                <div className="mt-3 space-y-1.5 text-sm leading-relaxed text-orchid">
+                <div className="mt-3 space-y-1.5 text-base leading-relaxed text-orchid">
                   {card.lines
                     .split("\n")
                     .filter((l) => l.trim())

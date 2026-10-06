@@ -16,7 +16,7 @@ export const Reach: SectionComponent<"reach"> = ({ data }) => {
             <div className="relative z-10">
               <Chip>{data.chip}</Chip>
               <h2 className="text-vfade mt-6 whitespace-pre-line pb-1 text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]">{data.heading}</h2>
-              <p className="mt-5 max-w-md text-sm leading-relaxed text-orchid sm:text-base">{data.text}</p>
+              <p className="mt-5 max-w-md text-base leading-[1.7] text-orchid">{data.text}</p>
               <div className="mt-8">
                 <ButtonLink href={data.buttonHref} variant="ghost">
                   {data.buttonLabel}
@@ -25,7 +25,7 @@ export const Reach: SectionComponent<"reach"> = ({ data }) => {
               {places.length > 0 && (
                 <ul className="mt-8 flex flex-wrap gap-2">
                   {places.map((p) => (
-                    <li key={p.label} className="rounded-full border border-violet/15 bg-violet/[0.05] px-3 py-1 text-xs text-orchid">
+                    <li key={p.label} className="rounded-full border border-violet/15 bg-violet/[0.05] px-3.5 py-1.5 text-sm text-orchid">
                       {p.label}
                     </li>
                   ))}

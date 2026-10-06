@@ -86,6 +86,15 @@ export const BRAND_SECTIONS: PageSection[] = [
     ctaHref: "#contact",
     note: "Depending on what your project needs.",
   }),
+  section("guide", {
+    chip: "Meet the brand guide",
+    heading: "Try a new\nlogo idea",
+    text: "Press the button to see a new logo idea appear on the brand board. A strong brand is clear, consistent and easy to remember.",
+    scene: "brand",
+    tips: "Press the button for a new logo idea.\nA strong brand is clear, consistent and easy to remember.\nStrategy first, then logo, colours, type and guidelines.\nEvery logo idea starts from your goals and your audience.",
+    buttonLabel: "",
+    buttonHref: "",
+  }),
   section("services", {
     chip: "Brand Design Services",
     heading: "What We\nDesign For You",
@@ -190,6 +199,15 @@ export const BRAND_STRATEGY_SECTIONS: PageSection[] = [
   section("story", {
     body: "Brand strategy is the thinking behind the visuals. We start with *your business goals*, your *target audience* and the *brand direction* you want to build, and turn them into *moodboards, visual references* and a clear *creative direction*.\n\nThe result is a shared plan that you, your designers and your future marketing can all follow, whether you are launching a new brand or refreshing an existing one.",
   }),
+  section("guide", {
+    chip: "Meet the strategist",
+    heading: "Plan the brand\nbefore the logo",
+    text: "Good brands start with strategy: your goals, your audience and a clear direction. Our guide shows how an idea becomes a logo.",
+    scene: "brand",
+    tips: "Strategy first: goals, audience and direction.\nThen the logo, colours and typography.\nPress the button for a new logo idea from the same direction.",
+    buttonLabel: "",
+    buttonHref: "",
+  }),
   section("advantages", {
     chip: "What's Included",
     heading: "What Your Brand\nStrategy Covers",
@@ -240,6 +258,15 @@ export const LOGO_DESIGN_SECTIONS: PageSection[] = [
   }),
   section("story", {
     body: "We design logos for new businesses and for brands that need a refresh. Every logo starts from your *brand direction* and is shaped together with *colours and typography* that work on your website, in print and on social media.\n\nWe share *design reviews*, collect your *feedback* and make *iterative refinements* until the design is agreed.",
+  }),
+  section("guide", {
+    chip: "Meet the logo designer",
+    heading: "Press for a\nnew logo idea",
+    text: "A logo is a small drawing that has to carry your whole business. See a few ideas appear on the brand board.",
+    scene: "brand",
+    tips: "A good logo is simple, memorable and works at any size.\nPress the button for the next idea.\nWe design the logo, the colours and the typography together.",
+    buttonLabel: "",
+    buttonHref: "",
   }),
   section("advantages", {
     chip: "What's Included",
@@ -298,6 +325,15 @@ export const VISUAL_IDENTITY_SECTIONS: PageSection[] = [
   section("story", {
     body: "A visual identity is the *colours, typography and design elements* that make your brand recognisable on every platform. We bring them together into *one coherent visual system*.\n\nWe then document it as *brand guidelines*, so your team and your partners use your brand in the same way everywhere, from your website to your next campaign.",
   }),
+  section("guide", {
+    chip: "Meet the identity guide",
+    heading: "One look,\nevery place",
+    text: "A visual identity is a system: logo, colours, type and rules. The guide shows how one brand board holds it together.",
+    scene: "brand",
+    tips: "A visual identity is a system, not just a logo.\nBrand guidelines keep your team consistent.\nPress the button to see the mark change on the same board.",
+    buttonLabel: "",
+    buttonHref: "",
+  }),
   section("advantages", {
     chip: "What's Included",
     heading: "What Your Identity\nProject Covers",
@@ -354,6 +390,15 @@ export const MARKETING_COLLATERAL_SECTIONS: PageSection[] = [
   }),
   section("story", {
     body: "We design *marketing collateral* and creative materials that stay true to your *brand identity*, so every touchpoint feels like the same brand.\n\nWe connect them with related services such as *graphic design, website design* and *advertising creatives* where relevant, and prepare the *brand assets* you need for your next campaign.",
+  }),
+  section("guide", {
+    chip: "Meet the creative guide",
+    heading: "Your brand,\non everything",
+    text: "Marketing collateral puts your brand on everything people see: ads, social posts, brochures and your website.",
+    scene: "brand",
+    tips: "Brand-aligned graphics for web, print and ads.\nSame logo, colours and tone everywhere.\nPress the button to try another mark on the board.",
+    buttonLabel: "",
+    buttonHref: "",
   }),
   section("advantages", {
     chip: "What's Included",

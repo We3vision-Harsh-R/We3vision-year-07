@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";
 
 const field =
-  "w-full rounded-lg border border-violet/10 bg-[hsl(calc(var(--th)_+_348.73)_calc(60%_*_var(--ts))_10.78%)] px-4 py-3.5 text-sm text-violet outline-none transition placeholder:text-orchid focus:border-violet/50 focus:bg-[hsl(calc(var(--th)_+_347.5)_calc(57.14%_*_var(--ts))_13.73%)]";
+  "w-full rounded-lg border border-violet/10 bg-[hsl(calc(var(--th)_+_348.73)_calc(60%_*_var(--ts))_10.78%)] px-4 py-3.5 text-base text-violet outline-none transition placeholder:text-orchid focus:border-violet/50 focus:bg-[hsl(calc(var(--th)_+_347.5)_calc(57.14%_*_var(--ts))_13.73%)]";
 
 export function ContactForm({ buttonLabel }: { buttonLabel: string }) {
   const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, { status: "idle" });

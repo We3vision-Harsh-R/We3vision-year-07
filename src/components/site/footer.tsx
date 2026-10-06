@@ -35,7 +35,7 @@ export function Footer({ site }: { site: SiteSettings }) {
       <div className="mx-auto flex max-w-[960px] flex-col items-center text-center">
         <BrandTile className="size-14" />
         <p className="mt-4 text-xl font-semibold tracking-tight text-violet">{site.name}</p>
-        <p className="mt-3 max-w-md text-sm leading-relaxed text-orchid">{site.tagline}</p>
+        <p className="mt-3 max-w-md text-base leading-relaxed text-orchid">{site.tagline}</p>
 
         {site.social.length > 0 && (
           <div className="mt-7 flex gap-3">
@@ -52,13 +52,13 @@ export function Footer({ site }: { site: SiteSettings }) {
               <ul className="space-y-2.5">
                 {menu.items.map((item) => (
                   <li key={item.label + item.href}>
-                    <SmartLink href={item.href} className="text-sm text-orchid transition hover:text-violet">
+                    <SmartLink href={item.href} className="text-[0.95rem] text-orchid transition hover:text-violet">
                       {item.label}
                     </SmartLink>
                   </li>
                 ))}
               </ul>
-              {index === site.menus.length - 1 && site.menuNote && <p className="mt-5 text-sm leading-relaxed text-orchid/80">{site.menuNote}</p>}
+              {index === site.menus.length - 1 && site.menuNote && <p className="mt-5 text-[0.95rem] leading-relaxed text-orchid/80">{site.menuNote}</p>}
             </nav>
           ))}
         </div>

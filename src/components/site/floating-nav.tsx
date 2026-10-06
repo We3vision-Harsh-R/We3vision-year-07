@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { SmartLink } from "./smart-link";
 
 type Item = { label: string; href: string };
@@ -33,6 +34,8 @@ export function FloatingNav({ items }: { items: Item[] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const [away, setAway] = useState(false);
 
   // Slide in from below after the first paint.
   useEffect(() => {
@@ -59,6 +62,45 @@ export function FloatingNav({ items }: { items: Item[] }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Over the office of the web page (#guide) the menu would lie on the name field: it blurs away and eases back in as soon as the visitor scrolls,
+  // then goes away again when the scrolling stops.
+  useEffect(() => {
+    const el = document.getElementById("guide");
+    if (!el) return;
+    let inside = false;
+    let idle = 0;
+    const settle = () => setAway(inside);
+    const io = new IntersectionObserver(
+      ([e]) => {
+        inside = e.intersectionRatio > 0.3;
+        window.clearTimeout(idle);
+        setAway(inside);
+      },
+      { threshold: [0, 0.3, 0.6, 1] },
+    );
+    io.observe(el);
+    const touched = () => {
+      if (!inside) return;
+      setAway(false);
+      window.clearTimeout(idle);
+      idle = window.setTimeout(settle, 1800);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"].includes(e.key) && !(e.target instanceof HTMLInputElement)) touched();
+    };
+    window.addEventListener("wheel", touched, { passive: true });
+    window.addEventListener("touchmove", touched, { passive: true });
+    window.addEventListener("keydown", onKey);
+    return () => {
+      io.disconnect();
+      window.clearTimeout(idle);
+      setAway(false);
+      window.removeEventListener("wheel", touched);
+      window.removeEventListener("touchmove", touched);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [pathname]);
 
   // The pill needs a real pixel width to animate smoothly (CSS cannot animate "auto").
   useEffect(() => {
@@ -90,8 +132,8 @@ export function FloatingNav({ items }: { items: Item[] }) {
   return (
     <div
       ref={rootRef}
-      className={`fixed inset-x-0 bottom-6 z-50 flex justify-center px-4 transition-[opacity,transform] duration-700 sm:bottom-12 ${SPRING} ${
-        ready ? "translate-y-0 opacity-100" : "translate-y-28 opacity-0"
+      className={`fixed inset-x-0 bottom-6 z-50 flex justify-center px-4 transition-[opacity,transform,filter] duration-700 sm:bottom-12 ${SPRING} ${
+        !ready ? "translate-y-28 opacity-0" : away ? "pointer-events-none translate-y-4 opacity-0 blur-[10px]" : "translate-y-0 opacity-100"
       }`}
     >
       {/* Tablet / desktop: the pill */}

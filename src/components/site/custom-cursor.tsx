@@ -168,7 +168,7 @@ export function CustomCursor() {
       {/* The "You" tag */}
       <div className="absolute left-5 top-5 z-[1] overflow-hidden rounded-md bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_352.92)_calc(31.97%_*_var(--ts))_47.84%),hsl(calc(var(--th)_+_351.38)_calc(40.21%_*_var(--ts))_19.02%))] p-px">
         <div className="rounded-[5px] bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_347.58)_calc(76%_*_var(--ts))_4.9%),hsl(calc(var(--th)_+_351.38)_calc(40.21%_*_var(--ts))_19.02%))] px-1.5 py-1">
-          <p className="whitespace-pre font-[family-name:var(--font-inter)] text-sm font-semibold leading-[18px] text-violet">{name}</p>
+          <p className="whitespace-pre text-sm font-semibold leading-[18px] text-violet">{name}</p>
         </div>
       </div>
     </div>
