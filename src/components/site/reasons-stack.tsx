@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { GlowEdge } from "./glow-edge";
 import { IconTile } from "./icons";
 
 type Item = { title: string; description: string };
@@ -158,9 +159,10 @@ export function ReasonsStack({ chip, heading, intro, items }: { chip: string; he
                 }}
                 data-i={i}
                 data-on={i === active}
-                className="rs-card"
+                className="rs-card bglow"
                 style={{ "--i": i } as React.CSSProperties}
               >
+                <GlowEdge />
                 <div className="rs-top">
                   <IconTile index={i + 2} large />
                   <span className="rs-label">

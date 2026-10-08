@@ -1,3 +1,4 @@
+import { GlowEdge } from "../glow-edge";
 import { ContactForm } from "../contact-form";
 import { Reveal } from "../reveal";
 import { Frame, SectionHead, Wide } from "../ui";
@@ -30,7 +31,8 @@ export const Contact: SectionComponent<"contact"> = ({ data, site }) => (
         <div className="mt-20 grid gap-5 md:grid-cols-3">
           {site.contactCards.map((card, i) => (
             <Reveal key={card.title} delay={i * 90} className="h-full">
-              <address className="card-glass h-full rounded-[19px] border border-violet/[0.08] p-6 not-italic">
+              <address className="bglow card-glass h-full rounded-[19px] border border-violet/[0.08] p-6 not-italic">
+                <GlowEdge />
                 <p className="text-vfade pb-1 text-xl font-semibold tracking-tight">{card.title}</p>
                 <div className="mt-3 space-y-1.5 text-base leading-relaxed text-orchid">
                   {card.lines

@@ -1,3 +1,4 @@
+import { GlowEdge } from "../glow-edge";
 import { Globe } from "../globe";
 import { Reveal } from "../reveal";
 import { ButtonLink, Chip, Wide } from "../ui";
@@ -12,7 +13,8 @@ export const Reach: SectionComponent<"reach"> = ({ data }) => {
     <section id="reach" className="py-24 sm:py-32">
       <Wide>
         <Reveal>
-          <div className="card-glass relative overflow-hidden rounded-[19px] border border-violet/[0.08] p-8 sm:p-12 md:grid md:grid-cols-[1.1fr_1fr] md:items-center md:gap-8">
+          <div className="bglow card-glass relative overflow-hidden rounded-[19px] border border-violet/[0.08] p-8 sm:p-12 md:grid md:grid-cols-[1.1fr_1fr] md:items-center md:gap-8">
+            <GlowEdge />
             <div className="relative z-10">
               <Chip>{data.chip}</Chip>
               <h2 className="text-vfade mt-6 whitespace-pre-line pb-1 text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]">{data.heading}</h2>

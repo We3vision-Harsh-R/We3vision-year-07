@@ -131,3 +131,70 @@ function Crm() {
 }
 
 export const BOARDS = [Brand, Web, Mobile, Ai, Meta, Ux, Crm];
+
+// The wall boards of the four metaverse teams (the cabins of the metaverse floor, see metaverse/vr-floor.tsx).
+/** AR: a phone that looks at a table, a cube floats above it */
+function Ar() {
+  return (
+    <Frame>
+      <rect x="12" y="15" width="40" height="58" rx="6" className="bd-card" />
+      <rect x="16" y="20" width="32" height="40" rx="3" className="bd-block bd-blink" />
+      <circle cx="32" cy="66" r="2.4" className="bd-sw bd-sw-2 bd-pulse" />
+      <path d="M52 36l22 -6M52 50l22 6" className="bd-flow" />
+      <g className="bd-float">
+        <path d="M100 18l16 9v18l-16 9-16-9V27z" className="bd-cube-a" />
+        <path d="M100 18l16 9-16 9-16-9z" className="bd-cube-b" />
+        <path d="M100 36l16-9v18l-16 9z" className="bd-cube-c" />
+      </g>
+      <rect x="76" y="62" width="54" height="6" rx="3" className="bd-block" />
+    </Frame>
+  );
+}
+/** VR: a headset and a world that turns round it */
+function Vr() {
+  return (
+    <Frame>
+      <rect x="22" y="26" width="52" height="28" rx="12" className="bd-card" />
+      <rect x="29" y="33" width="38" height="14" rx="6" className="bd-block bd-blink" />
+      <path d="M22 40q-10 0-10 8M74 40q10 0 10 8" className="bd-line" />
+      <circle cx="112" cy="40" r="22" className="bd-card" />
+      <ellipse cx="112" cy="40" rx="22" ry="8" className="bd-ring" />
+      <ellipse cx="112" cy="40" rx="8" ry="22" className="bd-ring bd-d1" />
+      <circle cx="30" cy="64" r="1.6" className="bd-star" />
+      <circle cx="132" cy="14" r="1.4" className="bd-star bd-d1" />
+    </Frame>
+  );
+}
+/** XR: three devices that share one scene */
+function Xr() {
+  const L = [[24, 24], [24, 54], [75, 39], [126, 24], [126, 54]];
+  return (
+    <Frame>
+      {[[0, 2], [1, 2], [2, 3], [2, 4]].map(([a, b], i) => (
+        <path key={i} d={`M${L[a][0]} ${L[a][1]}L${L[b][0]} ${L[b][1]}`} className="bd-flow" style={{ animationDelay: `${i * 0.3}s` }} />
+      ))}
+      {L.map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={i === 2 ? 8 : 5} className={i === 2 ? "bd-sw bd-sw-1 bd-pulse" : "bd-node"} />
+      ))}
+      <path d="M62 66h26" className="bd-line" />
+    </Frame>
+  );
+}
+/** MR: a real room with a virtual cube standing in it */
+function Mr() {
+  return (
+    <Frame>
+      <rect x="12" y="16" width="126" height="52" rx="5" className="bd-card" />
+      <path d="M12 52h126" className="bd-line" />
+      <rect x="22" y="26" width="30" height="22" rx="2" className="bd-block" />
+      <rect x="100" y="30" width="26" height="18" rx="2" className="bd-block bd-blink" />
+      <g className="bd-float">
+        <path d="M75 24l14 8v16l-14 8-14-8V32z" className="bd-cube-a" />
+        <path d="M75 24l14 8-14 8-14-8z" className="bd-cube-b" />
+        <path d="M75 40l14-8v16l-14 8z" className="bd-cube-c" />
+      </g>
+      <ellipse cx="75" cy="60" rx="20" ry="4" className="bd-ring" />
+    </Frame>
+  );
+}
+export const METAVERSE_BOARDS = [Ar, Vr, Xr, Mr];

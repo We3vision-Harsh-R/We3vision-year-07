@@ -42,12 +42,28 @@ export function SceneAvatar({
   tone?: number;
 }) {
   const h = (w * crop) / 100;
+  const full = crop >= 150;
+  const cx = x + w / 2;
+  const fy = y + w * 1.47; // the feet
   return (
-    <g key={bump} className={bump ? "gs-av-g gs-hop" : "gs-av-g"} onClick={onAvatar} style={{ transformOrigin: `${x + w / 2}px ${y + h}px` }}>
-      <svg className="gs-av" x={x} y={y} width={w} height={h} viewBox={`0 0 100 ${crop}`} style={{ overflow: crop >= 150 ? "visible" : "hidden", "--tone": tone } as CSSProperties}>
-        <GuideFrontG headset={headset} glasses={glasses} hide={hide} />
-      </svg>
-    </g>
+    <>
+      {/* full figure: it stands on a glowing round podium and a few sparkles flash around the head */}
+      {full && (
+        <g aria-hidden>
+          <ellipse className="gs-podium-glow" cx={cx} cy={fy + 8} rx={w * 0.72} ry={16} />
+          <path className="gs-podium-side" d={`M${cx - w * 0.56} ${fy + 1}V${fy + 10}A${w * 0.56} 12.5 0 0 0 ${cx + w * 0.56} ${fy + 10}V${fy + 1}Z`} />
+          <ellipse className="gs-podium-fill" cx={cx} cy={fy + 1} rx={w * 0.56} ry={12.5} />
+          <ellipse className="gs-podium-ring" cx={cx} cy={fy + 1} rx={w * 0.53} ry={11} />
+          <path className="gs-spark" d={`M${cx - 52} ${y + 36}L${cx - 66} ${y + 28}M${cx - 56} ${y + 48}L${cx - 72} ${y + 48}M${cx - 52} ${y + 60}L${cx - 64} ${y + 68}`} />
+          <path className="gs-spark" style={{ animationDelay: "-1.3s" }} d={`M${cx + 54} ${y + 44}L${cx + 66} ${y + 36}M${cx + 58} ${y + 56}L${cx + 72} ${y + 58}`} />
+        </g>
+      )}
+      <g key={bump} className={bump ? "gs-av-g gs-hop" : "gs-av-g"} onClick={onAvatar} style={{ transformOrigin: `${x + w / 2}px ${y + h}px` }}>
+        <svg className="gs-av" x={x} y={y} width={w} height={h} viewBox={`0 0 100 ${crop}`} style={{ overflow: crop >= 150 ? "visible" : "hidden", "--tone": tone } as CSSProperties}>
+          <GuideFrontG headset={headset} glasses={glasses} hide={hide} />
+        </svg>
+      </g>
+    </>
   );
 }
 

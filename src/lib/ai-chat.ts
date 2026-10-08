@@ -1,4 +1,4 @@
-// The website's AI chat: visitors ask about We3vision and an AI bot answers.
+// The website's AI chat, called PANDA (Professional AI Navigation & Digital Assistant): visitors ask about We3vision and the bot answers.
 //
 // >>> CONNECT THE BOT HERE. <<<
 // `askBot` receives the whole conversation (last message = the visitor's question) and must resolve with the answer text.
@@ -11,5 +11,5 @@ export type ChatMessage = { role: "user" | "assistant"; text: string };
 export async function askBot(history: ChatMessage[]): Promise<string> {
   void history;
   await new Promise((resolve) => setTimeout(resolve, 700));
-  return "Our AI assistant is being connected. Until it is live, the team will gladly help you: info@we3vision.com or +91 7383216096 (Surat, India).";
+  return "PANDA is being connected. Until it is live, the team will gladly help you: info@we3vision.com or +91 7383216096 (Surat, India).";
 }

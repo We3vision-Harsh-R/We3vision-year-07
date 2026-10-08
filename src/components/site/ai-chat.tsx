@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, type ChatMessage } from "../../lib/ai-chat";
+import { PandaMini } from "./about/panda-mini";
 
 const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How can I get a quote?"];
 
-// The AI chat. At rest it is a slim liquid-glass bar (the size of the menu pill); pointing at it (or tapping / typing in
-// it) opens it into a roomy chat box, and it closes again when the pointer leaves. The conversation is kept meanwhile.
+// PANDA: Professional AI Navigation & Digital Assistant. The chat of the site, kept very simple: a slim bar at the bottom (a little
+// panda, a field and a send button). Pointing at it or tapping it opens a small chat window just above the bar; the bar itself never
+// changes size, only the window fades and slides in, so it stays light and smooth. The conversation is kept while it is closed.
 export function AiChat() {
   const [hover, setHover] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -46,7 +48,7 @@ export function AiChat() {
 
   return (
     <div
-      className="ai lg"
+      className="pd"
       data-open={open}
       onPointerEnter={(e) => {
         if (e.pointerType !== "mouse") return;
@@ -56,7 +58,7 @@ export function AiChat() {
       onPointerLeave={(e) => {
         if (e.pointerType !== "mouse") return;
         window.clearTimeout(timer.current);
-        timer.current = window.setTimeout(() => setHover(false), 250);
+        timer.current = window.setTimeout(() => setHover(false), 300);
       }}
       onFocus={() => setFocused(true)}
       onBlur={(e) => {
@@ -64,63 +66,65 @@ export function AiChat() {
       }}
       onKeyDown={(e) => e.key === "Escape" && (e.target as HTMLElement).blur()}
     >
-      <div ref={bodyRef} className="ai-body" inert={!open} aria-live="polite">
-        <p className="ai-title">
-          <Sparkle /> We3vision AI <span>Ask anything about We3vision</span>
-        </p>
-        {messages.length === 0 ? (
-          <div className="ai-chips">
-            {SUGGESTIONS.map((s) => (
-              <button key={s} type="button" className="ai-chip" onClick={() => void send(s)}>
-                {s}
-              </button>
-            ))}
+      {/* the soft blur of the page behind the chat (it fades out towards the edges) */}
+      <span className="pd-blur" aria-hidden>
+        {[1.4, 1.9, 2.4, 2.8, 3.3, 3.8].map((b, i) => (
+          <i key={i} style={{ "--k": i + 1, "--b": b } as React.CSSProperties} />
+        ))}
+      </span>
+      <section className="pd-panel" inert={!open} aria-label="PANDA chat">
+        <header className="pd-head">
+          <span className="pd-face">
+            <PandaMini paws={false} />
+          </span>
+          <div>
+            <b>PANDA</b>
+            <span>Professional AI Navigation &amp; Digital Assistant</span>
           </div>
-        ) : (
-          <ul className="ai-msgs">
-            {messages.map((m, i) => (
-              <li key={i} data-role={m.role}>
+        </header>
+        <div ref={bodyRef} className="pd-body" aria-live="polite">
+          <p className="pd-msg" data-role="assistant">
+            Hi! I am PANDA. Ask me anything about We3vision.
+          </p>
+          {messages.length === 0 ? (
+            <div className="pd-chips">
+              {SUGGESTIONS.map((s) => (
+                <button key={s} type="button" className="pd-chip" onClick={() => void send(s)}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          ) : (
+            messages.map((m, i) => (
+              <p key={i} className="pd-msg" data-role={m.role}>
                 {m.text}
-              </li>
-            ))}
-            {busy && (
-              <li data-role="assistant" aria-label="Typing">
-                <span className="ai-dots">
-                  <i />
-                  <i />
-                  <i />
-                </span>
-              </li>
-            )}
-          </ul>
-        )}
-      </div>
+              </p>
+            ))
+          )}
+          {busy && (
+            <p className="pd-msg" data-role="assistant" aria-label="Typing">
+              <span className="pd-dots">
+                <i />
+                <i />
+                <i />
+              </span>
+            </p>
+          )}
+        </div>
+      </section>
 
-      <form className="ai-bar" role="search" onSubmit={onSubmit}>
-        <Sparkle className="ai-spark" />
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Ask We3vision AI…"
-          aria-label="Ask We3vision AI"
-          maxLength={400}
-          autoComplete="off"
-          enterKeyHint="send"
-        />
-        <button type="submit" className="ai-send" aria-label="Send" disabled={busy || !text.trim()}>
+      <span className="pd-ring" aria-hidden />
+      <form className="pd-bar" role="search" onSubmit={onSubmit}>
+        <span className="pd-icon">
+          <PandaMini paws={false} />
+        </span>
+        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Ask PANDA…" aria-label="Ask PANDA" maxLength={400} autoComplete="off" enterKeyHint="send" />
+        <button type="submit" className="pd-send" aria-label="Send" disabled={busy || !text.trim()}>
           <svg viewBox="0 0 24 24" className="size-4 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <path d="M12 19V5M5 12l7-7 7 7" />
           </svg>
         </button>
       </form>
     </div>
-  );
-}
-
-function Sparkle({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={`size-4 shrink-0 fill-current ${className}`} aria-hidden>
-      <path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9L12 2zM19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z" />
-    </svg>
   );
 }

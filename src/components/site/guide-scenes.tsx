@@ -656,14 +656,35 @@ export function SceneAi({ say, bump, onAvatar }: SceneProps) {
 }
 
 // ------------------------------------------------------------------------------------------------------------ brand
+// The brand builder: type a name, pick a personality, and the brand board changes as a whole: the logo mark, the colours, the font and the
+// tagline all follow the personality. The business card and the app icon on the table wear the same brand, so you see one identity everywhere.
+const PERSONALITIES = [
+  { id: "Bold", off: 92, mark: 1, tag: "MAKE SOME NOISE", font: "'Arial Black', 'Helvetica Neue', Arial, sans-serif", weight: 900, spacing: -0.5, upper: true, say: "Bold: strong shapes, loud colours, big letters." },
+  { id: "Friendly", off: 239, mark: 0, tag: "NICE TO MEET YOU", font: "ui-rounded, 'Poppins', 'Segoe UI', sans-serif", weight: 700, spacing: 0, upper: false, say: "Friendly: round shapes and a warm, easy voice." },
+  { id: "Elegant", off: 354, mark: 3, tag: "TIMELESS BY DESIGN", font: "Georgia, 'Times New Roman', serif", weight: 500, spacing: 1, upper: false, say: "Elegant: calm colours, a serif font and lots of space." },
+  { id: "Techy", off: 289, mark: 2, tag: "BUILT FOR WHAT'S NEXT", font: "ui-monospace, 'Cascadia Mono', Consolas, monospace", weight: 700, spacing: 0, upper: false, say: "Techy: sharp lines, a mono font and a cool blue." },
+];
 export function SceneBrand({ say, bump, onAvatar }: SceneProps) {
-  const [i, setI] = useState(0);
+  const [p, setP] = useState(0);
+  const [name, setName] = useState("");
+  const [tick, setTick] = useState(0);
+  const per = PERSONALITIES[p];
+  const c = (l: number, s = 82) => `hsl(calc(var(--th) + ${per.off}) calc(${s}% * var(--ts)) ${l}%)`;
+  const raw = (name.trim() || "Your Brand").slice(0, 14);
+  const title = per.upper ? raw.toUpperCase() : raw;
+  const size = title.length > 11 ? 12.5 : title.length > 8 ? 15 : 18;
+  const initial = (raw[0] ?? "Y").toUpperCase();
   const marks = [
-    <g key={0}><circle cx="371" cy="110" r="32" fill="var(--g-a)" /><circle cx="371" cy="110" r="14" fill="var(--g-e)" /></g>,
-    <g key={1}><path d="M371 76l34 58h-68z" fill="var(--g-a)" /><path d="M371 96l16 28h-32z" fill="var(--g-e)" /></g>,
-    <g key={2}><rect x="339" y="78" width="64" height="64" rx="18" fill="var(--g-a)" /><path d="M355 96l16 28 16-28" stroke="var(--g-e)" strokeWidth="7" fill="none" strokeLinecap="round" strokeLinejoin="round" /></g>,
-    <g key={3}><path d="M371 76q34 0 34 34t-34 34q-34 0-34-34t34-34z" fill="var(--g-a)" /><path d="M351 110h40M371 90v40" stroke="var(--g-e)" strokeWidth="7" strokeLinecap="round" /></g>,
+    <g key={0}><circle cx="371" cy="106" r="30" fill={c(68)} /><circle cx="371" cy="106" r="13" fill="var(--g-e)" /></g>,
+    <g key={1}><path d="M371 74l33 56h-66z" fill={c(62)} /><path d="M371 94l15 26h-30z" fill="var(--g-e)" /></g>,
+    <g key={2}><rect x="341" y="76" width="60" height="60" rx="10" fill={c(66)} /><path d="M357 94l14 24 14-24" stroke="var(--g-e)" strokeWidth="7" fill="none" strokeLinecap="round" strokeLinejoin="round" /></g>,
+    <g key={3}><path d="M371 74q32 0 32 32t-32 32q-32 0-32-32t32-32z" fill={c(68)} /><path d="M353 106h36M371 88v36" stroke="var(--g-e)" strokeWidth="6" strokeLinecap="round" /></g>,
   ];
+  const pick = (i: number) => {
+    setP(i);
+    setTick((n) => n + 1);
+    say(PERSONALITIES[i].say);
+  };
   return (
     <>
       <div className="gs-stage">
@@ -672,30 +693,57 @@ export function SceneBrand({ say, bump, onAvatar }: SceneProps) {
           <Glow />
           <SceneAvatar bump={bump} onAvatar={onAvatar} crop={150} hide="r" />
           <Arm className="gs-wag" style={at(199, 138)} pts={[[199, 138], [232, 146], [262, 112]]} />
+          {/* the brand board */}
           <g>
-            <rect x="276" y="36" width="190" height="210" rx="14" fill="url(#gs-panel)" stroke="var(--g-a)" strokeOpacity="0.45" />
-            <g key={i} className="gs-pop" style={at(371, 110)}>{marks[i]}</g>
-            <text x="371" y="176" textAnchor="middle" fontSize="16" fontWeight="800" fill="#fff">Your Brand</text>
-            <text x="371" y="192" textAnchor="middle" fontSize="8" letterSpacing="3" fill="var(--g-w)">TAGLINE GOES HERE</text>
-            {[0, 1, 2, 3].map((k) => (
-              <circle key={k} cx={331 + k * 20} cy="218" r="7" fill={["var(--g-a)", "var(--g-b)", "var(--g-w)", "var(--g-d)"][k]} stroke="var(--g-a)" strokeOpacity="0.4" />
+            <rect x="276" y="30" width="190" height="196" rx="14" fill="url(#gs-panel)" stroke={c(72)} strokeOpacity="0.5" />
+            <g key={`m${tick}`} className="gs-pop" style={at(371, 106)}>{marks[per.mark]}</g>
+            <g key={`t${tick}`} className="gs-pop" style={at(371, 168)}>
+              <text x="371" y="170" textAnchor="middle" fontSize={size} fontWeight={per.weight} letterSpacing={per.spacing} fontFamily={per.font} fill="#fff">{title}</text>
+              <text x="371" y="186" textAnchor="middle" fontSize="7.2" letterSpacing="2.4" fill={c(86, 60)}>{per.tag}</text>
+            </g>
+            {[c(66), c(50), c(86, 60), "var(--g-d)"].map((f, k) => (
+              <circle key={k} cx={321 + k * 20} cy="208" r="7" fill={f} stroke={c(72)} strokeOpacity="0.45" style={{ transition: "fill 0.4s" }} />
             ))}
-            <text x="440" y="222" textAnchor="middle" fontSize="15" fontWeight="800" fill="var(--g-w)">Aa</text>
+            <text x="436" y="213" textAnchor="middle" fontSize="16" fontWeight={per.weight} fontFamily={per.font} fill={c(86, 60)}>Aa</text>
+          </g>
+          {/* the table with a business card and an app icon that wear the same brand */}
+          <rect x="250" y="250" width="226" height="50" rx="8" fill="url(#gs-desk)" />
+          <rect x="250" y="250" width="226" height="3" fill={c(72)} opacity="0.4" />
+          <g key={`b${tick}`} className="gs-pop" style={at(318, 262)}>
+            <rect x="272" y="236" width="86" height="50" rx="5" fill="var(--g-e)" stroke={c(72)} strokeOpacity="0.55" transform="rotate(-5 315 261)" />
+            <g transform="rotate(-5 315 261)">
+              <rect x="272" y="236" width="6" height="50" rx="3" fill={c(66)} />
+              <text x="288" y="257" fontSize="9" fontWeight={per.weight} fontFamily={per.font} fill="#fff">{title.length > 10 ? title.slice(0, 10) : title}</text>
+              <rect x="288" y="264" width="42" height="3" rx="1.5" fill={c(70)} opacity="0.6" />
+              <rect x="288" y="271" width="30" height="3" rx="1.5" fill={c(70)} opacity="0.35" />
+            </g>
+          </g>
+          <g key={`i${tick}`} className="gs-pop" style={at(404, 262)}>
+            <rect x="382" y="240" width="44" height="44" rx="12" fill={c(60)} />
+            <text x="404" y="270" textAnchor="middle" fontSize="22" fontWeight={per.weight} fontFamily={per.font} fill="var(--g-e)">{initial}</text>
           </g>
         </svg>
       </div>
       <div className="gs-controls">
-        <button
-          type="button"
-          className="gs-chip"
-          data-on="true"
-          onClick={() => {
-            setI((n) => (n + 1) % marks.length);
-            say("A new idea for your logo. Which one feels like you?");
-          }}
-        >
-          New logo idea
-        </button>
+        <label className="gs-field">
+          <span>Type your business name</span>
+          <input
+            value={name}
+            maxLength={14}
+            placeholder="Your Brand"
+            onChange={(e) => {
+              setName(e.target.value);
+              if (!name) say("Your name is on the logo, the card and the app icon.");
+            }}
+          />
+        </label>
+        <div className="gs-chips" role="group" aria-label="Brand personality">
+          {PERSONALITIES.map((it, i) => (
+            <button key={it.id} type="button" className="gs-chip" data-on={p === i} onClick={() => pick(i)}>
+              {it.id}
+            </button>
+          ))}
+        </div>
       </div>
     </>
   );

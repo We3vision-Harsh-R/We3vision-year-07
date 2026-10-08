@@ -21,26 +21,10 @@ export const ABOUT_SEO = {
 };
 
 export const ABOUT_SECTIONS: PageSection[] = [
-  section("pageHero", {
-    chip: "About Us",
-    heading: "Empowering Digital Transformation\nThrough Innovation",
-    text: "At We3vision Private Limited we are dedicated to transforming how people live digitally. Since 2019 we have been at the forefront of digital innovation, delivering cutting-edge solutions that empower businesses and individuals alike.",
-    primaryLabel: "Discover our story",
-    primaryHref: "#about",
-    secondaryLabel: "Our services",
-    secondaryHref: "#services",
-  }),
-  section("story", {
-    body: "We3vision Private Limited is a *leading IT service company*, founded in *2019* and based in *Surat, India*. We blend technology, design and strategy to deliver high-performance solutions across *Web Development, App Development, AR, VR, XR, CGI & 3D Animation, CRM, ERP* and *Digital Branding*.\n\nOur mission: with a skilled team, strong values and a vision for innovation, we have delivered custom digital solutions for companies across India and the globe. Whether it's building a dynamic website or creating immersive virtual experiences, we're here to *turn your ideas into impactful realities*.\n\nDirector & COO: *Parth Patel*. Headquarters and development office: *Surat, Gujarat*. Company size: *11–50 employees*.",
-  }),
-  section("guide", {
-    chip: "Meet the guide",
-    heading: "Say hello to\nour guide",
-    text: "This is the little guide of We3vision. Click it, move your mouse around and give it a high five. You will meet it again on the way through the page.",
-    scene: "hello",
-    tips: "Hi! I am the guide of We3vision.\nWe are a Surat-based studio, working since 2019.\nWeb, AI, AR/VR, metaverse, apps, CRM and 3D: we do it all.\nScroll down to see our journey. I will be there too!",
-    buttonLabel: "",
-    buttonHref: "",
+  section("aboutWorld", {
+    hero: {"chip":"About Us","heading":"Empowering Digital Transformation\nThrough Innovation","text":"At We3vision Private Limited we are dedicated to transforming how people live digitally. Since 2019 we have been at the forefront of digital innovation, delivering cutting-edge solutions that empower businesses and individuals alike.","primaryLabel":"Discover our story","secondaryLabel":"Our services","secondaryHref":"#services"},
+    chapters: [{"title":"A leading IT service company","text":"We3vision Private Limited blends technology, design and strategy to deliver high-performance solutions for businesses and individuals."},{"title":"Founded in 2019","text":"Born in Surat with a vision to deliver innovative, customer-focused IT solutions, and growing every year since."},{"title":"Based in Surat, India","text":"Our headquarters and development office are in Surat, Gujarat. We build custom digital solutions for companies across India and the globe."},{"title":"Everything digital, one team","text":"Web and app development, AR, VR, XR, CGI and 3D animation, CRM, ERP and digital branding: delivered by one skilled team."},{"title":"Ideas into impactful realities","text":"With a skilled team, strong values and a vision for innovation, we turn your ideas into reality, from a dynamic website to immersive virtual experiences."}],
+    meet: {"chip":"Meet our mascot","heading":"Say hello to\nPando","text":"Pando is the little panda of We3vision. It shows you around the studio, so say hello: click it and move your mouse.","tips":"Hi! I am Pando, the panda of We3vision.\nWe are a Surat-based studio, working since 2019.\nWeb, AI, AR/VR, metaverse, apps, CRM and 3D: we do it all.\nBamboo helps me think. Ideas help you grow.\nScroll down to see our journey and our leaders."},
   }),
   section("highlights", {
     chip: "At a glance",

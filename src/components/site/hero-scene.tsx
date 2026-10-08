@@ -371,8 +371,8 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
                       {subs.map((s, j) => (
                         <li key={j} style={{ "--k": j } as CSSProperties}>
                           <span className="hub-sn">{String(j + 1).padStart(2, "0")}</span>
-                          {s.href ? (
-                            <SmartLink href={s.href} className="hub-sl" tabIndex={active === i ? 0 : -1}>
+                          {s.href || card.href ? (
+                            <SmartLink href={s.href || card.href} className="hub-sl" tabIndex={active === i ? 0 : -1}>
                               <h3>{s.name}</h3>
                               {s.desc && <p>{s.desc}</p>}
                             </SmartLink>

@@ -4,10 +4,10 @@ import { GuideTop } from "./avatar";
 
 /** The guide of the site seen from above, facing down (the rigged figure of avatar.tsx): feet and hands step while it walks, the head
  *  turns, the hands type at a table (see .ch-top in globals.css). */
-export function PersonTop({ seated = false }: { seated?: boolean } = {}) {
+export function PersonTop({ seated = false, girl = false }: { seated?: boolean; girl?: boolean } = {}) {
   return (
     <span className={seated ? "tl-pt tl-seat" : "tl-pt"} aria-hidden>
-      <GuideTop />
+      <GuideTop girl={girl} />
     </span>
   );
 }

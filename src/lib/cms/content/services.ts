@@ -1,5 +1,7 @@
 import type { PageSection } from "../pages";
 import type { SectionData, SectionType } from "../sections";
+import { GOV_PROJECTS, GOV_TITLE } from "./gov-projects";
+import { DEVICES, QUIZ } from "./metaverse-extra";
 import { detailFor } from "./service-details";
 
 // SERVICE PAGES: Web Development, Mobile App Development, Metaverse Solutions, UI/UX Design, CRM Development, 2D/3D Animation,
@@ -16,7 +18,7 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>, id: strin
   data: data as Record<string, unknown>,
 });
 
-type Card = { title: string; description: string; href?: string };
+type Card = { title: string; description: string; href?: string; fit?: string; problems?: string[]; outcomes?: string[] };
 type Svc = {
   seo: { title: string; description: string };
   hero: { chip: string; heading: string; text: string; primaryLabel: string; secondaryLabel: string };
@@ -52,7 +54,7 @@ const build = (s: Svc): PageSection[] => [
     buttonHref: "",
     cards: s.subs.cards.map((c) => {
       const x = detailFor(c.title);
-      return { title: c.title, description: c.description, href: c.href ?? "", fit: x?.fit ?? "", problems: x?.problems ?? "", outcomes: x?.outcomes ?? "" };
+      return { title: c.title, description: c.description, href: c.href ?? "", fit: c.fit ?? x?.fit ?? "", problems: c.problems ? c.problems.join("\n") : (x?.problems ?? ""), outcomes: c.outcomes ? c.outcomes.join("\n") : (x?.outcomes ?? "") };
     }),
   }),
   section("process", { chip: "Our process", heading: s.process.heading, intro: s.process.intro, items: s.process.items.map((i) => ({ title: i.title, text: i.text, points: i.points ?? "" })) }),
@@ -255,7 +257,8 @@ export const METAVERSE_SEO = {
   description:
     "Metaverse solutions, virtual world development, metaverse applications and virtual events built with Unity, Unreal Engine, WebGL and WebXR. We3vision creates immersive digital experiences around your business goals.",
 };
-export const METAVERSE_SECTIONS = build({
+// the earlier Metaverse page (all sections), kept for when the page is built up again
+export const METAVERSE_FULL_SECTIONS = build({
   seo: METAVERSE_SEO,
   hero: {
     chip: "Metaverse Solutions",
@@ -268,15 +271,37 @@ export const METAVERSE_SECTIONS = build({
     "*Metaverse solutions* are interactive digital experiences that can include *virtual worlds, metaverse applications, virtual events and immersive environments*. We plan every project around your *business goals and your audience*, and we use *3D development, 3D modeling and interactive 3D experiences* to make them real.\n\nWe build with *Unity, Unreal Engine, WebGL, Three.js and WebXR*, and we follow a clear process from *project discovery to deployment*. Project features and implementation requirements are discussed together during the planning stage.",
   subs: {
     chip: "What we build",
-    heading: "What The Metaverse\nCan Do For You",
-    intro: "Our metaverse service portfolio, and the 3D work that goes with it.",
+    heading: "The Metaverse\nTech We Build",
+    intro: "Four ways into the metaverse: augmented, virtual, extended and mixed reality.",
     cards: [
-      { title: "Metaverse\nDevelopment", description: "Metaverse experiences planned around your business goals, target audience and project vision." },
-      { title: "Metaverse\nApplications", description: "Applications and platforms with the features and integrations your virtual experience needs." },
-      { title: "Virtual World\nDevelopment", description: "Custom virtual worlds with their own structure, visual direction, 3D assets and experience flow." },
-      { title: "Virtual Events\n& Experiences", description: "Virtual events, product launches and interactive digital gatherings for businesses and communities." },
-      { title: "Interactive 3D\nExperiences", description: "3D development and interactive 3D experiences, including games and immersive entertainment.", href: "/3d-modeling" },
-      { title: "NFT & Digital\nAsset Platforms", description: "Digital asset marketplaces with platform and wallet integration, using Ethereum, Polygon and IPFS." },
+      {
+        title: "Augmented Reality\n(AR)",
+        description: "Digital layers on top of the real world: product previews, interactive guides and try-ons on a phone or tablet.",
+        fit: "You want people to see and try something in their own space, from a phone, without a headset.",
+        problems: ["Customers cannot picture a product in their own space", "A flat catalogue that does not show the product", "Guides and manuals that are hard to follow"],
+        outcomes: ["Products shown in the real world through a phone camera", "Interactive guides and visual explanations", "An easy first step into immersive technology"],
+      },
+      {
+        title: "Virtual Reality\n(VR)",
+        description: "Fully immersive virtual worlds, showrooms and training that people step into with a headset.",
+        fit: "The experience needs people to feel inside a place: a showroom, a site, a training room or an event.",
+        problems: ["Places that are far away, unbuilt or costly to visit", "Training that is hard or risky to practise for real", "A presentation that does not leave an impression"],
+        outcomes: ["A virtual space people can walk through", "Safe, repeatable training and walkthroughs", "A memorable experience for customers and teams"],
+      },
+      {
+        title: "Extended Reality\n(XR)",
+        description: "The umbrella for AR, VR and MR: immersive experiences planned across devices and platforms.",
+        fit: "You are not sure which immersive technology suits you, or you want one experience that works on several devices.",
+        problems: ["Unclear which technology fits the goal", "Separate builds for every device", "No plan from idea to launch"],
+        outcomes: ["A clear choice between AR, VR and MR for your goal", "One plan across devices and platforms", "A roadmap from concept to launch"],
+      },
+      {
+        title: "Mixed Reality\n(MR)",
+        description: "Virtual objects that sit in the real space around you and respond to it: demos, visualisation and teamwork.",
+        fit: "Digital content has to live in the real room and react to it: product demos, design reviews or shared work.",
+        problems: ["Virtual and real worlds that do not connect", "Design reviews on flat screens", "Remote teams that cannot look at the same thing"],
+        outcomes: ["Virtual objects placed in real space", "Better reviews and demos of products and spaces", "Teams who look at the same model together"],
+      },
     ],
   },
   process: {
@@ -336,6 +361,34 @@ export const METAVERSE_SECTIONS = build({
   guide: { scene: "metaverse", chip: "Step inside", heading: "Put on the headset,\nenter the metaverse", text: "Our guide explores virtual worlds with a headset on. Click the portal to teleport to another world and move your mouse to look around.", tips: ["Welcome to the metaverse! Click the portal to teleport.","Virtual worlds, applications and events, built with Unity and Unreal.","Move your mouse: the whole world tilts with you.","Virtual showrooms, campuses and arenas are all possible."] },
   cta: { heading: "Ready To Build Your\nVirtual Experience?", text: "Discuss your metaverse idea with We3vision and explore virtual worlds, metaverse applications and immersive digital experiences for your business.", button: "Discuss your metaverse project" },
 });
+
+// The Metaverse page: the 3D office walk (the visitor puts on a headset), the floor with Rutvi and the four cabins, the glass windows,
+// a soft fade out of the black and then the sections of a normal service page (without its hero, story and guide, which the scenes replace).
+export const METAVERSE_SECTIONS: PageSection[] = [
+  section("vrEntry", {
+    heading: "Metaverse Solutions For\nImmersive Experiences",
+    text: "We3vision provides metaverse concepts and interactive digital environments to help businesses explore virtual experiences. From metaverse applications and virtual worlds to virtual events, we build engaging experiences around your business objectives and audience needs.",
+    hint: "Scroll to walk in",
+    captions: "Welcome to the We3vision studio.\nThis is where ideas become worlds.\nOne more step.\nPut it on.",
+  }),
+  // after the black screen: the office seen from above: Rutvi sits down and the four teams (AR, VR, XR, MR) work in the corners
+  section("vrFloor", {
+    heading: "Tech services\nwe offer in\nthe metaverse",
+    hint: "Scroll to follow Rutvi",
+    name: "Rutvi",
+    tipTitle: "Which team is for you?",
+    tipText: "Point at one of the four teams to see what it builds and which industries it can help. On a phone, tap a team.",
+    industriesTitle: "If you work in one of these industries, this tech service is possible for you",
+    ctaLabel: "Talk to us",
+    govTitle: GOV_TITLE,
+    projects: GOV_PROJECTS,
+    cabins: [{"code":"AR","name":"Augmented Reality","text":"Digital layers on top of the real world: product previews, interactive guides and try-ons on a phone or tablet.","industries":"Retail & e-commerce\nReal estate\nFurniture & interiors\nEducation\nHealthcare\nTourism & hospitality"},{"code":"VR","name":"Virtual Reality","text":"Fully immersive virtual worlds, showrooms and training that people step into with a headset.","industries":"Real estate\nEducation & training\nGaming & entertainment\nManufacturing\nHealthcare\nEvents & exhibitions"},{"code":"XR","name":"Extended Reality","text":"The umbrella for AR, VR and MR: immersive experiences planned across devices and platforms.","industries":"Retail & fashion\nAutomotive\nEducation\nHealthcare\nCorporate & HR\nMedia & events"},{"code":"MR","name":"Mixed Reality","text":"Virtual objects that sit in the real space around you and respond to it: demos, visualisation and teamwork.","industries":"Architecture & construction\nManufacturing\nHealthcare\nEngineering & design\nAutomotive\nCorporate teams"}],
+  }),
+  // (the glass windows scene "vrSpace" was taken off the page on request; the section type is still available in the admin panel)
+  // Rutvi walks back into the office as the stage scrolls away: the sections of a normal service page follow at once (what we build, process, devices ...)
+  // the page of a normal service, with the device wall in place of the tools cloud and the quiz before the contact form
+  ...METAVERSE_FULL_SECTIONS.slice(3).flatMap((sec) => (sec.type === "tags" ? [section("vrDevices", DEVICES, "devices")] : sec.type === "contact" ? [section("vrQuiz", QUIZ, "quiz"), sec] : [sec])),
+];
 
 // ---------------------------------------------------------------------------------------------------------------------
 // UI/UX Design (/ui-ux-design)

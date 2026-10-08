@@ -86,8 +86,8 @@ function Chair({ x, y }: { x: number; y: number }) {
 }
 
 /** A corner of the office: the work table, the wall board and the meeting. */
-function Corner({ team, name, order, style }: { team: number; name: string; order: number; style: React.CSSProperties }) {
-  const Board = BOARDS[team % BOARDS.length];
+export function Corner({ team, name, order, style, board }: { team: number; name: string; order: number; style: React.CSSProperties; board?: () => React.ReactElement }) {
+  const Board = board ?? BOARDS[team % BOARDS.length];
   const tone = TEAM_HUES[team % TEAM_HUES.length];
   const seats = SEATS[team % SEATS.length];
   const b = team * 11;
@@ -197,13 +197,29 @@ export function OfficeStage({ teams, finalYear, goalTitle, goalText, names }: { 
 
     const measure = () => {
       const r = root.getBoundingClientRect();
-      W = r.width || 1;
-      H = r.height || 1;
+      // (a zero size is a half-laid-out page: wait for the next measure instead of drawing everything at 0.1 %)
+      if (r.width < 2 || r.height < 2) return;
+      const kx = r.width / W;
+      const ky = r.height / H;
+      // the colleagues who are walking keep their place on the floor when the window is resized or zoomed
+      if (W > 1 && H > 1 && (Math.abs(kx - 1) > 0.001 || Math.abs(ky - 1) > 0.001)) {
+        state.forEach((s) => {
+          s.x *= kx;
+          s.tx *= kx;
+          s.y *= ky;
+          s.ty *= ky;
+        });
+      }
+      W = r.width;
+      H = r.height;
       tall = W / H < 0.9;
-      const u = Math.min(1.25, Math.max(tall ? 0.58 : 0.62, Math.min(W / 1440, H / 900) * (tall ? 1.8 : 1)));
+      // the drawing grows with a huge screen (a big monitor, a zoomed-out page) as it does with a normal one: no ceiling
+      const u = Math.min(6, Math.max(tall ? 0.58 : 0.62, Math.min(W / 1440, H / 900) * (tall ? 1.8 : 1)));
       root.style.setProperty("--u", u.toFixed(3));
       // the size of a corner: it must fit its column
-      const zs = tall ? Math.min((0.42 * W) / ZW, (0.1 * H) / ZH) : Math.min((0.23 * W) / ZW, (0.2 * H) / ZH);
+      // (on a very wide, low screen the columns are far apart, so the corners may fill a little more of their column's height)
+      const fill = W / H > 2 ? 0.225 : 0.2;
+      const zs = tall ? Math.min((0.42 * W) / ZW, (0.1 * H) / ZH) : Math.min((0.23 * W) / ZW, (fill * H) / ZH);
       root.style.setProperty("--zs", zs.toFixed(3));
       root.dataset.layout = tall ? "tall" : "wide";
     };
@@ -216,7 +232,7 @@ export function OfficeStage({ teams, finalYear, goalTitle, goalText, names }: { 
       if (!visible) return;
       const places = tall ? PLACES_TALL : PLACES_WIDE;
       const count = tall ? 3 : walkers.length;
-      const scale = Math.min(1.2, Math.max(0.6, W / 1440));
+      const scale = Math.min(5, Math.max(0.6, W / 1440));
       const pick = (s: (typeof state)[number]) => {
         // somewhere else than where he stands
         let p = places[Math.floor(Math.random() * places.length)];
@@ -272,6 +288,9 @@ export function OfficeStage({ teams, finalYear, goalTitle, goalText, names }: { 
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(root);
+    // zooming the page or resizing the window must redraw the office at once, without a reload
+    window.addEventListener("resize", measure);
+    window.visualViewport?.addEventListener("resize", measure);
     const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { rootMargin: "100px" });
     io.observe(root);
     if (!reduce) raf = requestAnimationFrame(frame);
@@ -279,6 +298,8 @@ export function OfficeStage({ teams, finalYear, goalTitle, goalText, names }: { 
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
+      window.removeEventListener("resize", measure);
+      window.visualViewport?.removeEventListener("resize", measure);
     };
   }, []);
 

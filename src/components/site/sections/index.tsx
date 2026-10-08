@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import type { PageSection } from "@/lib/cms/pages";
 import type { SectionType } from "@/lib/cms/sections";
 import type { SiteSettings } from "@/lib/cms/settings";
+import { AboutWorldSection } from "./about-world";
 import { Advantages } from "./advantages";
 import { ArchGallery } from "./arch-gallery";
 import { Automate } from "./automate";
@@ -19,12 +20,19 @@ import { Process } from "./process";
 import { Reach } from "./reach";
 import type { SectionComponent } from "./shared";
 import { Services } from "./services";
+import { SketchCanvasSection } from "./sketch-canvas";
 import { BrandBoard } from "./brand-board";
 import { Story } from "./story";
 import { Strengths } from "./strengths";
 import { Tags } from "./tags";
 import { Team } from "./team";
 import { Timeline } from "./timeline";
+import { VrDevicesSection } from "./vr-devices";
+import { VrEmerge } from "./vr-emerge";
+import { VrEntry } from "./vr-entry";
+import { VrFloorSection } from "./vr-floor";
+import { VrQuizSection } from "./vr-quiz";
+import { VrSpaceSection } from "./vr-space";
 import { WordHero } from "./word-hero";
 
 // Adding a section type: define it in lib/cms/sections.ts, build the component, register it here.
@@ -52,6 +60,14 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   tags: Tags,
   timeline: Timeline,
   guide: Guide,
+  vrEntry: VrEntry,
+  aboutWorld: AboutWorldSection,
+  vrSpace: VrSpaceSection,
+  vrFloor: VrFloorSection,
+  vrEmerge: VrEmerge,
+  vrDevices: VrDevicesSection,
+  vrQuiz: VrQuizSection,
+  sketchCanvas: SketchCanvasSection,
   team: Team,
 };
 

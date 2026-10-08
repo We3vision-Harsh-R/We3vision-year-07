@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";
 
 const field =
@@ -8,6 +8,17 @@ const field =
 
 export function ContactForm({ buttonLabel }: { buttonLabel: string }) {
   const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, { status: "idle" });
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  // the sketch canvas can put a first message into the form ("Send to our artist")
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      const text = (e as CustomEvent<{ message?: string }>).detail?.message;
+      if (text && messageRef.current && !messageRef.current.value.trim()) messageRef.current.value = text;
+    };
+    window.addEventListener("w3v-prefill", onPrefill);
+    return () => window.removeEventListener("w3v-prefill", onPrefill);
+  }, []);
 
   if (state.status === "success") {
     return (
@@ -23,7 +34,7 @@ export function ContactForm({ buttonLabel }: { buttonLabel: string }) {
       <input name="name" required minLength={2} maxLength={100} autoComplete="name" aria-label="Full name" className={field} placeholder="Full Name" />
       <input name="email" type="email" required maxLength={200} autoComplete="email" aria-label="Email" className={field} placeholder="Email" />
       <input name="phone" type="tel" maxLength={30} autoComplete="tel" aria-label="Phone (optional)" className={field} placeholder="Phone (optional)" />
-      <textarea name="message" required minLength={10} maxLength={2000} rows={5} aria-label="Message" className={`${field} resize-y`} placeholder="Message" />
+      <textarea ref={messageRef} name="message" required minLength={10} maxLength={2000} rows={5} aria-label="Message" className={`${field} resize-y`} placeholder="Message" />
       {/* Honeypot: hidden from people, bots fill it in. */}
       <input name="website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" />
       {state.status === "error" && (
