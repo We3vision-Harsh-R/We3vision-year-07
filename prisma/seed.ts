@@ -1,8 +1,10 @@
-// Creates (or updates) the first admin login. Run once after the database migration:
+// Creates (or updates) the first admin login, and puts the sliding photos of the Brand Design page into Projects (only when there are none yet).
+// Run once after the database migration:
 //   npm run db:seed        (reads ADMIN_EMAIL, ADMIN_PASSWORD, optional ADMIN_NAME from .env)
 import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { SHOWCASE } from "../src/lib/cms/content/brand";
 
 try {
   process.loadEnvFile(".env");
@@ -29,6 +31,24 @@ async function main() {
       update: { name, passwordHash },
     });
     console.log(`Admin ready: ${email}`);
+    if ((await db.project.count()) === 0) {
+      await db.project.createMany({
+        data: SHOWCASE.map((item, i) => ({
+          slug: `project-${String(i + 1).padStart(2, "0")}`,
+          title: item.title,
+          category: item.category,
+          summary: item.text,
+          content: "",
+          cover: item.image,
+          images: [],
+          group: "brand",
+          sortOrder: i + 1,
+          published: true,
+          updatedAt: new Date(),
+        })),
+      });
+      console.log(`Projects: ${SHOWCASE.length} placeholder projects added (replace them in the admin panel).`);
+    }
   } finally {
     await db.$disconnect();
   }

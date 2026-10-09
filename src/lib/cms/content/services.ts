@@ -387,7 +387,7 @@ export const METAVERSE_SECTIONS: PageSection[] = [
   // (the glass windows scene "vrSpace" was taken off the page on request; the section type is still available in the admin panel)
   // Rutvi walks back into the office as the stage scrolls away: the sections of a normal service page follow at once (what we build, process, devices ...)
   // the page of a normal service, with the device wall in place of the tools cloud and the quiz before the contact form
-  ...METAVERSE_FULL_SECTIONS.slice(3).flatMap((sec) => (sec.type === "tags" ? [section("vrDevices", DEVICES, "devices")] : sec.type === "contact" ? [section("vrQuiz", QUIZ, "quiz"), sec] : [sec])),
+  ...METAVERSE_FULL_SECTIONS.slice(3).flatMap((sec) => (sec.type === "process" ? [section("vrProcess", sec.data as SectionData<"vrProcess">, "process")] : sec.type === "tags" ? [section("vrDevices", DEVICES, "devices")] : sec.type === "contact" ? [section("vrQuiz", QUIZ, "quiz"), sec] : [sec])),
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------

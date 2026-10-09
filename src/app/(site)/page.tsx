@@ -53,7 +53,7 @@ export default async function HomePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
-      <PageSections sections={page.content.sections} site={site} />
+      <PageSections sections={page.content.sections} site={site} page="home" />
     </>
   );
 }

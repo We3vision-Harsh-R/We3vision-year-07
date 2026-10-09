@@ -1,3 +1,4 @@
+import { SplitHeading } from "./modern/split-heading";
 import { Reveal } from "./reveal";
 import { SmartLink } from "./smart-link";
 
@@ -46,15 +47,18 @@ export function Chip({ children, lines = false }: { children: React.ReactNode; l
 }
 
 /** Centered section heading: chip, two-tone gradient title and intro. */
-export function SectionHead({ chip, heading, intro, children }: { chip?: string; heading?: string; intro?: string; children?: React.ReactNode }) {
+export function SectionHead({ chip, heading, intro, children, split = false }: { chip?: string; heading?: string; intro?: string; children?: React.ReactNode; split?: boolean }) {
   return (
     <Reveal className="text-center">
       {chip && <Chip>{chip}</Chip>}
-      {heading && (
-        <h2 className="text-vfade mx-auto mt-6 max-w-[900px] whitespace-pre-line pb-1 text-[2.5rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl md:text-[64px]">
-          {heading}
-        </h2>
-      )}
+      {heading &&
+        (split ? (
+          <SplitHeading text={heading} className="sh-center mx-auto mt-6 max-w-[900px] pb-1 text-[2.5rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl md:text-[64px]" />
+        ) : (
+          <h2 className="text-vfade mx-auto mt-6 max-w-[900px] whitespace-pre-line pb-1 text-[2.5rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl md:text-[64px]">
+            {heading}
+          </h2>
+        ))}
       {intro && <p className="mx-auto mt-6 max-w-[560px] text-base leading-relaxed text-orchid">{intro}</p>}
       {children && <div className="mt-8 flex justify-center">{children}</div>}
     </Reveal>

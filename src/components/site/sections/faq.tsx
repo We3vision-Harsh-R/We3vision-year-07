@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { Reveal } from "../reveal";
+import { FaqSplit } from "../modern/faq-split";
 import { SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";
 
-/** Frequently asked questions: one answer open at a time, opening smoothly. Also tells Google about the questions (FAQPage). */
-export const Faq: SectionComponent<"faq"> = ({ data }) => {
+/** Frequently asked questions (service pages: heading on the left, questions on the right; others: one column). One answer open at a time. Also tells Google about the questions (FAQPage). */
+function ClassicFaq({ data }: { data: { chip: string; heading: string; intro: string; items: { question: string; answer: string }[] } }) {
   const [open, setOpen] = useState<number | null>(0);
   const json = {
     "@context": "https://schema.org",
@@ -50,4 +51,16 @@ export const Faq: SectionComponent<"faq"> = ({ data }) => {
       </div>
     </section>
   );
-};
+}
+
+export const Faq: SectionComponent<"faq"> = ({ data, skin }) =>
+  skin === "modern" ? (
+    <section id="faq" className="py-24 sm:py-32">
+      <div className="mx-auto w-full max-w-[1120px] px-4">
+        <FaqSplit chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
+      </div>
+    </section>
+  ) : (
+    <ClassicFaq data={data} />
+  );
+

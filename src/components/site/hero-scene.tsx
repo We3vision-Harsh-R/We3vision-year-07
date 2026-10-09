@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { AiChat } from "./ai-chat";
-import { GuideFront, GuideSide } from "./avatar";
+import { PandaFront, PandaSide } from "./panda-walker";
 import { clamp } from "./anim-utils";
 import { ICONS } from "./icons";
+import { Street } from "./home-street";
 import { ParticleSphere } from "./particle-sphere";
 import { SmartLink } from "./smart-link";
 
@@ -16,7 +17,7 @@ const ACCENTS = ["hsl(calc(var(--th) + 76) calc(81.25% * var(--ts)) 87.45%)", "h
 // The first 110vh of the scroll (about two flicks of the wheel) are the ball, the blast, the dots fading away and the boxes
 // dropping in (PE_END of the whole track); the rest of the track is the walk of the little guide along the services.
 const FIRST_VH = 110;
-const WALK_VH = 150;
+const WALK_VH = 130; // about 100 px of scroll (one flick of the wheel) for every service
 const PE_END = FIRST_VH / (FIRST_VH + WALK_VH);
 // scroll progress (of that first part) at which the particle blast is over (the sphere finishes its own 0..1 animation here)
 const BLAST_END = 0.4;
@@ -164,6 +165,9 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
     let face = "right";
     let idx: number | null = null;
     let lastIdx: number | null = null;
+    let stepIdx = 0; // the box the panda is sent to by the scroll (a step at a time, see below)
+    let lastF = 0; // where the scroll was when it last moved, and the direction of that move
+    let dir = 1;
     let raf = 0;
     let last = 0;
     let onScreen = true;
@@ -180,6 +184,27 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
     document.fonts.ready.then(measure, measure);
     const io = new IntersectionObserver(([e]) => (onScreen = e.isIntersecting), { rootMargin: "200px" });
     io.observe(track);
+    // the street lamps: the light of the lamp at a service gets stronger when the panda comes near, and it falls on the panda
+    const lamps = Array.from(stage.querySelectorAll<HTMLElement>(".st-lamp"));
+    const litLast: number[] = lamps.map(() => -1);
+    let plitLast = -1;
+    const light = (x: number | null) => {
+      let top = 0;
+      lamps.forEach((el, i) => {
+        const near = x === null || !centers[i] ? 0 : Math.pow(Math.max(0, 1 - Math.abs(x - centers[i]) / 190), 1.4);
+        const v = Math.round((0.3 + 0.7 * near) * 100) / 100;
+        if (v !== litLast[i]) {
+          litLast[i] = v;
+          el.style.setProperty("--lit", String(v));
+        }
+        top = Math.max(top, near);
+      });
+      const pv = Math.round((0.22 + 0.78 * top) * 100) / 100;
+      if (pv !== plitLast) {
+        plitLast = pv;
+        av.style.setProperty("--plit", String(pv));
+      }
+    };
 
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
@@ -194,7 +219,25 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
       // which service does the guide want to be at (fractional while it is between two boxes)?
       let want: number | null = null;
       if (pe > 0.45 && hoverRef.current !== null) want = hoverRef.current;
-      else if (pe >= 1 && w > ENTER_W) want = w * (n - 1);
+      else if (pe >= 1 && w > ENTER_W) {
+        // one small scroll is enough to send the panda to the next box (it goes there and stands under it); the scroll does not drag it
+        // along between two boxes. Going down, the next box is chosen as soon as the scroll is a quarter of the way there; going up, the
+        // same from the other side.
+        const f = w * (n - 1);
+        if (f > lastF + 0.01) {
+          dir = 1;
+          lastF = f;
+        } else if (f < lastF - 0.01) {
+          dir = -1;
+          lastF = f;
+        }
+        stepIdx = dir > 0 ? Math.min(n - 1, Math.floor(f + 0.75)) : Math.max(0, Math.ceil(f - 0.75));
+        want = stepIdx;
+      } else {
+        stepIdx = 0;
+        lastF = 0;
+        dir = 1;
+      }
 
       if (window.innerWidth < 700) {
         // phones: the boxes wrap into two rows, so there is no walk: the scroll (or a tap) just opens the services one by one
@@ -215,6 +258,7 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
         } else if (want === null && shown) {
           shown = false; // scrolled back up: it blurs out and hides where it stands
           vel = 0;
+          light(null);
           av.dataset.show = "false";
         }
         if (shown) {
@@ -227,6 +271,11 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
             const target = Math.max(-WALK_SPEED, Math.min(WALK_SPEED, dx * 5));
             vel += (target - vel) * (1 - Math.exp(-dt * 9));
             ax += vel * dt;
+            // never past the box (a slow frame must not make it swing to and fro): it stops under it
+            if ((tx - ax) * dx < 0) {
+              ax = tx;
+              vel = 0;
+            }
             if (Math.abs(dx) < 0.6 && Math.abs(vel) < 8) {
               ax = tx;
               vel = 0;
@@ -234,9 +283,11 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
           }
           if (Math.abs(vel) > 10) face = vel > 0 ? "right" : "left";
           av.style.transform = `translateX(${ax.toFixed(1)}px)`;
-          av.dataset.state = Math.abs(vel) > 16 ? "walk" : "idle";
+          // walks when it moves, stands when it has (nearly) stopped; two limits so that it does not flicker between the two
+          av.dataset.state = Math.abs(vel) > (av.dataset.state === "walk" ? 9 : 24) ? "walk" : "idle";
           av.dataset.face = face;
           stage.style.setProperty("--ax", `${ax.toFixed(1)}px`);
+          light(ax);
         }
         // the box it stands under
         // (before the guide walks in, the first service is open)
@@ -336,12 +387,14 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
               {cards.map((_, i) => (
                 <i key={i} className="hub-tick" data-on={active === i} style={{ "--i": i } as CSSProperties} />
               ))}
+              {/* the street: a lamp at every service (its light is the colour of the service), trees, benches, flowers */}
+              <Street n={cards.length} accents={ACCENTS} />
             </span>
             <div ref={avRef} className="hub-av" data-show="false" data-state="idle" data-face="right" aria-hidden>
               <div className="hub-av-body">
-                {/* standing: the front view; walking: the walking pose (it faces right, flipped for left) */}
-                <GuideFront className="hub-sp hub-sp-idle" />
-                <GuideSide className="hub-sp hub-sp-walk" />
+                {/* the panda: standing = the front view; walking = the side view (it faces right, turned round for left) */}
+                <PandaFront className="hub-sp hub-sp-idle" />
+                <PandaSide className="hub-sp hub-sp-walk" />
               </div>
             </div>
             {cards.map((card, i) => {

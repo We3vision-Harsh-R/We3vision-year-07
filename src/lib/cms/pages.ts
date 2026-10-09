@@ -12,7 +12,10 @@ import {
   VISUAL_IDENTITY_SECTIONS,
   VISUAL_IDENTITY_SEO,
 } from "./content/brand";
+import { BLOG_SECTIONS, BLOG_SEO, CONTACT_SECTIONS, CONTACT_SEO, CAREERS_SECTIONS, CAREERS_SEO, PORTFOLIO_SECTIONS, PORTFOLIO_SEO } from "./content/company";
 import { HOME_SECTIONS, HOME_SEO } from "./content/home";
+import { TEAM_SECTIONS, TEAM_SEO } from "./content/team";
+import { HEADLESS_SECTIONS, HEADLESS_SEO, WORDPRESS_SECTIONS, WORDPRESS_SEO, SHOPIFY_SECTIONS, SHOPIFY_SEO, WOOCOMMERCE_SECTIONS, WOOCOMMERCE_SEO, SHOPIFYAPP_SECTIONS, SHOPIFYAPP_SEO, PLUGIN_SECTIONS, PLUGIN_SEO } from "./content/tech";
 import {
   ANIMATION_SECTIONS,
   ANIMATION_SEO,
@@ -55,6 +58,72 @@ export const PAGES = {
     path: "/about",
     defaultSeo: ABOUT_SEO,
     defaultContent: { sections: ABOUT_SECTIONS } satisfies PageContent,
+  },
+  "portfolio": {
+    title: "Portfolio",
+    path: "/portfolio",
+    defaultSeo: PORTFOLIO_SEO,
+    defaultContent: { sections: PORTFOLIO_SECTIONS } satisfies PageContent,
+  },
+  "blog": {
+    title: "Blog",
+    path: "/blog",
+    defaultSeo: BLOG_SEO,
+    defaultContent: { sections: BLOG_SECTIONS } satisfies PageContent,
+  },
+  "contact": {
+    title: "Contact Us",
+    path: "/contact",
+    defaultSeo: CONTACT_SEO,
+    defaultContent: { sections: CONTACT_SECTIONS } satisfies PageContent,
+  },
+  "careers": {
+    title: "Careers",
+    path: "/careers",
+    defaultSeo: CAREERS_SEO,
+    defaultContent: { sections: CAREERS_SECTIONS } satisfies PageContent,
+  },
+  "headless-cms": {
+    title: "Headless CMS Development",
+    path: "/headless-CMS-devlopment-services",
+    defaultSeo: HEADLESS_SEO,
+    defaultContent: { sections: HEADLESS_SECTIONS } satisfies PageContent,
+  },
+  "custom-wordpress": {
+    title: "Custom WordPress Development",
+    path: "/custom-wordpress-devlopment-services",
+    defaultSeo: WORDPRESS_SEO,
+    defaultContent: { sections: WORDPRESS_SECTIONS } satisfies PageContent,
+  },
+  "shopify": {
+    title: "Shopify Development",
+    path: "/shopify-development-services",
+    defaultSeo: SHOPIFY_SEO,
+    defaultContent: { sections: SHOPIFY_SECTIONS } satisfies PageContent,
+  },
+  "custom-woocommerce": {
+    title: "Custom WooCommerce Development",
+    path: "/custom-woocommerce-devlopment",
+    defaultSeo: WOOCOMMERCE_SEO,
+    defaultContent: { sections: WOOCOMMERCE_SECTIONS } satisfies PageContent,
+  },
+  "shopify-app": {
+    title: "Shopify App Development",
+    path: "/shopify-app-development-services",
+    defaultSeo: SHOPIFYAPP_SEO,
+    defaultContent: { sections: SHOPIFYAPP_SECTIONS } satisfies PageContent,
+  },
+  "wordpress-plugin": {
+    title: "WordPress Plugin Development",
+    path: "/wordpress-plugin-development-company",
+    defaultSeo: PLUGIN_SEO,
+    defaultContent: { sections: PLUGIN_SECTIONS } satisfies PageContent,
+  },
+  team: {
+    title: "Our Team",
+    path: "/team",
+    defaultSeo: TEAM_SEO,
+    defaultContent: { sections: TEAM_SECTIONS } satisfies PageContent,
   },
   ai: {
     title: "AI Development",

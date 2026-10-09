@@ -61,3 +61,34 @@ model Lead {
 
   @@index([createdAt])
 }
+
+// An uploaded picture (the admin panel resizes it to a light .webp before uploading). Served by /media/<id>; the id never changes
+// content, a replaced picture gets a new id, so the browser may keep it for a year.
+model Media {
+  id        String   @id @default(cuid())
+  name      String   @default("")
+  mime      String
+  size      Int
+  data      Bytes
+  createdAt DateTime @default(now())
+}
+
+// One portfolio project (a client work). The pictures are links (/media/<id> for uploaded ones). \`group\` says where it is shown:
+// "brand" = the sliding arches of the Brand Design page; every published project is also on the Portfolio page.
+model Project {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  category  String   @default("")
+  summary   String   @default("")
+  content   String   @default("")
+  cover     String   @default("")
+  images    Json     @default("[]")
+  group     String   @default("brand")
+  sortOrder Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([group, sortOrder])
+}

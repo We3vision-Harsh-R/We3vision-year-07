@@ -1,6 +1,7 @@
 import type { Field } from "./fields";
 import { GOV_PROJECTS, GOV_TITLE } from "./content/gov-projects";
 import { DEVICES, QUIZ } from "./content/metaverse-extra";
+import { TEAM_MEMBERS } from "./content/team";
 
 // Every section a page can contain. Adding a new section = add an entry here + a component in
 // src/components/site/sections/ + one line in that folder's index.tsx. The admin editor picks it up automatically.
@@ -202,7 +203,7 @@ export const SECTIONS = {
         fields: [
           { kind: "text", key: "category", label: "Category label", max: 30 },
           { kind: "text", key: "title", label: "Title", max: 140 },
-          { kind: "url", key: "image", label: "Image", hint: "Image path or link, e.g. /images/blog/post.webp" },
+          { kind: "image", key: "image", label: "Image", hint: "Image path or link, e.g. /images/blog/post.webp" },
           { kind: "url", key: "href", label: "Link" },
         ],
       },
@@ -370,14 +371,26 @@ export const SECTIONS = {
         itemLabel: "Photo",
         max: 40,
         fields: [
-          { kind: "url", key: "image", label: "Photo", hint: "Put the file in public/images/projects/ and write /images/projects/name.webp here. Empty = a soft colour placeholder." },
+          { kind: "image", key: "image", label: "Photo", hint: "Upload the photo here. Empty = a soft colour placeholder." },
           { kind: "text", key: "title", label: "Project name", max: 60, hint: "Shown when the photo opens on hover." },
           { kind: "text", key: "category", label: "What we did (small label)", max: 40, hint: "e.g. Brand identity" },
           { kind: "textarea", key: "text", label: "Short description (keep it to 1-2 sentences)", max: 140, hint: "Shown under the name when the photo opens; short text reads best." },
         ],
       },
+      { kind: "text", key: "group", label: "Show the projects of this group (from Projects in the admin panel)", max: 30, hint: "Write brand to show the Brand Design projects you manage under Projects. Leave empty to use only the photos listed above." },
     ],
-    defaults: { items: [{ image: "", title: "Project", category: "", text: "" }] },
+    defaults: { items: [{ image: "", title: "Project", category: "", text: "" }], group: "" },
+  }),
+  projects: defineSection({
+    label: "Projects (our work)",
+    description: "A grid of the projects you add under Projects in the admin panel (picture, name, short text). Every card opens the project page.",
+    fields: [
+      chip(),
+      headingField(),
+      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
+      { kind: "text", key: "group", label: "Only this group (empty = all projects)", max: 30, hint: "brand = the Brand Design projects. Empty shows every published project." },
+    ],
+    defaults: { chip: "Our work", heading: "Projects We\nAre Proud Of", intro: "", group: "" },
   }),
   process: defineSection({
     label: "Process steps",
@@ -400,6 +413,28 @@ export const SECTIONS = {
       },
     ],
     defaults: { chip: "Process", heading: "How we\nwork", intro: "", items: [{ title: "Step", text: "What happens in this step.", points: "Tag one\nTag two" }] },
+  }),
+  vrProcess: defineSection({
+    label: "Process on the metaverse floor (Rutvi walks from station to station)",
+    description: "The steps of the work as stations on a winding path on the floor of the metaverse studio. While the page scrolls, Rutvi walks from one station to the next and the card under the map tells what happens in that step. On a phone it is a plain list with a line down the side. Made for the Metaverse page.",
+    fields: [
+      chip(),
+      headingField(),
+      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
+      {
+        kind: "list",
+        key: "items",
+        label: "Steps (the stations, from left to right)",
+        itemLabel: "Step",
+        max: 8,
+        fields: [
+          { kind: "text", key: "title", label: "Title", max: 60 },
+          { kind: "textarea", key: "text", label: "Text", max: 300 },
+          { kind: "textarea", key: "points", label: "What happens (one per line)", max: 240 },
+        ],
+      },
+    ],
+    defaults: { chip: "Process", heading: "How we\nwork", intro: "", items: [{ title: "Step", text: "What happens in this step.", points: "Point one\nPoint two" }] },
   }),
   tags: defineSection({
     label: "Tools / tags",
@@ -560,7 +595,7 @@ export const SECTIONS = {
           { kind: "text", key: "eyebrow", label: "Small label", max: 40 },
           { kind: "text", key: "title", label: "Title", max: 80 },
           { kind: "textarea", key: "text", label: "Text", max: 220 },
-          { kind: "url", key: "image", label: "Picture (leave empty for the drawn scene)", hint: "A wide picture works best (16:7). Leave empty to use the artwork that is built in." },
+          { kind: "image", key: "image", label: "Picture (leave empty for the drawn scene)", hint: "A wide picture works best (16:7). Leave empty to use the artwork that is built in." },
           { kind: "textarea", key: "cards", label: "Three small cards, one per line: Title | short text", max: 400 },
         ],
       },
@@ -637,7 +672,7 @@ export const SECTIONS = {
           { kind: "text", key: "org", label: "Name of the department (big)", max: 12 },
           { kind: "text", key: "orgFull", label: "Full name of the department", max: 80 },
           { kind: "text", key: "mark", label: "Letters inside the round badge (used when there is no logo)", max: 3 },
-          { kind: "url", key: "logo", label: "Logo (optional)", hint: "Image path or link, e.g. /images/logos/nrida.png. Leave empty to show the letters." },
+          { kind: "image", key: "logo", label: "Logo (optional)", hint: "Image path or link, e.g. /images/logos/nrida.png. Leave empty to show the letters." },
           { kind: "text", key: "title", label: "Project name", max: 80 },
           { kind: "text", key: "status", label: "Status", max: 20, hint: "e.g. Delivered or Ongoing" },
           { kind: "text", key: "period", label: "Period", max: 40 },
@@ -676,8 +711,8 @@ export const SECTIONS = {
     },
   }),
   vrDevices: defineSection({
-    label: "Device wall (glass cards, a filter and what we build for each device)",
-    description: "A wall of glass cards, one per device or platform (headsets, phone AR, the browser, game engines). Pointing at a card shows what the company builds for it; the filter shows which devices fit AR, VR, XR or MR. Below it a strip with the technology used.",
+    label: "Device board (list of devices, a big stage and a filter)",
+    description: "A board of devices and platforms (headsets, phone AR, the browser, game engines): a list on the left and a big stage on the right that shows the chosen device, what the company builds for it and a button to the contact form. It changes device by itself; the filter shows which devices fit AR, VR, XR or MR. Below it a strip with the technology used.",
     fields: [
       chip(),
       headingField(),
@@ -696,6 +731,7 @@ export const SECTIONS = {
           { kind: "textarea", key: "tags", label: "Tools (one per line)", max: 160 },
         ],
       },
+      { kind: "text", key: "ctaLabel", label: "Button under a device (goes to the contact form)", max: 40 },
       { kind: "text", key: "toolsLabel", label: "Heading of the technology strip", max: 50 },
       { kind: "textarea", key: "tools", label: "Technology strip (one per line)", max: 600 },
     ],
@@ -743,6 +779,77 @@ export const SECTIONS = {
       },
     ],
     defaults: QUIZ,
+  }),
+  teamOffice: defineSection({
+    label: "Team office (the people at their desks, camera goes room to room)",
+    description: "The office seen from above with a room for every department and the people at the table (20 to 30 fit well). The page scrolls the camera from room to room; pointing at a person shows a card with the photo, name, role, a few words and a link. On a phone: the same people as cards.",
+    fields: [
+      chip(),
+      headingField(),
+      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
+      {
+        kind: "list",
+        key: "members",
+        label: "People (the rooms are made from the Department names, in the order of the first person of each)",
+        itemLabel: "Person",
+        max: 40,
+        fields: [
+          { kind: "text", key: "name", label: "Name", max: 60 },
+          { kind: "text", key: "role", label: "Role", max: 70 },
+          { kind: "text", key: "dept", label: "Department", max: 30, hint: "People with the same department sit in the same room" },
+          { kind: "textarea", key: "bio", label: "A few words about the person", max: 260 },
+          { kind: "image", key: "photo", label: "Photo (optional)", hint: "Image path or link. Without a photo the initials are shown." },
+          { kind: "url", key: "linkedin", label: "LinkedIn link (optional)" },
+          { kind: "text", key: "girl", label: "Draw as a girl (type yes)", max: 3 },
+        ],
+      },
+    ],
+    defaults: { chip: "The office", heading: "Meet The Team", intro: "", members: TEAM_MEMBERS },
+  }),
+  aboutHero: defineSection({
+    label: "About: first screen (words on a grid floor)",
+    description: "The first screen of the About page as words: label, big heading, text and two buttons, in front of a grid floor in perspective. No 3D scene.",
+    fields: [
+      chip(),
+      headingField("Big heading (the page heading for Google)"),
+      { kind: "textarea", key: "text", label: "Text", max: 360 },
+      { kind: "text", key: "primaryLabel", label: "First button text (goes to the story)", max: 30 },
+      { kind: "url", key: "primaryHref", label: "First button link" },
+      { kind: "text", key: "secondaryLabel", label: "Second button text", max: 30 },
+      { kind: "url", key: "secondaryHref", label: "Second button link" },
+    ],
+    defaults: { chip: "About Us", heading: "About\nWe3vision", text: "", primaryLabel: "Discover our story", primaryHref: "#story", secondaryLabel: "Our services", secondaryHref: "#services" },
+  }),
+  aboutChapters: defineSection({
+    label: "About: our story in chapters (with the panda)",
+    description: "The story of the company as chapters on a line that is drawn while the page scrolls, and a card where the panda says a few things.",
+    fields: [
+      chip(),
+      headingField(),
+      {
+        kind: "list",
+        key: "chapters",
+        label: "Chapters",
+        itemLabel: "Chapter",
+        max: 8,
+        fields: [
+          { kind: "text", key: "title", label: "Title", max: 60 },
+          { kind: "textarea", key: "text", label: "Text", max: 240 },
+        ],
+      },
+      {
+        kind: "group",
+        key: "meet",
+        label: "The panda at the end",
+        fields: [
+          { kind: "text", key: "chip", label: "Small label", max: 40 },
+          { kind: "textarea", key: "heading", label: "Heading", max: 80, hint: LINES_HINT },
+          { kind: "textarea", key: "text", label: "Text", max: 240 },
+          { kind: "textarea", key: "tips", label: "Things the panda says (one per line)", max: 700 },
+        ],
+      },
+    ],
+    defaults: { chip: "Our story", heading: "Our Story", chapters: [{ title: "Chapter", text: "Text." }], meet: { chip: "Meet our mascot", heading: "Say hello to\nPando", text: "", tips: "Hi!" } },
   }),
   vrEmerge: defineSection({
     label: "Fade from black into the page",

@@ -1,4 +1,5 @@
 import { Fragment, type CSSProperties } from "react";
+import { coverOf } from "@/lib/projects";
 import { Img } from "../img";
 import type { SectionComponent } from "./shared";
 
@@ -19,11 +20,14 @@ const TINTS: [string, string][] = [
  * Pointing at a photo stops the row and opens that photo into a rounded square as wide as three photos: the others step
  * aside and fade back, and the project's name, label and short description appear on it.
  */
-export const ArchGallery: SectionComponent<"archGallery"> = ({ data }) => {
-  const copies = data.items.length >= 20 ? 2 : data.items.length >= 10 ? 3 : 4;
+export const ArchGallery: SectionComponent<"archGallery"> = ({ data, projects }) => {
+  // the projects of the admin panel (Projects) of this group; without any, the photos written in the content of the section
+  const mine = data.group ? (projects ?? []).filter((x) => x.group === data.group) : [];
+  const items = mine.length > 0 ? mine.map((x) => ({ image: coverOf(x), title: x.title, category: x.category, text: x.summary })) : data.items;
+  const copies = items.length >= 20 ? 2 : items.length >= 10 ? 3 : 4;
   const group = (hidden: boolean) => (
     <ul className="arch-group" aria-hidden={hidden || undefined}>
-      {data.items.map((item, i) => {
+      {items.map((item, i) => {
         const [a, b] = TINTS[i % TINTS.length];
         return (
           <li key={i} className="arch" tabIndex={hidden ? undefined : 0} style={{ "--a": a, "--b": b } as CSSProperties}>
@@ -42,7 +46,7 @@ export const ArchGallery: SectionComponent<"archGallery"> = ({ data }) => {
   );
   return (
     <section id="work" aria-label="Our work" className="arch-gallery">
-      <div className="arch-track" style={{ "--n": data.items.length } as CSSProperties}>
+      <div className="arch-track" style={{ "--n": items.length } as CSSProperties}>
         {Array.from({ length: copies }, (_, k) => (
           <Fragment key={k}>{group(k > 0)}</Fragment>
         ))}

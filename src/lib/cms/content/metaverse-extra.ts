@@ -6,7 +6,8 @@
 export const DEVICES = {
   chip: "Devices & platforms",
   heading: "Built For Every\nDevice",
-  intro: "Point at a device to see what we build for it. Use the filter to see which ones fit AR, VR, XR or MR.",
+  intro: "Choose a device to see what we build for it. Use the filter to see which ones fit AR, VR, XR or MR.",
+  ctaLabel: "Plan it for this device",
   toolsLabel: "Technology we work with",
   tools: "Unity\nUnreal Engine\nWebGL\nThree.js\nWebXR\nA-Frame\nBlender\nCinema 4D\nSpatial.io\nMozilla Hubs\nDecentraland SDK",
   items: [

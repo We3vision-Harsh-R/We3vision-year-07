@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";
+import { GlowEdge } from "./glow-edge";
 
 const field =
   "w-full rounded-lg border border-violet/10 bg-[hsl(calc(var(--th)_+_348.73)_calc(60%_*_var(--ts))_10.78%)] px-4 py-3.5 text-base text-violet outline-none transition placeholder:text-orchid focus:border-violet/50 focus:bg-[hsl(calc(var(--th)_+_347.5)_calc(57.14%_*_var(--ts))_13.73%)]";
@@ -22,7 +23,8 @@ export function ContactForm({ buttonLabel }: { buttonLabel: string }) {
 
   if (state.status === "success") {
     return (
-      <div role="status" className="card-glass rounded-[19px] p-10 text-center">
+      <div role="status" className="bglow card-glass rounded-[19px] border border-violet/[0.12] p-10 text-center">
+        <GlowEdge />
         <p className="text-vfade pb-1 text-3xl font-semibold tracking-tight">Message sent</p>
         <p className="mt-3 text-orchid">{state.message}</p>
       </div>

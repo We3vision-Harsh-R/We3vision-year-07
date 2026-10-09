@@ -79,8 +79,10 @@ export const SITE_DEFAULTS = {
     {
       label: "Company",
       items: [
+        { label: "Portfolio", href: "/portfolio" },
         { label: "Blog", href: "/blog" },
         { label: "Who We Are", href: "/about" },
+        { label: "Our Team", href: "/team" },
         { label: "Contact Us", href: "/contact" },
         { label: "What We Done", href: "/blog" },
         { label: "Careers", href: "/careers" },

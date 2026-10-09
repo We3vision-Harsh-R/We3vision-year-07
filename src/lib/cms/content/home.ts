@@ -72,4 +72,69 @@ export const HOME_SECTIONS: PageSection[] = [
       },
     ],
   }),
+  // Below the first scene (the sections above stay exactly as they were): the same glass cards and glow, with facts from the old site.
+  section("highlights", {
+    chip: "At a glance",
+    items: [
+      { value: "2019", label: "Founded in Surat" },
+      { value: "7", label: "Years of innovation" },
+      { value: "300+", label: "Successful projects" },
+    ],
+  }),
+  section("industries", {
+    chip: "Industries We Serve",
+    heading: "Built For\nEvery Industry",
+    intro: "We do not work with only one kind of business. Here is what our websites, apps, AI and VR can look like in some of them.",
+    items: [
+      { name: "E-commerce", description: "Fast and conversion-optimized online stores to help grow your sales." },
+      { name: "Healthcare", description: "Secure and user-friendly portals for clinics, hospitals and health startups." },
+      { name: "Real estate", description: "Listing platforms with advanced filters, maps and booking capabilities, and VR walkthroughs of properties." },
+      { name: "Education", description: "Online learning websites, course portals and student management systems." },
+      { name: "Finance", description: "Web apps for banking, fintech and secure transaction platforms." },
+      { name: "Construction & mining", description: "VR projects and immersive visualisation for construction, real estate and mining." },
+      { name: "Travel & hospitality", description: "Booking systems, tour showcase websites and itinerary planners." },
+    ],
+  }),
+  section("tags", {
+    chip: "Tools & Technologies",
+    heading: "The Technology\nBehind Our Work",
+    intro: "",
+    items: "React.js\nVue.js\nAngular\nNode.js\nLaravel\nPHP\nWordPress\nShopify\nKotlin\nSwift\nFlutter\nReact Native\nPython\nTensorFlow\nOpenAI\nUnity\nUnreal Engine\nPostgreSQL\nMongoDB\nDocker",
+  }),
+  section("advantages", {
+    chip: "Why Choose Us",
+    heading: "Why Choose\nWe3vision",
+    intro: "Our expertise, your success. We think big and have hands in all leading technology platforms to provide you a wide array of services.",
+    items: [
+      { title: "Client-Centric Approach", description: "We put your needs first, ensuring every solution is tailored to your goals." },
+      { title: "Scalable Solutions", description: "Our services grow with your business, adapting to new challenges and opportunities." },
+      { title: "Creative Thinking", description: "We bring fresh ideas and innovative strategies to every project." },
+      { title: "On-Time Delivery", description: "We respect your deadlines and deliver quality work, every time." },
+    ],
+  }),
+  section("reach", {
+    chip: "Global Reach",
+    heading: "From Surat\nTo The World",
+    text: "Our head office and development team are in Surat, India, and we have a second office in Marburg, Germany. We work with companies in many countries, so wherever your business is, we build with you.",
+    buttonLabel: "Contact Us",
+    buttonHref: "#contact",
+    // the first place is the head office; the globe turns to every other place in turn and a line of light travels there from it
+    // (change the list in the admin panel: Pages, Home, Global reach)
+    places: [
+      { label: "Surat, India", lat: "21.1702", lng: "72.8311" },
+      { label: "United States", lat: "39.8", lng: "-98.6" },
+      { label: "Canada", lat: "45.4", lng: "-75.7" },
+      { label: "United Kingdom", lat: "52.5", lng: "-1.9" },
+      { label: "Germany", lat: "50.8021", lng: "8.7667" },
+      { label: "UAE", lat: "25.2", lng: "55.3" },
+      { label: "Singapore", lat: "1.35", lng: "103.8" },
+      { label: "Australia", lat: "-33.9", lng: "151.2" },
+    ],
+  }),
+  section("contact", {
+    chip: "Let's talk",
+    heading: "Ready To Start\nYour Project?",
+    text: "Tell us about your idea and the We3vision team will get back to you. Web, AI, apps, VR and design: we are happy to help.",
+    buttonLabel: "Send a Message",
+  }),
 ];

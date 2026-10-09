@@ -1,6 +1,7 @@
 "use client";
 
 import { emptyValue, type Field } from "@/lib/cms/fields";
+import { ImageField } from "./image-field";
 import { btnIcon, btnSecondary, inputClass, labelClass } from "./ui";
 
 type Value = Record<string, unknown>;
@@ -34,6 +35,8 @@ function FieldControl({ field, value, onChange }: { field: Field; value: unknown
           {field.hint && <span className="mt-1 block text-xs font-normal text-zinc-400">{field.hint}</span>}
         </label>
       );
+    case "image":
+      return <ImageField label={field.label} hint={field.hint} value={typeof value === "string" ? value : ""} onChange={onChange} />;
     case "textarea":
       return (
         <label className={labelClass}>

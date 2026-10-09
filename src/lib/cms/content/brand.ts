@@ -38,7 +38,7 @@ const contact = (heading: string, text: string, button: string) => section("cont
 // they are easy to find and replace in the admin panel (real photo: put the file in public/images/projects/ and set "image").
 const SHOWCASE_IMAGES = ["peach", "rainbow", "silk", "leaf", "flowers", "swing", "tree", "dunes"];
 const SHOWCASE_LABELS = ["Brand identity", "Logo design", "Visual identity", "Brand strategy", "Marketing collateral"];
-const SHOWCASE = Array.from({ length: 30 }, (_, i) => ({
+export const SHOWCASE = Array.from({ length: 30 }, (_, i) => ({
   image: `/images/showcase/${SHOWCASE_IMAGES[(i * 3) % SHOWCASE_IMAGES.length]}.svg`,
   title: `Project ${String(i + 1).padStart(2, "0")}`,
   category: SHOWCASE_LABELS[i % SHOWCASE_LABELS.length],
@@ -72,7 +72,8 @@ export const BRAND_SECTIONS: PageSection[] = [
   // public/images/projects/ and set "image" to /images/projects/<file>.webp (here or in the admin panel).
   // Pointing at a photo opens it into a rounded square (3 pills wide) with the name, a small label and a short description.
   // The texts below are PLACEHOLDERS: write the real client project info together with the real photos.
-  section("archGallery", { items: SHOWCASE }),
+  // group "brand": the projects you add under Projects in the admin panel (the photos below are what shows until there is one)
+  section("archGallery", { items: SHOWCASE, group: "brand" }),
   // Not one long text column: a live brand board (5 tiles that light up one by one with the list), a large sentence that
   // fills with light while scrolling, and the services as a hoverable list. The words are the old site's, unchanged.
   section("brandBoard", {

@@ -1,5 +1,6 @@
 import { GlowEdge } from "../glow-edge";
 import { ContactForm } from "../contact-form";
+import { NeonReveal } from "../modern/neon-reveal";
 import { Reveal } from "../reveal";
 import { Frame, SectionHead, Wide } from "../ui";
 import type { SectionComponent } from "./shared";
@@ -15,16 +16,25 @@ function Line({ text }: { text: string }) {
   return <>{value}</>;
 }
 
-export const Contact: SectionComponent<"contact"> = ({ data, site }) => (
+export const Contact: SectionComponent<"contact"> = ({ data, site, skin }) => (
   <section id="contact" className="py-24 sm:py-32">
     <Wide>
       <SectionHead chip={data.chip} heading={data.heading} intro={data.text} />
       <Reveal className="mt-12">
-        <Frame width="max-w-[560px]" className="px-0">
-          <div className="px-4 py-10 sm:px-8">
-            <ContactForm buttonLabel={data.buttonLabel} />
-          </div>
-        </Frame>
+        {skin === "modern" ? (
+          <NeonReveal className="mx-auto w-full max-w-[600px]">
+            <div className="bglow card-glass rounded-[19px] border border-violet/[0.12] p-6 sm:p-9">
+              <GlowEdge />
+              <ContactForm buttonLabel={data.buttonLabel} />
+            </div>
+          </NeonReveal>
+        ) : (
+          <Frame width="max-w-[560px]" className="px-0">
+            <div className="px-4 py-10 sm:px-8">
+              <ContactForm buttonLabel={data.buttonLabel} />
+            </div>
+          </Frame>
+        )}
       </Reveal>
 
       {site.contactCards.length > 0 && (

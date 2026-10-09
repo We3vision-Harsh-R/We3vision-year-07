@@ -11,11 +11,12 @@ export const metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
   const admin = await requireAdmin();
-  const [statuses, totalLeads, unreadLeads, latest] = await Promise.all([
+  const [statuses, totalLeads, unreadLeads, latest, projectCount] = await Promise.all([
     getPageStatuses(),
     db.lead.count(),
     db.lead.count({ where: { isRead: false } }),
     db.lead.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
+    db.project.count(),
   ]);
 
   return (
@@ -25,7 +26,12 @@ export default async function DashboardPage() {
         <p className="mt-1 text-sm text-zinc-500">Manage everything on the website from here.</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Link href="/admin/projects" className={`${card} transition hover:border-brand/40`}>
+          <p className="text-sm text-zinc-500">Projects</p>
+          <p className="mt-2 font-display text-4xl font-bold">{projectCount}</p>
+          <p className="mt-1 text-xs text-zinc-400">portfolio projects, with pictures</p>
+        </Link>
         <Link href="/admin/leads" className={`${card} transition hover:border-brand/40`}>
           <p className="text-sm text-zinc-500">New enquiries</p>
           <p className="mt-2 font-display text-4xl font-bold text-brand">{unreadLeads}</p>

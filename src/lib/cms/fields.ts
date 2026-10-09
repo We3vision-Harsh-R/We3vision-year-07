@@ -4,6 +4,7 @@ export type Field =
   | { kind: "text"; key: string; label: string; max?: number; hint?: string }
   | { kind: "textarea"; key: string; label: string; max?: number; hint?: string }
   | { kind: "url"; key: string; label: string; hint?: string }
+  | { kind: "image"; key: string; label: string; hint?: string } // a picture: a link, or /media/<id> of a picture uploaded in the admin panel
   | { kind: "group"; key: string; label: string; fields: Field[] }
   | { kind: "list"; key: string; label: string; itemLabel: string; fields: Field[]; max?: number };
 
@@ -33,6 +34,7 @@ export function normalize(fields: readonly Field[], input: unknown): Record<stri
       case "textarea":
         out[f.key] = clamp(v, f.max ?? 2000, false);
         break;
+      case "image":
       case "url": {
         const s = clamp(v, 500, true);
         out[f.key] = isSafeHref(s) ? s : "";
