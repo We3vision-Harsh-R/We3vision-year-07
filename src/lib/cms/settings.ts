@@ -12,6 +12,21 @@ export const SITE_FIELDS: Field[] = [
   { kind: "text", key: "legalName", label: "Legal name (SEO)", max: 100 },
   { kind: "textarea", key: "tagline", label: "Footer welcome text", max: 400 },
   { kind: "list", key: "nav", label: "Floating menu links (bottom of the page)", itemLabel: "Link", max: 7, fields: linkFields },
+  { kind: "text", key: "megaTitle", label: "Big menu: heading", max: 120, hint: "The big menu opens from the round button of the floating menu." },
+  { kind: "textarea", key: "megaText", label: "Big menu: text under the heading", max: 600 },
+  { kind: "text", key: "megaCta", label: "Big menu: button text", max: 40 },
+  { kind: "url", key: "megaCtaHref", label: "Big menu: button link" },
+  {
+    kind: "list",
+    key: "badges",
+    label: "Big menu: recognitions (Startup India, MSME)",
+    itemLabel: "Badge",
+    max: 4,
+    fields: [
+      { kind: "text", key: "label", label: "Name", max: 60 },
+      { kind: "image", key: "image", label: "Logo (white on transparent works best)" },
+    ],
+  },
   {
     kind: "list",
     key: "menus",
@@ -44,6 +59,15 @@ export const SITE_DEFAULTS = {
   legalName: "We3vision Private Limited",
   tagline:
     "We're thrilled to have you on board. At We3vision Private Limited, we value innovation, collaboration, and growth. We're excited to see the impact you'll make as part of our team. Let's achieve great things together!",
+  megaTitle: "Leading Web, AI & Metaverse Development Services in India",
+  megaText:
+    "We3vision Private Limited offers the exceptional of Virtual reality (VR) and Augmented Reality (AR) development services and delivering innovative and immersive solutions to satisfy various corporate to requirements in different sectors.",
+  megaCta: "View works",
+  megaCtaHref: "/portfolio",
+  badges: [
+    { label: "Startup India", image: "/images/startup-india.webp" },
+    { label: "MSME, Ministry of MSME, Govt. of India", image: "/images/make-in-india.webp" },
+  ],
   nav: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -61,6 +85,7 @@ export const SITE_DEFAULTS = {
         { label: "CRM Development", href: "/crm" },
         { label: "2D/3D Animation", href: "/animation" },
         { label: "3D Modeling", href: "/3d-modeling" },
+        { label: "UI/UX Design", href: "/ui-ux-design" },
         { label: "Graphic Design", href: "/graphics" },
         { label: "SEO Optimization", href: "/seo" },
       ],

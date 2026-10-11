@@ -369,7 +369,7 @@ export const METAVERSE_SECTIONS: PageSection[] = [
     heading: "Metaverse Solutions For\nImmersive Experiences",
     text: "We3vision provides metaverse concepts and interactive digital environments to help businesses explore virtual experiences. From metaverse applications and virtual worlds to virtual events, we build engaging experiences around your business objectives and audience needs.",
     hint: "Scroll to walk in",
-    captions: "Welcome to the We3vision studio.\nThis is where ideas become worlds.\nOne more step.\nPut it on.",
+    captions: "Welcome to our metaverse studio.\nThis is where ideas become worlds.\nOne more step to the table.\nPut on the headset.",
   }),
   // after the black screen: the office seen from above: Rutvi sits down and the four teams (AR, VR, XR, MR) work in the corners
   section("vrFloor", {
@@ -764,7 +764,7 @@ export const GRAPHICS_SECTIONS = build({
       { title: "Website & App\nUI/UX Design", description: "Website interfaces, responsive web design and mobile app design tailored to your product ecosystem.", href: "/ui-ux-design" },
       { title: "E-commerce\nDesign", description: "Conversion-optimized storefronts, product cards and intuitive checkout flows." },
       { title: "Logo &\nBrand Identity", description: "Logo design, brand guidelines and a distinctive, memorable brand presence.", href: "/brand-identity" },
-      { title: "Marketing\nGraphics", description: "Advertising creatives, social media content, campaign landing pages and brand collateral.", href: "/brand-identity/marketing-collateral" },
+      { title: "Marketing\nGraphics", description: "Advertising creatives, social media content, campaign landing pages and brand collateral.", href: "" },
       { title: "Pitch Decks &\nPresentations", description: "Investor pitch decks and presentation design that tell your story clearly." },
       { title: "Design Systems", description: "Design systems that keep your product consistent across platforms and simplify future growth.", href: "/ui-ux-design" },
     ],

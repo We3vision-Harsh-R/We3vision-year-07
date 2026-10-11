@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import createGlobe from "cobe";
 
 type Place = { lat: number; lng: number };
@@ -25,8 +25,27 @@ const SPIN = 0.16; // how fast the globe turns (radians per second)
  */
 export function Globe({ places, label }: { places: Place[]; label: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [box, setBox] = useState(0); // the width of the globe on the screen (in steps of 40 px), so that it is drawn again when the window changes size
 
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    let timer = 0;
+    const measure = () => setBox(Math.round(canvas.offsetWidth / 40) * 40);
+    const ro = new ResizeObserver(() => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(measure, 200);
+    });
+    ro.observe(canvas);
+    measure();
+    return () => {
+      window.clearTimeout(timer);
+      ro.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (box === 0) return;
     const canvas = canvasRef.current;
     if (!canvas || places.length === 0) return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -135,7 +154,7 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
       observer.disconnect();
       globe.destroy();
     };
-  }, [places]);
+  }, [places, box]);
 
-  return <canvas ref={canvasRef} role="img" aria-label={label} className="aspect-square w-full max-w-[440px]" />;
+  return <canvas ref={canvasRef} role="img" aria-label={label} className="aspect-square w-full max-w-[min(100%,72vh,780px)]" />;
 }

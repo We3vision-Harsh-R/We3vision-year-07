@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { logout } from "@/actions/auth";
 import { AdminNav } from "@/components/admin/admin-nav";
@@ -13,7 +14,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       <aside className="bg-ink px-4 py-4 text-white lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:px-5 lg:py-6">
         <div className="mb-4 flex items-center justify-between lg:mb-8 lg:block">
           <Link href="/admin" className="flex items-center gap-2.5 font-display text-lg font-bold">
-            <span className="bg-brand-gradient grid size-8 place-items-center rounded-lg text-sm">W</span>
+            <Image src="/brand/logo-mark.webp" alt="" width={480} height={395} className="h-8 w-auto" />
             Admin panel
           </Link>
           <form action={logout} className="lg:hidden">

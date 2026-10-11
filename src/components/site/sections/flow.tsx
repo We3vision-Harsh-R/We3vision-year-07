@@ -1,111 +1,161 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FlowIcon } from "../flow-icons";
 import { SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";
 
-const COLS = 6;
-
-function Plus({ className }: { className: string }) {
-  return <span aria-hidden className={`flow-plus ${className}`} />;
-}
-
-function Boxes({ items, base }: { items: { label: string; icon: string }[]; base: number }) {
-  return (
-    <ul className="flow-row" style={{ "--base": `${base}ms` } as CSSProperties}>
-      {items.slice(0, COLS).map((item, i) => (
-        <li key={i}>
-          <div className="flow-box" style={{ "--k": i } as CSSProperties}>
-            <FlowIcon name={item.icon} className="size-[22px]" />
-            <span>{item.label}</span>
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-/** The wires between a row of boxes and the core: one short line per box, a bus line, one line to the core. `down` = data flows
- *  from the boxes to the core (sources); otherwise from the core out to the boxes (actions). */
-function Wires({ count, down, base }: { count: number; down: boolean; base: number }) {
-  return (
-    <div className={`flow-wires ${down ? "is-in" : "is-out"}`} aria-hidden style={{ "--base": `${base}ms` } as CSSProperties}>
-      {Array.from({ length: count }, (_, i) => (
-        <span key={i} className="w w-v" style={{ "--i": i, "--x": `${((i + 0.5) / COLS) * 100}%` } as CSSProperties}>
-          <span className="pulse" />
-        </span>
-      ))}
-      <span className="w w-h" style={{ "--l": `${(0.5 / COLS) * 100}%` } as CSSProperties}>
-        <span className="pulse pulse-l" />
-        <span className="pulse pulse-r" />
-      </span>
-      <span className="w w-c">
-        <span className="pulse" />
-      </span>
-    </div>
-  );
-}
+const TICK = 750; // how fast the story of the run goes (ms per step)
+const STEPS_DEFAULT = ["Reads the message", "Checks your CRM and documents", "Decides what to do", "Does the work"];
 
 /**
- * Diagram "your tools -> AI core -> actions": a row of boxes on top (where the data lives), a glowing core in the middle (the
- * AI) and a row of boxes below (what it does). When it scrolls into view the boxes appear one by one, the wires draw
- * themselves and light pulses start to flow along them. Without JavaScript everything is simply shown.
+ * "How AI works for you" as one small run of an AI agent, played over and over: something happens (a customer e-mail arrives) -> the agent reads it, looks
+ * into your tools, decides and acts (its steps tick one after the other, the tools it uses light up) -> the results appear one by one, each with a
+ * check mark and the seconds it took, and a line says that nobody had to touch it. Then it starts again. It plays only while it is on the screen (one
+ * timer, only the state of a few cells changes); without JavaScript, or with less motion, the finished run is shown. The look is in globals.css (.fa-*).
  */
 export const Flow: SectionComponent<"flow"> = ({ data }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [t, setT] = useState(-1); // -1: not started (a quiet picture), 0.. the step of the story, 999: the finished run
+
+  const stepsFromData = (data.steps ?? "").split("\n").map((s) => s.trim()).filter(Boolean);
+  const steps = (stepsFromData.length ? stepsFromData : STEPS_DEFAULT).slice(0, 5);
+  const tools = data.sources.slice(0, 6);
+  const results = data.actions.slice(0, 6);
+  const n = steps.length;
+  const loop = 2 + n + results.length + 5; // the whole story, with a rest at the end
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    el.dataset.live = "false";
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.dataset.live = "true";
-          observer.disconnect();
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const id = window.setTimeout(() => setT(999), 0); // (the finished run)
+      return () => window.clearTimeout(id);
+    }
+    let timer = 0;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        window.clearInterval(timer);
+        if (e.isIntersecting) {
+          setT((v) => (v < 0 || v > loop ? 0 : v));
+          timer = window.setInterval(() => setT((v) => (v + 1 >= loop ? 0 : v + 1)), TICK);
         }
       },
       { threshold: 0.3 },
     );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      window.clearInterval(timer);
+    };
+  }, [loop]);
 
-  const n = Math.min(COLS, Math.max(data.sources.length, 1));
-  const m = Math.min(COLS, Math.max(data.actions.length, 1));
+  const triggered = t >= 1;
+  const stepAt = (i: number) => (t < 2 + i ? "wait" : t === 2 + i ? "run" : "done");
+  const working = t >= 2 && t < 2 + n;
+  const finished = t >= 2 + n;
+  const toolOn = (k: number) => t >= 3 + k && t < loop - 1;
+  const toolNow = (k: number) => working && t >= 3 && (t - 3) % Math.max(tools.length, 1) === k;
+  const resultOn = (j: number) => t >= 2 + n + j && t < loop - 1;
+  const allDone = t >= 2 + n + results.length && t < loop - 1;
 
   return (
     <section id="ai-flow" className="py-24 sm:py-32">
-      <div className="mx-auto w-full max-w-[1180px] px-4">
+      <div className="mx-auto w-full max-w-[1240px] px-4">
         <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} />
-        <div ref={ref} className="flow">
-          <Plus className="tl" />
-          <Plus className="tr" />
-          <Plus className="bl" />
-          <Plus className="br" />
+        <div ref={ref} className="fa" data-run={t >= 0}>
+          <div className="fa-grid">
+            {/* 1. something happens */}
+            <article className="fa-card fa-trigger" data-on={triggered}>
+              <p className="fa-tag">
+                <FlowIcon name="bolt" className="size-[16px]" />
+                {data.triggerLabel || "Something happens"}
+              </p>
+              <div className="fa-mail">
+                <span className="fa-av" aria-hidden>
+                  <FlowIcon name="mail" className="size-[18px]" />
+                </span>
+                <div>
+                  <b>Customer</b>
+                  <span>just now</span>
+                </div>
+              </div>
+              <p className="fa-mail-t">{data.triggerText || "A new customer e-mail arrives"}</p>
+              <p className="fa-listen">
+                <i aria-hidden />
+                {triggered ? "Received" : "Listening"}
+              </p>
+            </article>
 
-          <div className="flow-head">
-            <span>{data.sourcesLabel}</span>
-            <span>{data.sourcesNote}</span>
-          </div>
-          <Boxes items={data.sources} base={200} />
-          <Wires count={n} down base={900} />
+            <span className="fa-link" data-on={triggered} aria-hidden />
 
-          <div className="flow-core">
-            <Plus className="c-tl" />
-            <Plus className="c-tr" />
-            <Plus className="c-bl" />
-            <Plus className="c-br" />
-            <i aria-hidden />
-            <span>{data.coreLabel}</span>
-          </div>
+            {/* 2. the agent */}
+            <article className="fa-card fa-agent" data-state={finished ? "done" : working ? "work" : "idle"}>
+              <header className="fa-agent-h">
+                <span className="fa-orb" aria-hidden />
+                <div>
+                  <b>{data.coreLabel}</b>
+                  <small>AI agent</small>
+                </div>
+                <span className="fa-status">{finished ? "Done" : working ? "Working" : "Ready"}</span>
+              </header>
+              <ol className="fa-steps">
+                {steps.map((s, i) => (
+                  <li key={i} data-s={stepAt(i)}>
+                    <span className="fa-tick" aria-hidden>
+                      <svg viewBox="0 0 24 24">
+                        <path d="M5 12.5l4.5 4.5L19 7.5" />
+                      </svg>
+                    </span>
+                    {s}
+                  </li>
+                ))}
+              </ol>
+              <div className="fa-bar" aria-hidden>
+                <span style={{ transform: `scaleX(${finished ? 1 : working ? (t - 2) / n : 0})` }} />
+              </div>
+              <div className="fa-tools">
+                <p>
+                  {data.sourcesLabel}
+                  {data.sourcesNote && <span> · {data.sourcesNote}</span>}
+                </p>
+                <ul>
+                  {tools.map((tool, k) => (
+                    <li key={k} data-on={toolOn(k)} data-now={toolNow(k)}>
+                      <FlowIcon name={tool.icon} className="size-[16px]" />
+                      {tool.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
 
-          <Wires count={m} down={false} base={1700} />
-          <Boxes items={data.actions} base={2300} />
-          <div className="flow-head flow-foot">
-            <span>{data.actionsLabel}</span>
-            <span>{data.actionsNote}</span>
+            <span className="fa-link" data-on={finished} aria-hidden />
+
+            {/* 3. what it did */}
+            <article className="fa-card fa-results" data-done={allDone}>
+              <p className="fa-tag">
+                <FlowIcon name="spark" className="size-[16px]" />
+                {data.actionsLabel}
+                {data.actionsNote && <span> · {data.actionsNote}</span>}
+              </p>
+              <ul>
+                {results.map((r, j) => (
+                  <li key={j} data-on={resultOn(j)}>
+                    <span className="fa-ok" aria-hidden>
+                      <svg viewBox="0 0 24 24">
+                        <path d="M5 12.5l4.5 4.5L19 7.5" />
+                      </svg>
+                    </span>
+                    <span className="fa-r-t">{r.label}</span>
+                    <em>{(0.6 + j * 0.7).toFixed(1)}s</em>
+                  </li>
+                ))}
+              </ul>
+              <p className="fa-run" data-on={allDone}>
+                {data.runNote || "All done in seconds. Nobody had to touch it."}
+              </p>
+            </article>
           </div>
         </div>
       </div>

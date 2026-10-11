@@ -1,33 +1,22 @@
-/** The "W" mark: a folded violet ribbon (light and dark faces), drawn in plain SVG so it stays sharp at any size. */
-export function BrandGlyph({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 32" className={className} fill="none" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <defs>
-        <linearGradient id="brand-light" gradientUnits="userSpaceOnUse" x1="16" y1="4" x2="16" y2="28">
-          <stop offset="0" stopColor="hsl(calc(var(--th) + 0.57) calc(100% * var(--ts)) 93.14%)" />
-          <stop offset="1" stopColor="hsl(calc(var(--th) + 349.03) calc(80.74% * var(--ts)) 73.53%)" />
-        </linearGradient>
-        <linearGradient id="brand-dark" gradientUnits="userSpaceOnUse" x1="16" y1="4" x2="16" y2="28">
-          <stop offset="0" stopColor="hsl(calc(var(--th) + 347.85) calc(67.71% * var(--ts)) 62.35%)" />
-          <stop offset="1" stopColor="hsl(calc(var(--th) + 347.22) calc(53.85% * var(--ts)) 35.69%)" />
-        </linearGradient>
-      </defs>
-      <path d="M5 7 L11 24" stroke="url(#brand-light)" />
-      <path d="M11 24 L16 13" stroke="url(#brand-dark)" />
-      <path d="M16 13 L21 24" stroke="url(#brand-light)" />
-      <path d="M21 24 L27 7" stroke="url(#brand-dark)" />
-    </svg>
+import Image from "next/image";
+
+/** The We3vision mark (the real logo, /public/brand/logo-mark.webp). It keeps its own colours on every theme. */
+export function BrandGlyph({ className = "", white = false }: { className?: string; white?: boolean }) {
+  return white ? (
+    <Image src="/brand/logo-white.webp" alt="" width={600} height={468} className={`object-contain ${className}`} />
+  ) : (
+    <Image src="/brand/logo-mark.webp" alt="" width={480} height={395} className={`object-contain ${className}`} />
   );
 }
 
 /** Glass tile holding the mark (same look as the template's logo tile: dark-to-violet gradient, thin violet edge). */
-export function BrandTile({ className = "size-11" }: { className?: string }) {
+export function BrandTile({ className = "size-11", white = false }: { className?: string; white?: boolean }) {
   return (
     <span
       className={`grid shrink-0 place-items-center rounded-xl bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.45),hsl(calc(var(--th)_+_354)_calc(100%_*_var(--ts))_76.47%_/_0.08))] p-px shadow-[0_8px_24px_rgba(0,0,0,0.35)] ${className}`}
     >
       <span className="grid size-full place-items-center rounded-[11px] bg-[linear-gradient(180deg,hsl(calc(var(--th)_+_347.58)_calc(76%_*_var(--ts))_4.9%),hsl(calc(var(--th)_+_351.38)_calc(40.21%_*_var(--ts))_19.02%))]">
-        <BrandGlyph className="size-[58%]" />
+        <BrandGlyph white={white} className="size-[76%]" />
       </span>
     </span>
   );

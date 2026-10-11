@@ -92,3 +92,26 @@ model Project {
 
   @@index([group, sortOrder])
 }
+
+// One article of the blog (Blog in the admin panel). \`cover\` is a link (/media/<id> for an uploaded picture); \`tile\` is the shape of its picture
+// on the Blog page (landscape, square, portrait or tall); \`content\` is the article in a light text markup (## heading, - point, empty line between
+// paragraphs); \`faq\` is a list of { question, answer }; \`sortOrder\` is the place in the list of the Blog page (smaller = earlier).
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  category    String   @default("")
+  summary     String   @default("")
+  cover       String   @default("")
+  tile        String   @default("portrait")
+  content     String   @default("")
+  tags        Json     @default("[]")
+  faq         Json     @default("[]")
+  publishedAt DateTime @default(now())
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sortOrder])
+}

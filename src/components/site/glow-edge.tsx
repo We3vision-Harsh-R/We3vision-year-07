@@ -13,13 +13,23 @@ export function GlowEdge() {
   useEffect(() => {
     const card = ref.current?.parentElement;
     if (!card) return;
+    // the pointer position is only written once per frame (a pointer can send many events in one frame)
+    let raf = 0;
+    let px = 0;
+    let py = 0;
     const move = (e: PointerEvent) => {
       if (e.pointerType === "touch") return;
+      px = e.clientX;
+      py = e.clientY;
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+    const apply = () => {
+      raf = 0;
       const r = card.getBoundingClientRect();
       const cx = r.width / 2;
       const cy = r.height / 2;
-      const dx = e.clientX - r.left - cx;
-      const dy = e.clientY - r.top - cy;
+      const dx = px - r.left - cx;
+      const dy = py - r.top - cy;
       // how close to the edge: 0 in the middle, 100 on the edge
       const kx = dx !== 0 ? cx / Math.abs(dx) : Infinity;
       const ky = dy !== 0 ? cy / Math.abs(dy) : Infinity;
@@ -30,7 +40,10 @@ export function GlowEdge() {
       card.style.setProperty("--cursor-angle", `${deg.toFixed(2)}deg`);
     };
     card.addEventListener("pointermove", move, { passive: true });
-    return () => card.removeEventListener("pointermove", move);
+    return () => {
+      card.removeEventListener("pointermove", move);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   return <span ref={ref} className="bglow-edge" aria-hidden />;

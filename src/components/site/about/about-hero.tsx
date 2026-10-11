@@ -1,15 +1,16 @@
-import { ButtonLink, Chip } from "../ui";
+import { Chip } from "../ui";
 
 const rise = (ms: number) => ({ animationDelay: `${ms}ms` });
 
-// The first screen of the About page: words only. Big heading, a few lines and two buttons, standing in a quiet room whose floor is a grid
-// that comes towards you in perspective (a flat CSS plane, no 3D scene and nothing to load). It replaces the 3D island of the earlier page.
-export function AboutHero({ chip, heading, text, primaryLabel, primaryHref, secondaryLabel, secondaryHref }: { chip: string; heading: string; text: string; primaryLabel: string; primaryHref: string; secondaryLabel: string; secondaryHref: string }) {
+// The first screen of the About page: words only. A small label, the big heading and a few lines, on a quiet background of soft coloured light that
+// drifts very slowly (three round gradients that only move, nothing to load). No buttons and no pictures: the words are all there is.
+export function AboutHero({ chip, heading, text }: { chip: string; heading: string; text: string; primaryLabel?: string; primaryHref?: string; secondaryLabel?: string; secondaryHref?: string }) {
   return (
     <section id="top" className="ah">
-      <div className="ah-floor" aria-hidden>
-        <i className="ah-grid" />
-        <i className="ah-horizon" />
+      <div className="ah-bg" aria-hidden>
+        <i />
+        <i />
+        <i />
       </div>
       <div className="ah-in">
         {chip && (
@@ -25,16 +26,7 @@ export function AboutHero({ chip, heading, text, primaryLabel, primaryHref, seco
             {text}
           </p>
         )}
-        <div className="animate-rise ah-btns" style={rise(650)}>
-          <ButtonLink href={primaryHref}>{primaryLabel}</ButtonLink>
-          <ButtonLink href={secondaryHref} variant="ghost">
-            {secondaryLabel}
-          </ButtonLink>
-        </div>
       </div>
-      <a href="#story" className="ah-scroll" aria-label="Scroll to our story">
-        <span />
-      </a>
     </section>
   );
 }

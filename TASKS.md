@@ -37,3 +37,13 @@
 | 33 | Home industries: the list and the info card stay near the centre (on wide screens too) | done |
 | 34 | Home industries: the road itself (not the car) is in the middle of the screen | done |
 | 35 | Home industries: the list and the info card are bright, readable and the active industry is highlighted | done |
+| 36 | Home services walk: the original cartoon avatar again instead of the panda | done |
+| 37 | AI chat bar: no white ring when it opens, smoother opening (the window and the blur keep their size while the bar widens) | done |
+| 38 | Remove the sub-service pages (Brand Design sub pages) and the links to them; the sub-service lists stay as text | done |
+| 39 | Home services: clicking the title / text of an open service goes to its page | done |
+| 40 | Home industries list card: one clean card with a title, even rows, nicer active row | done |
+| 41 | Tech space: the planets are placed at random (not on a spiral) and orbit at different speeds | done |
+| 42 | Global reach card: full screen width, the text says we work for clients in many countries, a better CTA button | done |
+| 43 | Why choose us: as wide as the screen | done |
+| 44 | Contact section redesigned as a short interactive flow (pick what you need, then your details) | done |
+| 45 | Why-choose-us: no hard edge line at the cards' glow; Contact flow: more unique (project ticket, budget, rocket launch) | done |

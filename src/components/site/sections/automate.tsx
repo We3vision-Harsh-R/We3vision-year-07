@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { GuideTop } from "../avatar";
 import { FlowIcon } from "../flow-icons";
 import { SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";
@@ -36,7 +37,7 @@ function Letters({ text }: { text: string }) {
 
 /**
  * "By hand -> with AI": every row is a problem on the left, a switch in the middle and the AI solution on the right.
- * A tiny cartoon helper (seen from above: only the top of its head, and its hands and feet when it walks) walks down the
+ * The guide of the site (the figure of the timeline of the About page), seen from above, walks down the
  * column of switches and turns each one ON: the switch glows and the letters of the solution turn white one by one. The page
  * scrolls along with it, up or down. If a visitor turns a switch OFF, the helper walks back to it and turns it ON again.
  * Without JavaScript (or with reduced motion) everything is simply shown as automated.
@@ -263,18 +264,13 @@ export const Automate: SectionComponent<"automate"> = ({ data }) => {
                 </li>
               ))}
             </ul>
-            {/* the helper: seen from above, so only the top of its head shows; hands and feet only when it moves */}
-            <div ref={avRef} className="av" data-state="idle" data-dir="down" data-on="false" aria-hidden>
+            {/* the helper: the guide of the site seen from above, the same figure as the people of the timeline on the About page (its feet and hands
+                step while it walks, it turns the way it walks and hops on a switch) */}
+            <div ref={avRef} className="av av-top" data-state="idle" data-dir="down" data-on="false" aria-hidden>
               <div className="av-body">
                 <span className="av-shadow" />
                 <div className="av-hop">
-                  <span className="av-foot l" />
-                  <span className="av-foot r" />
-                  <span className="av-hand l" />
-                  <span className="av-hand r" />
-                  <span className="av-ear l" />
-                  <span className="av-ear r" />
-                  <span className="av-head" />
+                  <GuideTop className="av-fig" />
                 </div>
               </div>
             </div>

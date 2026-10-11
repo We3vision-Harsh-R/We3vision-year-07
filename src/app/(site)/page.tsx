@@ -35,6 +35,7 @@ export default async function HomePage() {
         name: site.legalName || site.name,
         alternateName: site.name,
         url: `${base}/`,
+        logo: `${base}/brand/logo-stacked.png`,
         description: page.description,
         sameAs: site.social.map((s) => s.href).filter((href) => href.startsWith("http")),
         address: { "@type": "PostalAddress", addressLocality: "Surat", addressRegion: "Gujarat", addressCountry: "IN" },

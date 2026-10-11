@@ -1,8 +1,7 @@
 import { GlowEdge } from "../glow-edge";
-import { ContactForm } from "../contact-form";
-import { NeonReveal } from "../modern/neon-reveal";
+import { ContactFlow } from "../contact-flow";
 import { Reveal } from "../reveal";
-import { Frame, SectionHead, Wide } from "../ui";
+import { SectionHead, Wide } from "../ui";
 import type { SectionComponent } from "./shared";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,27 +15,19 @@ function Line({ text }: { text: string }) {
   return <>{value}</>;
 }
 
-export const Contact: SectionComponent<"contact"> = ({ data, site, skin }) => (
+export const Contact: SectionComponent<"contact"> = ({ data, site }) => (
   <section id="contact" className="py-24 sm:py-32">
     <Wide>
       <SectionHead chip={data.chip} heading={data.heading} intro={data.text} />
-      <Reveal className="mt-12">
-        {skin === "modern" ? (
-          <NeonReveal className="mx-auto w-full max-w-[600px]">
-            <div className="bglow card-glass rounded-[19px] border border-violet/[0.12] p-6 sm:p-9">
-              <GlowEdge />
-              <ContactForm buttonLabel={data.buttonLabel} />
-            </div>
-          </NeonReveal>
-        ) : (
-          <Frame width="max-w-[560px]" className="px-0">
-            <div className="px-4 py-10 sm:px-8">
-              <ContactForm buttonLabel={data.buttonLabel} />
-            </div>
-          </Frame>
-        )}
+    </Wide>
+    {/* a short conversation (what, when, who) with a brief that fills in on the side; no box: it is part of the page. It is wider than the other
+        blocks (up to the width of a laptop screen), so that it is not so high */}
+    <div className="mx-auto mt-14 w-full max-w-[1280px] px-4 sm:px-8">
+      <Reveal>
+        <ContactFlow buttonLabel={data.buttonLabel} />
       </Reveal>
-
+    </div>
+    <Wide>
       {site.contactCards.length > 0 && (
         <div className="mt-20 grid gap-5 md:grid-cols-3">
           {site.contactCards.map((card, i) => (

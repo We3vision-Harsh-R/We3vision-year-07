@@ -15,7 +15,7 @@ export function ReachPlaces({ labels }: { labels: string[] }) {
     return () => window.removeEventListener(REACH_EVENT, on);
   }, []);
   return (
-    <ul className="mt-8 flex flex-wrap gap-2">
+    <ul className="mt-3 flex flex-wrap gap-2.5">
       {labels.map((label, i) => (
         <li key={label} className="rp-chip" data-hq={i === 0} data-on={i > 0 && i - 1 === active}>
           {label}

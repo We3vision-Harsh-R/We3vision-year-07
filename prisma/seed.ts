@@ -4,6 +4,7 @@
 import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { ADMIN_DOMAIN, isCompanyEmail } from "../src/lib/admin-access";
 import { SHOWCASE } from "../src/lib/cms/content/brand";
 
 try {
@@ -19,7 +20,7 @@ async function main() {
   const url = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
 
   if (!url) throw new Error("Set DIRECT_URL or DATABASE_URL first.");
-  if (!email || !email.includes("@")) throw new Error("Set ADMIN_EMAIL to a valid email.");
+  if (!email || !isCompanyEmail(email)) throw new Error(`Set ADMIN_EMAIL to an email address ending in @${ADMIN_DOMAIN}.`);
   if (!password || password.length < 12) throw new Error("Set ADMIN_PASSWORD to at least 12 characters.");
 
   const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: url, max: 1 }) });

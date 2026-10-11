@@ -232,6 +232,19 @@ export function IndustriesRoad({
       const top = parseFloat(getComputedStyle(sticky).top) || 0;
       const dist = Math.max(1, r.height - sticky.offsetHeight);
       const p = Math.min(1, Math.max(0, (top - r.top) / dist));
+      // the city is finished and scrolls away: the list and the panel come up into the area of the title, and the title goes out of focus (blur,
+      // see .cm-head) while they do: it starts 140 px before they reach it and is fully blurred when they are over it
+      let out = 0;
+      if (r.bottom < window.innerHeight + 400) {
+        const title = track.querySelector<HTMLElement>(".cm-head > *");
+        const rail = sticky.querySelector<HTMLElement>(".cm-rail");
+        const panel = sticky.querySelector<HTMLElement>(".cm-panel");
+        if (title && rail && panel) {
+          const cardsTop = Math.min(rail.getBoundingClientRect().top, panel.getBoundingClientRect().top);
+          out = Math.min(1, Math.max(0, (title.getBoundingClientRect().bottom + 140 - cardsTop) / 160));
+        }
+      }
+      track.style.setProperty("--out", out.toFixed(3));
       const seg = p * (n - 1);
       const i = Math.min(Math.max(0, n - 2), Math.floor(seg));
       // every district holds the car for a short while, the drive to the next one takes most of its part of the scroll (slow and steady)

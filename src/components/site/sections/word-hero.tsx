@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { LiveClock, RotatingWord } from "../rotating-word";
+import { HeroBadges } from "../hero-badges";
 import { SmartLink } from "../smart-link";
 import { ButtonLink } from "../ui";
 import type { SectionComponent } from "./shared";
@@ -10,6 +11,7 @@ const short = (label: string) => SHORT[label.toLowerCase()] ?? label.slice(0, 2)
 /** First screen with a giant word that swipes through languages, a tagline, two buttons, a live clock and social links. */
 export const WordHero: SectionComponent<"wordHero"> = ({ data, site }) => (
   <section id="top" className="relative flex min-h-screen flex-col items-center justify-center px-4 pb-32 pt-28 text-center">
+    <HeroBadges badges={site.badges} />
     <RotatingWord words={data.words} />
     <h1 className="mt-6 max-w-[780px] text-[clamp(1.2rem,2vw,1.75rem)] font-medium leading-snug tracking-[-0.01em] text-white">{data.heading}</h1>
     {data.text && <p className="mx-auto mt-4 max-w-[560px] text-base leading-relaxed text-orchid">{data.text}</p>}

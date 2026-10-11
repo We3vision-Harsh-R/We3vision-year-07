@@ -1,3 +1,4 @@
+import { AiBuddy } from "../ai-buddy";
 import { GuideScene } from "../guide-scene";
 import { OfficeBuilder } from "../office-builder";
 import { Reveal } from "../reveal";
@@ -9,6 +10,23 @@ export const Guide: SectionComponent<"guide"> = ({ data, sectionId }) => {
   const tips = data.tips.split("\n").map((t) => t.trim()).filter(Boolean);
   // the office scene fills the whole screen
   if (data.scene === "office") return <OfficeBuilder chip={data.chip} heading={data.heading} tips={tips} />;
+  // the AI page: a chat window with the robot buddy (ai-buddy.tsx) instead of the cartoon scene
+  if (data.scene === "ai") {
+    return (
+      <section id={sectionId && sectionId !== "guide" ? sectionId : "guide"} className="py-24 sm:py-32">
+        <div className="mx-auto w-full max-w-[1040px] px-4">
+          <Reveal className="text-center">
+            {data.chip && <Chip>{data.chip}</Chip>}
+            <h2 className="text-vfade mx-auto mt-6 max-w-[760px] whitespace-pre-line pb-1 text-[2.3rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl">{data.heading}</h2>
+            {data.text && <p className="mx-auto mt-6 max-w-[620px] text-base leading-relaxed text-orchid sm:text-lg">{data.text}</p>}
+          </Reveal>
+          <Reveal className="mt-12">
+            <AiBuddy greeting={tips[0] ?? ""} />
+          </Reveal>
+        </div>
+      </section>
+    );
+  }
   return (
     <section id={sectionId && sectionId !== "guide" ? sectionId : "guide"} className="py-24 sm:py-32">
       <div className="mx-auto w-full max-w-[1120px] px-4">

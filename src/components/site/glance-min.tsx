@@ -6,7 +6,7 @@ import { SplitHeading } from "./modern/split-heading";
 // "At a glance" of the home page, minimal: the heading and a row of figures, every one on a thin line that draws itself. When the row
 // comes into view the line draws, the figures count up (a year only rolls the last few years) and the labels rise in, one after the other.
 // Plain text in the page (nothing hidden from Google); with less motion, or without JavaScript, the final figures are simply there.
-// The look is in globals.css (.gm-*). The About page keeps its own, richer version (about/glance.tsx).
+// The look is in globals.css (.gm-*). It is the fallback of glance-orbit.tsx.
 
 type Item = { value: string; label: string };
 

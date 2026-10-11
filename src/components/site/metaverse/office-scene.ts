@@ -132,7 +132,7 @@ export function createOfficeScene(canvas: HTMLCanvasElement, opt: OfficeOptions)
   back.position.set(0, ROOM.h / 2, ROOM.back);
   back.receiveShadow = true;
   scene.add(back);
-  const markMat = new THREE.MeshBasicMaterial({ map: wallMarkTexture(tint, aniso), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, fog: false });
+  const markMat = new THREE.MeshBasicMaterial({ map: wallMarkTexture(tint, aniso), transparent: true, depthWrite: false, fog: false, toneMapped: false });
   const mark = new THREE.Mesh(new THREE.PlaneGeometry(8.2, 2.05), markMat);
   mark.position.set(0, 2.25, ROOM.back + 0.02);
   scene.add(mark);

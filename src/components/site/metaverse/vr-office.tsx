@@ -151,7 +151,7 @@ export function VrOffice({ heading, text, hint, captions }: { heading: string; t
               }}
               className="vr-cap"
             >
-              {c}
+              <span>{c}</span>
             </p>
           ))}
         </div>

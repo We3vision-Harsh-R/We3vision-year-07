@@ -1,10 +1,10 @@
 import Link from "next/link";
-import type { Post } from "@/lib/blog-posts";
+import type { BlogEntry } from "@/lib/blog-shared";
 import { Img } from "./img";
 
 // One article of the blog (/blog/<slug>): a calm reading column in the look of the service pages. Text is plain server HTML (nothing here needs
 // JavaScript), the questions at the end are also given to Google as an Article and a FAQPage. The look is in globals.css (.bp-*).
-export function BlogPost({ post, base }: { post: Post; base: string }) {
+export function BlogPost({ post, base }: { post: BlogEntry; base: string }) {
   const json = {
     "@context": "https://schema.org",
     "@graph": [
@@ -13,7 +13,7 @@ export function BlogPost({ post, base }: { post: Post; base: string }) {
         headline: post.title,
         description: post.summary,
         datePublished: post.date,
-        image: post.image ? `${base}${post.image}` : undefined,
+        image: post.image ? (post.image.startsWith("http") ? post.image : `${base}${post.image}`) : undefined,
         keywords: post.tags.join(", "),
         author: { "@type": "Organization", name: "We3vision Private Limited" },
         publisher: { "@type": "Organization", name: "We3vision Private Limited" },
@@ -38,7 +38,7 @@ export function BlogPost({ post, base }: { post: Post; base: string }) {
           <time dateTime={post.date}>{post.dateLabel}</time>
         </p>
         <p className="bp-lead">{post.summary}</p>
-        {post.image && <Img src={post.image} alt="" className="bp-cover" />}
+        {post.image && <Img src={post.image} alt={post.title} className="bp-cover" />}
       </header>
 
       <div className="bp-body">

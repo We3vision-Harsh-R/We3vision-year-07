@@ -32,7 +32,7 @@ export const HOME_SECTIONS: PageSection[] = [
         title: "Brand Design",
         href: "/brand-identity",
         summary: "Brand identity design that gives your business a clear, consistent look: strategy, logo, colours, typography and brand assets.",
-        subs: "Brand strategy | Your business goals, audience and brand direction defined before any design starts. | /brand-identity/brand-strategy\nLogo design | A logo, colours and typography that reflect your business and speak to your audience. | /brand-identity/logo-design\nVisual identity & guidelines | One consistent visual system, with brand guidelines your team can follow. | /brand-identity/visual-identity-guidelines\nMarketing collateral | Brand assets for graphic design, website design and advertising creatives. | /brand-identity/marketing-collateral",
+        subs: "Brand strategy | Your business goals, audience and brand direction defined before any design starts.\nLogo design | A logo, colours and typography that reflect your business and speak to your audience.\nVisual identity & guidelines | One consistent visual system, with brand guidelines your team can follow.\nMarketing collateral | Brand assets for graphic design, website design and advertising creatives.",
       },
       {
         title: "Web\nDevelopment",
@@ -79,6 +79,9 @@ export const HOME_SECTIONS: PageSection[] = [
       { value: "2019", label: "Founded in Surat" },
       { value: "7", label: "Years of innovation" },
       { value: "300+", label: "Successful projects" },
+      { value: "7", label: "Industries served" },
+      { value: "7", label: "Core services" },
+      { value: "6", label: "Technology platforms" },
     ],
   }),
   section("industries", {
@@ -115,8 +118,8 @@ export const HOME_SECTIONS: PageSection[] = [
   section("reach", {
     chip: "Global Reach",
     heading: "From Surat\nTo The World",
-    text: "Our head office and development team are in Surat, India, and we have a second office in Marburg, Germany. We work with companies in many countries, so wherever your business is, we build with you.",
-    buttonLabel: "Contact Us",
+    text: "We have worked with clients from many countries around the world. From our head office in Surat, India, our team builds websites, apps, AI and immersive experiences for businesses in the global market, wherever they are.",
+    buttonLabel: "Start your project",
     buttonHref: "#contact",
     // the first place is the head office; the globe turns to every other place in turn and a line of light travels there from it
     // (change the list in the admin panel: Pages, Home, Global reach)

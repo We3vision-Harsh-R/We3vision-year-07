@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { AiChat } from "./ai-chat";
-import { PandaFront, PandaSide } from "./panda-walker";
+import { GuideFront, GuideSide } from "./avatar";
 import { clamp } from "./anim-utils";
 import { ICONS } from "./icons";
 import { Street } from "./home-street";
@@ -29,7 +29,7 @@ const WALK_SPEED = 380; // top speed of the guide, px per second
 
 const oneLine = (t: string) => t.replace(/\s*\n\s*/g, " ").trim();
 
-// "Name | short description | optional link" per line (up to 4 lines)
+// "Name | short description" per line (up to 4 lines); the sub-services have no page, they are only a list
 const parseSubs = (raw: string) =>
   raw
     .split("\n")
@@ -37,8 +37,8 @@ const parseSubs = (raw: string) =>
     .filter(Boolean)
     .slice(0, 4)
     .map((l) => {
-      const [name = "", desc = "", href = ""] = l.split("|").map((x) => x.trim());
-      return { name, desc, href };
+      const [name = "", desc = ""] = l.split("|").map((x) => x.trim());
+      return { name, desc };
     });
 
 // The hero is a tall "track" with a screen-sized scene pinned (sticky) inside it. While you scroll along the track the
@@ -392,9 +392,9 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
             </span>
             <div ref={avRef} className="hub-av" data-show="false" data-state="idle" data-face="right" aria-hidden>
               <div className="hub-av-body">
-                {/* the panda: standing = the front view; walking = the side view (it faces right, turned round for left) */}
-                <PandaFront className="hub-sp hub-sp-idle" />
-                <PandaSide className="hub-sp hub-sp-walk" />
+                {/* the cartoon guide: standing = the front view; walking = the side view (it faces right, turned round for left) */}
+                <GuideFront className="hub-sp hub-sp-idle ch-real" />
+                <GuideSide className="hub-sp hub-sp-walk ch-real" />
               </div>
             </div>
             {cards.map((card, i) => {
@@ -408,11 +408,20 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
                   className="hub-panel"
                 >
                   <header className="hub-head">
-                    <div>
-                      <span className="hub-idx">{String(i + 1).padStart(2, "0")}</span>
+                    {/* the title and the text of the open service are a link to the page of the service (the sub-services below are not) */}
+                    {card.href ? (
+                      <SmartLink href={card.href} className="hub-headlink" tabIndex={-1}>
+                        <span className="hub-idx">{String(i + 1).padStart(2, "0")}</span>
                       <h2 className="hub-title">{oneLine(card.title)}</h2>
                       {card.summary && <p className="hub-sum">{card.summary}</p>}
-                    </div>
+                      </SmartLink>
+                    ) : (
+                      <div>
+                        <span className="hub-idx">{String(i + 1).padStart(2, "0")}</span>
+                      <h2 className="hub-title">{oneLine(card.title)}</h2>
+                      {card.summary && <p className="hub-sum">{card.summary}</p>}
+                      </div>
+                    )}
                     {card.href && (
                       <SmartLink href={card.href} className="hub-more" tabIndex={active === i ? 0 : -1}>
                         Explore {oneLine(card.title)} <span aria-hidden>→</span>
@@ -424,17 +433,10 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
                       {subs.map((s, j) => (
                         <li key={j} style={{ "--k": j } as CSSProperties}>
                           <span className="hub-sn">{String(j + 1).padStart(2, "0")}</span>
-                          {s.href || card.href ? (
-                            <SmartLink href={s.href || card.href} className="hub-sl" tabIndex={active === i ? 0 : -1}>
-                              <h3>{s.name}</h3>
-                              {s.desc && <p>{s.desc}</p>}
-                            </SmartLink>
-                          ) : (
-                            <div>
-                              <h3>{s.name}</h3>
-                              {s.desc && <p>{s.desc}</p>}
-                            </div>
-                          )}
+                          <div>
+                            <h3>{s.name}</h3>
+                            {s.desc && <p>{s.desc}</p>}
+                          </div>
                         </li>
                       ))}
                     </ul>

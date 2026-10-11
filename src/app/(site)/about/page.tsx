@@ -18,5 +18,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   const [page, site] = await Promise.all([getPublishedPage("about"), getSiteSettings()]);
-  return <PageSections sections={page.content.sections} site={site} />;
+  return <PageSections sections={page.content.sections} site={site} page="about" />;
 }

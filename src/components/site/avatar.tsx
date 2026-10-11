@@ -142,6 +142,8 @@ function FrontParts({ headset = false, glasses = false }: { headset?: boolean; g
             <path className="ch-teeth" d="M42.6 50.6Q50 53 57.4 50.6L57 53.4Q50 55.6 43 53.4Z" />
             <path className="ch-tongue" d="M44.8 57.4Q50 54.2 55.2 57.4Q53.4 59.8 50 59.8Q46.6 59.8 44.8 57.4Z" />
           </g>
+          {/* the calm smile of the realistic look (.ch-real); every other place keeps the open grin above */}
+          <path className="ch-smile" d="M43.4 52.2Q50 57.2 56.6 52.2" />
           <path className="ch-nose" d="M39.8 49.4q-1.2 1.4-.2 3M60.2 49.4q1.2 1.4.2 3" />
           {glasses && !headset && (
             <g className="ch-glasses">
@@ -247,6 +249,7 @@ function SideParts() {
           <ellipse className="ch-cheek" cx="66.4" cy="47.6" rx="4.4" ry="3" />
           <path className="ch-mouth-bg" d="M63.6 51.4Q68.4 53.2 72.6 51.2Q72 58.4 67.8 58.4Q63.8 58.4 63.6 51.4Z" />
           <path className="ch-teeth" d="M64.4 51.8Q68.4 53.4 72 51.6L71.8 54Q68 55.4 64.6 54Z" />
+          <path className="ch-smile" d="M63.8 52.4Q68 55.8 72.4 51.8" />
         </g>
       </g>
     </>

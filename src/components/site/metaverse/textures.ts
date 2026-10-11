@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-// Canvas drawn textures of the office (no image files): floor, windows with a night skyline, the glowing wall mark and the screens.
+// Canvas drawn textures of the office: floor, windows with a night skyline, the logo of the company on the wall (the only picture) and the screens.
 // Colours follow the theme hue (hue = th + 354, as the rest of the site), so a recoloured site recolours the office.
 
 export type Tint = { h: number; s: number };
@@ -147,43 +147,28 @@ export function slatTexture(t: Tint, aniso: number) {
   return tex;
 }
 
-/** the glowing mark of the studio on the back wall (transparent, drawn with light) */
+/** the real logo of the company on the back wall (public/brand/logo-horizontal-dark.webp: the colour mark with the name, made for dark
+ *  backgrounds) with a soft glow of the theme colour behind it. The picture loads after the texture is made, then the canvas is drawn. */
 export function wallMarkTexture(t: Tint, aniso: number) {
   const { c, g } = mk(2048, 512);
-  g.clearRect(0, 0, 2048, 512);
-  g.textAlign = "center";
-  g.textBaseline = "middle";
-  g.font = '600 190px Poppins, "Segoe UI", Arial, sans-serif';
-  const grad = g.createLinearGradient(520, 0, 1560, 0);
-  grad.addColorStop(0, col(t, 40, 100, 86));
-  grad.addColorStop(0.5, col(t, 0, 100, 80));
-  grad.addColorStop(1, col(t, -40, 100, 76));
-  g.shadowColor = col(t, 0, 100, 65, 0.95);
-  g.shadowBlur = 38;
-  g.fillStyle = grad;
-  g.fillText("We3vision", 1130, 240);
-  g.shadowBlur = 0;
-  g.fillStyle = grad;
-  g.fillText("We3vision", 1130, 240);
-  // the mark: a rounded square with a W
-  g.save();
-  g.translate(500, 240);
-  g.strokeStyle = col(t, 0, 100, 82);
-  g.lineWidth = 12;
-  g.shadowColor = col(t, 0, 100, 65, 0.95);
-  g.shadowBlur = 30;
-  g.beginPath();
-  g.roundRect(-92, -92, 184, 184, 44);
-  g.stroke();
-  g.beginPath();
-  g.moveTo(-52, -42);
-  g.lineTo(-26, 46);
-  g.lineTo(0, -8);
-  g.lineTo(26, 46);
-  g.lineTo(52, -42);
-  g.stroke();
-  g.restore();
-  return finish(c, true, aniso);
+  const tex = finish(c, true, aniso);
+  const img = new Image();
+  img.onload = () => {
+    const h = 360;
+    const w = h * (img.naturalWidth / img.naturalHeight);
+    const x = (2048 - w) / 2;
+    const y = (512 - h) / 2;
+    g.clearRect(0, 0, 2048, 512);
+    g.save();
+    g.shadowColor = col(t, 0, 100, 62, 0.85);
+    g.shadowBlur = 70;
+    g.drawImage(img, x, y, w, h);
+    g.restore();
+    g.drawImage(img, x, y, w, h);
+    tex.needsUpdate = true;
+  };
+  img.src = "/brand/logo-horizontal-dark.webp";
+  return tex;
 }
 
 /** screens of the desks: code, a design tool or a chart */

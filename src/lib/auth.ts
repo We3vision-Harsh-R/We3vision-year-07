@@ -2,17 +2,18 @@ import "server-only";
 import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { isCompanyEmail } from "@/lib/admin-access";
 import { db, hasDb } from "@/lib/db";
 import { SESSION_COOKIE, SESSION_MAX_AGE, signSession, verifySession } from "@/lib/session-token";
 
-export async function createSession(userId: string) {
-  const token = await signSession(userId);
+export async function createSession(userId: string, maxAge = SESSION_MAX_AGE) {
+  const token = await signSession(userId, maxAge);
   (await cookies()).set(SESSION_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: SESSION_MAX_AGE,
+    maxAge,
   });
 }
 
@@ -32,7 +33,8 @@ export const getAdmin = cache(async () => {
     return null; // SESSION_SECRET missing -> treated as logged out
   }
   if (!userId) return null;
-  return db.adminUser.findUnique({ where: { id: userId }, select: { id: true, email: true, name: true } });
+  const user = await db.adminUser.findUnique({ where: { id: userId }, select: { id: true, email: true, name: true } });
+  return user && isCompanyEmail(user.email) ? user : null; // a login that is not of the company domain does not work
 });
 
 /** Call at the top of every admin page AND every admin server action. */
