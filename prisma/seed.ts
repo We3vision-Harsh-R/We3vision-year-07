@@ -1,4 +1,5 @@
-// Creates (or updates) the first admin login, and puts the sliding photos of the Brand Design page into Projects (only when there are none yet).
+// Creates (or updates) the first admin login, puts the sliding photos of the Brand Design page into Projects and the first people of the
+// office into Team (each only when there are none yet).
 // Run once after the database migration:
 //   npm run db:seed        (reads ADMIN_EMAIL, ADMIN_PASSWORD, optional ADMIN_NAME from .env)
 import bcrypt from "bcryptjs";
@@ -6,6 +7,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { ADMIN_DOMAIN, isCompanyEmail } from "../src/lib/admin-access";
 import { SHOWCASE } from "../src/lib/cms/content/brand";
+import { TEAM_MEMBERS } from "../src/lib/cms/content/team";
 
 try {
   process.loadEnvFile(".env");
@@ -49,6 +51,12 @@ async function main() {
         })),
       });
       console.log(`Projects: ${SHOWCASE.length} placeholder projects added (replace them in the admin panel).`);
+    }
+    if ((await db.teamMember.count()) === 0) {
+      await db.teamMember.createMany({
+        data: TEAM_MEMBERS.map((m, i) => ({ name: m.name, role: m.role, dept: m.dept, bio: m.bio, photo: m.photo, linkedin: m.linkedin, girl: m.girl === "yes", sortOrder: i + 1, updatedAt: new Date() })),
+      });
+      console.log(`Team: ${TEAM_MEMBERS.length} people added (edit them in the admin panel, Team).`);
     }
   } finally {
     await db.$disconnect();

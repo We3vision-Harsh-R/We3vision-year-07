@@ -1,5 +1,9 @@
+import { getTeam } from "@/lib/team";
 import { TeamOffice } from "../modern/team-office";
 import type { SectionComponent } from "./shared";
 
-/** The people of the company at their desks in the office seen from above (see modern/team-office.tsx). */
-export const TeamOfficeSection: SectionComponent<"teamOffice"> = ({ data, sectionId }) => <TeamOffice id={sectionId === "teamOffice" ? "office" : sectionId} chip={data.chip} heading={data.heading} intro={data.intro} members={data.members} />;
+/** The people of the company in the office (see modern/team-office.tsx). The people come from the admin panel (Team). */
+export const TeamOfficeSection: SectionComponent<"teamOffice"> = async ({ data, sectionId }) => {
+  const people = await getTeam();
+  return <TeamOffice id={sectionId === "teamOffice" ? "office" : sectionId} chip={data.chip} heading={data.heading} intro={data.intro} people={people} />;
+};

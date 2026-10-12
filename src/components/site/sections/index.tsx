@@ -30,6 +30,7 @@ import { Story } from "./story";
 import { Strengths } from "./strengths";
 import { Tags } from "./tags";
 import { Team } from "./team";
+import { TeamJourney, TeamManifesto, TeamValues } from "./team-story";
 import { TeamOfficeSection } from "./team-office";
 import { Timeline } from "./timeline";
 import { VrDevicesSection } from "./vr-devices";
@@ -80,6 +81,9 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   sketchCanvas: SketchCanvasSection,
   team: Team,
   teamOffice: TeamOfficeSection,
+  teamManifesto: TeamManifesto,
+  teamJourney: TeamJourney,
+  teamValues: TeamValues,
 };
 
 type AnyRenderer = ComponentType<{ data: Record<string, unknown>; site: SiteSettings; sectionId?: string; skin?: Skin; page?: string; projects?: ProjectView[] }>;

@@ -115,3 +115,21 @@ model BlogPost {
 
   @@index([sortOrder])
 }
+
+// One person of the office on the Team page (Team in the admin panel). `dept` is the department (the people of one department sit in one
+// corner of the office, in the order of `sortOrder`); `photo` is a link (/media/<id> for an uploaded picture); `girl` draws the avatar as a woman.
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String   @default("")
+  dept      String   @default("Team")
+  bio       String   @default("")
+  photo     String   @default("")
+  linkedin  String   @default("")
+  girl      Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}

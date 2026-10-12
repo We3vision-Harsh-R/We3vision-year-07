@@ -1,7 +1,6 @@
 import type { Field } from "./fields";
 import { GOV_PROJECTS, GOV_TITLE } from "./content/gov-projects";
 import { DEVICES, QUIZ } from "./content/metaverse-extra";
-import { TEAM_MEMBERS } from "./content/team";
 
 // Every section a page can contain. Adding a new section = add an entry here + a component in
 // src/components/site/sections/ + one line in that folder's index.tsx. The admin editor picks it up automatically.
@@ -789,30 +788,71 @@ export const SECTIONS = {
     defaults: QUIZ,
   }),
   teamOffice: defineSection({
-    label: "Team office (the people at their desks, camera goes room to room)",
-    description: "The office seen from above with a room for every department and the people at the table (20 to 30 fit well). The page scrolls the camera from room to room; pointing at a person shows a card with the photo, name, role, a few words and a link. On a phone: the same people as cards.",
+    label: "Team office (the people at their desks in the office)",
+    description: "The office of the company seen from above, in the look of the About office: a corner for every department with the people at the tables. Pointing at a person opens a card with the photo, name, role and a few words. The PEOPLE are managed in the admin panel under Team (with a preview), not here.",
+    fields: [chip(), headingField(), { kind: "textarea", key: "intro", label: "Intro text", max: 300 }],
+    defaults: { chip: "The office", heading: "Meet The Team", intro: "" },
+  }),
+  teamManifesto: defineSection({
+    label: "Team: why the people matter (a text to read)",
+    description: "A calm reading section: a big heading on the left that stays in place, the text on the right, and a quotation at the end. For the page about the team.",
+    fields: [
+      chip(),
+      headingField(),
+      {
+        kind: "textarea",
+        key: "body",
+        label: "Text (leave an empty line between paragraphs; the first paragraph is shown larger)",
+        max: 2400,
+        hint: HIGHLIGHT_HINT,
+      },
+      { kind: "textarea", key: "quote", label: "Quotation at the end (optional)", max: 240 },
+      { kind: "text", key: "quoteBy", label: "Who says it (optional)", max: 60 },
+    ],
+    defaults: { chip: "Why the team matters", heading: "Behind every screen,\nthere is a person", body: "Text.", quote: "", quoteBy: "" },
+  }),
+  teamJourney: defineSection({
+    label: "Team: how a project passes from hand to hand",
+    description: "Numbered steps on a line (up to 8). Every step says what is done and who does it, so a visitor sees that every part of the team matters.",
     fields: [
       chip(),
       headingField(),
       { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
       {
         kind: "list",
-        key: "members",
-        label: "People (the rooms are made from the Department names, in the order of the first person of each)",
-        itemLabel: "Person",
-        max: 40,
+        key: "steps",
+        label: "Steps",
+        itemLabel: "Step",
+        max: 8,
         fields: [
-          { kind: "text", key: "name", label: "Name", max: 60 },
-          { kind: "text", key: "role", label: "Role", max: 70 },
-          { kind: "text", key: "dept", label: "Department", max: 30, hint: "People with the same department sit in the same room" },
-          { kind: "textarea", key: "bio", label: "A few words about the person", max: 260 },
-          { kind: "image", key: "photo", label: "Photo (optional)", hint: "Image path or link. Without a photo the initials are shown." },
-          { kind: "url", key: "linkedin", label: "LinkedIn link (optional)" },
-          { kind: "text", key: "girl", label: "Draw as a girl (type yes)", max: 3 },
+          { kind: "text", key: "stage", label: "What happens (short)", max: 40, hint: "e.g. We design" },
+          { kind: "text", key: "who", label: "Who does it", max: 70, hint: "e.g. UI/UX and brand designers" },
+          { kind: "textarea", key: "text", label: "A few words", max: 260 },
         ],
       },
     ],
-    defaults: { chip: "The office", heading: "Meet The Team", intro: "", members: TEAM_MEMBERS },
+    defaults: { chip: "How we work", heading: "How a project\nmoves through the team", intro: "", steps: [{ stage: "We listen", who: "Business development", text: "Text." }] },
+  }),
+  teamValues: defineSection({
+    label: "Team: values (numbered, to read)",
+    description: "A heading that stays in place on the left and numbered statements on the right (up to 8). For the beliefs and habits of the team.",
+    fields: [
+      chip(),
+      headingField(),
+      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
+      {
+        kind: "list",
+        key: "items",
+        label: "Statements",
+        itemLabel: "Statement",
+        max: 8,
+        fields: [
+          { kind: "text", key: "title", label: "Title", max: 60 },
+          { kind: "textarea", key: "text", label: "Text", max: 320 },
+        ],
+      },
+    ],
+    defaults: { chip: "Our values", heading: "What we believe in\nas a team", intro: "", items: [{ title: "Title", text: "Text." }] },
   }),
   aboutHero: defineSection({
     label: "About: first screen (words on a grid floor)",

@@ -15174,419 +15174,6 @@ a.md-rel-card:hover .md-rel-go {
 }
 
 /* ---------------------------------------------------------------------------------------------------------------------------------
-   The team page (components/site/modern/team-office.tsx): the office from above, a room for every department, the camera goes from room
-   to room while the page scrolls, a card for the person that is pointed at. Cards (a list) on a tablet and a phone. */
-.to {
-  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
-  --ad: hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 12%);
-  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
-  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
-  --card: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.7);
-  --floor: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4%);
-  --u: 1;
-  --p: calc(var(--u) * 1px);
-  position: relative;
-}
-.to-sticky {
-  display: none;
-}
-.to-listwrap {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 24px 16px 80px;
-}
-.to-head {
-  text-align: center;
-}
-.to-intro {
-  margin-right: auto;
-  margin-left: auto;
-}
-.to-dept {
-  margin-top: 46px;
-}
-.to-dept h3 {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0;
-  color: #fff;
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-.to-dept h3 span {
-  padding: 1px 12px;
-  border: 1px solid var(--hair);
-  border-radius: 999px;
-  color: var(--a);
-  font-size: 0.9375rem;
-}
-.to-dept ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  gap: 16px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.to-card {
-  position: relative;
-  display: flex;
-  gap: 16px;
-  padding: 18px;
-  border: 1px solid var(--hair);
-  border-radius: 20px;
-  background: var(--card);
-}
-.to-card h4,
-.to-profile h4 {
-  margin: 0;
-  color: #fff;
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-}
-.to-role {
-  margin: 3px 0 0;
-  color: var(--a);
-  font-size: 0.9375rem;
-  font-weight: 600;
-}
-.to-bio {
-  margin: 8px 0 0;
-  color: var(--soft);
-  font-size: 1rem;
-  line-height: 1.5;
-}
-/* the round photo (or the initials) */
-.to-badge {
-  --tone: 0;
-  display: grid;
-  flex: none;
-  width: 68px;
-  height: 68px;
-  place-items: center;
-  overflow: hidden;
-  border: 2px solid hsl(calc(var(--th) + var(--tone)) calc(70% * var(--ts)) 66% / 0.8);
-  border-radius: 50%;
-  background: linear-gradient(145deg, hsl(calc(var(--th) + var(--tone)) calc(52% * var(--ts)) 34%), hsl(calc(var(--th) + var(--tone)) calc(52% * var(--ts)) 18%));
-  color: #fff;
-}
-.to-badge b {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.to-badge img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* the card of the person that is pointed at */
-.to-profile {
-  position: fixed;
-  z-index: 60;
-  padding: 18px 20px 20px;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
-  border-radius: 20px;
-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8.5% / 0.97);
-  box-shadow: 0 30px 70px -22px rgba(0, 0, 0, 0.85);
-  animation: vq-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.to-pr-top {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.to-pr-dept {
-  display: inline-block;
-  margin-top: 14px;
-  padding: 2px 12px;
-  border: 1px solid var(--hair);
-  border-radius: 999px;
-  color: #fff;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.to-link {
-  display: inline-block;
-  margin-top: 12px;
-  color: var(--a);
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-}
-
-/* the camera (a desktop that does not mind motion) */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .to {
-    height: calc(100svh * (1.2 + var(--n) * 0.62));
-  }
-  .to-listwrap {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-  }
-  .to-sticky {
-    position: sticky;
-    top: 0;
-    display: block;
-    height: 100svh;
-  }
-  .to-stage {
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-    background: var(--floor);
-  }
-  .to-plan {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform-origin: 0 0;
-    will-change: transform;
-  }
-  .to-floor {
-    position: absolute;
-    inset: 0;
-    border: 30px solid hsl(calc(var(--th) + 347.58) calc(46% * var(--ts)) 17%);
-    background:
-      linear-gradient(rgba(255, 255, 255, 0.03) 2px, transparent 2px) 0 0 / 120px 120px,
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 2px, transparent 2px) 0 0 / 120px 120px,
-      var(--floor);
-    box-shadow: inset 0 0 0 2px hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.16);
-  }
-  .to-title {
-    position: absolute;
-    top: 38px;
-    right: 0;
-    left: 0;
-    margin: 0;
-    background: linear-gradient(180deg, #fff 22%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-size: 96px;
-    font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 1;
-    opacity: 0.55;
-    text-align: center;
-  }
-  .to-room {
-    position: absolute;
-    border-radius: 26px;
-    background: hsl(calc(var(--th) + var(--tone)) calc(40% * var(--ts)) 15% / 0.55);
-    box-shadow: inset 0 0 0 1px hsl(calc(var(--th) + var(--tone)) calc(60% * var(--ts)) 70% / 0.2);
-  }
-  .to-rname {
-    position: absolute;
-    top: -44px;
-    left: 6px;
-    color: hsl(calc(var(--th) + var(--tone)) calc(70% * var(--ts)) 84% / 0.65);
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-  .to-table {
-    position: absolute;
-    top: 166px;
-    right: 40px;
-    left: 40px;
-    height: 92px;
-    border-radius: 16px;
-    background: linear-gradient(160deg, hsl(calc(var(--th) + 14) calc(38% * var(--ts)) 30%), hsl(calc(var(--th) + 14) calc(36% * var(--ts)) 22%));
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-      0 8px 18px rgba(0, 0, 0, 0.5);
-  }
-  .to-plant {
-    position: absolute;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 36% 32%, hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 44%), hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 22%) 70%);
-    opacity: 0.7;
-  }
-  .to-plant-a {
-    right: 16px;
-    bottom: 14px;
-  }
-  .to-plant-b {
-    top: 16px;
-    right: 18px;
-  }
-  .to-seat {
-    position: absolute;
-    z-index: 3;
-    width: 0;
-    height: 0;
-  }
-  .to-hit {
-    position: absolute;
-    top: -64px;
-    left: -48px;
-    width: 96px;
-    height: 128px;
-    padding: 0;
-    border: 0;
-    border-radius: 24px;
-    background: transparent;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .to-hit:hover,
-  .to-hit[data-on="true"] {
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
-  }
-  .to-hit:focus-visible {
-    outline: 2px solid var(--a);
-  }
-  .to-hit .to-badge {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    width: 54px;
-    height: 54px;
-    border-width: 3px;
-    translate: -50% 0;
-    transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .to-hit:hover .to-badge,
-  .to-hit[data-on="true"] .to-badge {
-    scale: 1.18;
-  }
-  .to-hit .to-badge b {
-    font-size: 1.05rem;
-  }
-  .to-av {
-    position: absolute;
-    top: 64px;
-    left: 48px;
-    width: 0;
-    height: 0;
-    scale: 2.7;
-  }
-  .to-av .of-chair {
-    z-index: 3;
-  }
-  /* the interface over the office */
-  .to-ui {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-  .to-now {
-    position: absolute;
-    top: 36px;
-    left: clamp(1.5rem, 4vw, 4rem);
-    display: grid;
-    max-width: 24rem;
-    gap: 4px;
-    animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  .to-now-k {
-    color: var(--a);
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .to-now b {
-    color: #fff;
-    font-size: clamp(2.2rem, 4vw, 3.4rem);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
-    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
-  }
-  .to-now-n {
-    color: var(--soft);
-    font-size: 1.0625rem;
-  }
-  .to-nav {
-    position: absolute;
-    top: 50%;
-    right: clamp(1rem, 2.4vw, 2.4rem);
-    display: grid;
-    gap: 8px;
-    pointer-events: auto;
-    translate: 0 -50%;
-  }
-  .to-nav button {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--soft);
-    cursor: pointer;
-  }
-  .to-nav button span {
-    max-width: 0;
-    overflow: hidden;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    opacity: 0;
-    white-space: nowrap;
-    transition:
-      max-width 0.4s,
-      opacity 0.3s;
-  }
-  .to-nav button:hover span,
-  .to-nav button[data-on="true"] span {
-    max-width: 14rem;
-    opacity: 1;
-  }
-  .to-nav button i {
-    display: grid;
-    min-width: 36px;
-    height: 36px;
-    place-items: center;
-    padding: 0 8px;
-    border: 1px solid var(--hair);
-    border-radius: 18px;
-    background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.85);
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 700;
-    transition:
-      background 0.3s,
-      color 0.3s;
-  }
-  .to-nav button[data-on="true"] i {
-    border-color: var(--a);
-    background: var(--a);
-    color: var(--ad);
-  }
-  .to-hint {
-    position: absolute;
-    right: 0;
-    bottom: 84px;
-    left: 0;
-    margin: 0;
-    color: var(--soft);
-    font-size: 1rem;
-    text-align: center;
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
-  }
-  .to-sticky[data-live="false"] .of-pp .ch-head {
-    animation-play-state: paused;
-  }
-}
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
    Neon Reveal (components/site/modern/neon-reveal.tsx): a neon tube flickers on and its light uncovers the content under it. */
 @property --nr-reach {
   syntax: "<percentage>";
@@ -22388,23 +21975,6 @@ a.md-rel-card:hover .md-rel-go {
   -webkit-line-clamp: 3;
 }
 
-/* The team office (modern/team-office.tsx): the pinned plan was a solid dark box with a thick lighter border, with hard edges against the sections above
-   and below. Now there is no box: the floor is only a faint grid on the sky of the page, the thick border and the ring are gone, and the top and the
-   bottom of the picture fade into the sections around it. */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .to-stage {
-    background: transparent;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
-  }
-  .to-floor {
-    border: 0;
-    background:
-      linear-gradient(rgba(255, 255, 255, 0.035) 2px, transparent 2px) 0 0 / 120px 120px,
-      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 2px, transparent 2px) 0 0 / 120px 120px;
-    box-shadow: none;
-  }
-}
 
 /* ---------------------------------------------------------------------------------------------------------------------------------
    The admin login page (components/admin/login-screen.tsx): a split screen. Left the form, right a rounded picture card with a line over a
@@ -22833,4 +22403,1431 @@ a.md-rel-card:hover .md-rel-go {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   font-size: 1.5rem;
   letter-spacing: 0.12em;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   The reading sections of the Team page (components/site/sections/team-story.tsx), for laptop and desktop screens:
+   .tm  common colours      .tm-grid / .tm-head / .tm-body   the text with a heading that stays in place
+   .tj  the steps of a project on a line      .tv  numbered values */
+.tm {
+  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
+  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+  --card: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.7);
+}
+.tm-grid {
+  display: grid;
+  gap: 48px;
+}
+@media (min-width: 1024px) {
+  .tm-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 88px;
+  }
+  .tm-head {
+    position: sticky;
+    top: 120px;
+    align-self: start;
+  }
+}
+.tm-h2 {
+  font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+  line-height: 1.08;
+}
+.tm-intro {
+  margin: 24px 0 0;
+  max-width: 440px;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+/* the text to read */
+.tm-body {
+  max-width: 640px;
+}
+.tm-body p {
+  margin: 0 0 1.5em;
+  color: var(--soft);
+  font-size: 1.125rem;
+  line-height: 1.85;
+}
+.tm-body p .text-violet {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+}
+.tm-body .tm-lead {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.55;
+}
+.tm-quote {
+  position: relative;
+  margin: 2.6rem 0 0;
+  padding: 28px 30px 28px 34px;
+  border: 1px solid var(--hair);
+  border-radius: 20px;
+  background: var(--card);
+}
+.tm-quote::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, var(--a), hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 62%));
+}
+.tm-quote blockquote {
+  margin: 0;
+  color: #fff;
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.5;
+}
+.tm-quote figcaption {
+  margin-top: 14px;
+  color: var(--a);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+/* the steps of a project: numbered cards on a line, two rows of three */
+.tj {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 60px 24px;
+  margin: 84px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tj-item {
+  position: relative;
+  display: flex;
+}
+.tj-step {
+  --card-bg: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 10%);
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px 26px 30px;
+  border: 1px solid var(--hair);
+  border-radius: 22px;
+  background: var(--card);
+  transition:
+    border-color 0.4s,
+    translate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tj-step:hover {
+  translate: 0 -4px;
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
+}
+/* a dot on the line above every card, and the line itself */
+.tj-item::before {
+  content: "";
+  position: absolute;
+  top: -29px;
+  left: 26px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--a);
+  box-shadow: 0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18), 0 0 18px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
+}
+.tj-item::after {
+  content: "";
+  position: absolute;
+  top: -24px;
+  left: 44px;
+  right: -24px;
+  height: 1px;
+  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12));
+}
+.tj-item:nth-child(3n)::after {
+  display: none;
+}
+.tj-no {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.tj-step h3 {
+  margin: 14px 0 0;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+.tj-who {
+  margin: 14px 0 0;
+  padding: 4px 12px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.tj-text {
+  margin: 16px 0 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+/* the values: a big number, a title and a few lines, row by row */
+.tv {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hair);
+}
+.tv-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 8px;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.tv-no {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
+  font-size: 2.4rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  transition: color 0.4s;
+}
+.tv-row:hover .tv-no {
+  color: var(--a);
+}
+.tv-row h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+.tv-row p {
+  margin: 12px 0 0;
+  max-width: 540px;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   The team page (components/site/modern/team-office.tsx): the office of the About timeline (the .of-* rules above: floor, walls, corners,
+   tables, people) with the real people of the company in it. One screen, no camera. A card opens next to the person that is pointed at.
+   The same component is the preview of the admin panel (Team). */
+.to2-wrap {
+  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
+  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+  position: relative;
+}
+.to2 {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  min-height: 520px;
+  overflow: hidden;
+  background: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4% / 0.7);
+  /* the top and the bottom melt into the sections around the office, so that there is no hard edge */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 90%, transparent 100%);
+}
+.to2[data-preview="true"] {
+  border-radius: 20px;
+  background: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4%);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.to2 .of-wall-b {
+  display: none;
+}
+.to2-zone {
+  z-index: 3;
+}
+
+/* a person: the avatar of the office (a round badge with the photo or the initials sits behind it) */
+.to2-p {
+  position: absolute;
+  z-index: 4;
+  width: 0;
+  height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+.to2-hit {
+  position: absolute;
+  left: -22px;
+  top: -26px;
+  width: 44px;
+  height: 52px;
+  border-radius: 14px;
+  transition:
+    background-color 0.25s,
+    box-shadow 0.25s;
+}
+.to2-p:hover .to2-hit,
+.to2-p:focus-visible .to2-hit,
+.to2-p[data-on="true"] .to2-hit {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
+  box-shadow: 0 0 0 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.7);
+}
+.to2-p[data-hl="true"] .to2-hit {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.22);
+  box-shadow: 0 0 0 2px #fff;
+}
+.to2-badge {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  place-items: center;
+  overflow: hidden;
+  border: 1.5px solid hsl(calc(var(--th) + var(--tone, 0)) calc(70% * var(--ts)) 68% / 0.85);
+  border-radius: 50%;
+  background: linear-gradient(145deg, hsl(calc(var(--th) + var(--tone, 0)) calc(52% * var(--ts)) 34%), hsl(calc(var(--th) + var(--tone, 0)) calc(52% * var(--ts)) 18%));
+  color: #fff;
+  transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.to2-badge b {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.to2-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.to2-p:hover .to2-badge,
+.to2-p:focus-visible .to2-badge,
+.to2-p[data-on="true"] .to2-badge {
+  scale: 1.25;
+}
+
+/* the heading at the top of the office */
+.to2-head {
+  position: absolute;
+  top: 76px; /* under the logo of the menu bar */
+  left: 50%;
+  z-index: 3;
+  display: grid;
+  width: min(760px, 86%);
+  justify-items: center;
+  gap: 16px;
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.to2-chip {
+  padding: 6px 16px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
+  color: var(--a);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.to2-h {
+  margin: 0;
+  background-image: linear-gradient(0deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%) 0%, hsl(calc(var(--th) + 352) calc(58% * var(--ts)) 62%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2.6rem, 5vw, 4.6rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  white-space: pre-line;
+}
+.to2[data-preview="true"] .to2-h {
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+}
+.to2-intro {
+  max-width: 520px;
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+.to2-count {
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.125rem;
+}
+.to2-count b {
+  color: #fff;
+  font-weight: 600;
+}
+.to2-hint {
+  margin: 0;
+  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90% / 0.7);
+  font-size: 1rem;
+}
+
+/* the card of the person that is pointed at */
+.to2-card {
+  --card-bg: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9%);
+  position: absolute;
+  z-index: 20;
+  padding: 18px 20px 20px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+  border-radius: 20px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8.5% / 0.97);
+  box-shadow: 0 30px 70px -22px rgba(0, 0, 0, 0.85);
+  transform: translateY(-50%);
+  animation: to2-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes to2-in {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+.to2-card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.to2-badge-l {
+  position: static;
+  flex: none;
+  width: 68px;
+  height: 68px;
+  margin: 0;
+  border-width: 2px;
+}
+.to2-badge-l b {
+  font-size: 1.25rem;
+}
+.to2-card h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.to2-role {
+  margin: 4px 0 0;
+  color: var(--a);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.to2-dept {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 2px 12px;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.to2-bio {
+  margin: 10px 0 0;
+  color: var(--soft);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.to2-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--a);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.to2-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* the hierarchy of the office: the leaders' desk, the managers' table, the lines between the tiers, the names of the corners */
+.to2-name {
+  position: absolute;
+  z-index: 4;
+  color: hsl(calc(var(--th) + var(--zt, 0)) calc(70% * var(--ts)) 88% / 0.85);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.to2-line {
+  position: absolute;
+  z-index: 1;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3));
+  box-shadow: 0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
+  pointer-events: none;
+}
+.to2-tag {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  gap: 1px;
+  justify-items: center;
+  max-width: 190px;
+  padding: 5px 12px 6px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
+  border-radius: 14px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.9);
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.to2-tag b {
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.to2-tag i {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.3;
+}
+/* the leaders: boss chairs behind a long desk with a monitor in front of each of them */
+.to2-desk {
+  position: absolute;
+  top: 70px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 14) calc(38% * var(--ts)) 34%), hsl(calc(var(--th) + 14) calc(36% * var(--ts)) 22%));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 6px 14px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+.to2-mon {
+  position: absolute;
+  top: 12px;
+  width: 38px;
+  height: 7px;
+  border-radius: 3px;
+  background: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 12%);
+  box-shadow: 0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
+}
+.to2-bosschair {
+  position: absolute;
+  z-index: 2;
+  width: 38px;
+  height: 34px;
+  margin: -17px 0 0 -19px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 349) calc(30% * var(--ts)) 26%), hsl(calc(var(--th) + 349) calc(30% * var(--ts)) 16%));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 4px 9px rgba(0, 0, 0, 0.5);
+}
+.to2-bosschair::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: -26%;
+  height: 44%;
+  border-radius: 11px 11px 3px 3px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 349) calc(30% * var(--ts)) 30%), hsl(calc(var(--th) + 349) calc(30% * var(--ts)) 18%));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+/* the managers: a long table with the main chair at the end */
+.to2-longtable {
+  position: absolute;
+  left: 36px;
+  top: 66px;
+  width: 244px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 14) calc(38% * var(--ts)) 32%), hsl(calc(var(--th) + 14) calc(36% * var(--ts)) 21%));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 6px 14px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+.to2-longtable::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 17px;
+  height: 10px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.28) 0 18px, transparent 18px 30px);
+}
+.to2-mainchair {
+  position: absolute;
+  z-index: 2;
+  width: 30px;
+  height: 46px;
+  margin: -23px 0 0 -15px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 44%), hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 30%));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 0 16px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.45);
+}
+.to2-mainchair::before {
+  content: "";
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  right: -12px;
+  width: 14px;
+  border-radius: 3px 10px 10px 3px;
+  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 50%), hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 36%));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.to2-pods {
+  display: contents;
+}
+.to2-n {
+  font-style: normal;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* the people who walk about are always in front of the tables and chairs, never under them */
+.to2 .of-walker {
+  z-index: 8;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   The Contact page, first screen (components/site/contact-reception.tsx): the words and the choices at the top, below them the reception of
+   an office: a real photo of a receptionist whose edges melt into a blurred copy of the same photo, a counter in front of her, soft
+   lights and plants out of focus. The bottom melts into the next section. For laptop and desktop screens. */
+.rc {
+  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
+  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.18);
+  position: relative;
+  min-height: max(100svh, 820px);
+  overflow: hidden;
+  text-align: center;
+}
+.rc-top {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 104px 24px 0;
+}
+.rc-h {
+  margin: 4px 0 0;
+  background-image: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 352.8) calc(100% * var(--ts)) 85.29%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  filter: drop-shadow(0 6px 24px hsl(calc(var(--th) + 344) calc(71.43% * var(--ts)) 4.12% / 0.8));
+}
+.rc-sub {
+  max-width: 620px;
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-shadow: 0 2px 16px hsl(calc(var(--th) + 344) calc(71.43% * var(--ts)) 4.12% / 0.9);
+}
+
+/* the talk with the receptionist */
+.rc-chat {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  width: min(760px, 100%);
+  min-height: 190px;
+  margin-top: 4px;
+}
+.rc-lines {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+.rc-line {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  animation: rc-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: opacity 0.4s;
+}
+.rc-line[data-who="you"] {
+  justify-content: flex-end;
+}
+.rc-line[data-old="true"] {
+  opacity: 0.45;
+}
+.rc-line p {
+  max-width: 640px;
+  margin: 0;
+  padding: 10px 18px;
+  border: 1px solid var(--hair);
+  border-radius: 18px 18px 18px 6px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9% / 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  text-align: left;
+}
+.rc-line[data-who="you"] p {
+  border-radius: 18px 18px 6px 18px;
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85.29%), hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06%));
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-weight: 500;
+}
+@keyframes rc-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rc-dots {
+  display: flex;
+  gap: 6px;
+  padding: 16px 18px !important;
+}
+.rc-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--a);
+  animation: rc-dot 1s ease-in-out infinite;
+}
+.rc-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.rc-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes rc-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+.rc-opts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.rc-opt {
+  padding: 11px 20px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.09);
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  animation: rc-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    transform 0.25s,
+    color 0.25s;
+}
+.rc-opt:hover,
+.rc-opt:focus-visible {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2);
+  color: #fff;
+  outline: none;
+  transform: translateY(-2px);
+}
+.rc-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85.29%) 0%, hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06%) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 6px 24px hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06% / 0.28);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  animation: rc-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.25s;
+}
+.rc-go:hover,
+.rc-go:focus-visible {
+  outline: none;
+  transform: translateY(-2px);
+}
+.rc-links {
+  display: flex;
+  gap: 22px;
+  margin: 2px 0 0;
+}
+.rc-links a {
+  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90% / 0.78);
+  font-size: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  transition: color 0.2s;
+}
+.rc-links a:hover {
+  color: #fff;
+}
+
+/* the reception: a room of layers (components/site/contact-reception.tsx). --px / --py (-1..1) are the pointer; every layer moves by its own
+   amount (far things a little, near things more), the character looks at the pointer. The edges are out of focus and the bottom melts into
+   the section below. */
+.rc-scene {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  height: min(54%, 580px);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30%, #000 80%, transparent 100%), linear-gradient(to right, transparent 0, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 30%, #000 80%, transparent 100%), linear-gradient(to right, transparent 0, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.rc-l {
+  position: absolute;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+/* far: the wall with panels, the windows, the sign, the lights */
+.rc-wall {
+  inset: -30px;
+  background:
+    linear-gradient(90deg, transparent 0 24.5%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.07) 24.5% 25%, transparent 25% 49.5%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.07) 49.5% 50%, transparent 50% 74.5%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.07) 74.5% 75%, transparent 75%),
+    linear-gradient(180deg, hsl(calc(var(--th) + 347) calc(56% * var(--ts)) 8%), hsl(calc(var(--th) + 352) calc(54% * var(--ts)) 16%) 70%, hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 12%));
+  transform: translate(calc(var(--px, 0) * -4px), calc(var(--py, 0) * -2px));
+}
+.rc-windows {
+  top: 6%;
+  right: 8%;
+  left: 8%;
+  display: flex;
+  justify-content: space-between;
+  height: 46%;
+  filter: blur(3px);
+  transform: translate(calc(var(--px, 0) * -8px), calc(var(--py, 0) * -3px));
+}
+.rc-windows i {
+  width: 22%;
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(70% * var(--ts)) 70% / 0.55), hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 60% / 0.14)),
+    repeating-linear-gradient(90deg, transparent 0 46%, hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8% / 0.9) 46% 54%, transparent 54%);
+  box-shadow: 0 0 60px hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 70% / 0.25);
+}
+.rc-sign {
+  top: 9%;
+  left: 50%;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88%);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.5em;
+  text-shadow:
+    0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.9),
+    0 0 36px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6);
+  white-space: nowrap;
+  opacity: 0.85;
+  filter: blur(1px);
+  transform: translate(calc(-50% + var(--px, 0) * -10px), calc(var(--py, 0) * -4px));
+}
+.rc-lights {
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 14%;
+  filter: blur(9px);
+  transform: translate(calc(var(--px, 0) * -12px), calc(var(--py, 0) * -5px));
+}
+.rc-lights i {
+  width: 150px;
+  height: 18px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90% / 0.55);
+}
+/* middle: shelves with plants and books, out of focus */
+.rc-shelf {
+  bottom: 160px;
+  width: 190px;
+  height: 120px;
+  filter: blur(4px);
+}
+.rc-shelf-l {
+  left: 7%;
+  transform: translate(calc(var(--px, 0) * -16px), calc(var(--py, 0) * -6px));
+}
+.rc-shelf-r {
+  right: 7%;
+  transform: translate(calc(var(--px, 0) * -16px), calc(var(--py, 0) * -6px));
+}
+.rc-shelf b {
+  position: absolute;
+  bottom: 0;
+  width: 26px;
+  border-radius: 3px;
+  background: hsl(calc(var(--th) + 20) calc(40% * var(--ts)) 34%);
+}
+.rc-shelf b:nth-of-type(1) {
+  left: 8px;
+  height: 78px;
+}
+.rc-shelf b:nth-of-type(2) {
+  left: 38px;
+  height: 96px;
+  background: hsl(calc(var(--th) + 330) calc(40% * var(--ts)) 40%);
+}
+.rc-shelf b:nth-of-type(3) {
+  left: 68px;
+  height: 66px;
+  background: hsl(calc(var(--th) + 100) calc(30% * var(--ts)) 36%);
+}
+.rc-shelf u {
+  position: absolute;
+  right: 6px;
+  bottom: 0;
+  width: 70px;
+  height: 108px;
+  border-radius: 50% 50% 30% 30% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 38%, hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 40%), hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 16%) 72%, transparent);
+}
+.rc-glow {
+  left: 50%;
+  top: 0;
+  width: 56%;
+  height: 100%;
+  background: radial-gradient(closest-side, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 72% / 0.3), transparent);
+  transform: translate(calc(-50% + var(--px, 0) * -6px), calc(var(--py, 0) * -3px));
+}
+/* the character */
+.rc-avatar {
+  --avh: min(470px, calc(100% - 20px));
+  left: 50%;
+  bottom: calc(168px - var(--avh) * 0.196);
+  height: var(--avh);
+  aspect-ratio: 480 / 560;
+  transform: translate(calc(-50% + var(--px, 0) * 5px), calc(var(--py, 0) * 2px));
+}
+.rc-avatar-hit {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+}
+/* near: the counter, in front of her */
+.rc-counter {
+  bottom: 56px;
+  left: 50%;
+  width: min(1040px, 78%);
+  height: 112px;
+  border-radius: 26px 26px 0 0;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 349) calc(40% * var(--ts)) 20%), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8%));
+  box-shadow:
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.45),
+    0 -24px 70px -26px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.5);
+  transform: translate(calc(-50% + var(--px, 0) * 9px), calc(var(--py, 0) * 3px));
+}
+.rc-logo {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: hsl(0 0% 100% / 0.82);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+}
+.rc-plate {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  padding: 3px 14px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
+  border-radius: 8px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9%);
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transform: translateX(-50%);
+}
+.rc-bell {
+  position: absolute;
+  top: -10px;
+  left: 17%;
+  width: 24px;
+  height: 12px;
+  border-radius: 14px 14px 3px 3px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 40) 60% 76%), hsl(calc(var(--th) + 40) 50% 46%));
+  box-shadow: 0 0 14px hsl(calc(var(--th) + 40) 80% 70% / 0.4);
+}
+.rc-pot {
+  position: absolute;
+  top: -22px;
+  right: 15%;
+  width: 26px;
+  height: 22px;
+  border-radius: 6px 6px 10px 10px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 14) 30% 40%), hsl(calc(var(--th) + 14) 30% 24%));
+}
+.rc-pot::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 70%;
+  width: 38px;
+  height: 32px;
+  transform: translateX(-50%);
+  border-radius: 50% 50% 40% 40%;
+  background: radial-gradient(circle at 50% 70%, hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 44%), hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 22%));
+}
+.rc-lamp {
+  position: absolute;
+  top: -34px;
+  left: 28%;
+  width: 4px;
+  height: 34px;
+  background: hsl(calc(var(--th) + 354) 20% 60% / 0.8);
+}
+.rc-lamp::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -14px;
+  width: 32px;
+  height: 14px;
+  border-radius: 16px 16px 4px 4px;
+  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.9);
+  box-shadow: 0 6px 30px hsl(calc(var(--th) + 40) 90% 70% / 0.55);
+}
+/* in front of everything: leaves very close to the camera, out of focus */
+.rc-fore {
+  bottom: -20px;
+  width: 210px;
+  height: 330px;
+  background: radial-gradient(ellipse at 50% 60%, hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 30% / 0.9), hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 12% / 0.7) 70%, transparent);
+  filter: blur(14px);
+  border-radius: 50%;
+}
+.rc-fore-l {
+  left: -4%;
+  transform: translate(calc(var(--px, 0) * -26px), calc(var(--py, 0) * -8px));
+}
+.rc-fore-r {
+  right: -4%;
+  transform: translate(calc(var(--px, 0) * -26px), calc(var(--py, 0) * -8px));
+}
+
+/* the face of the receptionist next to her lines */
+.rc-face {
+  flex: none;
+  display: block;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  border: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.6);
+  border-radius: 50%;
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 30%), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 12%));
+  box-shadow: 0 0 18px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.35);
+}
+.rc-face .ra {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- the character itself: the layers of reception-avatar.tsx ---- */
+.ra {
+  --ra-b1: hsl(calc(var(--th) + 352) calc(44% * var(--ts)) 34%);
+  --ra-b2: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 15%);
+  --ra-l1: hsl(calc(var(--th) + 354) calc(52% * var(--ts)) 48%);
+  --ra-l2: hsl(calc(var(--th) + 352) calc(50% * var(--ts)) 28%);
+  --ra-shine: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ra-hair-back,
+.ra-hair {
+  fill: url(#ra-hair);
+}
+.ra-hair-line {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.ra-hair-shine {
+  fill: url(#ra-hair-sh);
+  opacity: 0.7;
+}
+.ra-hair-hi {
+  fill: none;
+  stroke: var(--ra-shine);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  opacity: 0.35;
+}
+.ra-neck {
+  fill: url(#ra-neck);
+}
+.ra-chin-shadow {
+  fill: rgba(80, 36, 22, 0.28);
+  filter: blur(6px);
+}
+.ra-blazer {
+  fill: url(#ra-blazer);
+}
+.ra-blouse {
+  fill: #f1ebf6;
+}
+.ra-vneck {
+  fill: url(#ra-skin);
+}
+.ra-lapel {
+  fill: url(#ra-lapel);
+}
+.ra-lapel-r {
+  opacity: 0.92;
+}
+.ra-seam {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.ra-badge {
+  fill: #fbf7fd;
+}
+.ra-badge-line {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 30%);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.ra-badge-dot {
+  fill: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 60%);
+}
+.ra-skin-d {
+  fill: #c98e68;
+}
+.ra-earring {
+  fill: hsl(var(--th) 0% 96%);
+  stroke: rgba(0, 0, 0, 0.2);
+}
+.ra-face {
+  fill: url(#ra-skin);
+}
+.ra-face-sh {
+  fill: rgba(120, 56, 36, 0.16);
+}
+.ra-brow {
+  fill: none;
+  stroke: #2a1820;
+  stroke-width: 5.4;
+  stroke-linecap: round;
+  transition: transform 0.4s;
+}
+.ra-sclera {
+  fill: #fbf7f4;
+}
+.ra-lid {
+  fill: #e0a982;
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  transform: scaleY(0);
+  animation: ra-blink 5.4s ease-in-out infinite;
+}
+.ra-eye[data-side="r"] .ra-lid {
+  animation-delay: 0s;
+}
+@keyframes ra-blink {
+  0%,
+  91%,
+  100% {
+    transform: scaleY(0);
+  }
+  94% {
+    transform: scaleY(1);
+  }
+  97% {
+    transform: scaleY(0);
+  }
+}
+.ra-lash {
+  fill: none;
+  stroke: #1b0f12;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ra-lash-b {
+  fill: none;
+  stroke: rgba(60, 30, 20, 0.35);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.ra-iris-g {
+  transform: translate(calc(var(--px, 0) * 6px), calc(var(--py, 0) * 4px));
+  transition: transform 0.25s ease-out;
+}
+.ra-nose {
+  fill: rgba(120, 56, 36, 0.14);
+}
+.ra-nose-hi {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.ra-nostril {
+  fill: rgba(70, 30, 20, 0.45);
+}
+.ra-smile-fill {
+  fill: url(#ra-lip);
+  transition: opacity 0.12s;
+}
+.ra-lip-hi {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+.ra-open {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  transform: scaleY(0.2);
+}
+.ra-open-bg {
+  fill: #4b1624;
+}
+.ra-teeth {
+  fill: #fff;
+}
+.ra-tongue {
+  fill: #c9566b;
+}
+.ra[data-talk="true"] .ra-smile-fill {
+  opacity: 0;
+}
+.ra[data-talk="true"] .ra-lip-hi {
+  opacity: 0;
+}
+.ra[data-talk="true"] .ra-open {
+  opacity: 1;
+  animation: ra-talk 0.34s ease-in-out infinite alternate;
+}
+@keyframes ra-talk {
+  0% {
+    transform: scale(0.9, 0.25);
+  }
+  40% {
+    transform: scale(1, 0.9);
+  }
+  70% {
+    transform: scale(0.94, 0.5);
+  }
+  100% {
+    transform: scale(1.02, 1);
+  }
+}
+.ra-band {
+  fill: none;
+  stroke: #17101f;
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+.ra-cup {
+  fill: #1c1328;
+  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 60% / 0.5);
+  stroke-width: 1.6;
+}
+.ra-cup-hi {
+  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.28);
+}
+.ra-boom {
+  fill: none;
+  stroke: #17101f;
+  stroke-width: 4.4;
+  stroke-linecap: round;
+}
+.ra-mic {
+  fill: #17101f;
+  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 60% / 0.6);
+  stroke-width: 1.4;
+}
+.ra-led {
+  fill: hsl(calc(var(--th) + 140) 90% 60%);
+  filter: drop-shadow(0 0 4px hsl(calc(var(--th) + 140) 90% 60%));
+}
+/* life: she breathes, the head follows the pointer (a little turn and a little move), she nods when a choice is made */
+.ra-body {
+  transform-origin: 240px 460px;
+  animation: ra-breathe 4.6s ease-in-out infinite;
+}
+@keyframes ra-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.004);
+  }
+}
+.ra-body[data-nod="true"] {
+  animation:
+    ra-breathe 4.6s ease-in-out infinite,
+    ra-nod 0.8s ease-in-out 1;
+}
+@keyframes ra-nod {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  35% {
+    translate: 0 9px;
+  }
+  65% {
+    translate: 0 -2px;
+  }
+}
+.ra-head {
+  transform-origin: 240px 300px;
+  transform: translate(calc(var(--px, 0) * 8px), calc(var(--py, 0) * 5px)) rotate(calc(var(--px, 0) * 2.6deg));
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+/* the raised hand: it comes up from behind the counter, waves and goes down again */
+.ra-arm {
+  transform: translateY(260px);
+  transform-origin: 408px 372px;
+}
+.ra-arm[data-wave="true"] {
+  animation: ra-wave 3.2s cubic-bezier(0.3, 0.7, 0.3, 1) both;
+}
+@keyframes ra-wave {
+  0% {
+    transform: translateY(260px) rotate(0deg);
+  }
+  16% {
+    transform: translateY(0) rotate(0deg);
+  }
+  26% {
+    transform: translateY(0) rotate(14deg);
+  }
+  36% {
+    transform: translateY(0) rotate(-14deg);
+  }
+  46% {
+    transform: translateY(0) rotate(14deg);
+  }
+  56% {
+    transform: translateY(0) rotate(-14deg);
+  }
+  66% {
+    transform: translateY(0) rotate(10deg);
+  }
+  76% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(260px) rotate(0deg);
+  }
+}
+.ra-sleeve {
+  fill: url(#ra-blazer);
+}
+.ra-cuff {
+  fill: #f1ebf6;
+}
+.ra-skin,
+.ra-finger {
+  fill: url(#ra-skin);
+  stroke: rgba(120, 56, 36, 0.35);
+  stroke-width: 1.2;
+}
+.ra-palm-sh {
+  fill: none;
+  stroke: rgba(120, 56, 36, 0.3);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ra-lid,
+  .ra-body,
+  .ra-open {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rc-line,
+  .rc-opt,
+  .rc-go,
+  .rc-dots i {
+    animation: none;
+  }
 }
