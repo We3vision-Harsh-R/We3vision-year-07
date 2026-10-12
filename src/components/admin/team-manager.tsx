@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { saveTeam } from "@/actions/team";
 import type { ActionResult } from "@/actions/types";
-import { byDepartment, CORNER_CAPACITY, MAX_PEOPLE, type TeamPerson } from "@/lib/team-shared";
+import { byDepartment, CORNER_CAPACITY, MAX_PEOPLE, tierOf, type TeamPerson } from "@/lib/team-shared";
 import { TeamOffice } from "../site/modern/team-office";
 import { ImageField } from "./image-field";
+import { SeatPicker } from "./seat-picker";
 import { btnDanger, btnIcon, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
 
 // Team in the admin panel: the people of the office. Every change is drawn at once in the preview (the real office of the Team page);
@@ -37,9 +38,16 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
     setResult(null);
   };
   const patch = (id: string, part: Partial<TeamPerson>) => change(people.map((p) => (p.id === id ? { ...p, ...part } : p)));
+  // gives a person a seat; the person who had that chosen seat in the same group sits on an automatic seat again
+  const assignSeat = (id: string, seat: number) => {
+    const me = people.find((p) => p.id === id);
+    if (!me) return;
+    const same = (p: TeamPerson) => (tierOf(me.dept) === "team" ? p.dept.trim() === me.dept.trim() : tierOf(p.dept) === tierOf(me.dept));
+    change(people.map((p) => (p.id === id ? { ...p, seat } : seat >= 0 && p.seat === seat && same(p) ? { ...p, seat: -1 } : p)));
+  };
   const add = (dept: string) => {
     if (people.length >= MAX_PEOPLE) return;
-    const p: TeamPerson = { id: uid(), name: "New person", role: "", dept: dept || "Team", bio: "", photo: "", linkedin: "", girl: false };
+    const p: TeamPerson = { id: uid(), name: "New person", role: "", dept: dept || "Team", bio: "", photo: "", linkedin: "", girl: false, seat: -1 };
     // right after the last person of that department (or at the end)
     const last = people.map((x) => x.dept).lastIndexOf(p.dept);
     const next = [...people];
@@ -82,7 +90,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
 
   const save = () =>
     start(async () => {
-      const res = await saveTeam(people.map((p) => ({ name: p.name, role: p.role, dept: p.dept, bio: p.bio, photo: p.photo, linkedin: p.linkedin, girl: p.girl })));
+      const res = await saveTeam(people.map((p) => ({ name: p.name, role: p.role, dept: p.dept, bio: p.bio, photo: p.photo, linkedin: p.linkedin, girl: p.girl, seat: p.seat })));
       setResult(res);
       if (res.ok) setDirty(false);
     });
@@ -173,7 +181,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
                 </label>
                 <label className={labelClass}>
                   Department
-                  <input className={inputClass} list="team-depts" value={current.dept} maxLength={30} onChange={(e) => patch(current.id, { dept: e.target.value })} />
+                  <input className={inputClass} list="team-depts" value={current.dept} maxLength={30} onChange={(e) => patch(current.id, { dept: e.target.value, seat: -1 })} />
                   <datalist id="team-depts">
                     {depts.map((d) => (
                       <option key={d} value={d} />
@@ -191,6 +199,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
                 LinkedIn link (optional)
                 <input className={inputClass} value={current.linkedin} maxLength={300} placeholder="https://www.linkedin.com/in/…" onChange={(e) => patch(current.id, { linkedin: e.target.value })} />
               </label>
+              <SeatPicker people={people} current={current} onAssign={(seat) => assignSeat(current.id, seat)} />
               <label className="flex items-center gap-2 text-sm text-zinc-700">
                 <input type="checkbox" checked={current.girl} onChange={(e) => patch(current.id, { girl: e.target.checked })} />
                 Draw the avatar as a woman

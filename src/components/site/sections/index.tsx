@@ -10,6 +10,7 @@ import { ArchGallery } from "./arch-gallery";
 import { Automate } from "./automate";
 import { Backdrop } from "./backdrop";
 import { Blogs } from "./blogs";
+import { CareerDestinationSection, CareerHelpDeskSection, CareerJourneySection, CareerTeamsSection, CareerValuesSection } from "./career";
 import { Contact } from "./contact";
 import { Faq } from "./faq";
 import { Flow } from "./flow";
@@ -81,6 +82,11 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   sketchCanvas: SketchCanvasSection,
   team: Team,
   teamOffice: TeamOfficeSection,
+  careerJourney: CareerJourneySection,
+  careerDestination: CareerDestinationSection,
+  careerValues: CareerValuesSection,
+  careerTeams: CareerTeamsSection,
+  careerHelpDesk: CareerHelpDeskSection,
   teamManifesto: TeamManifesto,
   teamJourney: TeamJourney,
   teamValues: TeamValues,

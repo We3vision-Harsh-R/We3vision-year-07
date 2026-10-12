@@ -73,16 +73,13 @@ export const CAREERS_SEO = {
   description: "Work with We3vision Private Limited in Surat: web, apps, AI, metaverse, UI/UX, brand design and CRM. Send us your details and tell us what you would like to build.",
 };
 export const CAREERS_SECTIONS: PageSection[] = [
-  section("pageHero", {
+  section("careerJourney", {
     chip: "Careers",
-    heading: "Build Great Things\nWith Us",
-    text: "At We3vision we value innovation, collaboration and growth. If you would like to be part of the team, we would be glad to hear from you.",
-    primaryLabel: "Get in touch",
-    primaryHref: "#contact",
-    secondaryLabel: "Our teams",
-    secondaryHref: "#services",
+    heading: "Reach Your\nDestination",
+    text: "Book the ticket of your career journey with We3vision. Tell us where you are, where you want to go, and we will have a seat ready for you.",
+    locationLabel: "Your location",
   }),
-  section("advantages", {
+  section("careerValues", {
     chip: "What we value",
     heading: "A Place To\nGrow",
     intro: "How we like to work, and what you will find when you join.",
@@ -94,27 +91,34 @@ export const CAREERS_SECTIONS: PageSection[] = [
       { title: "Surat and Germany", description: "Our head office is in Surat, India, and we have a second office in Marburg, Germany." },
     ],
   }, "why-we3vision"),
-  section("services", {
+  section("careerTeams", {
     chip: "Our teams",
     heading: "Seven Teams,\nOne Company",
-    intro: "These are the areas we work in. Tell us which one fits you.",
-    buttonLabel: "",
-    buttonHref: "",
-    cards: [
-      { title: "Brand\nDesign", description: "Brand identity, logos, visual identity and marketing material.", href: "/brand-identity" },
-      { title: "Web\nDevelopment", description: "Websites and web portals, from WordPress and Shopify to custom builds.", href: "/webdev" },
-      { title: "Mobile App\nDevelopment", description: "Android and iOS apps from the first idea to the store launch.", href: "/mobile" },
-      { title: "AI\nDevelopment", description: "Chatbots, machine learning, computer vision and AI agents.", href: "/ai" },
-      { title: "Metaverse\nSolutions", description: "Virtual worlds, VR experiences and interactive 3D with Unity and Unreal Engine.", href: "/metaverse" },
-      { title: "UI/UX\nDesign", description: "Wireframes, prototypes and interfaces for websites and apps.", href: "/ui-ux-design" },
-      { title: "CRM\nDevelopment", description: "Custom CRM software, workflows and integrations.", href: "/crm" },
-    ].map((c) => ({ ...c, fit: "", problems: "", outcomes: "" })),
+    intro: "These are the lines we work on. Tell us which one fits you.",
+    teams: [
+      { name: "Brand Design", text: "Brand identity, logos, visual identity and marketing material.", href: "/brand-identity" },
+      { name: "Web Development", text: "Websites and web portals, from WordPress and Shopify to custom builds.", href: "/webdev" },
+      { name: "Mobile App Development", text: "Android and iOS apps from the first idea to the store launch.", href: "/mobile" },
+      { name: "AI Development", text: "Chatbots, machine learning, computer vision and AI agents.", href: "/ai" },
+      { name: "Metaverse Solutions", text: "Virtual worlds, VR experiences and interactive 3D with Unity and Unreal Engine.", href: "/metaverse" },
+      { name: "UI/UX Design", text: "Wireframes, prototypes and interfaces for websites and apps.", href: "/ui-ux-design" },
+      { name: "CRM Development", text: "Custom CRM software, workflows and integrations.", href: "/crm" },
+    ],
   }),
-  section("contact", {
-    chip: "Join us",
-    heading: "Want To Work\nWith Us?",
+  section("careerHelpDesk", {
+    chip: "Help desk",
+    heading: "Questions\nBefore You Travel?",
     text: "Tell us about yourself, the role you are interested in and what you would like to work on. You can also write to hr@we3vision.com.",
     buttonLabel: "Send message",
+  }),
+  section("careerDestination", {
+    chip: "Destination",
+    heading: "Welcome To\nSurat Junction",
+    text: "This is where the journey ends and your work with We3vision begins. Our head office and development team are here in Surat.",
+    station: "Surat Junction",
+    address: "We3vision House 1/936, Bhim Kachchhi Mohallo, Nanpura, Surat, Gujarat, India 395001. hr@we3vision.com",
+    buttonLabel: "",
+    buttonHref: "",
   }),
 ];
 

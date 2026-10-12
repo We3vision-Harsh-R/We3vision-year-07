@@ -1,7 +1,27 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { byDepartment, CORNER_CAPACITY, tierOf, type TeamPerson } from "@/lib/team-shared";
+import { byDepartment, tierOf, type TeamPerson } from "@/lib/team-shared";
+import {
+  CSEAT,
+  CXO_CAP,
+  CZH,
+  MAX_PODS,
+  MEET,
+  MGR_CAP,
+  MGR_SEATS,
+  MZH,
+  MZW,
+  POD_SEATS,
+  TEAM_SEATS,
+  TZH,
+  TZW,
+  WORK,
+  cxoSlots,
+  placeInSeats,
+  podCount,
+  type Seat,
+} from "@/lib/team-seats";
 import { GlowEdge } from "../glow-edge";
 import { PersonTop } from "../timeline-art";
 import { BOARDS } from "../timeline-boards";
@@ -9,64 +29,18 @@ import { BOARDS } from "../timeline-boards";
 // The office of We3vision on the Team page, in the look of the office at the end of the About timeline (floor, walls, plants, tables with
 // laptops, chairs, colleagues who walk about), with the real people of the company in it, arranged as the company is built:
 //   top      the leaders (the department "Leadership"), at a long desk in the middle of the office, with their title under them
-//   middle   the managers (the department "Managers") at a long table (the chair at the end of the table stays empty)
+//   middle   the managers (the department "Managers") at a long table with a chair at the end
 //   bottom   the teams (every other department), a corner each, hanging from a line that comes down from the managers; a big team gets a
 //            wider corner (one more table island for every 9 people), so the biggest team is also the widest corner of the office
-// Everything is on one screen: there is no camera and no zoom. Point at a person (tap, or tab to the person) and a card opens next to them:
-// photo, name, role, a few words and a link. The people come from the admin panel (Team). The same component draws the preview there
-// (`preview`, with the person that is being edited marked). The look is the .of-* rules of the About office and the .to2-* rules in globals.css.
+// Who sits where is chosen in the admin panel (Team, "Seat"); people without a seat sit down in the order of the list (lib/team-seats.ts).
+// Everything is on one screen: there is no camera and no zoom. The drawing grows and shrinks with the width of the screen (laptop to big
+// desktop); when the width is small the teams go into more rows instead of becoming tiny. Point at a person (tap, or tab to the person)
+// and a card opens next to them: photo, name, role, a few words and a link. The people come from the admin panel (Team). The same component
+// draws the preview there (`preview`, with the person that is being edited marked).
+// The look is the .of-* rules of the About office and the .to2-* rules in globals.css.
 
 const HUES = [300, 340, 20, 60, 100, 200, 250];
 const WALKER_TONES = [40, 300, 100, 200, 340];
-
-type Seat = { x: number; y: number; rot: number; kind: "w" | "m" | "p" | "b" | "h" | "s"; i: number };
-
-// ---- a team corner: the canvas of the About office (300 x 226) ----
-const TZW = 300;
-const TZH = 226;
-const WORK = [
-  { x: 48, y: 150, rot: 0, lx: 14, ly: 7 },
-  { x: 130, y: 150, rot: 0, lx: 88, ly: 7 },
-  { x: 48, y: 210, rot: 180, lx: 14, ly: 23 },
-  { x: 130, y: 210, rot: 180, lx: 88, ly: 23 },
-];
-const MEET = [
-  { x: 232, y: 108, rot: 0 },
-  { x: 274, y: 150, rot: 90 },
-  { x: 232, y: 192, rot: 180 },
-  { x: 190, y: 150, rot: -90 },
-];
-// who sits down first: the long table, then the meeting table, the last one stands at the board
-const TEAM_SEATS: Seat[] = [
-  { kind: "w", i: 0, ...WORK[0] },
-  { kind: "w", i: 1, ...WORK[1] },
-  { kind: "w", i: 2, ...WORK[2] },
-  { kind: "w", i: 3, ...WORK[3] },
-  { kind: "m", i: 1, ...MEET[1] },
-  { kind: "m", i: 3, ...MEET[3] },
-  { kind: "m", i: 0, ...MEET[0] },
-  { kind: "m", i: 2, ...MEET[2] },
-  { kind: "p", i: 0, x: 90, y: 122, rot: 180 },
-];
-
-// ---- the managers' table: a long table with three chairs on each long side; the chair at the right end stays empty (340 x 176) ----
-const MZW = 340;
-const MZH = 176;
-const MGR_CAP = 6;
-const MAX_PODS = 6; // islands of tables in one row of the teams
-const MGR_SEATS: Seat[] = [
-  { kind: "s", i: 0, x: 80, y: 50, rot: 0 },
-  { kind: "s", i: 1, x: 80, y: 126, rot: 180 },
-  { kind: "s", i: 2, x: 140, y: 50, rot: 0 },
-  { kind: "s", i: 3, x: 140, y: 126, rot: 180 },
-  { kind: "s", i: 4, x: 200, y: 50, rot: 0 },
-  { kind: "s", i: 5, x: 200, y: 126, rot: 180 },
-];
-
-// ---- the leaders' desk: boss chairs in a row behind a long desk ----
-const CXO_CAP = 5;
-const CSEAT = 150; // distance between two leaders (canvas px; the title of a leader stands under him, so it must be wide)
-const CZH = 116;
 
 // which wall board suits which team (the boards of timeline-boards.tsx: brand, web, mobile, AI, metaverse, UI/UX, CRM)
 const BOARD_RULES: [RegExp, number][] = [
@@ -94,9 +68,11 @@ type Block = {
   people: TeamPerson[];
   tone: number;
   board: number;
-  /** a team corner is made of islands of 9 people side by side (a big team has several) */
-  pods?: TeamPerson[][];
+  /** a team corner is made of islands side by side (a big team has several); every island has 9 seats (a person or nobody) */
+  pods?: (TeamPerson | null)[][];
   boards?: number[];
+  /** the leaders and the managers: the seats of the desk / the table (a person or nobody) */
+  slots?: (TeamPerson | null)[];
   cw: number; // canvas size
   ch: number;
   s: number; // scale
@@ -118,8 +94,10 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
   const teams: Block[] = [];
   teamGroups.forEach((g, gi) => {
     // a team of more than MAX_PODS islands continues in a second corner of the same name
-    chunk(g.people, CORNER_CAPACITY * MAX_PODS).forEach((part, c) => {
-      const pods = chunk(part, CORNER_CAPACITY);
+    chunk(g.people, POD_SEATS * MAX_PODS).forEach((part, c) => {
+      const n = podCount(part);
+      const seats = placeInSeats(part, n * POD_SEATS);
+      const pods = chunk(seats, POD_SEATS);
       const first = BOARD_RULES.find(([re]) => re.test(g.name))?.[1] ?? -1;
       const boards = pods.map((_, k) => {
         const want = k === 0 ? first : -1;
@@ -131,15 +109,16 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
     });
   });
 
-  // the rows of the teams: as few rows as possible, not more than MAX_PODS islands in a row
+  // the rows of the teams: an island is never drawn smaller than 0.66 of its size, so a narrow screen gets more rows
   const totalPods = teams.reduce((n, t) => n + (t.pods?.length ?? 1), 0);
-  const rowsCount = Math.max(1, Math.ceil(totalPods / MAX_PODS));
+  const maxRow = Math.max(3, Math.floor((0.92 * W) / (0.66 * (TZW + 40))));
+  const rowsCount = Math.max(1, Math.ceil(totalPods / maxRow));
   const perRowPods = Math.max(1, Math.ceil(totalPods / rowsCount));
   const rows: Block[][] = [];
   let curPods = 0;
   teams.forEach((t) => {
     const n = t.pods?.length ?? 1;
-    if (rows.length === 0 || (curPods + n > perRowPods && curPods > 0 && rows.length < rowsCount)) {
+    if (rows.length === 0 || (curPods + n > perRowPods && curPods > 0)) {
       rows.push([]);
       curPods = 0;
     }
@@ -148,10 +127,10 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
   });
   // one scale for all teams: the widest row decides
   const widest = Math.max(1, ...rows.map((r) => r.reduce((n, t) => n + t.cw, 0) + r.length * 40));
-  const sT = clamp((0.92 * W) / widest, 0.42, 1.2);
-  const sM = Math.min(sT * 1.12, (0.6 * W) / MZW);
+  const sT = clamp((0.92 * W) / widest, 0.4, 1.25);
+  const sM = Math.min(Math.max(sT * 1.12, 0.8), (0.6 * W) / MZW);
   // (the leaders are at least as wide as their titles: 150 px apart)
-  const sC = Math.min(Math.max(sT * 1.22, 0.95), (0.7 * W) / (CXO_CAP * CSEAT));
+  const sC = Math.min(Math.max(sT * 1.22, 0.9), (0.7 * W) / (CXO_CAP * CSEAT));
 
   const blocks: Block[] = [];
   const lines: Layout["lines"] = [];
@@ -162,8 +141,10 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
   // the leaders
   let cxoLineFrom = 0;
   chunk(cxoPeople, CXO_CAP).forEach((part, c) => {
-    const cw = Math.max(3, part.length) * CSEAT;
-    const b: Block = { key: `cxo-${c}`, tier: "cxo", name: "Leadership", people: part, tone: HUES[0], board: 0, cw, ch: CZH, s: sC, x: (W - cw * sC) / 2, y };
+    const m = cxoSlots(part);
+    const slots = placeInSeats(part, m);
+    const cw = m * CSEAT;
+    const b: Block = { key: `cxo-${c}`, tier: "cxo", name: "Leadership", people: part, slots, tone: HUES[0], board: 0, cw, ch: CZH, s: sC, x: (W - cw * sC) / 2, y };
     blocks.push(b);
     cxoLineFrom = y + CZH * sC + 52; // (the titles of the leaders stand under the desk)
     y = cxoLineFrom + 24;
@@ -173,7 +154,8 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
   // the managers
   let mgrBottom = 0;
   chunk(mgrPeople, MGR_CAP).forEach((part, c) => {
-    const b: Block = { key: `mgr-${c}`, tier: "mgr", name: "Managers", people: part, tone: HUES[1], board: 0, cw: MZW, ch: MZH, s: sM, x: (W - MZW * sM) / 2, y: y + LABEL };
+    const slots = placeInSeats(part, MGR_CAP);
+    const b: Block = { key: `mgr-${c}`, tier: "mgr", name: "Managers", people: part, slots, tone: HUES[1], board: 0, cw: MZW, ch: MZH, s: sM, x: (W - MZW * sM) / 2, y: y + LABEL };
     blocks.push(b);
     if (hasCxo && c === 0) lines.push({ x: W / 2 - 1, y: cxoLineFrom, w: 2, h: b.y - cxoLineFrom });
     mgrBottom = b.y + MZH * sM;
@@ -185,6 +167,8 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
   // the teams, row by row; a line comes down from the tier above to a bus, and from the bus to every team
   const parentBottom = hasMgr ? mgrBottom : hasCxo ? cxoLineFrom : 0;
   let prevBus = 0;
+  let prevX0 = 0;
+  let prevLeft = 0;
   for (let r = 0; r < rows.length; r++) {
     const row = rows[r];
     if (row.length === 0) continue;
@@ -192,9 +176,9 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
     const topY = busY + 34 + LABEL;
     // the corners share the width of the row in proportion to their size
     const totalW = row.reduce((n, t) => n + t.cw * sT, 0);
-    const gap = Math.max(12, Math.min(60, (0.92 * W - totalW) / Math.max(1, row.length - 1)));
+    const gap = Math.max(12, Math.min(60, (0.94 * W - totalW) / Math.max(1, row.length - 1)));
     const used0 = totalW + gap * (row.length - 1);
-    let x = (W - used0) / 2;
+    let x = Math.max(0, (W - used0) / 2);
     row.forEach((b) => {
       b.s = sT;
       b.x = x;
@@ -202,20 +186,29 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
       x += b.cw * sT + gap;
       blocks.push(b);
     });
-    // the line comes down from the tier above (for the next rows: from the bus of the row above)
-    if (r === 0 && parentBottom > 0) lines.push({ x: W / 2 - 1, y: parentBottom, w: 2, h: busY - parentBottom });
-    if (r > 0) lines.push({ x: W / 2 - 1, y: prevBus, w: 2, h: busY - prevBus });
-    prevBus = busY;
+    // the line comes down from the tier above; for the next rows it goes down along the left side of the office (never through a corner)
     const xs = row.map((b) => b.x + (b.cw * b.s) / 2);
-    const x0 = Math.min(...xs, W / 2);
+    const leftEdge = Math.min(...row.map((b) => b.x));
+    let x0 = Math.min(...xs, W / 2);
     const x1 = Math.max(...xs, W / 2);
+    if (r === 0 && parentBottom > 0) lines.push({ x: W / 2 - 1, y: parentBottom, w: 2, h: busY - parentBottom });
+    if (r > 0) {
+      const sx = Math.max(16, Math.min(leftEdge, prevLeft) - 22);
+      lines.push({ x: sx, y: prevBus - 1, w: Math.max(0, prevX0 - sx), h: 2 });
+      lines.push({ x: sx - 1, y: prevBus, w: 2, h: busY - prevBus });
+      x0 = Math.min(x0, sx);
+    }
+    prevBus = busY;
+    prevX0 = Math.min(...xs, W / 2);
+    prevLeft = leftEdge;
     lines.push({ x: x0, y: busY - 1, w: x1 - x0, h: 2 });
     xs.forEach((cx) => lines.push({ x: cx - 1, y: busY, w: 2, h: topY - busY }));
     aisles.push(busY + 10);
-    y = topY + TZH * sT + 34;
+    y = topY + TZH * sT + 40;
   }
 
-  return { blocks, lines, aisles, height: Math.max(minH, Math.round(y + 20)) };
+  // (room under the last row: the floor fades out there, the people are never in the fade)
+  return { blocks, lines, aisles, height: Math.max(minH, Math.round(y + 64)) };
 }
 
 type Props = {
@@ -360,12 +353,13 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
     if (!root) return;
     const r = el.getBoundingClientRect();
     const b = root.getBoundingClientRect();
-    // the card stands to the right of the person (to the left when there is no room), and stays inside the office
+    // the card stands to the right of the person (to the left when there is no room), and always stays inside the office
     const x = r.left + r.width / 2 - b.left;
     const y = r.top + r.height / 2 - b.top;
-    const w = 330;
+    const w = Math.min(330, Math.max(240, root.clientWidth - 24));
     const right = x + 34 + w <= root.clientWidth - 12;
-    setHot({ p, tone, left: right ? x + 34 : Math.max(12, x - 34 - w), top: clamp(y, 120, Math.max(120, root.clientHeight - 120)) });
+    const left = right ? x + 34 : x - 34 - w;
+    setHot({ p, tone, left: clamp(left, 12, Math.max(12, root.clientWidth - w - 12)), top: clamp(y, 130, Math.max(130, root.clientHeight - 150)) });
   }, []);
   const closeSoon = useCallback((ms = 160) => {
     window.clearTimeout(closeT.current);
@@ -427,43 +421,43 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
 
   const renderBlock = (b: Block, z: number) => {
     if (b.tier === "cxo") {
-      const n = b.people.length;
-      const x0 = b.cw / 2 - ((n - 1) * CSEAT) / 2;
+      const slots = b.slots ?? [];
+      const m = slots.length;
+      const x0 = b.cw / 2 - ((m - 1) * CSEAT) / 2;
       return (
         <div key={b.key} className="of-zone to2-zone to2-cxo" style={zoneStyle(b, z)}>
-          <span className="to2-desk" style={{ left: x0 - CSEAT / 2 + 10, width: n * CSEAT - 20 }}>
-            {b.people.map((p, i) => (
-              <i key={p.id} className="to2-mon" style={{ left: CSEAT / 2 - 10 + i * CSEAT - 19 }} />
+          <span className="to2-desk" style={{ left: x0 - CSEAT / 2 + 10, width: m * CSEAT - 20 }}>
+            {slots.map((_, i) => (
+              <i key={i} className="to2-mon" style={{ left: CSEAT / 2 - 10 + i * CSEAT - 19 }} />
             ))}
           </span>
-          {b.people.map((p, i) => (
-            <i key={"c" + p.id} className="to2-bosschair" style={{ left: x0 + i * CSEAT, top: 42 }} />
+          {slots.map((_, i) => (
+            <i key={"c" + i} className="to2-bosschair" style={{ left: x0 + i * CSEAT, top: 42 }} />
           ))}
-          {b.people.map((p, i) => person(b, p, { kind: "b", i, x: x0 + i * CSEAT, y: 44, rot: 0 }, 10 + i))}
+          {slots.map((p, i) => (p ? person(b, p, { kind: "b", i, x: x0 + i * CSEAT, y: 44, rot: 0, label: "" }, 10 + i) : null))}
         </div>
       );
     }
     if (b.tier === "mgr") {
-      const seats = MGR_SEATS.slice(0, b.people.length);
-      const END = { x: 304, y: 88 }; // the chair at the end of the table
+      const slots = b.slots ?? [];
       return (
         <div key={b.key} className="of-zone to2-zone to2-mgr" style={zoneStyle(b, z)}>
           <span className="to2-longtable" />
-          {MGR_SEATS.map((s, i) => (
+          {MGR_SEATS.filter((s) => s.kind === "s").map((s, i) => (
             <i key={"mc" + i} className="of-chair" style={{ left: s.x, top: s.y + (s.rot ? -2 : 2) }} />
           ))}
-          <i className="to2-mainchair" style={{ left: END.x + 6, top: END.y }} />
-          {b.people.map((p, i) => person(b, p, seats[i], 30 + i))}
+          <i className="to2-mainchair" style={{ left: MGR_SEATS[6].x + 6, top: MGR_SEATS[6].y }} />
+          {slots.map((p, i) => (p ? person(b, p, MGR_SEATS[i], 30 + i) : null))}
         </div>
       );
     }
-    const pods = b.pods ?? [b.people];
+    const pods = b.pods ?? [];
     return (
       <div key={b.key} className="to2-pods">
         {pods.map((podPeople, k) => {
-          const seated = podPeople.map((p, i) => ({ p, seat: TEAM_SEATS[i] }));
-          const workTaken = new Set(seated.filter((s) => s.seat.kind === "w").map((s) => s.seat.i));
-          const meetCount = seated.filter((s) => s.seat.kind === "m").length;
+          const seated = podPeople.map((p, i) => (p ? { p, seat: TEAM_SEATS[i] } : null));
+          const workTaken = new Set(seated.filter((s) => s && s.seat.kind === "w").map((s) => s!.seat.i));
+          const meetCount = seated.filter((s) => s && s.seat.kind === "m").length;
           const Board = BOARDS[(b.boards?.[k] ?? b.board) % BOARDS.length];
           const style = { ...zoneStyle(b, z), left: b.x + k * TZW * b.s, width: TZW } as React.CSSProperties;
           return (
@@ -494,7 +488,7 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
                 </span>
               )}
               <span className="of-zplant" aria-hidden />
-              {seated.map(({ p, seat }, i) => person(b, p, seat, z * 9 + k * 31 + i))}
+              {seated.map((s, i) => (s ? person(b, s.p, s.seat, z * 9 + k * 31 + i) : null))}
             </div>
           );
         })}
@@ -517,8 +511,8 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
           <span className="of-plant" style={{ left: "94.5%", top: "5%" }} />
           <span className="of-plant" style={{ left: "5.5%", top: "50%" }} />
           <span className="of-plant" style={{ left: "94.5%", top: "50%" }} />
-          <span className="of-plant" style={{ left: "5.5%", top: "96%" }} />
-          <span className="of-plant" style={{ left: "94.5%", top: "96%" }} />
+          <span className="of-plant" style={{ left: "5.5%", top: "90%" }} />
+          <span className="of-plant" style={{ left: "94.5%", top: "90%" }} />
         </div>
 
         {/* the lines of the hierarchy: leaders -> managers -> teams */}
@@ -531,9 +525,9 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
         {/* the names of the corners and the titles of the leaders: not scaled with the drawing, so that they stay easy to read */}
         {lay.blocks.map((b) =>
           b.tier === "cxo" ? (
-            b.people.map((p, i) => {
-              const n = b.people.length;
-              const cx = b.x + (b.cw / 2 + (i - (n - 1) / 2) * CSEAT) * b.s;
+            (b.slots ?? []).map((p, i, all) => {
+              if (!p) return null;
+              const cx = b.x + (b.cw / 2 + (i - (all.length - 1) / 2) * CSEAT) * b.s;
               return (
                 <span key={p.id} className="to2-tag" style={{ left: cx, top: b.y + CZH * b.s + 6 }}>
                   <b>{p.name}</b>
@@ -575,7 +569,7 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
         {hot && (
           <div
             className="to2-card bglow"
-            style={{ left: hot.left, top: hot.top, width: 330 }}
+            style={{ left: hot.left, top: hot.top, width: Math.min(330, Math.max(240, dim.W - 24)) }}
             role="status"
             onPointerEnter={() => window.clearTimeout(closeT.current)}
             onPointerLeave={(e) => e.pointerType === "mouse" && closeSoon()}

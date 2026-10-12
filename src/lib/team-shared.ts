@@ -13,6 +13,8 @@ export type TeamPerson = {
   linkedin: string;
   /** the avatar is drawn as a woman */
   girl: boolean;
+  /** the seat in the office (see lib/team-seats.ts); -1 = automatic: in the order of the list */
+  seat: number;
 };
 
 /** How many people one corner of the office holds (4 at the long table, 4 at the meeting table, 1 at the board). More people get a second corner. */
@@ -41,6 +43,7 @@ export function cleanPeople(input: unknown): Omit<TeamPerson, "id">[] {
       photo: safeLink(r.photo),
       linkedin: safeLink(r.linkedin),
       girl: r.girl === true || r.girl === "yes",
+      seat: typeof r.seat === "number" && Number.isInteger(r.seat) && r.seat >= 0 && r.seat < 100 ? r.seat : -1,
     });
   }
   return out;

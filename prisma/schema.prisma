@@ -127,9 +127,69 @@ model TeamMember {
   photo     String   @default("")
   linkedin  String   @default("")
   girl      Boolean  @default(false)
+  /// the seat in the office (-1 = automatic: in the order of the list); see lib/team-seats.ts
+  seat      Int      @default(-1)
   sortOrder Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([sortOrder])
+}
+
+// The Careers page (Careers in the admin panel): the open positions a visitor can choose as the "destination" of the ticket, the extra
+// questions of HR for the passenger details, and the tickets (applications) that visitors book. The city is the only thing that must be
+// there when a seat is booked (stage "booked"); the passenger details come after it (stage "complete").
+model CareerRole {
+  id        String   @id @default(cuid())
+  title     String
+  team      String   @default("")
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+model CareerQuestion {
+  id        String   @id @default(cuid())
+  label     String
+  /// text | textarea | select | yesno
+  kind      String   @default("text")
+  options   Json     @default("[]")
+  required  Boolean  @default(false)
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+model CareerApplication {
+  id            String   @id @default(cuid())
+  city          String
+  currentStatus String   @default("")
+  roleId        String   @default("")
+  roleTitle     String   @default("")
+  joinDate      String   @default("")
+  noticePeriod  String   @default("")
+  callSlot      String   @default("")
+  resume        String   @default("")
+  name          String   @default("")
+  email         String   @default("")
+  phone         String   @default("")
+  linkedin      String   @default("")
+  skills        String   @default("")
+  experience    String   @default("")
+  answers       Json     @default("[]")
+  /// booked (seat booked, city known) | complete (passenger details given)
+  stage         String   @default("booked")
+  /// new | contacted | interview | hired | rejected
+  status        String   @default("new")
+  note          String   @default("")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([createdAt])
 }
