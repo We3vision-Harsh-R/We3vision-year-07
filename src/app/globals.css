@@ -12290,7 +12290,7 @@ html.has-sb::-webkit-scrollbar {
    PANDA, the chat of the site (components/site/ai-chat.tsx): a slim bar and a small window above it. Only opacity and transform change
    (no blur, no resizing), so it stays light. */
 .pd {
-  --ph: clamp(220px, 24vh, 300px); /* the height of the chat window */
+  --ph: clamp(317px, 34.56vh, 432px); /* the height of the chat window */
   position: relative;
   width: clamp(320px, 61vw, 1216px);
   max-width: calc(100vw - 24px);
@@ -12465,12 +12465,14 @@ html.has-sb::-webkit-scrollbar {
     transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .pd-head,
+.pd-service-picker,
 .pd-body > * {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .pd[data-open="true"] .pd-head,
+.pd[data-open="true"] .pd-service-picker,
 .pd[data-open="true"] .pd-body > * {
   opacity: 1;
   transform: none;
@@ -12481,6 +12483,42 @@ html.has-sb::-webkit-scrollbar {
 .pd-body > :nth-child(3) { --d: 3; }
 .pd-body > :nth-child(4) { --d: 4; }
 .pd-body > :nth-child(n + 5) { --d: 5; }
+.pd-message-group {
+  display: flex;
+  max-width: min(90%, 48rem);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+.pd-message-group[data-role="user"] {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+.pd-message-group .pd-msg {
+  max-width: 100%;
+}
+.pd-service-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-inline: 3px;
+}
+.pd-service-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
+  border-radius: 999px;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+.pd-service-links a:hover,
+.pd-service-links a:focus-visible {
+  outline: none;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
+}
 /* the gap between the bar and the window belongs to the chat, so moving the mouse up does not close it */
 .pd::before {
   content: "";
@@ -12536,6 +12574,102 @@ html.has-sb::-webkit-scrollbar {
 .pd-head span {
   color: hsl(calc(var(--th) + 350) calc(37% * var(--ts)) 80%);
   font-size: 0.875rem;
+}
+.pd-service-picker {
+  display: grid;
+  flex: none;
+  gap: 5px;
+  width: min(calc(100% - 32px), 420px);
+  margin: 10px 16px 0;
+  color: hsl(calc(var(--th) + 350) calc(37% * var(--ts)) 80%);
+  font-size: 0.78rem;
+  --d: 1;
+}
+.pd-service-combobox-wrap {
+  position: relative;
+  min-width: 0;
+}
+.pd-service-combobox-wrap::after {
+  content: "⌄";
+  position: absolute;
+  top: 7px;
+  right: 12px;
+  color: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 84% / 0.8);
+  font-size: 1.1rem;
+  line-height: 1;
+  pointer-events: none;
+}
+.pd-service-combobox {
+  display: block;
+  width: 100%;
+  min-height: 38px;
+  padding: 7px 32px 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 14%);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+}
+.pd-service-combobox::placeholder {
+  color: hsl(calc(var(--th) + 350) calc(37% * var(--ts)) 80%);
+}
+.pd-service-combobox:focus-visible {
+  outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.75);
+  outline-offset: 2px;
+}
+.pd-service-combobox:disabled {
+  opacity: 0.65;
+}
+.pd-service-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  width: 100%;
+  max-height: min(210px, max(100px, calc(var(--ph) - 155px)));
+  gap: 2px;
+  padding: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 12% / 0.99);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.48);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+.pd-service-options button {
+  width: 100%;
+  padding: 7px 9px;
+  border-radius: 7px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+}
+.pd-service-options button:hover,
+.pd-service-options button:focus-visible,
+.pd-service-options button[aria-selected="true"] {
+  outline: none;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
+}
+.pd-service-group > span {
+  display: block;
+  padding: 8px 9px 4px;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.pd-service-empty {
+  margin: 0;
+  padding: 9px;
+  color: hsl(calc(var(--th) + 350) calc(37% * var(--ts)) 80%);
+  font-size: 0.85rem;
 }
 .pd-body {
   display: flex;
