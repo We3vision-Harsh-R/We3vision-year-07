@@ -1,4 +1,8 @@
+import { AfterEffects } from "../after-effects";
 import { AiBuddy } from "../ai-buddy";
+import { BrandBoard } from "../brand-board";
+import { FigmaStudio } from "../figma-studio";
+import { SeoLab } from "../seo-lab";
 import { GuideScene } from "../guide-scene";
 import { OfficeBuilder } from "../office-builder";
 import { Reveal } from "../reveal";
@@ -8,6 +12,8 @@ import type { SectionComponent } from "./shared";
 // "Meet the guide": text on one side, the interactive scene of the cartoon guide on the other (guide-scene.tsx).
 export const Guide: SectionComponent<"guide"> = ({ data, sectionId }) => {
   const tips = data.tips.split("\n").map((t) => t.trim()).filter(Boolean);
+  // the UI/UX page: a small Figma on a whole screen (no cartoon guide)
+  if (data.scene === "figma") return <FigmaStudio chip={data.chip} heading={data.heading} text={data.text} />;
   // the office scene fills the whole screen
   if (data.scene === "office") return <OfficeBuilder chip={data.chip} heading={data.heading} tips={tips} />;
   // the AI page: a chat window with the robot buddy (ai-buddy.tsx) instead of the cartoon scene
@@ -42,7 +48,8 @@ export const Guide: SectionComponent<"guide"> = ({ data, sectionId }) => {
             )}
           </Reveal>
           <Reveal>
-            <GuideScene scene={data.scene} tips={tips} />
+            {/* the Animation page: a small After Effects (the composition, the layers and the timeline) instead of the cartoon guide */}
+            {data.scene === "aftereffects" ? <AfterEffects /> : data.scene === "serp" ? <SeoLab /> : data.scene === "brandboard" ? <BrandBoard /> : <GuideScene scene={data.scene} tips={tips} />}
           </Reveal>
         </div>
       </div>

@@ -481,7 +481,7 @@ export const SECTIONS = {
       chip(),
       headingField(),
       { kind: "textarea", key: "text", label: "Text", max: 360 },
-      { kind: "text", key: "scene", label: "Scene", max: 20, hint: "office (full screen), web, mobile, metaverse, uiux, crm, animation, modeling, graphics, seo, ai, brand or hello" },
+      { kind: "text", key: "scene", label: "Scene", max: 20, hint: "office (full screen), web, mobile, metaverse, uiux, crm, animation, aftereffects, figma (full screen), serp, brandboard, modeling, graphics, seo, ai, brand or hello" },
       { kind: "textarea", key: "tips", label: "Things the guide says (one per line, it says them one after the other)", max: 900 },
       { kind: "text", key: "buttonLabel", label: "Button text (optional)", max: 30 },
       { kind: "url", key: "buttonHref", label: "Button link" },

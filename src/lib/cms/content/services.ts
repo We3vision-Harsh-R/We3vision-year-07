@@ -29,7 +29,7 @@ type Svc = {
   industries: { heading: string; intro: string; items: { name: string; description: string }[] };
   why: { heading: string; items: { title: string; description: string }[] };
   faq: { question: string; answer: string }[];
-  guide: { scene: string; chip: string; heading: string; text: string; tips: string[] };
+  guide?: { scene: string; chip: string; heading: string; text: string; tips: string[] };
   related: Card[];
   cta: { heading: string; text: string; button: string };
 };
@@ -45,7 +45,7 @@ const build = (s: Svc): PageSection[] => [
     secondaryHref: "#services",
   }),
   section("story", { body: s.story }),
-  section("guide", { chip: s.guide.chip, heading: s.guide.heading, text: s.guide.text, scene: s.guide.scene, tips: s.guide.tips.join("\n"), buttonLabel: "", buttonHref: "" }),
+  ...(s.guide ? [section("guide", { chip: s.guide.chip, heading: s.guide.heading, text: s.guide.text, scene: s.guide.scene, tips: s.guide.tips.join("\n"), buttonLabel: "", buttonHref: "" })] : []),
   section("services", {
     chip: s.subs.chip,
     heading: s.subs.heading,
@@ -245,7 +245,6 @@ export const MOBILE_SECTIONS = build({
     { title: "AI\nDevelopment", description: "Add chatbots, recommendations and predictions to your app.", href: "/ai" },
     { title: "CRM\nDevelopment", description: "Connect your app with a custom CRM.", href: "/crm" },
   ],
-  guide: { scene: "mobile", chip: "Meet the app maker", heading: "Tap the phone,\nopen the app", text: "Tap the phone to move between the screens of an app, the way your customers will. Then imagine it with your own brand on it.", tips: ["Tap my phone to switch between app screens.","Android, iOS or both from one codebase: I can do it all.","From idea to Play Store and App Store, we handle it.","Fast, secure and built to scale."] },
   cta: { heading: "Have An App Idea?\nLet's Bring It To Life.", text: "Share your concept with us and we will guide you on the tech, timeline and cost.", button: "Get a free quote" },
 });
 
@@ -479,7 +478,7 @@ export const UIUX_SECTIONS = build({
     { title: "Brand\nDesign", description: "Brand identity, logo and guidelines.", href: "/brand-identity" },
     { title: "Graphics &\nUI/UX Design", description: "Website interfaces, brand visuals and marketing graphics.", href: "/graphics" },
   ],
-  guide: { scene: "uiux", chip: "Meet the designer", heading: "From wireframe\nto final design", text: "Switch between the wireframe and the finished design to see how a screen grows from structure to colour and type.", tips: ["Switch between the wireframe and the final design.","First structure, then colour: that is how good design works.","We test with real users before the final handoff.","Design systems keep every screen consistent."] },
+  guide: { scene: "figma", chip: "Inside the design file", heading: "From wireframe\nto final design", text: "A small Figma, made to be played with: pick a layer, drag it, change its colour and switch from the grey wireframe to the finished design.", tips: ["Switch from the wireframe to the final design."] },
   cta: { heading: "Ready To Design\nSomething Great?", text: "Tell us about your product and we will suggest the best design approach, timeline and cost.", button: "Get a free quote" },
 });
 
@@ -564,7 +563,6 @@ export const CRM_SECTIONS = build({
     { title: "Mobile App\nDevelopment", description: "A mobile app for your sales and support teams.", href: "/mobile" },
     { title: "UI/UX\nDesign", description: "Dashboards your team enjoys using.", href: "/ui-ux-design" },
   ],
-  guide: { scene: "crm", chip: "Meet the sales guide", heading: "Move a deal,\nwin a customer", text: "Tap a deal to move it to the next stage and watch the number of won deals grow. A custom CRM keeps all of this in one place.", tips: ["Tap a deal card to move it to the next stage.","A CRM keeps leads, deals and customers in one place.","Automations follow up so nobody is forgotten.","We connect it to email, WhatsApp and your ERP."] },
   cta: { heading: "Let's Build A CRM That\nWorks The Way You Do", text: "Tell us how you run your business and we will build a CRM that makes it faster, smarter and more profitable.", button: "Get a free quote" },
 });
 
@@ -647,7 +645,7 @@ export const ANIMATION_SECTIONS = build({
     { title: "Graphics &\nUI/UX Design", description: "Brand visuals and marketing graphics.", href: "/graphics" },
     { title: "UI/UX\nDesign", description: "Interfaces for websites and apps.", href: "/ui-ux-design" },
   ],
-  guide: { scene: "animation", chip: "Meet the animator", heading: "Press play,\nscrub the frames", text: "Drag the slider to move through the frames of a tiny animation, or press play and let the ball bounce.", tips: ["Drag the slider to scrub the animation frame by frame.","Squash and stretch make a simple ball feel alive.","2D, 3D, CGI and product visualization: all from one team.","Tell your story, explain your product, grow your brand."] },
+  guide: { scene: "aftereffects", chip: "Inside the timeline", heading: "Press play,\nscrub the frames", text: "This is how an animator works in After Effects: a composition, layers and keyframes on a timeline. Press play, or drag the playhead to move through the frames of a bouncing ball.", tips: ["Drag the timeline to scrub the animation frame by frame."] },
   cta: { heading: "Have An Animation\nProject In Mind?", text: "Turn your concept into engaging visual content with animation and 3D solutions tailored to your goals. Share your requirements with our team and discuss the right approach.", button: "Discuss your animation project" },
 });
 
@@ -733,7 +731,6 @@ export const MODELING_SECTIONS = build({
     { title: "Web\nDevelopment", description: "Show your 3D models on a fast, responsive website.", href: "/webdev" },
     { title: "Graphics &\nUI/UX Design", description: "Brand visuals and interfaces.", href: "/graphics" },
   ],
-  guide: { scene: "modeling", chip: "Meet the 3D artist", heading: "Turn the model\naround", text: "Drag the cube to look at it from every side, or switch the turntable on. This is how we show 3D products.", tips: ["Drag the cube to look at it from every side.","3D models work for products, games, AR and VR.","PBR materials and lighting make assets look real.","We optimize models for the platform they run on."] },
   cta: { heading: "Bring Your 3D\nConcept To Life", text: "Do you have a product, character, environment or creative idea that you want to see in 3D? Tell us about your project and discuss the right approach.", button: "Start your 3D project" },
 });
 
@@ -821,7 +818,7 @@ export const GRAPHICS_SECTIONS = build({
     { title: "2D/3D\nAnimation", description: "Animation and 3D visualization.", href: "/animation" },
     { title: "Web\nDevelopment", description: "Bring your designs to life on the web.", href: "/webdev" },
   ],
-  guide: { scene: "graphics", chip: "Meet the designer", heading: "Pick a colour,\nchange the brand", text: "Pick a colour and watch the logo, and the guide's shirt, change with it. One consistent look is what good branding is about.", tips: ["Pick a colour: the logo and my shirt change with it.","One consistent look across logo, website and ads.","Logo, brand guidelines, pitch decks and social graphics: we design them all."] },
+  guide: { scene: "brandboard", chip: "Build a brand", heading: "Pick a colour,\nchange the brand", text: "Write a name, pick a colour, a shape and a font: the logo, the business card, the post and the app icon change together. One consistent look is what good branding is about.", tips: ["Pick a colour and watch the whole brand change."] },
   cta: { heading: "Have A\nDesign Project?", text: "Whether you need a website interface redesign, brand identity design or other graphic design, We3vision can help. Let's talk about your project and requirements.", button: "Start your design project" },
 });
 
@@ -906,6 +903,6 @@ export const SEO_SECTIONS = build({
     { title: "Brand\nDesign", description: "A clear brand that people remember and search for.", href: "/brand-identity" },
     { title: "AI\nDevelopment", description: "Chatbots and automation for the leads SEO brings.", href: "/ai" },
   ],
-  guide: { scene: "seo", chip: "Meet the SEO guide", heading: "Climb to\nnumber one", text: "Press the button to optimise the site and watch it climb the search results, one step at a time.", tips: ["Press Optimise and watch the website climb the results.","Good SEO means better content and a faster, cleaner site.","We use white hat SEO only: no shady tricks.","Results usually start in 2–3 months and grow over 6–12."] },
+  guide: { scene: "serp", chip: "Watch a website climb", heading: "Climb to\nnumber one", text: "Switch on the improvements one by one and watch the website move up the search results, with the score and the traffic growing.", tips: ["Switch on the improvements and watch the website climb."] },
   cta: { heading: "Want To Rank\nHigher On Google?", text: "Let's audit your site and discuss the best way to bring you more organic traffic, leads and visibility.", button: "Get a free quote" },
 });

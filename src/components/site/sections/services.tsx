@@ -17,16 +17,20 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin, 
     </section>
   ) : skin === "modern" ? (
     <section id="services" className="py-24 sm:py-32">
-      <Wide>
-        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split>
-          <ButtonLink href={data.buttonHref} variant="ghost">
-            {data.buttonLabel}
-          </ButtonLink>
-        </SectionHead>
-      </Wide>
-      <div className="mx-auto mt-10 w-full max-w-[1180px] px-4">
-        <ServiceStage cards={data.cards} />
-      </div>
+      {/* the heading is part of the stage: it stays with it while the page scrolls through the boxes (see modern/service-stage.tsx) */}
+      <ServiceStage
+        cards={data.cards}
+        variant={page === "ui-ux-design" ? "canvas" : "stage"}
+        head={
+          <Wide>
+            <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split>
+              <ButtonLink href={data.buttonHref} variant="ghost">
+                {data.buttonLabel}
+              </ButtonLink>
+            </SectionHead>
+          </Wide>
+        }
+      />
     </section>
   ) : (
   <section id={sectionId === "related-services" ? sectionId : "services"} className="py-24 sm:py-32">
