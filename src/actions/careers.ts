@@ -142,17 +142,12 @@ export async function deleteApplication(id: string): Promise<ActionResult> {
 }
 
 export type SetupInput = {
-  roles: { id?: string; title?: unknown; team?: unknown; active?: unknown }[];
   questions: { id?: string; label?: unknown; kind?: unknown; options?: unknown; required?: unknown; active?: unknown }[];
 };
 
-/** The positions and the questions of HR: the whole list is saved in the order it has. */
+/** The questions of HR: the whole list is saved in the order it has. (The positions are written one by one, see jobs.ts.) */
 export async function saveCareerSetup(input: SetupInput): Promise<ActionResult> {
   await requireAdmin();
-  const roles = (Array.isArray(input.roles) ? input.roles : [])
-    .slice(0, 60)
-    .map((r) => ({ title: line(r.title, 80), team: line(r.team, 40), active: r.active !== false }))
-    .filter((r) => r.title);
   const questions = (Array.isArray(input.questions) ? input.questions : [])
     .slice(0, 30)
     .map((q) => {
@@ -163,14 +158,12 @@ export async function saveCareerSetup(input: SetupInput): Promise<ActionResult> 
     .filter((q) => q.label && (q.kind !== "select" || q.options.length > 0));
   try {
     await db.$transaction([
-      db.careerRole.deleteMany({}),
-      db.careerRole.createMany({ data: roles.map((r, i) => ({ ...r, sortOrder: i + 1, updatedAt: new Date() })) }),
       db.careerQuestion.deleteMany({}),
       db.careerQuestion.createMany({ data: questions.map((q, i) => ({ ...q, options: q.options as unknown as Prisma.InputJsonValue, sortOrder: i + 1, updatedAt: new Date() })) }),
     ]);
     revalidatePath("/careers");
     revalidatePath("/admin/careers/setup");
-    return { ok: true, message: `Saved: ${roles.length} positions and ${questions.length} questions. The Careers page is updated.` };
+    return { ok: true, message: `Saved: ${questions.length} questions. The Careers page is updated.` };
   } catch (error) {
     console.error("saveCareerSetup failed", error);
     return { ok: false, error: "Could not save. Please try again." };

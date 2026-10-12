@@ -2,7 +2,7 @@ import { ContactReception } from "../contact-reception";
 import { HeroBadges } from "../hero-badges";
 import { AiHeroBg } from "../modern/ai-hero-bg";
 import CursorGrid from "../modern/cursor-grid";
-import { DappledLight } from "../modern/dappled-light";
+import { HeroGradient } from "../modern/hero-gradient";
 import { Chip, ButtonLink } from "../ui";
 import type { SectionComponent } from "./shared";
 
@@ -20,9 +20,9 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
   }
   return (
   <section id="top" className="relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
-    {/* service pages: sunlight through leaves on the wall behind the words */}
-    {skin === "modern" && page !== "ai" && page !== "blog" && page !== "team" && <DappledLight seed={(data.heading.length % 9) + 3} />}
-    {/* the AI page: a smooth gradient with a quiet neural network instead of the leaves */}
+    {/* the service pages: soft light in the colours of the theme behind the words, a different pattern on every page */}
+    {skin === "modern" && page !== "ai" && page !== "blog" && page !== "team" && <HeroGradient page={page ?? ""} />}
+    {/* the AI page: a smooth gradient with a quiet neural network */}
     {page === "ai" && <AiHeroBg />}
     {/* the team page: the same background as the About page, three soft lights of colour that drift very slowly */}
     {page === "team" && (
@@ -32,7 +32,7 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
         <i />
       </div>
     )}
-    {/* the blog: a grid of cells that light up round the pointer (React Bits CursorGrid) instead of the leaves; it listens to the whole first screen */}
+    {/* the blog: a grid of cells that light up round the pointer (React Bits CursorGrid); it listens to the whole first screen */}
     {page === "blog" && (
       <div className="cg-hero" aria-hidden>
         <CursorGrid follow cellSize={45} radius={110} falloff="smooth" holdTime={300} fadeDuration={500} lineWidth={1.5} maxOpacity={0.6} fillOpacity={0.02} gridOpacity={0} cellRadius={10} clickPulse pulseSpeed={600} />

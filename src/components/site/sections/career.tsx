@@ -1,4 +1,5 @@
-import { getCareerSetup } from "@/lib/careers";
+import Link from "next/link";
+import { getCareerSetup, getOpenJobs } from "@/lib/careers";
 import { GlowEdge } from "../glow-edge";
 import { ContactFlow } from "../contact-flow";
 import { CareerRailway } from "../career/railway";
@@ -22,9 +23,74 @@ export const CareerJourneySection: SectionComponent<"careerJourney"> = async ({ 
 };
 
 /** Surat Junction: the last section, where the train of the visitor arrives (see career/destination.tsx). */
-export const CareerDestinationSection: SectionComponent<"careerDestination"> = ({ data }) => (
-  <CareerDestination chip={data.chip} heading={data.heading} text={data.text} station={data.station || "Surat Junction"} address={data.address} buttonLabel={data.buttonLabel} buttonHref={data.buttonHref} />
-);
+export const CareerDestinationSection: SectionComponent<"careerDestination"> = async ({ data }) => {
+  const jobs = data.jobsHeading ? await getOpenJobs() : [];
+  return (
+    <CareerDestination
+      chip={data.chip}
+      heading={data.heading}
+      text={data.text}
+      station={data.station || "Surat Junction"}
+      address={data.address}
+      buttonLabel={data.buttonLabel}
+      buttonHref={data.buttonHref}
+      jobs={jobs}
+      jobsHeading={data.jobsHeading}
+      jobsText={data.jobsText}
+      jobsEmpty={data.jobsEmpty}
+    />
+  );
+};
+
+/** The open jobs: a card for each, with a button to read about the job and one to apply (the page of the job has the apply form). */
+export const CareerOpeningsSection: SectionComponent<"careerOpenings"> = async ({ data }) => {
+  const jobs = await getOpenJobs();
+  return (
+    <section id="openings" className="ro">
+      <div className="ro-in">
+        <div className="ro-head">
+          {data.chip && <span className="cj-chip">{data.chip}</span>}
+          <h2>{data.heading.replace(/\n/g, " ")}</h2>
+          {data.text && <p>{data.text}</p>}
+        </div>
+        {jobs.length === 0 ? (
+          <p className="ro-empty">{data.emptyText}</p>
+        ) : (
+          <ul className="ro-list">
+            {jobs.map((j, i) => (
+              <li key={j.id}>
+                <Reveal className="ro-card bglow" delay={(i % 2) * 80}>
+                  <GlowEdge />
+                  <div className="ro-top">
+                    <span className="ro-team">{j.team || "All teams"}</span>
+                    <span className="ro-posted">{j.postedLabel}</span>
+                  </div>
+                  <h3>
+                    <Link href={`/careers/${j.slug}`}>{j.title}</Link>
+                  </h3>
+                  {j.summary && <p className="ro-sum">{j.summary}</p>}
+                  <ul className="ro-facts">
+                    {[j.workType, j.workMode, j.location, j.experience].filter(Boolean).map((f) => (
+                      <li key={f}>{f}</li>
+                    ))}
+                  </ul>
+                  <div className="ro-act">
+                    <Link href={`/careers/${j.slug}`} className="ro-view">
+                      View details
+                    </Link>
+                    <Link href={`/careers/${j.slug}#apply`} className="ro-apply">
+                      Apply now
+                    </Link>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </section>
+  );
+};
 
 /** The values of the company as the stops of the line: every item has a marker, the railway draws a little station beside the track there. */
 export const CareerValuesSection: SectionComponent<"careerValues"> = ({ data }) => (

@@ -865,6 +865,23 @@ export const SECTIONS = {
     ],
     defaults: { chip: "Careers", heading: "Reach Your\nDestination", text: "", locationLabel: "Your location" },
   }),
+  careerOpenings: defineSection({
+    label: "Careers: job openings (list)",
+    description:
+      "The list of the open jobs, with a button to see the job and one to apply. The jobs themselves (and their pages and applications) are written in the admin panel under Careers > Jobs. For the Careers page.",
+    fields: [
+      chip(),
+      headingField(),
+      { kind: "textarea", key: "text", label: "Text under the heading", max: 300 },
+      { kind: "text", key: "emptyText", label: "Text when no job is open", max: 200 },
+    ],
+    defaults: {
+      chip: "Open positions",
+      heading: "Jobs You Can\nApply For",
+      text: "These are the positions that are open now. Open one to read about it and to apply.",
+      emptyText: "No position is open right now. You can still book a ticket above, and we will write to you when one opens.",
+    },
+  }),
   careerValues: defineSection({
     label: "Careers: values as stops of the railway",
     description: "A heading and a list of stops (up to 8): every value of the company is a little station beside the track that runs through the page. For the Careers page.",
@@ -916,17 +933,32 @@ export const SECTIONS = {
   }),
   careerDestination: defineSection({
     label: "Careers: Surat Junction (the last section, where the train arrives)",
-    description: "The station of the office. Nothing arrives here until a visitor has sent their ticket; then the train comes in and the passenger walks to the office. Put it as the last section of the page.",
+    description:
+      "The station of the office, with the list of the open jobs (written under Careers > Jobs). Nothing arrives here until a visitor has sent their ticket; then the train comes in and the passenger walks to the office. Put it as the last section of the page.",
     fields: [
       chip(),
       headingField("Heading"),
       { kind: "textarea", key: "text", label: "Text", max: 300 },
       { kind: "text", key: "station", label: "Name of the station", max: 40, hint: "e.g. Surat Junction" },
       { kind: "textarea", key: "address", label: "Address of the office", max: 240 },
+      { kind: "text", key: "jobsHeading", label: "Heading of the list of jobs (leave empty to hide the list)", max: 60, hint: "e.g. Jobs you can apply for" },
+      { kind: "textarea", key: "jobsText", label: "Text under the heading of the list of jobs", max: 240 },
+      { kind: "text", key: "jobsEmpty", label: "Text when no job is open", max: 200 },
       { kind: "text", key: "buttonLabel", label: "Button text (leave empty for none)", max: 30 },
       { kind: "url", key: "buttonHref", label: "Button link" },
     ],
-    defaults: { chip: "Destination", heading: "Welcome To\nSurat Junction", text: "", station: "Surat Junction", address: "", buttonLabel: "", buttonHref: "" },
+    defaults: {
+      chip: "Destination",
+      heading: "Welcome To\nSurat Junction",
+      text: "",
+      station: "Surat Junction",
+      address: "",
+      jobsHeading: "Jobs you can apply for",
+      jobsText: "These are the positions that are open now. Open one to read about it and to apply.",
+      jobsEmpty: "No position is open right now. You can still book a ticket above, and we will write to you when one opens.",
+      buttonLabel: "",
+      buttonHref: "",
+    },
   }),
   aboutHero: defineSection({
     label: "About: first screen (words on a grid floor)",

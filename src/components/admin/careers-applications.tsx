@@ -29,6 +29,9 @@ export type ApplicationRow = {
   status: string;
   note: string;
   created: string;
+  /** ticket (the ticket office) | job (the apply form of a job page) */
+  source: string;
+  roleId: string;
 };
 
 const Row = ({ k, v }: { k: string; v: React.ReactNode }) =>
@@ -39,15 +42,20 @@ const Row = ({ k, v }: { k: string; v: React.ReactNode }) =>
     </div>
   ) : null;
 
-export function CareersApplications({ rows }: { rows: ApplicationRow[] }) {
+export function CareersApplications({ rows, initialJob = "" }: { rows: ApplicationRow[]; initialJob?: string }) {
   const [list, setList] = useState(rows);
   const [sel, setSel] = useState(rows[0]?.id ?? "");
   const [note, setNote] = useState<Record<string, string>>({});
   const [result, setResult] = useState<ActionResult | null>(null);
   const [filter, setFilter] = useState("all");
+  const [job, setJob] = useState(initialJob);
   const [pending, start] = useTransition();
 
-  const shown = list.filter((r) => (filter === "all" ? true : filter === "complete" ? r.stage === "complete" : filter === "seat" ? r.stage !== "complete" : r.status === filter));
+  // the jobs that have applications (by position name)
+  const jobs = [...new Map(list.filter((r) => r.roleId).map((r) => [r.roleId, r.roleTitle])).entries()];
+  const shown = list
+    .filter((r) => (job ? r.roleId === job : true))
+    .filter((r) => (filter === "all" ? true : filter === "complete" ? r.stage === "complete" : filter === "seat" ? r.stage !== "complete" : filter === "job" ? r.source === "job" : filter === "ticket" ? r.source !== "job" : r.status === filter));
   const cur = list.find((r) => r.id === sel) ?? null;
 
   const save = (r: ApplicationRow, status: string) =>
@@ -75,8 +83,18 @@ export function CareersApplications({ rows }: { rows: ApplicationRow[] }) {
           <h2 className="text-lg font-semibold">
             Tickets <span className="text-sm font-normal text-zinc-400">({shown.length})</span>
           </h2>
+          <select className={`${inputClass} !mt-0 !w-auto`} value={job} onChange={(e) => setJob(e.target.value)} aria-label="Job">
+            <option value="">All jobs</option>
+            {jobs.map(([id, title]) => (
+              <option key={id} value={id}>
+                {title}
+              </option>
+            ))}
+          </select>
           <select className={`${inputClass} !mt-0 !w-auto`} value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="Filter">
             <option value="all">All</option>
+            <option value="job">Applied on a job page</option>
+            <option value="ticket">Ticket of the ticket office</option>
             <option value="complete">With passenger details</option>
             <option value="seat">Seat only (no details)</option>
             {APPLICATION_STATUSES.map((s) => (
@@ -99,7 +117,8 @@ export function CareersApplications({ rows }: { rows: ApplicationRow[] }) {
                   {r.city}
                   {r.roleTitle ? ` → ${r.roleTitle}` : ""}
                 </span>
-                <span className="mt-1 flex gap-2 text-xs">
+                <span className="mt-1 flex flex-wrap gap-2 text-xs">
+                  <span className={`rounded-full px-2 py-0.5 ${r.source === "job" ? "bg-brand/10 text-brand" : "bg-sky-100 text-sky-800"}`}>{r.source === "job" ? "Job page" : "Ticket"}</span>
                   <span className={`rounded-full px-2 py-0.5 ${r.stage === "complete" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"}`}>{r.stage === "complete" ? "Complete" : "Seat only"}</span>
                   <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-zinc-600">{APPLICATION_STATUSES.find((s) => s.value === r.status)?.label ?? r.status}</span>
                 </span>
@@ -122,8 +141,9 @@ export function CareersApplications({ rows }: { rows: ApplicationRow[] }) {
               </button>
             </div>
             <dl>
+              <Row k="Came from" v={cur.source === "job" ? "The apply form of a job page" : "The ticket office"} />
               <Row k="Location" v={cur.city} />
-              <Row k="Destination (position)" v={cur.roleTitle} />
+              <Row k="Position" v={cur.roleTitle} />
               <Row k="Current status" v={cur.currentStatus} />
               <Row k="Can join" v={cur.joinDate} />
               <Row k="Notice period" v={cur.noticePeriod} />

@@ -139,14 +139,34 @@ model TeamMember {
 // The Careers page (Careers in the admin panel): the open positions a visitor can choose as the "destination" of the ticket, the extra
 // questions of HR for the passenger details, and the tickets (applications) that visitors book. The city is the only thing that must be
 // there when a seat is booked (stage "booked"); the passenger details come after it (stage "complete").
+/// A job opening: shown in the list on the Careers page, has its own page (/careers/<slug>), and is a destination of the ticket.
 model CareerRole {
-  id        String   @id @default(cuid())
-  title     String
-  team      String   @default("")
-  active    Boolean  @default(true)
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String   @id @default(cuid())
+  title            String
+  team             String   @default("")
+  /// open (shown on the site) or closed
+  active           Boolean  @default(true)
+  sortOrder        Int      @default(0)
+  slug             String   @unique @default("")
+  /// one or two lines for the card in the list
+  summary          String   @default("")
+  /// about the role: paragraphs separated by an empty line
+  description      String   @default("")
+  responsibilities Json     @default("[]")
+  requirements     Json     @default("[]")
+  perks            Json     @default("[]")
+  location         String   @default("Surat, India")
+  /// Full-time | Part-time | Internship | Contract
+  workType         String   @default("Full-time")
+  /// On-site | Hybrid | Remote
+  workMode         String   @default("On-site")
+  experience       String   @default("")
+  openings         Int      @default(1)
+  salary           String   @default("")
+  /// yyyy-mm-dd or empty
+  closesAt         String   @default("")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@index([sortOrder])
 }
@@ -185,6 +205,8 @@ model CareerApplication {
   answers       Json     @default("[]")
   /// booked (seat booked, city known) | complete (passenger details given)
   stage         String   @default("booked")
+  /// ticket (the ticket office) | job (the apply form of a job page)
+  source        String   @default("ticket")
   /// new | contacted | interview | hired | rejected
   status        String   @default("new")
   note          String   @default("")
@@ -192,4 +214,5 @@ model CareerApplication {
   updatedAt     DateTime @updatedAt
 
   @@index([createdAt])
+  @@index([roleId])
 }

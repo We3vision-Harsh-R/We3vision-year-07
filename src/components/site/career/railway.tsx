@@ -6,15 +6,17 @@ import { PersonTop } from "../timeline-art";
 
 // The railway of the Careers page: ONE track that runs through the whole page, from above the first screen to the last section, in a few long,
 // soft sweeps from one edge of the page to the other. It stays in the margins beside the content; where it has to go under a block (the board
-// of the teams, the window of the help desk) it goes into a tunnel: a portal in front of the block, nothing of the track or of the train is
-// to be seen over or under the block, and the train comes out of the portal on the other side. It is drawn on one layer
+// of the teams, the window of the help desk) it goes into a tunnel with a name. The tunnel starts well in front of the block, so that nobody
+// is surprised: first a gate with a board that says the name, then a short open cut (the walls are cut across, so that it can be seen that the
+// line goes down into the ground), then the roof. Nothing of the track or of the train is to be seen under the roof or under the block, and
+// the train comes out of the gate on the other side. It is drawn on one layer
 // behind the page (it is not in a box). On the way: the first station (the ticket office) with its platform, signals, a level crossing,
 // a bridge over a stream, a little stop for every value of the company, mile posts, poles, trees, and Surat Junction at the end.
 // The train (an engine at both ends and three coaches, seen from above, every car turns with the curve) does not exist until the visitor has chosen a city,
 // a current status and a destination. Then it comes in from the top and stands at the platform. When the seat is booked it rides down the
 // page with the scroll, smoothly; when the passenger details are sent the page rides to Surat Junction and the passenger gets out.
 // The geometry is measured from the sections of the page: they only have to carry the markers that are listed in measure().
-// The look is in globals.css (.rw-*). Laptop and desktop screens.
+// The look is in globals.css (.rl-*). Laptop and desktop screens.
 
 const STEP = 6; // px between two samples of the path
 const COACH_L = 96;
@@ -24,10 +26,20 @@ const GAP = 6;
 const COACHES = 3;
 const CARS = COACHES + 2; // an engine at the front, the coaches, an engine at the back
 const TRAIN_L = ENGINE_L * 2 + COACHES * (COACH_L + GAP) + GAP;
+const LEAD = 200; // a tunnel starts this far in front of the block it goes under
+const CUT = 64; // the open cut at its start (the walls are cut across)
+const TAIL = 34; // and goes on this far after the block
+// the names of the tunnels (Surat is the city of diamonds and of silk)
+const TUNNEL_NAMES = [
+  { name: "Diamond Tunnel", sub: "Surat, the diamond city" },
+  { name: "Silk Route Tunnel", sub: "Surat, the silk city" },
+  { name: "Idea Tunnel", sub: "Where good work begins" },
+  { name: "Hello Tunnel", sub: "Say hi to our team" },
+];
 // the blocks of the page that the track must not run over or under: where it meets one, it goes through a tunnel
 const COVER = ".rt-board, .rh-window, .rv-card, .cj-form, .cj-after, .cj-loc-block, .cj-station-card, #contact address";
 // (and the lines of text of the headings: only where there is text, not the whole width of the block that holds it)
-const COVER_TEXT = ".rv-head h2, .rv-head p, .cj-head h1, .cj-head p, .cj-dest-text h2, .cj-dest-text > p, #contact h2";
+const COVER_TEXT = ".rv-head h2, .rv-head p, .cj-head h1, .cj-head p, .cj-dest-text h2, .cj-dest-text > p, #contact > :first-child h2, #contact > :first-child p";
 
 type Sample = { xs: Float32Array; ys: Float32Array; as: Float32Array; n: number };
 type Stop = { x: number; y: number; side: 1 | -1; label: string };
@@ -52,8 +64,26 @@ type Geo = {
   trees: { x: number; y: number; r: number }[];
   /** the blocks that have a tunnel under them (the track and the train are not drawn there) */
   covers: { x: number; y: number; w: number; h: number; r: number }[];
-  /** the mouths of the tunnels: where the track goes in and where it comes out */
-  portals: { x: number; y: number; a: number; kind: "in" | "out" }[];
+  /** the tunnels: the line under the roof is not drawn, the roof is */
+  tunnels: Tunnel[];
+  /** where the line ends (it fades out there and a buffer stop stands at its end) */
+  endY: number;
+};
+type Pt = { x: number; y: number; a: number };
+type Tunnel = {
+  name: string;
+  sub: string;
+  /** the open cut at the start, the roof, and the part of the line that is out of sight (as paths) */
+  dCut: string;
+  dRoof: string;
+  dUnder: string;
+  gateIn: Pt;
+  gateOut: Pt;
+  boardIn: { x: number; y: number };
+  boardOut: { x: number; y: number };
+  /** the train is out of sight between these two places of the line (px from the start of the line) */
+  sA: number;
+  sB: number;
 };
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
@@ -90,7 +120,10 @@ function measure(root: HTMLElement): Geo | null {
   const x2 = Math.min(W - 60, slot2.left + slot2.width * 0.74);
   // (the engine stops inside the first screen, whatever the height of the ticket is)
   const yHead1 = slot1.top + Math.min(slot1.height, window.innerHeight - 70) * 0.8;
-  const yHead2 = slot2.top + slot2.height * 0.88;
+  // the office of the last station stands in one line with the heading of that section (the centre of the office is 767px above the
+  // place where the train stops); the list of the jobs is in the text column, beside the platform and not inside it
+  const destHead = rel(main.querySelector("#surat-junction h2"), top0, scrollY);
+  const yHead2 = destHead && destHead.height > 0 ? destHead.top + destHead.height / 2 + 767 : slot2.top + slot2.height * 0.88;
 
   // the margins: the middle of the space beside the cards of the values (right) and beside the board of the teams (left)
   const advList = rel(main.querySelector("#advantages .rv-list"), top0, scrollY);
@@ -134,7 +167,9 @@ function measure(root: HTMLElement): Geo | null {
   // and down to the platform of Surat Junction
   const yEnd = Math.max(yHead2 - 640, cy + 300);
   sweep(x2, yEnd);
-  d += ` L${x2} ${Math.max(yHead2 + 700, yEnd + 400)}`;
+  // the line ends beside the list of the jobs: it fades away and a buffer stop stands at its end
+  const endY = Math.max(clamp(yHead2 + 560, yHead2 + 220, Math.max(yHead2 + 220, H - 70)), yEnd + 200);
+  d += ` L${x2} ${endY}`;
 
   // measure the line (a path in a hidden svg)
   const NS = "http://www.w3.org/2000/svg";
@@ -217,9 +252,9 @@ function measure(root: HTMLElement): Geo | null {
     if (x > 14 && x < W - 14 && (x < gw || x > W - gw)) trees.push({ x, y: y + rnd() * 40, r: 8 + rnd() * 9 });
   }
 
-  // the tunnels: every block that the line goes into has a mouth where the line goes in and one where it comes out
+  // the tunnels: every block that the line goes into becomes a tunnel with a name, a gate in front of it and a gate after it
   const covers: Geo["covers"] = [];
-  const portals: Geo["portals"] = [];
+  const tunnels: Tunnel[] = [];
   const blocks: { el: HTMLElement; r: ReturnType<typeof rel> }[] = [];
   main.querySelectorAll<HTMLElement>(COVER).forEach((el) => blocks.push({ el, r: rel(el, top0, scrollY) }));
   main.querySelectorAll<HTMLElement>(COVER_TEXT).forEach((el) => {
@@ -228,30 +263,77 @@ function measure(root: HTMLElement): Geo | null {
     const tb = range.getBoundingClientRect();
     blocks.push({ el, r: { top: tb.top + scrollY - top0, bottom: tb.bottom + scrollY - top0, left: tb.left, right: tb.right, width: tb.width, height: tb.height } });
   });
+  const poly = (i0: number, i1: number) => {
+    let out = `M${xs[i0].toFixed(1)} ${ys[i0].toFixed(1)}`;
+    for (let i = i0 + 1; i <= i1; i++) out += `L${xs[i].toFixed(1)} ${ys[i].toFixed(1)}`;
+    return out;
+  };
+  const pt = (i: number): Pt => ({ x: xs[i], y: ys[i], a: as[i] });
+  const runs: { i0: number; i1: number; el: HTMLElement }[] = [];
   blocks.forEach(({ el, r }) => {
     if (!r || r.width < 40 || r.height < 30) return;
-    const L = r.left;
-    const R = r.right;
-    const T = r.top;
-    const B = r.bottom;
     let run = -1;
-    let hit = false;
     for (let i = 0; i <= n; i++) {
-      const inside = i < n && xs[i] > L - 8 && xs[i] < R + 8 && ys[i] > T - 8 && ys[i] < B + 8;
+      const inside = i < n && xs[i] > r.left - 8 && xs[i] < r.right + 8 && ys[i] > r.top - 8 && ys[i] < r.bottom + 8;
       if (inside && run < 0) run = i;
       if (!inside && run >= 0) {
         if (i - run >= 3) {
-          portals.push({ x: xs[run], y: ys[run], a: as[run], kind: "in" });
-          portals.push({ x: xs[i - 1], y: ys[i - 1], a: as[i - 1], kind: "out" });
-          hit = true;
+          runs.push({ i0: run, i1: i - 1, el });
+          covers.push({ x: r.left, y: r.top, w: r.width, h: r.height, r: parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0 });
         }
         run = -1;
       }
     }
-    if (hit) covers.push({ x: L, y: T, w: r.width, h: r.height, r: parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0 });
+  });
+  // (blocks that touch each other make one tunnel, not two)
+  runs.sort((p1, p2) => p1.i0 - p2.i0);
+  for (let k = runs.length - 1; k > 0; k--) {
+    if (runs[k].i0 <= runs[k - 1].i1 + 12) {
+      runs[k - 1].i1 = Math.max(runs[k - 1].i1, runs[k].i1);
+      runs.splice(k, 1);
+    }
+  }
+  // (a board with the name of the tunnel stands beside each gate, on the side where there is room for it)
+  const BW = 250;
+  const BH = 54;
+  const boardAt = (g: Pt) => {
+    const nx = -Math.sin(g.a);
+    const ny = Math.cos(g.a);
+    const ext = Math.abs(nx) * (BW / 2) + Math.abs(ny) * (BH / 2);
+    const place = (side: number) => ({ x: g.x + nx * side * (50 + 12 + ext), y: g.y + ny * side * (50 + 12 + ext) });
+    const free = (c: { x: number; y: number }) =>
+      c.x - BW / 2 > 8 &&
+      c.x + BW / 2 < W - 8 &&
+      !blocks.some(({ r }) => r && r.width > 0 && c.x + BW / 2 > r.left && c.x - BW / 2 < r.right && c.y + BH / 2 > r.top && c.y - BH / 2 < r.bottom);
+    const first = place(1);
+    const second = place(-1);
+    // (toward the middle of the page first)
+    const prefer = Math.abs(first.x - W / 2) < Math.abs(second.x - W / 2) ? [first, second] : [second, first];
+    return prefer.find(free) ?? prefer[0];
+  };
+  runs.forEach((run, k) => {
+    const iF = Math.max(0, run.i0 - Math.round(LEAD / STEP));
+    const iC = Math.min(run.i0, iF + Math.round(CUT / STEP));
+    const iX = Math.min(n - 1, run.i1 + Math.round(TAIL / STEP));
+    const names = run.el.closest(".rt-board") ? TUNNEL_NAMES[0] : run.el.closest(".rh-window") ? TUNNEL_NAMES[1] : TUNNEL_NAMES[2 + (k % 2)];
+    const gateIn = pt(iF);
+    const gateOut = pt(iX);
+    tunnels.push({
+      name: names.name,
+      sub: names.sub,
+      dCut: poly(iF, iC),
+      dRoof: poly(iC, iX),
+      dUnder: poly(iC, iX),
+      gateIn,
+      gateOut,
+      boardIn: boardAt(gateIn),
+      boardOut: boardAt(gateOut),
+      sA: iC * STEP,
+      sB: iX * STEP,
+    });
   });
 
-  return { W, H, d, len, sample, x1, yHead1, x2, yHead2, sStop1, sEnd, stops, crossing, river, signals, poles, miles, trees, covers, portals };
+  return { W, H, d, len, sample, x1, yHead1, x2, yHead2, sStop1, sEnd, stops, crossing, river, signals, poles, miles, trees, covers, tunnels, endY };
 }
 
 function at(sm: Sample, s: number) {
@@ -281,37 +363,37 @@ function Coach({ first }: { first: boolean }) {
   const w = CAR_W / 2;
   return (
     <>
-      <rect className="rw-bogie" x={-L / 2 + 9} y={-w - 1} width="22" height={CAR_W + 2} rx="4" />
-      <rect className="rw-bogie" x={L / 2 - 31} y={-w - 1} width="22" height={CAR_W + 2} rx="4" />
+      <rect className="rl-bogie" x={-L / 2 + 9} y={-w - 1} width="22" height={CAR_W + 2} rx="4" />
+      <rect className="rl-bogie" x={L / 2 - 31} y={-w - 1} width="22" height={CAR_W + 2} rx="4" />
       {/* the rubber between this car and the one in front of it */}
-      <rect className="rw-bellow" x={L / 2 - 2} y={-w + 9} width={GAP + 4} height={CAR_W - 18} rx="2" />
-      <rect className="rw-coach" x={-L / 2} y={-w} width={L} height={CAR_W} rx="10" />
-      <path className="rw-stripe" d={`M${-L / 2 + 8} ${-w + 4.5}H${L / 2 - 8}M${-L / 2 + 8} ${w - 4.5}H${L / 2 - 8}`} />
-      <rect className="rw-roof" x={-L / 2 + 6} y={-w + 8} width={L - 12} height={CAR_W - 16} rx="7" data-open={first} />
+      <rect className="rl-bellow" x={L / 2 - 2} y={-w + 9} width={GAP + 4} height={CAR_W - 18} rx="2" />
+      <rect className="rl-coach" x={-L / 2} y={-w} width={L} height={CAR_W} rx="10" />
+      <path className="rl-stripe" d={`M${-L / 2 + 8} ${-w + 4.5}H${L / 2 - 8}M${-L / 2 + 8} ${w - 4.5}H${L / 2 - 8}`} />
+      <rect className="rl-roof" x={-L / 2 + 6} y={-w + 8} width={L - 12} height={CAR_W - 16} rx="7" data-open={first} />
       {first ? (
         // the first coach has its roof off: the seats can be seen
         <g>
           {[0, 1, 2, 3].map((i) => (
             <g key={i}>
-              <rect className="rw-seat" x={-L / 2 + 14 + i * 20} y={-w + 10} width="12" height="10" rx="3" />
-              <rect className="rw-seat" x={-L / 2 + 14 + i * 20} y={w - 20} width="12" height="10" rx="3" />
+              <rect className="rl-seat" x={-L / 2 + 14 + i * 20} y={-w + 10} width="12" height="10" rx="3" />
+              <rect className="rl-seat" x={-L / 2 + 14 + i * 20} y={w - 20} width="12" height="10" rx="3" />
             </g>
           ))}
-          <rect className="rw-aisle" x={-L / 2 + 8} y="-3" width={L - 16} height="6" rx="3" />
+          <rect className="rl-aisle" x={-L / 2 + 8} y="-3" width={L - 16} height="6" rx="3" />
         </g>
       ) : (
         <g>
-          <rect className="rw-ac" x={-L / 2 + 8} y="-8" width="13" height="16" rx="4" />
-          <rect className="rw-ac" x={L / 2 - 21} y="-8" width="13" height="16" rx="4" />
-          <path className="rw-rib" d={`M${-L / 2 + 12} -8V8M${-L / 2 + 17} -8V8M${L / 2 - 17} -8V8M${L / 2 - 12} -8V8`} />
-          <text className="rw-livery" x="0" y="3" textAnchor="middle">
+          <rect className="rl-ac" x={-L / 2 + 8} y="-8" width="13" height="16" rx="4" />
+          <rect className="rl-ac" x={L / 2 - 21} y="-8" width="13" height="16" rx="4" />
+          <path className="rl-rib" d={`M${-L / 2 + 12} -8V8M${-L / 2 + 17} -8V8M${L / 2 - 17} -8V8M${L / 2 - 12} -8V8`} />
+          <text className="rl-livery" x="0" y="3" textAnchor="middle">
             WE3VISION
           </text>
         </g>
       )}
-      <path className="rw-win" d={`M${-L / 2 + 10} ${-w + 2.5}H${L / 2 - 10}M${-L / 2 + 10} ${w - 2.5}H${L / 2 - 10}`} />
-      <rect className="rw-door" x="-4" y={-w - 1} width="8" height="3.5" rx="1.5" />
-      <rect className="rw-door" x="-4" y={w - 2.5} width="8" height="3.5" rx="1.5" />
+      <path className="rl-win" d={`M${-L / 2 + 10} ${-w + 2.5}H${L / 2 - 10}M${-L / 2 + 10} ${w - 2.5}H${L / 2 - 10}`} />
+      <rect className="rl-door" x="-4" y={-w - 1} width="8" height="3.5" rx="1.5" />
+      <rect className="rl-door" x="-4" y={w - 2.5} width="8" height="3.5" rx="1.5" />
     </>
   );
 }
@@ -324,22 +406,22 @@ function Engine({ rear }: { rear: boolean }) {
   const roof = `M${-L / 2 + 9} ${-w + 7}H${L / 2 - 42}Q${L / 2 - 24} ${-w + 8} ${L / 2 - 16} -9Q${L / 2 - 12} 0 ${L / 2 - 16} 9Q${L / 2 - 24} ${w - 8} ${L / 2 - 42} ${w - 7}H${-L / 2 + 9}Q${-L / 2 + 5} ${w - 7} ${-L / 2 + 5} ${w - 12}V${-w + 12}Q${-L / 2 + 5} ${-w + 7} ${-L / 2 + 9} ${-w + 7}Z`;
   return (
     <g transform={rear ? "rotate(180)" : undefined}>
-      {!rear && <path className="rw-beam" d={`M${L / 2 - 2} -13L${L / 2 + 170} -64V64L${L / 2 - 2} 13Z`} />}
-      <rect className="rw-bogie" x={-L / 2 + 9} y={-w - 1} width="26" height={CAR_W + 2} rx="4" />
-      <rect className="rw-bogie" x={L / 2 - 45} y={-w - 1} width="26" height={CAR_W + 2} rx="4" />
-      {rear && <rect className="rw-bellow" x={-L / 2 - GAP - 2} y={-w + 9} width={GAP + 4} height={CAR_W - 18} rx="2" />}
-      <path className="rw-engine" d={body} />
-      <path className="rw-engine-roof" d={roof} />
-      <path className="rw-stripe" d={`M${-L / 2 + 8} ${-w + 4}H${L / 2 - 40}M${-L / 2 + 8} ${w - 4}H${L / 2 - 40}`} />
+      {!rear && <path className="rl-beam" d={`M${L / 2 - 2} -13L${L / 2 + 170} -64V64L${L / 2 - 2} 13Z`} />}
+      <rect className="rl-bogie" x={-L / 2 + 9} y={-w - 1} width="26" height={CAR_W + 2} rx="4" />
+      <rect className="rl-bogie" x={L / 2 - 45} y={-w - 1} width="26" height={CAR_W + 2} rx="4" />
+      {rear && <rect className="rl-bellow" x={-L / 2 - GAP - 2} y={-w + 9} width={GAP + 4} height={CAR_W - 18} rx="2" />}
+      <path className="rl-engine" d={body} />
+      <path className="rl-engine-roof" d={roof} />
+      <path className="rl-stripe" d={`M${-L / 2 + 8} ${-w + 4}H${L / 2 - 40}M${-L / 2 + 8} ${w - 4}H${L / 2 - 40}`} />
       {/* the windscreen with its shine */}
-      <path className="rw-glass" d={`M${L / 2 - 44} ${-w + 8}L${L / 2 - 16} -9Q${L / 2 - 11} 0 ${L / 2 - 16} 9L${L / 2 - 44} ${w - 8}Z`} />
-      <path className="rw-glass-hi" d={`M${L / 2 - 40} ${-w + 11}L${L / 2 - 22} -8`} />
+      <path className="rl-glass" d={`M${L / 2 - 44} ${-w + 8}L${L / 2 - 16} -9Q${L / 2 - 11} 0 ${L / 2 - 16} 9L${L / 2 - 44} ${w - 8}Z`} />
+      <path className="rl-glass-hi" d={`M${L / 2 - 40} ${-w + 11}L${L / 2 - 22} -8`} />
       {/* the pantograph on the roof, with the little spark at its head */}
-      <path className="rw-pan" d={`M${-L / 2 + 10} -11L${-L / 2 + 22} 0L${-L / 2 + 10} 11M${-L / 2 + 22} -11L${-L / 2 + 10} 0L${-L / 2 + 22} 11M${-L / 2 + 24} -13V13`} />
-      <circle className="rw-spark" cx={-L / 2 + 24} cy="0" r="3" />
+      <path className="rl-pan" d={`M${-L / 2 + 10} -11L${-L / 2 + 22} 0L${-L / 2 + 10} 11M${-L / 2 + 22} -11L${-L / 2 + 10} 0L${-L / 2 + 22} 11M${-L / 2 + 24} -13V13`} />
+      <circle className="rl-spark" cx={-L / 2 + 24} cy="0" r="3" />
       {/* the lamps: white at the front, red at the back */}
-      <circle className={rear ? "rw-tail" : "rw-lamp"} cx={L / 2 - 3} cy="-8.5" r="3.4" />
-      <circle className={rear ? "rw-tail" : "rw-lamp"} cx={L / 2 - 3} cy="8.5" r="3.4" />
+      <circle className={rear ? "rl-tail" : "rl-lamp"} cx={L / 2 - 3} cy="-8.5" r="3.4" />
+      <circle className={rear ? "rl-tail" : "rl-lamp"} cx={L / 2 - 3} cy="8.5" r="3.4" />
     </g>
   );
 }
@@ -348,35 +430,67 @@ function Engine({ rear }: { rear: boolean }) {
 function Plate() {
   return (
     <>
-      <rect className="rw-plate" x="-22" y="-12" width="44" height="24" rx="7" />
-      <text className="rw-plate-t" x="0" y="5" textAnchor="middle">
+      <rect className="rl-plate" x="-22" y="-12" width="44" height="24" rx="7" />
+      <text className="rl-plate-t" x="0" y="5" textAnchor="middle">
         W3V
       </text>
     </>
   );
 }
 
-/** the mouth of a tunnel, in front of a block: a stone wall with the dark opening of the track (the part inside the block is cut by the mask) */
-function Portal({ x, y, a, kind }: { x: number; y: number; a: number; kind: "in" | "out" }) {
-  const D = 38;
-  const EXT = 110;
-  const Wd = 92;
-  const x0 = kind === "in" ? -D : -EXT;
-  const x1 = kind === "in" ? EXT : D;
-  const front = kind === "in" ? -D : D;
-  const bow = kind === "in" ? -11 : 11;
+/** the gate of a tunnel: a stone beam across the line with a lamp at each end */
+function Gate({ p }: { p: Pt }) {
+  const Wd = 104;
   return (
-    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${((a * 180) / Math.PI).toFixed(1)})`}>
-      <rect className="rw-pt-sh" x={x0 + 4} y={-Wd / 2 + 6} width={x1 - x0} height={Wd} rx="14" />
-      <rect className="rw-pt" x={x0} y={-Wd / 2} width={x1 - x0} height={Wd} rx="14" />
-      <rect className="rw-pt-top" x={x0 + 5} y={-Wd / 2 + 5} width={x1 - x0 - 10} height="9" rx="4" />
-      <rect className="rw-pt-top" x={x0 + 5} y={Wd / 2 - 14} width={x1 - x0 - 10} height="9" rx="4" />
-      <rect className="rw-pt-slot" x={x0} y="-32" width={x1 - x0} height="64" />
-      <path className="rw-pt-arch" d={`M${front} -32Q${front + bow} 0 ${front} 32`} />
-      <circle className="rw-glow" cx={front + (kind === "in" ? 9 : -9)} cy={-Wd / 2 + 9} r="20" />
-      <circle className="rw-glow" cx={front + (kind === "in" ? 9 : -9)} cy={Wd / 2 - 9} r="20" />
-      <circle className="rw-lampost" cx={front + (kind === "in" ? 9 : -9)} cy={-Wd / 2 + 9} r="3.6" />
-      <circle className="rw-lampost" cx={front + (kind === "in" ? 9 : -9)} cy={Wd / 2 - 9} r="3.6" />
+    <g transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${((p.a * 180) / Math.PI).toFixed(1)})`}>
+      <rect className="rl-gt-sh" x="-5" y={-Wd / 2 + 6} width="22" height={Wd} rx="9" />
+      <rect className="rl-gt" x="-9" y={-Wd / 2} width="18" height={Wd} rx="9" />
+      <rect className="rl-gt-top" x="-5" y={-Wd / 2 + 5} width="10" height={Wd - 10} rx="5" />
+      <circle className="rl-glow" cx="0" cy={-Wd / 2 + 4} r="22" />
+      <circle className="rl-glow" cx="0" cy={Wd / 2 - 4} r="22" />
+      <circle className="rl-lampost" cx="0" cy={-Wd / 2 + 4} r="4" />
+      <circle className="rl-lampost" cx="0" cy={Wd / 2 - 4} r="4" />
+    </g>
+  );
+}
+
+/** the buffer stop at the end of the line: a stout bar with hazard stripes, two posts, two lamps and a sign */
+function BufferStop({ x, y }: { x: number; y: number }) {
+  return (
+    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
+      <rect className="rl-bs-sh" x="-46" y="-2" width="96" height="30" rx="8" />
+      <rect className="rl-bs-post" x="-48" y="-14" width="14" height="38" rx="5" />
+      <rect className="rl-bs-post" x="34" y="-14" width="14" height="38" rx="5" />
+      <rect className="rl-bs-bar" x="-44" y="-4" width="88" height="16" rx="5" />
+      <rect className="rl-bs-bar-ln" x="-44" y="-4" width="88" height="16" rx="5" />
+      <circle className="rl-glow" cx="-41" cy="-14" r="20" />
+      <circle className="rl-glow" cx="41" cy="-14" r="20" />
+      <circle className="rl-lampost" cx="-41" cy="-14" r="4.5" />
+      <circle className="rl-lampost" cx="41" cy="-14" r="4.5" />
+      <rect className="rl-bs-plate" x="-30" y="18" width="60" height="22" rx="6" />
+      <text className="rl-bs-t" x="0" y="34" textAnchor="middle">
+        STOP
+      </text>
+    </g>
+  );
+}
+
+/** the board that says the name of the tunnel */
+function Board({ x, y, name, sub }: { x: number; y: number; name: string; sub: string }) {
+  const w = 250;
+  const h = 54;
+  return (
+    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
+      <rect className="rl-bd-sh" x={-w / 2 + 3} y={-h / 2 + 6} width={w} height={h} rx="13" />
+      <rect className="rl-bd" x={-w / 2} y={-h / 2} width={w} height={h} rx="13" />
+      <path className="rl-bd-ic" d={`M${-w / 2 + 14} 11V-3Q${-w / 2 + 14} -12 ${-w / 2 + 23} -12Q${-w / 2 + 32} -12 ${-w / 2 + 32} -3V11`} />
+      <path className="rl-bd-ic2" d={`M${-w / 2 + 14} 11H${-w / 2 + 32}`} />
+      <text className="rl-bd-t" x={-w / 2 + 44} y="-3">
+        {name}
+      </text>
+      <text className="rl-bd-s" x={-w / 2 + 44} y="15">
+        {sub}
+      </text>
     </g>
   );
 }
@@ -394,29 +508,29 @@ function Platform({ x, yHead, kind }: { x: number; yHead: number; kind: "start" 
   return (
     <g>
       {/* the floor: tiles, a shadow on the ground round it, tactile paving and the yellow line at the edge */}
-      <rect className="rw-plat-shadow" x={left - 6} y={top - 4} width={w + 12} height={h + 12} rx="16" />
-      <rect className="rw-plat" x={left} y={top} width={w} height={h} rx="12" />
-      <rect x={left} y={top} width={w} height={h} rx="12" fill="url(#rw-tile)" />
-      <rect x={edge - 34} y={top} width="26" height={h} fill="url(#rw-dots)" />
-      <rect className="rw-plat-edge" x={edge - 7} y={top} width="6" height={h} />
-      <rect className="rw-plat-lip" x={edge - 1} y={top} width="3" height={h} />
+      <rect className="rl-plat-shadow" x={left - 6} y={top - 4} width={w + 12} height={h + 12} rx="16" />
+      <rect className="rl-plat" x={left} y={top} width={w} height={h} rx="12" />
+      <rect x={left} y={top} width={w} height={h} rx="12" fill="url(#rl-tile)" />
+      <rect x={edge - 34} y={top} width="26" height={h} fill="url(#rl-dots)" />
+      <rect className="rl-plat-edge" x={edge - 7} y={top} width="6" height={h} />
+      <rect className="rl-plat-lip" x={edge - 1} y={top} width="3" height={h} />
 
       {/* the roof: glass between steel beams, a shadow under it, posts, the lamps hang from it */}
-      <g className="rw-canopy">
-        <rect className="rw-roof-sh" x={left + 18} y={roofTop + 14} width={w - 62} height={roofH} rx="10" />
-        <rect className="rw-roof-glass" x={left + 14} y={roofTop} width={w - 62} height={roofH} rx="10" />
+      <g className="rl-canopy">
+        <rect className="rl-roof-sh" x={left + 18} y={roofTop + 14} width={w - 62} height={roofH} rx="10" />
+        <rect className="rl-roof-glass" x={left + 14} y={roofTop} width={w - 62} height={roofH} rx="10" />
         {Array.from({ length: 10 }, (_, i) => (
           <line key={i} x1={left + 14} x2={left + 14 + w - 62} y1={roofTop + (i * roofH) / 9} y2={roofTop + (i * roofH) / 9} />
         ))}
         <line x1={left + 14 + (w - 62) / 2} x2={left + 14 + (w - 62) / 2} y1={roofTop} y2={roofTop + roofH} />
       </g>
-      {[0, 3, 6, 9].flatMap((i) => [left + 14, left + 14 + w - 62].map((px) => <circle key={`${px}-${i}`} className="rw-post" cx={px} cy={roofTop + (i * roofH) / 9} r="5.5" />))}
+      {[0, 3, 6, 9].flatMap((i) => [left + 14, left + 14 + w - 62].map((px) => <circle key={`${px}-${i}`} className="rl-post" cx={px} cy={roofTop + (i * roofH) / 9} r="5.5" />))}
       {[0, 1, 2, 3].map((i) => {
         const y = roofTop + 60 + i * 130;
         return (
           <g key={i}>
-            <circle className="rw-glow" cx={left + 14 + (w - 62) / 2} cy={y} r="46" />
-            <circle className="rw-lampost" cx={left + 14 + (w - 62) / 2} cy={y} r="4.5" />
+            <circle className="rl-glow" cx={left + 14 + (w - 62) / 2} cy={y} r="46" />
+            <circle className="rl-lampost" cx={left + 14 + (w - 62) / 2} cy={y} r="4.5" />
           </g>
         );
       })}
@@ -424,67 +538,67 @@ function Platform({ x, yHead, kind }: { x: number; yHead: number; kind: "start" 
       {/* furniture: benches, a ticket machine, a kiosk with an awning, bins, planters, the timetable, a clock, the route map */}
       {[yHead - 420, yHead - 320, yHead - 220].map((y) => (
         <g key={y}>
-          <rect className="rw-bench" x={left + 38} y={y} width="66" height="17" rx="5" />
+          <rect className="rl-bench" x={left + 38} y={y} width="66" height="17" rx="5" />
           {[0, 1, 2, 3].map((k) => (
-            <line key={k} className="rw-bench-slat" x1={left + 38 + 8 + k * 16} x2={left + 38 + 8 + k * 16} y1={y + 2} y2={y + 15} />
+            <line key={k} className="rl-bench-slat" x1={left + 38 + 8 + k * 16} x2={left + 38 + 8 + k * 16} y1={y + 2} y2={y + 15} />
           ))}
-          <rect className="rw-bench-back" x={left + 38} y={y - 5} width="66" height="5" rx="2" />
+          <rect className="rl-bench-back" x={left + 38} y={y - 5} width="66" height="5" rx="2" />
         </g>
       ))}
       <g>
-        <rect className="rw-kiosk" x={left + 20} y={yHead - 150} width="54" height="44" rx="8" />
+        <rect className="rl-kiosk" x={left + 20} y={yHead - 150} width="54" height="44" rx="8" />
         {Array.from({ length: 6 }, (_, i) => (
-          <rect key={i} className={i % 2 ? "rw-awn-a" : "rw-awn-b"} x={left + 20 + i * 9} y={yHead - 150} width="9" height="14" />
+          <rect key={i} className={i % 2 ? "rl-awn-a" : "rl-awn-b"} x={left + 20 + i * 9} y={yHead - 150} width="9" height="14" />
         ))}
-        <rect className="rw-machine" x={left + 86} y={yHead - 150} width="26" height="44" rx="6" />
-        <rect className="rw-machine-screen" x={left + 91} y={yHead - 143} width="16" height="12" rx="2" />
+        <rect className="rl-machine" x={left + 86} y={yHead - 150} width="26" height="44" rx="6" />
+        <rect className="rl-machine-screen" x={left + 91} y={yHead - 143} width="16" height="12" rx="2" />
       </g>
-      <circle className="rw-bin" cx={left + 128} cy={yHead - 120} r="7" />
-      <circle className="rw-bin" cx={left + 128} cy={yHead - 380} r="7" />
+      <circle className="rl-bin" cx={left + 128} cy={yHead - 120} r="7" />
+      <circle className="rl-bin" cx={left + 128} cy={yHead - 380} r="7" />
       {[yHead - 500, yHead - 60].map((y) => (
         <g key={y}>
-          <circle className="rw-pot" cx={left + 150} cy={y} r="13" />
-          <circle className="rw-pot-leaf" cx={left + 150} cy={y} r="9" />
+          <circle className="rl-pot" cx={left + 150} cy={y} r="13" />
+          <circle className="rl-pot-leaf" cx={left + 150} cy={y} r="9" />
         </g>
       ))}
       <g>
-        <circle className="rw-clock" cx={left + 54} cy={yHead - 520} r="21" />
+        <circle className="rl-clock" cx={left + 54} cy={yHead - 520} r="21" />
         {Array.from({ length: 12 }, (_, i) => {
           const ang = (i / 12) * Math.PI * 2;
-          return <line key={i} className="rw-clock-tick" x1={left + 54 + Math.cos(ang) * 16} y1={yHead - 520 + Math.sin(ang) * 16} x2={left + 54 + Math.cos(ang) * 19} y2={yHead - 520 + Math.sin(ang) * 19} />;
+          return <line key={i} className="rl-clock-tick" x1={left + 54 + Math.cos(ang) * 16} y1={yHead - 520 + Math.sin(ang) * 16} x2={left + 54 + Math.cos(ang) * 19} y2={yHead - 520 + Math.sin(ang) * 19} />;
         })}
-        <path className="rw-clock-hand" d={`M${left + 54} ${yHead - 520}V${yHead - 534}M${left + 54} ${yHead - 520}L${left + 64} ${yHead - 514}`} />
+        <path className="rl-clock-hand" d={`M${left + 54} ${yHead - 520}V${yHead - 534}M${left + 54} ${yHead - 520}L${left + 64} ${yHead - 514}`} />
       </g>
       <g>
-        <rect className="rw-board" x={left + 84} y={yHead - 546} width="52" height="52" rx="6" />
-        <path className="rw-board-lines" d={`M${left + 92} ${yHead - 530}H${left + 128}M${left + 92} ${yHead - 518}H${left + 120}M${left + 92} ${yHead - 506}H${left + 126}`} />
+        <rect className="rl-board" x={left + 84} y={yHead - 546} width="52" height="52" rx="6" />
+        <path className="rl-board-lines" d={`M${left + 92} ${yHead - 530}H${left + 128}M${left + 92} ${yHead - 518}H${left + 120}M${left + 92} ${yHead - 506}H${left + 126}`} />
       </g>
-      <path className="rw-map" d={`M${left + 28} ${yHead - 38}Q${left + 58} ${yHead - 62} ${left + 96} ${yHead - 38}T${left + 164} ${yHead - 44}`} />
+      <path className="rl-map" d={`M${left + 28} ${yHead - 38}Q${left + 58} ${yHead - 62} ${left + 96} ${yHead - 38}T${left + 164} ${yHead - 44}`} />
 
       {/* people waiting (seen from above: shoulders and a head) */}
       {waiting.map(([px, py], i) => (
         <g key={i}>
-          <ellipse className="rw-person-sh" cx={px} cy={py} rx="9" ry="6" />
-          <circle className={i % 2 ? "rw-person-a" : "rw-person-b"} cx={px} cy={py} r="4.8" />
+          <ellipse className="rl-person-sh" cx={px} cy={py} rx="9" ry="6" />
+          <circle className={i % 2 ? "rl-person-a" : "rl-person-b"} cx={px} cy={py} r="4.8" />
         </g>
       ))}
 
       {/* the name of the platform */}
       <g>
-        <rect className="rw-sign" x={left + 16} y={yHead + 38} width={w - 60} height="44" rx="9" />
-        <circle className="rw-sign-n" cx={left + 40} cy={yHead + 60} r="14" />
-        <text className="rw-sign-num" x={left + 40} y={yHead + 65} textAnchor="middle">
+        <rect className="rl-sign" x={left + 16} y={yHead + 38} width={w - 60} height="44" rx="9" />
+        <circle className="rl-sign-n" cx={left + 40} cy={yHead + 60} r="14" />
+        <text className="rl-sign-num" x={left + 40} y={yHead + 65} textAnchor="middle">
           {kind === "start" ? "1" : "S"}
         </text>
-        <text className="rw-sign-t" x={left + 62} y={yHead + 65}>
+        <text className="rl-sign-t" x={left + 62} y={yHead + 65}>
           {kind === "start" ? "CAREERS" : "SURAT JN"}
         </text>
       </g>
 
       {/* a footbridge over the track, above the place where the train comes in (only at the first station) */}
-      <g className="rw-bridge" display={kind === "start" ? undefined : "none"}>
-        <rect className="rw-bridge-sh" x={left + 28} y={yHead - 650 + 10} width={w + 130} height="26" rx="4" />
-        <rect className="rw-bridge-deck" x={left + 24} y={yHead - 650} width={w + 130} height="26" rx="4" />
+      <g className="rl-bridge" display={kind === "start" ? undefined : "none"}>
+        <rect className="rl-bridge-sh" x={left + 28} y={yHead - 650 + 10} width={w + 130} height="26" rx="4" />
+        <rect className="rl-bridge-deck" x={left + 24} y={yHead - 650} width={w + 130} height="26" rx="4" />
         <line x1={left + 24} x2={left + 24 + w + 130} y1={yHead - 650 + 5} y2={yHead - 650 + 5} />
         <line x1={left + 24} x2={left + 24 + w + 130} y1={yHead - 650 + 21} y2={yHead - 650 + 21} />
         {Array.from({ length: 14 }, (_, i) => (
@@ -501,10 +615,10 @@ function Signal({ x, y, a, side, green }: { x: number; y: number; a: number; sid
   const dy = Math.cos(a) * side * 40;
   return (
     <g transform={`translate(${x + dx} ${y + dy})`}>
-      <rect className="rw-sig-post" x="-3" y="-3" width="6" height="26" rx="3" />
-      <rect className="rw-sig-head" x="-7" y="-14" width="14" height="22" rx="5" />
-      <circle className="rw-sig-lamp" data-on={!green} data-c="r" cx="0" cy="-8" r="3.4" />
-      <circle className="rw-sig-lamp" data-on={green} data-c="g" cx="0" cy="1" r="3.4" />
+      <rect className="rl-sig-post" x="-3" y="-3" width="6" height="26" rx="3" />
+      <rect className="rl-sig-head" x="-7" y="-14" width="14" height="22" rx="5" />
+      <circle className="rl-sig-lamp" data-on={!green} data-c="r" cx="0" cy="-8" r="3.4" />
+      <circle className="rl-sig-lamp" data-on={green} data-c="g" cx="0" cy="1" r="3.4" />
     </g>
   );
 }
@@ -576,7 +690,8 @@ export function CareerRailway() {
       let target = -TRAIN_L - 400;
       if (c.summoned) {
         target = geo.sStop1;
-        if (c.stage !== "idle") {
+        // (when the visitor goes on without a booked seat the train leaves without the passenger)
+        if (c.stage !== "idle" || c.away) {
           const centreY = window.scrollY + window.innerHeight * 0.55 - top0;
           target = clamp(sOfYFast(sm, centreY) + 90, geo.sStop1, geo.sEnd);
         }
@@ -639,7 +754,7 @@ export function CareerRailway() {
         const office = { x: geo.x2 - 246 + 106, y: geo.yHead2 - 660 - 14 };
         let px = walk.x + (seatPos.x - walk.x) * seat;
         let py = walk.y + (seatPos.y - walk.y) * seat;
-        let moving = Math.abs(t - 0) > 0 && seat < 0.98;
+        let moving = Math.abs(t - 0) > 0 && seat < 0.98 && !(c.away && c.stage === "idle");
         let rot = (Math.atan2(door.y - start.y, door.x - start.x) * 180) / Math.PI - 90;
         if (seat > 0.98) rot = (car1.a * 180) / Math.PI - 90 + 180;
         if (exit > 0.001) {
@@ -653,7 +768,8 @@ export function CareerRailway() {
           rot = (Math.atan2(office.y - platDoor.y, office.x - platDoor.x) * 180) / Math.PI - 90;
         }
         // (inside a tunnel nothing is seen: the passenger is with the train)
-        const hidden = geo.covers.some((c2) => px > c2.x + 2 && px < c2.x + c2.w - 2 && py > c2.y + 2 && py < c2.y + c2.h - 2);
+        const sCar = sCur - ENGINE_L - GAP - COACH_L / 2;
+        const hidden = (seat > 0.6 && geo.tunnels.some((tn) => sCar > tn.sA && sCar < tn.sB)) || geo.covers.some((c2) => px > c2.x + 2 && px < c2.x + c2.w - 2 && py > c2.y + 2 && py < c2.y + c2.h - 2);
         const visible = (c.passenger || c.stage !== "idle") && !hidden;
         av.style.opacity = visible ? "1" : "0";
         av.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px)`;
@@ -676,93 +792,128 @@ export function CareerRailway() {
   const summoned = career.summoned;
 
   return (
-    <div ref={rootRef} className="rw" aria-hidden>
+    <div ref={rootRef} className="rl" aria-hidden>
       {geo && (
         <>
-          <svg width={geo.W} height={geo.H} viewBox={`0 0 ${geo.W} ${geo.H}`} className="rw-svg">
+          <svg width={geo.W} height={geo.H} viewBox={`0 0 ${geo.W} ${geo.H}`} className="rl-svg">
             <defs>
-              <pattern id="rw-tile" width="26" height="26" patternUnits="userSpaceOnUse">
+              <pattern id="rl-tile" width="26" height="26" patternUnits="userSpaceOnUse">
                 <path d="M26 0H0V26" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
               </pattern>
-              <pattern id="rw-dots" width="9" height="9" patternUnits="userSpaceOnUse">
+              <pattern id="rl-dots" width="9" height="9" patternUnits="userSpaceOnUse">
                 <circle cx="4.5" cy="4.5" r="1.6" fill="rgba(255,255,255,0.22)" />
               </pattern>
-              <radialGradient id="rw-glow-g">
-                <stop offset="0" className="rw-lite" stopOpacity="0.5" />
-                <stop offset="1" className="rw-lite" stopOpacity="0" />
+              <radialGradient id="rl-glow-g">
+                <stop offset="0" className="rl-lite" stopOpacity="0.5" />
+                <stop offset="1" className="rl-lite" stopOpacity="0" />
               </radialGradient>
-              <mask id="rw-cover" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
+              <mask id="rl-cover" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
                 <rect x="0" y="0" width={geo.W} height={geo.H} fill="#fff" />
                 {geo.covers.map((c, i) => (
                   <rect key={i} x={c.x} y={c.y} width={c.w} height={c.h} rx={c.r} fill="#000" />
                 ))}
               </mask>
-              <linearGradient id="rw-beam-g" x1="0" x2="1">
-                <stop offset="0" className="rw-lite" stopOpacity="0.5" />
-                <stop offset="1" className="rw-lite" stopOpacity="0" />
+              {/* the line and the train are not seen under the roof of a tunnel */}
+              <mask id="rl-under" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
+                <rect x="0" y="0" width={geo.W} height={geo.H} fill="#fff" />
+                {geo.tunnels.map((t, i) => (
+                  <path key={i} d={t.dUnder} fill="none" stroke="#000" strokeWidth="76" strokeLinecap="butt" strokeLinejoin="round" />
+                ))}
+              </mask>
+              <linearGradient id="rl-fade-g" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1={geo.endY - 300} y2={geo.endY - 30}>
+                <stop offset="0" stopColor="#fff" />
+                <stop offset="1" stopColor="#000" />
+              </linearGradient>
+              <mask id="rl-fade" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
+                <rect x="0" y="0" width={geo.W} height={geo.H} fill="url(#rl-fade-g)" />
+              </mask>
+              <pattern id="rl-hazard" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <rect width="14" height="14" className="rl-hz-a" />
+                <rect width="7" height="14" className="rl-hz-b" />
+              </pattern>
+              <pattern id="rl-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <rect width="9" height="9" className="rl-hatch-bg" />
+                <line x1="0" y1="0" x2="0" y2="9" className="rl-hatch-ln" />
+              </pattern>
+              <linearGradient id="rl-beam-g" x1="0" x2="1">
+                <stop offset="0" className="rl-lite" stopOpacity="0.5" />
+                <stop offset="1" className="rl-lite" stopOpacity="0" />
               </linearGradient>
             </defs>
 
-            <g mask={geo.covers.length ? "url(#rw-cover)" : undefined}>
+            <g mask={geo.covers.length ? "url(#rl-cover)" : undefined}>
+            <g mask={geo.tunnels.length ? "url(#rl-under)" : undefined}>
             {/* the stream and the bridge */}
             {geo.river && (
               <g>
-                <rect className="rw-river" x="0" y={geo.river.y} width={geo.W} height={geo.river.h} />
-                <path className="rw-ripple" d={`M0 ${geo.river.y + 22}Q${geo.W * 0.1} ${geo.river.y + 10} ${geo.W * 0.2} ${geo.river.y + 22}T${geo.W * 0.4} ${geo.river.y + 22}T${geo.W * 0.6} ${geo.river.y + 22}T${geo.W * 0.8} ${geo.river.y + 22}T${geo.W} ${geo.river.y + 22}M0 ${geo.river.y + 54}Q${geo.W * 0.1} ${geo.river.y + 42} ${geo.W * 0.2} ${geo.river.y + 54}T${geo.W * 0.4} ${geo.river.y + 54}T${geo.W * 0.6} ${geo.river.y + 54}T${geo.W * 0.8} ${geo.river.y + 54}T${geo.W} ${geo.river.y + 54}`} />
+                <rect className="rl-river" x="0" y={geo.river.y} width={geo.W} height={geo.river.h} />
+                <path className="rl-ripple" d={`M0 ${geo.river.y + 22}Q${geo.W * 0.1} ${geo.river.y + 10} ${geo.W * 0.2} ${geo.river.y + 22}T${geo.W * 0.4} ${geo.river.y + 22}T${geo.W * 0.6} ${geo.river.y + 22}T${geo.W * 0.8} ${geo.river.y + 22}T${geo.W} ${geo.river.y + 22}M0 ${geo.river.y + 54}Q${geo.W * 0.1} ${geo.river.y + 42} ${geo.W * 0.2} ${geo.river.y + 54}T${geo.W * 0.4} ${geo.river.y + 54}T${geo.W * 0.6} ${geo.river.y + 54}T${geo.W * 0.8} ${geo.river.y + 54}T${geo.W} ${geo.river.y + 54}`} />
               </g>
             )}
 
             {/* the level crossing: a road that crosses the line, with the barriers */}
             {geo.crossing && (
               <g>
-                <rect className="rw-road" x={geo.crossing.x < geo.W / 2 ? 0 : geo.crossing.x - 130} y={geo.crossing.y - 24} width={geo.crossing.x < geo.W / 2 ? geo.crossing.x + 130 : geo.W - geo.crossing.x + 130} height="48" />
-                <path className="rw-road-line" d={geo.crossing.x < geo.W / 2 ? `M0 ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.crossing.x + 130}` : `M${geo.crossing.x - 130} ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.W}`} />
-                <rect className="rw-barrier" x={geo.crossing.x - 76} y={geo.crossing.y - 34} width="46" height="6" rx="3" />
-                <rect className="rw-barrier" x={geo.crossing.x + 30} y={geo.crossing.y + 28} width="46" height="6" rx="3" />
-                <circle className="rw-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x - 80} cy={geo.crossing.y - 31} r="3.5" />
-                <circle className="rw-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x + 80} cy={geo.crossing.y + 31} r="3.5" />
+                <rect className="rl-road" x={geo.crossing.x < geo.W / 2 ? 0 : geo.crossing.x - 130} y={geo.crossing.y - 24} width={geo.crossing.x < geo.W / 2 ? geo.crossing.x + 130 : geo.W - geo.crossing.x + 130} height="48" />
+                <path className="rl-road-line" d={geo.crossing.x < geo.W / 2 ? `M0 ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.crossing.x + 130}` : `M${geo.crossing.x - 130} ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.W}`} />
+                <rect className="rl-barrier" x={geo.crossing.x - 76} y={geo.crossing.y - 34} width="46" height="6" rx="3" />
+                <rect className="rl-barrier" x={geo.crossing.x + 30} y={geo.crossing.y + 28} width="46" height="6" rx="3" />
+                <circle className="rl-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x - 80} cy={geo.crossing.y - 31} r="3.5" />
+                <circle className="rl-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x + 80} cy={geo.crossing.y + 31} r="3.5" />
               </g>
             )}
 
             {/* trees */}
             {geo.trees.map((t, i) => (
               <g key={i}>
-                <circle className="rw-tree-sh" cx={t.x + 3} cy={t.y + 4} r={t.r} />
-                <circle className="rw-tree" cx={t.x} cy={t.y} r={t.r} />
-                <circle className="rw-tree-hi" cx={t.x - t.r * 0.3} cy={t.y - t.r * 0.3} r={t.r * 0.45} />
+                <circle className="rl-tree-sh" cx={t.x + 3} cy={t.y + 4} r={t.r} />
+                <circle className="rl-tree" cx={t.x} cy={t.y} r={t.r} />
+                <circle className="rl-tree-hi" cx={t.x - t.r * 0.3} cy={t.y - t.r * 0.3} r={t.r * 0.45} />
+              </g>
+            ))}
+
+            {/* the open cut at the start of a tunnel: walls that are cut across (hatched, as on a drawing of a section), the floor between them */}
+            {geo.tunnels.map((t, i) => (
+              <g key={`cut-${i}`}>
+                <path d={t.dCut} className="rl-cut-wall" />
+                <path d={t.dCut} className="rl-cut-hatch" />
+                <path d={t.dCut} className="rl-cut-floor" />
               </g>
             ))}
 
             {/* the track: stones, sleepers, the two rails */}
-            <path d={geo.d} className="rw-ballast" />
-            <path d={geo.d} className="rw-sleepers" />
-            <path d={geo.d} className="rw-railbed" />
-            <path d={geo.d} className="rw-railgap" />
+            <g mask="url(#rl-fade)">
+              <path d={geo.d} className="rl-ballast" />
+              <path d={geo.d} className="rl-sleepers" />
+              <path d={geo.d} className="rl-railbed" />
+              <path d={geo.d} className="rl-railgap" />
+            </g>
+            <BufferStop x={geo.x2} y={geo.endY - 140} />
 
             {/* the stations */}
             <Platform x={geo.x1} yHead={geo.yHead1} kind="start" />
             <Platform x={geo.x2} yHead={geo.yHead2} kind="end" />
-            <g className="rw-office">
-              <rect className="rw-office-sh" x={geo.x2 - 246 + 10} y={geo.yHead2 - 660 - 190} width="204" height="182" rx="16" />
-              <rect className="rw-office-body" x={geo.x2 - 246 + 4} y={geo.yHead2 - 660 - 198} width="204" height="182" rx="16" />
-              <path className="rw-office-roof" d={`M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 170}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 140}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 50}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 20}H${geo.x2 - 246 + 196}`} />
-              <text className="rw-office-t" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 96} textAnchor="middle">
+            <g className="rl-office">
+              <rect className="rl-office-sh" x={geo.x2 - 246 + 10} y={geo.yHead2 - 660 - 190} width="204" height="182" rx="16" />
+              <rect className="rl-office-body" x={geo.x2 - 246 + 4} y={geo.yHead2 - 660 - 198} width="204" height="182" rx="16" />
+              <path className="rl-office-roof" d={`M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 170}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 140}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 50}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 20}H${geo.x2 - 246 + 196}`} />
+              <text className="rl-office-t" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 96} textAnchor="middle">
                 WE3VISION
               </text>
-              <text className="rw-office-s" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 72} textAnchor="middle">
+              <text className="rl-office-s" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 72} textAnchor="middle">
                 HEAD OFFICE
               </text>
-              <rect className="rw-office-door" x={geo.x2 - 246 + 76} y={geo.yHead2 - 660 - 24} width="60" height="10" rx="5" />
+              <rect className="rl-office-door" x={geo.x2 - 246 + 76} y={geo.yHead2 - 660 - 24} width="60" height="10" rx="5" />
             </g>
 
             {/* a little stop for every value */}
             {geo.stops.map((s, i) => (
               <g key={i} transform={`translate(${s.x} ${s.y})`}>
-                <rect className="rw-stub" x={s.side === 1 ? 24 : -24 - 54} y="-48" width="54" height="96" rx="10" />
-                <rect className="rw-stub-edge" x={s.side === 1 ? 24 : -24 - 5} y="-48" width="5" height="96" />
-                <circle className="rw-glow" cx={s.side === 1 ? 52 : -52} cy="-30" r="22" />
-                <circle className="rw-lampost" cx={s.side === 1 ? 52 : -52} cy="-30" r="3.5" />
-                <rect className="rw-bench" x={s.side === 1 ? 36 : -36 - 28} y="6" width="28" height="12" rx="4" />
+                <rect className="rl-stub" x={s.side === 1 ? 24 : -24 - 54} y="-48" width="54" height="96" rx="10" />
+                <rect className="rl-stub-edge" x={s.side === 1 ? 24 : -24 - 5} y="-48" width="5" height="96" />
+                <circle className="rl-glow" cx={s.side === 1 ? 52 : -52} cy="-30" r="22" />
+                <circle className="rl-lampost" cx={s.side === 1 ? 52 : -52} cy="-30" r="3.5" />
+                <rect className="rl-bench" x={s.side === 1 ? 36 : -36 - 28} y="6" width="28" height="12" rx="4" />
               </g>
             ))}
 
@@ -773,8 +924,8 @@ export function CareerRailway() {
               const dy = Math.cos(q.a) * p.side * 34;
               return (
                 <g key={i} transform={`translate(${q.x + dx} ${q.y + dy}) rotate(${(q.a * 180) / Math.PI})`}>
-                  <rect className="rw-pole" x="-1.5" y="-9" width="3" height="18" />
-                  <rect className="rw-pole" x="-6" y="-1.5" width="12" height="3" />
+                  <rect className="rl-pole" x="-1.5" y="-9" width="3" height="18" />
+                  <rect className="rl-pole" x="-6" y="-1.5" width="12" height="3" />
                 </g>
               );
             })}
@@ -782,9 +933,9 @@ export function CareerRailway() {
               const q = at(geo.sample, m.s);
               const out = q.x < geo.W / 2 ? -1 : 1;
               return (
-                <g key={i} transform={`translate(${clamp(q.x + out * 58, 40, geo.W - 40)} ${q.y})`}>
-                  <rect className="rw-mile" x="-30" y="-9" width="60" height="18" rx="4" />
-                  <text className="rw-mile-t" x="0" y="4" textAnchor="middle">
+                <g key={i} transform={`translate(${clamp(q.x + out * 72, 62, geo.W - 62)} ${q.y})`}>
+                  <rect className="rl-mile" x="-52" y="-13" width="104" height="26" rx="7" />
+                  <text className="rl-mile-t" x="0" y="4.5" textAnchor="middle">
                     {m.label}
                   </text>
                 </g>
@@ -796,7 +947,7 @@ export function CareerRailway() {
             })}
 
             {/* the train: nothing at all until the visitor has chosen */}
-            <g ref={trainRef} className="rw-train" data-on={summoned} data-motion="stopped">
+            <g ref={trainRef} className="rl-train" data-on={summoned} data-motion="stopped">
               {Array.from({ length: CARS }, (_, i) => (
                 <g
                   key={i}
@@ -819,19 +970,34 @@ export function CareerRailway() {
               ))}
             </g>
 
-            {/* the mouths of the tunnels: over the train, so that it goes into them */}
-            {geo.portals.map((pt, i) => (
-              <Portal key={i} x={pt.x} y={pt.y} a={pt.a} kind={pt.kind} />
+            </g>
+
+            {/* the tunnels: the roof (over the train, so that it goes under it), the gates and the boards with the names */}
+            {geo.tunnels.map((t, i) => (
+              <g key={`tn-${i}`}>
+                <path d={t.dRoof} className="rl-tn-sh" />
+                <path d={t.dRoof} className="rl-tn-edge" />
+                <path d={t.dRoof} className="rl-tn-body" />
+                <path d={t.dRoof} className="rl-tn-ribs" />
+                <path d={t.dRoof} className="rl-tn-ridge" />
+                <Gate p={t.gateIn} />
+                <Gate p={t.gateOut} />
+                <Board x={t.boardIn.x} y={t.boardIn.y} name={t.name} sub={t.sub} />
+                <Board x={t.boardOut.x} y={t.boardOut.y} name={t.name} sub={t.sub} />
+              </g>
             ))}
             </g>
           </svg>
 
+          {/* where the page rides to when the ticket is sent: a little above the platform of Surat Junction */}
+          <span id="surat-station" aria-hidden className="rl-mark" style={{ top: Math.max(0, geo.yHead2 - 560) }} />
+
           {/* the passenger: "You" */}
-          <div ref={avRef} className="of-walker rw-av" style={{ "--tone": 352, opacity: 0 } as React.CSSProperties}>
+          <div ref={avRef} className="of-walker rl-av" style={{ "--tone": 352, opacity: 0 } as React.CSSProperties}>
             <div className="of-walker-in">
               <PersonTop seated={career.stage !== "idle"} />
             </div>
-            <span ref={youRef} className="rw-you">
+            <span ref={youRef} className="rl-you">
               You
             </span>
           </div>

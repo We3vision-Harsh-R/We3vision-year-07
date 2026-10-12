@@ -18,13 +18,15 @@ export type CareerState = {
   /** how many answers the passenger has given (0..steps): the passenger walks that many steps towards the train */
   step: number;
   steps: number;
-  /** the city, the current status and the destination are chosen: the train comes */
+  /** the city is chosen: the train comes to the platform */
   summoned: boolean;
+  /** the visitor has gone on down the page without a booked seat: the train leaves without the passenger */
+  away: boolean;
   /** the passenger has a city (stands on the platform) */
   passenger: boolean;
 };
 
-let state: CareerState = { stage: "idle", name: "", role: "", city: "", step: 0, steps: 7, summoned: false, passenger: false };
+let state: CareerState = { stage: "idle", name: "", role: "", city: "", step: 0, steps: 7, summoned: false, away: false, passenger: false };
 const listeners = new Set<() => void>();
 
 export function setCareer(patch: Partial<CareerState>) {

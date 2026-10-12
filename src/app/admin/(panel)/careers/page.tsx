@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CareersApplications, type ApplicationRow } from "@/components/admin/careers-applications";
-import { btnSecondary } from "@/components/admin/ui";
+import { btnPrimary, btnSecondary } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 
@@ -8,9 +8,10 @@ export const metadata = { title: "Careers" };
 
 const fmt = new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
 
-export default async function CareersAdminPage() {
+export default async function CareersAdminPage({ searchParams }: { searchParams: Promise<{ job?: string }> }) {
   await requireAdmin();
-  const rows = await db.careerApplication.findMany({ orderBy: { createdAt: "desc" }, take: 300 });
+  const { job } = await searchParams;
+  const rows = await db.careerApplication.findMany({ orderBy: { createdAt: "desc" }, take: 500 });
   const view: ApplicationRow[] = rows.map((r) => ({
     id: r.id,
     city: r.city,
@@ -31,6 +32,8 @@ export default async function CareersAdminPage() {
     status: r.status,
     note: r.note,
     created: fmt.format(r.createdAt),
+    source: r.source,
+    roleId: r.roleId,
   }));
   return (
     <div className="space-y-6">
@@ -38,14 +41,20 @@ export default async function CareersAdminPage() {
         <div>
           <h1 className="text-2xl font-bold">Careers</h1>
           <p className="mt-1 max-w-2xl text-sm text-zinc-500">
-            The tickets that visitors book on the Careers page: where they are, the position they want, and (when they gave them) their passenger details.
+            The applications: what visitors send on the page of a job, and the tickets they book at the ticket office of the Careers page (where they are, the position they
+            want and, when they gave them, their passenger details).
           </p>
         </div>
-        <Link href="/admin/careers/setup" className={btnSecondary}>
-          Positions and questions →
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/admin/careers/setup" className={btnSecondary}>
+            Questions of HR
+          </Link>
+          <Link href="/admin/careers/jobs" className={btnPrimary}>
+            Jobs →
+          </Link>
+        </div>
       </div>
-      <CareersApplications rows={view} />
+      <CareersApplications rows={view} initialJob={typeof job === "string" && /^[a-z0-9]{10,40}$/i.test(job) ? job : ""} />
     </div>
   );
 }

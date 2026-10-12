@@ -66,3 +66,45 @@ export function cityLabel(line: string): string {
     return `${name}, ${cc}`;
   }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+// Job openings (the list on the Careers page and the page of a job: /careers/<slug>)
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+export const WORK_TYPES = ["Full-time", "Part-time", "Internship", "Contract"] as const;
+export const WORK_MODES = ["On-site", "Hybrid", "Remote"] as const;
+
+export type JobView = {
+  id: string;
+  slug: string;
+  title: string;
+  team: string;
+  summary: string;
+  description: string;
+  responsibilities: string[];
+  requirements: string[];
+  perks: string[];
+  location: string;
+  workType: string;
+  workMode: string;
+  experience: string;
+  openings: number;
+  salary: string;
+  /** yyyy-mm-dd, or empty when the job has no closing day */
+  closesAt: string;
+  /** ISO date-time of the day the job was put on the site */
+  postedAt: string;
+  /** "Posted today", "Posted 3 days ago" ... */
+  postedLabel: string;
+};
+
+/** "Senior Web Developer" -> "senior-web-developer" */
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 70);
+}

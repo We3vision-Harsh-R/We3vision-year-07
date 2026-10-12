@@ -10,7 +10,7 @@ import { ArchGallery } from "./arch-gallery";
 import { Automate } from "./automate";
 import { Backdrop } from "./backdrop";
 import { Blogs } from "./blogs";
-import { CareerDestinationSection, CareerHelpDeskSection, CareerJourneySection, CareerTeamsSection, CareerValuesSection } from "./career";
+import { CareerDestinationSection, CareerHelpDeskSection, CareerJourneySection, CareerOpeningsSection, CareerTeamsSection, CareerValuesSection } from "./career";
 import { Contact } from "./contact";
 import { Faq } from "./faq";
 import { Flow } from "./flow";
@@ -84,6 +84,7 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   teamOffice: TeamOfficeSection,
   careerJourney: CareerJourneySection,
   careerDestination: CareerDestinationSection,
+  careerOpenings: CareerOpeningsSection,
   careerValues: CareerValuesSection,
   careerTeams: CareerTeamsSection,
   careerHelpDesk: CareerHelpDeskSection,

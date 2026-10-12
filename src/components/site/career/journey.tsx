@@ -9,7 +9,9 @@ import { LocationPicker } from "./location-picker";
 
 // The first screen of the Careers page: the ticket office, all on ONE page, in three moments:
 //   1. "Your location": the visitor types the first letters of their city (the cities that do not match go away as dust, the matching ones
-//      come in) and clicks one. The city is the only thing that is needed to book a seat.
+//      come in) and clicks one. The city is the only thing that is needed to book a seat. Until then the page cannot be scrolled (a line says
+//      so); as soon as the city is chosen the train comes to the platform and the page opens. If the visitor goes on down the page without a
+//      booked seat, the train leaves without them and a notice says "You are missing your train".
 //   2. The questions of the booking, nothing else: current career status (typed or picked), the destination (the open positions of We3vision),
 //      the day the candidate can join, the arrival time (notice period), the resume and a call slot with HR. "Book your seat" books it.
 //   3. The passenger details (the usual questions and the ones of HR from the admin panel) under a summary of the seat. "Confirm the ticket"
@@ -59,21 +61,86 @@ export function CareerJourney({
   const [fields, setFields] = useState<Record<string, string>>({});
   const [custom, setCustom] = useState<Record<string, string>>({});
   const [website, setWebsite] = useState("");
+  const [nudge, setNudge] = useState(0); // how many times the visitor tried to scroll before the city was chosen
+  const [missed, setMissed] = useState(false);
   const detailsRef = useRef<HTMLDivElement>(null);
+  const warned = useRef(false);
 
   const role = roles.find((r) => r.id === roleId) ?? null;
   const days = useMemo(() => callSlots(), []);
   const roleOptions = useMemo(() => roles.map((r) => ({ value: r.id, label: r.team ? `${r.title} · ${r.team}` : r.title })), [roles]);
   const noticeOptions = useMemo(() => NOTICE_PERIODS.map((n) => ({ value: n, label: n })), []);
 
-  // what the railway of the page needs to know: the train comes when the city, the current status and the destination are chosen (or the seat is booked)
+  // what the railway of the page needs to know: the train comes as soon as the city is chosen
   const answers = [city, status, roleId, joinDate, notice, resume?.url ?? "", slot];
   const step = answers.filter(Boolean).length;
-  const called = Boolean(city && ((status && roleId) || booked));
-  const summoned = called && !done;
   useEffect(() => {
-    setCareer({ city, step, steps: 7, summoned: called, passenger: Boolean(city), role: role?.title ?? "", name: fields.name ?? "" });
-  }, [city, step, called, role?.title, fields.name]);
+    setCareer({ city, step, steps: 7, summoned: Boolean(city), passenger: Boolean(city), role: role?.title ?? "", name: fields.name ?? "" });
+  }, [city, step, role?.title, fields.name]);
+
+  // nothing below the ticket office can be reached before the visitor has said where they are
+  useEffect(() => {
+    if (city) return;
+    const html = document.documentElement;
+    const lenis = (window as unknown as { __lenis?: { stop?: () => void; start?: () => void; scrollTo: (y: number, o?: object) => void } }).__lenis;
+    const was = html.style.overflow;
+    html.style.overflow = "hidden";
+    lenis?.stop?.();
+    window.scrollTo(0, 0);
+    const bump = () => setNudge((n) => n + 1);
+    const block = (e: Event) => {
+      e.preventDefault();
+      bump();
+    };
+    const typing = (t: EventTarget | null) => t instanceof HTMLElement && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName));
+    const key = (e: KeyboardEvent) => {
+      if (typing(e.target)) return;
+      if ([" ", "PageDown", "PageUp", "End", "Home", "ArrowDown", "ArrowUp"].includes(e.key)) {
+        e.preventDefault();
+        bump();
+      }
+    };
+    // (the scroll bar of the site, a link, anything else that moves the page: it goes back)
+    const back = () => {
+      if (window.scrollY <= 0) return;
+      if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+      else window.scrollTo(0, 0);
+      bump();
+    };
+    window.addEventListener("wheel", block, { passive: false });
+    window.addEventListener("touchmove", block, { passive: false });
+    window.addEventListener("keydown", key);
+    window.addEventListener("scroll", back);
+    return () => {
+      window.removeEventListener("wheel", block);
+      window.removeEventListener("touchmove", block);
+      window.removeEventListener("keydown", key);
+      window.removeEventListener("scroll", back);
+      html.style.overflow = was;
+      lenis?.start?.();
+    };
+  }, [city]);
+
+  // the page is open, but the seat is not booked: when the visitor goes on down the page the train leaves without them
+  useEffect(() => {
+    if (!city || booked) return;
+    const check = () => {
+      const away = window.scrollY > window.innerHeight * 0.55;
+      setCareer({ away });
+      if (away && !warned.current) {
+        warned.current = true;
+        setMissed(true);
+      }
+      if (!away) warned.current = false;
+    };
+    window.addEventListener("scroll", check, { passive: true });
+    const first = requestAnimationFrame(check);
+    return () => {
+      cancelAnimationFrame(first);
+      window.removeEventListener("scroll", check);
+      setCareer({ away: false });
+    };
+  }, [city, booked]);
   useEffect(() => {
     setCareer({ stage: done ? "departing" : booked ? "booked" : "idle" });
   }, [booked, done]);
@@ -134,8 +201,9 @@ export function CareerJourney({
     }
     setDone(true);
     window.setTimeout(() => {
-      const dest = document.getElementById("surat-junction");
-      if (dest) lenisTo(dest, { offset: -10, duration: 9, easing: (t: number) => 1 - Math.pow(1 - t, 2.2) });
+      // (to the platform, which is at the end of the station: the list of the jobs is beside it)
+      const dest = document.getElementById("surat-station") ?? document.getElementById("surat-junction");
+      if (dest) lenisTo(dest, { offset: 0, duration: 11, easing: (t: number) => 1 - Math.pow(1 - t, 2.2) });
     }, 700);
   };
 
@@ -156,8 +224,13 @@ export function CareerJourney({
 
           <div className="cj-loc-block">
             <h2 className="cj-q">{locationLabel}</h2>
-            {!city && <p className="cj-sub">Type the first letters of your city. The track stays empty until you tell us where you are.</p>}
+            {!city && <p className="cj-sub">Type the first letters of your city. The page opens, and the train comes, as soon as you tell us where you are.</p>}
             <LocationPicker value={city} onSelect={setCity} onClear={() => setCity("")} locked={booked} />
+            {!city && nudge > 0 && (
+              <p key={nudge} className="cj-lock" role="status">
+                Select your location once, then the train comes and the rest of the page opens.
+              </p>
+            )}
           </div>
 
           {city && view === "form" && (
@@ -323,12 +396,36 @@ export function CareerJourney({
             </div>
           )}
 
-          {city && !summoned && !done && view === "form" && <p className="cj-note">Choose your current status and a destination: the train comes to the platform.</p>}
         </div>
 
         {/* the platform and the train of the railway are drawn here (see career/railway.tsx) */}
         <div className="cj-slot" aria-hidden />
       </div>
+
+      {missed && !booked && !done && (
+        <div className="cj-miss" role="alertdialog" aria-labelledby="cj-miss-t">
+          <span className="cj-miss-ic" aria-hidden />
+          <div>
+            <b id="cj-miss-t">You are missing your train!</b>
+            <p>The train is leaving the platform without you. Go back and book your seat to board it.</p>
+            <div className="cj-miss-act">
+              <button
+                type="button"
+                className="cj-miss-go"
+                onClick={() => {
+                  setMissed(false);
+                  lenisTo(0, { duration: 1.1 });
+                }}
+              >
+                Back to the platform
+              </button>
+              <button type="button" className="cj-miss-no" onClick={() => setMissed(false)}>
+                Keep reading
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
