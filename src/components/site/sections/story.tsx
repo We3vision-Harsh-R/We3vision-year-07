@@ -1,6 +1,7 @@
 import { IconTile } from "../icons";
 import { Reveal } from "../reveal";
 import { Rich, paragraphs } from "../ui";
+import { variantOf } from "../modern/variant-table";
 import type { SectionComponent } from "./shared";
 
 // The text section "about this service", in four different looks, so that the pages of the site do not all have the same block:
@@ -8,8 +9,13 @@ import type { SectionComponent } from "./shared";
 //  lead   the first paragraph as one large statement, the others in columns under it
 //  rail   rows: a big outline number and a small title on the left, the paragraph on the right
 //  chips  the highlighted phrases as a row of chips ("key ideas"), then the paragraphs in two columns
-// Every page has its own look (see LOOK), the other pages get one by their address. The look is in globals.css (.sy-*).
-type Look = "duo" | "lead" | "rail" | "chips";
+//  stack  the paragraphs as steps of a staircase, every one a little further to the right
+//  quote  the first paragraph as a pull quote on the left, the others as numbered notes on the right
+//  line   a vertical line with the paragraphs on both sides of it, like a timeline
+// The service pages have their look from the table in modern/variant-table.ts (no two the same); the other pages have one by LOOK or by their
+// address. The look is in globals.css (.sy-*, .vy-*).
+type Look = "duo" | "lead" | "rail" | "chips" | "stack" | "quote" | "line";
+const BY_NUMBER: Look[] = ["duo", "lead", "rail", "chips", "stack", "quote", "line"];
 
 const LOOK: Record<string, Look> = {
   ai: "chips",
@@ -38,7 +44,8 @@ const keyPhrases = (paras: string[]) =>
 
 export const Story: SectionComponent<"story"> = ({ data, page }) => {
   const paras = paragraphs(data.body);
-  const look = lookOf(page);
+  const v = variantOf(page, "story");
+  const look = v !== null ? (BY_NUMBER[v] ?? "duo") : lookOf(page);
   const phrases = keyPhrases(paras);
 
   return (
@@ -92,6 +99,63 @@ export const Story: SectionComponent<"story"> = ({ data, page }) => {
                 <p className="sy-p">
                   <Rich text={p} />
                 </p>
+              </div>
+            ))}
+          </Reveal>
+        )}
+
+        {look === "stack" && (
+          <Reveal className="vy-stack">
+            {paras.map((p, i) => (
+              <article key={i} className="vy-st" style={{ "--i": i } as React.CSSProperties}>
+                <span className="vy-st-no" aria-hidden>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="sy-p">
+                  <Rich text={p} />
+                </p>
+              </article>
+            ))}
+          </Reveal>
+        )}
+
+        {look === "quote" && (
+          <Reveal className="vy-quote">
+            <blockquote className="vy-q-main">
+              <span className="vy-q-mark" aria-hidden>
+                “
+              </span>
+              <p>
+                <Rich text={paras[0] ?? ""} />
+              </p>
+              <cite>We3vision</cite>
+            </blockquote>
+            {paras.length > 1 && (
+              <ol className="vy-q-notes">
+                {paras.slice(1).map((p, i) => (
+                  <li key={i}>
+                    <span aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+                    <p className="sy-p">
+                      <Rich text={p} />
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </Reveal>
+        )}
+
+        {look === "line" && (
+          <Reveal className="vy-line">
+            {paras.map((p, i) => (
+              <div key={i} className="vy-ln" data-side={i % 2 === 0 ? "l" : "r"}>
+                <span className="vy-ln-dot" aria-hidden />
+                <div className="vy-ln-card">
+                  <span className="vy-ln-no">{TITLES[i % TITLES.length]}</span>
+                  <p className="sy-p">
+                    <Rich text={p} />
+                  </p>
+                </div>
               </div>
             ))}
           </Reveal>

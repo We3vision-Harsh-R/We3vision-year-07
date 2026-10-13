@@ -23,3 +23,6 @@ npm-debug.log*
 .vercel
 .devdb
 .claude/worktrees/
+
+# local revert tool (tools/tasks.mjs): patches stay on this computer
+.task-log/

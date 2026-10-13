@@ -1,5 +1,7 @@
 # Tasks (revert one with: node tools/tasks.mjs revert <number>)
 
+Project knowledge for AI tools and developers: see brain/README.md. Add every new task here through this tool (begin/end).
+
 | # | Task | Status |
 |---|------|--------|
 | 1 | Service pages: the common sections (what we build, process, why us, FAQ, related) redesigned (not Metaverse, Brand Design, About) | done |
@@ -47,3 +49,32 @@
 | 43 | Why choose us: as wide as the screen | done |
 | 44 | Contact section redesigned as a short interactive flow (pick what you need, then your details) | done |
 | 45 | Why-choose-us: no hard edge line at the cards' glow; Contact flow: more unique (project ticket, budget, rocket launch) | done |
+| 46 | Team page: hero background like About + story sections | done |
+| 47 | Team office: no zoom, hover pop-up, admin team management + preview | done |
+| 48 | Team office: hierarchy (CXO centre, managers, teams) | done |
+| 49 | Managers table: Venshi sits at the table, main chair empty | done |
+| 50 | Team office: a big team (AI) gets a wider corner | done |
+| 51 | Team office: avatars never walk under tables, AI team biggest | done |
+| 52 | Contact hero: receptionist scene + guided options | done |
+| 53 | Contact hero: interactive layered avatar receptionist | done |
+| 54 | Blog: hover pop-up opens after 0.5 s | done |
+| 55 | Team: seats chosen in the admin panel (seat picker) | done |
+| 56 | Careers: train journey page + admin careers | done |
+| 57 | Careers: railway across the whole page, one-page boarding pass | done |
+| 58 | Careers: soft railway curves, theme colours, 2-step ticket form (img 2/3) | done |
+| 59 | Careers: tunnels under sections, engines both ends, W3V readable, train graphics | done |
+| 60 | Careers: scroll lock until city, train on city, miss-train popup, tunnel names/cut/lead-in, mile posts | done |
+| 61 | Brand page hero alignment | done |
+| 62 | Careers: job openings list + single job page + admin jobs/applications | done |
+| 63 | Careers: job list moved into the Surat Junction station section | done |
+| 64 | Careers: office in one line with the station heading, job list in the left area | done |
+| 65 | Careers: the track fades out at its end with a buffer stop | done |
+| 66 | Hero leaf designs removed; themed gradient backgrounds, different pattern per page | done |
+| 67 | Service pages: What we build boxes open one after another while scrolling | done |
+| 68 | Service pages: What we build pinned with its heading, compulsory scroll | done |
+| 69 | Tools & Technologies: heading scrolls up with the section (not fixed) | done |
+| 70 | CRM page: remove the Meet the sales guide section | done |
+| 71 | Animation page guide: no avatar, After Effects style box | done |
+| 72 | UI/UX page: Figma studio guide (full screen, no avatar) and a different What we design section | done |
+| 73 | 3D Modeling page: remove the Meet the 3D artist section | done |
+| 74 | Service pages: every repeated section gets its own design on each page | done |

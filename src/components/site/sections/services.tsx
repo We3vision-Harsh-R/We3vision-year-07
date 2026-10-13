@@ -1,9 +1,14 @@
 import { RelatedLinks } from "../modern/related-links";
+import { RelatedVariant } from "../modern/related-variants";
+import { variantOf } from "../modern/variant-table";
 import { ServiceStage } from "../modern/service-stage";
 import { Reveal } from "../reveal";
 import { ServiceStrip } from "../service-strip";
 import { ButtonLink, SectionHead, Wide } from "../ui";
 import type { SectionComponent } from "./shared";
+
+// "What we build": the body of the stage for the number of the table (modern/variant-table.ts); 7 is the strip of the classic pages
+const BODY = ["stage", "canvas", "phone", "pipeline", "layers", "palette", "serp"] as const;
 
 export const Services: SectionComponent<"services"> = ({ data, sectionId, skin, page }) => (
   skin === "modern" && sectionId === "related-services" ? (
@@ -11,7 +16,10 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin, 
       <Wide>
         <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split />
         <div className="mt-14">
-          <RelatedLinks cards={data.cards} />
+          {(() => {
+            const v = variantOf(page, "related");
+            return v !== null && v > 0 ? <RelatedVariant variant={v} cards={data.cards} /> : <RelatedLinks cards={data.cards} />;
+          })()}
         </div>
       </Wide>
     </section>
@@ -20,7 +28,7 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin, 
       {/* the heading is part of the stage: it stays with it while the page scrolls through the boxes (see modern/service-stage.tsx) */}
       <ServiceStage
         cards={data.cards}
-        variant={page === "ui-ux-design" ? "canvas" : "stage"}
+        variant={BODY[variantOf(page, "services") ?? 0] ?? "stage"}
         head={
           <Wide>
             <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split>

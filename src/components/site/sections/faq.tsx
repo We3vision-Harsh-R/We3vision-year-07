@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Reveal } from "../reveal";
 import { FaqSplit } from "../modern/faq-split";
+import { FaqVariant } from "../modern/faq-variants";
+import { variantOf } from "../modern/variant-table";
 import { SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";
 
@@ -53,8 +55,19 @@ function ClassicFaq({ data }: { data: { chip: string; heading: string; intro: st
   );
 }
 
-export const Faq: SectionComponent<"faq"> = ({ data, skin }) =>
-  skin === "modern" ? (
+export const Faq: SectionComponent<"faq"> = ({ data, skin, page }) => {
+  const v = variantOf(page, "faq");
+  // the service pages: every page asks its questions in its own design (modern/variant-table.ts)
+  if (v !== null && v > 0) {
+    return (
+      <section id="faq" className="py-24 sm:py-32">
+        <div className="mx-auto w-full max-w-[1120px] px-4">
+          <FaqVariant variant={v} chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
+        </div>
+      </section>
+    );
+  }
+  return skin === "modern" ? (
     <section id="faq" className="py-24 sm:py-32">
       <div className="mx-auto w-full max-w-[1120px] px-4">
         <FaqSplit chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
@@ -63,4 +76,5 @@ export const Faq: SectionComponent<"faq"> = ({ data, skin }) =>
   ) : (
     <ClassicFaq data={data} />
   );
+};
 

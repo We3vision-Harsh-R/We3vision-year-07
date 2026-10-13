@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { GlowEdge } from "../glow-edge";
 import { IconTile } from "../icons";
 import { SmartLink } from "../smart-link";
+import { StageBody, type BodyKind } from "./service-bodies";
 
 // "What we build" as a list and a stage: the services are a list on the left (a row of tabs on a phone), and the one you pick opens as a large
 // panel on the right with a small live picture of what that service does (a chat that answers, a chart that predicts, an image that is scanned,
@@ -106,7 +107,7 @@ function Art({ scene, index }: { scene: Scene; index: number }) {
   );
 }
 
-export function ServiceStage({ cards, head, variant = "stage" }: { cards: Card[]; head?: React.ReactNode; variant?: "stage" | "canvas" }) {
+export function ServiceStage({ cards, head, variant = "stage" }: { cards: Card[]; head?: React.ReactNode; variant?: "stage" | "canvas" | BodyKind }) {
   const n = cards.length;
   const [active, setActive] = useState(0);
   const [auto, setAuto] = useState(true);
@@ -356,6 +357,20 @@ export function ServiceStage({ cards, head, variant = "stage" }: { cards: Card[]
             )}
           </div>
         </div>
+      </div>
+    ) : variant !== "stage" ? (
+      <div ref={rootRef}>
+        <StageBody
+          kind={variant}
+          cards={cards}
+          active={Math.min(active, n - 1)}
+          pick={pick}
+          setTab={(i, el) => {
+            tabRefs.current[i] = el;
+          }}
+          pinned={pinned}
+          onKey={onKey}
+        />
       </div>
     ) : (
     <div ref={rootRef} className="md sx" data-pin={pinned}>
