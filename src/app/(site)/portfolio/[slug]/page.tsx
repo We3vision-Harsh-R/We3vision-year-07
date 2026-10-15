@@ -30,8 +30,32 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const paragraphs = p.content.split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean);
   const cover = coverOf(p);
   const gallery = p.images.filter((u) => u !== cover);
+  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/$/, "");
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${base}/` },
+          { "@type": "ListItem", position: 2, name: "Portfolio", item: `${base}/portfolio` },
+          { "@type": "ListItem", position: 3, name: p.title, item: `${base}/portfolio/${p.slug}` },
+        ],
+      },
+      {
+        "@type": "CreativeWork",
+        name: p.title,
+        description: p.summary || undefined,
+        url: `${base}/portfolio/${p.slug}`,
+        image: cover ? (cover.startsWith("http") ? cover : `${base}${cover}`) : undefined,
+        genre: p.category || undefined,
+        creator: { "@type": "Organization", name: "We3vision Private Limited" },
+      },
+    ],
+  };
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
       <article className="bp">
         <header className="bp-head">
           <Link href="/portfolio" className="bp-back">

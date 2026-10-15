@@ -110,7 +110,7 @@ export function CustomCursor() {
         height="26"
         viewBox="0 0 26 26"
         fill="none"
-        className={`absolute left-0 top-0 z-[1] origin-top-left scale-75 opacity-0 ${swap} group-data-[mode=default]:scale-100 group-data-[mode=default]:opacity-100 group-data-[down=true]:!scale-90`}
+        className={`cu-arrow absolute left-0 top-0 z-[1] origin-top-left scale-75 opacity-0 ${swap} group-data-[mode=default]:scale-100 group-data-[mode=default]:opacity-100 group-data-[down=true]:!scale-90`}
       >
         <path
           d="M23.596 10.789c.812-.316 1.218-.474 1.332-.697a.658.658 0 0 0-.008-.614c-.12-.22-.53-.368-1.35-.662L2.655 1.308c-.671-.24-1.007-.361-1.226-.285a.658.658 0 0 0-.406.406c-.076.22.044.555.285 1.226L8.816 23.57c.294.82.442 1.23.662 1.35.19.104.42.107.614.008.223-.114.38-.52.697-1.332l3.418-8.79c.061-.159.092-.238.14-.305a.659.659 0 0 1 .154-.154 1.41 1.41 0 0 1 .305-.14l8.79-3.418Z"
@@ -138,7 +138,7 @@ export function CustomCursor() {
         height="24"
         viewBox="0 0 24 24"
         fill="none"
-        className={`absolute left-0 top-0 z-[1] origin-top-left scale-75 opacity-0 ${swap} group-data-[mode=pointer]:scale-100 group-data-[mode=pointer]:opacity-100 group-data-[down=true]:!scale-90`}
+        className={`cu-hand absolute left-0 top-0 z-[1] origin-top-left scale-75 opacity-0 ${swap} group-data-[mode=pointer]:scale-100 group-data-[mode=pointer]:opacity-100 group-data-[down=true]:!scale-90`}
       >
         <g clipPath="url(#cursor-hand-clip)">
           <path
@@ -163,6 +163,15 @@ export function CustomCursor() {
             <path fill="#fff" d="M0 0h24v24H0z" />
           </clipPath>
         </defs>
+      </svg>
+
+      {/* The Pen tool: the cursor of the Graphic Design page (shown only there, see .cu-pen in globals.css). The tip of the nib is the pointer. */}
+      <svg className="cu-pen" viewBox="0 0 28 28" fill="none" strokeLinejoin="round">
+        <path d="M3 25 L9 11 L16 8 L20 12 L17 19 Z" fill="hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%)" stroke="hsl(calc(var(--th) + 338) calc(40% * var(--ts)) 12%)" strokeWidth="1.5" />
+        <path d="M16 8 L22 2 L26 6 L20 12" fill="hsl(calc(var(--th) + 326) calc(90% * var(--ts)) 66%)" stroke="hsl(calc(var(--th) + 338) calc(40% * var(--ts)) 12%)" strokeWidth="1.5" />
+        <path d="M3 25 L12.5 14.5" stroke="hsl(calc(var(--th) + 338) calc(40% * var(--ts)) 12%)" strokeWidth="1.3" />
+        <circle cx="12.5" cy="14.5" r="1.5" fill="hsl(calc(var(--th) + 338) calc(40% * var(--ts)) 12%)" />
+        <rect x="1" y="23" width="5" height="5" fill="#fff" stroke="hsl(calc(var(--th) + 338) calc(40% * var(--ts)) 12%)" strokeWidth="1.3" />
       </svg>
 
       {/* The "You" tag */}

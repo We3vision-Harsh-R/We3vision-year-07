@@ -25,6 +25,8 @@ import {
   WEBDEV_SECTIONS,
   WEBDEV_SEO,
 } from "./content/services";
+import { SHOPIFYPLUGIN_SECTIONS, SHOPIFYPLUGIN_SEO, SOFTWARE_SECTIONS, SOFTWARE_SEO, BRANDDEV_SECTIONS, BRANDDEV_SEO, BRANDKIT_SECTIONS, BRANDKIT_SEO, BRANDVIDEO_SECTIONS, BRANDVIDEO_SEO, ZERO_SECTIONS, ZERO_SEO, META_SECTIONS, META_SEO, PHYSICAL_SECTIONS, PHYSICAL_SEO } from "./content/new-services";
+import { PRODUCTS_SECTIONS, PRODUCTS_SEO, WEBUGMATE_SECTIONS, WEBUGMATE_SEO, WEJOBS_SECTIONS, WEJOBS_SEO, WETHINK_SECTIONS, WETHINK_SEO, WEPRESENT_SECTIONS, WEPRESENT_SEO } from "./content/products";
 import { emptyValue, normalize } from "./fields";
 import { SECTIONS, isSectionType, type SectionType } from "./sections";
 
@@ -107,6 +109,84 @@ export const PAGES = {
     path: "/wordpress-plugin-development-company",
     defaultSeo: PLUGIN_SEO,
     defaultContent: { sections: PLUGIN_SECTIONS } satisfies PageContent,
+  },
+  "shopify-plugin": {
+    title: "Shopify Plugin Development",
+    path: "/shopify-plugin-development-services",
+    defaultSeo: SHOPIFYPLUGIN_SEO,
+    defaultContent: { sections: SHOPIFYPLUGIN_SECTIONS } satisfies PageContent,
+  },
+  "software": {
+    title: "Custom Software Development",
+    path: "/software-development-services",
+    defaultSeo: SOFTWARE_SEO,
+    defaultContent: { sections: SOFTWARE_SECTIONS } satisfies PageContent,
+  },
+  "brand-development": {
+    title: "Brand Development",
+    path: "/brand-development-services",
+    defaultSeo: BRANDDEV_SEO,
+    defaultContent: { sections: BRANDDEV_SECTIONS } satisfies PageContent,
+  },
+  "brand-kit": {
+    title: "Brand Kit Design",
+    path: "/brand-kit-design",
+    defaultSeo: BRANDKIT_SEO,
+    defaultContent: { sections: BRANDKIT_SECTIONS } satisfies PageContent,
+  },
+  "brand-video": {
+    title: "Brand Video Production",
+    path: "/brand-video-production",
+    defaultSeo: BRANDVIDEO_SEO,
+    defaultContent: { sections: BRANDVIDEO_SECTIONS } satisfies PageContent,
+  },
+  "zero-to-n": {
+    title: "0 to N Brand Development",
+    path: "/zero-to-n-brand-development",
+    defaultSeo: ZERO_SEO,
+    defaultContent: { sections: ZERO_SECTIONS } satisfies PageContent,
+  },
+  "meta-marketing": {
+    title: "Meta Marketing",
+    path: "/meta-marketing-services",
+    defaultSeo: META_SEO,
+    defaultContent: { sections: META_SECTIONS } satisfies PageContent,
+  },
+  "physical-marketing": {
+    title: "Physical Marketing",
+    path: "/physical-marketing-services",
+    defaultSeo: PHYSICAL_SEO,
+    defaultContent: { sections: PHYSICAL_SECTIONS } satisfies PageContent,
+  },
+  "products": {
+    title: "Our Products",
+    path: "/products",
+    defaultSeo: PRODUCTS_SEO,
+    defaultContent: { sections: PRODUCTS_SECTIONS } satisfies PageContent,
+  },
+  "webugmate": {
+    title: "WeBugMate",
+    path: "/products/webugmate",
+    defaultSeo: WEBUGMATE_SEO,
+    defaultContent: { sections: WEBUGMATE_SECTIONS } satisfies PageContent,
+  },
+  "wejobs": {
+    title: "WeJobs",
+    path: "/products/wejobs",
+    defaultSeo: WEJOBS_SEO,
+    defaultContent: { sections: WEJOBS_SECTIONS } satisfies PageContent,
+  },
+  "wethink": {
+    title: "WeThink",
+    path: "/products/wethink",
+    defaultSeo: WETHINK_SEO,
+    defaultContent: { sections: WETHINK_SECTIONS } satisfies PageContent,
+  },
+  "wepresent": {
+    title: "WePresent",
+    path: "/products/wepresent",
+    defaultSeo: WEPRESENT_SEO,
+    defaultContent: { sections: WEPRESENT_SECTIONS } satisfies PageContent,
   },
   team: {
     title: "Our Team",

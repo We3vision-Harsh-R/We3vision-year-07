@@ -54,7 +54,7 @@ export const ABOUT_SECTIONS: PageSection[] = [
       {
         title: "Game\nDevelopment",
         description: "Engaging and interactive games for web, mobile and emerging platforms, blending creativity and technology.",
-        href: "/metaverse-games",
+        href: "/metaverse",
       },
       {
         title: "UI/UX &\nBranding",

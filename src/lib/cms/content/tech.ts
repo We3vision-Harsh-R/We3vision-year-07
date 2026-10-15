@@ -10,7 +10,7 @@ import type { SectionData, SectionType } from "../sections";
 const section = <T extends SectionType>(type: T, data: SectionData<T>, id: string = type): PageSection => ({ id, type, data: data as Record<string, unknown> });
 
 type Card = { title: string; description: string };
-type Tech = {
+export type Tech = {
   seo: { title: string; description: string };
   hero: { chip: string; heading: string; text: string };
   story: string;
@@ -24,18 +24,33 @@ type Tech = {
   cta: { heading: string; text: string; button: string };
 };
 
-const RELATED: Record<string, { title: string; description: string; href: string }> = {
+export const RELATED: Record<string, { title: string; description: string; href: string }> = {
   headless: { title: "Headless CMS\nDevelopment", description: "Content managed in one place and delivered to your website, apps and more through APIs.", href: "/headless-CMS-devlopment-services" },
   wordpress: { title: "Custom WordPress\nDevelopment", description: "Themes, plugins, migrations and support for WordPress websites built around your brand.", href: "/custom-wordpress-devlopment-services" },
   shopify: { title: "Shopify\nDevelopment", description: "Custom Shopify stores, themes, integrations and support to sell your products online.", href: "/shopify-development-services" },
   woo: { title: "Custom WooCommerce\nDevelopment", description: "Online stores on WordPress with the features, payments and shipping your business needs.", href: "/custom-woocommerce-devlopment" },
   shopapp: { title: "Shopify App\nDevelopment", description: "Private and public Shopify apps that add the features your store is missing.", href: "/shopify-app-development-services" },
   plugin: { title: "WordPress Plugin\nDevelopment", description: "Custom plugins, integrations, upgrades and add-ons for WordPress websites.", href: "/wordpress-plugin-development-company" },
+  shopplugin: { title: "Shopify Plugin\nDevelopment", description: "Theme extensions, sections and add-ons that give your Shopify store the exact feature it needs.", href: "/shopify-plugin-development-services" },
+  software: { title: "Custom Software\nDevelopment", description: "Business software built around the way your team works: portals, dashboards, automation and integrations.", href: "/software-development-services" },
+  branddev: { title: "Brand\nDevelopment", description: "Strategy, name, story and voice: the thinking that makes a brand worth remembering.", href: "/brand-development-services" },
+  brandkit: { title: "Brand Kit\nDesign", description: "Logo, colours, type and templates in one kit, so every touch point looks like one brand.", href: "/brand-kit-design" },
+  brandvideo: { title: "Brand Video\nProduction", description: "Planning, shooting and editing of brand films and influencer-based videos, start to finish.", href: "/brand-video-production" },
+  zero: { title: "0 to N Brand\nDevelopment", description: "A complete brand built for you from the very first idea to print, launch and execution.", href: "/zero-to-n-brand-development" },
+  meta: { title: "Meta\nMarketing", description: "Facebook and Instagram campaigns planned, designed, run and reported by one team.", href: "/meta-marketing-services" },
+  physical: { title: "Physical\nMarketing", description: "Print, outdoor and on-ground marketing that puts your brand in front of people in the real world.", href: "/physical-marketing-services" },
+  seo: { title: "SEO / AEO\nOptimization", description: "Be found on Google and in AI answers with technical, content and local SEO.", href: "/seo" },
+  brand: { title: "Brand\nDesign", description: "Logos and visual identities that make a business easy to recognise and trust.", href: "/brand-identity" },
+  ai: { title: "AI\nDevelopment", description: "AI and machine learning solutions that automate work and help your team decide faster.", href: "/ai" },
+  mobile: { title: "Mobile App\nDevelopment", description: "Android and iOS apps designed for your customers and built to grow with your business.", href: "/mobile" },
+  ui: { title: "UI/UX\nDesign", description: "Clear, usable interfaces that make your product easy and pleasant to use.", href: "/ui-ux-design" },
+  graphics: { title: "Graphic\nDesign", description: "Posts, brochures, packaging and layouts with a clear, consistent look.", href: "/graphics" },
+  animation: { title: "2D/3D Animation\n& Video", description: "Animation, motion graphics and video editing that explain ideas and bring brands to life.", href: "/animation" },
   web: { title: "Web\nDevelopment", description: "Responsive, fast and SEO-friendly websites from landing pages to complex web portals.", href: "/webdev" },
 };
-const related = (...keys: (keyof typeof RELATED)[]) => keys.map((k) => RELATED[k]);
+export const related = (...keys: (keyof typeof RELATED)[]) => keys.map((k) => RELATED[k]);
 
-const build = (t: Tech): PageSection[] => [
+export const build = (t: Tech): PageSection[] => [
   section("pageHero", {
     chip: t.hero.chip,
     heading: t.hero.heading,

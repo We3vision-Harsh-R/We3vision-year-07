@@ -1,5 +1,7 @@
 "use server";
 
+import { after } from "next/server";
+import { notifySearchEngines } from "@/lib/seo-ping";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -133,8 +135,9 @@ export async function moveProject(id: string, direction: "up" | "down"): Promise
 export async function setProjectPublished(id: string, published: boolean): Promise<ActionResult> {
   await requireAdmin();
   try {
-    await db.project.update({ where: { id }, data: { published } });
+    const project = await db.project.update({ where: { id }, data: { published }, select: { slug: true } });
     refresh();
+    if (published) after(() => notifySearchEngines([`/portfolio/${project.slug}`, "/portfolio"]));
     return { ok: true, message: published ? "Shown on the website." : "Hidden from the website." };
   } catch {
     return { ok: false, error: "Could not change the project." };

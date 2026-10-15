@@ -18,7 +18,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const job = await getOpenJob((await params).slug);
   if (!job) return { title: "Position not found | We3vision", robots: { index: false } };
   const path = `/careers/${job.slug}`;
-  const description = job.summary || `${job.title} at We3vision in ${job.location}. Read about the role and apply.`;
+  const raw = job.summary || `${job.title} at We3vision in ${job.location}. Read about the role and apply.`;
+  const description = raw.length >= 70 ? raw : `${raw} Join We3vision Private Limited and apply online.`;
   return {
     title: `${job.title}: Job in ${job.location} | We3vision`,
     description,

@@ -21,6 +21,7 @@ what is still open.
 | 7 | [07-workflow-and-tools.md](07-workflow-and-tools.md) | before running/testing | Dev server, browser testing tricks, revert tool, DB migrations, git, pitfalls |
 | 8 | [08-task-history.md](08-task-history.md) | to avoid redoing work | Tasks 1–74, decisions, **rejected designs (do not rebuild them)** |
 | 9 | [09-open-items.md](09-open-items.md) | to know what is next | Pending requests, caveats, ideas |
+| 10 | [10-seo-indexing.md](10-seo-indexing.md) | before any new page / release | Search engine autopilot, owner checklist, how to audit indexing |
 | 10 | [10-starter-prompt.md](10-starter-prompt.md) | when you open a new AI tool | Copy-paste prompt that makes any AI use this folder |
 
 Related files outside this folder: `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `.github/copilot-instructions.md` / `.cursor/rules/` (they

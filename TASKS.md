@@ -78,3 +78,8 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 72 | UI/UX page: Figma studio guide (full screen, no avatar) and a different What we design section | done |
 | 73 | 3D Modeling page: remove the Meet the 3D artist section | done |
 | 74 | Service pages: every repeated section gets its own design on each page | done |
+| 75 | Technology pages: 6 unique designs + interactive showpieces | done |
+| 76 | Menu restructure: Services categories, Our Products, Explore; new service + product pages | done |
+| 77 | Graphic Design page: p5.brush painted industries + fully drawing-based page | done |
+| 78 | SEO indexing autopilot: sitemap, structured data, IndexNow, Search Console submit | done |
+| 79 | Graphic design page v2: Adobe-style art world, pen cursor, intro, scroll-fill industries, SEO keywords, concept explainer | done |

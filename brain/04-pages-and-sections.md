@@ -25,7 +25,7 @@ Content defaults: `src/lib/cms/content/<file>.ts`. Skin: C = classic, M = modern
 | `/graphics` | graphics | `services.ts` | M | |
 | `/seo` | seo | `services.ts` | M | SEO lab guide (`seo-lab.tsx`) |
 | `/brand-identity` | brand-identity | `brand.ts` | C | wordHero, archGallery (admin Projects group "brand"), brandBoard, process, advantages, tags, industries, sketchCanvas, services, contact |
-| `/headless-CMS-devlopment-services` … `/wordpress-plugin-development-company` (6 pages) | headless-cms, custom-wordpress, shopify, custom-woocommerce, shopify-app, wordpress-plugin | `tech.ts` | M | long SEO pages from the old site (route folders keep the old site's misspelled URLs on purpose) |
+| `/headless-CMS-devlopment-services` … `/wordpress-plugin-development-company` (6 pages) | headless-cms, custom-wordpress, shopify, custom-woocommerce, shopify-app, wordpress-plugin | `tech.ts` | M | long SEO pages from the old site (route folders keep the old site's misspelled URLs on purpose). Since task 75 each page has its OWN design in `src/components/site/tech/` (headless.tsx, wordpress.tsx, shopify.tsx, woocommerce.tsx, shopapp.tsx, plugin.tsx; text read by `data.ts`, registered in `index.tsx`, called from `page-route.tsx`). No avatar on these pages. |
 | `/preview/[slug]` | – | – | by slug | admin draft preview (noindex) |
 Sub-service pages of Brand Design (strategy, logo, guidelines, collateral) were **removed** (task 38); their lists stay as text.
 

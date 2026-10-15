@@ -1,6 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
+import { notifySearchEngines } from "@/lib/seo-ping";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -62,6 +64,7 @@ export async function publish(slug: string, payload: PagePayload): Promise<Actio
       if (old.length) await tx.pageVersion.deleteMany({ where: { id: { in: old.map((v) => v.id) } } });
     });
     revalidatePath(PAGES[rest.slug].path);
+    after(() => notifySearchEngines([PAGES[rest.slug].path]));
     return { ok: true, message: "Published. The live website is updated." };
   } catch (error) {
     console.error("publish failed", error);
