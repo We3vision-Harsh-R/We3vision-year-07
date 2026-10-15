@@ -3,6 +3,11 @@ import type { PageSection } from "@/lib/cms/pages";
 import type { SiteSettings } from "@/lib/cms/settings";
 import { Contact } from "../sections/contact";
 import { techData, type TechData } from "./data";
+import { BrandDevPage } from "../brand/brand-dev";
+import { E2EPage } from "../brand/end-to-end";
+import { SeoAeoPage } from "../marketing/seo-aeo";
+import { MetaPage } from "../marketing/meta";
+import { PhysicalPage } from "../marketing/physical";
 import { GraphicsPage } from "../graphics/graphics";
 import { HeadlessPage } from "./headless";
 import { TechScrollAreas } from "./scroll-areas";
@@ -16,6 +21,11 @@ import { WordpressPage } from "./wordpress";
 const PAGES: Record<string, ComponentType<{ d: TechData }>> = {
   "headless-cms": HeadlessPage,
   graphics: GraphicsPage,
+  "brand-development": BrandDevPage,
+  "zero-to-n": E2EPage,
+  seo: SeoAeoPage,
+  "meta-marketing": MetaPage,
+  "physical-marketing": PhysicalPage,
   "custom-wordpress": WordpressPage,
   shopify: ShopifyPage,
   "wordpress-plugin": PluginPage,

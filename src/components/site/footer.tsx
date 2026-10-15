@@ -53,7 +53,7 @@ export function Footer({ site }: { site: SiteSettings }) {
         {/* 2. the brand and the link columns (the offices are in the contact section, not repeated here) */}
         <div className="ft-grid">
           <div className="ft-brand">
-            <Image src="/brand/logo-stacked-dark.webp" alt={site.name} width={600} height={642} className="h-auto w-36" />
+            <Image src="/brand/logo-stacked-dark.webp" alt={site.name} width={600} height={642} className="h-auto w-36" unoptimized />
             <p className="ft-brand-t">{site.tagline}</p>
             {site.social.length > 0 && (
               <div className="ft-socs">

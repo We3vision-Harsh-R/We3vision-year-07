@@ -25,8 +25,8 @@ export function LogoMark({ name }: { name: string }) {
   return (
     <div className="lm" data-scrolled={scrolled}>
       <SmartLink href="/" aria-label={`${name} home`}>
-        <Image src="/brand/logo-white.webp" alt="" width={600} height={468} priority className="lm-mark" />
-        <Image src="/brand/logo-text-white.webp" alt={name} width={700} height={277} priority className="lm-text" />
+        <Image src="/brand/logo-white.webp" alt="" width={600} height={468} priority unoptimized className="lm-mark" />
+        <Image src="/brand/logo-text-white.webp" alt={name} width={700} height={277} priority unoptimized className="lm-text" />
       </SmartLink>
     </div>
   );

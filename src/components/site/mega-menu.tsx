@@ -130,7 +130,7 @@ export function MegaMenu({
           <div className="mm-top">
             <div className="mm-r" style={r()}>
               <SmartLink href="/" onClick={onClose} className="mm-logo" aria-label="We3vision home">
-                <Image src="/brand/logo-horizontal-dark.webp" alt="We3vision Private Limited" width={900} height={218} />
+                <Image src="/brand/logo-horizontal-dark.webp" alt="We3vision Private Limited" width={900} height={218} unoptimized />
               </SmartLink>
             </div>
             <div className="mm-chat mm-r" style={r()}>

@@ -74,3 +74,8 @@ These are standing instructions. They override defaults. When a rule and a task 
 - Use `Write` with a script file for complex node/sed edits; shell here-docs with quotes break easily on Windows.
 - Lint rule `react-hooks/refs` is on: never pass ref objects through props or read `ref.current` during render.
 - Dev-only debug hooks exist (`window.__aw`, `window.__vr`, `window.__sceneSeek`, `window.__sphereSeek`); keep them dev-only.
+
+
+## Mobile and tablet (from 2026-10-15)
+- The phone/tablet version is a SEPARATE concept: a phone launcher in the iOS 26 (liquid glass) style (home screen with widget, apps and a dock of 4; swipe left = App Library with group folders; every page is an app icon of one design with its name under it). Never shrink the laptop design for phones. Code only below 1024px (`components/site/mobile/`, prefix `lnc-`); desktop stays exactly as it is.
+- Step by step: launcher design done (task 89). Ask the owner before redesigning inner pages for mobile.

@@ -54,3 +54,50 @@
 - Pen-tool cursor: `html.cursor-pen` is added by the page; the `.cu-pen` svg lives in `custom-cursor.tsx` (hidden everywhere else, Home looks the same).
 - Entrance curtain (`.gfx-curtain`, about 3 s, pure CSS, off for reduced motion). Town: two p5.brush canvases (ink + colour) with scroll masks; p5.brush is ONE shared object, so `brush.instance(p)` is called again in each setup/draw; the colour layer needs an opaque white ground.
 - Not tested: phones/tablets, theme colours other than purple on the town, very slow GPUs (two WEBGL canvases).
+
+## Brand Development page (task 80)
+- /brand-development-services is a custom page (`components/site/brand/brand-dev.tsx`, prefix `bdv-`). The owner's full service text (12 chapters with every deliverable, 7 service lines, the Starter/Complete/Premium table) is in `brand/brand-data.ts` (code, not editable in the admin); hero, story, FAQ, industries, why and related come from the CMS text (`content/new-services.ts`, BRANDDEV_*).
+- Motion = GSAP + ScrollTrigger (npm `gsap`, free "no charge" licence), loaded only on this page, hooked to Lenis. The twelve chapters are one pinned sideways scroll. Laptop/desktop only (no responsive code), as the owner asked.
+- The package table has no prices on purpose. "Social media management" is marked as a separate service (owner's note).
+- Not tested: real-speed smoothness (the test browser ran at about 4 fps), 1280×720, other theme colours.
+- Brand Development (task 81): restyled with the site tokens (violet, glass cards, gradient headings, pill buttons; no blue) and made lighter for smooth scroll: no backdrop blur, one eased belt speed, chapter rail updates only on change, orbit state moved into Orbit, scrub:true (Lenis already smooths).
+
+## Brand Development fixes (task 82)
+- Hero/stats sized with vh so they fit 1200x830 and 1366x768; the chapter progress is now a road (`.bdv-road`) above the floating menu with `GuideSide` walking by scroll (pauses when scroll stops). CSS block `bdv-fix2` at the end of globals.css.
+- Not tested: 1920x1080, other theme colours, real-speed smoothness.
+- Walker road detail (task 82b): parallax scenery (buildings, lamps, trees via CSS mask), curb lines, shadow, dust puffs, step speed follows scroll speed (--wd). CSS block bdv-walk.
+- Road walker v2 (task 82c): own component brand/walker.tsx (human proportions, profile face, hip/knee/ankle gait, arm swing, bob, blink; stands and breathes when scroll stops), CSS block bdvw- at end of globals.css. Trees/lamps now taller than the walker.
+- Chapter cards equal size (task 82d): track stretches all 12 to the tallest, compact variant under 800px height (CSS bdv-eq).
+
+## End-to-End Brand Development (task 83)
+- /zero-to-n-brand-development (route unchanged) is now a custom page: `brand/end-to-end.tsx` + `end-to-end-data.ts`, CSS prefix `e2e-`. Hero text, FAQ, SEO and the contact CTA come from the CMS (`ZERO_*` in content/new-services.ts); the other sections' text is in code.
+- Form = the site's existing Contact section (not the long 8-field form of the brief; the services multi-select is not there). Portfolio section is a placeholder + link to /portfolio (no branding case studies invented). Menu label renamed.
+- If a published version of this page exists in the admin DB, it overrides the new hero/FAQ text until republished.
+- E2E page motion (task 83b): ruler fills with scroll + dot, active section mark lights, hero stagger/float, journey line draws and nodes pop, scope rows stagger, tabs sticky, process line fills, hovers (CSS block e2e-anim).
+
+## Mega menu width fit (task 84)
+- The longer label "End-to-End Brand Development" made the five service groups wider than the panel at about 1200-1300px. CSS block `mmfit` (end of globals.css) tightens gaps and, under 1320px, uses 13px link text (below the usual 14px) so everything stays on one line without clipping. Tested at 1200x800 and 1280x720. Also the e2e hero headline stays on two lines at 1200.
+
+## Mega menu v2 (task 85)
+- The earlier fix used window media queries, but the panel is capped (was 1280px), so on 1920px screens the 5 groups still overflowed. Now the cap is 1400px and the `mmfit` rules are container queries on `.mm-pop` (≤1380px, ≤1296px); `.mm-in` has overflow-x hidden. Tested 1100, 1200, 1280, 1500, 1920.
+
+## Menu sizes + Poppins (task 86)
+- CSS block `mmsize`: panel up to 1560px; on screens >=880px high and panel >=1500px the links are 16px. The small numbers (01, 02) in the menu, sitemap and brand pages use Poppins instead of a monospace font.
+- NOT changed on purpose: about 60 other `ui-monospace` rules (Headless CMS / Shopify App / WP Plugin demo windows and some Home-page labels); those are code-style UI and Home is locked. Ask the owner if they also want Poppins there.
+
+## Marketing pages (task 87)
+- Custom pages in `src/components/site/marketing/` (kit.tsx shared; seo-aeo, meta, physical + *-data.ts text). CSS prefixes `mkt-` (shared), `sxo-`, `mta-`, `phy-` at the end of globals.css. Wired in `tech/index.tsx` for slugs seo, meta-marketing, physical-marketing. Title/description/FAQ/contact CTA in the CMS content (services.ts SEO_*, new-services.ts META_*/PHYSICAL_*) match the new copy.
+- All examples are labelled concept/illustration; no invented data. Contact form = the site's existing Contact section (below the page). Published admin versions of these 3 pages (if any) override the new SEO text/FAQ until republished.
+- Not done on purpose: mobile/tablet layouts (owner rule), case studies (no approved data), live audit/crawl, live Meta data.
+
+## Sharp images + pinned steps (task 88)
+- Cause of soft images: finished animations kept `filter: blur(0)` (a composited, scaled layer). All `blur(0)` end states are now `filter: none` (globals.css). Brand logos use `unoptimized` (served as the 600-900px originals). Admin upload: high-quality smoothing, webp 93%, max 2400px (already uploaded pictures are not re-processed: re-upload them if they look soft).
+- Rule from the owner: a section with step-by-step points stays pinned until every point has been shown, then the next section comes. Done with `Sec pin={{count,onChange}}` (marketing pages) and the End-to-End process section. Other older pages with step scrolls (Brand Development journey etc.) already pin.
+- NEXT (owner asked): go page by page and redesign every section so no two sections (and no two pages) share the same look. Waiting for the owner to name the first page.
+- SEO hero redesigned (typing search bar, ring of 5 nodes, travelling dots) and audit explorer pinned (scroll walks the 8 areas). CSS sxo-hero v2.
+- SEO page v3: everything centred; hero = centred text + typing search bar; lab moved to a band under the hero; section search-pills, service rows as search results, FAQ as 'People also ask' (theme colours only, no Google branding). CSS block 'SEO page: everything centred'.
+- SEO page: new section 03 Keyword Finder (marketing/keyword-puzzle.tsx, CSS kwf-): website bar -> business kind -> what it sells -> glass jar of keyword pieces (template keywords) -> drag/click into the search box (SERP preview + keyword-to-page map + coverage guide, no rank/volume claims). Audit explorer redesigned as a results page (sxo-aud). Sections renumbered 04-11.
+- SEO page: audit v3 (search bar + suggestion list + answer box + 4 cards) and process v2 (centred stage line + big card, vars --sk/--sn because --n/--k are set to 0 by a global ol rule).
+- Mobile/tablet launcher (task 89): src/components/site/mobile/ (launcher.tsx, launcher-data.ts, glyph.tsx), CSS lnc- (only <1024px; hidden on desktop). Mounted in (site)/layout.tsx as <MobileLauncher/>, renders only on '/'. Home screen = widget + 8 apps + dock of 4 (Portfolio, About, Contact, Services->library). Swipe left = App Library (7 groups, folders). Icons link to the existing (desktop-design) pages for now; sub-pages are not redesigned for mobile yet and there is no 'back to launcher' control yet.
+- Launcher icons v2 (task 90): liquid glass tiles (tinted frosted glass, specular streak, rim light, glowing duotone glyph); library has all 38 sitemap pages. Not in the library yet: dynamic pages (blog posts, job pages, portfolio projects).
+- Launcher v2 (task 91): rebuilt to iOS 26 measurements (icon 60, 4 cols, margin 27, row pitch 97, widgets 2x2 = analog clock + 'Have an idea?' card, Search pill, dots, dock). Library: Suggestions + Recently Added + 7 groups, search shows an A-Z list. Tapping an app grows its icon to full screen, then the page opens. NOTE: Poppins comes from next/font/google; when the dev machine cannot reach Google, the site shows the Arial fallback. Vendoring the Poppins woff2 files with next/font/local would make it always load (needs the font files).

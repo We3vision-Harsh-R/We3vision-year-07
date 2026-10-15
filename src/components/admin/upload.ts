@@ -1,7 +1,7 @@
-// Uploading a picture from the admin panel. The picture is made lighter in the browser first (at most 1800 px wide, .webp), so a photo of
-// several MB from a phone becomes about 200-400 KB: the website stays fast. A GIF is sent as it is (to keep its movement).
+// Uploading a picture from the admin panel. The picture is made lighter in the browser first (at most 2400 px, smoothed in high quality, .webp 93%), so a photo of
+// several MB from a phone becomes about 300-600 KB: the website stays fast. A GIF is sent as it is (to keep its movement).
 
-const MAX_SIDE = 1800;
+const MAX_SIDE = 2400;
 
 async function shrink(file: File): Promise<Blob> {
   if (file.type === "image/gif") return file;
@@ -15,9 +15,11 @@ async function shrink(file: File): Promise<Blob> {
     canvas.height = h;
     const ctx = canvas.getContext("2d");
     if (!ctx) return file;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
     ctx.drawImage(bitmap, 0, 0, w, h);
     bitmap.close();
-    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/webp", 0.86));
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/webp", 0.93));
     // keep the original when the browser cannot make a .webp or when it would not be lighter
     return blob && blob.type === "image/webp" && blob.size < file.size ? blob : file;
   } catch {

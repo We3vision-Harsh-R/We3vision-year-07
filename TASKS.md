@@ -83,3 +83,15 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 77 | Graphic Design page: p5.brush painted industries + fully drawing-based page | done |
 | 78 | SEO indexing autopilot: sitemap, structured data, IndexNow, Search Console submit | done |
 | 79 | Graphic design page v2: Adobe-style art world, pen cursor, intro, scroll-fill industries, SEO keywords, concept explainer | done |
+| 80 | Brand Development page: blueprint concept, GSAP scroll journey, 12 chapters, package matrix | done |
+| 81 | Brand Development page: site theme match + smoother animation | done |
+| 82 | Brand Development: opaque glass cards, animated icons, chapter cards, walking avatar road above the menu, fit all desktop screens | done |
+| 83 | 0 to N page: End-to-End Brand Development, 12 sections | done |
+| 84 | Footer: service columns and recognised logos overflow the card | done |
+| 85 | Mega menu: no sideways scroll, fit any desktop width | done |
+| 86 | Menu: bigger readable sizes on wide screens, Poppins everywhere | done |
+| 87 | Marketing pages: SEO/AEO, Meta Marketing, Physical Marketing with interactive 2D sections | done |
+| 88 | Sharp images everywhere (no blur) | done |
+| 89 | Mobile/tablet: iOS-26-style launcher home + app library (first step: design only) | done |
+| 90 | Launcher: nicer liquid-glass icons | done |
+| 91 | Launcher v2: iOS 26 accurate home screen, widgets, app library, app-open animation | done |

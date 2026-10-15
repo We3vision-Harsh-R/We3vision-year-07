@@ -213,7 +213,7 @@ export function TechSpace({ items }: { items: string[] }) {
         <div className="ts-sun" aria-hidden>
           <i />
           {/* the logo of the company (white mark) in the sun */}
-          <Image src="/brand/logo-white.webp" alt="" width={600} height={468} className="ts-logo" />
+          <Image src="/brand/logo-white.webp" alt="" width={600} height={468} className="ts-logo" unoptimized />
         </div>
       </div>
 

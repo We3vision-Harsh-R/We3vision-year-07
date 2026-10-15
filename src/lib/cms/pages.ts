@@ -141,7 +141,7 @@ export const PAGES = {
     defaultContent: { sections: BRANDVIDEO_SECTIONS } satisfies PageContent,
   },
   "zero-to-n": {
-    title: "0 to N Brand Development",
+    title: "End-to-End Brand Development",
     path: "/zero-to-n-brand-development",
     defaultSeo: ZERO_SEO,
     defaultContent: { sections: ZERO_SECTIONS } satisfies PageContent,

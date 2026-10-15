@@ -833,15 +833,15 @@ export const GRAPHICS_SECTIONS = build({
 // SEO Optimization (/seo)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SEO_SEO = {
-  title: "SEO Services in Surat, India | Get Found on Google | We3vision",
+  title: "SEO & AEO Services | Search Visibility | We3vision",
   description:
-    "SEO optimization: website audits, keyword research, on-page and technical SEO, content strategy, link building and reporting. We3vision helps your website rank higher and bring organic traffic and leads.",
+    "Improve website discoverability with technical SEO, keyword research, content optimization and AI search readiness strategies from We3vision.",
 };
 export const SEO_SECTIONS = build({
   seo: SEO_SEO,
   hero: {
-    chip: "SEO Optimization",
-    heading: "Get Found On Google,\nGrow Organically",
+    chip: "SEO & AEO",
+    heading: "Be Found Where\nYour Customers Search.",
     text: "Struggling to appear on search engines? Our SEO services are designed to put your website in front of the right audience without paid ads. From keyword research to content optimization and technical audits, we make sure your site ranks higher, loads faster and attracts more traffic that converts.",
     primaryLabel: "Get a free quote",
     secondaryLabel: "What we do",
@@ -898,11 +898,13 @@ export const SEO_SECTIONS = build({
     ],
   },
   faq: [
-    { question: "How long does SEO take to show results?", answer: "SEO is a long-term strategy. You may start seeing results in 2–3 months, with strong improvements over 6–12 months." },
-    { question: "Do you guarantee top rankings?", answer: "No ethical SEO company can guarantee #1 rankings. We focus on real growth, quality traffic and sustainable progress." },
-    { question: "Can you do SEO for multilingual or global websites?", answer: "Yes. We have experience with international SEO and multilingual site optimization." },
-    { question: "What is included in your monthly SEO package?", answer: "It includes audits, keyword research, content updates, technical fixes, backlink outreach and monthly reporting." },
-    { question: "Will you help with local SEO for my business?", answer: "Absolutely. We can optimize your Google Business Profile and location pages to drive foot traffic and local leads." },
+    { question: "What is the difference between SEO and AEO?", answer: "SEO helps search engines find, understand and rank your pages. AEO shapes the same content so that clear, well-supported answers are easier for answer systems to interpret and possibly surface. They overlap heavily: helpful content and a healthy website help both." },
+    { question: "How long can SEO take to show results?", answer: "It depends on the competition, the condition of the site, the quality of the content and how often changes are made. Some technical fixes show effects sooner, while content and authority usually take longer to build. We do not promise a fixed timeline." },
+    { question: "Can you optimize an existing website?", answer: "Yes. We start with an assessment of the current site, then fix what holds it back and improve what already works, without rebuilding it unless that is really needed." },
+    { question: "Do you provide technical SEO and content SEO?", answer: "Yes. Technical SEO, on-page work, keyword research, content strategy and optimization, local SEO and AEO are all part of our scope, depending on what your site needs." },
+    { question: "Can you help improve AI search visibility?", answer: "We can help you make your information clearer, more consistent and easier to crawl, which can make it more eligible to be used in AI-generated answers. No one can guarantee inclusion in them." },
+    { question: "How is SEO progress measured?", answer: "Where tracking is set up, we look at organic clicks and impressions, query performance, indexed pages, landing-page engagement and relevant conversions, and we keep activity metrics separate from business outcomes." },
+    { question: "Do you guarantee search rankings?", answer: "No. Rankings depend on competition, technical condition, content quality, authority and many other factors, some of which we do not control. We commit to careful, ethical work and clear reporting, not to a ranking position." },
   ],
   related: [
     { title: "Web\nDevelopment", description: "Fast, SEO-friendly websites built with clean code.", href: "/webdev" },
@@ -911,5 +913,5 @@ export const SEO_SECTIONS = build({
     { title: "AI\nDevelopment", description: "Chatbots and automation for the leads SEO brings.", href: "/ai" },
   ],
   guide: { scene: "serp", chip: "Watch a website climb", heading: "Climb to\nnumber one", text: "Switch on the improvements one by one and watch the website move up the search results, with the score and the traffic growing.", tips: ["Switch on the improvements and watch the website climb."] },
-  cta: { heading: "Want To Rank\nHigher On Google?", text: "Let's audit your site and discuss the best way to bring you more organic traffic, leads and visibility.", button: "Get a free quote" },
+  cta: { heading: "Let's Make Your Website\nEasier to Discover.", text: "Tell us about your website, your audience and your growth goals. We'll help you identify the right SEO and AEO priorities for your business.", button: "Discuss Your SEO Strategy" },
 });

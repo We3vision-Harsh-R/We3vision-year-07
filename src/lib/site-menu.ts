@@ -44,7 +44,7 @@ export const SERVICE_GROUPS: MenuGroup[] = [
       { label: "Brand Development", href: "/brand-development-services" },
       { label: "Brand Kit Design", href: "/brand-kit-design" },
       { label: "Brand Video", href: "/brand-video-production" },
-      { label: "0 to N Development", href: "/zero-to-n-brand-development" },
+      { label: "End-to-End Brand Development", href: "/zero-to-n-brand-development" },
     ],
   },
   {

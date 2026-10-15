@@ -167,76 +167,81 @@ export const SOFTWARE_SECTIONS = build({
 // Brand Development (/brand-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const BRANDDEV_SEO = {
-  title: "Brand Development Services in Surat, India | Brand Strategy & Identity | We3vision",
-  description: "Brand development services: brand strategy, positioning, naming, story and voice that make your business stand out. Brand development agency in Surat, India.",
+  title: "Brand Development Services in Surat, India | Strategy, Logo, Guidelines & Launch | We3vision",
+  description: "Complete brand development: brand strategy, naming, logo and visual identity, stationery, packaging, brand guidelines and launch for startups, software and companies. Brand development agency in Surat, India.",
 };
 export const BRANDDEV_SECTIONS = build({
   seo: BRANDDEV_SEO,
   hero: {
     chip: "Brand Development",
     heading: "Brand Development\nServices",
-    text: "A logo is not a brand. A brand is what people feel and say about you. We shape the strategy, name, story and voice that make your business clear, trusted and easy to remember.",
+    text: "Brand development is much more than a logo. We3vision builds the whole brand for a new business: strategy, name, identity, design, communication, guidelines and launch.",
   },
   story:
-    "Strong brands are *built on thinking first*, and design second. Who are you for? What makes you different? How should you sound? Without clear answers, even a beautiful logo cannot do its job.\n\nOur *brand development agency in Surat, India* works with you to answer these questions, then turns the answers into a *brand strategy, a personality and a story* that your whole team and every customer can understand. When you also need the visual side, our brand design and brand kit services continue from here.",
+    "*Brand development is not only logo design.* It is a complete service that helps a business establish itself in the market as a *new brand*: *brand strategy, brand identity, design, communication and brand guidelines*, everything from the first research to the day of the launch.\n\nIt is made for any company that wants to build a *website, a mobile app or a software product* and *launch it as a brand*. As a *brand development agency in Surat, India*, We3vision follows one clear process and delivers every part of it: *research and positioning, naming and tagline, logo and visual identity, stationery and marketing material, digital and social media branding, packaging, brand guidelines and a brand launch plan*.",
   services: {
-    heading: "What Our Brand\nDevelopment Covers",
-    intro: "The thinking behind a brand, written down in a form your team can use every day.",
+    heading: "Our Brand Development\nService Lines",
+    intro: "Seven service lines that together make a complete brand, from research to rebranding.",
     cards: [
-      { title: "Brand discovery\nand research", description: "We study your business, customers, competitors and market, so decisions are based on facts and not guesses." },
-      { title: "Brand strategy", description: "Your purpose, vision, values and the promise you make to customers, written in clear and simple words." },
-      { title: "Positioning", description: "The place you want to own in the mind of your customers, and why you are the better choice." },
-      { title: "Brand naming and\ntagline", description: "Names and taglines that are short, easy to say, easy to remember and free to use as far as we can check." },
-      { title: "Brand story\nand messaging", description: "The story of who you are and what you do, and the key messages for your website, brochures and social media." },
-      { title: "Brand voice and\npersonality", description: "How your brand speaks and behaves, so every post, email and conversation sounds like one brand." },
-      { title: "Audience and\ncustomer personas", description: "A clear picture of the people you want to reach, what they need and where to find them." },
-      { title: "Brand guidelines\nand rollout", description: "A simple guide and a plan to introduce the brand to your team, your customers and the market." },
+      { title: "Brand Strategy\n& Research", description: "Research, positioning, audience, naming and messaging: the planning that comes before the design." },
+      { title: "Visual Identity\n& Logo Design", description: "Logo systems, typography, colours, graphic language and visual assets that make the brand recognisable." },
+      { title: "Corporate Identity\n& Collateral", description: "Stationery, company profiles, brochures, presentations and office branding for a professional first impression." },
+      { title: "Digital & Social\nMedia Branding", description: "Website identity, app and SaaS branding, social media templates and digital campaigns." },
+      { title: "Packaging &\nProduct Branding", description: "Product identity, labels, packaging systems and retail presentation that sell on the shelf and online." },
+      { title: "Brand Guidelines\n& Launch", description: "The brand book, asset handover, launch creatives and a rollout plan so the whole team uses the brand correctly." },
+      { title: "Rebranding &\nAdvanced Branding", description: "Brand refresh, employer branding, 3D and motion identity, mascots and immersive branding." },
     ],
   },
   process: {
     heading: "How We Develop\nYour Brand",
-    intro: "A guided journey from questions to a brand your whole team can use.",
+    intro: "One clear journey from the first conversation to the launch day.",
     items: [
-      { title: "Listen and research", text: "Workshops and research to understand your business, your customers and your competitors.", points: "Interviews and workshop\nMarket and competitor review" },
-      { title: "Define the brand", text: "We agree your purpose, values, positioning and the promise of your brand.", points: "Purpose, vision, values\nPositioning statement" },
-      { title: "Shape the identity of words", text: "We create your name or tagline, brand story, messages and tone of voice.", points: "Name and tagline\nStory and key messages" },
-      { title: "Bring it to life", text: "We turn the strategy into guidelines and, if you wish, move on to your visual identity and brand kit.", points: "Brand guide\nPlan for the first steps" },
+      { title: "Strategy and research", text: "We study your business, industry, market, competitors and audience, and define your positioning, purpose and personality.", points: "Brand discovery and consultation\nMarket and competitor research\nPositioning, USP and brand personality" },
+      { title: "Name and verbal identity", text: "We create the name, tagline, story and the voice of the brand.", points: "Naming and shortlisting\nTagline and brand story\nVoice and tone guidelines" },
+      { title: "Visual identity", text: "We design the logo system, typography, colours and the graphic language of the brand.", points: "Logo and logo variations\nTypography and colour palette\nIcons, patterns and image style" },
+      { title: "Brand in use", text: "We apply the identity to stationery, marketing material, digital products, social media and packaging.", points: "Stationery and collateral\nWebsite, app and social media\nPackaging and product branding" },
+      { title: "Guidelines and handover", text: "We write the brand book and hand over every approved file, specification and template.", points: "Brand guidelines document\nEditable templates\nOrganised source assets" },
+      { title: "Launch and rollout", text: "We plan the launch, create the announcement material and help your team adopt the brand.", points: "Launch strategy and creatives\nSocial media launch kit\nBrand consistency review" },
     ],
   },
-  tools: { heading: "How We\nWork", items: "Brand workshops\nMarket research\nCompetitor analysis\nAudience personas\nFigma\nMiro\nNotion" },
+  tools: { heading: "What We Use\nTo Build Brands", items: "Brand workshops\nMarket research\nCompetitor analysis\nCustomer personas\nAdobe Illustrator\nAdobe Photoshop\nAdobe InDesign\nFigma\nMiro" },
   why: {
     heading: "Why Choose We3vision\nFor Brand Development",
     items: [
-      { title: "Strategy and design together", description: "The same team that thinks about your brand can also design and launch it, so nothing is lost in translation." },
-      { title: "Plain language", description: "No jargon. You will understand every decision and be able to explain your brand to anyone." },
-      { title: "Made for real businesses", description: "Practical brand work for startups, family businesses and growing companies, not only for big corporates." },
-      { title: "Works across channels", description: "A brand that looks and sounds the same on your website, social media, print and packaging." },
-      { title: "Built to last", description: "Clear foundations that stay useful as your business grows and changes." },
-      { title: "Support for your team", description: "We explain the brand to your people, so they can use it with confidence." },
+      { title: "A complete service, not only a logo", description: "Strategy, naming, identity, design, communication, guidelines and launch, all with one team." },
+      { title: "Made for products that launch", description: "We know how to brand a website, an app or a software product so that it is ready to be launched in the market." },
+      { title: "One clear process", description: "Twelve chapters of work with clear deliverables, so you always know what you receive." },
+      { title: "Every industry", description: "From startups and SaaS to real estate, healthcare, hospitality, retail and luxury." },
+      { title: "A brand your team can use", description: "A brand book, templates and organised files, so every future design stays consistent." },
+      { title: "Design and development together", description: "The same company designs the brand and builds the website, app or software that carries it." },
     ],
   },
   industries: {
     heading: "Brand Development\nFor Every Industry",
-    intro: "A good brand looks different in every business. Here is where we help.",
+    intro: "Every industry needs a different kind of brand. Here is where we build them.",
     items: [
-      { name: "Startups", description: "A clear name, story and voice before you launch, so you start with confidence." },
-      { name: "Manufacturing and B2B", description: "Make a technical business clear, trusted and easy for buyers to choose." },
-      { name: "Retail and e-commerce", description: "A brand people remember and come back to, in the store and online." },
-      { name: "Food and hospitality", description: "A brand with personality that feels welcoming from the menu to the signboard." },
-      { name: "Education and healthcare", description: "A calm, trustworthy brand that families and patients feel safe with." },
-      { name: "Professional services", description: "Stand out from similar firms with a clear promise and a confident voice." },
+      { name: "Startups", description: "A clear name, identity and launch plan before the first customer arrives." },
+      { name: "Technology and SaaS", description: "Branding for software products, apps, dashboards and platforms, from identity to product design system." },
+      { name: "E-commerce", description: "Brand identity, packaging and store branding for online sellers who want to become a brand." },
+      { name: "Real estate", description: "Project and developer branding, brochures, hoardings and sales office identity." },
+      { name: "Hospitality and restaurants", description: "Brands with personality: logo, menu, packaging, signage and social media." },
+      { name: "Healthcare and pharma", description: "Calm, trustworthy identities and packaging that follow the needs of the sector." },
+      { name: "Luxury", description: "Refined brands with careful typography, materials and presentation." },
+      { name: "Franchise and retail", description: "Identity systems that stay consistent in every store and every city." },
     ],
   },
   faq: [
-    { question: "What is brand development?", answer: "Brand development is the work of defining who your business is, who it serves, how it is different and how it speaks. It includes strategy, positioning, story and voice, and it is the base for your logo and design." },
-    { question: "What is the difference between brand development and brand design?", answer: "Brand development is the thinking and the words: strategy, positioning, story and voice. Brand design is the look: logo, colours, type and graphics. Together they make a complete brand." },
-    { question: "Do I need brand development if I already have a logo?", answer: "Often yes. If people do not understand what makes you different, or your marketing feels inconsistent, a brand strategy will make every logo, post and ad work better." },
-    { question: "How long does brand development take?", answer: "It depends on the size of the business, but most projects take a few weeks. We agree on stages and a timeline before we begin." },
-    { question: "Can you build the whole brand for me?", answer: "Yes. If you want everything from strategy to design and printing, see our 0 to N brand development service." },
-    { question: "Do you work with small businesses and startups?", answer: "Yes. We work with startups, small businesses and established companies, and we shape the work to your size and budget." },
+    { question: "What is brand development?", answer: "Brand development is the complete process of building a brand: research, positioning, name and story, logo and visual identity, communication, brand guidelines and the launch. It is much more than logo design." },
+    { question: "What is the difference between brand development and logo design?", answer: "A logo is one part of a brand. Brand development covers the strategy behind the logo, the name, the voice, the visual identity system, the stationery, the digital and packaging design, the brand book and the launch." },
+    { question: "Who needs brand development services?", answer: "Any new business, startup or company that wants to launch a website, a mobile app or a software product as a brand, and any existing business that needs a brand refresh or rebranding." },
+    { question: "What does We3vision deliver in a brand development project?", answer: "Depending on the package: brand research and strategy, name and tagline, logo and logo variations, typography and colours, stationery, social media templates, brand guidelines, packaging, website or app branding and a launch kit. Deliverables and revisions are written in the project scope and contract." },
+    { question: "Can you do only a part of the brand?", answer: "Yes. We offer a starter, a complete and a premium brand package, and individual services such as brand strategy, logo design, brand kit design, packaging or a brand launch." },
+    { question: "Do you also build the website or app for my brand?", answer: "Yes. We3vision is a design and development company, so we can brand your product and also build the website, mobile app or software that carries the brand." },
+    { question: "Do you work on rebranding?", answer: "Yes. We audit your existing brand and then refresh the logo, identity, messaging, packaging, website and guidelines, with a plan to introduce the change." },
+    { question: "Do you offer social media management?", answer: "Our brand development includes social media branding: templates, profile design and guidelines. Daily posting, content calendars and community management are offered as a separate service." },
   ],
   related: related("brandkit", "brand", "zero"),
-  cta: { heading: "Ready To Build\nA Brand People Remember?", text: "Tell us about your business and where you want it to go. We will suggest how to start.", button: "Get a free quote" },
+  cta: { heading: "Ready To Launch\nYour Brand?", text: "Tell us about your business, your product and your plan. We will suggest the right brand package and how to start.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -297,7 +302,7 @@ export const BRANDKIT_SECTIONS = build({
     { question: "Can you make a kit if I already have a logo?", answer: "Yes. We can build the rest of the kit around your existing logo, and improve the logo files if they need cleaning up." },
     { question: "What file formats do I get?", answer: "You receive files for print and screen, such as vector files, PNG and PDF, along with editable templates." },
     { question: "How long does it take?", answer: "A brand kit usually takes a few weeks, depending on how much is included. We agree on the stages and dates at the start." },
-    { question: "I need a complete brand, not only a kit. Can you help?", answer: "Yes. Our brand development and 0 to N brand development services cover strategy, design, printing and launch." },
+    { question: "I need a complete brand, not only a kit. Can you help?", answer: "Yes. Our brand development and end-to-end brand development services cover strategy, design, printing and launch." },
   ],
   related: related("branddev", "brand", "graphics"),
   cta: { heading: "Ready For A Brand\nThat Looks The Same Everywhere?", text: "Send us your logo or your idea. We will tell you what your brand kit needs.", button: "Get a free quote" },
@@ -383,21 +388,21 @@ export const BRANDVIDEO_SECTIONS = build({
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
-// 0 to N Brand Development (/zero-to-n-brand-development)
+// End-to-End Brand Development, was "0 to N" (/zero-to-n-brand-development, the route stays)
 // ---------------------------------------------------------------------------------------------------------------------
 export const ZERO_SEO = {
-  title: "0 to N Brand Development | Complete Brand Building From Scratch | We3vision",
-  description: "Want to start a brand from zero? We3vision builds your complete brand: strategy, name, logo, brand kit, packaging, printing, website and launch, for every industry. Surat, India.",
+  title: "End-to-End Brand Development Services | We3vision",
+  description: "Build your brand from the ground up with We3vision. Explore brand strategy, naming, logo design, visual identity, packaging, digital branding, brand videos and launch support.",
 };
 export const ZERO_SECTIONS = build({
   seo: ZERO_SEO,
   hero: {
-    chip: "0 to N",
-    heading: "0 to N Brand\nDevelopment",
-    text: "Anyone who wants a brand can start with us. We build it completely, from the very first idea to the finished printed material and launch, so you have nothing left to arrange.",
+    chip: "End-to-End Brand Development",
+    heading: "From Zero to a\nBrand That Leads.",
+    text: "We build brands from the ground up: from research, strategy and naming to visual identity, digital experiences, packaging, brand films and launch-ready brand systems. Everything your business needs to create a consistent, recognizable and future-ready brand, under one roof.",
   },
   story:
-    "Starting a brand usually means finding a strategist, a designer, a printer, a photographer, a website developer and a marketer, and then trying to make them work together. *0 to N* is our answer: *one team that builds your whole brand from the starting phase to the end*.\n\nYou bring the idea, the product or the service. We take care of *planning, design, printing and execution*. We have built brands for *many different industries*, so whatever you sell, we know how to make it look and feel like a real brand.",
+    "Starting a brand usually means finding a strategist, a designer, a printer, a photographer, a website developer and a marketer, and then trying to make them work together. *End-to-end brand development* is our answer: *one team that builds your whole brand from the starting phase to the end*.\n\nYou bring the idea, the product or the service. We take care of *planning, design, printing and execution*. We have built brands for *many different industries*, so whatever you sell, we know how to make it look and feel like a real brand.",
   services: {
     heading: "Everything Your\nBrand Needs",
     intro: "N is whatever your brand needs. These are the parts we usually build.",
@@ -424,9 +429,9 @@ export const ZERO_SECTIONS = build({
       { title: "Launch and execution", text: "We plan and run the launch and stay with you for the first steps.", points: "Launch plan\nMarketing in action" },
     ],
   },
-  tools: { heading: "Services Inside\n0 To N", items: "Brand strategy\nLogo design\nBrand kit\nPackaging design\nPrint design\nWebsite development\nBrand video\nSocial media\nMarketing" },
+  tools: { heading: "Services Inside\nEnd-To-End Branding", items: "Brand strategy\nLogo design\nBrand kit\nPackaging design\nPrint design\nWebsite development\nBrand video\nSocial media\nMarketing" },
   why: {
-    heading: "Why Choose We3vision\nFor 0 To N",
+    heading: "Why Choose We3vision\nFor End-To-End Branding",
     items: [
       { title: "One team, one brand", description: "Strategy, design, print, website, video and marketing are all done by one team, so everything fits." },
       { title: "Nothing left for you to arrange", description: "You do not need to find designers, printers or developers. We take care of it." },
@@ -451,24 +456,23 @@ export const ZERO_SECTIONS = build({
     ],
   },
   faq: [
-    { question: "What is 0 to N brand development?", answer: "It is our complete brand building service. We start from zero, with just your idea or product, and build everything your brand needs up to N: strategy, name, design, packaging, printing, website, content and launch." },
-    { question: "Who is it for?", answer: "Anyone who wants to start a brand: a new business, a product you plan to launch, a family business that wants to become a brand, or a service that needs a professional identity." },
-    { question: "Do I have to do anything myself?", answer: "You share your idea, take part in a few meetings and approve each stage. Planning, design, printing and execution are handled by us." },
-    { question: "Do you handle printing?", answer: "Yes. We design the printed material and take care of production, so you receive finished items." },
-    { question: "Can you build a brand in any industry?", answer: "We have worked across many industries. We study your market first and then build the brand to suit it." },
-    { question: "How long does it take?", answer: "It depends on how much your brand needs. We agree on the stages and the timeline after the first discussion." },
-    { question: "Can I choose only some parts?", answer: "Yes. If you only need part of it, see our brand development, brand design and brand kit services." },
+    { question: "What is included in end-to-end brand development?", answer: "It can include research, strategy, naming, logo design, visual identity, brand assets, guidelines and launch materials, depending on the agreed scope." },
+    { question: "Can I choose only one branding service?", answer: "Yes. Individual services such as Brand Design, Brand Kit Design and Brand Video can also be commissioned separately." },
+    { question: "Can you rebrand an existing business?", answer: "Yes. We can assess your current identity and develop a refreshed brand strategy, visual system and rollout plan." },
+    { question: "Do you provide website and packaging design?", answer: "Yes. Website, app and packaging design can be included according to your business needs and project scope." },
+    { question: "Will I receive the source files?", answer: "Deliverable formats, editable files and source assets will be specified in the project proposal." },
+    { question: "How much does brand development cost?", answer: "Pricing depends on the scope, number of deliverables, complexity and timeline. Contact our team for a tailored proposal." },
   ],
   related: related("branddev", "brandkit", "brandvideo"),
-  cta: { heading: "Ready To Start\nYour Brand From Zero?", text: "Share your idea, even if it is only a few lines. We will tell you how to turn it into a complete brand.", button: "Get a free quote" },
+  cta: { heading: "Start Your\nBrand Journey", text: "Tell us about your business, your goals and the brand you want to create.", button: "Let's Build Your Brand" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Meta Marketing (/meta-marketing-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const META_SEO = {
-  title: "Meta Marketing Services | Facebook & Instagram Ads Agency in Surat, India | We3vision",
-  description: "Meta marketing services: Facebook and Instagram advertising, content, reels and lead generation campaigns planned, designed, run and reported by We3vision in Surat, India.",
+  title: "Meta Ads & Marketing Services | We3vision",
+  description: "Plan and optimize Facebook and Instagram advertising with campaign strategy, creative production, audience testing and performance measurement.",
 };
 export const META_SECTIONS = build({
   seo: META_SEO,
@@ -529,23 +533,25 @@ export const META_SECTIONS = build({
     ],
   },
   faq: [
-    { question: "What is Meta marketing?", answer: "Meta marketing means advertising and promoting your business on Meta platforms such as Facebook and Instagram, using both paid ads and regular content." },
-    { question: "Do you create the ad images and videos too?", answer: "Yes. Our design and video teams create the creative, so the ads and your brand look consistent." },
-    { question: "How much should I spend on ads?", answer: "It depends on your goal, your market and your product. We suggest a budget that is enough to learn from and then adjust it from the results." },
-    { question: "Can you get me leads, not just likes?", answer: "Yes. We build lead and message campaigns and track enquiries, and we focus on the results that matter to your business." },
-    { question: "How will I know if the ads are working?", answer: "We set up tracking and share clear reports with spend, leads or sales and our recommendations." },
-    { question: "How soon will I see results?", answer: "Ads can bring results quickly, but the best results come after a few weeks of testing and improvements." },
+    { question: "What is Meta marketing?", answer: "It is advertising and promotion on Meta platforms such as Facebook and Instagram: planning the campaign, creating the ads, choosing audiences, running the campaign and measuring what it delivers." },
+    { question: "Do you manage Facebook and Instagram ads?", answer: "Yes. We set up, run, monitor and optimize campaigns, and report on them clearly." },
+    { question: "Do you create ad creatives?", answer: "Yes. Static images, carousels, short videos, reels-style content and motion graphics, with variations for testing." },
+    { question: "Can you help generate leads?", answer: "Yes. We can plan lead campaigns with instant forms or landing pages and help connect them to your team or CRM. We cannot promise a number of leads." },
+    { question: "Is the advertising budget included in your service fee?", answer: "No. Media spend is paid to the platform and our fee is separate, unless a proposal clearly says otherwise." },
+    { question: "Can you set up Pixel and conversion tracking?", answer: "Yes. We can support Meta Pixel and Conversions API set-up and check events, following privacy, consent and platform rules." },
+    { question: "Do you guarantee leads or sales?", answer: "No. Results depend on the offer, audience, budget, creative, competition and your website, so we do not guarantee leads or sales." },
+    { question: "Can you manage existing ad accounts?", answer: "Yes. We can review an existing account and campaigns, then improve the structure, creative and tracking." },
   ],
   related: related("seo", "brandvideo", "physical"),
-  cta: { heading: "Ready To Grow\nOn Facebook And Instagram?", text: "Tell us about your business and your goal. We will plan the right Meta campaign for it.", button: "Get a free quote" },
+  cta: { heading: "Let's Build Your\nNext Campaign.", text: "Tell us what you want to achieve, who you want to reach and what you are promoting. We'll help you plan the right campaign approach.", button: "Discuss Your Meta Campaign" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Physical Marketing (/physical-marketing-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const PHYSICAL_SEO = {
-  title: "Physical Marketing Services | Print, Outdoor & On-Ground Branding | We3vision",
-  description: "Physical marketing services in Surat, India: print material, outdoor branding, signage, packaging, exhibition stalls and on-ground promotions designed and executed for your brand.",
+  title: "Physical Marketing & Offline Campaigns | We3vision",
+  description: "Explore physical marketing, print collateral, outdoor advertising, event branding and offline-to-online campaign design with We3vision.",
 };
 export const PHYSICAL_SECTIONS = build({
   seo: PHYSICAL_SEO,
@@ -605,13 +611,15 @@ export const PHYSICAL_SECTIONS = build({
     ],
   },
   faq: [
-    { question: "What is physical marketing?", answer: "Physical marketing, also called offline marketing, means promoting your business in the real world with print material, signage, packaging, events and on-ground activities." },
-    { question: "Is offline marketing still useful?", answer: "Yes. Many customers trust what they can see and touch. Physical marketing works well together with digital marketing." },
-    { question: "Do you also print the material?", answer: "Yes. We design and take care of production, so you receive finished material." },
-    { question: "Can you design an exhibition stall?", answer: "Yes. We design stalls, standees and backdrops and can help with production and set-up." },
-    { question: "Can you match the material with my existing brand?", answer: "Yes. We follow your brand kit. If you do not have one, we can create it first." },
-    { question: "Do you work outside Surat?", answer: "We are based in Surat, India. We can plan and deliver material to other cities, and we will discuss installation needs with you." },
+    { question: "What services are included in physical marketing?", answer: "Design and planning for print, outdoor, retail, event, promotional and activation materials, so your brand shows up in the real world and connects with your digital marketing." },
+    { question: "Do you design brochures, posters and catalogues?", answer: "Yes. We design them and prepare print-ready artwork, with specifications for the printer." },
+    { question: "Can you help with billboard and outdoor advertising?", answer: "We can plan the format and design the artwork. Media space, permissions and installation come from media owners and production partners, which we can coordinate where it is in the scope." },
+    { question: "Do you manage event and exhibition branding?", answer: "Yes. We can design booth and backdrop graphics, signage, handouts and a follow-up flow to capture leads." },
+    { question: "Is printing included in your service?", answer: "Design and artwork are ours. Printing and production depend on the approved scope and on vendor arrangements, and can be coordinated if included." },
+    { question: "Can physical campaigns connect to digital marketing?", answer: "Yes. QR codes, short URLs, dedicated landing pages and campaign tags can link a physical piece to an online action." },
+    { question: "Can you coordinate production and installation?", answer: "Where it is part of the scope, we coordinate with printers, fabricators and installers. This is agreed in the proposal." },
+    { question: "How is the cost of a physical campaign calculated?", answer: "It depends on the formats, quantities, materials, locations, production and installation requirements. We prepare a tailored proposal after we understand the brief." },
   ],
   related: related("meta", "brandkit", "zero"),
-  cta: { heading: "Ready To Be Seen\nIn The Real World?", text: "Tell us where your customers are. We will design and deliver the material to reach them.", button: "Get a free quote" },
+  cta: { heading: "Let's Take Your Brand\nBeyond the Screen.", text: "Tell us about your audience, campaign goals and the physical touchpoints you want to create. We'll help you shape a campaign that connects your brand with people in the real world.", button: "Plan Your Physical Campaign" },
 });

@@ -3,7 +3,7 @@ import Image from "next/image";
 /** The We3vision mark (the real logo, /public/brand/logo-mark.webp). It keeps its own colours on every theme. */
 export function BrandGlyph({ className = "", white = false }: { className?: string; white?: boolean }) {
   return white ? (
-    <Image src="/brand/logo-white.webp" alt="" width={600} height={468} className={`object-contain ${className}`} />
+    <Image src="/brand/logo-white.webp" alt="" width={600} height={468} className={`object-contain ${className}`} unoptimized />
   ) : (
     <Image src="/brand/logo-mark.webp" alt="" width={480} height={395} className={`object-contain ${className}`} />
   );
