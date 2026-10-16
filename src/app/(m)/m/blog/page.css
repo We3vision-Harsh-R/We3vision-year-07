@@ -1,0 +1,33 @@
+/* /blog app screen ("mp-blog-"): masthead, top story, headline rows with thumbnails. Kit tokens only. */
+
+.mp-blog-mast { padding: 6px 0 20px; border-bottom: 3px solid var(--ma-text); }
+.mp-blog-kick { font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ma-tint); }
+.mp-blog-h { margin: 6px 0 0; font-size: 32px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance; }
+.mp-blog-h span + span { color: var(--ma-tint); }
+.mp-blog-t { margin-top: 10px !important; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.mp-blog-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+
+.mp-blog-cat { font-size: 14px; font-weight: 700; letter-spacing: 0.02em; color: var(--ma-tint); }
+.mp-blog-date { font-size: 14px; color: var(--ma-text3); }
+
+/* ---- the top story ---- */
+.mp-blog-top { display: block; overflow: hidden; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); box-shadow: 0 14px 34px hsl(0 0% 0% / 0.3); transition: transform 0.3s var(--ma-spring); }
+.mp-blog-top:active { transform: scale(0.985); }
+.mp-blog-pic { display: block; aspect-ratio: 16 / 10; background: linear-gradient(150deg, hsl(var(--ma-h) calc(60% * var(--ts)) 26%), var(--ma-card2)); }
+.mp-blog-pic img { width: 100%; height: 100%; object-fit: cover; }
+.mp-blog-tb { display: grid; gap: 6px; padding: 16px 18px 18px; }
+.mp-blog-tb b { font-size: 22px; line-height: 1.25; font-weight: 700; letter-spacing: -0.015em; }
+.mp-blog-sum { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+
+/* ---- headline rows ---- */
+.mp-blog-list { margin: 14px 0 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.mp-blog-list li { position: relative; }
+.mp-blog-list li + li::before { content: ""; position: absolute; left: 16px; right: 16px; top: 0; height: 1px; background: var(--ma-line); }
+.mp-blog-row { display: flex; align-items: center; gap: 14px; min-height: 96px; padding: 14px 16px; transition: background-color 0.2s; }
+.mp-blog-row:active { background: var(--ma-fill); }
+.mp-blog-rb { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.mp-blog-rb b { font-size: 17px; line-height: 1.32; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.mp-blog-th { flex: none; width: 84px; height: 84px; overflow: hidden; border-radius: 14px; background: linear-gradient(150deg, hsl(var(--ma-h) calc(60% * var(--ts)) 26%), var(--ma-card2)); }
+.mp-blog-th img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (prefers-reduced-motion: reduce) { .mp-blog-top { transition: none; } }

@@ -1,10 +1,12 @@
 import { mobileMetadata, renderMobilePage } from "@/components/site/mobile/pages/render";
+import { BlogFeed, BlogMasthead } from "@/components/site/mobile/pages/custom/blog/sections";
+import "./page.css";
 
-// /blog as an app screen: the same CMS page as the laptop route, shown with the MobileApp kit. A page designer may replace this with a bespoke screen.
+// /blog as a News-like app screen: the same CMS page and articles as the laptop route.
 export const revalidate = 600;
 
 export const generateMetadata = () => mobileMetadata("blog");
 
 export default function Page() {
-  return renderMobilePage("blog");
+  return renderMobilePage("blog", { overrides: { pageHero: BlogMasthead, blogs: BlogFeed } });
 }
