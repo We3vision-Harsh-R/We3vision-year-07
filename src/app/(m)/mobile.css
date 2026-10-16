@@ -94,9 +94,9 @@
 /* ---- 3) the pages ---- */
 
 /* ===================================================================================================================================
-   LAUNCHER ("lnc-"): the home page on a phone or tablet, built like the iOS 26 home screen ("liquid glass"). Shown at every width: the server picks the mobile site (src/proxy.ts), not the screen size.
+   LAUNCHER ("lnc-"): the home page on a phone or tablet, built like the iOS 26 home screen ("liquid glass"). Only below 1024px.
    Sizes follow iPhone points on a 393pt screen: icon 60, 4 columns, side margin 27, row pitch 97, widgets 158 x 158, dock icons 60, text 12.
-   The laptop site is not touched.
+   Desktop and laptop are not touched.
    =================================================================================================================================== */
 .lnc { display: none; }
 @media (max-width: 99999px) {
@@ -159,7 +159,7 @@
   .lnc-clock { display: grid; place-items: center; padding: calc(12 * var(--u)); }
   .lnc-clock svg { width: 100%; height: 100%; }
   .lnc-tick { fill: hsl(0 0% 100% / 0.8); }
-  .lnc-hand { transform-origin: 50px 50px; transition: transform 0.35s cubic-bezier(0.4, 2.1, 0.5, 1); } .lnc-hand rect { fill: #fff; } .lnc-s rect { fill: hsl(calc(var(--lh) + 8) calc(100% * var(--ts)) 66%); } .lnc-s { transition: none; } .lnc-pin { fill: hsl(calc(var(--lh) + 8) calc(100% * var(--ts)) 66%); }
+  .lnc-hand { transform-origin: 50px 50px; transform-box: view-box; will-change: transform; } .lnc-hand rect { fill: #fff; } .lnc-s rect { fill: hsl(calc(var(--lh) + 8) calc(100% * var(--ts)) 66%); } .lnc-s { transition: none; } .lnc-pin { fill: hsl(calc(var(--lh) + 8) calc(100% * var(--ts)) 66%); }
   .lnc-clock-d { position: absolute; left: 50%; top: 66%; display: grid; justify-items: center; line-height: 1; transform: translateX(-50%); } .lnc-clock-d small { font-size: calc(10 * var(--u)); font-weight: 600; letter-spacing: 0.1em; opacity: 0.75; } .lnc-clock-d b { font-size: calc(20 * var(--u)); font-weight: 600; }
   .lnc-pitch { display: grid; align-content: space-between; justify-items: start; background-image: radial-gradient(120% 90% at 100% 0%, hsl(var(--lh) calc(100% * var(--ts)) 62% / 0.5), transparent 62%), linear-gradient(150deg, hsl(0 0% 100% / 0.22), hsl(0 0% 100% / 0.04) 40%, hsl(0 0% 100% / 0.1)); }
   .lnc-pitch img { width: calc(46 * var(--u)); height: auto; filter: drop-shadow(0 4px 12px hsl(var(--lh) 90% 60% / 0.7)); }
@@ -243,4 +243,102 @@
   .lnc-pitch img { width: 38px; } .lnc-pitch b { font-size: 15px; } .lnc-pitch span { padding: 5px 12px; font-size: 11px; }
   .lnc-quick small { font-size: 10px; } .lnc-quick div { gap: 8px; } .lnc-q .lnc-mini { --ic: 36px; }
   .lnc-clock-d b { font-size: 17px; } .lnc-clock-d small { font-size: 9px; }
+}
+/* launcher smoothness: nothing heavy is repainted on every frame (no big blur on the moving lights, no backdrop blur on every small icon) */
+@media (max-width: 99999px) {
+  .lnc-wall i { filter: none; will-change: transform; backface-visibility: hidden; }
+  .lnc-ic { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .lnc-view, .lnc-track, .lnc-page { backface-visibility: hidden; }
+  .lnc-lock .lnc-wall i { animation-play-state: running; }
+}
+
+
+/* ===================================================================================================================================
+   LAUNCHER v3: the iPhone look. Every app has its own colour, the corner is the continuous (squircle) iOS curve, the names are one line under the icons,
+   the dock has no names, no fake status bar, library tiles and spaces measured like iOS 26.
+   =================================================================================================================================== */
+@media (max-width: 99999px) {
+  .lnc-page { padding-top: calc(env(safe-area-inset-top, 0px) + 24 * var(--u)); }
+  /* the real iOS curve: a continuous corner, where the browser can draw it */
+  .lnc-ic { border-radius: 22.37%; }
+  @supports (corner-shape: squircle) { .lnc-ic { border-radius: 33%; corner-shape: squircle; } .lnc-ic::before, .lnc-ic::after { border-radius: inherit; corner-shape: inherit; } }
+  /* a colour that is full and glassy: light at the top, deep at the bottom, a bright body light inside */
+  .lnc-ic {
+    background:
+      radial-gradient(80% 60% at 50% 110%, hsl(var(--hue) 100% 70% / 0.9), transparent 70%),
+      radial-gradient(70% 55% at 85% 12%, hsl(calc(var(--hue) + 24) 100% 80% / 0.5), transparent 70%),
+      linear-gradient(170deg, hsl(calc(var(--hue) + 8) 88% 62%), hsl(calc(var(--hue) - 14) 86% 40%));
+    box-shadow: 0 10px 22px hsl(var(--hue) 70% 12% / 0.55), inset 0 1.5px 1px hsl(0 0% 100% / 0.8), inset 0 -3px 8px hsl(var(--hue) 100% 82% / 0.45), inset 1px 0 0 hsl(0 0% 100% / 0.25), inset -1px 0 0 hsl(0 0% 100% / 0.14);
+  }
+  /* the names: one line, 12 points, like iOS */
+  .lnc-lb { display: block; -webkit-line-clamp: unset; white-space: nowrap; text-overflow: ellipsis; font-size: calc(12 * var(--u)); font-weight: 500; letter-spacing: 0; line-height: 1.2; }
+  .lnc-grid { gap: calc(var(--pitch) - var(--ic) - 17 * var(--u)) calc(33 * var(--u)); }
+  .lnc-grid .lnc-app { gap: calc(6 * var(--u)); }
+  /* the dock: four icons, no names, a glass pill */
+  .lnc-dock { padding: calc(14 * var(--u)) calc(16 * var(--u)); gap: 0; margin: 0 calc(-17 * var(--u)); border-radius: calc(36 * var(--u)); align-items: center; }
+  .lnc-dock .lnc-app { gap: 0; } .lnc-dock .lnc-lb { display: none; }
+  .lnc-find { margin-bottom: calc(10 * var(--u)); } .lnc-dots { margin-bottom: calc(12 * var(--u)); }
+  /* the library: two tiles a row, the icons inside are as big as on the home screen */
+  .lnc-lib { padding-top: calc(env(safe-area-inset-top, 0px) + 14 * var(--u)); }
+  .lnc-search { height: calc(46 * var(--u)); margin-bottom: calc(22 * var(--u)); }
+  .lnc-groups { gap: calc(22 * var(--u)) calc(22 * var(--u)); }
+  .lnc-tile { padding: calc(13 * var(--u)); gap: calc(13 * var(--u)); border-radius: calc(26 * var(--u)); background-color: hsl(0 0% 100% / 0.12); }
+  .lnc-mini { --ic: calc((100vw - 2 * var(--side) - 22 * var(--u)) / 4 - 19.5 * var(--u)); }
+  .lnc-cluster { width: calc((100vw - 2 * var(--side) - 22 * var(--u)) / 4 - 19.5 * var(--u)); height: calc((100vw - 2 * var(--side) - 22 * var(--u)) / 4 - 19.5 * var(--u)); gap: calc(3 * var(--u)); padding: 0; }
+  .lnc-gl { font-size: calc(13 * var(--u)); font-weight: 600; margin-top: calc(2 * var(--u)); }
+}
+@media (min-width: 700px) and (max-width: 99999px) {
+  .lnc-page { padding-top: calc(env(safe-area-inset-top, 0px) + 40px); }
+  .lnc-mini { --ic: 68px; } .lnc-cluster { width: 68px; height: 68px; }
+}
+@media (max-width: 99999px) { .lnc-page { padding-top: calc(env(safe-area-inset-top, 0px) + 36 * var(--u)); } .lnc-lib { padding-top: calc(env(safe-area-inset-top, 0px) + 30 * var(--u)); } }
+
+
+/* ===================================================================================================================================
+   LAUNCHER v4: the iOS 26 "liquid glass" icon. Two kinds of tile, as in the Apple set: a full colour tile with a white glass picture, and a light frosted-glass
+   tile with a coloured glass picture (the picture is three layers: a soft back layer, the body, and a bright edge). Rim light on every tile.
+   =================================================================================================================================== */
+@media (max-width: 99999px) {
+  .lnc-ic { --hue: calc(var(--lh) + var(--off)); }
+  /* the picture: three layers */
+  .lnc-glyph { width: 56%; height: 56%; overflow: visible; filter: none; }
+  .lnc-glyph path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .lnc-glyph .g-back { stroke-width: 3.4; transform: translate(0.7px, 1px); opacity: 0.55; }
+  .lnc-glyph .g-body { stroke-width: 2.5; }
+  .lnc-glyph .g-edge { stroke-width: 0.9; opacity: 0.85; transform: translate(-0.35px, -0.45px); }
+
+  /* kind 1: a full colour tile, a white glass picture */
+  .lnc-ic.is-c {
+    background:
+      radial-gradient(85% 60% at 50% 112%, hsl(calc(var(--hue) + 14) 100% 72% / 0.8), transparent 70%),
+      linear-gradient(172deg, hsl(calc(var(--hue) + 6) 92% 64%), hsl(calc(var(--hue) - 12) 88% 44%));
+    box-shadow: 0 8px 18px hsl(var(--hue) 60% 10% / 0.45), inset 0 1.5px 1px hsl(0 0% 100% / 0.7), inset 0 -4px 10px hsl(var(--hue) 100% 85% / 0.38), inset 0 0 0 0.5px hsl(0 0% 100% / 0.25);
+  }
+  .lnc-ic.is-c .g-back { stroke: hsl(var(--hue) 90% 22%); opacity: 0.38; }
+  .lnc-ic.is-c .g-body { stroke: hsl(0 0% 100% / 0.92); }
+  .lnc-ic.is-c .g-edge { stroke: #fff; }
+  .lnc-ic.is-c .lnc-glyph { filter: drop-shadow(0 1.5px 2px hsl(var(--hue) 70% 14% / 0.45)); }
+
+  /* kind 2: a light frosted-glass tile, a coloured glass picture */
+  .lnc-ic.is-w {
+    background:
+      radial-gradient(80% 55% at 50% 118%, hsl(var(--hue) 95% 78% / 0.55), transparent 72%),
+      linear-gradient(168deg, hsl(0 0% 100%), hsl(222 24% 91%));
+    box-shadow: 0 8px 18px hsl(222 30% 8% / 0.4), inset 0 1.5px 1px hsl(0 0% 100% / 1), inset 0 -5px 12px hsl(222 26% 70% / 0.28), inset 0 0 0 0.5px hsl(0 0% 100% / 0.8);
+  }
+  .lnc-ic.is-w .g-back { stroke: hsl(calc(var(--hue) + 38) 95% 62%); opacity: 0.6; }
+  .lnc-ic.is-w .g-body { stroke: hsl(var(--hue) 88% 52% / 0.88); }
+  .lnc-ic.is-w .g-edge { stroke: hsl(0 0% 100% / 0.85); }
+  .lnc-ic.is-w .lnc-glyph { filter: drop-shadow(0 2px 2.5px hsl(var(--hue) 70% 30% / 0.35)); }
+  .lnc-ic.is-w::before { background: linear-gradient(180deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100% / 0)); opacity: 0.7; }
+  .lnc-ic.is-w::after { background: conic-gradient(from 215deg, hsl(0 0% 100%), hsl(210 30% 85% / 0.5) 25%, hsl(0 0% 100% / 0.95) 55%, hsl(210 30% 85% / 0.5) 80%, hsl(0 0% 100%)); }
+  .lnc-micro.is-w { background: linear-gradient(168deg, #fff, hsl(222 24% 90%)); }
+
+  /* the same rim light (a fine edge that is bright at the corners and tinted with colour) on the dock, the search and the widgets */
+  .lnc-dock, .lnc-search, .lnc-widgets .lnc-wid, .lnc-tile, .lnc-find { position: relative; }
+  .lnc-dock::after, .lnc-search::after, .lnc-wid::after, .lnc-tile::after, .lnc-find::after { content: ""; position: absolute; inset: 0; padding: 1.2px; border-radius: inherit; pointer-events: none; background: conic-gradient(from 200deg, hsl(0 0% 100% / 0.9), hsl(190 90% 80% / 0.15) 20%, hsl(0 0% 100% / 0.28) 45%, hsl(320 90% 80% / 0.2) 72%, hsl(0 0% 100% / 0.9)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+}
+@media (max-width: 99999px) {
+  .lnc-ic.is-w .g-body { stroke: hsl(var(--hue) 92% 44% / 0.95); }
+  .lnc-ic.is-w .g-back { stroke: hsl(calc(var(--hue) + 30) 95% 60%); opacity: 0.5; }
 }

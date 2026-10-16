@@ -95,3 +95,7 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 89 | Mobile/tablet: iOS-26-style launcher home + app library (first step: design only) | done |
 | 90 | Launcher: nicer liquid-glass icons | done |
 | 91 | Launcher v2: iOS 26 accurate home screen, widgets, app library, app-open animation | done |
+| 92 | Launcher smooth clock | done |
+| 93 | Launcher v3 Apple look | done |
+| 94 | Meta Marketing page redesign: Ads-Manager style UI, 7 objectives what-we-do, social post previews | done |
+| 95 | Mobile foundation: device detect + separate /m route group, launcher moved out of the desktop layout | in progress |

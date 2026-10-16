@@ -43,9 +43,12 @@ const P: Record<string, string> = {
 };
 
 export function Glyph({ name }: { name: string }) {
+  const d = P[name] ?? P.grid;
   return (
-    <svg className="lnc-glyph" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" fillOpacity="0.16" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d={P[name] ?? P.grid} />
+    <svg className="lnc-glyph" viewBox="0 0 24 24" aria-hidden="true" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path className="g-back" d={d} />
+      <path className="g-body" d={d} />
+      <path className="g-edge" d={d} />
     </svg>
   );
 }

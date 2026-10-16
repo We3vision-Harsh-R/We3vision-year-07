@@ -89,3 +89,29 @@ export const MTA_FAQ = [
   { q: "Do you guarantee leads or sales?", a: "No. Results depend on the offer, audience, budget, creative, competition and your website, so we do not guarantee leads or sales." },
   { q: "Can you manage existing ad accounts?", a: "Yes. We can review an existing account and campaigns, then improve the structure, creative and tracking." },
 ];
+
+// What we do for each of the seven objectives, and where the ads can show (placements depend on the objective and on the current platform).
+export const MTA_WE: string[][] = [
+  ["Define who should remember the brand", "Make short, simple video and image creative", "Set reach and frequency limits", "Report reach, frequency and recall signals"],
+  ["Pick the area, audience and schedule", "Design creative that works in the first second", "Spread the budget to reach as many different people as possible", "Report reach and cost to reach"],
+  ["Choose the page that the traffic should land on", "Make the page fast on a phone", "Tag every link with UTM parameters", "Report clicks, landing-page views and cost per click"],
+  ["Find the idea people want to react to", "Write hooks for the first seconds of a video", "Set up replies for comments and messages", "Report engagement and what to repeat"],
+  ["Write the offer and the qualifying questions", "Build the instant form or the landing page", "Connect leads to your team or CRM", "Report leads, cost per lead and lead quality"],
+  ["Check the Pixel and the conversion events", "Match product pages to the ads", "Test creative and offers against each other", "Report purchases, cost per result and conversion rate"],
+  ["Build audiences from visitors and viewers (where data and consent permit)", "Exclude people who already bought", "Write reminder and benefit creative", "Report frequency and conversion rate"],
+];
+export const MTA_WHERE: string[][] = [
+  ["Feed", "Stories", "Reels"],
+  ["Feed", "Stories", "Reels"],
+  ["Feed", "Stories", "Explore"],
+  ["Feed", "Reels", "Stories"],
+  ["Feed", "Stories", "Instant form"],
+  ["Feed", "Stories", "Catalog"],
+  ["Feed", "Stories", "Reels"],
+];
+export const MTA_LEVELS = [
+  { k: "Campaign", sub: "The goal", groups: [0, 7] },
+  { k: "Ad sets", sub: "Who, where and how much", groups: [1, 3] },
+  { k: "Ads", sub: "What people see", groups: [2, 5, 6] },
+  { k: "Measurement", sub: "What happened", groups: [4] },
+];
