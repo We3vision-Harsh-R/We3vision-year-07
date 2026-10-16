@@ -17,7 +17,7 @@ heavy scroll-driven 3D/animated sections. The site celebrates "7 years of We3vis
 7. **Theme rule:** never hard-code a violet/pink colour. Use `hsl(calc(var(--th) + N) calc(S% * var(--ts)) L%)` or the Tailwind tokens.
 8. **New styles go in plain CSS in `src/app/globals.css`** (new unique class prefix). Tailwind arbitrary classes are unreliable here.
 9. **Content comes from the old site www.we3vision.com** — never invent numbers, testimonials, clients or prices.
-10. **Do not commit, push or run a production build** unless asked (the owner runs git; Hostinger auto-deploys on push to `main`).
+10. **Commit and push every finished piece of work to `main` only** (owner's order, 2026-10-16: one branch, no side branches). A push auto-deploys on Hostinger, so before it run `npx tsc --noEmit`, eslint on the changed folders and `npm run build` (webpack); never push a broken build.
 11. **Never write secrets** (passwords, keys, `.env` values) into chat, code or docs.
 12. **Do not use the paid image-generation tool.** Draw art with SVG/CSS/code.
 13. **Do not end every reply with the same open question**; mention an open item once, only if relevant.

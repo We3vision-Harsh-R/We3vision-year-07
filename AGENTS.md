@@ -18,7 +18,7 @@ design system, history, open items) is in the **`brain/`** folder. Before any ed
 `brain/05-design-system.md` → `brain/07-workflow-and-tools.md` (and `06`, `08`, `09` when relevant). Index: `brain/README.md`.
 
 Non-negotiable rules (details and reasons in `brain/02-rules-and-preferences.md`):
-- Work only in the main repo folder; do not commit, push or run a production build unless the owner asks; never print secrets.
+- Work in the main repo folder; commit and push every finished task to `main` only (no side branches; typecheck + eslint + `npm run build` first, a push deploys); never print secrets.
 - Change only what the task names. Home page `/` is LOCKED. Locked sections need permission (service strip, TechSpace pop-up, Industries city).
 - Desktop/laptop only (no mobile/responsive code). Poppins font. Paragraphs ≥ 16px, labels ≥ 14px.
 - Never hard-code violet/pink: use `hsl(calc(var(--th) + N) calc(S% * var(--ts)) L%)` or the Tailwind tokens. New CSS = new unique

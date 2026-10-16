@@ -15,7 +15,7 @@ These are standing instructions. They override defaults. When a rule and a task 
   the dev server serves and the folder the owner pushes to GitHub. Do not work in `.claude/worktrees/*` and copy files across: a stale
   copy overwrote newer commits once (see [07](07-workflow-and-tools.md) "The clobber incident"). If a tool forces a worktree, **merge**
   (3-way) instead of copying.
-- **No commit / push / production build** unless asked. The owner runs git. (Line-ending warnings LF→CRLF are normal on Windows.)
+- **Commit and push to `main` after every finished task** (owner, 2026-10-16: "badhu ek sathe main branch ma j push kar je hamesha"). Only `main` exists on GitHub: no side branches. Before the push: `npx tsc --noEmit`, eslint on the changed folders, `npm run build` (a push deploys on Hostinger). If the session runs in a worktree: commit there, then `git merge --ff-only <branch>` in the main folder and `git push origin main`. (Line-ending warnings LF→CRLF are normal on Windows.)
 - Never commit `.env*` (except `.env.example`).
 - New big task = numbered with `tools/tasks.mjs`; the owner reverts a task by sending its number.
 
