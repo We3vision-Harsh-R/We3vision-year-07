@@ -48,12 +48,12 @@ export function ScreenChrome({ title }: { title: string }) {
 
   return (
     <div className="ma-bar">
-      <Link href="/" prefetch={false} className="ma-back" onClick={close} aria-label="Back to the home screen">
+      <Link href="/" prefetch={false} className="ma-back" onClick={close} aria-label="Home screen">
         <IcChevronLeft />
         Home
       </Link>
       <span className="ma-bar-title" aria-hidden="true">{title}</span>
-      <span />
+      <span aria-hidden="true" />
     </div>
   );
 }

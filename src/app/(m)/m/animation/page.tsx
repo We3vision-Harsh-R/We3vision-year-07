@@ -1,10 +1,24 @@
 import { mobileMetadata, renderMobilePage } from "@/components/site/mobile/pages/render";
+import { AnAdvantages, AnFaq, AnGuide, AnHero, AnIndustries, AnProcess, AnServices, AnStory, AnTags } from "@/components/site/mobile/pages/custom/animation/sections";
+import "./page.css";
 
-// /animation as an app screen: the same CMS page as the laptop route, shown with the MobileApp kit. A page designer may replace this with a bespoke screen.
+// /animation as a Clips and Apple TV screen: the same CMS page as the laptop route; a letterboxed poster, a bouncing-ball timeline, episodes and a film strip.
 export const revalidate = 600;
 
 export const generateMetadata = () => mobileMetadata("animation");
 
 export default function Page() {
-  return renderMobilePage("animation");
+  return renderMobilePage("animation", {
+    overrides: {
+      pageHero: AnHero,
+      story: AnStory,
+      guide: AnGuide,
+      services: AnServices,
+      process: AnProcess,
+      tags: AnTags,
+      industries: AnIndustries,
+      advantages: AnAdvantages,
+      faq: AnFaq,
+    },
+  });
 }

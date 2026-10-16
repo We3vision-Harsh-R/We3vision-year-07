@@ -1,0 +1,112 @@
+/* /3d-modeling app screen ("mp-3d-"): AR Quick Look and Measure. Camera view with a placement ring, sheets, CSS solids, measuring tape, callouts. Kit tokens only. */
+
+.ma-root .mp-3d-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); transition: transform 0.3s var(--ma-ease); }
+.ma-root .mp-3d-lab { margin-top: 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ma-tint); }
+.ma-root .mp-3d-grab { display: block; width: 40px; height: 5px; margin: 0 auto 16px; border-radius: 3px; background: hsl(0 0% 100% / 0.3); }
+
+/* ---- the solids: flat CSS shapes with light and dark faces ---- */
+.ma-root .mp-3d-solid { --lt: hsl(calc(var(--ma-h) + var(--o, 0) + 12) calc(90% * var(--ts)) 70%); --md: hsl(calc(var(--ma-h) + var(--o, 0)) calc(80% * var(--ts)) 50%); --dk: hsl(calc(var(--ma-h) + var(--o, 0) - 16) calc(75% * var(--ts)) 32%); flex: none; display: block; width: 44px; height: 44px; }
+.ma-root .mp-3d-solid.is-big { width: 120px; height: 120px; }
+.ma-root .mp-3d-solid[data-shape="cube"] { clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); background: conic-gradient(from 300deg at 50% 50%, var(--lt) 0 120deg, var(--md) 120deg 240deg, var(--dk) 240deg 360deg); }
+.ma-root .mp-3d-solid[data-shape="sphere"] { border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--lt), var(--md) 55%, var(--dk)); }
+.ma-root .mp-3d-solid[data-shape="pyramid"] { clip-path: polygon(50% 0, 100% 100%, 0 100%); background: linear-gradient(90deg, var(--lt) 0 50%, var(--dk) 50% 100%); }
+.ma-root .mp-3d-solid[data-shape="ring"] { border-radius: 50%; background: radial-gradient(circle at 50% 50%, transparent 0 34%, var(--dk) 35% 40%, var(--md) 41% 62%, var(--lt) 63% 70%, transparent 71%); }
+
+/* ---- hero: the camera and the sheet ---- */
+.ma-root .mp-3d-cam { margin-top: 6px; border-radius: 30px; overflow: hidden; border: 1px solid var(--ma-rim); background: #000; box-shadow: 0 22px 50px hsl(0 0% 0% / 0.45); animation: mp-3d-in 0.6s var(--ma-ease) backwards; }
+.ma-root .mp-3d-view { position: relative; height: 300px; background: radial-gradient(120% 80% at 50% 100%, hsl(var(--ma-h) calc(50% * var(--ts)) 24%), hsl(var(--ma-h) calc(40% * var(--ts)) 8%) 70%); }
+.ma-root .mp-3d-title { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); display: inline-flex; align-items: center; min-height: 34px; padding: 0 16px; max-width: 80%; border-radius: 999px; font-size: 15px; font-weight: 600; text-align: center; background: hsl(0 0% 100% / 0.14); border: 1px solid hsl(0 0% 100% / 0.2); }
+.ma-root .mp-3d-br { position: absolute; width: 22px; height: 22px; border: 3px solid hsl(0 0% 100% / 0.8); }
+.ma-root .mp-3d-br.is-tl { left: 20px; top: 64px; border-right: 0; border-bottom: 0; border-top-left-radius: 8px; }
+.ma-root .mp-3d-br.is-tr { right: 20px; top: 64px; border-left: 0; border-bottom: 0; border-top-right-radius: 8px; }
+.ma-root .mp-3d-br.is-bl { left: 20px; bottom: 20px; border-right: 0; border-top: 0; border-bottom-left-radius: 8px; }
+.ma-root .mp-3d-br.is-br { right: 20px; bottom: 20px; border-left: 0; border-top: 0; border-bottom-right-radius: 8px; }
+.ma-root .mp-3d-stage { position: absolute; left: 0; right: 0; top: 96px; display: grid; justify-items: center; }
+.ma-root .mp-3d-stage .mp-3d-solid { position: relative; z-index: 1; filter: drop-shadow(0 18px 18px hsl(0 0% 0% / 0.45)); animation: mp-3d-bob 4s ease-in-out infinite alternate; }
+.ma-root .mp-3d-ring { position: absolute; top: 96px; width: 200px; height: 56px; border-radius: 50%; border: 2px solid hsl(0 0% 100% / 0.8); box-shadow: 0 0 0 10px hsl(0 0% 100% / 0.1), inset 0 0 28px hsl(var(--ma-h) calc(90% * var(--ts)) 60% / 0.4); }
+.ma-root .mp-3d-sheet { padding: 12px 20px 20px; background: linear-gradient(180deg, hsl(calc(var(--th) + 347.58) calc(40% * var(--ts)) 14%), var(--ma-card)); border-top: 1px solid hsl(0 0% 100% / 0.14); }
+.ma-root .mp-3d-h { margin: 0; font-size: 28px; line-height: 1.14; font-weight: 700; letter-spacing: -0.024em; text-wrap: balance; }
+.ma-root .mp-3d-h span + span { color: var(--ma-tint); }
+.ma-root .mp-3d-t { margin-top: 12px; font-size: 17px; line-height: 1.62; color: var(--ma-text2); }
+.ma-root .mp-3d-acts { display: grid; gap: 10px; margin-top: 18px; }
+.ma-root .mp-3d-done { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 22px; border-radius: 999px; font-size: 17px; font-weight: 600; text-align: center; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); transition: transform 0.25s var(--ma-spring); }
+.ma-root .mp-3d-alt { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 22px; border-radius: 999px; font-size: 16px; font-weight: 600; text-align: center; background: var(--ma-fill2); border: 1px solid var(--ma-rim); transition: transform 0.25s var(--ma-spring); }
+.ma-root .mp-3d-done:active, .ma-root .mp-3d-alt:active { transform: scale(0.96); }
+@keyframes mp-3d-in { from { opacity: 0; transform: translate3d(0, 22px, 0) scale(0.98); } }
+@keyframes mp-3d-bob { to { transform: translate3d(0, -8px, 0); } }
+
+/* ---- story ---- */
+.ma-root .mp-3d-info { padding: 12px 20px 22px; border-radius: 28px; background: var(--ma-card); border: 1px solid var(--ma-line); box-shadow: 0 14px 30px hsl(0 0% 0% / 0.25); }
+.ma-root .mp-3d-info p { font-size: 17px; line-height: 1.68; color: var(--ma-text2); }
+.ma-root .mp-3d-info p + p { margin-top: 14px; }
+.ma-root .mp-3d-info em { font-weight: 600; color: var(--ma-text); }
+
+/* ---- services: model cards ---- */
+.ma-root .mp-3d-models { display: grid; gap: 10px; }
+.ma-root .mp-3d-model { border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-3d-model > summary { list-style: none; display: flex; align-items: flex-start; gap: 14px; padding: 16px; cursor: pointer; }
+.ma-root .mp-3d-model > summary::-webkit-details-marker { display: none; }
+.ma-root .mp-3d-model > summary .mp-3d-solid { width: 52px; height: 52px; margin-top: 2px; filter: drop-shadow(0 6px 6px hsl(0 0% 0% / 0.4)); }
+.ma-root .mp-3d-mb { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.ma-root .mp-3d-mb b { font-size: 19px; line-height: 1.25; font-weight: 600; }
+.ma-root .mp-3d-mb b span + span::before { content: " "; }
+.ma-root .mp-3d-mb > span { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+.ma-root .mp-3d-model > summary .mp-3d-chev { margin-top: 8px; }
+.ma-root .mp-3d-model[open] > summary .mp-3d-chev { transform: rotate(90deg); }
+.ma-root .mp-3d-mbody { padding: 0 16px 18px; border-top: 1px solid var(--ma-line); }
+.ma-root .mp-3d-mbody > p:not(.mp-3d-lab) { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-root .mp-3d-model[open] .mp-3d-mbody { animation: ma-open 0.35s var(--ma-ease) backwards; }
+
+/* ---- related objects ---- */
+.ma-root .mp-3d-objs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-3d-obj { display: grid; gap: 6px; align-content: start; height: 100%; padding: 16px 14px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); transition: transform 0.25s var(--ma-spring); }
+.ma-root .mp-3d-obj:active { transform: scale(0.97); }
+.ma-root .mp-3d-obj .mp-3d-solid { width: 52px; height: 52px; margin-bottom: 6px; }
+.ma-root .mp-3d-obj b { font-size: 17px; line-height: 1.25; font-weight: 600; }
+.ma-root .mp-3d-obj b span + span::before { content: " "; }
+.ma-root .mp-3d-obj > span:last-child { font-size: 15px; line-height: 1.45; color: var(--ma-text2); }
+
+/* ---- process: measuring tape ---- */
+.ma-root .mp-3d-tape { position: relative; display: grid; gap: 14px; margin: 0; padding: 0 0 0 34px; list-style: none; }
+.ma-root .mp-3d-tape::before { content: ""; position: absolute; left: 8px; top: 0; bottom: 0; width: 14px; border-radius: 3px; background: repeating-linear-gradient(180deg, hsl(calc(var(--ma-h) + 150) calc(95% * var(--ts)) 62%) 0 2px, transparent 2px 10px), linear-gradient(90deg, hsl(calc(var(--ma-h) + 150) calc(95% * var(--ts)) 62% / 0.22), transparent); border-left: 2px solid hsl(calc(var(--ma-h) + 150) calc(95% * var(--ts)) 62%); }
+.ma-root .mp-3d-tape > li { position: relative; }
+.ma-root .mp-3d-flag { position: absolute; left: -34px; top: 14px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; font-size: 14px; font-weight: 700; color: hsl(calc(var(--ma-h) + 150) calc(60% * var(--ts)) 10%); background: hsl(calc(var(--ma-h) + 150) calc(95% * var(--ts)) 62%); }
+.ma-root .mp-3d-step { padding: 14px 16px 16px; border-radius: 20px; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.ma-root .mp-3d-step h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
+.ma-root .mp-3d-step p { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+
+/* ---- tags: object library ---- */
+.ma-root .mp-3d-lib { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-3d-lib li { display: flex; align-items: center; gap: 12px; min-height: 68px; padding: 10px 14px; border-radius: 20px; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.ma-root .mp-3d-lib .mp-3d-solid { width: 36px; height: 36px; }
+.ma-root .mp-3d-lib span:last-child { min-width: 0; font-size: 16px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+
+/* ---- industries ---- */
+.ma-root .mp-3d-ind { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-3d-cap { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 18px 4px 8px; border-radius: 999px; background: var(--ma-fill2); border: 1px solid var(--ma-rim); }
+.ma-root .mp-3d-cap .mp-3d-solid { width: 30px; height: 30px; }
+.ma-root .mp-3d-cap b { font-size: 17px; font-weight: 600; }
+.ma-root .mp-3d-ind p { margin-top: 8px; padding-left: 10px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+
+/* ---- advantages: callouts ---- */
+.ma-root .mp-3d-call { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-3d-call li { position: relative; display: flex; align-items: center; gap: 0; }
+.ma-root .mp-3d-pt { flex: none; position: relative; z-index: 1; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 4px solid var(--ma-tint-bg); box-shadow: 0 0 0 4px hsl(var(--ma-h) calc(90% * var(--ts)) 60% / 0.2); }
+.ma-root .mp-3d-call li::before { content: ""; flex: none; order: 1; width: 22px; height: 2px; margin-left: -2px; background: var(--ma-tint-bg); }
+.ma-root .mp-3d-call li > div { order: 2; flex: 1; min-width: 0; padding: 14px 16px 16px; border-radius: 18px; background: var(--ma-card); border: 1px solid hsl(var(--ma-h) calc(80% * var(--ts)) 70% / 0.3); }
+.ma-root .mp-3d-call b { font-size: 17px; line-height: 1.35; font-weight: 600; }
+.ma-root .mp-3d-call p { margin-top: 4px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+
+/* ---- faq ---- */
+.ma-root .mp-3d-faq { border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-3d-faq details + details { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-3d-faq summary { list-style: none; display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 12px 16px; cursor: pointer; }
+.ma-root .mp-3d-faq summary::-webkit-details-marker { display: none; }
+.ma-root .mp-3d-faq summary .mp-3d-solid { width: 28px; height: 28px; }
+.ma-root .mp-3d-q { flex: 1; min-width: 0; font-size: 17px; font-weight: 600; line-height: 1.4; }
+.ma-root .mp-3d-faq details[open] .mp-3d-chev { transform: rotate(90deg); }
+.ma-root .mp-3d-faq details > p { padding: 0 16px 16px 56px; font-size: 16px; line-height: 1.65; color: var(--ma-text2); }
+.ma-root .mp-3d-faq details[open] > p { animation: ma-open 0.35s var(--ma-ease) backwards; }
+
+@media (min-width: 700px) { .ma-root .mp-3d-acts { grid-auto-flow: column; grid-auto-columns: 1fr; } .ma-root .mp-3d-lib { grid-template-columns: repeat(3, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-3d-cam, .ma-root .mp-3d-stage .mp-3d-solid, .ma-root .mp-3d-model[open] .mp-3d-mbody, .ma-root .mp-3d-faq details[open] > p { animation: none; } }
