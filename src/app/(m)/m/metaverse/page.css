@@ -47,7 +47,7 @@
 .ma-root .mp-vr-per { margin-top: 2px; font-size: 15px; color: var(--ma-text3); }
 .ma-root .mp-vr-stages { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
 .ma-root .mp-vr-stages li { display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 4px 14px 4px 6px; border-radius: 999px; font-size: 16px; background: hsl(0 0% 100% / 0.07); }
-.ma-root .mp-vr-stages li span { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; font-weight: 700; color: #fff; background: var(--ma-tint-bg); }
+.ma-root .mp-vr-stages li span { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font-size: 15px; font-weight: 700; color: #fff; background: var(--ma-tint-bg); }
 .ma-root .mp-vr-team { display: grid; gap: 8px; margin: 14px 0 0; padding: 14px 0 0; list-style: none; border-top: 1px solid hsl(0 0% 100% / 0.14); }
 .ma-root .mp-vr-team li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 15px; line-height: 1.45; }
 .ma-root .mp-vr-team b { font-weight: 600; }

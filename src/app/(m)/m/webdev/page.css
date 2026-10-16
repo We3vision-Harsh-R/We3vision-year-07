@@ -10,7 +10,7 @@
 .ma-root .mp-wd-dots, .ma-root .mp-wd-cbar { display: flex; gap: 6px; }
 .ma-root .mp-wd-dots i, .ma-root .mp-wd-cbar i { width: 11px; height: 11px; border-radius: 50%; background: var(--ma-fill2); }
 .ma-root .mp-wd-dots i:first-child, .ma-root .mp-wd-cbar i:first-child { background: var(--ma-tint-bg); }
-.ma-root .mp-wd-tab { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 36px; padding: 0 14px; border-radius: 999px; background: var(--ma-fill); font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ma-root .mp-wd-tab { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; background: var(--ma-fill); font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ma-root .mp-wd-view { padding: 24px 20px 20px; background: radial-gradient(100% 70% at 0% 0%, hsl(var(--ma-h) calc(80% * var(--ts)) 50% / 0.22), transparent 70%); }
 .ma-root .mp-wd-h { margin: 0; font-size: 31px; line-height: 1.14; font-weight: 700; letter-spacing: -0.024em; text-wrap: balance; }
 .ma-root .mp-wd-h span + span { color: var(--ma-tint); }

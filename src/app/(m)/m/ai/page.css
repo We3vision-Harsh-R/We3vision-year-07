@@ -70,7 +70,7 @@
 .ma-root .mp-ai-log h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
 .ma-root .mp-ai-log p { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
 .ma-root .mp-ai-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
-.ma-root .mp-ai-tags li { padding: 4px 12px; border-radius: 999px; font-size: 14px; background: var(--ma-fill); border: 1px solid var(--ma-line); color: var(--ma-text2); }
+.ma-root .mp-ai-tags li { padding: 4px 12px; border-radius: 999px; font-size: 15px; background: var(--ma-fill); border: 1px solid var(--ma-line); color: var(--ma-text2); }
 
 /* ---- tags: model chips, a sideways row ---- */
 .ma-root .mp-ai-models { display: grid; grid-auto-flow: column; grid-template-rows: repeat(3, auto); gap: 8px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 8px; list-style: none; overflow-x: auto; scrollbar-width: none; }

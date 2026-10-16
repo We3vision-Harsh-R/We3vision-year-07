@@ -37,7 +37,7 @@
 .mp-about-people { display: flex; gap: 18px; margin: 0 0 18px; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; }
 .mp-about-people li { display: grid; justify-items: center; gap: 4px; min-width: 64px; text-align: center; }
 .mp-about-people b { font-size: 15px; font-weight: 600; }
-.mp-about-people li > span:last-child:not(.mp-about-av) { font-size: 14px; color: var(--ma-text3); }
+.mp-about-people li > span:last-child:not(.mp-about-av) { font-size: 15px; color: var(--ma-text3); }
 .mp-about-rail { position: relative; margin: 0; padding: 4px 0 0; list-style: none; }
 .mp-about-rail::before { content: ""; position: absolute; left: 31px; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: linear-gradient(var(--ma-tint), var(--ma-fill2)); }
 .mp-about-rail li { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: start; padding: 10px 0; }
@@ -46,7 +46,7 @@
 .mp-about-rail li.is-goal > div { padding: 16px; border-radius: 22px; background: linear-gradient(155deg, hsl(var(--ma-h) calc(70% * var(--ts)) 26% / 0.85), var(--ma-card) 70%); border: 1px solid var(--ma-rim); }
 .mp-about-rail li.is-goal h3 { margin: 0 0 6px; font-size: 19px; font-weight: 600; }
 .mp-about-teams { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
-.mp-about-teams li { padding: 6px 12px; border-radius: 999px; background: var(--ma-fill2); font-size: 14px; }
+.mp-about-teams li { max-width: 100%; overflow-wrap: anywhere; padding: 6px 12px; border-radius: 999px; background: var(--ma-fill2); font-size: 15px; }
 
 /* ---- fact tiles ---- */
 .mp-about-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -61,6 +61,6 @@
 .mp-about-leaders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
 .mp-about-leaders li { display: grid; justify-items: center; gap: 6px; padding: 18px 8px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); text-align: center; }
 .mp-about-leaders b { font-size: 16px; line-height: 1.3; font-weight: 600; }
-.mp-about-leaders li > span:last-child { font-size: 14px; color: var(--ma-text2); }
+.mp-about-leaders li > span:last-child { font-size: 15px; color: var(--ma-text2); }
 
 @media (prefers-reduced-motion: reduce) { .mp-about-bubbles li { animation: none; } .mp-about-app { transition: none; } }

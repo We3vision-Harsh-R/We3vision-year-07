@@ -113,3 +113,10 @@
 ## Optimization (set up 2026-10-16) — see [11-optimization.md](11-optimization.md)
 - Waiting for the owner: (1) may pixel-identical changes touch shared code Home also uses (CSS split, fonts, cobe, layout)? (2) OK to run one `npm run build` for baseline JS sizes? (3) Poppins .woff2 files for next/font/local.
 - Phase 1 pass 1 done (asset cache headers, Poppins 300 dropped); most other Phase 1 items were already fine. Next big lever: split globals.css per route (Phase 2) — needs screenshot comparison of every page.
+
+## Mobile app status (2026-10-17)
+- Done and on `main`: kit + 37 app screens (all pages of the launcher/sitemap), bespoke iOS screens for 17 pages (about, team, careers, contact, portfolio, blog, products x5, ai, webdev, mobile, software, crm, metaverse).
+- Layout check (tools/mobile-layout-check.browser.js) on 38 pages x 6 widths (320/390/430/744/820/1024): no sideways scroll, nothing outside the screen, no overlap.
+- Still baseline-kit screens (good, but not bespoke): ui-ux, animation, 3d-modeling, the 7 technology pages, graphics, brand identity/kit/video/development, end-to-end, seo, meta, physical, sitemap.
+- NOT mobile yet (they still open the laptop page on a phone): detail pages blog/[slug], portfolio/[slug], careers/[slug] (+ job apply). Needs dynamic mobile routes and a prefix rule in `src/lib/device.ts`.
+- Not tested on a real phone; tablet only measured in a desktop browser.
