@@ -23,7 +23,10 @@ what is still open.
 | 9 | [09-open-items.md](09-open-items.md) | to know what is next | Pending requests, caveats, ideas |
 | 10 | [10-seo-indexing.md](10-seo-indexing.md) | before any new page / release | Search engine autopilot, owner checklist, how to audit indexing |
 | 11 | [11-optimization.md](11-optimization.md) | **any speed / optimization / "advanced level" task** | Plan, scoreboard (baseline numbers), guardrails vs the Home lock, `tools/perf-audit.mjs` |
+| 11 | [11-mobile-architecture.md](11-mobile-architecture.md) | **any mobile/tablet task** | Separate phone app `src/app/(m)`, device routing, three root layouts |
 | 12 | [12-skills-and-speed-plan.md](12-skills-and-speed-plan.md) | **before any speed work** | Skills to use per job, 1000 ms budget, plan A–E (route CSS, lazy on scroll/click, smoothness), what the owner gets |
+| 13 | [13-mobile-app-plan.md](13-mobile-app-plan.md) | **mobile app sprint** | Plan: every page as an iOS-style app screen |
+| 14 | [14-mobile-skills-map.md](14-mobile-skills-map.md) | before mobile work | Mobile skills map |
 | 10 | [10-starter-prompt.md](10-starter-prompt.md) | when you open a new AI tool | Copy-paste prompt that makes any AI use this folder |
 
 Related files outside this folder: `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `.github/copilot-instructions.md` / `.cursor/rules/` (they
