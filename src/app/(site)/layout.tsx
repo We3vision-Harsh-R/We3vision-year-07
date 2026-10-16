@@ -1,17 +1,16 @@
 import "../globals.css";
 import { Background } from "@/components/site/background";
-import { CustomCursor } from "@/components/site/custom-cursor";
 import { FloatingNav } from "@/components/site/floating-nav";
 import { Footer } from "@/components/site/footer";
+import { LateExtras } from "@/components/site/late-extras";
 import { LogoMark } from "@/components/site/logo-mark";
-import { PauseOffscreen } from "@/components/site/pause-offscreen";
 import { SiteScrollbar } from "@/components/site/site-scrollbar";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
-import { ThemeProvider } from "@/components/site/theme-picker";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
 
 // ROOT LAYOUT of the laptop website (see src/lib/root-shell.tsx): the only one that loads globals.css and the desktop scenes.
+// LateExtras (cursor, colour picker, pause of off-screen figures) is loaded after the first paint (optimize branch).
 export const metadata = baseMetadata;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -20,10 +19,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     <RootShell>
       <div className="relative overflow-x-clip">
         <SmoothScroll />
-        <PauseOffscreen />
         <SiteScrollbar />
-        <CustomCursor />
-        <ThemeProvider />
+        <LateExtras />
         <Background />
         <LogoMark name={site.name} />
         <main>{children}</main>

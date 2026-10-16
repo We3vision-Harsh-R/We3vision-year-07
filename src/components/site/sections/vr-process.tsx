@@ -1,4 +1,4 @@
-import { VrProcess } from "../metaverse/vr-process";
+import { VrProcess } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The steps of the work as stations on the floor of the metaverse studio, Rutvi walks along them (see metaverse/vr-process.tsx). */

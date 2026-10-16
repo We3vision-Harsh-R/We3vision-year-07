@@ -35,7 +35,7 @@ heavy scroll-driven 3D/animated sections. The site celebrates "7 years of We3vis
 8. Report: what changed, what was verified, what was NOT verified (admin screens are login-gated), caveats. Short.
 
 ## Quick facts
-- Dev server: port 3000 (`.claude/launch.json` or `npm run dev`). Admin: `/admin` (login needs the seeded admin; credentials are in `.env`, never print them).
+- Dev server: port 1010 (`.claude/launch.json` or `npm run dev`). Admin: `/admin` (login needs the seeded admin; credentials are in `.env`, never print them).
 - Next.js here is **newer than your training data** (v16, React 19, Tailwind 4, Prisma 7, TypeScript 6). Read
   `node_modules/next/dist/docs/` before using an API you are unsure about (see `AGENTS.md`).
 - Page content defaults live in `src/lib/cms/content/*.ts`; the admin overrides them from the database after "Publish".

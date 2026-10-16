@@ -1,4 +1,4 @@
-import { AboutChapters } from "../about/about-chapters";
+import { AboutChapters } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The story of the company as chapters, and the panda (see about/about-chapters.tsx). */

@@ -20,13 +20,13 @@ chatbot's `.pd-*` CSS from the working tree. It was caught with `git diff --nums
 ## Run it
 ```bash
 npm install              # also runs prisma generate (postinstall)
-npm run dev              # http://localhost:3000   (Turbopack). Admin: /admin
+npm run dev              # http://localhost:1010   (Turbopack). Admin: /admin
 npm run typecheck        # tsc --noEmit
 npx eslint src/components/site/modern src/components/site/sections   # lint a folder (react-hooks/refs is enforced)
 npm run build            # next build --webpack — only when the owner asks
 ```
-`.claude/launch.json` defines a "dev" server (node `next dev` on the main folder, port 3000) for Claude's preview tools.
-`next.config.ts` allows LAN origins in dev (`192.168.*.*`, `10.*.*.*`) so phones on the same Wi-Fi can open `http://<PC-IP>:3000`.
+`.claude/launch.json` defines a "dev" server (node `next dev` on the main folder, port 1010) for Claude's preview tools.
+`next.config.ts` allows LAN origins in dev (`192.168.*.*`, `10.*.*.*`) so phones on the same Wi-Fi can open `http://<PC-IP>:1010`.
 Restart the dev server after: `.env` change, `prisma generate`, new migrations.
 
 ## Testing in the browser (Claude preview/Browser pane or Playwright)
@@ -84,3 +84,5 @@ node tools/tasks.mjs list
 - shadcn/ui docs for future component work: https://ui.shadcn.com/docs/components (not installed).
 - Framer templates used only as visual references (never copied): AIgenius (site theme), aigentx (particle sphere), Bungee (brand
   hero/arch gallery), Aset (7W backdrop idea, since removed).
+
+- Speed tools (2026-10-16): `node tools/build-weight.mjs` (first-load JS/CSS per page, after a build), `chunk-report.mjs` (what is inside the chunks; build with `ANALYZE_STATS=1`), `client-graph.mjs`, `lazy-codemod.mjs`, `css-split.mjs`, `style-diff.mjs`. Use `MSYS_NO_PATHCONV=1` in Git Bash when a tool takes a /path argument. In a worktree Turbopack cannot follow a node_modules junction: use `next dev --webpack` or `next start`.

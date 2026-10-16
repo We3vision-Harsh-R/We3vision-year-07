@@ -1,0 +1,232 @@
+/* Loaded only by: custom-wordpress-devlopment-services (see tools/css-split.config.mjs). Add new "wpa-" rules HERE, not in globals.css. */
+.wpa-wrap { width: min(1280px, 100% - 48px); margin: 0 auto; padding: 112px 0 40px; }
+.wpa { --wp-blue: var(--tw-ac); --wp-dark: var(--tw-dk); --wp-side: var(--tw-dk2); --wp-bg: var(--tw-bg); --wp-line: var(--tw-ln); --wp-text: var(--tw-dk3);
+  border-radius: 10px; overflow: hidden; background: var(--wp-bg); color: var(--wp-text); box-shadow: 0 40px 120px hsl(calc(var(--th) + 330) 60% 3% / 0.7), 0 0 0 1px hsl(0 0% 100% / 0.1); }
+.wpa-bar { display: flex; align-items: center; gap: 22px; height: 46px; padding: 0 18px; background: var(--wp-dark); color: var(--tw-bg); font-size: 0.95rem; }
+.wpa-logo { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--tw-bg); color: var(--wp-dark); font: 700 1rem Georgia, serif; }
+.wpa-new { color: var(--tw-bg); opacity: 0.85; }
+.wpa-howdy { margin-left: auto; opacity: 0.85; }
+.wpa-helpbtn { margin-left: auto; margin-right: -8px; background: var(--tw-dk3); color: var(--tw-bg); border: 0; border-radius: 4px 4px 0 0; padding: 0 14px; height: 38px; align-self: flex-end; font: 400 0.95rem inherit; font-family: inherit; cursor: pointer; }
+.wpa-helpbtn + .wpa-howdy { margin-left: 22px; }
+.wpa-body { display: grid; grid-template-columns: 210px minmax(0, 1fr); min-height: 780px; }
+.wpa-side { background: var(--wp-dark); padding: 8px 0 30px; }
+.wpa-side button { width: 100%; display: flex; align-items: center; gap: 12px; padding: 13px 16px; background: none; border: 0; color: var(--tw-ln); font: 400 1rem inherit; font-family: inherit; text-align: left; cursor: pointer; position: relative; }
+.wpa-side button i { font-style: normal; width: 20px; text-align: center; opacity: 0.8; }
+.wpa-side button b { margin-left: auto; min-width: 22px; height: 22px; border-radius: 11px; background: #d63638; color: #fff; font-size: 0.875rem; font-weight: 500; display: grid; place-items: center; }
+.wpa-side button:hover:not(:disabled) { background: var(--wp-side); color: var(--tw-acl); }
+.wpa-side button.is-on { background: var(--wp-blue); color: #fff; }
+.wpa-side button:disabled { opacity: 0.35; cursor: default; }
+.wpa-main { padding: 14px 28px 40px; position: relative; min-width: 0; }
+.wpa-main section[hidden] { display: none; }
+.wpa-title { font-size: 1.9rem; font-weight: 400; color: var(--tw-dk); margin: 14px 0 16px; line-height: 1.2; }
+.wpa-title span { font-size: 1.05rem; color: var(--tw-mu); margin-left: 12px; }
+.wpa-intro { font-size: 1.05rem; line-height: 1.6; max-width: 760px; margin: 0 0 16px; }
+.wpa-btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 3px; border: 1px solid var(--wp-blue); background: var(--wp-blue); color: #fff; font: 400 1rem inherit; font-family: inherit; cursor: pointer; }
+.wpa-btn:hover:not(:disabled) { background: var(--tw-acd); }
+.wpa-btn:disabled { opacity: 0.55; cursor: default; }
+.wpa-btn-s { background: var(--tw-bg2); color: var(--wp-blue); }
+.wpa-btn-s:hover:not(:disabled) { background: var(--tw-bg); color: var(--tw-acd); }
+.wpa-help { position: absolute; z-index: 5; top: 0; left: 0; right: 0; display: grid; grid-template-columns: 300px 1fr; background: #fff; border-bottom: 1px solid var(--wp-line); box-shadow: 0 12px 30px #0002; }
+.wpa-help ul { margin: 0; padding: 14px 0; list-style: none; background: var(--tw-bg2); }
+.wpa-help li button { width: 100%; text-align: left; padding: 10px 18px; background: none; border: 0; border-left: 4px solid transparent; font: 400 0.95rem/1.4 inherit; font-family: inherit; color: var(--wp-blue); cursor: pointer; }
+.wpa-help li button.is-on { border-left-color: var(--wp-blue); background: #fff; color: var(--tw-dk); font-weight: 600; }
+.wpa-help > div { padding: 20px 28px; }
+.wpa-help h4 { margin: 0 0 8px; font-size: 1.1rem; color: var(--tw-dk); }
+.wpa-help p { margin: 0; font-size: 1rem; line-height: 1.65; }
+.wpa-welcome { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 30px; padding: 30px 34px; border-radius: 4px; color: #fff; background: linear-gradient(120deg, var(--tw-acd), var(--tw-ac) 60%, var(--tw-ac2)); margin-bottom: 20px; }
+.wpa-welcome h1 { margin: 0 0 10px; font-size: 2.3rem; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; color: #fff; }
+.wpa-welcome p { margin: 0 0 20px; font-size: 1.08rem; line-height: 1.6; opacity: 0.95; max-width: 560px; }
+.wpa-wbtn { display: flex; gap: 10px; }
+.wpa-welcome .wpa-btn { background: #fff; color: var(--tw-acd); border-color: #fff; }
+.wpa-welcome .wpa-btn-s { background: transparent; color: #fff; border-color: #fff; }
+.wpa-wcol h3 { margin: 0 0 12px; font-size: 1.05rem; font-weight: 600; }
+.wpa-wcol button { display: block; width: 100%; text-align: left; padding: 9px 0; background: none; border: 0; color: #fff; font: 400 1rem inherit; font-family: inherit; cursor: pointer; }
+.wpa-wcol button:hover { text-decoration: underline; }
+.wpa-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.wpa-wide { grid-column: 1 / -1; }
+.wpa-box { background: #fff; border: 1px solid var(--wp-line); border-radius: 2px; padding: 4px 18px 18px; }
+.wpa-box h3 { margin: 0 -18px 14px; padding: 13px 18px; border-bottom: 1px solid var(--tw-ln2); font-size: 1.05rem; font-weight: 600; color: var(--tw-dk); }
+.wpa-glance { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 1rem; }
+.wpa-glance b { color: var(--wp-blue); font-weight: 600; font-size: 1.15rem; margin-right: 4px; }
+.wpa-foot { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid var(--tw-ln2); font-size: 0.95rem; }
+.wpa-foot a { color: var(--wp-blue); }
+.wpa-box input,
+.wpa-box textarea,
+.wpa-custom input { width: 100%; margin-bottom: 10px; padding: 9px 11px; border: 1px solid var(--tw-mu2); border-radius: 4px; font: 400 1rem inherit; font-family: inherit; color: var(--tw-dk2); background: #fff; }
+.wpa-box input:focus,
+.wpa-box textarea:focus,
+.wpa-custom input:focus { outline: 2px solid var(--wp-blue); border-color: var(--wp-blue); }
+.wpa-drafts { list-style: none; margin: 16px 0 0; padding: 0; }
+.wpa-drafts li { padding: 10px 0; border-top: 1px solid var(--tw-ln2); font-size: 1rem; }
+.wpa-drafts li span { margin-left: 10px; color: var(--tw-mu); font-size: 0.9rem; }
+.wpa-drafts p { margin: 4px 0 0; font-size: 0.95rem; color: var(--tw-mu); }
+.wpa-news { font-size: 1.05rem; line-height: 1.7; margin: 0 0 12px; }
+.wpa-rel { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.wpa-rel a { display: block; font-weight: 600; color: var(--wp-blue); margin-bottom: 4px; font-size: 1.05rem; }
+.wpa-rel span { font-size: 0.95rem; line-height: 1.5; }
+.wpa-tools { display: flex; align-items: center; gap: 8px; font-size: 1rem; margin-bottom: 12px; color: var(--tw-mu); }
+.wpa-tools input { margin-left: auto; width: 240px; padding: 7px 10px; border: 1px solid var(--tw-mu2); border-radius: 4px; font: 400 1rem inherit; font-family: inherit; }
+.wpa-split { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; align-items: start; }
+.wpa-split > .wpa-table:only-child { grid-column: 1 / -1; }
+.wpa-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--wp-line); font-size: 1rem; }
+.wpa-table th { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--wp-line); font-weight: 600; color: var(--tw-dk); }
+.wpa-table td { padding: 12px; border-bottom: 1px solid var(--tw-bg); vertical-align: top; line-height: 1.5; }
+.wpa-table tbody tr:nth-child(odd) { background: var(--tw-bg2); }
+.wpa-table tr.is-on { background: var(--tw-tint) !important; box-shadow: inset 4px 0 0 var(--wp-blue); }
+.wpa-table td button { background: none; border: 0; padding: 0; color: var(--wp-blue); font: 600 1rem inherit; font-family: inherit; cursor: pointer; text-align: left; }
+.wpa-table td small { display: block; margin-top: 3px; font-size: 0.875rem; color: var(--tw-mu); }
+.wpa-table td input[type="checkbox"],
+.wpa-table th input[type="checkbox"] { width: 18px; height: 18px; margin: 0; accent-color: var(--wp-blue); }
+.wpa-table tbody tr { cursor: pointer; }
+.wpa-quick { position: sticky; top: 14px; background: #fff; border: 1px solid var(--wp-line); padding: 4px 18px 20px; }
+.wpa-quick h3 { margin: 0 -18px 14px; padding: 13px 18px; border-bottom: 1px solid var(--tw-ln2); font-size: 1.05rem; color: var(--tw-dk); }
+.wpa-q-t { font-weight: 600; color: var(--tw-dk); font-size: 1.1rem; margin: 0 0 8px; }
+.wpa-quick p { font-size: 1rem; line-height: 1.65; margin: 0 0 16px; }
+.wpa-picked { font-size: 0.95rem !important; margin: 14px 0 0 !important; color: var(--tw-mu); }
+.wpa-picked a { color: var(--wp-blue); cursor: pointer; text-decoration: underline; }
+.wpa-themes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-bottom: 22px; }
+.wpa-theme { text-align: left; padding: 0; background: #fff; border: 1px solid var(--wp-line); border-radius: 3px; cursor: pointer; font-family: inherit; overflow: hidden; display: flex; flex-direction: column; }
+.wpa-theme.is-on { outline: 3px solid var(--wp-blue); border-color: var(--wp-blue); }
+.wpa-thumb { height: 190px; overflow: hidden; background: var(--tw-ln2); pointer-events: none; }
+.wpa-thumb .wpa-site { transform: scale(0.62); transform-origin: top left; width: 162%; }
+.wpa-theme b { padding: 12px 14px 2px; font-size: 1.05rem; color: var(--tw-dk); }
+.wpa-theme span { padding: 0 14px 14px; font-size: 0.95rem; color: var(--tw-mu); }
+.wpa-custom { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; }
+.wpa-panel { background: #fff; border: 1px solid var(--wp-line); padding: 4px 18px 20px; align-self: start; }
+.wpa-panel h3 { margin: 0 -18px 14px; padding: 13px 18px; border-bottom: 1px solid var(--tw-ln2); font-size: 1.05rem; color: var(--tw-dk); }
+.wpa-panel label,
+.wpa-lab { display: block; font-size: 0.95rem; font-weight: 600; margin-bottom: 14px; color: var(--tw-dk); }
+.wpa-panel label input { margin-top: 6px; margin-bottom: 0; font-weight: 400; }
+.wpa-lab > div { display: flex; gap: 8px; margin-top: 8px; }
+.wpa-lab > div:not(.wpa-seg) button { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--wp-line); cursor: pointer; }
+.wpa-lab > div:not(.wpa-seg) button.is-on { box-shadow: 0 0 0 2px var(--tw-dk); }
+.wpa-seg button { padding: 7px 16px; border: 1px solid var(--tw-mu2); background: #fff; color: var(--tw-dk2); font: 400 0.95rem inherit; font-family: inherit; cursor: pointer; }
+.wpa-seg button:first-child { border-radius: 4px 0 0 4px; }
+.wpa-seg button:last-child { border-radius: 0 4px 4px 0; margin-left: -1px; }
+.wpa-seg button.is-on { background: var(--wp-blue); color: #fff; border-color: var(--wp-blue); }
+.wpa-panel > p { font-size: 0.95rem; line-height: 1.55; margin: 6px 0 0; color: var(--tw-mu); }
+.wpa-live { border: 1px solid var(--wp-line); background: #fff; min-height: 380px; overflow: hidden; }
+.wpa-site { --c: var(--tw-ac); background: #fff; color: var(--tw-dk); min-height: 100%; font-size: 1rem; transition: font-family 0.2s; }
+.wpa-site-nav { display: flex; gap: 20px; align-items: center; padding: 16px 22px; border-bottom: 1px solid var(--tw-ln2); font-size: 0.95rem; }
+.wpa-site-nav b { margin-right: auto; font-size: 1.15rem; color: var(--c); }
+.wpa-site h5 { margin: 0 0 6px; font-size: 1.35rem; font-weight: 700; }
+.wpa-site p { margin: 0; font-size: 1rem; color: var(--tw-mu); }
+.wpa-site u { display: block; background: color-mix(in srgb, var(--c) 22%, #fff); border-radius: 4px; text-decoration: none; }
+.wpa-site-hero { padding: 54px 28px; background: var(--c); color: #fff; }
+.wpa-site-hero h5 { font-size: 2.1rem; }
+.wpa-site-hero p { color: #fffd; margin-bottom: 18px; }
+.wpa-site-hero i { display: inline-block; padding: 10px 20px; background: #fff; color: var(--c); border-radius: 4px; font-style: normal; font-weight: 600; }
+.wpa-site-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 22px; }
+.wpa-site-cards u { height: 110px; }
+.wpa-site-posts { max-width: 520px; margin: 0 auto; padding: 22px; display: grid; gap: 22px; }
+.wpa-site-posts u { height: 90px; margin-bottom: 10px; }
+.wpa-site-posts h5 { color: var(--c); }
+.wpa-site-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px; }
+.wpa-site-grid u { height: 120px; }
+.wpa-site-grid u:nth-child(3n+2) { background: color-mix(in srgb, var(--c) 45%, #fff); }
+.wpa-steps { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+.wpa-steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; padding: 16px 18px; background: #fff; border: 1px solid var(--wp-line); border-left: 4px solid var(--wp-line); }
+.wpa-steps li > span { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--tw-bg); font-weight: 600; color: var(--tw-mu); }
+.wpa-steps li.is-done { border-left-color: #00a32a; }
+.wpa-steps li.is-done > span { background: #00a32a; color: #fff; }
+.wpa-steps li.is-run { border-left-color: var(--wp-blue); }
+.wpa-steps li.is-run > span { background: var(--wp-blue); color: #fff; }
+.wpa-steps b { font-size: 1.1rem; color: var(--tw-dk); }
+.wpa-steps p { margin: 4px 0 6px; font-size: 1rem; line-height: 1.6; }
+.wpa-steps small { font-size: 0.9rem; color: var(--tw-mu); }
+.wpa-pbar { height: 6px; background: var(--tw-ln2); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+.wpa-pbar i { display: block; height: 100%; background: var(--wp-blue); transition: width 0.9s; }
+.wpa-steps li.is-done .wpa-pbar i { background: #00a32a; }
+.wpa-ok { margin-top: 16px; padding: 14px 18px; background: #fff; border-left: 4px solid #00a32a; font-size: 1.05rem; }
+.wpa-ok a { color: var(--wp-blue); font-weight: 600; }
+.wpa-plugins td:first-child { width: 100%; }
+.wpa-plugins tr.is-on { background: var(--tw-tint) !important; box-shadow: inset 4px 0 0 var(--wp-blue); }
+.wpa-plugins td b { font-size: 1.08rem; color: var(--tw-dk); }
+.wpa-plugins td:last-child { text-align: right; vertical-align: middle; }
+.wpa-switch { width: 46px; height: 26px; border-radius: 13px; border: 0; background: var(--tw-mu2); position: relative; cursor: pointer; padding: 0; }
+.wpa-switch i { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform 0.2s; }
+.wpa-switch[aria-checked="true"] { background: var(--wp-blue); }
+.wpa-switch[aria-checked="true"] i { transform: translateX(20px); }
+.wpa-score { display: flex; align-items: center; gap: 24px; padding: 20px; background: #fff; border: 1px solid var(--wp-line); margin-bottom: 14px; }
+.wpa-ring { width: 110px; height: 110px; border-radius: 50%; flex: none; display: grid; place-items: center; background: conic-gradient(#00a32a 0 92%, var(--tw-ln2) 0); position: relative; }
+.wpa-ring::before { content: ""; position: absolute; inset: 11px; background: #fff; border-radius: 50%; }
+.wpa-ring b { position: relative; font-size: 1.2rem; color: var(--tw-dk); }
+.wpa-score p { margin: 0; font-size: 1.1rem; line-height: 1.6; }
+.wpa-checks { list-style: none; margin: 0; padding: 0; background: #fff; border: 1px solid var(--wp-line); }
+.wpa-checks li { border-bottom: 1px solid var(--tw-ln2); }
+.wpa-checks li:last-child { border-bottom: 0; }
+.wpa-checks button { width: 100%; display: flex; align-items: center; gap: 14px; padding: 15px 18px; background: none; border: 0; font: 600 1.05rem inherit; font-family: inherit; color: var(--tw-dk); cursor: pointer; text-align: left; }
+.wpa-checks button span { flex: 1; }
+.wpa-checks em { font-style: normal; font-weight: 400; font-size: 0.875rem; padding: 3px 12px; border-radius: 12px; background: #edfaef; color: #006408; }
+.wpa-checks u { text-decoration: none; color: var(--tw-mu); }
+.wpa-checks li p { margin: 0; padding: 0 18px 18px; font-size: 1.02rem; line-height: 1.65; }
+.wpa-credit { text-align: center; margin: 22px 0 0; color: hsl(calc(var(--th) + 330) 20% 70%); font-size: 0.95rem; }
+.wpa {
+  --tw-ac: hsl(calc(var(--th) + 354) calc(55% * var(--ts)) 46%);
+  --tw-acd: hsl(calc(var(--th) + 354) calc(58% * var(--ts)) 34%);
+  --tw-acl: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+  --tw-ac2: hsl(calc(var(--th) + 326) calc(70% * var(--ts)) 52%);
+  --tw-ac2l: hsl(calc(var(--th) + 326) calc(75% * var(--ts)) 64%);
+  --tw-dk: hsl(calc(var(--th) + 340) calc(35% * var(--ts)) 12%);
+  --tw-dk2: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 19%);
+  --tw-dk3: hsl(calc(var(--th) + 340) calc(22% * var(--ts)) 25%);
+  --tw-bg: hsl(calc(var(--th) + 354) calc(32% * var(--ts)) 95%);
+  --tw-bg2: hsl(calc(var(--th) + 354) calc(32% * var(--ts)) 97.5%);
+  --tw-nav: hsl(calc(var(--th) + 354) calc(26% * var(--ts)) 91%);
+  --tw-ln: hsl(calc(var(--th) + 354) calc(20% * var(--ts)) 78%);
+  --tw-ln2: hsl(calc(var(--th) + 354) calc(22% * var(--ts)) 87%);
+  --tw-mu: hsl(calc(var(--th) + 340) calc(12% * var(--ts)) 40%);
+  --tw-mu2: hsl(calc(var(--th) + 340) calc(10% * var(--ts)) 56%);
+  --tw-ink: hsl(calc(var(--th) + 340) calc(15% * var(--ts)) 28%);
+  --tw-tint: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 96%);
+  --tw-tint2: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 90%);
+}
+.wpa-wrap { position: relative; isolation: isolate; }
+.wpa-wrap::before {
+  content: ""; position: absolute; z-index: -1; inset: -140px -200px; pointer-events: none;
+  background:
+    radial-gradient(40% 50% at 20% 30%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.34), transparent 70%),
+    radial-gradient(35% 45% at 80% 20%, hsl(calc(var(--th) + 326) calc(90% * var(--ts)) 55% / 0.28), transparent 70%),
+    radial-gradient(45% 55% at 60% 90%, hsl(calc(var(--th) + 300) calc(90% * var(--ts)) 55% / 0.26), transparent 70%),
+    radial-gradient(30% 40% at 10% 90%, hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 55% / 0.2), transparent 70%);
+  background-size: 170% 170%, 150% 150%, 180% 180%, 160% 160%;
+  background-repeat: no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 40%, transparent 100%);
+  animation: tgb-flow 24s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+.wpa-wrap::before { animation: none !important; }
+}
+.wpa-main {
+  overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
+  scrollbar-color: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 62% / 0.7) transparent;
+}
+.wpa-body { height: 780px; min-height: 0; }
+.wpa-main { max-height: 780px; }
+.wpa-wrap.tpin { width: 100%; padding: 0; }
+.tpin .wpa { display: flex; flex-direction: column; height: 100%; }
+.tpin .wpa-body { flex: 1; min-height: 0; height: auto; }
+.tpin .wpa-side { overflow-y: auto; }
+.tpin .wpa-main { height: 100%; max-height: none; overflow-y: auto; }
+.tpin .wpa-wrap::before { display: none; }
+.wpa-wrap.tpin::before { inset: 0 -200px; }
+.wpa-side button { transition: background 0.25s, color 0.25s; }
+.wpa-ring { background: conic-gradient(var(--tw-ac2, #00a32a) 0 var(--pc, 0%), var(--tw-ln2) 0); transition: background 0.5s; }
+.wpa-ring { background: conic-gradient(#00a32a 0 var(--pc, 0%), var(--tw-ln2) 0); }
+.wpa-ring { transition: --pc 0.6s ease; }
+.wpa-checks li em { transition: background 0.4s, color 0.4s; }
+.wpa-checks li.is-run em { background: var(--tw-tint); color: var(--tw-acd); animation: tan-pulse 0.9s ease-in-out infinite; }
+.wpa-checks li:not(.is-ok):not(.is-run) em { background: var(--tw-bg); color: var(--tw-mu); }
+.wpa-checks li.is-ok { animation: tan-ok 0.6s ease; }
+.wpa-checks li.is-ok em { background: #d6f5dc; color: #006408; }
+.wpa-checks li.is-run > button::before { content: ""; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--tw-ln); border-top-color: var(--tw-ac); animation: tan-spin 0.8s linear infinite; flex: none; }
+.wpa-checks li.is-ok > button::before { content: "✓"; color: #00a32a; font-weight: 700; flex: none; width: 16px; }
+.wpa-checks li:not(.is-ok):not(.is-run) > button::before { content: ""; width: 16px; height: 16px; border-radius: 50%; border: 2px dashed var(--tw-ln); flex: none; }
+@keyframes tan-spin { to { transform: rotate(360deg); } }
+@keyframes tan-pulse { 50% { opacity: 0.55; } }
+@keyframes tan-ok { 0% { background: #d6f5dc; } 100% { background: transparent; } }
+.wpa-welcome { background-size: 220% 220%; animation: tan-flow 12s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+.wpa-main * { animation: none !important; }
+}

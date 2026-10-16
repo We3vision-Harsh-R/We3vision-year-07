@@ -61,7 +61,7 @@ npm install                      # also runs `prisma generate`
 cp .env.example .env             # fill in the values (use a dev database if you have one)
 npm run db:deploy                # apply migrations (see brain/07 if prisma cannot reach the DB)
 npm run db:seed                  # create the first admin (ADMIN_EMAIL / ADMIN_PASSWORD from .env)
-npm run dev                      # http://localhost:3000   admin: /admin
+npm run dev                      # http://localhost:1010   admin: /admin
 ```
 
 Without `DATABASE_URL` the website still runs with its built-in content (the admin needs the database).

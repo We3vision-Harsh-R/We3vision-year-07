@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/ai.css";
+
 import { Fragment, useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { GuideTop } from "../avatar";
 import { FlowIcon } from "../flow-icons";

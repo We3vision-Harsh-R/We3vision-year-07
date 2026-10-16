@@ -1,5 +1,5 @@
 import { GlowEdge } from "../glow-edge";
-import { ContactFlow } from "../contact-flow";
+import { ContactFlow } from "../lazy";
 import { Reveal } from "../reveal";
 import { SectionHead, Wide } from "../ui";
 import type { SectionComponent } from "./shared";

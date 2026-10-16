@@ -1,6 +1,6 @@
 import { ReasonsStack } from "../reasons-stack";
 import { WhyBento } from "../modern/why-bento";
-import { WhyVariant } from "../modern/why-variants";
+import { WhyVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
 import { SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";

@@ -1,6 +1,6 @@
 import { Reveal } from "../reveal";
-import { TechSpace } from "../tech-space";
-import { ToolsVariant } from "../modern/tools-variants";
+import { TechSpace } from "../lazy";
+import { ToolsVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
 import type { SectionComponent } from "./shared";
 

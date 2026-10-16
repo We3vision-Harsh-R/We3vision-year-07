@@ -1,4 +1,4 @@
-import { ContactReception } from "../contact-reception";
+import { ContactReception } from "../lazy";
 import { HeroBadges } from "../hero-badges";
 import { AiHeroBg } from "../modern/ai-hero-bg";
 import CursorGrid from "../modern/cursor-grid";

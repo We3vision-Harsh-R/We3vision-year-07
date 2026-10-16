@@ -1,3 +1,4 @@
+import "@/styles/home-hero.css";
 import type { CSSProperties } from "react";
 
 // The little street the panda walks along on the home page (the rail under the service boxes, see hero-scene.tsx): a street lamp at every

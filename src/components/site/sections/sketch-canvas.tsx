@@ -1,6 +1,7 @@
+import "@/styles/brand-identity.css";
 import { GlowEdge } from "../glow-edge";
 import { Reveal } from "../reveal";
-import { SketchCanvas } from "../sketch-canvas";
+import { SketchCanvas } from "../lazy";
 import { SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";
 

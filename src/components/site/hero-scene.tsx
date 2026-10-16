@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/home-hero.css";
+
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { AiChat } from "./ai-chat";
 import { GuideFront, GuideSide } from "./avatar";

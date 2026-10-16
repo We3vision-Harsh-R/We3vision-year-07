@@ -1,0 +1,172 @@
+/* Loaded only by: meta-marketing-services (see tools/css-split.config.mjs). Add new "mtb-" rules HERE, not in globals.css. */
+.mtb-win { border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.3); border-radius: 22px; overflow: hidden; background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 8% / 0.92); box-shadow: 0 0 40px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.12), 0 24px 60px rgba(0, 0, 0, 0.35); }
+.mtb-bar { display: flex; align-items: center; gap: 7px; height: 44px; padding: 0 18px; border-bottom: 1px solid var(--m-line); background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 12%); }
+.mtb-bar i { width: 11px; height: 11px; border-radius: 50%; background: hsl(0 0% 100% / 0.18); }
+.mtb-bar i:nth-child(1) { background: hsl(calc(var(--th) + 354) 80% 62%); }
+.mtb-bar i:nth-child(2) { background: hsl(calc(var(--th) + 24) 85% 62%); }
+.mtb-bar i:nth-child(3) { background: hsl(calc(var(--th) + 140) 70% 55%); }
+.mtb-bar b { margin-left: 12px; font-size: 0.95rem; font-weight: 600; }
+.mtb-bar em { margin-left: auto; padding: 2px 12px; border: 1px solid var(--m-line); border-radius: 999px; font-style: normal; font-size: 0.875rem; color: var(--m-a); }
+.mtb-body { padding: 0; }
+.mtb-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mtb-post { --tn: 0; position: relative; display: flex; flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; border: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.22); border-radius: 22px; overflow: hidden; background: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 7%); animation: mkt-in 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.mtb-post.p-1,
+.mtb-post.p-2 { aspect-ratio: 9 / 16; max-width: 250px; }
+.mtb-ph { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+.mtb-ph > span:nth-child(2) { flex: 1; min-width: 0; }
+.mtb-ph b { display: block; font-size: 0.95rem; line-height: 1.2; }
+.mtb-ph small { font-size: 0.875rem; color: var(--m-mute); }
+.mtb-av { flex: none; width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--m-a), hsl(calc(var(--th) + 330) calc(85% * var(--ts)) 60%)); box-shadow: 0 0 0 2px hsl(calc(var(--th) + 347) 50% 7%), 0 0 0 4px var(--m-a); }
+.mtb-ph .mtb-i { color: var(--m-mute); }
+.mtb-media { position: relative; background: linear-gradient(135deg, hsl(calc(var(--th) + 354 + var(--tn)) calc(70% * var(--ts)) 24%), hsl(calc(var(--th) + 340 + var(--tn)) calc(60% * var(--ts)) 14%)); padding: 12px 14px; display: grid; place-items: center; }
+.mtb-media svg { display: block; width: 100%; height: auto; }
+.mtb-post.p-1 .mtb-media,
+.mtb-post.p-2 .mtb-media { position: absolute; inset: 0; z-index: 0; align-content: center; }
+.mtb-post.p-1 .mtb-media svg,
+.mtb-post.p-2 .mtb-media svg { max-height: 48%; }
+.mtb-post.p-1 > :not(.mtb-media),
+.mtb-post.p-2 > :not(.mtb-media) { position: relative; z-index: 2; }
+.mtb-over { position: absolute; left: 16px; right: 16px; top: 62%; margin: 0; font-size: 1.15rem; font-weight: 600; line-height: 1.25; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); }
+.mtb-bars { position: absolute; left: 10px; right: 10px; top: 8px; z-index: 3; display: flex; gap: 4px; }
+.mtb-bars i { flex: 1; height: 3px; border-radius: 2px; background: hsl(0 0% 100% / 0.35); }
+.mtb-bars i.is-on { background: #fff; }
+.mtb-act { display: flex; gap: 14px; padding: 10px 12px 4px; }
+.mtb-act .mtb-i:last-child { margin-left: auto; }
+.mtb-side { position: absolute; right: 8px; bottom: 120px; z-index: 3; display: grid; gap: 16px; }
+.mtb-side .mtb-i { width: 26px; height: 26px; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5)); }
+.mtb-cap { padding: 4px 14px 8px; font-size: 0.875rem; line-height: 1.4; color: var(--m-mute); }
+.mtb-cap b { color: var(--m-ink); }
+.mtb-cap small { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 0.875rem; }
+.mtb-cap small .mtb-i { width: 14px; height: 14px; }
+.mtb-post.p-1 .mtb-cap,
+.mtb-post.p-2 .mtb-cap { margin-top: auto; color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); }
+.mtb-cta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 12px 12px; padding: 9px 12px; border-radius: 12px; background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.18); }
+.mtb-cta span { font-size: 0.875rem; color: var(--m-mute); }
+.mtb-cta u { text-decoration: none; padding: 5px 12px; border-radius: 8px; background: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font-size: 0.875rem; font-weight: 600; }
+.mtb-seg { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+.mtb-seg button { padding: 6px 14px; border: 1px solid var(--m-line); border-radius: 999px; background: none; color: var(--m-mute); font-size: 0.875rem; cursor: pointer; transition: all 0.3s; }
+.mtb-seg button:hover { color: var(--m-ink); border-color: var(--m-a); }
+.mtb-seg button.is-on { background: var(--m-a); border-color: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font-weight: 600; }
+.mtb-phone { display: grid; align-content: start; }
+.mtb-hero-win .mtb-bar { height: 40px; }
+.mtb-hw { display: grid; grid-template-columns: 150px 1fr 250px; min-height: 0; }
+.mtb-menu { display: grid; align-content: start; gap: 2px; margin: 0; padding: 12px 8px; list-style: none; border-right: 1px solid var(--m-line); background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 10%); }
+.mtb-menu li { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 9px; font-size: 0.875rem; color: var(--m-mute); }
+.mtb-menu li i { width: 8px; height: 8px; border-radius: 3px; background: currentColor; opacity: 0.6; }
+.mtb-menu li.is-on { background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.16); color: #fff; }
+.mtb-hmain { padding: 14px 16px; min-width: 0; }
+.mtb-h4 { margin: 0 0 8px; font-size: 0.875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--m-a); }
+.mtb-tree { position: relative; display: grid; gap: 10px; margin-top: 14px; padding-left: 18px; }
+.mtb-tree::before { content: ""; position: absolute; left: 5px; top: 12px; bottom: 30px; width: 2px; background: var(--m-line); }
+.mtb-node { position: relative; padding: 8px 12px; border: 1px solid var(--m-line); border-radius: 12px; background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.04); }
+.mtb-node::before { content: ""; position: absolute; left: -17px; top: 20px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--m-a); background: hsl(calc(var(--th) + 347) 58% 8%); }
+.mtb-node small { display: block; margin-bottom: 3px; font-size: 0.875rem; font-weight: 600; color: var(--m-a); }
+.mtb-node b { font-size: 1rem; font-weight: 600; }
+.mtb-node div { display: flex; flex-wrap: wrap; gap: 6px; }
+.mtb-node button { padding: 4px 11px; border: 1px solid var(--m-line); border-radius: 999px; background: none; color: var(--m-mute); font-size: 0.875rem; cursor: pointer; transition: all 0.3s; }
+.mtb-node button:hover { color: var(--m-ink); border-color: var(--m-a); }
+.mtb-node button.is-on { background: var(--m-a); border-color: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font-weight: 600; }
+.mtb-hw .mtb-phone { padding: 14px 14px 14px 0; align-content: center; }
+.mtb-hw .mtb-post { max-width: 230px; }
+.mtb-hw .mtb-post.p-1,
+.mtb-hw .mtb-post.p-2 { max-width: 190px; }
+.mtb-hw .mtb-cap { font-size: 0.875rem; }
+.mtb-hw .mtb-post:not(.p-1):not(.p-2) .mtb-cap { display: none; }
+.mtb-obj { display: grid; grid-template-columns: 250px 1fr 270px; }
+.mtb-camps { margin: 0; padding: 12px; list-style: none; border-right: 1px solid var(--m-line); background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 10%); display: grid; gap: 4px; align-content: start; }
+.mtb-camps button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 12px; border: 1px solid transparent; border-radius: 12px; background: none; color: var(--m-mute); font-size: 1rem; text-align: left; cursor: pointer; transition: all 0.3s; }
+.mtb-camps b { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; border: 1px solid var(--m-line); font-size: 0.875rem; color: var(--m-a); }
+.mtb-camps span { flex: 1; }
+.mtb-camps small { display: block; font-size: 0.875rem; color: var(--m-mute); opacity: 0.8; }
+.mtb-camps button > i { width: 9px; height: 9px; border-radius: 50%; background: hsl(calc(var(--th) + 140) 60% 55%); opacity: 0.35; }
+.mtb-camps button:hover { color: var(--m-ink); background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.05); }
+.mtb-camps button.is-on { color: #fff; border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.4); background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.12); }
+.mtb-camps button.is-on > i { opacity: 1; box-shadow: 0 0 10px hsl(calc(var(--th) + 140) 70% 55%); }
+.mtb-camps button.is-on b { background: var(--m-a); border-color: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); }
+.mtb-det { padding: 22px 28px; animation: mkt-in 0.45s cubic-bezier(0.22, 1, 0.36, 1); min-width: 0; }
+.mtb-det h3 { margin: 0 0 6px; font-size: 1.7rem; font-weight: 600; letter-spacing: -0.02em; }
+.mtb-ex { margin: 0 0 4px; font-size: 1.05rem; line-height: 1.55; }
+.mtb-steps { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.mtb-steps li { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border: 1px solid var(--m-line); border-radius: 12px; background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.04); font-size: 1rem; line-height: 1.4; opacity: 0; animation: mkt-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: calc(var(--i) * 80ms); }
+.mtb-steps b { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font-size: 0.875rem; }
+.mtb-two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+.mtb-two p:not(.mkt-label) { margin: 0; font-size: 1rem; line-height: 1.5; }
+.mtb-obj .mtb-phone { padding: 22px 22px 22px 0; align-content: center; }
+.mtb-lv { padding: 18px 22px 22px; }
+.mtb-tabs2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
+.mtb-tabs2 button { display: grid; gap: 2px; padding: 12px 16px; border: 1px solid var(--m-line); border-radius: 14px; background: none; color: var(--m-mute); text-align: left; cursor: pointer; transition: all 0.3s; }
+.mtb-tabs2 b { font-size: 1.1rem; font-weight: 600; color: var(--m-ink); }
+.mtb-tabs2 small { font-size: 0.875rem; }
+.mtb-tabs2 button:hover { border-color: var(--m-a); }
+.mtb-tabs2 button.is-on { background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.16); border-color: var(--m-a); }
+.mtb-lvg { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; animation: mkt-in 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.mtb-card { padding: 18px 20px; border: 1px solid var(--m-line); border-radius: 16px; background: var(--m-card); opacity: 0; animation: mkt-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: calc(var(--i) * 100ms); }
+.mtb-card h3 { margin: 0 0 8px; font-size: 1.2rem; font-weight: 600; }
+.mtb-card ul { margin: 0; padding: 0; list-style: none; }
+.mtb-card li { position: relative; padding: 4px 0 4px 18px; font-size: 1rem; line-height: 1.4; }
+.mtb-card li::before { content: ""; position: absolute; left: 0; top: 13px; width: 6px; height: 6px; border-radius: 50%; background: var(--m-a); }
+.mtb-cre { display: grid; grid-template-columns: 1fr 360px; gap: 40px; align-items: center; max-width: 1100px; margin: 0 auto; padding: 30px 40px; border: 1px solid var(--m-line); border-radius: 28px; background: var(--m-card); }
+.mtb-stage { display: grid; place-items: center; padding: 18px; border-radius: 24px; background: radial-gradient(70% 70% at 50% 40%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.18), transparent 70%), hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 6%); }
+.mtb-stage .mtb-post { max-width: 290px; }
+.mtb-stage .mtb-post.p-1,
+.mtb-stage .mtb-post.p-2 { max-width: 250px; }
+.mtb-fun { display: grid; grid-template-columns: 340px 1fr; gap: 24px; padding: 22px; }
+.mtb-fp { animation: mkt-in 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.mtb-fp h3 { margin: 0 0 8px; font-size: 1.6rem; font-weight: 600; }
+.mtb-bud { display: grid; grid-template-columns: 0.85fr 1.15fr; }
+.mtb-form { display: grid; gap: 18px; align-content: start; padding: 24px; border-right: 1px solid var(--m-line); background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 10%); }
+.mtb-res { padding: 24px 28px; }
+.mtb-stack { display: flex; height: 22px; margin: 6px 0 16px; border-radius: 999px; overflow: hidden; background: var(--m-line); }
+.mtb-stack i { display: block; height: 100%; transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.mtb-legend { display: grid; gap: 10px; margin: 0 0 14px; padding: 0; list-style: none; }
+.mtb-legend li { display: flex; align-items: center; gap: 14px; }
+.mtb-legend li > i { flex: none; width: 14px; height: 14px; border-radius: 4px; }
+.mtb-legend span { flex: 1; }
+.mtb-legend b { display: block; font-size: 1rem; font-weight: 600; }
+.mtb-legend small { display: block; font-size: 0.875rem; color: var(--m-mute); }
+.mtb-legend em { font-style: normal; font-size: 1.2rem; font-weight: 700; text-align: right; color: var(--m-a); }
+.mtb-legend em small { font-weight: 400; }
+.mtb-flowbox { max-width: 980px; margin: 0 auto; width: 100%; }
+.mtb-flowbox .mta-flow-b { max-width: none; }
+.mtb-tbl { width: 100%; border-collapse: collapse; }
+.mtb-tbl th,
+.mtb-tbl td { padding: 14px 22px; text-align: left; vertical-align: top; font-size: 1rem; line-height: 1.5; border-bottom: 1px solid var(--m-line); }
+.mtb-tbl thead th { position: sticky; top: 0; background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 12%); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--m-a); }
+.mtb-tbl tbody th { font-weight: 600; white-space: nowrap; }
+.mtb-tbl td { color: var(--m-mute); }
+.mtb-tbl tbody tr { transition: background 0.2s; }
+.mtb-tbl tbody tr:hover { background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.08); }
+.mtb-tbl tbody tr:last-child > * { border-bottom: 0; }
+.mtb .mkt-sec > .mtb-win { max-width: 1240px; margin-left: auto; margin-right: auto; }
+.mtb .mkt-pin-in > .mtb-win { width: 100%; max-width: 1240px; }
+@media (max-height: 800px) {
+.mtb-hw { grid-template-columns: 130px 1fr 210px; }
+.mtb-hw .mtb-post { max-width: 195px; }
+.mtb-menu li { padding: 6px 9px; }
+.mtb-tree { gap: 8px; }
+.mtb-node { padding: 6px 10px; }
+.mtb-fun { padding: 14px; }
+.mtb-fun-win .mta-fun-l button { padding: 9px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+.mtb-post,
+.mtb-steps li,
+.mtb-card,
+.mtb-det,
+.mtb-fp { animation: none; opacity: 1; }
+}
+.mtb-hero { grid-template-columns: 0.78fr 1.22fr; padding-right: 60px; }
+.mtb-hw { grid-template-columns: 52px 1fr 224px; }
+.mtb-menu { padding: 12px 6px; }
+.mtb-menu li { justify-content: center; padding: 10px 0; font-size: 0; }
+.mtb-menu li i { width: 18px; height: 18px; border-radius: 6px; }
+.mtb-hmain { padding: 12px 14px; }
+.mtb-hw .mtb-post { max-width: 200px; }
+.mtb-hw .mtb-post.p-1,
+.mtb-hw .mtb-post.p-2 { max-width: 170px; }
+.mtb-node { padding: 6px 10px; }
+.mtb-tree { gap: 8px; margin-top: 12px; }
+@media (max-height: 800px) {
+.mtb-hw { grid-template-columns: 48px 1fr 200px; }
+.mtb-hw .mtb-post { max-width: 180px; }
+}

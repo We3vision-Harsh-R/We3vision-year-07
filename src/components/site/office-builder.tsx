@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/office.css";
+
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { cut, makeFiles, tokenize, type Token } from "./office-code";
 import { OfficeArt } from "./office-art";

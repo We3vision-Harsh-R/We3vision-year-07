@@ -1,6 +1,7 @@
 import { getBlogEntries } from "@/lib/blog";
 import type { BlogEntry } from "@/lib/blog-shared";
-import { BlogMasonry, type MasonryItem } from "../modern/blog-masonry";
+import { type MasonryItem } from "../modern/blog-masonry";
+import { BlogMasonry } from "../lazy";
 import { ButtonLink, SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";
 

@@ -8,14 +8,36 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // set NEXT_DIST_DIR to serve a second, older build next to the new one (used to compare the look before and after a change)
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   poweredByHeader: false,
   // build on small hosts: use worker threads (no extra processes) and few workers
   experimental: { workerThreads: true, cpus: 2 },
-  // development only: lets other computers on the same Wi-Fi open the dev server (http://<this PC's IP>:3000)
+  // development only: lets other computers on the same Wi-Fi open the dev server (http://<this PC's IP>:1010)
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*"],
+  // `ANALYZE_STATS=1 npm run build` writes .next/stats-client.json (what is inside every browser chunk); read it with node tools/chunk-report.mjs
+  webpack(config, { isServer }) {
+    if (process.env.ANALYZE_STATS && !isServer) {
+      config.plugins.push({
+        apply(compiler: { hooks: { done: { tap: (n: string, f: (s: { toJson: (o: object) => unknown }) => void) => void } } }) {
+          compiler.hooks.done.tap("w3v-stats", (stats) => {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            require("node:fs").writeFileSync(".next/stats-client.json", JSON.stringify(stats.toJson({ all: false, chunks: true, modules: true, chunkModules: true, ids: true, entrypoints: true })));
+          });
+        },
+      });
+    }
+    return config;
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // Files in /public keep the same name when they are replaced, so they are not "immutable": a day in the browser, a week of
+      // serving the old copy while a new one is fetched (stale-while-revalidate). Repeat visits and page changes skip the download.
+      ...["images", "brand", "data"].map((dir) => ({
+        source: `/${dir}/:path*`,
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+      })),
       {
         // Admin + draft preview must never be indexed or cached.
         source: "/admin/:path*",

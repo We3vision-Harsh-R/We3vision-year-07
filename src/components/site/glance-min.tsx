@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/team.css";
+
 import { useEffect, useRef } from "react";
 import { SplitHeading } from "./modern/split-heading";
 

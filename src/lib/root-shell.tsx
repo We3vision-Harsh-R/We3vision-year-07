@@ -11,13 +11,14 @@ import Script from "next/script";
 // The brand font of We3vision: Poppins, used for everything on the website and in the admin panel.
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  // 300 (light) is not used anywhere in the CSS or the components: one font file less to download
+  weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
   display: "swap",
 });
 
 export const baseMetadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:1010"),
   title: "We3vision",
   description: "We3vision Private Limited",
 };
