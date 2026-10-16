@@ -1,0 +1,103 @@
+/* /ai app screen ("mp-ai-"): an assistant app. Hero = first message with quick replies, flow = one agent run, pairs = you / assistant bubbles. Kit tokens only. */
+
+/* ---- avatar and bubbles ---- */
+.ma-root .mp-ai-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; color: #fff; background: linear-gradient(145deg, hsl(calc(var(--ma-h) + 30) calc(90% * var(--ts)) 62%), hsl(calc(var(--ma-h) - 20) calc(85% * var(--ts)) 42%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.45), 0 4px 12px hsl(var(--ma-h) calc(80% * var(--ts)) 30% / 0.5); }
+.ma-root .mp-ai-av svg { width: 20px; height: 20px; }
+.ma-root .mp-ai-msg { display: flex; align-items: flex-end; gap: 10px; max-width: 94%; }
+.ma-root .mp-ai-bub { min-width: 0; padding: 12px 16px; border-radius: 22px 22px 22px 6px; background: var(--ma-card2); border: 1px solid var(--ma-line); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.06); }
+.ma-root .mp-ai-who { margin-bottom: 4px; font-size: 13px; font-weight: 600; color: var(--ma-tint); }
+.ma-root .mp-ai-p { font-size: 16px; line-height: 1.6; color: var(--ma-text); }
+.ma-root .mp-ai-p em { font-weight: 600; }
+.ma-root .mp-ai-stack { display: grid; gap: 12px; }
+.ma-root .mp-ai-me { align-self: flex-end; justify-self: end; max-width: 88%; padding: 12px 16px; border-radius: 22px 22px 6px 22px; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); }
+.ma-root .mp-ai-me p { font-size: 16px; line-height: 1.55; color: #fff; }
+.ma-root .mp-ai-cap { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: var(--ma-text3); }
+.ma-root .mp-ai-me .mp-ai-cap { color: hsl(0 0% 100% / 0.8); }
+.ma-root .mp-ai-done { display: inline-flex; align-items: center; margin-top: 8px; min-height: 28px; padding: 0 12px; border-radius: 999px; font-size: 13px; font-weight: 600; background: var(--ma-wash); color: var(--ma-tint); }
+.ma-root .mp-ai-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); transition: transform 0.3s var(--ma-ease); }
+
+/* ---- hero: the first message ---- */
+.ma-root .mp-ai-hero { position: relative; margin-top: 6px; padding: 22px 20px 20px; border-radius: 30px; overflow: hidden; background: radial-gradient(120% 80% at 100% 0%, hsl(calc(var(--ma-h) + 40) calc(90% * var(--ts)) 55% / 0.28), transparent 60%), linear-gradient(170deg, var(--ma-card2), var(--ma-card)); border: 1px solid var(--ma-rim); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14), 0 20px 44px hsl(0 0% 0% / 0.32); animation: mp-ai-pop 0.6s var(--ma-spring) backwards; }
+.ma-root .mp-ai-top { display: flex; align-items: center; gap: 10px; }
+.ma-root .mp-ai-chip { display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px; border-radius: 999px; font-size: 14px; font-weight: 600; background: var(--ma-wash); color: var(--ma-tint); }
+.ma-root .mp-ai-h { margin: 16px 0 0; font-size: 31px; line-height: 1.14; font-weight: 700; letter-spacing: -0.024em; text-wrap: balance; }
+.ma-root .mp-ai-h span + span { color: var(--ma-tint); }
+.ma-root .mp-ai-t { margin-top: 12px; font-size: 17px; line-height: 1.62; color: var(--ma-text2); }
+.ma-root .mp-ai-replies { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.ma-root .mp-ai-reply { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 999px; font-size: 16px; font-weight: 600; text-align: center; background: var(--ma-fill); border: 1px solid var(--ma-rim); transition: transform 0.25s var(--ma-spring); }
+.ma-root .mp-ai-reply.is-main { background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); border-color: transparent; box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); }
+.ma-root .mp-ai-reply:active { transform: scale(0.96); }
+@keyframes mp-ai-pop { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.97); } }
+
+/* ---- flow: one run of the agent ---- */
+.ma-root .mp-ai-thread { display: grid; gap: 12px; }
+.ma-root .mp-ai-run { padding: 16px; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.ma-root .mp-ai-runh { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 17px; }
+.ma-root .mp-ai-tools { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-tools li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; border-radius: 16px; background: var(--ma-fill); font-size: 16px; line-height: 1.5; }
+.ma-root .mp-ai-tick { flex: none; position: relative; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; background: var(--ma-tint-bg); }
+.ma-root .mp-ai-tick::after { content: ""; position: absolute; left: 6px; top: 6px; width: 10px; height: 6px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
+.ma-root .mp-ai-note { margin-top: 12px; font-size: 15px; line-height: 1.55; color: var(--ma-text3); }
+.ma-root .mp-ai-chipbox { padding: 14px 16px 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.ma-root .mp-ai-chipbox .mp-ai-cap { margin-bottom: 10px; }
+.ma-root .mp-ai-chipbox.is-act { background: linear-gradient(155deg, hsl(var(--ma-h) calc(70% * var(--ts)) 26% / 0.85), var(--ma-card) 70%); }
+
+/* ---- "problem / solution" pairs ---- */
+.ma-root .mp-ai-pairs { display: grid; gap: 22px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-pairs > li { display: grid; gap: 8px; }
+
+/* ---- agent cards ---- */
+.ma-root .mp-ai-agents { display: grid; gap: 12px; }
+.ma-root .mp-ai-agent { border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-ai-agent > summary { list-style: none; display: flex; align-items: flex-start; gap: 14px; min-height: 64px; padding: 16px; cursor: pointer; }
+.ma-root .mp-ai-agent > summary::-webkit-details-marker { display: none; }
+.ma-root .mp-ai-agent[open] .mp-ai-chev, .ma-root .mp-ai-prompts details[open] .mp-ai-chev { transform: rotate(90deg); }
+.ma-root .mp-ai-agent-ic { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; font-size: 14px; font-weight: 700; color: #fff; background: linear-gradient(145deg, hsl(calc(var(--ma-h) + 30) calc(90% * var(--ts)) 58%), hsl(calc(var(--ma-h) - 20) calc(85% * var(--ts)) 40%)); }
+.ma-root .mp-ai-agent-b { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.ma-root .mp-ai-agent-b b { font-size: 19px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; }
+.ma-root .mp-ai-agent-b b span + span::before { content: " "; }
+.ma-root .mp-ai-agent-b > span { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+.ma-root .mp-ai-agent .mp-ai-chev { margin-top: 12px; }
+.ma-root .mp-ai-agent-body { padding: 0 16px 18px; border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ai-agent-body .mp-ai-cap { margin: 16px 0 0; }
+.ma-root .mp-ai-agent-body > p:not(.mp-ai-cap) { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-root .mp-ai-agent[open] .mp-ai-agent-body { animation: ma-open 0.35s var(--ma-ease) backwards; }
+
+/* ---- process: a run log ---- */
+.ma-root .mp-ai-log { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-log > li { display: flex; gap: 14px; padding: 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.ma-root .mp-ai-logn { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; font-size: 14px; font-weight: 700; background: var(--ma-wash); color: var(--ma-tint); }
+.ma-root .mp-ai-log h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
+.ma-root .mp-ai-log p { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-root .mp-ai-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-tags li { padding: 4px 12px; border-radius: 999px; font-size: 14px; background: var(--ma-fill); border: 1px solid var(--ma-line); color: var(--ma-text2); }
+
+/* ---- tags: model chips, a sideways row ---- */
+.ma-root .mp-ai-models { display: grid; grid-auto-flow: column; grid-template-rows: repeat(3, auto); gap: 8px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 8px; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.ma-root .mp-ai-models::-webkit-scrollbar { display: none; }
+.ma-root .mp-ai-models li { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px 0 12px; border-radius: 14px; font-size: 16px; font-weight: 500; white-space: nowrap; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.ma-root .mp-ai-models li span { width: 10px; height: 10px; border-radius: 50%; background: var(--ma-tint-bg); box-shadow: 0 0 0 3px var(--ma-wash); }
+
+/* ---- industries: suggested prompts and FAQ ---- */
+.ma-root .mp-ai-prompts, .ma-root .mp-ai-qa { display: grid; gap: 10px; }
+.ma-root .mp-ai-prompts details, .ma-root .mp-ai-qa details { border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-ai-prompts summary, .ma-root .mp-ai-qa summary { list-style: none; display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 12px 16px; font-size: 17px; font-weight: 600; cursor: pointer; }
+.ma-root .mp-ai-prompts summary::-webkit-details-marker, .ma-root .mp-ai-qa summary::-webkit-details-marker { display: none; }
+.ma-root .mp-ai-prompts summary > span, .ma-root .mp-ai-qa summary > span { flex: 1; min-width: 0; }
+.ma-root .mp-ai-prompts .mp-ai-msg, .ma-root .mp-ai-qa .mp-ai-msg { margin: 0 12px 14px; max-width: none; }
+.ma-root .mp-ai-prompts details[open] .mp-ai-msg, .ma-root .mp-ai-qa details[open] .mp-ai-msg { animation: ma-open 0.35s var(--ma-ease) backwards; }
+.ma-root .mp-ai-qa summary { align-items: flex-start; line-height: 1.4; }
+.ma-root .mp-ai-qa summary::before { content: ""; flex: none; width: 10px; height: 10px; margin-top: 7px; border-radius: 50%; background: var(--ma-tint-bg); }
+.ma-root .mp-ai-qa details[open] summary { color: var(--ma-tint); }
+
+/* ---- advantages: a settings-like list ---- */
+.ma-root .mp-ai-why { display: grid; margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-ai-why li { display: flex; align-items: flex-start; gap: 14px; padding: 16px; }
+.ma-root .mp-ai-why li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ai-switch { flex: none; position: relative; width: 46px; height: 28px; margin-top: 2px; border-radius: 999px; background: var(--ma-tint-bg); }
+.ma-root .mp-ai-switch::after { content: ""; position: absolute; right: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px hsl(0 0% 0% / 0.3); }
+.ma-root .mp-ai-why b { font-size: 17px; line-height: 1.35; font-weight: 600; }
+.ma-root .mp-ai-why p { margin-top: 4px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+
+@media (min-width: 700px) { .ma-root .mp-ai-replies { flex-direction: row; } .ma-root .mp-ai-reply { flex: 1; } .ma-root .mp-ai-agents { align-items: start; } }
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-ai-hero { animation: none; } .ma-root .mp-ai-agent[open] .mp-ai-agent-body, .ma-root .mp-ai-prompts details[open] .mp-ai-msg, .ma-root .mp-ai-qa details[open] .mp-ai-msg { animation: none; } }
