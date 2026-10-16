@@ -1,0 +1,276 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index d6509e1..154afe5 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -24186,6 +24186,7 @@ a.md-rel-card:hover .md-rel-go {
+   min-height: 780px;
+ }
+ .cj-dest-slot {
++  align-self: stretch;
+   min-height: 960px;
+ }
+ .cj-head {
+@@ -26217,3 +26218,36 @@ a.rt-row:hover {
+   border-bottom: 3px solid var(--a);
+   transform: rotate(45deg);
+ }
++
++/* ---- the list of the jobs at the station of Surat Junction ---- */
++.cj-jobs {
++  margin-top: 52px;
++  scroll-margin-top: 90px;
++}
++.cj-jobs h3 {
++  margin: 0;
++  color: #fff;
++  font-size: 1.75rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++}
++.cj-jobs-text {
++  max-width: 560px;
++  margin: 8px 0 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.6;
++}
++.cj-jobs .ro-list {
++  margin-top: 24px;
++}
++.cj-jobs + .cj-arrived {
++  margin-top: 36px;
++}
++.rl-mark {
++  position: absolute;
++  left: 0;
++  width: 1px;
++  height: 1px;
++  pointer-events: none;
++}
+diff --git a/a/src/components/site/career/destination.tsx b/b/src/components/site/career/destination.tsx
+index 8600837..291801a 100644
+--- a/a/src/components/site/career/destination.tsx
++++ b/b/src/components/site/career/destination.tsx
+@@ -1,12 +1,31 @@
+ "use client";
+ 
++import Link from "next/link";
+ import { useCareer } from "@/lib/career-store";
++import type { JobView } from "@/lib/careers-shared";
++import { GlowEdge } from "../glow-edge";
++import { Reveal } from "../reveal";
+ 
+ // The last section of the Careers page: Surat Junction, where We3vision has its office. The station itself (the platform, the office building
+ // and the train that arrives) is drawn by the railway of the page (career/railway.tsx) in the empty place on the right. Nothing arrives here
+-// until a visitor has sent their ticket.
++// until a visitor has sent their ticket. At this station are also all the open jobs (written under Careers > Jobs in the admin panel): a card
++// for each, with a button to read about the job and one to apply.
+ 
+-export function CareerDestination({ chip, heading, text, station, address, buttonLabel, buttonHref }: { chip: string; heading: string; text: string; station: string; address: string; buttonLabel: string; buttonHref: string }) {
++type Props = {
++  chip: string;
++  heading: string;
++  text: string;
++  station: string;
++  address: string;
++  buttonLabel: string;
++  buttonHref: string;
++  jobs: JobView[];
++  jobsHeading: string;
++  jobsText: string;
++  jobsEmpty: string;
++};
++
++export function CareerDestination({ chip, heading, text, station, address, buttonLabel, buttonHref, jobs, jobsHeading, jobsText, jobsEmpty }: Props) {
+   const career = useCareer();
+   const arriving = career.stage === "arriving" || career.stage === "arrived";
+ 
+@@ -21,6 +40,48 @@ export function CareerDestination({ chip, heading, text, station, address, butto
+             <b>{station}</b>
+             <p>{address}</p>
+           </div>
++
++          {jobsHeading && (
++            <div id="openings" className="cj-jobs">
++              <h3>{jobsHeading}</h3>
++              {jobsText && <p className="cj-jobs-text">{jobsText}</p>}
++              {jobs.length === 0 ? (
++                <p className="ro-empty">{jobsEmpty}</p>
++              ) : (
++                <ul className="ro-list">
++                  {jobs.map((j, i) => (
++                    <li key={j.id}>
++                      <Reveal className="ro-card bglow" delay={(i % 2) * 80}>
++                        <GlowEdge />
++                        <div className="ro-top">
++                          <span className="ro-team">{j.team || "All teams"}</span>
++                          <span className="ro-posted">{j.postedLabel}</span>
++                        </div>
++                        <h3>
++                          <Link href={`/careers/${j.slug}`}>{j.title}</Link>
++                        </h3>
++                        {j.summary && <p className="ro-sum">{j.summary}</p>}
++                        <ul className="ro-facts">
++                          {[j.workType, j.workMode, j.location, j.experience].filter(Boolean).map((f) => (
++                            <li key={f}>{f}</li>
++                          ))}
++                        </ul>
++                        <div className="ro-act">
++                          <Link href={`/careers/${j.slug}`} className="ro-view">
++                            View details
++                          </Link>
++                          <Link href={`/careers/${j.slug}#apply`} className="ro-apply">
++                            Apply now
++                          </Link>
++                        </div>
++                      </Reveal>
++                    </li>
++                  ))}
++                </ul>
++              )}
++            </div>
++          )}
++
+           {career.stage === "arrived" ? (
+             <p className="cj-arrived">
+               Welcome{career.name ? `, ${career.name.split(" ")[0]}` : ""}! Your seat{career.role ? ` for ${career.role}` : ""} is booked. Our HR team will write to you soon.
+diff --git a/a/src/components/site/career/journey.tsx b/b/src/components/site/career/journey.tsx
+index 77f7ed9..488c882 100644
+--- a/a/src/components/site/career/journey.tsx
++++ b/b/src/components/site/career/journey.tsx
+@@ -125,10 +125,7 @@ export function CareerJourney({
+   useEffect(() => {
+     if (!city || booked) return;
+     const check = () => {
+-      // (the open positions are under the ticket office: while the visitor reads them the train waits; it leaves when they go on past them)
+-      const jobs = document.getElementById("openings");
+-      const limit = jobs ? jobs.getBoundingClientRect().bottom + window.scrollY - window.innerHeight * 0.5 : window.innerHeight * 0.55;
+-      const away = window.scrollY > limit;
++      const away = window.scrollY > window.innerHeight * 0.55;
+       setCareer({ away });
+       if (away && !warned.current) {
+         warned.current = true;
+@@ -204,8 +201,9 @@ export function CareerJourney({
+     }
+     setDone(true);
+     window.setTimeout(() => {
+-      const dest = document.getElementById("surat-junction");
+-      if (dest) lenisTo(dest, { offset: -10, duration: 9, easing: (t: number) => 1 - Math.pow(1 - t, 2.2) });
++      // (to the platform, which is at the end of the station: the list of the jobs is beside it)
++      const dest = document.getElementById("surat-station") ?? document.getElementById("surat-junction");
++      if (dest) lenisTo(dest, { offset: 0, duration: 11, easing: (t: number) => 1 - Math.pow(1 - t, 2.2) });
+     }, 700);
+   };
+ 
+diff --git a/a/src/components/site/career/railway.tsx b/b/src/components/site/career/railway.tsx
+index a5f787e..862bb44 100644
+--- a/a/src/components/site/career/railway.tsx
++++ b/b/src/components/site/career/railway.tsx
+@@ -947,6 +947,9 @@ export function CareerRailway() {
+             </g>
+           </svg>
+ 
++          {/* where the page rides to when the ticket is sent: a little above the platform of Surat Junction */}
++          <span id="surat-station" aria-hidden className="rl-mark" style={{ top: Math.max(0, geo.yHead2 - 560) }} />
++
+           {/* the passenger: "You" */}
+           <div ref={avRef} className="of-walker rl-av" style={{ "--tone": 352, opacity: 0 } as React.CSSProperties}>
+             <div className="of-walker-in">
+diff --git a/a/src/components/site/sections/career.tsx b/b/src/components/site/sections/career.tsx
+index 6f1bef3..caf90e5 100644
+--- a/a/src/components/site/sections/career.tsx
++++ b/b/src/components/site/sections/career.tsx
+@@ -23,9 +23,24 @@ export const CareerJourneySection: SectionComponent<"careerJourney"> = async ({
+ };
+ 
+ /** Surat Junction: the last section, where the train of the visitor arrives (see career/destination.tsx). */
+-export const CareerDestinationSection: SectionComponent<"careerDestination"> = ({ data }) => (
+-  <CareerDestination chip={data.chip} heading={data.heading} text={data.text} station={data.station || "Surat Junction"} address={data.address} buttonLabel={data.buttonLabel} buttonHref={data.buttonHref} />
+-);
++export const CareerDestinationSection: SectionComponent<"careerDestination"> = async ({ data }) => {
++  const jobs = data.jobsHeading ? await getOpenJobs() : [];
++  return (
++    <CareerDestination
++      chip={data.chip}
++      heading={data.heading}
++      text={data.text}
++      station={data.station || "Surat Junction"}
++      address={data.address}
++      buttonLabel={data.buttonLabel}
++      buttonHref={data.buttonHref}
++      jobs={jobs}
++      jobsHeading={data.jobsHeading}
++      jobsText={data.jobsText}
++      jobsEmpty={data.jobsEmpty}
++    />
++  );
++};
+ 
+ /** The open jobs: a card for each, with a button to read about the job and one to apply (the page of the job has the apply form). */
+ export const CareerOpeningsSection: SectionComponent<"careerOpenings"> = async ({ data }) => {
+diff --git a/a/src/lib/cms/content/company.ts b/b/src/lib/cms/content/company.ts
+index 97f4fdb..6e4bcef 100644
+--- a/a/src/lib/cms/content/company.ts
++++ b/b/src/lib/cms/content/company.ts
+@@ -79,12 +79,6 @@ export const CAREERS_SECTIONS: PageSection[] = [
+     text: "Book the ticket of your career journey with We3vision. Tell us where you are, where you want to go, and we will have a seat ready for you.",
+     locationLabel: "Your location",
+   }),
+-  section("careerOpenings", {
+-    chip: "Open positions",
+-    heading: "Jobs You Can\nApply For",
+-    text: "These are the positions that are open now. Open one to read about it and to apply.",
+-    emptyText: "No position is open right now. You can still book a ticket above, and we will write to you when one opens.",
+-  }),
+   section("careerValues", {
+     chip: "What we value",
+     heading: "A Place To\nGrow",
+@@ -123,6 +117,9 @@ export const CAREERS_SECTIONS: PageSection[] = [
+     text: "This is where the journey ends and your work with We3vision begins. Our head office and development team are here in Surat.",
+     station: "Surat Junction",
+     address: "We3vision House 1/936, Bhim Kachchhi Mohallo, Nanpura, Surat, Gujarat, India 395001. hr@we3vision.com",
++    jobsHeading: "Jobs you can apply for",
++    jobsText: "These are the positions that are open now. Open one to read about it and to apply.",
++    jobsEmpty: "No position is open right now. You can still book a ticket above, and we will write to you when one opens.",
+     buttonLabel: "",
+     buttonHref: "",
+   }),
+diff --git a/a/src/lib/cms/sections.ts b/b/src/lib/cms/sections.ts
+index df253ac..bbb9ff7 100644
+--- a/a/src/lib/cms/sections.ts
++++ b/b/src/lib/cms/sections.ts
+@@ -933,17 +933,32 @@ export const SECTIONS = {
+   }),
+   careerDestination: defineSection({
+     label: "Careers: Surat Junction (the last section, where the train arrives)",
+-    description: "The station of the office. Nothing arrives here until a visitor has sent their ticket; then the train comes in and the passenger walks to the office. Put it as the last section of the page.",
++    description:
++      "The station of the office, with the list of the open jobs (written under Careers > Jobs). Nothing arrives here until a visitor has sent their ticket; then the train comes in and the passenger walks to the office. Put it as the last section of the page.",
+     fields: [
+       chip(),
+       headingField("Heading"),
+       { kind: "textarea", key: "text", label: "Text", max: 300 },
+       { kind: "text", key: "station", label: "Name of the station", max: 40, hint: "e.g. Surat Junction" },
+       { kind: "textarea", key: "address", label: "Address of the office", max: 240 },
++      { kind: "text", key: "jobsHeading", label: "Heading of the list of jobs (leave empty to hide the list)", max: 60, hint: "e.g. Jobs you can apply for" },
++      { kind: "textarea", key: "jobsText", label: "Text under the heading of the list of jobs", max: 240 },
++      { kind: "text", key: "jobsEmpty", label: "Text when no job is open", max: 200 },
+       { kind: "text", key: "buttonLabel", label: "Button text (leave empty for none)", max: 30 },
+       { kind: "url", key: "buttonHref", label: "Button link" },
+     ],
+-    defaults: { chip: "Destination", heading: "Welcome To\nSurat Junction", text: "", station: "Surat Junction", address: "", buttonLabel: "", buttonHref: "" },
++    defaults: {
++      chip: "Destination",
++      heading: "Welcome To\nSurat Junction",
++      text: "",
++      station: "Surat Junction",
++      address: "",
++      jobsHeading: "Jobs you can apply for",
++      jobsText: "These are the positions that are open now. Open one to read about it and to apply.",
++      jobsEmpty: "No position is open right now. You can still book a ticket above, and we will write to you when one opens.",
++      buttonLabel: "",
++      buttonHref: "",
++    },
+   }),
+   aboutHero: defineSection({
+     label: "About: first screen (words on a grid floor)",

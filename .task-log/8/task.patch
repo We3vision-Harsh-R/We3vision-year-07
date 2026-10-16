@@ -1,0 +1,609 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 0706929..8765f82 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -16228,3 +16228,290 @@ a.md-rel-card:hover .md-rel-go {
+   width: 100%;
+   height: 100%;
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   Circle Gallery (components/site/modern/circle-gallery.tsx): a draggable ring of cards on a 3D floor ("What we build"). */
++.cg {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --ad: hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 12%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
++}
++.cg-stage {
++  --cw: 260px;
++  --ch: 317px;
++  --R: 300px;
++  position: relative;
++  height: clamp(440px, 46vw, 540px);
++  perspective: 1300px;
++  perspective-origin: 50% 36%;
++  cursor: grab;
++  outline: none;
++  touch-action: pan-y;
++  user-select: none;
++  -webkit-user-select: none;
++}
++.cg-stage[data-drag="true"] {
++  cursor: grabbing;
++}
++.cg-stage:focus-visible {
++  outline: 2px solid var(--a);
++  outline-offset: 6px;
++  border-radius: 24px;
++}
++.cg-floor {
++  position: absolute;
++  bottom: 62px;
++  left: 50%;
++  width: min(92%, 980px);
++  aspect-ratio: 1;
++  transform: translateX(-50%) perspective(900px) rotateX(72deg);
++  transform-origin: 50% 100%;
++  pointer-events: none;
++}
++.cg-floor i {
++  position: absolute;
++  border-radius: 50%;
++}
++.cg-ring-a {
++  inset: 0;
++  border: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25);
++  background:
++    repeating-radial-gradient(circle, transparent 0 46px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08) 46px 48px),
++    radial-gradient(circle, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.18), transparent 70%);
++  -webkit-mask-image: radial-gradient(circle, #000 52%, transparent 72%);
++  mask-image: radial-gradient(circle, #000 52%, transparent 72%);
++}
++.cg-ring-b {
++  inset: 22%;
++  border: 2px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
++  animation: cg-spin 60s linear infinite;
++}
++.cg-glow {
++  inset: 34%;
++  background: radial-gradient(circle, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.4), transparent 70%);
++}
++@keyframes cg-spin {
++  to {
++    rotate: 360deg;
++  }
++}
++.cg-scene {
++  position: absolute;
++  inset: 0;
++  display: grid;
++  place-items: center;
++  transform-style: preserve-3d;
++}
++.cg-ring {
++  position: relative;
++  width: var(--cw);
++  height: var(--ch);
++  margin-top: -36px;
++  transform: translateZ(calc(var(--R) * -1));
++  transform-style: preserve-3d;
++  will-change: transform;
++}
++.cg-card {
++  position: absolute;
++  inset: 0;
++  display: flex;
++  flex-direction: column;
++  align-items: flex-start;
++  padding: 22px 22px 24px;
++  overflow: hidden;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.2);
++  border-radius: 24px;
++  background: linear-gradient(160deg, hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 15% / 0.94), hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 9% / 0.94));
++  backface-visibility: hidden;
++  -webkit-backface-visibility: hidden;
++  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
++  transition: border-color 0.5s;
++}
++.cg-card[data-on="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
++}
++.cg-no {
++  position: absolute;
++  top: 18px;
++  right: 20px;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
++  font-size: 2.4rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++  line-height: 1;
++}
++.cg-card h3 {
++  margin: auto 0 0;
++  padding-top: 18px;
++  color: #fff;
++  font-size: 1.35rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.2;
++}
++.cg-card p {
++  display: -webkit-box;
++  margin: 10px 0 0;
++  overflow: hidden;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.5;
++  -webkit-box-orient: vertical;
++  -webkit-line-clamp: 4;
++}
++.cg-nav {
++  position: absolute;
++  right: 0;
++  bottom: 0;
++  left: 0;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  gap: 16px;
++}
++.cg-nav > button {
++  display: grid;
++  width: 42px;
++  height: 42px;
++  place-items: center;
++  border: 1px solid var(--hair);
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.85);
++  color: var(--a);
++  cursor: pointer;
++  transition:
++    background 0.3s,
++    color 0.3s;
++}
++.cg-nav > button:hover {
++  background: var(--a);
++  color: var(--ad);
++}
++.cg-nav svg {
++  width: 18px;
++  height: 18px;
++  fill: none;
++  stroke: currentColor;
++  stroke-linecap: round;
++  stroke-linejoin: round;
++  stroke-width: 2.2;
++}
++.cg-dots {
++  display: flex;
++  gap: 8px;
++}
++.cg-dots button {
++  width: 10px;
++  height: 10px;
++  padding: 0;
++  border: 1.5px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.4);
++  border-radius: 50%;
++  background: transparent;
++  cursor: pointer;
++  transition:
++    background 0.3s,
++    scale 0.3s;
++}
++.cg-dots button[data-on="true"] {
++  border-color: var(--a);
++  background: var(--a);
++  scale: 1.3;
++}
++.cg-hint {
++  position: absolute;
++  top: 0;
++  right: 4px;
++  margin: 0;
++  color: var(--soft);
++  font-size: 0.875rem;
++  font-weight: 500;
++  letter-spacing: 0.04em;
++}
++.cg-detail {
++  position: relative;
++  max-width: 880px;
++  margin: 26px auto 0;
++  padding: 24px 28px 26px;
++  border: 1px solid var(--hair);
++  border-radius: 22px;
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 8% / 0.9);
++  animation: vq-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.cg-detail h3 {
++  margin: 0;
++  color: #fff;
++  font-size: 1.6rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.15;
++}
++.cg-fit {
++  margin: 10px 0 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.55;
++}
++.cg-fit b {
++  margin-right: 6px;
++  color: var(--a);
++  font-weight: 600;
++}
++.cg-cols {
++  display: grid;
++  gap: 18px 36px;
++  margin-top: 18px;
++}
++@media (min-width: 720px) {
++  .cg-cols {
++    grid-template-columns: repeat(2, minmax(0, 1fr));
++  }
++}
++.cg-cols h4 {
++  margin: 0;
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 600;
++  letter-spacing: 0.1em;
++  text-transform: uppercase;
++}
++.cg-cols ul {
++  display: grid;
++  gap: 6px;
++  margin: 10px 0 0;
++  padding: 0;
++  list-style: none;
++}
++.cg-cols li {
++  position: relative;
++  padding-left: 22px;
++  color: #fff;
++  font-size: 1rem;
++  line-height: 1.45;
++}
++.cg-cols li::before {
++  content: "";
++  position: absolute;
++  top: 0.32em;
++  left: 4px;
++  width: 6px;
++  height: 11px;
++  border: solid var(--a);
++  border-width: 0 2px 2px 0;
++  rotate: 45deg;
++}
++.cg-more {
++  display: inline-block;
++  margin-top: 18px;
++  color: var(--a);
++  font-size: 1rem;
++  font-weight: 600;
++  text-decoration: underline;
++  text-underline-offset: 5px;
++}
++@media (prefers-reduced-motion: reduce) {
++  .cg-ring-b,
++  .cg-detail {
++    animation: none;
++  }
++}
+diff --git a/b/src/components/site/modern/circle-gallery.tsx b/b/src/components/site/modern/circle-gallery.tsx
+new file mode 100644
+index 0000000..017071d
+--- /dev/null
++++ b/b/src/components/site/modern/circle-gallery.tsx
+@@ -0,0 +1,279 @@
++"use client";
++
++import { useEffect, useRef, useState } from "react";
++import { GlowEdge } from "../glow-edge";
++import { IconTile } from "../icons";
++import { SmartLink } from "../smart-link";
++
++// "Circle Gallery": a ring of cards that stands on a 3D floor and spins when you drag it (the idea is the Circle Gallery of React Bits Pro,
++// built here without any library). Drag (or flick) the ring with the mouse or a finger: it turns with inertia and then settles so that one card
++// faces you. A click on a card brings it to the front, the arrows and the arrow keys turn the ring by one card. The card at the front is the
++// one that is described under the ring (when to choose it, the problems it solves, what you get). Only the transform of the ring and the
++// opacity of the cards change, and only while it moves: nothing runs while it rests or is off the screen. Used for "What we build".
++
++type Card = { title: string; description: string; href?: string; fit?: string; problems?: string; outcomes?: string };
++
++const lines = (s?: string) => (s ?? "").split("\n").map((l) => l.trim()).filter(Boolean);
++const plain = (s: string) => s.replace(/\s*\n\s*/g, " ");
++const mod = (a: number, n: number) => ((a % n) + n) % n;
++
++export function CircleGallery({ cards }: { cards: Card[] }) {
++  const n = cards.length;
++  const step = 360 / Math.max(1, n);
++  const [active, setActive] = useState(0);
++  const stageRef = useRef<HTMLDivElement>(null);
++  const ringRef = useRef<HTMLDivElement>(null);
++  const cardRefs = useRef<(HTMLElement | null)[]>([]);
++  const api = useRef<{ to: (i: number) => void; by: (d: number) => void }>({ to: () => {}, by: () => {} });
++
++  useEffect(() => {
++    const stage = stageRef.current;
++    const ring = ringRef.current;
++    if (!stage || !ring || n < 1) return;
++    let rot = 0; // degrees
++    let vel = 0; // degrees per second
++    let target: number | null = null; // where the ring settles
++    let dragging = false;
++    let moved = 0;
++    let lastX = 0;
++    let lastT = 0;
++    let raf = 0;
++    let lastIdx = -1;
++    let cw = 260;
++
++    const size = () => {
++      const w = stage.clientWidth;
++      cw = Math.round(Math.min(300, Math.max(190, w * 0.27)));
++      const ch = Math.round(cw * 1.22);
++      const R = Math.max(cw * 1.6, cw / (2 * Math.tan(Math.PI / Math.max(3, n))) + 140);
++      stage.style.setProperty("--cw", `${cw}px`);
++      stage.style.setProperty("--ch", `${ch}px`);
++      stage.style.setProperty("--R", `${R.toFixed(0)}px`);
++    };
++    const paint = () => {
++      ring.style.transform = `translateZ(calc(var(--R) * -1)) rotateY(${rot.toFixed(2)}deg)`;
++      let idx = 0;
++      let best = 999;
++      for (let i = 0; i < n; i++) {
++        let a = mod(i * step + rot, 360);
++        if (a > 180) a -= 360; // -180..180: 0 faces us
++        const d = Math.abs(a);
++        if (d < best) {
++          best = d;
++          idx = i;
++        }
++        const el = cardRefs.current[i];
++        if (el) el.style.opacity = String(Math.max(0.28, 1 - d / 150).toFixed(3));
++      }
++      if (idx !== lastIdx) {
++        lastIdx = idx;
++        setActive(idx);
++      }
++    };
++    const frame = (now: number) => {
++      raf = 0;
++      const dt = Math.min(0.05, Math.max(0.001, (now - lastT) / 1000 || 0.016));
++      lastT = now;
++      if (!dragging) {
++        if (target === null && Math.abs(vel) > 14) {
++          // inertia: it slows down, then settles on the nearest card
++          rot += vel * dt;
++          vel *= Math.exp(-dt * 2.6);
++          if (Math.abs(vel) <= 14) target = Math.round(rot / step) * step;
++        } else {
++          if (target === null) target = Math.round(rot / step) * step;
++          rot += (target - rot) * (1 - Math.exp(-dt * 7));
++          vel = 0;
++          if (Math.abs(target - rot) < 0.03) {
++            rot = target;
++            paint();
++            return;
++          }
++        }
++      }
++      paint();
++      raf = requestAnimationFrame(frame);
++    };
++    const run = () => {
++      if (!raf) {
++        lastT = performance.now();
++        raf = requestAnimationFrame(frame);
++      }
++    };
++
++    const down = (e: PointerEvent) => {
++      if ((e.target as HTMLElement).closest("a,button")) return;
++      dragging = true;
++      moved = 0;
++      lastX = e.clientX;
++      lastT = performance.now();
++      vel = 0;
++      target = null;
++      stage.setPointerCapture(e.pointerId);
++      stage.dataset.drag = "true";
++    };
++    const move = (e: PointerEvent) => {
++      if (!dragging) return;
++      const now = performance.now();
++      const dx = e.clientX - lastX;
++      moved += Math.abs(dx);
++      const d = dx * (180 / Math.max(240, cw * 1.6)); // a card width of travel turns the ring by about one card
++      rot += d;
++      const dt = Math.max(1, now - lastT) / 1000;
++      vel = vel * 0.6 + (d / dt) * 0.4;
++      lastX = e.clientX;
++      lastT = now;
++      paint();
++    };
++    const up = (e: PointerEvent) => {
++      if (!dragging) return;
++      dragging = false;
++      stage.dataset.drag = "false";
++      if (stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
++      if (moved < 5) vel = 0; // a click, not a drag
++      run();
++    };
++    const key = (e: KeyboardEvent) => {
++      if (e.key === "ArrowLeft") api.current.by(-1);
++      else if (e.key === "ArrowRight") api.current.by(1);
++      else return;
++      e.preventDefault();
++    };
++    api.current = {
++      to: (i) => {
++        // the shortest way round to card i
++        const want = -i * step;
++        const k = Math.round((rot - want) / 360);
++        target = want + k * 360;
++        vel = 0;
++        run();
++      },
++      by: (d) => {
++        // turn by one card in the wanted direction (also across the seam)
++        target = Math.round(rot / step) * step - d * step;
++        vel = 0;
++        run();
++      },
++    };
++
++    size();
++    paint();
++    const ro = new ResizeObserver(() => {
++      size();
++      paint();
++    });
++    ro.observe(stage);
++    stage.addEventListener("pointerdown", down);
++    stage.addEventListener("pointermove", move);
++    stage.addEventListener("pointerup", up);
++    stage.addEventListener("pointercancel", up);
++    stage.addEventListener("keydown", key);
++    return () => {
++      ro.disconnect();
++      stage.removeEventListener("pointerdown", down);
++      stage.removeEventListener("pointermove", move);
++      stage.removeEventListener("pointerup", up);
++      stage.removeEventListener("pointercancel", up);
++      stage.removeEventListener("keydown", key);
++      if (raf) cancelAnimationFrame(raf);
++    };
++  }, [n, step]);
++
++  if (n === 0) return null;
++  const cur = cards[Math.min(active, n - 1)];
++  const fit = (cur.fit ?? "").trim();
++  const problems = lines(cur.problems);
++  const outcomes = lines(cur.outcomes);
++
++  return (
++    <div className="md cg">
++      <div ref={stageRef} className="cg-stage" tabIndex={0} role="group" aria-roledescription="carousel" aria-label="What we build. Drag to turn the ring, or use the arrow keys">
++        <div className="cg-floor" aria-hidden>
++          <i className="cg-ring-a" />
++          <i className="cg-ring-b" />
++          <i className="cg-glow" />
++        </div>
++        <div className="cg-scene">
++          <div ref={ringRef} className="cg-ring">
++            {cards.map((c, i) => (
++              <article
++                key={i}
++                ref={(el) => {
++                  cardRefs.current[i] = el;
++                }}
++                className="cg-card bglow"
++                data-on={i === active}
++                style={{ transform: `rotateY(${(i * step).toFixed(3)}deg) translateZ(var(--R))` }}
++                onClick={() => i !== active && api.current.to(i)}
++                aria-hidden={i !== active}
++              >
++                <GlowEdge />
++                <IconTile index={i + 1} large />
++                <span className="cg-no">{String(i + 1).padStart(2, "0")}</span>
++                <h3>{plain(c.title)}</h3>
++                <p>{c.description}</p>
++              </article>
++            ))}
++          </div>
++        </div>
++        <div className="cg-nav">
++          <button type="button" onClick={() => api.current.by(-1)} aria-label="Previous">
++            <svg viewBox="0 0 24 24" aria-hidden>
++              <path d="M19 12H5M11 6l-6 6 6 6" />
++            </svg>
++          </button>
++          <span className="cg-dots">
++            {cards.map((c, i) => (
++              <button key={i} type="button" data-on={i === active} aria-label={plain(c.title)} onClick={() => api.current.to(i)} />
++            ))}
++          </span>
++          <button type="button" onClick={() => api.current.by(1)} aria-label="Next">
++            <svg viewBox="0 0 24 24" aria-hidden>
++              <path d="M5 12h14M13 6l6 6-6 6" />
++            </svg>
++          </button>
++        </div>
++        <p className="cg-hint" aria-hidden>
++          Drag the ring
++        </p>
++      </div>
++
++      <div key={active} className="cg-detail bglow" aria-live="polite">
++        <GlowEdge />
++        <h3>{plain(cur.title)}</h3>
++        {fit && (
++          <p className="cg-fit">
++            <b>Right for you when</b> {fit}
++          </p>
++        )}
++        <div className="cg-cols">
++          {problems.length > 0 && (
++            <div>
++              <h4>Problems it solves</h4>
++              <ul>
++                {problems.map((t) => (
++                  <li key={t}>{t}</li>
++                ))}
++              </ul>
++            </div>
++          )}
++          {outcomes.length > 0 && (
++            <div>
++              <h4>What you get</h4>
++              <ul>
++                {outcomes.map((t) => (
++                  <li key={t}>{t}</li>
++                ))}
++              </ul>
++            </div>
++          )}
++        </div>
++        {cur.href && (
++          <SmartLink href={cur.href} className="cg-more">
++            Read more →
++          </SmartLink>
++        )}
++      </div>
++    </div>
++  );
++}
+diff --git a/a/src/components/site/sections/services.tsx b/b/src/components/site/sections/services.tsx
+index 7f324a4..50e952f 100644
+--- a/a/src/components/site/sections/services.tsx
++++ b/b/src/components/site/sections/services.tsx
+@@ -1,3 +1,4 @@
++import { CircleGallery } from "../modern/circle-gallery";
+ import { RelatedLinks } from "../modern/related-links";
+ import { Reveal } from "../reveal";
+ import { ServiceStrip } from "../service-strip";
+@@ -14,6 +15,19 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin }
+         </div>
+       </Wide>
+     </section>
++  ) : skin === "modern" ? (
++    <section id="services" className="py-24 sm:py-32">
++      <Wide>
++        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro}>
++          <ButtonLink href={data.buttonHref} variant="ghost">
++            {data.buttonLabel}
++          </ButtonLink>
++        </SectionHead>
++      </Wide>
++      <div className="mx-auto mt-10 w-full max-w-[1180px] px-4">
++        <CircleGallery cards={data.cards} />
++      </div>
++    </section>
+   ) : (
+   <section id={sectionId === "related-services" ? sectionId : "services"} className="py-24 sm:py-32">
+     <Wide>

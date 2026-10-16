@@ -1,0 +1,533 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index b876fd5..519f739 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -22834,3 +22834,222 @@ a.md-rel-card:hover .md-rel-go {
+   font-size: 1.5rem;
+   letter-spacing: 0.12em;
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The reading sections of the Team page (components/site/sections/team-story.tsx), for laptop and desktop screens:
++   .tm  common colours      .tm-grid / .tm-head / .tm-body   the text with a heading that stays in place
++   .tj  the steps of a project on a line      .tv  numbered values */
++.tm {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
++  --card: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.7);
++}
++.tm-grid {
++  display: grid;
++  gap: 48px;
++}
++@media (min-width: 1024px) {
++  .tm-grid {
++    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
++    gap: 88px;
++  }
++  .tm-head {
++    position: sticky;
++    top: 120px;
++    align-self: start;
++  }
++}
++.tm-h2 {
++  font-size: clamp(2.4rem, 4.4vw, 3.6rem);
++  line-height: 1.08;
++}
++.tm-intro {
++  margin: 24px 0 0;
++  max-width: 440px;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.7;
++}
++
++/* the text to read */
++.tm-body {
++  max-width: 640px;
++}
++.tm-body p {
++  margin: 0 0 1.5em;
++  color: var(--soft);
++  font-size: 1.125rem;
++  line-height: 1.85;
++}
++.tm-body p .text-violet {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++}
++.tm-body .tm-lead {
++  color: #fff;
++  font-size: 1.5rem;
++  font-weight: 500;
++  letter-spacing: -0.015em;
++  line-height: 1.55;
++}
++.tm-quote {
++  position: relative;
++  margin: 2.6rem 0 0;
++  padding: 28px 30px 28px 34px;
++  border: 1px solid var(--hair);
++  border-radius: 20px;
++  background: var(--card);
++}
++.tm-quote::before {
++  content: "";
++  position: absolute;
++  top: 24px;
++  bottom: 24px;
++  left: 0;
++  width: 3px;
++  border-radius: 0 3px 3px 0;
++  background: linear-gradient(180deg, var(--a), hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 62%));
++}
++.tm-quote blockquote {
++  margin: 0;
++  color: #fff;
++  font-size: 1.375rem;
++  font-weight: 500;
++  letter-spacing: -0.015em;
++  line-height: 1.5;
++}
++.tm-quote figcaption {
++  margin-top: 14px;
++  color: var(--a);
++  font-size: 0.9375rem;
++  font-weight: 500;
++}
++
++/* the steps of a project: numbered cards on a line, two rows of three */
++.tj {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 60px 24px;
++  margin: 84px 0 0;
++  padding: 0;
++  list-style: none;
++}
++.tj-item {
++  position: relative;
++  display: flex;
++}
++.tj-step {
++  --card-bg: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 10%);
++  position: relative;
++  width: 100%;
++  display: flex;
++  flex-direction: column;
++  align-items: flex-start;
++  padding: 28px 26px 30px;
++  border: 1px solid var(--hair);
++  border-radius: 22px;
++  background: var(--card);
++  transition:
++    border-color 0.4s,
++    translate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.tj-step:hover {
++  translate: 0 -4px;
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
++}
++/* a dot on the line above every card, and the line itself */
++.tj-item::before {
++  content: "";
++  position: absolute;
++  top: -29px;
++  left: 26px;
++  width: 11px;
++  height: 11px;
++  border-radius: 50%;
++  background: var(--a);
++  box-shadow: 0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18), 0 0 18px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
++}
++.tj-item::after {
++  content: "";
++  position: absolute;
++  top: -24px;
++  left: 44px;
++  right: -24px;
++  height: 1px;
++  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12));
++}
++.tj-item:nth-child(3n)::after {
++  display: none;
++}
++.tj-no {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
++  font-size: 0.9375rem;
++  font-weight: 600;
++  letter-spacing: 0.12em;
++}
++.tj-step h3 {
++  margin: 14px 0 0;
++  color: #fff;
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.025em;
++  line-height: 1.2;
++}
++.tj-who {
++  margin: 14px 0 0;
++  padding: 4px 12px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
++  font-size: 0.875rem;
++  font-weight: 500;
++  line-height: 1.4;
++}
++.tj-text {
++  margin: 16px 0 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.7;
++}
++
++/* the values: a big number, a title and a few lines, row by row */
++.tv {
++  margin: 0;
++  padding: 0;
++  list-style: none;
++  border-top: 1px solid var(--hair);
++}
++.tv-row {
++  display: grid;
++  grid-template-columns: 76px minmax(0, 1fr);
++  gap: 8px;
++  padding: 30px 0;
++  border-bottom: 1px solid var(--hair);
++}
++.tv-no {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
++  font-size: 2.4rem;
++  font-weight: 600;
++  letter-spacing: -0.04em;
++  line-height: 1;
++  transition: color 0.4s;
++}
++.tv-row:hover .tv-no {
++  color: var(--a);
++}
++.tv-row h3 {
++  margin: 0;
++  color: #fff;
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.025em;
++  line-height: 1.25;
++}
++.tv-row p {
++  margin: 12px 0 0;
++  max-width: 540px;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.75;
++}
+diff --git a/a/src/components/site/sections/index.tsx b/b/src/components/site/sections/index.tsx
+index 2c57207..384ec4b 100644
+--- a/a/src/components/site/sections/index.tsx
++++ b/b/src/components/site/sections/index.tsx
+@@ -30,6 +30,7 @@ import { Story } from "./story";
+ import { Strengths } from "./strengths";
+ import { Tags } from "./tags";
+ import { Team } from "./team";
++import { TeamJourney, TeamManifesto, TeamValues } from "./team-story";
+ import { TeamOfficeSection } from "./team-office";
+ import { Timeline } from "./timeline";
+ import { VrDevicesSection } from "./vr-devices";
+@@ -80,6 +81,9 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
+   sketchCanvas: SketchCanvasSection,
+   team: Team,
+   teamOffice: TeamOfficeSection,
++  teamManifesto: TeamManifesto,
++  teamJourney: TeamJourney,
++  teamValues: TeamValues,
+ };
+ 
+ type AnyRenderer = ComponentType<{ data: Record<string, unknown>; site: SiteSettings; sectionId?: string; skin?: Skin; page?: string; projects?: ProjectView[] }>;
+diff --git a/a/src/components/site/sections/page-hero.tsx b/b/src/components/site/sections/page-hero.tsx
+index 2020aa7..3639423 100644
+--- a/a/src/components/site/sections/page-hero.tsx
++++ b/b/src/components/site/sections/page-hero.tsx
+@@ -11,9 +11,17 @@ const rise = (ms: number) => ({ animationDelay: `${ms}ms` });
+ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page }) => (
+   <section id="top" className="relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
+     {/* service pages: sunlight through leaves on the wall behind the words */}
+-    {skin === "modern" && page !== "ai" && page !== "blog" && <DappledLight seed={(data.heading.length % 9) + 3} />}
++    {skin === "modern" && page !== "ai" && page !== "blog" && page !== "team" && <DappledLight seed={(data.heading.length % 9) + 3} />}
+     {/* the AI page: a smooth gradient with a quiet neural network instead of the leaves */}
+     {page === "ai" && <AiHeroBg />}
++    {/* the team page: the same background as the About page, three soft lights of colour that drift very slowly */}
++    {page === "team" && (
++      <div className="ah-bg" aria-hidden>
++        <i />
++        <i />
++        <i />
++      </div>
++    )}
+     {/* the blog: a grid of cells that light up round the pointer (React Bits CursorGrid) instead of the leaves; it listens to the whole first screen */}
+     {page === "blog" && (
+       <div className="cg-hero" aria-hidden>
+@@ -21,7 +29,7 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page
+       </div>
+     )}
+     {/* soft dark patch so the text stays readable over the bright 7s */}
+-    <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[78%] w-[min(1100px,100%)] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.5),hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.22)_65%,transparent)]" />
++    {page !== "team" && <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[78%] w-[min(1100px,100%)] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.5),hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.22)_65%,transparent)]" />}
+     <HeroBadges badges={site.badges} />
+     <div className="relative mx-auto max-w-[900px]">
+       {data.chip && (
+diff --git a/b/src/components/site/sections/team-story.tsx b/b/src/components/site/sections/team-story.tsx
+new file mode 100644
+index 0000000..77549d9
+--- /dev/null
++++ b/b/src/components/site/sections/team-story.tsx
+@@ -0,0 +1,91 @@
++import { GlowEdge } from "../glow-edge";
++import { Reveal } from "../reveal";
++import { SectionHead, Chip, Rich } from "../ui";
++import { SplitHeading } from "../modern/split-heading";
++import type { SectionComponent } from "./shared";
++
++// The reading sections of the Team page (see the .tm-*, .tj-* and .tv-* rules in globals.css):
++//  - TeamManifesto: why the people matter. A heading that stays in place on the left, the text on the right, a quotation at the end.
++//  - TeamJourney:   how a project passes from hand to hand: numbered steps on a line, each with the people who do it.
++//  - TeamValues:    what the team believes in: numbered statements next to a heading that stays in place.
++// All of it is plain text in the page. Nothing is hidden when JavaScript does not run.
++
++const two = (n: number) => String(n).padStart(2, "0");
++
++export const TeamManifesto: SectionComponent<"teamManifesto"> = ({ data }) => {
++  const paragraphs = data.body
++    .split(/\n\s*\n/)
++    .map((p) => p.replace(/\n/g, " ").trim())
++    .filter(Boolean);
++  return (
++    <section id="why" className="tm py-24 sm:py-32">
++      <div className="tm-grid mx-auto w-full max-w-[1120px] px-4">
++        <div className="tm-head">
++          {data.chip && <Chip>{data.chip}</Chip>}
++          <SplitHeading text={data.heading} className="tm-h2 mt-6 pb-1 font-semibold tracking-[-0.04em]" />
++        </div>
++        <Reveal delay={80} className="tm-body">
++          {paragraphs.map((p, i) => (
++            <p key={i} className={i === 0 ? "tm-lead" : undefined}>
++              <Rich text={p} />
++            </p>
++          ))}
++          {data.quote && (
++            <figure className="tm-quote">
++              <blockquote>{data.quote}</blockquote>
++              {data.quoteBy && <figcaption>{data.quoteBy}</figcaption>}
++            </figure>
++          )}
++        </Reveal>
++      </div>
++    </section>
++  );
++};
++
++export const TeamJourney: SectionComponent<"teamJourney"> = ({ data }) => (
++  <section id="journey" className="tm py-24 sm:py-32">
++    <div className="mx-auto w-full max-w-[1120px] px-4">
++      <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split />
++      <ol className="tj mt-16">
++        {data.steps.map((s, i) => (
++          <li key={i} className="tj-item">
++            <div className="tj-step bglow">
++              <GlowEdge />
++              <span className="tj-no" aria-hidden>
++                {two(i + 1)}
++              </span>
++              <h3>{s.stage}</h3>
++              {s.who && <p className="tj-who">{s.who}</p>}
++              <p className="tj-text">{s.text}</p>
++            </div>
++          </li>
++        ))}
++      </ol>
++    </div>
++  </section>
++);
++
++export const TeamValues: SectionComponent<"teamValues"> = ({ data }) => (
++  <section id="values" className="tm py-24 sm:py-32">
++    <div className="tm-grid mx-auto w-full max-w-[1120px] px-4">
++      <div className="tm-head">
++        {data.chip && <Chip>{data.chip}</Chip>}
++        <SplitHeading text={data.heading} className="tm-h2 mt-6 pb-1 font-semibold tracking-[-0.04em]" />
++        {data.intro && <p className="tm-intro">{data.intro}</p>}
++      </div>
++      <ol className="tv">
++        {data.items.map((it, i) => (
++          <li key={i} className="tv-row">
++            <span className="tv-no" aria-hidden>
++              {two(i + 1)}
++            </span>
++            <div>
++              <h3>{it.title}</h3>
++              <p>{it.text}</p>
++            </div>
++          </li>
++        ))}
++      </ol>
++    </div>
++  </section>
++);
+diff --git a/a/src/lib/cms/content/team.ts b/b/src/lib/cms/content/team.ts
+index 7e37662..b215325 100644
+--- a/a/src/lib/cms/content/team.ts
++++ b/b/src/lib/cms/content/team.ts
+@@ -55,11 +55,78 @@ export const TEAM_SECTIONS: PageSection[] = [
+     secondaryLabel: "Work with us",
+     secondaryHref: "/careers",
+   }),
++  section("teamManifesto", {
++    chip: "Why the team matters",
++    heading: "Behind every screen,\nthere is a person",
++    body: "A website, an app or a virtual world looks like technology. It is really a long list of small decisions, made by people who care. *The way a button feels, the way a page loads, the way a 3D model moves:* somebody thought about every one of them.\n\nAt We3vision that somebody sits in our office in Surat. They are developers, designers, 3D artists, engineers and marketers, and they have been building together since 2019. We do not hide them behind a company name. This page is here to introduce them.\n\nTools change every year. What does not change is that good work comes from people who listen, disagree kindly, help each other and finish what they start. That is why the team comes first at We3vision, and the projects come after.",
++    quote: "We move forward because they move forward. Every project we ship is a thank-you to the people who built it.",
++    quoteBy: "The We3vision way",
++  }),
+   section("teamOffice", {
+     chip: "The office",
+     heading: "Meet The Team",
+     intro: "Every department has its own corner. Point at a person (tap on a phone) to see who they are.",
+     members: TEAM_MEMBERS,
+   }),
++  section("highlights", {
++    chip: "The team in numbers",
++    items: [
++      { value: "6", label: "Departments, one team" },
++      { value: "2", label: "Offices: Surat and Marburg" },
++      { value: "2", label: "Government VR projects" },
++      { value: "2019", label: "The year we started" },
++    ],
++  }),
++  section("teamJourney", {
++    chip: "How we work",
++    heading: "How a project\nmoves through the team",
++    intro: "Nobody builds alone here. A project passes from hand to hand like a relay race, and every hand matters.",
++    steps: [
++      { stage: "We listen", who: "Business development", text: "We start with your goal, your users and your limits. Questions first, ideas second." },
++      { stage: "We plan", who: "Project managers", text: "The idea becomes a clear plan with steps, dates and one person you can always ask." },
++      { stage: "We design", who: "UI/UX and brand designers", text: "Screens, logos and 3D worlds take shape. You see them early and tell us how they feel." },
++      { stage: "We build", who: "Web, mobile, AI and metaverse developers", text: "Developers and engineers turn the design into something that really works, on web, mobile, AI or VR." },
++      { stage: "We test", who: "QA engineers", text: "Somebody who did not build it tries to break it. What breaks is fixed before you ever see it." },
++      { stage: "We launch and care", who: "The whole team", text: "We go live together, and then we stay: updates, fixes and growth with SEO and marketing." },
++    ],
++  }),
++  section("teamValues", {
++    chip: "Our values",
++    heading: "What we believe in\nas a team",
++    intro: "Not words on a wall. These are the habits you will see in our office every day.",
++    items: [
++      { title: "People before projects", text: "A project ends, a person stays. We look after the team first, because a team that is looked after looks after its clients." },
++      { title: "Together, not one after the other", text: "Designers, developers and artists work on the same problem at the same time. The best idea wins, whoever it came from." },
++      { title: "Own it from start to finish", text: "Everyone owns something real: a screen, a module, a client. If it is yours, you finish it and you fix it." },
++      { title: "Keep learning", text: "AR, VR, AI and new frameworks: the field moves fast, so learning is part of the work, not a favour." },
++      { title: "Be honest, and be kind", text: "We tell clients what is possible and what is not. We tell each other what works and what does not." },
++      { title: "Make it simple", text: "Clear layouts, clear words, clear promises. If a user has to think twice, we are not done." },
++    ],
++  }),
++  section("advantages", {
++    chip: "Growing together",
++    heading: "How we help\nthe people grow",
++    intro: "A company moves forward only when its people do. This is what we try to give everybody who joins us.",
++    items: [
++      { title: "Real projects from the first weeks", description: "New people work on live projects with a mentor next to them, not on practice tasks." },
++      { title: "Mentors in every team", description: "Senior people, our founders among them, guide the younger ones, in the metaverse team and beyond." },
++      { title: "Room to go deep", description: "Web, mobile, AI, VR, 3D, brand or marketing: you can grow in the field you love." },
++      { title: "Credit where it is due", description: "Good work is named and shown, on this page and on our projects." },
++      { title: "A team that helps", description: "Stuck? Ask. Somebody in the office has been there before and will sit down with you." },
++      { title: "A path upward", description: "People grow with the company, from their first project to leading one." },
++    ],
++  }),
++  section("faq", {
++    chip: "Good to know",
++    heading: "Questions about\nthe team",
++    intro: "",
++    items: [
++      { question: "Where is the We3vision team based?", answer: "Our head office and development team are in Surat, Gujarat, India. We also have an office in Marburg, Germany." },
++      { question: "Who will I talk to when I start a project?", answer: "You get one main contact, a project manager, who knows everything about your project. Designers and developers join the calls whenever it helps." },
++      { question: "What kind of people work at We3vision?", answer: "Web and mobile developers, UI/UX and graphic designers, 2D/3D animators, AR/VR and Unity engineers, AI engineers, QA engineers, SEO specialists and content writers." },
++      { question: "Can I join the team?", answer: "Yes. Look at the open roles on our Careers page, or write to hr@we3vision.com with your work and a few words about you." },
++      { question: "Do you work with clients outside India?", answer: "Yes. We work with companies across India and the globe, and we have an office in Germany." },
++    ],
++  }),
+   section("contact", { chip: "Let's talk", heading: "Want To Work\nWith Us?", text: "Tell us about your project, or about yourself if you would like to join the team.", buttonLabel: "Send message" }),
+ ];
+diff --git a/a/src/lib/cms/sections.ts b/b/src/lib/cms/sections.ts
+index 3bb61c0..317c0f6 100644
+--- a/a/src/lib/cms/sections.ts
++++ b/b/src/lib/cms/sections.ts
+@@ -814,6 +814,67 @@ export const SECTIONS = {
+     ],
+     defaults: { chip: "The office", heading: "Meet The Team", intro: "", members: TEAM_MEMBERS },
+   }),
++  teamManifesto: defineSection({
++    label: "Team: why the people matter (a text to read)",
++    description: "A calm reading section: a big heading on the left that stays in place, the text on the right, and a quotation at the end. For the page about the team.",
++    fields: [
++      chip(),
++      headingField(),
++      {
++        kind: "textarea",
++        key: "body",
++        label: "Text (leave an empty line between paragraphs; the first paragraph is shown larger)",
++        max: 2400,
++        hint: HIGHLIGHT_HINT,
++      },
++      { kind: "textarea", key: "quote", label: "Quotation at the end (optional)", max: 240 },
++      { kind: "text", key: "quoteBy", label: "Who says it (optional)", max: 60 },
++    ],
++    defaults: { chip: "Why the team matters", heading: "Behind every screen,\nthere is a person", body: "Text.", quote: "", quoteBy: "" },
++  }),
++  teamJourney: defineSection({
++    label: "Team: how a project passes from hand to hand",
++    description: "Numbered steps on a line (up to 8). Every step says what is done and who does it, so a visitor sees that every part of the team matters.",
++    fields: [
++      chip(),
++      headingField(),
++      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
++      {
++        kind: "list",
++        key: "steps",
++        label: "Steps",
++        itemLabel: "Step",
++        max: 8,
++        fields: [
++          { kind: "text", key: "stage", label: "What happens (short)", max: 40, hint: "e.g. We design" },
++          { kind: "text", key: "who", label: "Who does it", max: 70, hint: "e.g. UI/UX and brand designers" },
++          { kind: "textarea", key: "text", label: "A few words", max: 260 },
++        ],
++      },
++    ],
++    defaults: { chip: "How we work", heading: "How a project\nmoves through the team", intro: "", steps: [{ stage: "We listen", who: "Business development", text: "Text." }] },
++  }),
++  teamValues: defineSection({
++    label: "Team: values (numbered, to read)",
++    description: "A heading that stays in place on the left and numbered statements on the right (up to 8). For the beliefs and habits of the team.",
++    fields: [
++      chip(),
++      headingField(),
++      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
++      {
++        kind: "list",
++        key: "items",
++        label: "Statements",
++        itemLabel: "Statement",
++        max: 8,
++        fields: [
++          { kind: "text", key: "title", label: "Title", max: 60 },
++          { kind: "textarea", key: "text", label: "Text", max: 320 },
++        ],
++      },
++    ],
++    defaults: { chip: "Our values", heading: "What we believe in\nas a team", intro: "", items: [{ title: "Title", text: "Text." }] },
++  }),
+   aboutHero: defineSection({
+     label: "About: first screen (words on a grid floor)",
+     description: "The first screen of the About page as words: label, big heading, text and two buttons, in front of a grid floor in perspective. No 3D scene.",

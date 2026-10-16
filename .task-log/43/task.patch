@@ -1,0 +1,100 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 35a067e..a9ef495 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17672,3 +17672,60 @@ a.md-rel-card:hover .md-rel-go {
+   letter-spacing: 0.12em;
+   text-transform: uppercase;
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   "Why We3vision" as wide as the screen: the list on the left and the reasons on the right use the whole width (a gutter at both sides), and the
++   words and the numbers grow with the screen, so that a big monitor is not left with an empty space round a narrow block. */
++@media (min-width: 1024px) {
++  .rs {
++    max-width: none;
++    padding-inline: clamp(1.5rem, 5vw, 7rem);
++    grid-template-columns: clamp(23rem, 24vw, 36rem) minmax(0, 1fr);
++    gap: clamp(3rem, 5vw, 8rem);
++  }
++  .rs-title {
++    font-size: clamp(3rem, 4.4vw, 5.6rem);
++  }
++  .rs-card h3 {
++    font-size: clamp(2rem, 3vw, 3.8rem);
++  }
++  .rs-card p {
++    max-width: min(46rem, 90%);
++    font-size: clamp(1.125rem, 1.25vw, 1.6rem);
++  }
++  .rs-no {
++    font-size: clamp(11rem, 12vw, 20rem);
++  }
++}
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .rs {
++    padding-inline: 0;
++  }
++  .rs-pin {
++    max-width: none;
++    grid-template-columns: clamp(23rem, 24vw, 36rem) minmax(0, 1fr);
++    gap: clamp(3rem, 5vw, 8rem);
++    padding-inline: clamp(1.5rem, 5vw, 7rem);
++  }
++}
++
++/* the global reach section has no box any more: a big soft light behind the globe blends it into the background */
++.rp-glow {
++  position: absolute;
++  top: 50%;
++  right: 4%;
++  width: min(75vw, 900px);
++  aspect-ratio: 1;
++  background: radial-gradient(closest-side, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.22), hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 40% / 0.1) 55%, transparent 100%);
++  pointer-events: none;
++  transform: translateY(-50%);
++}
++@media (max-width: 767px) {
++  .rp-glow {
++    top: auto;
++    right: 50%;
++    bottom: 0;
++    width: 120vw;
++    transform: translate(50%, 20%);
++  }
++}
+diff --git a/a/src/components/site/sections/reach.tsx b/b/src/components/site/sections/reach.tsx
+index 2d9afd0..c64a5ce 100644
+--- a/a/src/components/site/sections/reach.tsx
++++ b/b/src/components/site/sections/reach.tsx
+@@ -1,4 +1,3 @@
+-import { GlowEdge } from "../glow-edge";
+ import { Globe } from "../globe";
+ import { ReachPlaces } from "../reach-places";
+ import { Reveal } from "../reveal";
+@@ -17,11 +16,12 @@ export const Reach: SectionComponent<"reach"> = ({ data, page }) => {
+     .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng) && Math.abs(p.lat) <= 90 && Math.abs(p.lng) <= 180);
+ 
+   return (
+-    <section id="reach" className="py-20 sm:py-28">
+-      <div className="mx-auto w-full px-3 sm:px-6 lg:px-10">
++    <section id="reach" className="py-16 sm:py-24">
++      <div className="mx-auto w-full px-4 sm:px-8 lg:px-14 xl:px-20">
+         <Reveal>
+-          <div className="bglow card-glass relative overflow-hidden rounded-[24px] border border-violet/[0.08] p-8 sm:p-12 lg:p-16 md:grid md:min-h-[min(78vh,760px)] md:grid-cols-[1.05fr_1fr] md:items-center md:gap-10">
+-            <GlowEdge />
++          <div className="relative md:grid md:grid-cols-[1.05fr_1fr] md:items-center md:gap-10 lg:gap-16">
++            {/* no box: the section is part of the page; a soft light behind the globe joins it to the background */}
++            <div aria-hidden className="rp-glow" />
+             <div className="relative z-10 md:max-w-[640px]">
+               <Chip>{data.chip}</Chip>
+               {page === "home" ? (
+@@ -47,7 +47,7 @@ export const Reach: SectionComponent<"reach"> = ({ data, page }) => {
+                 </div>
+               )}
+             </div>
+-            <div className="mt-12 flex justify-center md:mt-0">
++            <div className="relative z-10 mt-12 flex justify-center md:mt-0">
+               <Globe places={places} label={`Globe showing ${places.map((p) => p.label).join(", ")}`} />
+             </div>
+           </div>

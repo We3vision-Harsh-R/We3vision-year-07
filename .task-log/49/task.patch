@@ -1,0 +1,71 @@
+diff --git a/a/src/components/admin/team-manager.tsx b/b/src/components/admin/team-manager.tsx
+index b1a69e5..00e25b3 100644
+--- a/a/src/components/admin/team-manager.tsx
++++ b/b/src/components/admin/team-manager.tsx
+@@ -181,7 +181,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
+                   </datalist>
+                 </label>
+               </div>
+-              <p className="-mt-2 text-xs leading-relaxed text-zinc-400">People with the same department sit together. The department called Leadership sits in the middle at the top, Managers at the long table under it (the first person sits in the main chair), and every other department is a team under the managers. The first person of a department is its first seat.</p>
++              <p className="-mt-2 text-xs leading-relaxed text-zinc-400">People with the same department sit together. The department called Leadership sits in the middle at the top, Managers at the long table under it, and every other department is a team under the managers. The first person of a department is its first seat.</p>
+               <label className={labelClass}>
+                 A few words about the person
+                 <textarea className={`${inputClass} min-h-24`} value={current.bio} maxLength={260} onChange={(e) => patch(current.id, { bio: e.target.value })} />
+diff --git a/a/src/components/site/modern/team-office.tsx b/b/src/components/site/modern/team-office.tsx
+index a69dfc8..c4fe6fd 100644
+--- a/a/src/components/site/modern/team-office.tsx
++++ b/b/src/components/site/modern/team-office.tsx
+@@ -9,7 +9,7 @@ import { BOARDS } from "../timeline-boards";
+ // The office of We3vision on the Team page, in the look of the office at the end of the About timeline (floor, walls, plants, tables with
+ // laptops, chairs, colleagues who walk about), with the real people of the company in it, arranged as the company is built:
+ //   top      the leaders (the department "Leadership"), at a long desk in the middle of the office, with their title under them
+-//   middle   the managers (the department "Managers") at a long table; the first person sits in the main chair at the end of the table
++//   middle   the managers (the department "Managers") at a long table (the chair at the end of the table stays empty)
+ //   bottom   the teams (every other department), a corner each, hanging from a line that comes down from the managers
+ // Everything is on one screen: there is no camera and no zoom. Point at a person (tap, or tab to the person) and a card opens next to them:
+ // photo, name, role, a few words and a link. The people come from the admin panel (Team). The same component draws the preview there
+@@ -48,12 +48,11 @@ const TEAM_SEATS: Seat[] = [
+   { kind: "p", i: 0, x: 90, y: 122, rot: 180 },
+ ];
+ 
+-// ---- the managers' table: a long table, the main chair at the right end, three chairs on each long side (340 x 176) ----
++// ---- the managers' table: a long table with three chairs on each long side; the chair at the right end stays empty (340 x 176) ----
+ const MZW = 340;
+ const MZH = 176;
+-const MGR_CAP = 7;
++const MGR_CAP = 6;
+ const MGR_SEATS: Seat[] = [
+-  { kind: "h", i: 0, x: 304, y: 88, rot: -90 }, // the main chair
+   { kind: "s", i: 0, x: 80, y: 50, rot: 0 },
+   { kind: "s", i: 1, x: 80, y: 126, rot: 180 },
+   { kind: "s", i: 2, x: 140, y: 50, rot: 0 },
+@@ -383,13 +382,14 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+     }
+     if (b.tier === "mgr") {
+       const seats = MGR_SEATS.slice(0, b.people.length);
++      const END = { x: 304, y: 88 }; // the chair at the end of the table
+       return (
+         <div key={b.key} className="of-zone to2-zone to2-mgr" style={zoneStyle(b, z)}>
+           <span className="to2-longtable" />
+-          {MGR_SEATS.slice(1).map((s, i) => (
++          {MGR_SEATS.map((s, i) => (
+             <i key={"mc" + i} className="of-chair" style={{ left: s.x, top: s.y + (s.rot ? -2 : 2) }} />
+           ))}
+-          <i className="to2-mainchair" style={{ left: MGR_SEATS[0].x + 6, top: MGR_SEATS[0].y }} />
++          <i className="to2-mainchair" style={{ left: END.x + 6, top: END.y }} />
+           {b.people.map((p, i) => person(b, p, seats[i], 30 + i))}
+         </div>
+       );
+diff --git a/a/src/lib/cms/content/team.ts b/b/src/lib/cms/content/team.ts
+index abf3416..3c8508b 100644
+--- a/a/src/lib/cms/content/team.ts
++++ b/b/src/lib/cms/content/team.ts
+@@ -18,7 +18,7 @@ export type TeamMember = { name: string; role: string; dept: string; bio: string
+ const m = (name: string, role: string, dept: string, bio = "", girl = ""): TeamMember => ({ name, role, dept, bio, photo: "", linkedin: "", girl });
+ 
+ // The hierarchy of the office (see modern/team-office.tsx): the department "Leadership" sits in the middle at the top, "Managers" at a long
+-// table under it (the first person sits in the main chair), and every other department is a team under the managers. The first person of a team
++// table under it, and every other department is a team under the managers. The first person of a team
+ // is the first seat of its table.
+ export const TEAM_MEMBERS: TeamMember[] = [
+   m("Harsh Ramoliya", "MD", "Leadership", "Managing Director and one of the founders of We3vision. Mentor of the metaverse team and of the VR projects for NRIDA and the Ministry of Coal."),

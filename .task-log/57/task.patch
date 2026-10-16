@@ -1,0 +1,3379 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index e04dc98..fcdc431 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -23840,35 +23840,357 @@ a.md-rel-card:hover .md-rel-go {
+   }
+ }
+ 
++
+ /* ---------------------------------------------------------------------------------------------------------------------------------
+-   The Careers page: the ticket office with the train (components/site/career/journey.tsx, train-scene.tsx, location-picker.tsx) and
+-   Surat Junction (career/destination.tsx). For laptop and desktop screens. The station is seen from above. */
++   The Careers page as a railway (components/site/career/*, sections/career.tsx). One track runs through the whole page, drawn on a layer
++   behind the sections (career/railway.tsx, .rw-*); the sections are the stations of the line: the ticket office (.cj-*), the values as stops
++   (.rv-*), the teams as a departure board (.rt-*), the help desk (.rh-*) and Surat Junction (.cj-dest-*). For laptop and desktop screens. */
+ .cj,
+-.cj-dest {
++.cj-dest,
++.rv,
++.rt,
++.rh {
+   --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+   --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
+   --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+-  --card: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.72);
++  --card: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.78);
+   --fill: hsl(calc(var(--th) + 350) calc(26% * var(--ts)) 82% / 0.12);
+   position: relative;
+ }
++
++/* ---- the railway layer ---- */
++.rw {
++  --p: 1.15px;
++  position: absolute;
++  top: 0;
++  left: 0;
++  z-index: -5;
++  width: 100%;
++  overflow: hidden;
++  pointer-events: none;
++}
++.rw-svg {
++  display: block;
++}
++.rw-ballast {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 330) 12% 17%);
++  stroke-width: 50;
++  stroke-linejoin: round;
++}
++.rw-sleepers {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 22) 26% 34%);
++  stroke-width: 40;
++  stroke-dasharray: 5 13;
++}
++.rw-railbed {
++  fill: none;
++  stroke: hsl(0 0% 74%);
++  stroke-width: 26;
++}
++.rw-railgap {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 330) 12% 15%);
++  stroke-width: 20;
++}
++.rw-plat {
++  fill: hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 17%);
++  stroke: rgba(255, 255, 255, 0.07);
++}
++.rw-plat-edge {
++  fill: hsl(48 92% 58%);
++  opacity: 0.9;
++}
++.rw-plat-tact {
++  fill: rgba(255, 255, 255, 0.05);
++}
++.rw-canopy rect {
++  fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.09);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
++}
++.rw-canopy line {
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.2);
++}
++.rw-post {
++  fill: hsl(0 0% 72%);
++}
++.rw-glow {
++  fill: url(#rw-glow-g);
++}
++.rw-lampost {
++  fill: hsl(48 100% 86%);
++}
++.rw-clock {
++  fill: hsl(0 0% 94%);
++  stroke: hsl(calc(var(--th) + 347) 30% 22%);
++  stroke-width: 3;
++}
++.rw-clock-hand {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 347) 30% 18%);
++  stroke-width: 2.4;
++  stroke-linecap: round;
++}
++.rw-bench {
++  fill: hsl(calc(var(--th) + 16) 32% 36%);
++}
++.rw-bench-back {
++  fill: hsl(calc(var(--th) + 16) 32% 26%);
++}
++.rw-kiosk {
++  fill: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 36%);
++  stroke: rgba(255, 255, 255, 0.2);
++}
++.rw-board {
++  fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
++}
++.rw-board-lines {
++  stroke: hsl(48 90% 62%);
++  stroke-width: 2.4;
++  stroke-linecap: round;
++}
++.rw-sign {
++  fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.95);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
++}
++.rw-sign-t {
++  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88%);
++  font-size: 13.5px;
++  font-weight: 600;
++  letter-spacing: 0.08em;
++}
++.rw-office-body {
++  fill: hsl(calc(var(--th) + 349) calc(40% * var(--ts)) 22%);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.45);
++  stroke-width: 1.5;
++}
++.rw-office-roof {
++  fill: none;
++  stroke: rgba(255, 255, 255, 0.08);
++  stroke-width: 2;
++}
++.rw-office-t {
++  fill: #fff;
++  font-size: 19px;
++  font-weight: 600;
++  letter-spacing: 0.3em;
++}
++.rw-office-door {
++  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
++}
++.rw-stub {
++  fill: hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 20%);
++  stroke: rgba(255, 255, 255, 0.08);
++}
++.rw-stub-edge {
++  fill: hsl(48 92% 58%);
++  opacity: 0.8;
++}
++.rw-river {
++  fill: hsl(calc(var(--th) + 300) 50% 28% / 0.55);
++}
++.rw-ripple {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 320) 80% 76% / 0.35);
++  stroke-width: 2;
++}
++.rw-road {
++  fill: hsl(calc(var(--th) + 330) 8% 18%);
++}
++.rw-road-line {
++  stroke: hsl(0 0% 80% / 0.5);
++  stroke-width: 2;
++  stroke-dasharray: 12 10;
++}
++.rw-barrier {
++  fill: hsl(0 80% 56%);
++  stroke: #fff;
++  stroke-width: 1.5;
++}
++.rw-tree-sh {
++  fill: rgba(0, 0, 0, 0.35);
++}
++.rw-tree {
++  fill: hsl(calc(var(--th) + 222) calc(40% * var(--ts)) 22%);
++}
++.rw-tree-hi {
++  fill: hsl(calc(var(--th) + 222) calc(44% * var(--ts)) 32%);
++}
++.rw-pole {
++  fill: hsl(calc(var(--th) + 20) 20% 40%);
++}
++.rw-mile {
++  fill: hsl(0 0% 94%);
++  stroke: hsl(calc(var(--th) + 347) 30% 22%);
++  stroke-width: 1.5;
++}
++.rw-mile-t {
++  fill: hsl(calc(var(--th) + 347) 40% 14%);
++  font-size: 9.5px;
++  font-weight: 700;
++  letter-spacing: 0.04em;
++}
++.rw-sig-post {
++  fill: hsl(0 0% 56%);
++}
++.rw-sig-head {
++  fill: hsl(calc(var(--th) + 347) 30% 10%);
++  stroke: hsl(0 0% 60%);
++}
++.rw-sig-lamp {
++  fill: hsl(0 0% 24%);
++}
++.rw-sig-lamp[data-on="true"][data-c="r"] {
++  fill: hsl(0 90% 60%);
++  filter: drop-shadow(0 0 5px hsl(0 90% 60%));
++}
++.rw-sig-lamp[data-on="true"][data-c="g"] {
++  fill: hsl(140 80% 56%);
++  filter: drop-shadow(0 0 5px hsl(140 80% 56%));
++}
++
++/* the train: nothing until the visitor has chosen, then it comes out of a blur */
++.rw-train {
++  opacity: 0;
++  filter: blur(10px);
++  transition:
++    opacity 1.6s ease-out,
++    filter 2.2s ease-out;
++}
++.rw-train[data-on="true"] {
++  opacity: 1;
++  filter: blur(0);
++}
++.rw-bogie {
++  fill: hsl(calc(var(--th) + 330) 10% 12%);
++}
++.rw-coach {
++  fill: hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 36%);
++  stroke: rgba(255, 255, 255, 0.2);
++  stroke-width: 1.2;
++}
++.rw-roof {
++  fill: hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 46%);
++}
++.rw-roof[data-open="true"] {
++  fill: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 9% / 0.94);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++}
++.rw-seat {
++  fill: hsl(calc(var(--th) + 354) calc(55% * var(--ts)) 46%);
++}
++.rw-aisle {
++  fill: rgba(255, 255, 255, 0.06);
++}
++.rw-ac {
++  fill: hsl(calc(var(--th) + 340) 14% 62%);
++  stroke: rgba(0, 0, 0, 0.25);
++}
++.rw-rib {
++  fill: none;
++  stroke: rgba(0, 0, 0, 0.22);
++  stroke-width: 1.4;
++}
++.rw-win {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.75);
++  stroke-width: 3;
++  stroke-dasharray: 11 5;
++}
++.rw-door {
++  fill: hsl(48 95% 62%);
++}
++.rw-engine {
++  fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 46%);
++  stroke: rgba(255, 255, 255, 0.28);
++  stroke-width: 1.4;
++}
++.rw-engine-hi {
++  fill: none;
++  stroke: rgba(255, 255, 255, 0.22);
++  stroke-width: 3;
++  stroke-linecap: round;
++}
++.rw-cab {
++  fill: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 8% / 0.9);
++}
++.rw-cab-hi {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.6);
++  stroke-width: 2;
++  stroke-linecap: round;
++}
++.rw-pan {
++  fill: none;
++  stroke: hsl(0 0% 80%);
++  stroke-width: 2;
++}
++.rw-num {
++  fill: rgba(255, 255, 255, 0.85);
++  font-size: 12px;
++  font-weight: 700;
++  letter-spacing: 0.12em;
++}
++.rw-lamp {
++  fill: hsl(48 100% 88%);
++  filter: drop-shadow(0 0 6px hsl(48 100% 80%));
++}
++.rw-beam {
++  fill: url(#rw-beam-g);
++}
++.rw-av {
++  z-index: 3;
++  transition: opacity 0.4s;
++}
++.rw-av[data-inside="true"] .tl-pt {
++  opacity: 0.96;
++}
++.rw-you {
++  position: absolute;
++  top: 100%;
++  left: 50%;
++  margin-top: 4px;
++  padding: 2px 9px;
++  border-radius: 999px;
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-size: 0.8125rem;
++  font-weight: 700;
++  transform: translateX(-50%);
++  white-space: nowrap;
++  transition: opacity 0.4s;
++}
++
++/* ---- the ticket office ---- */
+ .cj {
+-  padding: 120px 0 80px;
++  padding: 116px 0 70px;
++  min-height: 100svh;
+ }
+ .cj-wrap,
+ .cj-dest-wrap {
+   display: grid;
+-  grid-template-columns: minmax(0, 1fr) minmax(340px, 400px);
+-  gap: 56px;
+-  max-width: 1240px;
++  grid-template-columns: minmax(0, 1fr) 400px;
++  gap: 36px;
++  max-width: 1320px;
+   margin: 0 auto;
+   padding: 0 32px;
+ }
+ .cj-main {
+   min-width: 0;
+ }
++.cj-slot {
++  min-height: 780px;
++}
++.cj-dest-slot {
++  min-height: 960px;
++}
+ .cj-head {
+-  margin-bottom: 40px;
++  margin-bottom: 32px;
++}
++.cj-head[data-compact="true"] {
++  margin-bottom: 22px;
+ }
+ .cj-chip {
+   display: inline-flex;
+@@ -23881,66 +24203,71 @@ a.md-rel-card:hover .md-rel-go {
+   font-weight: 500;
+ }
+ .cj-head h1,
+-.cj-dest h2 {
+-  margin: 18px 0 0;
++.cj-dest h2,
++.rv-head h2 {
++  margin: 16px 0 0;
+   background-image: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 352.8) calc(100% * var(--ts)) 85.29%));
+   -webkit-background-clip: text;
+   background-clip: text;
+   color: transparent;
+-  font-size: clamp(2.6rem, 4.6vw, 4.4rem);
++  font-size: clamp(2.6rem, 4.4vw, 4.2rem);
+   font-weight: 600;
+   letter-spacing: -0.04em;
+   line-height: 1.05;
+ }
++.cj-head[data-compact="true"] h1 {
++  font-size: clamp(2.2rem, 3.4vw, 3.2rem);
++}
+ .cj-head p,
+-.cj-dest-text > p {
++.cj-dest-text > p,
++.rv-head p {
+   max-width: 560px;
+-  margin: 18px 0 0;
++  margin: 16px 0 0;
+   color: var(--soft);
+   font-size: 1.0625rem;
+   line-height: 1.65;
+ }
+-.cj-block {
+-  margin-bottom: 26px;
+-}
+ .cj-q {
+-  margin: 0 0 12px;
++  margin: 0 0 6px;
+   color: #fff;
+-  font-size: 1.125rem;
++  font-size: 1.375rem;
+   font-weight: 600;
+-  letter-spacing: -0.01em;
+-}
+-.cj-q small {
+-  margin-left: 6px;
+-  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 78% / 0.75);
+-  font-size: 0.875rem;
+-  font-weight: 400;
++  letter-spacing: -0.02em;
+ }
+ .cj-sub {
+-  margin: -6px 0 18px;
++  margin: 0 0 18px;
+   color: var(--soft);
+   font-size: 1rem;
+ }
++.cj-window {
++  padding: 28px 30px 30px;
++  border: 1px solid var(--hair);
++  border-radius: 34px 34px 22px 22px;
++  background: var(--card);
++  box-shadow: inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.14);
++}
++
++/* inputs */
+ .cj-in {
+   display: block;
+   width: 100%;
+-  min-height: 52px;
+-  padding: 0 16px;
++  min-height: 46px;
++  padding: 0 14px;
+   border: 0;
+   border-radius: 12px;
+   background: var(--fill);
+   color: #fff;
+   caret-color: var(--a);
+   font: inherit;
+-  font-size: 1.0625rem;
++  font-size: 1rem;
+   outline: none;
+   transition:
+     background-color 0.2s,
+     box-shadow 0.2s;
+ }
+ textarea.cj-in {
+-  padding: 14px 16px;
+-  resize: vertical;
++  padding: 11px 14px;
++  resize: none;
+ }
+ .cj-in::placeholder {
+   color: hsl(calc(var(--th) + 352) calc(14% * var(--ts)) 92% / 0.5);
+@@ -23950,9 +24277,22 @@ textarea.cj-in {
+   box-shadow: 0 0 0 2px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+ }
+ .cj-in:disabled {
+-  opacity: 0.6;
++  opacity: 0.55;
+ }
+-select.cj-in option {
++select.cj-in {
++  appearance: none;
++  background-image: linear-gradient(45deg, transparent 50%, var(--a) 50%), linear-gradient(135deg, var(--a) 50%, transparent 50%);
++  background-position:
++    calc(100% - 20px) 50%,
++    calc(100% - 14px) 50%;
++  background-size:
++    6px 6px,
++    6px 6px;
++  background-repeat: no-repeat;
++  padding-right: 36px;
++}
++select.cj-in option,
++.cj-to select option {
+   background: #14081f;
+   color: #fff;
+ }
+@@ -23962,9 +24302,9 @@ input[type="date"].cj-in {
+ 
+ /* the location: the city chips and the dust */
+ .cj-loc .cj-in {
+-  min-height: 60px;
+-  font-size: 1.25rem;
++  min-height: 58px;
+   border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45);
++  font-size: 1.25rem;
+ }
+ .cj-cities {
+   display: flex;
+@@ -24060,139 +24400,165 @@ input[type="date"].cj-in {
+   color: var(--soft);
+   font-size: 1rem;
+ }
+-.cj-picked {
++
++/* the ticket */
++.cj-pass {
++  position: relative;
++  display: block;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.28);
++  border-radius: 26px;
++  background: var(--card);
++  box-shadow:
++    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16),
++    0 30px 70px -40px rgba(0, 0, 0, 0.8);
++  animation: cj-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.cj-pass-main {
++  min-width: 0;
++  padding: 20px 26px 22px;
++}
++.cj-pass-top {
+   display: flex;
++  justify-content: space-between;
++  gap: 16px;
++  margin-bottom: 14px;
++  padding-bottom: 12px;
++  border-bottom: 1px solid var(--hair);
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  font-size: 0.875rem;
++  font-weight: 600;
++  letter-spacing: 0.14em;
++  text-transform: uppercase;
++}
++.cj-route {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) 60px minmax(0, 1fr);
+   align-items: center;
+-  gap: 12px;
+-  min-height: 60px;
+-  padding: 0 18px;
+-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+-  border-radius: 12px;
+-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
+-  color: #fff;
+-  font-size: 1.25rem;
++  margin-bottom: 16px;
+ }
+-.cj-pin {
+-  width: 14px;
+-  height: 14px;
+-  border-radius: 50% 50% 50% 0;
+-  background: var(--a);
+-  transform: rotate(-45deg);
++.cj-route small,
++.cj-field > span {
++  display: block;
++  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90% / 0.78);
++  font-size: 0.875rem;
++  font-weight: 500;
+ }
+-.cj-picked button {
+-  margin-left: auto;
++.cj-from b {
++  display: block;
++  margin-top: 4px;
++  color: #fff;
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.2;
++}
++.cj-from button {
++  margin-top: 4px;
+   padding: 0;
+   border: 0;
+   background: none;
+   color: var(--a);
+   font: inherit;
+-  font-size: 1rem;
+-  font-weight: 600;
++  font-size: 0.875rem;
+   text-decoration: underline;
+-  text-underline-offset: 5px;
++  text-underline-offset: 4px;
+   cursor: pointer;
+ }
+-
+-/* the ticket: the answers */
+-.cj-ticket {
+-  margin-top: 8px;
+-  padding: 28px;
+-  border: 1px solid var(--hair);
+-  border-radius: 24px;
+-  background: var(--card);
+-  animation: cj-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
++.cj-from button:disabled {
++  display: none;
+ }
+-.cj-ticket[data-locked="true"] {
+-  opacity: 0.75;
++.cj-arrow {
++  position: relative;
++  height: 2px;
++  margin: 0 8px;
++  background: repeating-linear-gradient(90deg, var(--a) 0 8px, transparent 8px 14px);
+ }
+-.cj-cols {
+-  display: grid;
+-  grid-template-columns: repeat(2, minmax(0, 1fr));
+-  gap: 32px;
++.cj-arrow::after {
++  content: "";
++  position: absolute;
++  top: -5px;
++  right: -2px;
++  width: 10px;
++  height: 10px;
++  border-top: 2px solid var(--a);
++  border-right: 2px solid var(--a);
++  transform: rotate(45deg);
+ }
+-.cj-opts {
+-  display: flex;
+-  flex-wrap: wrap;
+-  gap: 8px;
+-  margin-top: 10px;
+-}
+-.cj-opts button,
+-.cj-slots button {
+-  padding: 8px 14px;
+-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
+-  border-radius: 999px;
+-  background: none;
+-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
++.cj-to select {
++  display: block;
++  width: 100%;
++  min-height: 48px;
++  margin-top: 6px;
++  padding: 0 36px 0 14px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
++  border-radius: 12px;
++  background: var(--fill);
++  color: #fff;
+   font: inherit;
+-  font-size: 0.9375rem;
+-  cursor: pointer;
+-  transition:
+-    background 0.2s,
+-    border-color 0.2s;
++  font-size: 1.0625rem;
++  font-weight: 500;
++  appearance: none;
++  background-image: linear-gradient(45deg, transparent 50%, var(--a) 50%), linear-gradient(135deg, var(--a) 50%, transparent 50%);
++  background-position:
++    calc(100% - 20px) 50%,
++    calc(100% - 14px) 50%;
++  background-size:
++    6px 6px,
++    6px 6px;
++  background-repeat: no-repeat;
++  outline: none;
+ }
+-.cj-opts button:hover,
+-.cj-slots button:hover {
+-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
++.cj-to select:focus {
++  box-shadow: 0 0 0 2px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+ }
+-.cj-opts button[data-on="true"] {
+-  border-color: var(--a);
+-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.26);
+-  color: #fff;
++.cj-grid {
++  display: grid;
++  gap: 12px 14px;
+ }
+-.cj-opts button:disabled,
+-.cj-roles button:disabled {
+-  cursor: default;
++.cj-grid-3 {
++  grid-template-columns: repeat(3, minmax(0, 1fr));
+ }
+-.cj-roles {
++.cj-field {
+   display: grid;
+-  gap: 8px;
++  gap: 6px;
++  align-content: start;
++  min-width: 0;
+ }
+-.cj-roles button {
+-  display: flex;
+-  align-items: baseline;
+-  justify-content: space-between;
+-  gap: 12px;
+-  padding: 12px 16px;
+-  border: 1px solid var(--hair);
+-  border-radius: 14px;
+-  background: var(--fill);
+-  color: #fff;
+-  font: inherit;
+-  text-align: left;
+-  cursor: pointer;
+-  transition:
+-    border-color 0.2s,
+-    background 0.2s;
++.cj-span2 {
++  grid-column: span 2;
+ }
+-.cj-roles button b {
+-  font-size: 1rem;
+-  font-weight: 600;
++.cj-span3 {
++  grid-column: 1 / -1;
+ }
+-.cj-roles button i {
+-  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 78% / 0.85);
+-  font-size: 0.875rem;
++.cj-field em {
++  color: var(--a);
+   font-style: normal;
+ }
+-.cj-roles button[data-on="true"] {
+-  border-color: var(--a);
+-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2);
++.cj-err-s {
++  color: hsl(350 100% 82%);
++  font-size: 0.875rem;
++  font-style: normal;
+ }
+ .cj-drop,
+ .cj-file {
+   display: flex;
+   width: 100%;
++  min-height: 46px;
+   align-items: center;
+-  gap: 10px;
+-  min-height: 52px;
+-  padding: 0 16px;
++  gap: 8px;
++  padding: 0 14px;
+   border: 1px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+   border-radius: 12px;
+   background: none;
+   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
+   font: inherit;
+-  font-size: 1rem;
++  font-size: 0.9375rem;
+   cursor: pointer;
+ }
++.cj-drop:disabled {
++  opacity: 0.55;
++  cursor: default;
++}
+ .cj-file {
+   border-style: solid;
+   cursor: default;
+@@ -24211,28 +24577,115 @@ input[type="date"].cj-in {
+   background: none;
+   color: var(--a);
+   font: inherit;
+-  cursor: pointer;
+   text-decoration: underline;
++  cursor: pointer;
++}
++.cj-sep {
++  display: flex;
++  align-items: center;
++  gap: 14px;
++  margin: 18px 0 14px;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  font-size: 0.875rem;
++  font-weight: 600;
++  letter-spacing: 0.14em;
++  text-transform: uppercase;
++}
++.cj-sep::before,
++.cj-sep::after {
++  content: "";
++  height: 0;
++  flex: 1;
++  border-top: 1px dashed var(--hair);
++}
++.cj-grid[data-need="true"] .cj-field:has(em) .cj-in {
++  box-shadow: 0 0 0 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
++}
++.cj-trap {
++  position: absolute;
++  left: -9999px;
++  width: 0;
++  height: 0;
++  opacity: 0;
+ }
+-.cj-slots {
++
++/* the stub of the ticket: the strip under the fields, cut off by a dashed line with the two notches */
++.cj-stub {
++  position: relative;
+   display: grid;
+-  gap: 10px;
+-  margin-top: 12px;
++  grid-template-columns: 96px minmax(0, 1fr) 150px 230px;
++  align-items: center;
++  gap: 22px;
++  padding: 20px 26px;
++  border-top: 2px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 0 0 26px 26px;
++  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.05);
++}
++.cj-stub::before,
++.cj-stub::after {
++  content: "";
++  position: absolute;
++  top: -14px;
++  width: 26px;
++  height: 26px;
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 5.5%);
++  box-shadow: inset 0 0 0 1px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.28);
++}
++.cj-stub::before {
++  left: -14px;
+ }
+-.cj-slots p {
++.cj-stub::after {
++  right: -14px;
++}
++.cj-stub-k {
+   margin: 0;
+-  color: var(--soft);
+-  font-size: 0.9375rem;
++  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90% / 0.78);
++  font-size: 0.875rem;
++  letter-spacing: 0.14em;
++  text-transform: uppercase;
+ }
+-.cj-bookrow {
+-  margin-top: 28px;
++.cj-stub-seat {
++  margin: 0;
++  color: #fff;
++  font-size: 2.5rem;
++  font-weight: 600;
++  letter-spacing: -0.04em;
++  line-height: 1.05;
++}
++.cj-stub-sum {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 16px;
++  margin: 0;
++}
++.cj-stub-sum dt {
++  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90% / 0.7);
++  font-size: 0.875rem;
++}
++.cj-stub-sum dd {
++  margin: 2px 0 0;
++  color: #fff;
++  font-size: 1rem;
++  font-weight: 500;
++  line-height: 1.3;
++}
++.cj-barcode {
++  display: block;
++  height: 46px;
++  background: repeating-linear-gradient(90deg, hsl(0 0% 100% / 0.8) 0 2px, transparent 2px 5px, hsl(0 0% 100% / 0.8) 5px 6px, transparent 6px 10px, hsl(0 0% 100% / 0.8) 10px 13px, transparent 13px 16px);
++  opacity: 0.7;
++}
++.cj-stub-act {
++  min-width: 0;
+ }
+ .cj-book {
+   display: inline-flex;
+-  min-height: 56px;
++  min-height: 52px;
++  width: 100%;
+   align-items: center;
+   justify-content: center;
+-  padding: 0 34px;
++  padding: 0 16px;
+   border: 0;
+   border-radius: 14px;
+   background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85.29%) 0%, hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06%) 100%);
+@@ -24241,7 +24694,7 @@ input[type="date"].cj-in {
+     0 8px 28px hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06% / 0.3);
+   color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+   font: inherit;
+-  font-size: 1.0625rem;
++  font-size: 1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition:
+@@ -24256,383 +24709,230 @@ input[type="date"].cj-in {
+   cursor: progress;
+   opacity: 0.7;
+ }
+-.cj-hint,
+-.cj-ok {
+-  margin: 12px 0 0;
++.cj-stub-hint,
++.cj-stub-ok,
++.cj-note {
++  margin: 10px 0 0;
+   color: var(--soft);
+-  font-size: 1rem;
++  font-size: 0.9375rem;
++  line-height: 1.5;
+ }
+-.cj-ok {
++.cj-stub-ok {
+   color: #fff;
+ }
+-.cj-ok button {
+-  margin-left: 14px;
+-  padding: 0;
+-  border: 0;
+-  background: none;
+-  color: var(--a);
+-  font: inherit;
+-  text-decoration: underline;
+-  cursor: pointer;
++.cj-note {
++  margin-top: 16px;
++  font-size: 1rem;
+ }
+ .cj-err {
+   margin: 10px 0 0;
+   color: hsl(350 100% 82%);
+-  font-size: 1rem;
+-}
+-.cj-pass {
+-  margin-top: 28px;
+-  padding: 28px;
+-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+-  border-radius: 24px;
+-  background: var(--card);
+-  animation: cj-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
++  font-size: 0.9375rem;
+ }
+-.cj-grid {
+-  display: grid;
+-  grid-template-columns: repeat(2, minmax(0, 1fr));
+-  gap: 18px 20px;
+-  margin-bottom: 22px;
++
++/* ---- the stops of the line: the values ---- */
++.rv {
++  padding: 110px 0;
+ }
+-.cj-field {
++.rv-in {
+   display: grid;
+-  gap: 8px;
+-  align-content: start;
++  grid-template-columns: 340px minmax(0, 1fr);
++  gap: 72px;
++  max-width: 1180px;
++  margin: 0 auto;
++  padding: 0 32px 0 112px;
+ }
+-.cj-field[data-wide="true"] {
+-  grid-column: 1 / -1;
++.rv-head {
++  position: sticky;
++  top: 120px;
++  align-self: start;
+ }
+-.cj-field > span {
+-  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 94% / 0.92);
+-  font-size: 0.9375rem;
+-  font-weight: 500;
++.rv-list {
++  display: grid;
++  gap: 26px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
+ }
+-.cj-field em {
+-  color: var(--a);
+-  font-style: normal;
++.rv-stop {
++  position: relative;
+ }
+-.cj-trap {
++.rv-mark {
+   position: absolute;
+-  left: -9999px;
+-  width: 0;
+-  height: 0;
+-  opacity: 0;
+-}
+-
+-/* the station seen from above */
+-.cj-side {
+-  position: sticky;
+-  top: 84px;
+-  align-self: start;
+-  height: calc(100svh - 112px);
+-  min-height: 560px;
+-}
+-.cj-side-note {
+-  margin: 12px 0 0;
+-  color: var(--soft);
+-  font-size: 0.9375rem;
+-  text-align: center;
++  top: 50%;
++  left: -40px;
++  width: 1px;
++  height: 1px;
+ }
+-.cj-scene {
+-  --p: 1.5px;
++.rv-card {
+   position: relative;
+-  height: calc(100% - 44px);
+-  overflow: hidden;
++  padding: 24px 28px 26px;
+   border: 1px solid var(--hair);
+-  border-radius: 28px;
+-  background: linear-gradient(180deg, hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 6.4%), hsl(calc(var(--th) + 349) calc(50% * var(--ts)) 10%));
+-  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.35);
++  border-radius: 22px;
++  background: var(--card);
++  transition:
++    border-color 0.4s,
++    translate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+ }
+-.cj-scene::after {
+-  content: "";
+-  position: absolute;
+-  inset: 0;
+-  background: linear-gradient(180deg, hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 5% / 0.85), transparent 18%, transparent 82%, hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 5% / 0.55));
+-  pointer-events: none;
+-  z-index: 9;
++.rv-card:hover {
++  translate: 6px 0;
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
+ }
+-.cj-ballast {
+-  position: absolute;
+-  top: 0;
+-  bottom: 0;
+-  background: repeating-linear-gradient(180deg, hsl(calc(var(--th) + 330) 12% 18%) 0 3px, hsl(calc(var(--th) + 330) 10% 14%) 3px 7px);
++.rv-no {
++  display: inline-block;
++  padding: 3px 12px;
+   border-radius: 6px;
++  background: hsl(48 92% 58%);
++  color: hsl(calc(var(--th) + 347.58) 50% 8%);
++  font-size: 0.8125rem;
++  font-weight: 700;
++  letter-spacing: 0.1em;
++  text-transform: uppercase;
+ }
+-.cj-sleepers {
+-  position: absolute;
+-  top: 0;
+-  bottom: 0;
+-  background: repeating-linear-gradient(180deg, hsl(calc(var(--th) + 20) 24% 30%) 0 7px, transparent 7px 20px);
+-}
+-.cj-rail {
+-  position: absolute;
+-  top: 0;
+-  bottom: 0;
+-  width: 3px;
+-  border-radius: 2px;
+-  background: linear-gradient(90deg, hsl(0 0% 62%), hsl(0 0% 86%) 50%, hsl(0 0% 56%));
+-  box-shadow: 0 0 6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
++.rv-card h3 {
++  margin: 14px 0 0;
++  color: #fff;
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.025em;
+ }
+-.cj-platform {
+-  position: absolute;
+-  top: 0;
+-  bottom: 0;
+-  border-radius: 14px;
+-  background:
+-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 22px 22px,
+-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 22px 22px,
+-    hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 20%);
+-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+-}
+-.cj-edge {
+-  position: absolute;
+-  top: 0;
+-  right: 6px;
+-  bottom: 0;
+-  width: 4px;
+-  background: repeating-linear-gradient(180deg, hsl(48 90% 60%) 0 14px, transparent 14px 22px);
+-  opacity: 0.85;
+-}
+-.cj-canopy {
+-  position: absolute;
+-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.25);
+-  border-radius: 10px;
+-  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.08);
+-}
+-.cj-canopy i {
+-  position: absolute;
+-  width: 8px;
+-  height: 8px;
+-  border-radius: 50%;
+-  background: hsl(0 0% 70% / 0.7);
+-}
+-.cj-canopy i:nth-child(1) {
+-  top: 6px;
+-  left: 6px;
++.rv-card p {
++  margin: 8px 0 0;
++  max-width: 520px;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.65;
+ }
+-.cj-canopy i:nth-child(2) {
+-  top: 6px;
+-  right: 6px;
++
++/* ---- the departure board: the teams ---- */
++.rt {
++  padding: 110px 0;
+ }
+-.cj-canopy i:nth-child(3) {
+-  bottom: 6px;
+-  left: 6px;
++.rt-in {
++  max-width: 1180px;
++  margin: 0 auto;
++  padding: 0 112px 0 32px;
+ }
+-.cj-canopy i:nth-child(4) {
+-  bottom: 6px;
+-  right: 6px;
++.rv-head[data-right] {
++  position: static;
++  margin-bottom: 36px;
+ }
+-.cj-bench {
+-  position: absolute;
+-  width: 44px;
+-  height: 14px;
+-  border-radius: 5px;
+-  background: hsl(calc(var(--th) + 14) 30% 34%);
+-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
++.rt-board {
++  overflow: hidden;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.25);
++  border-radius: 22px;
++  background: hsl(calc(var(--th) + 347) calc(56% * var(--ts)) 6% / 0.92);
++  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.85);
+ }
+-.cj-sign {
+-  position: absolute;
+-  padding: 5px 12px;
+-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
+-  border-radius: 8px;
+-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9% / 0.9);
+-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
++.rt-board-top {
++  display: flex;
++  justify-content: space-between;
++  padding: 14px 24px;
++  background: hsl(48 92% 58%);
++  color: hsl(calc(var(--th) + 347.58) 50% 8%);
+   font-size: 0.875rem;
+-  font-weight: 600;
+-  letter-spacing: 0.04em;
+-  white-space: nowrap;
++  font-weight: 700;
++  letter-spacing: 0.16em;
++  text-transform: uppercase;
+ }
+-.cj-office {
+-  position: absolute;
++.rt-row {
++  position: relative;
+   display: grid;
+-  place-content: center;
+-  gap: 4px;
+-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
+-  border-radius: 14px;
+-  background:
+-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 26px),
+-    linear-gradient(160deg, hsl(calc(var(--th) + 349) calc(40% * var(--ts)) 24%), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 12%));
+-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+-  text-align: center;
+-}
+-.cj-office b {
++  grid-template-columns: 84px minmax(0, 1fr) 130px 130px;
++  align-items: center;
++  gap: 18px;
++  padding: 16px 24px;
++  border-top: 1px dashed hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+   color: #fff;
+-  font-size: 1.0625rem;
+-  letter-spacing: 0.3em;
+-}
+-.cj-office span {
+-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
+-  font-size: 0.875rem;
+-}
+-.cj-office .cj-door {
+-  position: absolute;
+-  bottom: -2px;
+-  left: 50%;
+-  width: 46px;
+-  height: 8px;
+-  transform: translateX(-50%);
+-  border-radius: 4px;
+-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+-  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.8);
+-}
+-
+-/* the train: out of a blur from the top, engine first */
+-.cj-train {
+-  position: absolute;
+-  top: 0;
+-  width: 58px;
+-  z-index: 4;
+-  filter: blur(10px);
+-  opacity: 0;
+-  transition:
+-    transform 2.6s cubic-bezier(0.22, 0.8, 0.2, 1),
+-    filter 2.2s ease-out,
+-    opacity 1.4s ease-out;
+-}
+-.cj-train[data-in="true"] {
+-  filter: blur(0);
+-  opacity: 1;
+-}
+-.cj-train[data-gone="true"] {
+-  filter: blur(6px);
+-  opacity: 0;
+-  transition:
+-    transform 2.8s cubic-bezier(0.5, 0, 0.7, 0.4),
+-    filter 2.6s ease-in,
+-    opacity 2.2s ease-in 0.4s;
+-}
+-.cj-coach,
+-.cj-engine {
+-  position: absolute;
+-  left: 0;
+-  width: 58px;
+-  border-radius: 12px;
+-}
+-.cj-coach {
+-  background: linear-gradient(90deg, hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 30%), hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 44%) 50%, hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 30%));
+-  box-shadow:
+-    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+-    0 6px 16px rgba(0, 0, 0, 0.5);
+-}
+-.cj-roof {
+-  position: absolute;
+-  inset: 8px 12px;
+-  border-radius: 8px;
+-  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0 22px, rgba(0, 0, 0, 0.18) 22px 24px);
+-}
+-.cj-win {
+-  position: absolute;
+-  top: 12px;
+-  bottom: 12px;
+-  width: 4px;
+-  border-radius: 2px;
+-  background: repeating-linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.7) 0 14px, transparent 14px 20px);
+-}
+-.cj-win-l {
+-  left: 3px;
+-}
+-.cj-win-r {
+-  right: 3px;
++  text-decoration: none;
++  transition: background 0.25s;
+ }
+-.cj-door-mark {
+-  position: absolute;
+-  left: -2px;
+-  top: 50%;
+-  width: 4px;
+-  height: 30px;
+-  margin-top: -15px;
+-  border-radius: 2px;
+-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++.rt-row:first-of-type {
++  border-top: 0;
+ }
+-/* the first coach has its roof off, so that the seats can be seen */
+-.cj-coach[data-first="true"] .cj-roof {
+-  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 9% / 0.9);
+-  box-shadow: inset 0 0 0 1px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.25);
++a.rt-row:hover {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
+ }
+-.cj-seats {
+-  position: absolute;
+-  inset: 12px 14px;
+-  display: grid;
+-  grid-template-columns: repeat(2, 1fr);
+-  grid-auto-rows: 1fr;
+-  gap: 8px 6px;
++.rt-time {
++  color: hsl(48 95% 66%);
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: 0.04em;
++  font-variant-numeric: tabular-nums;
+ }
+-.cj-seats i {
+-  border-radius: 5px;
+-  background: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 40% / 0.7);
++.rt-name b {
++  display: block;
++  font-size: 1.1875rem;
++  font-weight: 600;
++  letter-spacing: -0.01em;
+ }
+-.cj-engine {
+-  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 36%), hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 52%) 50%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 36%));
+-  border-radius: 12px 12px 30px 30px / 12px 12px 44px 44px;
+-  box-shadow:
+-    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+-    0 8px 20px rgba(0, 0, 0, 0.55);
++.rt-name i {
++  display: block;
++  margin-top: 2px;
++  color: var(--soft);
++  font-size: 1rem;
++  font-style: normal;
++  line-height: 1.5;
+ }
+-.cj-cab {
+-  position: absolute;
+-  top: 16px;
+-  left: 10px;
+-  right: 10px;
+-  height: 36px;
+-  border-radius: 8px;
+-  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 8% / 0.85);
++.rt-plat {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
++  font-size: 1rem;
++  font-weight: 600;
+ }
+-.cj-nose {
+-  position: absolute;
+-  bottom: 18px;
+-  left: 14px;
+-  right: 14px;
+-  height: 36px;
+-  border-radius: 18px 18px 26px 26px;
+-  background: linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 30%), hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 22%));
++.rt-state {
++  justify-self: start;
++  padding: 4px 12px;
++  border-radius: 999px;
++  background: hsl(140 70% 40% / 0.2);
++  color: hsl(140 80% 72%);
++  font-size: 0.875rem;
++  font-weight: 600;
+ }
+-.cj-engine em {
+-  position: absolute;
+-  top: 62px;
+-  left: 0;
+-  right: 0;
+-  color: hsl(0 0% 100% / 0.85);
+-  font-size: 0.75rem;
+-  font-style: normal;
+-  font-weight: 700;
+-  letter-spacing: 0.12em;
+-  text-align: center;
++.rt-state[data-i="1"] {
++  background: hsl(48 90% 50% / 0.18);
++  color: hsl(48 95% 70%);
+ }
+-.cj-light {
+-  position: absolute;
+-  left: 50%;
+-  width: 90px;
+-  height: 90px;
+-  margin-left: -45px;
+-  background: radial-gradient(closest-side, hsl(48 100% 80% / 0.7), transparent);
++.rt-state[data-i="2"] {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
++  color: var(--a);
+ }
+ 
+-/* "You" */
+-.cj-av {
+-  z-index: 6;
+-  transition: transform 0.95s cubic-bezier(0.4, 0, 0.2, 1);
++/* ---- the help desk ---- */
++.rh {
++  padding: 110px 0;
+ }
+-.cj-av[data-sync="true"] {
+-  transition: transform 2.6s cubic-bezier(0.22, 0.8, 0.2, 1);
++.rh-window {
++  position: relative;
++  padding-top: 8px;
+ }
+-.cj-you {
+-  position: absolute;
+-  top: 100%;
+-  left: 50%;
+-  margin-top: 4px;
+-  padding: 2px 9px;
+-  border-radius: 999px;
+-  background: var(--a);
+-  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+-  font-size: 0.8125rem;
+-  font-weight: 700;
+-  transform: translateX(-50%);
+-  white-space: nowrap;
++.rh-sign {
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  gap: 18px;
++  width: max-content;
++  margin: 0 auto 26px;
++  padding: 8px 26px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
++  border-radius: 12px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.92);
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
++  font-size: 0.9375rem;
++  font-weight: 600;
++  letter-spacing: 0.2em;
++  text-transform: uppercase;
++}
++.rh-sign i {
++  width: 8px;
++  height: 8px;
++  border-radius: 50%;
++  background: hsl(140 80% 56%);
++  box-shadow: 0 0 10px hsl(140 80% 56%);
+ }
+ 
+-/* Surat Junction */
++/* ---- Surat Junction ---- */
+ .cj-dest {
+-  padding: 100px 0 120px;
++  padding: 90px 0 130px;
+ }
+ .cj-dest-wrap {
+   align-items: center;
+@@ -24677,21 +24977,125 @@ input[type="date"].cj-in {
+   font-weight: 600;
+   text-decoration: none;
+ }
+-.cj-dest-scene {
+-  height: 620px;
+-}
+-.cj-dest-scene .cj-scene {
+-  height: 100%;
+-}
+ @media (prefers-reduced-motion: reduce) {
+-  .cj-train,
+-  .cj-av {
+-    transition-duration: 0.01s !important;
++  .rw-train {
++    transition-duration: 0.01s;
+   }
+   .cj-cities button,
+-  .cj-ticket,
+   .cj-pass,
+   .cj-arrived {
+     animation: none;
+   }
+ }
++
++.rw-plat-shadow {
++  fill: rgba(0, 0, 0, 0.35);
++  filter: blur(6px);
++}
++.rw-plat-lip {
++  fill: rgba(0, 0, 0, 0.35);
++}
++.rw-roof-sh {
++  fill: rgba(0, 0, 0, 0.28);
++  filter: blur(5px);
++}
++.rw-roof-glass {
++  fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 72% / 0.12);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.4);
++  stroke-width: 1.4;
++}
++.rw-bench-slat {
++  stroke: rgba(0, 0, 0, 0.3);
++  stroke-width: 1.2;
++}
++.rw-awn-a {
++  fill: hsl(0 0% 94%);
++}
++.rw-awn-b {
++  fill: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 56%);
++}
++.rw-machine {
++  fill: hsl(calc(var(--th) + 330) 16% 30%);
++  stroke: rgba(255, 255, 255, 0.16);
++}
++.rw-machine-screen {
++  fill: hsl(48 95% 58%);
++  opacity: 0.85;
++}
++.rw-bin {
++  fill: hsl(calc(var(--th) + 330) 10% 34%);
++  stroke: rgba(255, 255, 255, 0.18);
++}
++.rw-pot {
++  fill: hsl(calc(var(--th) + 16) 30% 30%);
++}
++.rw-pot-leaf {
++  fill: hsl(calc(var(--th) + 222) calc(46% * var(--ts)) 34%);
++}
++.rw-clock-tick {
++  stroke: hsl(calc(var(--th) + 347) 30% 22%);
++  stroke-width: 1.4;
++}
++.rw-map {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
++  stroke-width: 2;
++  stroke-dasharray: 6 5;
++}
++.rw-person-sh {
++  fill: hsl(calc(var(--th) + 330) 30% 40%);
++}
++.rw-person-a {
++  fill: hsl(25 50% 70%);
++}
++.rw-person-b {
++  fill: hsl(25 40% 52%);
++}
++.rw-sign-n {
++  fill: var(--a);
++}
++.rw-sign-num {
++  fill: hsl(calc(var(--th) + 347.58) 60% 8%);
++  font-size: 15px;
++  font-weight: 700;
++}
++.rw-bridge-sh {
++  fill: rgba(0, 0, 0, 0.4);
++  filter: blur(5px);
++}
++.rw-bridge-deck {
++  fill: hsl(calc(var(--th) + 330) 16% 26%);
++  stroke: rgba(255, 255, 255, 0.18);
++}
++.rw-bridge line {
++  stroke: rgba(255, 255, 255, 0.22);
++  stroke-width: 1.4;
++}
++
++.rw-av .tl-pt {
++  display: block;
++  width: 100% !important;
++  height: 100% !important;
++  overflow: visible;
++}
++.rw-av .tl-pt svg {
++  width: 170% !important;
++  height: 170% !important;
++  margin: -35% 0 0 -35%;
++  overflow: visible;
++}
++.rw-av .of-walker-in {
++  width: 100%;
++  height: 100%;
++}
++
++.rw-office-sh {
++  fill: rgba(0, 0, 0, 0.4);
++  filter: blur(6px);
++}
++.rw-office-s {
++  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
++  font-size: 11px;
++  font-weight: 600;
++  letter-spacing: 0.24em;
++}
+diff --git a/a/src/components/site/career/destination.tsx b/b/src/components/site/career/destination.tsx
+index 1aa7351..8600837 100644
+--- a/a/src/components/site/career/destination.tsx
++++ b/b/src/components/site/career/destination.tsx
+@@ -1,10 +1,10 @@
+ "use client";
+ 
+ import { useCareer } from "@/lib/career-store";
+-import { TrainScene } from "./train-scene";
+ 
+-// The last section of the Careers page: Surat Junction, where We3vision has its office. Nothing arrives here until a visitor has sent their
+-// ticket: then the train comes in from the top, the passenger gets out and walks to the office (see career/journey.tsx).
++// The last section of the Careers page: Surat Junction, where We3vision has its office. The station itself (the platform, the office building
++// and the train that arrives) is drawn by the railway of the page (career/railway.tsx) in the empty place on the right. Nothing arrives here
++// until a visitor has sent their ticket.
+ 
+ export function CareerDestination({ chip, heading, text, station, address, buttonLabel, buttonHref }: { chip: string; heading: string; text: string; station: string; address: string; buttonLabel: string; buttonHref: string }) {
+   const career = useCareer();
+@@ -34,9 +34,7 @@ export function CareerDestination({ chip, heading, text, station, address, butto
+             </a>
+           )}
+         </div>
+-        <div className="cj-dest-scene">
+-          <TrainScene mode="destination" trainIn={arriving} passenger={arriving} seated getOut={career.stage === "arrived"} sign={station} />
+-        </div>
++        <div className="cj-dest-slot" aria-hidden />
+       </div>
+     </section>
+   );
+diff --git a/a/src/components/site/career/journey.tsx b/b/src/components/site/career/journey.tsx
+index b69884a..d83369d 100644
+--- a/a/src/components/site/career/journey.tsx
++++ b/b/src/components/site/career/journey.tsx
+@@ -5,24 +5,22 @@ import { bookSeat, completeTicket } from "@/actions/careers";
+ import { setCareer } from "@/lib/career-store";
+ import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, type CareerQuestionView, type CareerRoleView } from "@/lib/careers-shared";
+ import { LocationPicker } from "./location-picker";
+-import { TrainScene } from "./train-scene";
+ 
+-// The first screen of the Careers page: the ticket office. The visitor books the ticket of a career journey:
+-//   1. "Your location": the city (the only thing that must be there to book a seat)
+-//   2. optional: the current career status, the resume, the day they can join, the destination (an open position), how soon they can
+-//      arrive (the notice period) and a call slot with HR
+-//   3. "Book your seat": the seat is booked and the passenger details follow (the usual questions and the ones of HR from the admin panel)
+-//   4. the details are sent: the train leaves and arrives at Surat Junction, the last section of the page (career/destination.tsx)
+-// The train stands on the right. It only comes when the city, the status and the destination are chosen; "You" walks a step closer to the
+-// coach with every answer and steps back when an answer is taken away. The look is in globals.css (.cj-*).
++// The first screen of the Careers page: the ticket office, all on ONE page. The visitor first says where they are (the city is the only
++// thing that is needed to book a seat). Then the ticket opens: FROM (the city) -> TO (an open position), and on the same ticket the optional
++// answers (current status, notice period, the day they can join, resume, a call with HR) and the passenger details (the usual questions and
++// the ones of HR from the admin panel). "Book your seat" books the seat with whatever is there; as soon as the passenger details are complete
++// the ticket is confirmed and the train rides to Surat Junction.
++// The railway itself (the platform on the right of this screen, the train, the passenger) is drawn by career/railway.tsx for the whole page.
++// The look is in globals.css (.cj-*).
+ 
+ type Resume = { url: string; name: string };
+ 
+-function scrollToEl(el: Element | null, offset = -90) {
+-  if (!el) return;
+-  const lenis = (window as unknown as { __lenis?: { scrollTo: (t: Element, o?: object) => void } }).__lenis;
+-  if (lenis) lenis.scrollTo(el, { offset, duration: 1.3 });
+-  else el.scrollIntoView({ behavior: "smooth", block: "start" });
++function lenisTo(target: Element | number, opts: object) {
++  const lenis = (window as unknown as { __lenis?: { scrollTo: (t: Element | number, o?: object) => void } }).__lenis;
++  if (lenis) lenis.scrollTo(target, opts);
++  else if (typeof target === "number") window.scrollTo({ top: target, behavior: "smooth" });
++  else target.scrollIntoView({ behavior: "smooth", block: "start" });
+ }
+ 
+ export function CareerJourney({
+@@ -47,34 +45,34 @@ export function CareerJourney({
+   const [notice, setNotice] = useState("");
+   const [resume, setResume] = useState<Resume | null>(null);
+   const [slot, setSlot] = useState("");
+-  const [slotOpen, setSlotOpen] = useState(false);
+   const [uploadBusy, setUploadBusy] = useState(false);
+   const [uploadErr, setUploadErr] = useState("");
+   const [ticketId, setTicketId] = useState("");
+   const [booked, setBooked] = useState(false);
++  const [done, setDone] = useState(false);
+   const [busy, setBusy] = useState(false);
+   const [error, setError] = useState("");
+   const [fields, setFields] = useState<Record<string, string>>({});
+   const [custom, setCustom] = useState<Record<string, string>>({});
+-  const [done, setDone] = useState(false);
+   const [website, setWebsite] = useState("");
+   const fileRef = useRef<HTMLInputElement>(null);
+-  const timers = useRef<number[]>([]);
+-  const later = (fn: () => void, ms: number) => {
+-    timers.current.push(window.setTimeout(fn, ms));
+-  };
+-  useEffect(() => {
+-    const t = timers.current;
+-    return () => t.forEach((x) => window.clearTimeout(x));
+-  }, []);
+ 
+   const role = roles.find((r) => r.id === roleId) ?? null;
+   const slots = useMemo(() => callSlots(), []);
+ 
+-  // the answers decide how far the passenger has walked, and whether the train is there
++  // what the railway of the page needs to know
+   const answers = [city, status, roleId, joinDate, notice, resume?.url ?? "", slot];
+   const step = answers.filter(Boolean).length;
+-  const trainIn = Boolean(city && status && roleId) && !done;
++  const summoned = Boolean(city && status && roleId) && !done;
++  useEffect(() => {
++    setCareer({ city, step, steps: 7, summoned: Boolean(city && status && roleId), passenger: Boolean(city), role: role?.title ?? "", name: fields.name ?? "" });
++  }, [city, status, roleId, step, role?.title, fields.name]);
++  useEffect(() => {
++    setCareer({ stage: done ? "departing" : booked ? "booked" : "idle" });
++  }, [booked, done]);
++
++  const passengerOk = (fields.name ?? "").trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((fields.email ?? "").trim()) && (fields.phone ?? "").replace(/\D/g, "").length >= 6 && (fields.skills ?? "").trim().length >= 2;
++  const customOk = questions.every((q) => !q.required || (custom[q.id] ?? "").trim());
+ 
+   const upload = async (file: File | undefined) => {
+     if (!file) return;
+@@ -95,97 +93,131 @@ export function CareerJourney({
+     }
+   };
+ 
+-  const book = async () => {
+-    setBusy(true);
+-    setError("");
+-    const res = await bookSeat({ id: ticketId || undefined, city, currentStatus: status, roleId, joinDate, noticePeriod: notice, callSlot: slot, resume: resume?.url ?? "" });
+-    setBusy(false);
++  const depart = () => {
++    setDone(true);
++    // the train rides to Surat Junction and the page rides with it
++    window.setTimeout(() => {
++      const dest = document.getElementById("surat-junction");
++      if (dest) lenisTo(dest, { offset: -10, duration: 9, easing: (t: number) => 1 - Math.pow(1 - t, 2.2) });
++    }, 700);
++  };
++
++  const confirm = async (id: string) => {
++    const res = await completeTicket({ id, fields, custom, website });
+     if (!res.ok) {
+       setError(res.error);
+-      return;
++      return false;
+     }
+-    setTicketId(res.id);
+-    setBooked(true);
+-    // the selection scrolls away and the passenger details come
+-    later(() => scrollToEl(document.getElementById("cj-passenger"), -110), 650);
++    depart();
++    return true;
+   };
+ 
+-  const unbook = () => {
+-    setBooked(false);
++  const book = async () => {
+     setError("");
+-    later(() => scrollToEl(document.getElementById("cj-ticket"), -110), 100);
+-  };
+-
+-  const submit = async (e: React.FormEvent) => {
+-    e.preventDefault();
++    if (booked && !done) {
++      if (!passengerOk || !customOk) {
++        setError(passengerOk ? "Please answer the questions marked with *." : "Please fill in your name, email, phone and skills.");
++        return;
++      }
++      setBusy(true);
++      await confirm(ticketId);
++      setBusy(false);
++      return;
++    }
+     setBusy(true);
+-    setError("");
+-    const res = await completeTicket({ id: ticketId, fields, custom, website });
+-    setBusy(false);
++    const res = await bookSeat({ id: ticketId || undefined, city, currentStatus: status, roleId, joinDate, noticePeriod: notice, callSlot: slot, resume: resume?.url ?? "" });
+     if (!res.ok) {
++      setBusy(false);
+       setError(res.error);
+       return;
+     }
+-    setDone(true);
+-    setCareer({ stage: "departing", name: fields.name ?? "", role: role?.title ?? "", city });
+-    // the train leaves, then the page follows it to Surat Junction (the last section), where it arrives
+-    later(() => scrollToEl(document.getElementById("surat-junction"), -40), 1400);
+-    later(() => setCareer({ stage: "arriving" }), 3600);
+-    later(() => setCareer({ stage: "arrived" }), 6800);
++    setTicketId(res.id);
++    setBooked(true);
++    // the passenger details are complete: the ticket is confirmed with the same press
++    if (passengerOk && customOk) await confirm(res.id);
++    setBusy(false);
+   };
+ 
+-  const clearCity = () => {
+-    setCity("");
+-    setBooked(false);
+-  };
++  const ticketNo = ticketId ? ticketId.slice(-6).toUpperCase() : "——————";
++  const seatNo = ticketId ? `${(ticketId.charCodeAt(ticketId.length - 1) % 24) + 1}${"ABCD"[ticketId.charCodeAt(ticketId.length - 2) % 4]}` : "—";
++  const need = booked && !done && (!passengerOk || !customOk);
+ 
+   return (
+     <section id="top" className="cj">
+       <div className="cj-wrap">
+         <div className="cj-main">
+-          <header className="cj-head">
++          <header className="cj-head" data-compact={Boolean(city)}>
+             {chip && <span className="cj-chip">{chip}</span>}
+             <h1>{heading.replace(/\n/g, " ")}</h1>
+-            {text && <p>{text}</p>}
++            {text && !city && <p>{text}</p>}
+           </header>
+ 
+-          {/* 1. the location */}
+-          <div className="cj-block" data-step="1">
+-            <h2 className="cj-q">{locationLabel}</h2>
+-            <LocationPicker value={city} onSelect={setCity} onClear={clearCity} />
+-          </div>
++          {!city ? (
++            <div className="cj-window">
++              <h2 className="cj-q">{locationLabel}</h2>
++              <p className="cj-sub">Type the first letters of your city. The track stays empty until you tell us where you are.</p>
++              <LocationPicker value="" onSelect={setCity} onClear={() => setCity("")} />
++            </div>
++          ) : (
++            <div className="cj-pass" data-booked={booked} data-done={done}>
++              <div className="cj-pass-main">
++                <div className="cj-pass-top">
++                  <span>We3vision Railways</span>
++                  <span>Career ticket · No. {ticketNo}</span>
++                </div>
+ 
+-          {/* 2. the rest of the ticket (all of it is optional) */}
+-          {city && (
+-            <div id="cj-ticket" className="cj-ticket" data-locked={booked}>
+-              <div className="cj-cols">
+-                <div className="cj-col">
+-                  <div className="cj-block">
+-                    <h3 className="cj-q">Your current career status</h3>
+-                    <input className="cj-in" value={status} maxLength={80} placeholder="e.g. Fresher, Senior Project Manager" disabled={booked} onChange={(e) => setStatus(e.target.value)} />
+-                    <div className="cj-opts">
+-                      {CURRENT_STATUS_SUGGESTIONS.map((s) => (
+-                        <button key={s} type="button" disabled={booked} data-on={status === s} onClick={() => setStatus(status === s ? "" : s)}>
+-                          {s}
+-                        </button>
+-                      ))}
+-                    </div>
++                <div className="cj-route">
++                  <div className="cj-from">
++                    <small>From</small>
++                    <b>{city}</b>
++                    <button type="button" disabled={booked} onClick={() => setCity("")}>
++                      Change
++                    </button>
+                   </div>
++                  <span className="cj-arrow" aria-hidden />
++                  <label className="cj-to">
++                    <small>To · your destination</small>
++                    <select value={roleId} disabled={booked} onChange={(e) => setRoleId(e.target.value)}>
++                      <option value="">Choose an open position…</option>
++                      {roles.map((r) => (
++                        <option key={r.id} value={r.id}>
++                          {r.title}
++                          {r.team ? ` · ${r.team}` : ""}
++                        </option>
++                      ))}
++                    </select>
++                  </label>
++                </div>
+ 
+-                  <div className="cj-block">
+-                    <h3 className="cj-q">
+-                      When can you join We3vision? <small>optional</small>
+-                    </h3>
++                <div className="cj-grid cj-grid-3">
++                  <label className="cj-field">
++                    <span>Current career status</span>
++                    <input className="cj-in" list="cj-status" value={status} maxLength={80} placeholder="Fresher, Sr. Project Manager…" disabled={booked} onChange={(e) => setStatus(e.target.value)} />
++                    <datalist id="cj-status">
++                      {CURRENT_STATUS_SUGGESTIONS.map((s) => (
++                        <option key={s} value={s} />
++                      ))}
++                    </datalist>
++                  </label>
++                  <label className="cj-field">
++                    <span>How soon can you arrive?</span>
++                    <select className="cj-in" value={notice} disabled={booked} onChange={(e) => setNotice(e.target.value)}>
++                      <option value="">Notice period…</option>
++                      {NOTICE_PERIODS.map((n) => (
++                        <option key={n} value={n}>
++                          {n}
++                        </option>
++                      ))}
++                    </select>
++                  </label>
++                  <label className="cj-field">
++                    <span>When can you join?</span>
+                     <input className="cj-in" type="date" value={joinDate} disabled={booked} min={new Date().toISOString().slice(0, 10)} onChange={(e) => setJoinDate(e.target.value)} />
+-                  </div>
+-
+-                  <div className="cj-block">
+-                    <h3 className="cj-q">
+-                      Upload your resume <small>optional · PDF, DOC or DOCX</small>
+-                    </h3>
++                  </label>
++                  <div className="cj-field">
++                    <span>Resume</span>
+                     {resume ? (
+                       <div className="cj-file">
+-                        <span aria-hidden>📄</span>
+                         <b>{resume.name}</b>
+                         <button type="button" disabled={booked} onClick={() => setResume(null)}>
+                           Remove
+@@ -193,164 +225,112 @@ export function CareerJourney({
+                       </div>
+                     ) : (
+                       <button type="button" className="cj-drop" disabled={booked || uploadBusy} onClick={() => fileRef.current?.click()}>
+-                        {uploadBusy ? "Uploading…" : "Choose a file"}
++                        {uploadBusy ? "Uploading…" : "Upload PDF, DOC or DOCX"}
+                       </button>
+                     )}
+                     <input ref={fileRef} type="file" accept=".pdf,.doc,.docx,application/pdf" hidden onChange={(e) => void upload(e.target.files?.[0])} />
+-                    {uploadErr && <p className="cj-err">{uploadErr}</p>}
++                    {uploadErr && <em className="cj-err-s">{uploadErr}</em>}
+                   </div>
+-                </div>
+-
+-                <div className="cj-col">
+-                  <div className="cj-block">
+-                    <h3 className="cj-q">Your destination: an open position at We3vision</h3>
+-                    <div className="cj-roles" role="radiogroup" aria-label="Open positions">
+-                      {roles.map((r) => (
+-                        <button key={r.id} type="button" role="radio" aria-checked={roleId === r.id} disabled={booked} data-on={roleId === r.id} onClick={() => setRoleId(roleId === r.id ? "" : r.id)}>
+-                          <b>{r.title}</b>
+-                          {r.team && <i>{r.team}</i>}
+-                        </button>
++                  <label className="cj-field cj-span2">
++                    <span>A call with HR</span>
++                    <select className="cj-in" value={slot} disabled={booked} onChange={(e) => setSlot(e.target.value)}>
++                      <option value="">Book a call slot (optional)…</option>
++                      {slots.map((d) => (
++                        <optgroup key={d.label} label={d.label}>
++                          {d.times.map((tm) => (
++                            <option key={tm} value={`${d.label}, ${tm}`}>
++                              {d.label}, {tm}
++                            </option>
++                          ))}
++                        </optgroup>
+                       ))}
+-                      {roles.length === 0 && <p className="cj-none">No open positions are listed at the moment. You can still book a seat.</p>}
+-                    </div>
+-                  </div>
+-
+-                  <div className="cj-block">
+-                    <h3 className="cj-q">
+-                      How soon can you arrive? <small>your notice period</small>
+-                    </h3>
+-                    <div className="cj-opts">
+-                      {NOTICE_PERIODS.map((n) => (
+-                        <button key={n} type="button" disabled={booked} data-on={notice === n} onClick={() => setNotice(notice === n ? "" : n)}>
+-                          {n}
+-                        </button>
+-                      ))}
+-                    </div>
+-                  </div>
++                    </select>
++                  </label>
++                </div>
+ 
+-                  <div className="cj-block">
+-                    <h3 className="cj-q">
+-                      A call with HR <small>optional</small>
+-                    </h3>
+-                    {slot ? (
+-                      <div className="cj-file">
+-                        <span aria-hidden>📞</span>
+-                        <b>{slot}</b>
+-                        <button type="button" disabled={booked} onClick={() => setSlot("")}>
+-                          Remove
+-                        </button>
+-                      </div>
+-                    ) : (
+-                      <button type="button" className="cj-drop" disabled={booked} onClick={() => setSlotOpen((v) => !v)}>
+-                        {slotOpen ? "Close the slots" : "Book a call slot with HR"}
+-                      </button>
+-                    )}
+-                    {slotOpen && !slot && (
+-                      <div className="cj-slots">
+-                        {slots.map((d) => (
+-                          <div key={d.label}>
+-                            <p>{d.label}</p>
+-                            <div className="cj-opts">
+-                              {d.times.map((tm) => (
+-                                <button
+-                                  key={tm}
+-                                  type="button"
+-                                  onClick={() => {
+-                                    setSlot(`${d.label}, ${tm}`);
+-                                    setSlotOpen(false);
+-                                  }}
+-                                >
+-                                  {tm}
+-                                </button>
+-                              ))}
+-                            </div>
+-                          </div>
+-                        ))}
+-                      </div>
+-                    )}
+-                  </div>
++                <div className="cj-sep">
++                  <span>Passenger details</span>
+                 </div>
++                <div className="cj-grid cj-grid-3" data-need={need}>
++                  {COMMON_FIELDS.map((f) => (
++                    <label key={f.key} className={`cj-field${f.kind === "textarea" ? " cj-span2" : ""}${f.key === "about" ? " cj-span3" : ""}`}>
++                      <span>
++                        {f.label}
++                        {f.required && <em> *</em>}
++                      </span>
++                      {f.kind === "textarea" ? (
++                        <textarea className="cj-in" rows={f.key === "about" ? 2 : 2} value={fields[f.key] ?? ""} placeholder={f.placeholder} maxLength={800} disabled={done} onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })} />
++                      ) : (
++                        <input className="cj-in" type={f.kind} value={fields[f.key] ?? ""} placeholder={f.placeholder} maxLength={200} disabled={done} onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })} />
++                      )}
++                    </label>
++                  ))}
++                  {questions.map((q) => (
++                    <label key={q.id} className={`cj-field${q.kind === "textarea" ? " cj-span2" : ""}`}>
++                      <span>
++                        {q.label}
++                        {q.required && <em> *</em>}
++                      </span>
++                      {q.kind === "textarea" ? (
++                        <textarea className="cj-in" rows={2} value={custom[q.id] ?? ""} maxLength={1000} disabled={done} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })} />
++                      ) : q.kind === "select" || q.kind === "yesno" ? (
++                        <select className="cj-in" value={custom[q.id] ?? ""} disabled={done} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })}>
++                          <option value="">Choose…</option>
++                          {(q.kind === "yesno" ? ["Yes", "No"] : q.options).map((o) => (
++                            <option key={o} value={o}>
++                              {o}
++                            </option>
++                          ))}
++                        </select>
++                      ) : (
++                        <input className="cj-in" value={custom[q.id] ?? ""} maxLength={300} disabled={done} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })} />
++                      )}
++                    </label>
++                  ))}
++                </div>
++                <input value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="cj-trap" />
+               </div>
+ 
+-              <div className="cj-bookrow">
+-                {!booked ? (
+-                  <button type="button" className="cj-book" disabled={busy} onClick={() => void book()}>
+-                    {busy ? "Booking…" : "Book your seat"}
+-                  </button>
+-                ) : (
+-                  <p className="cj-ok">
+-                    Your seat is booked{role ? ` for ${role.title}` : ""}. Now the passenger details.
+-                    <button type="button" onClick={unbook}>
+-                      Change the ticket
++              <aside className="cj-stub">
++                <div className="cj-stub-seatbox">
++                  <p className="cj-stub-k">Seat</p>
++                  <p className="cj-stub-seat">{seatNo}</p>
++                </div>
++                <dl className="cj-stub-sum">
++                  <div>
++                    <dt>From</dt>
++                    <dd>{city}</dd>
++                  </div>
++                  <div>
++                    <dt>To</dt>
++                    <dd>{role?.title ?? "—"}</dd>
++                  </div>
++                  <div>
++                    <dt>Arrive</dt>
++                    <dd>{notice || "—"}</dd>
++                  </div>
++                </dl>
++                <span className="cj-barcode" aria-hidden />
++                <div className="cj-stub-act">
++                  {done ? (
++                    <p className="cj-stub-ok">Ticket confirmed. The train is leaving for Surat Junction…</p>
++                  ) : (
++                    <button type="button" className="cj-book" disabled={busy} onClick={() => void book()}>
++                      {busy ? "Please wait…" : booked ? "Confirm the ticket" : "Book your seat"}
+                     </button>
+-                  </p>
+-                )}
+-                {!booked && <p className="cj-hint">Only your location is needed. Everything else is optional.</p>}
+-                {error && !booked && <p className="cj-err">{error}</p>}
+-              </div>
++                  )}
++                  {!booked && !done && <p className="cj-stub-hint">Only your city is needed to book a seat.</p>}
++                  {booked && !done && !error && <p className="cj-stub-hint">Seat booked. Add the passenger details and confirm: the train leaves.</p>}
++                  {error && <p className="cj-err">{error}</p>}
++                </div>
++              </aside>
+             </div>
+           )}
+-
+-          {/* 3. the passenger details */}
+-          {booked && (
+-            <form id="cj-passenger" className="cj-pass" onSubmit={submit} data-done={done}>
+-              <h2 className="cj-q">Passenger details</h2>
+-              <p className="cj-sub">Tell us who is travelling. The usual questions first, then the ones of our HR team.</p>
+-              <div className="cj-grid">
+-                {COMMON_FIELDS.map((f) => (
+-                  <label key={f.key} className="cj-field" data-wide={f.kind === "textarea"}>
+-                    <span>
+-                      {f.label}
+-                      {f.required && <em> *</em>}
+-                    </span>
+-                    {f.kind === "textarea" ? (
+-                      <textarea className="cj-in" rows={3} value={fields[f.key] ?? ""} placeholder={f.placeholder} maxLength={800} required={f.required} disabled={done} onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })} />
+-                    ) : (
+-                      <input className="cj-in" type={f.kind} value={fields[f.key] ?? ""} placeholder={f.placeholder} maxLength={200} required={f.required} disabled={done} onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })} />
+-                    )}
+-                  </label>
+-                ))}
+-                {questions.map((q) => (
+-                  <label key={q.id} className="cj-field" data-wide={q.kind === "textarea"}>
+-                    <span>
+-                      {q.label}
+-                      {q.required && <em> *</em>}
+-                    </span>
+-                    {q.kind === "textarea" ? (
+-                      <textarea className="cj-in" rows={3} value={custom[q.id] ?? ""} maxLength={1000} required={q.required} disabled={done} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })} />
+-                    ) : q.kind === "select" || q.kind === "yesno" ? (
+-                      <select className="cj-in" value={custom[q.id] ?? ""} required={q.required} disabled={done} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })}>
+-                        <option value="">Choose…</option>
+-                        {(q.kind === "yesno" ? ["Yes", "No"] : q.options).map((o) => (
+-                          <option key={o} value={o}>
+-                            {o}
+-                          </option>
+-                        ))}
+-                      </select>
+-                    ) : (
+-                      <input className="cj-in" value={custom[q.id] ?? ""} maxLength={300} required={q.required} disabled={done} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })} />
+-                    )}
+-                  </label>
+-                ))}
+-              </div>
+-              <input name="website" value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="cj-trap" />
+-              {error && <p className="cj-err">{error}</p>}
+-              {!done ? (
+-                <button type="submit" className="cj-book" disabled={busy}>
+-                  {busy ? "Sending…" : "Confirm the ticket and start the journey"}
+-                </button>
+-              ) : (
+-                <p className="cj-ok">Your ticket is confirmed. The train is leaving for Surat Junction…</p>
+-              )}
+-            </form>
+-          )}
++          {!summoned && city && !done && <p className="cj-note">Choose your current status and a destination: the train comes to the platform.</p>}
+         </div>
+ 
+-        {/* the station: only the track until the visitor has chosen; then the train comes */}
+-        <aside className="cj-side">
+-          <TrainScene mode="origin" trainIn={trainIn} gone={done} passenger={Boolean(city)} step={step} steps={7} seated={booked} sign="Platform 1 · Careers" />
+-          {!trainIn && <p className="cj-side-note">{city ? "Choose your current status and a destination to call the train." : "The track is empty. Choose your location to start."}</p>}
+-        </aside>
++        {/* the platform and the train of the railway are drawn here (see career/railway.tsx) */}
++        <div className="cj-slot" aria-hidden />
+       </div>
+     </section>
+   );
+diff --git a/b/src/components/site/career/railway.tsx b/b/src/components/site/career/railway.tsx
+new file mode 100644
+index 0000000..7a853a0
+--- /dev/null
++++ b/b/src/components/site/career/railway.tsx
+@@ -0,0 +1,675 @@
++"use client";
++
++import { useEffect, useRef, useState } from "react";
++import { getCareer, setCareer, useCareer } from "@/lib/career-store";
++import { PersonTop } from "../timeline-art";
++
++// The railway of the Careers page: ONE track that runs through the whole page, from above the first screen to the last section, in S-curves
++// from the left edge to the right edge (in the margins beside the content, under the cards where it crosses them). It is drawn on one layer
++// behind the page (it is not in a box). On the way: the first station (the ticket office) with its platform, signals, a level crossing,
++// a bridge over a stream, a little stop for every value of the company, mile posts, poles, trees, and Surat Junction at the end.
++// The train (engine and three coaches, seen from above, every coach turns with the curve) does not exist until the visitor has chosen a city,
++// a current status and a destination. Then it comes in from the top and stands at the platform. When the seat is booked it rides down the
++// page with the scroll, smoothly; when the passenger details are sent the page rides to Surat Junction and the passenger gets out.
++// The geometry is measured from the sections of the page: they only have to carry the markers that are listed in measure().
++// The look is in globals.css (.rw-*). Laptop and desktop screens.
++
++const STEP = 6; // px between two samples of the path
++const COACH_L = 96;
++const ENGINE_L = 112;
++const CAR_W = 42;
++const GAP = 6;
++const COACHES = 3;
++const TRAIN_L = ENGINE_L + COACHES * (COACH_L + GAP);
++
++type Sample = { xs: Float32Array; ys: Float32Array; as: Float32Array; n: number };
++type Stop = { x: number; y: number; side: 1 | -1; label: string };
++type Geo = {
++  W: number;
++  H: number;
++  d: string;
++  len: number;
++  sample: Sample;
++  x1: number;
++  yHead1: number;
++  x2: number;
++  yHead2: number;
++  sStop1: number;
++  sEnd: number;
++  stops: Stop[];
++  crossing: { y: number; x: number } | null;
++  river: { y: number; h: number } | null;
++  signals: { s: number; side: 1 | -1 }[];
++  poles: { s: number; side: 1 | -1 }[];
++  miles: { s: number; label: string }[];
++  trees: { x: number; y: number; r: number }[];
++};
++
++const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
++
++function rel(el: Element | null, top0: number, scrollY: number) {
++  if (!el) return null;
++  const r = el.getBoundingClientRect();
++  return { top: r.top + scrollY - top0, bottom: r.bottom + scrollY - top0, left: r.left, right: r.right, width: r.width, height: r.height };
++}
++
++/** an S-curve from (x1, y1) to (x2, y2) that leaves and arrives going straight down */
++function curve(x1: number, y1: number, x2: number, y2: number) {
++  const k = (y2 - y1) * 0.55;
++  return `C${x1} ${y1 + k} ${x2} ${y2 - k} ${x2} ${y2}`;
++}
++
++function measure(root: HTMLElement): Geo | null {
++  const main = root.parentElement;
++  if (!main) return null;
++  const scrollY = window.scrollY;
++  const top0 = root.getBoundingClientRect().top + scrollY;
++  const W = root.clientWidth;
++  const H = Math.max(main.scrollHeight, main.getBoundingClientRect().height);
++  const journey = rel(document.getElementById("top"), top0, scrollY);
++  const slot1 = rel(main.querySelector(".cj-slot"), top0, scrollY);
++  const adv = rel(document.getElementById("advantages"), top0, scrollY);
++  const svc = rel(document.getElementById("services"), top0, scrollY);
++  const ct = rel(document.getElementById("contact"), top0, scrollY);
++  const dest = rel(document.getElementById("surat-junction"), top0, scrollY);
++  const slot2 = rel(main.querySelector(".cj-dest-slot"), top0, scrollY);
++  if (!journey || !slot1 || !dest || !slot2) return null;
++
++  const gutter = Math.max(92, (W - 1120) / 2);
++  const xL = gutter / 2;
++  const xR = W - gutter / 2;
++  const x1 = Math.min(xR, slot1.left + slot1.width * 0.74);
++  const x2 = Math.min(xR, slot2.left + slot2.width * 0.74);
++  // (the engine stops inside the first screen, whatever the height of the ticket is)
++  const yHead1 = slot1.top + Math.min(slot1.height, window.innerHeight - 70) * 0.8;
++  const yHead2 = slot2.top + slot2.height * 0.88;
++
++  // the line: down the first station, then from edge to edge through the sections, down to the last station
++  let d = `M${x1} -700 L${x1} ${Math.max(journey.bottom - 120, yHead1 + 220)}`;
++  let cx = x1;
++  let cy = Math.max(journey.bottom - 120, yHead1 + 220);
++  const legs: { top: number; bottom: number }[] = [];
++  const sections = [adv, svc, ct].filter(Boolean) as { top: number; bottom: number }[];
++  let side: "L" | "R" = "L";
++  for (const s of sections) {
++    const x = side === "L" ? xL : xR;
++    const yIn = s.top + 70;
++    d += ` ${curve(cx, cy, x, Math.max(yIn, cy + 160))}`;
++    cy = Math.max(yIn, cy + 160);
++    cx = x;
++    const yOut = Math.max(s.bottom - 130, cy + 200);
++    d += ` L${cx} ${yOut}`;
++    cy = yOut;
++    legs.push({ top: s.top, bottom: s.bottom });
++    side = side === "L" ? "R" : "L";
++  }
++  const yDest = Math.max(dest.top + 80, cy + 180);
++  d += ` ${curve(cx, cy, x2, yDest)} L${x2} ${Math.max(yHead2 + 700, yDest + 400)}`;
++
++  // measure the line (a path in a hidden svg)
++  const NS = "http://www.w3.org/2000/svg";
++  const svg = document.createElementNS(NS, "svg");
++  const path = document.createElementNS(NS, "path");
++  path.setAttribute("d", d);
++  svg.appendChild(path);
++  svg.style.cssText = "position:absolute;width:0;height:0;visibility:hidden";
++  document.body.appendChild(svg);
++  const len = path.getTotalLength();
++  const n = Math.ceil(len / STEP) + 1;
++  const xs = new Float32Array(n);
++  const ys = new Float32Array(n);
++  const as = new Float32Array(n);
++  for (let i = 0; i < n; i++) {
++    const p = path.getPointAtLength(Math.min(len, i * STEP));
++    xs[i] = p.x;
++    ys[i] = p.y;
++  }
++  svg.remove();
++  for (let i = 0; i < n; i++) {
++    const a = Math.max(0, i - 1);
++    const b = Math.min(n - 1, i + 1);
++    as[i] = Math.atan2(ys[b] - ys[a], xs[b] - xs[a]);
++  }
++  const sample: Sample = { xs, ys, as, n };
++  const sOfY = (y: number) => {
++    let lo = 0;
++    let hi = n - 1;
++    while (lo < hi) {
++      const m = (lo + hi) >> 1;
++      if (ys[m] < y) lo = m + 1;
++      else hi = m;
++    }
++    return lo * STEP;
++  };
++
++  // a little stop for every value of the company (the markers [data-stop] in the sections)
++  const stops: Stop[] = [];
++  main.querySelectorAll<HTMLElement>("[data-stop]").forEach((el) => {
++    const r = rel(el, top0, scrollY);
++    if (!r) return;
++    const y = r.top + r.height / 2;
++    const i = clamp(Math.round(sOfY(y) / STEP), 0, n - 1);
++    const x = xs[i];
++    stops.push({ x, y, side: x < W / 2 ? 1 : -1, label: el.dataset.stop ?? "" });
++  });
++
++  // a level crossing in the middle of the first section after the journey, a stream under a bridge in the gap after the second one
++  let crossing: Geo["crossing"] = null;
++  if (adv) {
++    const y = adv.top + (adv.bottom - adv.top) * 0.62;
++    crossing = { y, x: xs[clamp(Math.round(sOfY(y) / STEP), 0, n - 1)] };
++  }
++  let river: Geo["river"] = null;
++  if (svc && ct) river = { y: (svc.bottom + ct.top) / 2 - 40, h: 80 };
++
++  const sStop1 = sOfY(yHead1);
++  const sEnd = sOfY(yHead2);
++  const signals: Geo["signals"] = [];
++  const poles: Geo["poles"] = [];
++  const miles: Geo["miles"] = [];
++  const total = Math.max(1, Math.floor((sEnd - sStop1) / 1000));
++  for (let s = 140; s < len - 200; s += 230) poles.push({ s, side: Math.floor(s / 230) % 2 === 0 ? 1 : -1 });
++  for (let k = 0; k <= total; k++) miles.push({ s: sStop1 + 260 + k * 900, label: `SURAT ${Math.max(1, total - k + 1) * 12} KM` });
++  signals.push({ s: sStop1 - TRAIN_L - 120, side: 1 });
++  for (const l of legs) signals.push({ s: sOfY(l.top + 16), side: 1 });
++  const trees: Geo["trees"] = [];
++  let seed = 7;
++  const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
++  for (let y = 300; y < H - 100; y += 150 + rnd() * 160) {
++    const i = clamp(Math.round(sOfY(y) / STEP), 0, n - 1);
++    const px = xs[i];
++    const dir = rnd() > 0.5 ? 1 : -1;
++    const x = px + dir * (46 + rnd() * 34);
++    if (x > 14 && x < W - 14) trees.push({ x, y: y + rnd() * 40, r: 8 + rnd() * 9 });
++  }
++
++  return { W, H, d, len, sample, x1, yHead1, x2, yHead2, sStop1, sEnd, stops, crossing, river, signals, poles, miles, trees };
++}
++
++function at(sm: Sample, s: number) {
++  const f = clamp(s / STEP, 0, sm.n - 1);
++  const i = Math.floor(f);
++  const j = Math.min(sm.n - 1, i + 1);
++  const t = f - i;
++  return { x: sm.xs[i] + (sm.xs[j] - sm.xs[i]) * t, y: sm.ys[i] + (sm.ys[j] - sm.ys[i]) * t, a: sm.as[i] + (sm.as[j] - sm.as[i]) * t };
++}
++const sOfYFast = (sm: Sample, y: number) => {
++  let lo = 0;
++  let hi = sm.n - 1;
++  while (lo < hi) {
++    const m = (lo + hi) >> 1;
++    if (sm.ys[m] < y) lo = m + 1;
++    else hi = m;
++  }
++  return lo * STEP;
++};
++
++// ---------------------------------------------------------------------------------------------------------------------------------
++// the pieces
++// ---------------------------------------------------------------------------------------------------------------------------------
++
++function Coach({ first }: { first: boolean }) {
++  const L = COACH_L;
++  return (
++    <>
++      <rect className="rw-bogie" x={-L / 2 + 8} y={-CAR_W / 2 - 1} width="20" height={CAR_W + 2} rx="3" />
++      <rect className="rw-bogie" x={L / 2 - 28} y={-CAR_W / 2 - 1} width="20" height={CAR_W + 2} rx="3" />
++      <rect className="rw-coach" x={-L / 2} y={-CAR_W / 2} width={L} height={CAR_W} rx="9" />
++      <rect className="rw-roof" x={-L / 2 + 5} y={-CAR_W / 2 + 6} width={L - 10} height={CAR_W - 12} rx="6" data-open={first} />
++      {first ? (
++        // the first coach has its roof off: the seats can be seen
++        <g>
++          {[0, 1, 2, 3].map((i) => (
++            <g key={i}>
++              <rect className="rw-seat" x={-L / 2 + 14 + i * 20} y={-CAR_W / 2 + 9} width="12" height="9" rx="3" />
++              <rect className="rw-seat" x={-L / 2 + 14 + i * 20} y={CAR_W / 2 - 18} width="12" height="9" rx="3" />
++            </g>
++          ))}
++          <rect className="rw-aisle" x={-L / 2 + 8} y="-3" width={L - 16} height="6" rx="3" />
++        </g>
++      ) : (
++        <g>
++          <rect className="rw-ac" x={-L / 2 + 14} y="-9" width="18" height="18" rx="4" />
++          <rect className="rw-ac" x={L / 2 - 32} y="-9" width="18" height="18" rx="4" />
++          <path className="rw-rib" d={`M${-L / 2 + 38} -10V10M${-L / 2 + 46} -10V10M${L / 2 - 38} -10V10M${L / 2 - 46} -10V10`} />
++        </g>
++      )}
++      <path className="rw-win" d={`M${-L / 2 + 10} ${-CAR_W / 2 + 3}H${L / 2 - 10}M${-L / 2 + 10} ${CAR_W / 2 - 3}H${L / 2 - 10}`} />
++      <rect className="rw-door" x="-3" y={-CAR_W / 2 - 1} width="6" height="3" rx="1" />
++      <rect className="rw-door" x="-3" y={CAR_W / 2 - 2} width="6" height="3" rx="1" />
++    </>
++  );
++}
++
++function Engine() {
++  const L = ENGINE_L;
++  return (
++    <>
++      <path className="rw-beam" d={`M${L / 2 - 2} -12L${L / 2 + 120} -46V46L${L / 2 - 2} 12Z`} />
++      <rect className="rw-bogie" x={-L / 2 + 8} y={-CAR_W / 2 - 1} width="24" height={CAR_W + 2} rx="3" />
++      <rect className="rw-bogie" x={L / 2 - 40} y={-CAR_W / 2 - 1} width="24" height={CAR_W + 2} rx="3" />
++      <path className="rw-engine" d={`M${-L / 2} ${-CAR_W / 2 + 8}Q${-L / 2} ${-CAR_W / 2} ${-L / 2 + 10} ${-CAR_W / 2}H${L / 2 - 26}Q${L / 2 + 6} ${-CAR_W / 2 + 2} ${L / 2} 0Q${L / 2 + 6} ${CAR_W / 2 - 2} ${L / 2 - 26} ${CAR_W / 2}H${-L / 2 + 10}Q${-L / 2} ${CAR_W / 2} ${-L / 2} ${CAR_W / 2 - 8}Z`} />
++      <path className="rw-engine-hi" d={`M${-L / 2 + 10} -12H${L / 2 - 30}`} />
++      <rect className="rw-cab" x={L / 2 - 46} y="-14" width="22" height="28" rx="6" />
++      <path className="rw-cab-hi" d={`M${L / 2 - 42} -8H${L / 2 - 30}`} />
++      <rect className="rw-ac" x={-L / 2 + 14} y="-13" width="20" height="26" rx="5" />
++      <rect className="rw-ac" x={-L / 2 + 40} y="-13" width="20" height="26" rx="5" />
++      <path className="rw-pan" d={`M${-4} -10L8 0L-4 10M8 -10L-4 0L8 10`} />
++      <text className="rw-num" x={-L / 2 + 70} y="4" textAnchor="middle">
++        W3V
++      </text>
++      <circle className="rw-lamp" cx={L / 2 - 4} cy="-9" r="3.2" />
++      <circle className="rw-lamp" cx={L / 2 - 4} cy="9" r="3.2" />
++    </>
++  );
++}
++
++function Platform({ x, yHead, kind }: { x: number; yHead: number; kind: "start" | "end" }) {
++  // the platform is on the left of the track (the side where the passenger waits)
++  const edge = x - 36; // the edge next to the track
++  const w = 210;
++  const left = edge - w;
++  const top = yHead - 660;
++  const h = 800;
++  const roofTop = yHead - 590;
++  const roofH = 500;
++  const waiting = kind === "start" ? [[left + 52, yHead - 250], [left + 66, yHead - 236], [left + 104, yHead - 380], [left + 134, yHead - 150], [left + 148, yHead - 168]] : [];
++  return (
++    <g>
++      {/* the floor: tiles, a shadow on the ground round it, tactile paving and the yellow line at the edge */}
++      <rect className="rw-plat-shadow" x={left - 6} y={top - 4} width={w + 12} height={h + 12} rx="16" />
++      <rect className="rw-plat" x={left} y={top} width={w} height={h} rx="12" />
++      <rect x={left} y={top} width={w} height={h} rx="12" fill="url(#rw-tile)" />
++      <rect x={edge - 34} y={top} width="26" height={h} fill="url(#rw-dots)" />
++      <rect className="rw-plat-edge" x={edge - 7} y={top} width="6" height={h} />
++      <rect className="rw-plat-lip" x={edge - 1} y={top} width="3" height={h} />
++
++      {/* the roof: glass between steel beams, a shadow under it, posts, the lamps hang from it */}
++      <g className="rw-canopy">
++        <rect className="rw-roof-sh" x={left + 18} y={roofTop + 14} width={w - 62} height={roofH} rx="10" />
++        <rect className="rw-roof-glass" x={left + 14} y={roofTop} width={w - 62} height={roofH} rx="10" />
++        {Array.from({ length: 10 }, (_, i) => (
++          <line key={i} x1={left + 14} x2={left + 14 + w - 62} y1={roofTop + (i * roofH) / 9} y2={roofTop + (i * roofH) / 9} />
++        ))}
++        <line x1={left + 14 + (w - 62) / 2} x2={left + 14 + (w - 62) / 2} y1={roofTop} y2={roofTop + roofH} />
++      </g>
++      {[0, 3, 6, 9].flatMap((i) => [left + 14, left + 14 + w - 62].map((px) => <circle key={`${px}-${i}`} className="rw-post" cx={px} cy={roofTop + (i * roofH) / 9} r="5.5" />))}
++      {[0, 1, 2, 3].map((i) => {
++        const y = roofTop + 60 + i * 130;
++        return (
++          <g key={i}>
++            <circle className="rw-glow" cx={left + 14 + (w - 62) / 2} cy={y} r="46" />
++            <circle className="rw-lampost" cx={left + 14 + (w - 62) / 2} cy={y} r="4.5" />
++          </g>
++        );
++      })}
++
++      {/* furniture: benches, a ticket machine, a kiosk with an awning, bins, planters, the timetable, a clock, the route map */}
++      {[yHead - 420, yHead - 320, yHead - 220].map((y) => (
++        <g key={y}>
++          <rect className="rw-bench" x={left + 38} y={y} width="66" height="17" rx="5" />
++          {[0, 1, 2, 3].map((k) => (
++            <line key={k} className="rw-bench-slat" x1={left + 38 + 8 + k * 16} x2={left + 38 + 8 + k * 16} y1={y + 2} y2={y + 15} />
++          ))}
++          <rect className="rw-bench-back" x={left + 38} y={y - 5} width="66" height="5" rx="2" />
++        </g>
++      ))}
++      <g>
++        <rect className="rw-kiosk" x={left + 20} y={yHead - 150} width="54" height="44" rx="8" />
++        {Array.from({ length: 6 }, (_, i) => (
++          <rect key={i} className={i % 2 ? "rw-awn-a" : "rw-awn-b"} x={left + 20 + i * 9} y={yHead - 150} width="9" height="14" />
++        ))}
++        <rect className="rw-machine" x={left + 86} y={yHead - 150} width="26" height="44" rx="6" />
++        <rect className="rw-machine-screen" x={left + 91} y={yHead - 143} width="16" height="12" rx="2" />
++      </g>
++      <circle className="rw-bin" cx={left + 128} cy={yHead - 120} r="7" />
++      <circle className="rw-bin" cx={left + 128} cy={yHead - 380} r="7" />
++      {[yHead - 500, yHead - 60].map((y) => (
++        <g key={y}>
++          <circle className="rw-pot" cx={left + 150} cy={y} r="13" />
++          <circle className="rw-pot-leaf" cx={left + 150} cy={y} r="9" />
++        </g>
++      ))}
++      <g>
++        <circle className="rw-clock" cx={left + 54} cy={yHead - 520} r="21" />
++        {Array.from({ length: 12 }, (_, i) => {
++          const ang = (i / 12) * Math.PI * 2;
++          return <line key={i} className="rw-clock-tick" x1={left + 54 + Math.cos(ang) * 16} y1={yHead - 520 + Math.sin(ang) * 16} x2={left + 54 + Math.cos(ang) * 19} y2={yHead - 520 + Math.sin(ang) * 19} />;
++        })}
++        <path className="rw-clock-hand" d={`M${left + 54} ${yHead - 520}V${yHead - 534}M${left + 54} ${yHead - 520}L${left + 64} ${yHead - 514}`} />
++      </g>
++      <g>
++        <rect className="rw-board" x={left + 84} y={yHead - 546} width="52" height="52" rx="6" />
++        <path className="rw-board-lines" d={`M${left + 92} ${yHead - 530}H${left + 128}M${left + 92} ${yHead - 518}H${left + 120}M${left + 92} ${yHead - 506}H${left + 126}`} />
++      </g>
++      <path className="rw-map" d={`M${left + 28} ${yHead - 38}Q${left + 58} ${yHead - 62} ${left + 96} ${yHead - 38}T${left + 164} ${yHead - 44}`} />
++
++      {/* people waiting (seen from above: shoulders and a head) */}
++      {waiting.map(([px, py], i) => (
++        <g key={i}>
++          <ellipse className="rw-person-sh" cx={px} cy={py} rx="9" ry="6" />
++          <circle className={i % 2 ? "rw-person-a" : "rw-person-b"} cx={px} cy={py} r="4.8" />
++        </g>
++      ))}
++
++      {/* the name of the platform */}
++      <g>
++        <rect className="rw-sign" x={left + 16} y={yHead + 38} width={w - 60} height="44" rx="9" />
++        <circle className="rw-sign-n" cx={left + 40} cy={yHead + 60} r="14" />
++        <text className="rw-sign-num" x={left + 40} y={yHead + 65} textAnchor="middle">
++          {kind === "start" ? "1" : "S"}
++        </text>
++        <text className="rw-sign-t" x={left + 62} y={yHead + 65}>
++          {kind === "start" ? "CAREERS" : "SURAT JN"}
++        </text>
++      </g>
++
++      {/* a footbridge over the track, above the place where the train comes in (only at the first station) */}
++      <g className="rw-bridge" display={kind === "start" ? undefined : "none"}>
++        <rect className="rw-bridge-sh" x={left + 28} y={yHead - 650 + 10} width={w + 130} height="26" rx="4" />
++        <rect className="rw-bridge-deck" x={left + 24} y={yHead - 650} width={w + 130} height="26" rx="4" />
++        <line x1={left + 24} x2={left + 24 + w + 130} y1={yHead - 650 + 5} y2={yHead - 650 + 5} />
++        <line x1={left + 24} x2={left + 24 + w + 130} y1={yHead - 650 + 21} y2={yHead - 650 + 21} />
++        {Array.from({ length: 14 }, (_, i) => (
++          <line key={i} x1={left + 24 + i * ((w + 130) / 13)} x2={left + 24 + i * ((w + 130) / 13)} y1={yHead - 650 + 5} y2={yHead - 650 + 21} />
++        ))}
++      </g>
++    </g>
++  );
++}
++
++function Signal({ x, y, a, side, green }: { x: number; y: number; a: number; side: 1 | -1; green: boolean }) {
++  // a signal beside the track: a post with two lamps (it turns green when the train is called)
++  const dx = Math.sin(a) * -1 * side * 40;
++  const dy = Math.cos(a) * side * 40;
++  return (
++    <g transform={`translate(${x + dx} ${y + dy})`}>
++      <rect className="rw-sig-post" x="-3" y="-3" width="6" height="26" rx="3" />
++      <rect className="rw-sig-head" x="-7" y="-14" width="14" height="22" rx="5" />
++      <circle className="rw-sig-lamp" data-on={!green} data-c="r" cx="0" cy="-8" r="3.4" />
++      <circle className="rw-sig-lamp" data-on={green} data-c="g" cx="0" cy="1" r="3.4" />
++    </g>
++  );
++}
++
++// ---------------------------------------------------------------------------------------------------------------------------------
++
++export function CareerRailway() {
++  const rootRef = useRef<HTMLDivElement>(null);
++  const [geo, setGeo] = useState<Geo | null>(null);
++  const career = useCareer();
++  const trainRef = useRef<SVGGElement>(null);
++  const carRefs = useRef<(SVGGElement | null)[]>([]);
++  const avRef = useRef<HTMLDivElement>(null);
++  const youRef = useRef<HTMLSpanElement>(null);
++  const geoRef = useRef<Geo | null>(null);
++
++  // measure the page (and again when it changes size)
++  useEffect(() => {
++    const root = rootRef.current;
++    const main = root?.parentElement;
++    if (!root || !main) return;
++    let raf = 0;
++    const run = () => {
++      raf = 0;
++      root.style.height = `${main.scrollHeight}px`;
++      const g = measure(root);
++      geoRef.current = g;
++      setGeo(g);
++    };
++    const queue = () => {
++      if (!raf) raf = requestAnimationFrame(run);
++    };
++    queue();
++    const ro = new ResizeObserver(queue);
++    ro.observe(main);
++    window.addEventListener("resize", queue);
++    document.fonts?.ready.then(queue);
++    const late = window.setTimeout(queue, 1200); // (images and sections that come in late)
++    return () => {
++      ro.disconnect();
++      window.removeEventListener("resize", queue);
++      window.clearTimeout(late);
++      if (raf) cancelAnimationFrame(raf);
++    };
++  }, []);
++
++  // the animation: the train, the coaches on the curve, the passenger
++  useEffect(() => {
++    if (!geo) return;
++    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
++    let raf = 0;
++    let last = 0;
++    let sCur = -TRAIN_L - 400; // out of the page, above
++    let seat = 0; // 0 = on the platform .. 1 = sits in the coach
++    let exit = 0; // 0 = sits .. 1 = at the door of the office
++    const sm = geo.sample;
++    const top0 = rootRef.current ? rootRef.current.getBoundingClientRect().top + window.scrollY : 0;
++
++    const frame = (now: number) => {
++      raf = requestAnimationFrame(frame);
++      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
++      last = now;
++      const c = getCareer();
++      // where the nose of the train wants to be
++      let target = -TRAIN_L - 400;
++      if (c.summoned) {
++        target = geo.sStop1;
++        if (c.stage !== "idle") {
++          const centreY = window.scrollY + window.innerHeight * 0.55 - top0;
++          target = clamp(sOfYFast(sm, centreY) + 90, geo.sStop1, geo.sEnd);
++        }
++      }
++      const k = reduce ? 1 : 1 - Math.exp(-dt * (c.stage === "departing" || c.stage === "arriving" ? 3.2 : 4.4));
++      sCur += (target - sCur) * k;
++
++      // the cars: the engine first, the coaches behind it, every one turned with the line
++      const cars: { x: number; y: number; a: number }[] = [];
++      for (let i = 0; i <= COACHES; i++) {
++        const centre = i === 0 ? sCur - ENGINE_L / 2 : sCur - ENGINE_L - GAP - (i - 1) * (COACH_L + GAP) - COACH_L / 2;
++        const p = at(sm, centre);
++        cars.push(p);
++        const g = carRefs.current[i];
++        if (g) g.setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${((p.a * 180) / Math.PI).toFixed(2)})`);
++      }
++
++      // the passenger
++      const av = avRef.current;
++      if (av) {
++        const car1 = cars[1];
++        const cosA = Math.cos(car1.a);
++        const sinA = Math.sin(car1.a);
++        const local = (lx: number, ly: number) => ({ x: car1.x + lx * cosA - ly * sinA, y: car1.y + lx * sinA + ly * cosA });
++        const platX = geo.x1 - 36 - 90;
++        const start = { x: platX - 20, y: geo.yHead1 + 10 };
++        const stopCar1 = at(sm, geo.sStop1 - ENGINE_L - GAP - COACH_L / 2);
++        const door = { x: stopCar1.x - CAR_W / 2 - 22, y: stopCar1.y };
++        const t = clamp(c.step / Math.max(1, c.steps), 0, 1);
++        const walk = { x: start.x + (door.x - start.x) * t, y: start.y + (door.y - start.y) * t };
++        const seatPos = local(-6, -9);
++        const wantSeat = c.stage === "booked" || c.stage === "departing" || c.stage === "arriving" ? 1 : 0;
++        seat += (wantSeat - seat) * (reduce ? 1 : 1 - Math.exp(-dt * 3));
++        const wantExit = c.stage === "arrived" ? 1 : 0;
++        exit += (wantExit - exit) * (reduce ? 1 : 1 - Math.exp(-dt * 0.9));
++        // the door of the last station and the office there
++        const endCar1 = at(sm, geo.sEnd - ENGINE_L - GAP - COACH_L / 2);
++        const platDoor = { x: endCar1.x - CAR_W / 2 - 24, y: endCar1.y };
++        const office = { x: geo.x2 - 246 + 106, y: geo.yHead2 - 660 - 14 };
++        let px = walk.x + (seatPos.x - walk.x) * seat;
++        let py = walk.y + (seatPos.y - walk.y) * seat;
++        let moving = Math.abs(t - 0) > 0 && seat < 0.98;
++        let rot = (Math.atan2(door.y - start.y, door.x - start.x) * 180) / Math.PI - 90;
++        if (seat > 0.98) rot = (car1.a * 180) / Math.PI - 90 + 180;
++        if (exit > 0.001) {
++          const e = exit;
++          const first = clamp(e / 0.4, 0, 1);
++          const second = clamp((e - 0.4) / 0.6, 0, 1);
++          const mid = { x: seatPos.x + (platDoor.x - seatPos.x) * first, y: seatPos.y + (platDoor.y - seatPos.y) * first };
++          px = mid.x + (office.x - mid.x) * second;
++          py = mid.y + (office.y - mid.y) * second;
++          moving = e < 0.98;
++          rot = (Math.atan2(office.y - platDoor.y, office.x - platDoor.x) * 180) / Math.PI - 90;
++        }
++        const visible = c.passenger || c.stage !== "idle";
++        av.style.opacity = visible ? "1" : "0";
++        av.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px)`;
++        av.dataset.pose = moving ? "walk" : "idle";
++        const inner = av.firstElementChild as HTMLElement | null;
++        if (inner) inner.style.transform = `rotate(${rot.toFixed(1)}deg)`;
++        // inside the coach the passenger is under the roof only while it is on the train
++        av.dataset.inside = String(seat > 0.6 && exit < 0.05);
++        if (youRef.current) youRef.current.style.opacity = seat > 0.9 && exit < 0.05 ? "0" : "1";
++      }
++
++      // the stages that follow the train
++      if ((c.stage === "departing" || c.stage === "booked") && sCur > geo.sEnd - 900 && c.stage === "departing") setCareer({ stage: "arriving" });
++      if ((c.stage === "arriving" || c.stage === "departing") && sCur > geo.sEnd - 6) setCareer({ stage: "arrived" });
++    };
++    raf = requestAnimationFrame(frame);
++    return () => cancelAnimationFrame(raf);
++  }, [geo]);
++
++  const summoned = career.summoned;
++
++  return (
++    <div ref={rootRef} className="rw" aria-hidden>
++      {geo && (
++        <>
++          <svg width={geo.W} height={geo.H} viewBox={`0 0 ${geo.W} ${geo.H}`} className="rw-svg">
++            <defs>
++              <pattern id="rw-tile" width="26" height="26" patternUnits="userSpaceOnUse">
++                <path d="M26 0H0V26" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
++              </pattern>
++              <pattern id="rw-dots" width="9" height="9" patternUnits="userSpaceOnUse">
++                <circle cx="4.5" cy="4.5" r="1.6" fill="rgba(255,255,255,0.22)" />
++              </pattern>
++              <radialGradient id="rw-glow-g">
++                <stop offset="0" stopColor="hsl(48 100% 80%)" stopOpacity="0.55" />
++                <stop offset="1" stopColor="hsl(48 100% 80%)" stopOpacity="0" />
++              </radialGradient>
++              <linearGradient id="rw-beam-g" x1="0" x2="1">
++                <stop offset="0" stopColor="hsl(48 100% 85%)" stopOpacity="0.55" />
++                <stop offset="1" stopColor="hsl(48 100% 85%)" stopOpacity="0" />
++              </linearGradient>
++            </defs>
++
++            {/* the stream and the bridge */}
++            {geo.river && (
++              <g>
++                <rect className="rw-river" x="0" y={geo.river.y} width={geo.W} height={geo.river.h} />
++                <path className="rw-ripple" d={`M0 ${geo.river.y + 22}Q${geo.W * 0.1} ${geo.river.y + 10} ${geo.W * 0.2} ${geo.river.y + 22}T${geo.W * 0.4} ${geo.river.y + 22}T${geo.W * 0.6} ${geo.river.y + 22}T${geo.W * 0.8} ${geo.river.y + 22}T${geo.W} ${geo.river.y + 22}M0 ${geo.river.y + 54}Q${geo.W * 0.1} ${geo.river.y + 42} ${geo.W * 0.2} ${geo.river.y + 54}T${geo.W * 0.4} ${geo.river.y + 54}T${geo.W * 0.6} ${geo.river.y + 54}T${geo.W * 0.8} ${geo.river.y + 54}T${geo.W} ${geo.river.y + 54}`} />
++              </g>
++            )}
++
++            {/* the level crossing: a road that crosses the line, with the barriers */}
++            {geo.crossing && (
++              <g>
++                <rect className="rw-road" x="0" y={geo.crossing.y - 24} width={geo.crossing.x + 150} height="48" />
++                <path className="rw-road-line" d={`M0 ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.crossing.x + 150}`} />
++                <rect className="rw-barrier" x={geo.crossing.x - 76} y={geo.crossing.y - 34} width="46" height="6" rx="3" />
++                <rect className="rw-barrier" x={geo.crossing.x + 30} y={geo.crossing.y + 28} width="46" height="6" rx="3" />
++                <circle className="rw-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x - 80} cy={geo.crossing.y - 31} r="3.5" />
++                <circle className="rw-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x + 80} cy={geo.crossing.y + 31} r="3.5" />
++              </g>
++            )}
++
++            {/* trees */}
++            {geo.trees.map((t, i) => (
++              <g key={i}>
++                <circle className="rw-tree-sh" cx={t.x + 3} cy={t.y + 4} r={t.r} />
++                <circle className="rw-tree" cx={t.x} cy={t.y} r={t.r} />
++                <circle className="rw-tree-hi" cx={t.x - t.r * 0.3} cy={t.y - t.r * 0.3} r={t.r * 0.45} />
++              </g>
++            ))}
++
++            {/* the track: stones, sleepers, the two rails */}
++            <path d={geo.d} className="rw-ballast" />
++            <path d={geo.d} className="rw-sleepers" />
++            <path d={geo.d} className="rw-railbed" />
++            <path d={geo.d} className="rw-railgap" />
++
++            {/* the stations */}
++            <Platform x={geo.x1} yHead={geo.yHead1} kind="start" />
++            <Platform x={geo.x2} yHead={geo.yHead2} kind="end" />
++            <g className="rw-office">
++              <rect className="rw-office-sh" x={geo.x2 - 246 + 10} y={geo.yHead2 - 660 - 190} width="204" height="182" rx="16" />
++              <rect className="rw-office-body" x={geo.x2 - 246 + 4} y={geo.yHead2 - 660 - 198} width="204" height="182" rx="16" />
++              <path className="rw-office-roof" d={`M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 170}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 140}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 50}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 20}H${geo.x2 - 246 + 196}`} />
++              <text className="rw-office-t" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 96} textAnchor="middle">
++                WE3VISION
++              </text>
++              <text className="rw-office-s" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 72} textAnchor="middle">
++                HEAD OFFICE
++              </text>
++              <rect className="rw-office-door" x={geo.x2 - 246 + 76} y={geo.yHead2 - 660 - 24} width="60" height="10" rx="5" />
++            </g>
++
++            {/* a little stop for every value */}
++            {geo.stops.map((s, i) => (
++              <g key={i} transform={`translate(${s.x} ${s.y})`}>
++                <rect className="rw-stub" x={s.side === 1 ? 24 : -24 - 54} y="-48" width="54" height="96" rx="10" />
++                <rect className="rw-stub-edge" x={s.side === 1 ? 24 : -24 - 5} y="-48" width="5" height="96" />
++                <circle className="rw-glow" cx={s.side === 1 ? 52 : -52} cy="-30" r="22" />
++                <circle className="rw-lampost" cx={s.side === 1 ? 52 : -52} cy="-30" r="3.5" />
++                <rect className="rw-bench" x={s.side === 1 ? 36 : -36 - 28} y="6" width="28" height="12" rx="4" />
++              </g>
++            ))}
++
++            {/* poles, mile posts, signals */}
++            {geo.poles.map((p, i) => {
++              const q = at(geo.sample, p.s);
++              const dx = -Math.sin(q.a) * p.side * 34;
++              const dy = Math.cos(q.a) * p.side * 34;
++              return (
++                <g key={i} transform={`translate(${q.x + dx} ${q.y + dy}) rotate(${(q.a * 180) / Math.PI})`}>
++                  <rect className="rw-pole" x="-1.5" y="-9" width="3" height="18" />
++                  <rect className="rw-pole" x="-6" y="-1.5" width="12" height="3" />
++                </g>
++              );
++            })}
++            {geo.miles.map((m, i) => {
++              const q = at(geo.sample, m.s);
++              const out = q.x < geo.W / 2 ? -1 : 1;
++              return (
++                <g key={i} transform={`translate(${q.x + out * 58} ${q.y})`}>
++                  <rect className="rw-mile" x="-30" y="-9" width="60" height="18" rx="4" />
++                  <text className="rw-mile-t" x="0" y="4" textAnchor="middle">
++                    {m.label}
++                  </text>
++                </g>
++              );
++            })}
++            {geo.signals.map((s, i) => {
++              const q = at(geo.sample, s.s);
++              return <Signal key={i} x={q.x} y={q.y} a={q.a} side={s.side} green={summoned} />;
++            })}
++
++            {/* the train: nothing at all until the visitor has chosen */}
++            <g ref={trainRef} className="rw-train" data-on={summoned}>
++              {Array.from({ length: COACHES + 1 }, (_, i) => (
++                <g
++                  key={i}
++                  ref={(el) => {
++                    carRefs.current[i] = el;
++                  }}
++                >
++                  {i === 0 ? <Engine /> : <Coach first={i === 1} />}
++                </g>
++              ))}
++            </g>
++          </svg>
++
++          {/* the passenger: "You" */}
++          <div ref={avRef} className="of-walker rw-av" style={{ "--tone": 352, opacity: 0 } as React.CSSProperties}>
++            <div className="of-walker-in">
++              <PersonTop seated={career.stage !== "idle"} />
++            </div>
++            <span ref={youRef} className="rw-you">
++              You
++            </span>
++          </div>
++        </>
++      )}
++    </div>
++  );
++}
+diff --git a/a/src/components/site/career/train-scene.tsx b/a/src/components/site/career/train-scene.tsx
+deleted file mode 100644
+index 48f490b..0000000
+--- a/a/src/components/site/career/train-scene.tsx
++++ /dev/null
+@@ -1,191 +0,0 @@
+-"use client";
+-
+-import { useEffect, useRef, useState } from "react";
+-import { PersonTop } from "../timeline-art";
+-
+-// The railway station of the Careers page seen from above: a track that runs from the top to the bottom of the box, a platform at its side
+-// and a train that comes in from the top (out of a blur) and stops with its engine at four fifths of the height. Two boxes use it:
+-//   origin       the ticket office. Only the track is there until the visitor has chosen a city, a current status and a destination, then the
+-//                train arrives. "You" (the passenger) stands on the platform and walks a step closer to the first coach with every answer,
+-//                gets into the coach when the seat is booked and sits down; when the passenger details are in, the train leaves.
+-//   destination  Surat Junction: the train arrives, the passenger gets out and walks to the office of We3vision.
+-// There is no train anywhere on the page until the visitor has chosen. The look is in globals.css (.cj-*).
+-
+-const COACH_W = 58;
+-const ENGINE_L = 138;
+-const COACH_L = 176;
+-const GAP = 6;
+-const COACHES = 3;
+-const TRAIN_L = ENGINE_L + COACHES * (COACH_L + GAP);
+-
+-type Props = {
+-  mode: "origin" | "destination";
+-  /** is the train at the platform? */
+-  trainIn: boolean;
+-  /** the train has left (down and out of the box) */
+-  gone?: boolean;
+-  /** is the passenger there at all? */
+-  passenger: boolean;
+-  /** origin: how many steps the passenger has taken and how many there are */
+-  step?: number;
+-  steps?: number;
+-  /** origin: sits in the first coach. destination: is in the train until `getOut` */
+-  seated: boolean;
+-  /** destination: the passenger gets out and walks to the office */
+-  getOut?: boolean;
+-  /** the sign on the platform */
+-  sign: string;
+-};
+-
+-export function TrainScene({ mode, trainIn, gone = false, passenger, step = 0, steps = 7, seated, getOut = false, sign }: Props) {
+-  const ref = useRef<HTMLDivElement>(null);
+-  const [dim, setDim] = useState({ W: 360, H: 720 });
+-  const [inOffice, setInOffice] = useState(false);
+-
+-  useEffect(() => {
+-    const el = ref.current;
+-    if (!el) return;
+-    const measure = () => {
+-      const r = el.getBoundingClientRect();
+-      if (r.width > 20 && r.height > 20) setDim((d) => (Math.abs(d.W - r.width) < 1 && Math.abs(d.H - r.height) < 1 ? d : { W: r.width, H: r.height }));
+-    };
+-    measure();
+-    const ro = new ResizeObserver(measure);
+-    ro.observe(el);
+-    return () => ro.disconnect();
+-  }, []);
+-
+-  // destination: the passenger gets out of the coach (to the platform) and then walks to the office
+-  useEffect(() => {
+-    if (!getOut) return;
+-    const t = window.setTimeout(() => setInOffice(true), 1500);
+-    return () => {
+-      window.clearTimeout(t);
+-      setInOffice(false);
+-    };
+-  }, [getOut]);
+-  const leg: "seat" | "door" | "office" = !getOut ? "seat" : inOffice ? "office" : "door";
+-
+-  const { W, H } = dim;
+-  const trackX = W * 0.66;
+-  const frontY = H * 0.8; // where the nose of the engine stops
+-  const top = gone ? H + 80 : trainIn ? frontY - TRAIN_L : -TRAIN_L - 80;
+-  // the first coach (behind the engine): its top and the middle of its door
+-  const coach1Y = TRAIN_L - ENGINE_L - GAP - COACH_L;
+-  const doorY = top + coach1Y + COACH_L / 2;
+-  const seatY = top + coach1Y + 30 + 2 * 30; // the third row of seats
+-  const seatX = trackX - 13;
+-  const platformR = trackX - COACH_W / 2 - 8;
+-  const doorX = platformR - 14;
+-
+-  // the passenger
+-  const start = { x: W * 0.15, y: H * 0.9 };
+-  const t = steps > 0 ? Math.min(1, step / steps) : 0;
+-  const walkX = start.x + (doorX - start.x) * t;
+-  const walkY = start.y + (doorY - start.y) * t;
+-  const office = { x: W * 0.24, y: H * 0.37 };
+-
+-  let px = walkX;
+-  let py = walkY;
+-  let moving = false;
+-  let rot = Math.atan2(doorY - start.y, doorX - start.x) * (180 / Math.PI) - 90;
+-  if (mode === "origin") {
+-    if (seated) {
+-      px = seatX;
+-      py = seatY;
+-      rot = -90;
+-    } else moving = step > 0;
+-  } else if (leg === "seat") {
+-    px = seatX;
+-    py = seatY;
+-    rot = -90;
+-  } else if (leg === "door") {
+-    px = doorX;
+-    py = doorY;
+-    rot = 90;
+-    moving = true;
+-  } else {
+-    px = office.x;
+-    py = office.y;
+-    rot = Math.atan2(office.y - doorY, office.x - doorX) * (180 / Math.PI) - 90;
+-    moving = true;
+-  }
+-  // inside the train the passenger goes with it; on the platform the passenger walks on its own
+-  const withTrain = (mode === "origin" && seated) || (mode === "destination" && leg === "seat");
+-  const show = passenger && (mode === "origin" || trainIn || leg !== "seat");
+-
+-  return (
+-    <div ref={ref} className="cj-scene" data-mode={mode} data-train={trainIn} aria-hidden>
+-      <div className="cj-ballast" style={{ left: trackX - 44, width: 88 }} />
+-      <div className="cj-sleepers" style={{ left: trackX - 36, width: 72 }} />
+-      <i className="cj-rail" style={{ left: trackX - 21 }} />
+-      <i className="cj-rail" style={{ left: trackX + 19 }} />
+-
+-      {/* the platform, its roof, benches and the sign */}
+-      <div className="cj-platform" style={{ left: W * 0.04, width: platformR - W * 0.04 }}>
+-        <span className="cj-edge" />
+-      </div>
+-      <div className="cj-canopy" style={{ left: W * 0.08, top: H * 0.5, width: platformR - W * 0.12, height: H * 0.26 }}>
+-        <i />
+-        <i />
+-        <i />
+-        <i />
+-      </div>
+-      <span className="cj-bench" style={{ left: W * 0.1, top: H * 0.58 }} />
+-      <span className="cj-bench" style={{ left: W * 0.1, top: H * 0.66 }} />
+-      <div className="cj-sign" style={{ left: W * 0.06, top: H * 0.78 }}>
+-        {sign}
+-      </div>
+-      {mode === "destination" && (
+-        <div className="cj-office" style={{ left: W * 0.07, top: H * 0.06, width: platformR - W * 0.1, height: H * 0.31 }}>
+-          <b>WE3VISION</b>
+-          <span>Head office</span>
+-          <i className="cj-door" />
+-        </div>
+-      )}
+-
+-      {/* the train: the engine is at the bottom (it comes first), the coaches follow above it */}
+-      <div className="cj-train" data-gone={gone} data-in={trainIn} style={{ left: trackX - COACH_W / 2, height: TRAIN_L, transform: `translateY(${top}px)` }}>
+-        {Array.from({ length: COACHES }, (_, i) => {
+-          const n = COACHES - i; // from the top: coach 3, 2, 1
+-          return (
+-            <div key={n} className="cj-coach" data-first={n === 1} style={{ top: i * (COACH_L + GAP), height: COACH_L }}>
+-              <span className="cj-roof" />
+-              <span className="cj-win cj-win-l" />
+-              <span className="cj-win cj-win-r" />
+-              <span className="cj-door-mark" />
+-              {n === 1 && (
+-                <span className="cj-seats">
+-                  {Array.from({ length: 10 }, (_, k) => (
+-                    <i key={k} />
+-                  ))}
+-                </span>
+-              )}
+-            </div>
+-          );
+-        })}
+-        <div className="cj-engine" style={{ top: TRAIN_L - ENGINE_L, height: ENGINE_L }}>
+-          <span className="cj-cab" />
+-          <span className="cj-nose" />
+-          <em>W3V</em>
+-        </div>
+-        <i className="cj-light" style={{ top: TRAIN_L - 4 }} />
+-      </div>
+-
+-      {/* the passenger: "You" */}
+-      {show && (
+-        <div
+-          className="of-walker cj-av"
+-          data-pose={moving ? "walk" : "idle"}
+-          data-sync={withTrain}
+-          style={{ "--tone": 352, transform: `translate(${px}px, ${py}px)` } as React.CSSProperties}
+-        >
+-          <div className="of-walker-in" style={{ transform: `rotate(${rot}deg)` }}>
+-            <PersonTop seated={seated && (mode === "origin" || leg === "seat")} />
+-          </div>
+-          <span className="cj-you">You</span>
+-        </div>
+-      )}
+-    </div>
+-  );
+-}
+diff --git a/a/src/components/site/sections/career.tsx b/b/src/components/site/sections/career.tsx
+index 8dc9be9..75af2a9 100644
+--- a/a/src/components/site/sections/career.tsx
++++ b/b/src/components/site/sections/career.tsx
+@@ -1,15 +1,141 @@
+ import { getCareerSetup } from "@/lib/careers";
++import { GlowEdge } from "../glow-edge";
++import { ContactFlow } from "../contact-flow";
++import { CareerRailway } from "../career/railway";
+ import { CareerDestination } from "../career/destination";
+ import { CareerJourney } from "../career/journey";
++import { Reveal } from "../reveal";
++import { SectionHead, Wide } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+-/** The ticket office of the Careers page (see career/journey.tsx). The positions and the questions come from the admin panel (Careers). */
++const two = (n: number) => String(n).padStart(2, "0");
++
++/** The ticket office of the Careers page and the railway that runs through the whole page (see career/journey.tsx and career/railway.tsx). */
+ export const CareerJourneySection: SectionComponent<"careerJourney"> = async ({ data }) => {
+   const { roles, questions } = await getCareerSetup();
+-  return <CareerJourney chip={data.chip} heading={data.heading} text={data.text} locationLabel={data.locationLabel || "Your location"} roles={roles} questions={questions} />;
++  return (
++    <>
++      <CareerRailway />
++      <CareerJourney chip={data.chip} heading={data.heading} text={data.text} locationLabel={data.locationLabel || "Your location"} roles={roles} questions={questions} />
++    </>
++  );
+ };
+ 
+ /** Surat Junction: the last section, where the train of the visitor arrives (see career/destination.tsx). */
+ export const CareerDestinationSection: SectionComponent<"careerDestination"> = ({ data }) => (
+   <CareerDestination chip={data.chip} heading={data.heading} text={data.text} station={data.station || "Surat Junction"} address={data.address} buttonLabel={data.buttonLabel} buttonHref={data.buttonHref} />
+ );
++
++/** The values of the company as the stops of the line: every item has a marker, the railway draws a little station beside the track there. */
++export const CareerValuesSection: SectionComponent<"careerValues"> = ({ data }) => (
++  <section id="advantages" className="rv">
++    <div className="rv-in">
++      <div className="rv-head">
++        {data.chip && <span className="cj-chip">{data.chip}</span>}
++        <h2>{data.heading.replace(/\n/g, " ")}</h2>
++        {data.intro && <p>{data.intro}</p>}
++      </div>
++      <ol className="rv-list">
++        {data.items.map((it, i) => (
++          <li key={i} className="rv-stop">
++            <i className="rv-mark" data-stop={it.title} aria-hidden />
++            <Reveal className="rv-card bglow">
++              <GlowEdge />
++              <span className="rv-no">Stop {two(i + 1)}</span>
++              <h3>{it.title}</h3>
++              <p>{it.description}</p>
++            </Reveal>
++          </li>
++        ))}
++      </ol>
++    </div>
++  </section>
++);
++
++/** The teams as the lines of a departure board. */
++export const CareerTeamsSection: SectionComponent<"careerTeams"> = ({ data }) => (
++  <section id="services" className="rt">
++    <div className="rt-in">
++      <div className="rv-head" data-right>
++        {data.chip && <span className="cj-chip">{data.chip}</span>}
++        <h2>{data.heading.replace(/\n/g, " ")}</h2>
++        {data.intro && <p>{data.intro}</p>}
++      </div>
++      <div className="rt-board" role="table" aria-label="Teams">
++        <div className="rt-board-top">
++          <span>Departures</span>
++          <span>We3vision Railways</span>
++        </div>
++        {data.teams.map((t, i) => {
++          const Row = t.href ? "a" : "div";
++          return (
++            <Row key={i} className="rt-row" {...(t.href ? { href: t.href } : {})} role="row">
++              <i className="rv-mark" data-stop={t.name} aria-hidden />
++              <span className="rt-time">{String(8 + Math.floor(i * 1.5)).padStart(2, "0")}:{i % 2 ? "30" : "00"}</span>
++              <span className="rt-name">
++                <b>{t.name}</b>
++                <i>{t.text}</i>
++              </span>
++              <span className="rt-plat">Platform {i + 1}</span>
++              <span className="rt-state" data-i={i % 3}>
++                {i % 3 === 0 ? "Boarding" : i % 3 === 1 ? "On time" : "Open seats"}
++              </span>
++            </Row>
++          );
++        })}
++      </div>
++    </div>
++  </section>
++);
++
++const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
++const PHONE = /^\+?\d[\d\s().-]{6,}$/;
++function Line({ text }: { text: string }) {
++  const value = text.trim();
++  if (EMAIL.test(value)) return <a href={`mailto:${value}`} className="transition hover:text-violet">{value}</a>;
++  if (PHONE.test(value)) return <a href={`tel:${value.replace(/[^\d+]/g, "")}`} className="transition hover:text-violet">{value}</a>;
++  return <>{value}</>;
++}
++
++/** The help desk: the contact conversation, in an enquiry office of the railway. */
++export const CareerHelpDeskSection: SectionComponent<"careerHelpDesk"> = ({ data, site }) => (
++  <section id="contact" className="rh">
++    <Wide>
++      <SectionHead chip={data.chip} heading={data.heading} intro={data.text} />
++    </Wide>
++    <div className="rh-window mx-auto mt-14 w-full max-w-[1280px] px-4 sm:px-8">
++      <div className="rh-sign">
++        <span>Enquiries</span>
++        <i aria-hidden />
++        <span>Help desk</span>
++      </div>
++      <Reveal>
++        <ContactFlow buttonLabel={data.buttonLabel} />
++      </Reveal>
++    </div>
++    <Wide>
++      {site.contactCards.length > 0 && (
++        <div className="mt-16 grid gap-5 md:grid-cols-3">
++          {site.contactCards.map((card, i) => (
++            <Reveal key={card.title} delay={i * 90} className="h-full">
++              <address className="bglow card-glass h-full rounded-[19px] border border-violet/[0.08] p-6 not-italic">
++                <GlowEdge />
++                <p className="text-vfade pb-1 text-xl font-semibold tracking-tight">{card.title}</p>
++                <div className="mt-3 space-y-1.5 text-base leading-relaxed text-orchid">
++                  {card.lines
++                    .split("\n")
++                    .filter((l) => l.trim())
++                    .map((line, n) => (
++                      <p key={n}>
++                        <Line text={line} />
++                      </p>
++                    ))}
++                </div>
++              </address>
++            </Reveal>
++          ))}
++        </div>
++      )}
++    </Wide>
++  </section>
++);
+diff --git a/a/src/components/site/sections/index.tsx b/b/src/components/site/sections/index.tsx
+index df27856..a916d6d 100644
+--- a/a/src/components/site/sections/index.tsx
++++ b/b/src/components/site/sections/index.tsx
+@@ -10,7 +10,7 @@ import { ArchGallery } from "./arch-gallery";
+ import { Automate } from "./automate";
+ import { Backdrop } from "./backdrop";
+ import { Blogs } from "./blogs";
+-import { CareerDestinationSection, CareerJourneySection } from "./career";
++import { CareerDestinationSection, CareerHelpDeskSection, CareerJourneySection, CareerTeamsSection, CareerValuesSection } from "./career";
+ import { Contact } from "./contact";
+ import { Faq } from "./faq";
+ import { Flow } from "./flow";
+@@ -84,6 +84,9 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
+   teamOffice: TeamOfficeSection,
+   careerJourney: CareerJourneySection,
+   careerDestination: CareerDestinationSection,
++  careerValues: CareerValuesSection,
++  careerTeams: CareerTeamsSection,
++  careerHelpDesk: CareerHelpDeskSection,
+   teamManifesto: TeamManifesto,
+   teamJourney: TeamJourney,
+   teamValues: TeamValues,
+diff --git a/a/src/lib/career-store.ts b/b/src/lib/career-store.ts
+index 877e25e..24a365c 100644
+--- a/a/src/lib/career-store.ts
++++ b/b/src/lib/career-store.ts
+@@ -2,22 +2,43 @@
+ 
+ import { useSyncExternalStore } from "react";
+ 
+-// What the first screen of the Careers page (the ticket office) tells the last section (Surat Junction): where the journey is.
+-//   idle      nothing booked; no train anywhere on the page
+-//   departing the passenger details are in: the train leaves the first station
++// What the ticket office (the first screen of the Careers page), the railway that runs through the whole page (career/railway.tsx) and Surat
++// Junction (the last section) tell each other:
++//   idle      nothing booked yet
++//   booked    the seat is booked: the passenger sits in the first coach and the train rides down the page with the scroll
++//   departing the passenger details are in: the page rides to Surat Junction
+ //   arriving  the train comes into Surat Junction (the last section)
+ //   arrived   the train stands there and the passenger gets out and walks to the office
+-export type CareerStage = "idle" | "departing" | "arriving" | "arrived";
+-export type CareerState = { stage: CareerStage; name: string; role: string; city: string };
++export type CareerStage = "idle" | "booked" | "departing" | "arriving" | "arrived";
++export type CareerState = {
++  stage: CareerStage;
++  name: string;
++  role: string;
++  city: string;
++  /** how many answers the passenger has given (0..steps): the passenger walks that many steps towards the train */
++  step: number;
++  steps: number;
++  /** the city, the current status and the destination are chosen: the train comes */
++  summoned: boolean;
++  /** the passenger has a city (stands on the platform) */
++  passenger: boolean;
++};
+ 
+-let state: CareerState = { stage: "idle", name: "", role: "", city: "" };
++let state: CareerState = { stage: "idle", name: "", role: "", city: "", step: 0, steps: 7, summoned: false, passenger: false };
+ const listeners = new Set<() => void>();
+ 
+ export function setCareer(patch: Partial<CareerState>) {
++  let changed = false;
++  for (const k of Object.keys(patch) as (keyof CareerState)[]) if (state[k] !== patch[k]) changed = true;
++  if (!changed) return;
+   state = { ...state, ...patch };
+   listeners.forEach((l) => l());
+ }
+ 
++export function getCareer(): CareerState {
++  return state;
++}
++
+ export function useCareer(): CareerState {
+   return useSyncExternalStore(
+     (cb) => {
+diff --git a/a/src/lib/cms/content/company.ts b/b/src/lib/cms/content/company.ts
+index b48f09f..f50680b 100644
+--- a/a/src/lib/cms/content/company.ts
++++ b/b/src/lib/cms/content/company.ts
+@@ -79,7 +79,7 @@ export const CAREERS_SECTIONS: PageSection[] = [
+     text: "Book the ticket of your career journey with We3vision. Tell us where you are, where you want to go, and we will have a seat ready for you.",
+     locationLabel: "Your location",
+   }),
+-  section("advantages", {
++  section("careerValues", {
+     chip: "What we value",
+     heading: "A Place To\nGrow",
+     intro: "How we like to work, and what you will find when you join.",
+@@ -91,25 +91,23 @@ export const CAREERS_SECTIONS: PageSection[] = [
+       { title: "Surat and Germany", description: "Our head office is in Surat, India, and we have a second office in Marburg, Germany." },
+     ],
+   }, "why-we3vision"),
+-  section("services", {
++  section("careerTeams", {
+     chip: "Our teams",
+     heading: "Seven Teams,\nOne Company",
+-    intro: "These are the areas we work in. Tell us which one fits you.",
+-    buttonLabel: "",
+-    buttonHref: "",
+-    cards: [
+-      { title: "Brand\nDesign", description: "Brand identity, logos, visual identity and marketing material.", href: "/brand-identity" },
+-      { title: "Web\nDevelopment", description: "Websites and web portals, from WordPress and Shopify to custom builds.", href: "/webdev" },
+-      { title: "Mobile App\nDevelopment", description: "Android and iOS apps from the first idea to the store launch.", href: "/mobile" },
+-      { title: "AI\nDevelopment", description: "Chatbots, machine learning, computer vision and AI agents.", href: "/ai" },
+-      { title: "Metaverse\nSolutions", description: "Virtual worlds, VR experiences and interactive 3D with Unity and Unreal Engine.", href: "/metaverse" },
+-      { title: "UI/UX\nDesign", description: "Wireframes, prototypes and interfaces for websites and apps.", href: "/ui-ux-design" },
+-      { title: "CRM\nDevelopment", description: "Custom CRM software, workflows and integrations.", href: "/crm" },
+-    ].map((c) => ({ ...c, fit: "", problems: "", outcomes: "" })),
++    intro: "These are the lines we work on. Tell us which one fits you.",
++    teams: [
++      { name: "Brand Design", text: "Brand identity, logos, visual identity and marketing material.", href: "/brand-identity" },
++      { name: "Web Development", text: "Websites and web portals, from WordPress and Shopify to custom builds.", href: "/webdev" },
++      { name: "Mobile App Development", text: "Android and iOS apps from the first idea to the store launch.", href: "/mobile" },
++      { name: "AI Development", text: "Chatbots, machine learning, computer vision and AI agents.", href: "/ai" },
++      { name: "Metaverse Solutions", text: "Virtual worlds, VR experiences and interactive 3D with Unity and Unreal Engine.", href: "/metaverse" },
++      { name: "UI/UX Design", text: "Wireframes, prototypes and interfaces for websites and apps.", href: "/ui-ux-design" },
++      { name: "CRM Development", text: "Custom CRM software, workflows and integrations.", href: "/crm" },
++    ],
+   }),
+-  section("contact", {
+-    chip: "Join us",
+-    heading: "Want To Work\nWith Us?",
++  section("careerHelpDesk", {
++    chip: "Help desk",
++    heading: "Questions\nBefore You Travel?",
+     text: "Tell us about yourself, the role you are interested in and what you would like to work on. You can also write to hr@we3vision.com.",
+     buttonLabel: "Send message",
+   }),
+diff --git a/a/src/lib/cms/sections.ts b/b/src/lib/cms/sections.ts
+index 8c0982c..7ce875e 100644
+--- a/a/src/lib/cms/sections.ts
++++ b/b/src/lib/cms/sections.ts
+@@ -865,6 +865,55 @@ export const SECTIONS = {
+     ],
+     defaults: { chip: "Careers", heading: "Reach Your\nDestination", text: "", locationLabel: "Your location" },
+   }),
++  careerValues: defineSection({
++    label: "Careers: values as stops of the railway",
++    description: "A heading and a list of stops (up to 8): every value of the company is a little station beside the track that runs through the page. For the Careers page.",
++    fields: [
++      chip(),
++      headingField(),
++      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
++      {
++        kind: "list",
++        key: "items",
++        label: "Stops",
++        itemLabel: "Stop",
++        max: 8,
++        fields: [
++          { kind: "text", key: "title", label: "Name of the stop", max: 60 },
++          { kind: "textarea", key: "description", label: "A few words", max: 260 },
++        ],
++      },
++    ],
++    defaults: { chip: "What we value", heading: "A Place To\nGrow", intro: "", items: [{ title: "Innovation", description: "Text." }] },
++  }),
++  careerTeams: defineSection({
++    label: "Careers: teams as a departure board",
++    description: "The teams of the company as the lines of a departure board: a platform number, the name, a few words and a link (up to 10).",
++    fields: [
++      chip(),
++      headingField(),
++      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
++      {
++        kind: "list",
++        key: "teams",
++        label: "Teams",
++        itemLabel: "Team",
++        max: 10,
++        fields: [
++          { kind: "text", key: "name", label: "Name", max: 60 },
++          { kind: "textarea", key: "text", label: "A few words", max: 200 },
++          { kind: "url", key: "href", label: "Link to the page of the team (optional)" },
++        ],
++      },
++    ],
++    defaults: { chip: "Our teams", heading: "Seven Teams,\nOne Company", intro: "", teams: [{ name: "Team", text: "Text.", href: "" }] },
++  }),
++  careerHelpDesk: defineSection({
++    label: "Careers: help desk (the contact form of the railway)",
++    description: "The same short conversation and contact cards as the contact form section, in the look of an enquiry office of the railway.",
++    fields: [chip(), headingField(), { kind: "textarea", key: "text", label: "Text", max: 360 }, { kind: "text", key: "buttonLabel", label: "Submit button text", max: 30 }],
++    defaults: { chip: "Help desk", heading: "Questions\nBefore You Travel?", text: "", buttonLabel: "Send message" },
++  }),
+   careerDestination: defineSection({
+     label: "Careers: Surat Junction (the last section, where the train arrives)",
+     description: "The station of the office. Nothing arrives here until a visitor has sent their ticket; then the train comes in and the passenger walks to the office. Put it as the last section of the page.",

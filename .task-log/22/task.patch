@@ -1,0 +1,193 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index e94da4d..6c4c1c5 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17121,3 +17121,72 @@ a.md-rel-card:hover .md-rel-go {
+     grid-column: 1 / -1;
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The industries city of the home page (industries-road.tsx with "dof"): the distance is out of focus, like with a lens focused on the
++   car: four layers of blur on the top part of the stage (the far end of the road), each a little stronger and covering a little less;
++   and a haze that hides the end of the infinite road. */
++.cm-dof {
++  position: absolute;
++  inset: 0;
++  z-index: 1;
++  pointer-events: none;
++}
++.cm-dof i {
++  position: absolute;
++  inset: 0;
++  -webkit-backdrop-filter: blur(var(--b));
++  backdrop-filter: blur(var(--b));
++  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 var(--s), transparent var(--e));
++  mask-image: linear-gradient(to bottom, #000 0, #000 var(--s), transparent var(--e));
++}
++.cm-dof i:nth-child(1) {
++  --b: 1.2px;
++  --s: 30%;
++  --e: 56%;
++}
++.cm-dof i:nth-child(2) {
++  --b: 2.6px;
++  --s: 20%;
++  --e: 40%;
++}
++.cm-dof i:nth-child(3) {
++  --b: 5px;
++  --s: 10%;
++  --e: 27%;
++}
++.cm-dof i:nth-child(4) {
++  --b: 9px;
++  --s: 3%;
++  --e: 16%;
++}
++.cm-dof::after {
++  content: "";
++  position: absolute;
++  inset: 0 0 auto 0;
++  height: 42%;
++  background: linear-gradient(to bottom, hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.92), hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.45) 45%, transparent);
++}
++
++/* the bird's-eye version (home): the road runs up the middle of the screen so that the districts on both sides can be seen; the list of the
++   industries stays on the left and the reading panel moves down to the middle of the bottom (where the picture fades out anyway) */
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-world {
++    left: 50%;
++    top: 37%; /* the car stands above the reading panel */
++  }
++  .cm-bird .cm-ui {
++    grid-template-columns: 17.5rem minmax(0, 1fr) 17.5rem;
++    align-items: end;
++    padding-bottom: clamp(1rem, 4.5vh, 2.6rem);
++  }
++  .cm-bird .cm-rail {
++    align-self: center;
++  }
++  .cm-bird .cm-panel {
++    grid-column: 2;
++    justify-self: center;
++    width: min(100%, 36rem);
++    padding: 1.2rem 1.6rem 1rem;
++  }
++}
+diff --git a/a/src/components/site/industries-road.tsx b/b/src/components/site/industries-road.tsx
+index 4339c1e..633271c 100644
+--- a/a/src/components/site/industries-road.tsx
++++ b/b/src/components/site/industries-road.tsx
+@@ -16,7 +16,8 @@ type Item = { name: string; description: string };
+ const S = 340; // the distance between two districts along the road (they stand on both sides of it, one after the other)
+ const Y0 = (LANE_TOP + LANE_BOT) / 2; // the road
+ const OUT = 28; // our lane; the oncoming traffic has the other one
+-const RX = 58;
++const RX = 58; // the tilt of the camera (degrees from looking straight down)
++const FAR = 4200; // an infinite road runs this far beyond the first and the last district (the haze and the blur hide the end)
+ const smooth = (t: number) => {
+   const c = Math.min(1, Math.max(0, t));
+   return c * c * (3 - 2 * c);
+@@ -29,7 +30,7 @@ const bend = (road: Road, u: number) => {
+   return 0;
+ };
+ 
+-export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]; road: Road; ang: number; zoom?: number }) {
++export function IndustriesRoad({ items, road, ang, zoom = 1.1, rx = RX, infinite = false, dof = false }: { items: Item[]; road: Road; ang: number; zoom?: number; rx?: number; infinite?: boolean; dof?: boolean }) {
+   const n = items.length;
+   const uid = useId();
+   const [active, setActive] = useState(0);
+@@ -44,8 +45,9 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]
+   const geo = useMemo(() => {
+     const x0 = PW / 2; // the first stop
+     const xs = (i: number) => x0 + i * S;
+-    const xA = xs(0) - 700;
+-    const xB = xs(n - 1) + 700;
++    const ext = infinite ? FAR : 700;
++    const xA = xs(0) - ext;
++    const xB = xs(n - 1) + ext;
+     const yAt = (x: number) => Y0 + bend(road, (x - x0) / S);
+     // a road as a polyline (every 24 px), seen from the side: dy moves it to a lane
+     const line = (dy: number, from: number, to: number, back = false) => {
+@@ -69,7 +71,11 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]
+       const dy = yAt(xs(i)) - Y0;
+       return { x: xs(i) - PW / 2, y: top ? Y0 - gap - PH + dy : Y0 + gap + dy, top, kind: kindOf(it.name), stop: dist(car, xs(i)) };
+     });
+-    const lamps = Array.from({ length: Math.ceil((xB - xA) / 128) }, (_, i) => xA + 40 + i * 128);
++    // the lamps stand along the whole road; on an infinite road only as far as the eye can see (further away they are hidden by the haze)
++    const lampFrom = infinite ? xs(0) - 1900 : xA;
++    const lampTo = infinite ? xs(n - 1) + 1900 : xB;
++    const gapL = infinite ? 150 : 128;
++    const lamps = Array.from({ length: Math.ceil((lampTo - lampFrom) / gapL) }, (_, i) => lampFrom + 40 + i * gapL);
+     return {
+       pads,
+       total: dist(car, xB),
+@@ -100,7 +106,7 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]
+     let last = -1;
+     // the signs turn back, so that they always face the screen
+     const applySigns = () => {
+-      const t = `rotateZ(${(-ang).toFixed(2)}deg) rotateX(${-RX}deg) translate(-50%, -100%)`;
++      const t = `rotateZ(${(-ang).toFixed(2)}deg) rotateX(${-rx}deg) translate(-50%, -100%)`;
+       world.querySelectorAll<HTMLElement>(".cm-sign span").forEach((sp) => (sp.style.transform = t));
+     };
+     applyRef.current = applySigns;
+@@ -113,7 +119,7 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]
+       const q = path.getPointAtLength(Math.min(geo.total, Math.max(0, dd) + 3));
+       const a = (Math.atan2(q.y - p.y, q.x - p.x) * 180) / Math.PI;
+       car.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) rotate(${a.toFixed(1)}deg)`;
+-      world.style.transform = `scale(${zoom}) rotateX(${RX}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-p.y).toFixed(1)}px)`;
++      world.style.transform = `scale(${zoom}) rotateX(${rx}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-p.y).toFixed(1)}px)`;
+       if (barRef.current) barRef.current.style.transform = `scaleY(${n > 1 ? (f / (n - 1)).toFixed(4) : 0})`;
+       const idx = Math.round(f);
+       if (idx !== last) {
+@@ -155,7 +161,7 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]
+       window.removeEventListener("resize", onScroll);
+       if (raf) cancelAnimationFrame(raf);
+     };
+-  }, [geo, n, ang, zoom]);
++  }, [geo, n, ang, zoom, rx]);
+ 
+   // new signs (a district that gets drawn in full) are turned at once
+   useLayoutEffect(() => {
+@@ -190,7 +196,7 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]
+   const cur = items[Math.min(active, n - 1)];
+ 
+   return (
+-    <div ref={trackRef} className="cm-track" data-pin={n > 1} style={{ "--n": n } as React.CSSProperties}>
++    <div ref={trackRef} className={dof ? "cm-track cm-bird" : "cm-track"} data-pin={n > 1} style={{ "--n": n } as React.CSSProperties}>
+       {/* the real content: a list (the only thing shown on a tablet and a phone) */}
+       <ol className="cm-list">
+         {items.map((it, i) => (
+@@ -211,6 +217,15 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]
+           <div className="cm-sky" />
+           <i className="cm-fade cm-fade-t" />
+           <i className="cm-fade cm-fade-b" />
++          {/* the distance is out of focus: layers of blur, the strongest at the top (the far end of the road), none close to the camera */}
++          {dof && (
++            <div className="cm-dof" aria-hidden>
++              <i />
++              <i />
++              <i />
++              <i />
++            </div>
++          )}
+           <div className="cm-scene">
+             <div ref={worldRef} className="cm-world">
+               {/* the ground and the road */}
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index c514997..e90cfe6 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -21,8 +21,9 @@ export const Industries: SectionComponent<"industries"> = ({ data, skin, page })
+         {skin === "modern" ? (
+           <IndustriesRoad items={data.items} road={v.road} ang={v.ang} />
+         ) : page === "home" ? (
+-          // home: the same city, but the car drives straight along one road (no turn back), 20% smaller than before (1.1 -> 0.88)
+-          <IndustriesRoad items={data.items} road="straight" ang={-34} zoom={0.88} />
++          // home: the same city, but the car drives straight along one road that never ends (no turn back), seen from a bird's-eye camera right
++          // above the road (so that the districts on both sides can be seen), the distance out of focus; 20% smaller than before (1.1 -> 0.88)
++          <IndustriesRoad items={data.items} road="straight" ang={-90} rx={44} zoom={0.88} infinite dof />
+         ) : (
+           <IndustriesCity items={data.items} />
+         )}

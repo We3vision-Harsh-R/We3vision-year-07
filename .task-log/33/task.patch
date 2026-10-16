@@ -1,0 +1,17 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 3a2f7cc..57a4bd3 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17376,3 +17376,12 @@ a.md-rel-card:hover .md-rel-go {
+   aspect-ratio: 4 / 3;
+   object-fit: cover;
+ }
++
++/* on a wide screen the list and the info card stay near the middle (on both sides of the road), not at the far edges */
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-ui {
++    max-width: 1180px;
++    margin-inline: auto;
++    grid-template-columns: 15.5rem minmax(0, 1fr) 22rem;
++  }
++}

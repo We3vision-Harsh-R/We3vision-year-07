@@ -1,0 +1,3509 @@
+diff --git a/b/src/actions/team.ts b/b/src/actions/team.ts
+new file mode 100644
+index 0000000..63d745a
+--- /dev/null
++++ b/b/src/actions/team.ts
+@@ -0,0 +1,25 @@
++"use server";
++
++import { revalidatePath } from "next/cache";
++import { requireAdmin } from "@/lib/auth";
++import { db } from "@/lib/db";
++import { cleanPeople } from "@/lib/team-shared";
++import type { ActionResult } from "./types";
++
++/** Saves the whole list of people of the office (the order of the list is the order in the office). The Team page is updated at once. */
++export async function saveTeam(input: unknown): Promise<ActionResult> {
++  await requireAdmin();
++  const people = cleanPeople(input);
++  try {
++    await db.$transaction([
++      db.teamMember.deleteMany({}),
++      db.teamMember.createMany({ data: people.map((p, i) => ({ ...p, sortOrder: i + 1, updatedAt: new Date() })) }),
++    ]);
++    revalidatePath("/team");
++    revalidatePath("/admin/team");
++    return { ok: true, message: `Saved. ${people.length} ${people.length === 1 ? "person is" : "people are"} in the office on the live Team page.` };
++  } catch (error) {
++    console.error("saveTeam failed", error);
++    return { ok: false, error: "Could not save the team. Please try again." };
++  }
++}
+diff --git a/b/src/app/admin/(panel)/team/page.tsx b/b/src/app/admin/(panel)/team/page.tsx
+new file mode 100644
+index 0000000..bc61dff
+--- /dev/null
++++ b/b/src/app/admin/(panel)/team/page.tsx
+@@ -0,0 +1,22 @@
++import { TeamManager } from "@/components/admin/team-manager";
++import { requireAdmin } from "@/lib/auth";
++import { getTeam } from "@/lib/team";
++
++export const metadata = { title: "Team" };
++
++export default async function TeamAdminPage() {
++  await requireAdmin();
++  const people = await getTeam();
++  return (
++    <div className="space-y-6">
++      <div>
++        <h1 className="text-2xl font-bold">Team</h1>
++        <p className="mt-1 max-w-2xl text-sm text-zinc-500">
++          The people in the office of the Team page. Add a person to a department and their avatar sits in that department&apos;s corner of the office.
++          The preview shows the office before you save.
++        </p>
++      </div>
++      <TeamManager initial={people} />
++    </div>
++  );
++}
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 519f739..b1337e1 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -15173,419 +15173,6 @@ a.md-rel-card:hover .md-rel-go {
+   }
+ }
+ 
+-/* ---------------------------------------------------------------------------------------------------------------------------------
+-   The team page (components/site/modern/team-office.tsx): the office from above, a room for every department, the camera goes from room
+-   to room while the page scrolls, a card for the person that is pointed at. Cards (a list) on a tablet and a phone. */
+-.to {
+-  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+-  --ad: hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 12%);
+-  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
+-  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+-  --card: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.7);
+-  --floor: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4%);
+-  --u: 1;
+-  --p: calc(var(--u) * 1px);
+-  position: relative;
+-}
+-.to-sticky {
+-  display: none;
+-}
+-.to-listwrap {
+-  max-width: 1100px;
+-  margin: 0 auto;
+-  padding: 24px 16px 80px;
+-}
+-.to-head {
+-  text-align: center;
+-}
+-.to-intro {
+-  margin-right: auto;
+-  margin-left: auto;
+-}
+-.to-dept {
+-  margin-top: 46px;
+-}
+-.to-dept h3 {
+-  display: flex;
+-  align-items: center;
+-  gap: 12px;
+-  margin: 0;
+-  color: #fff;
+-  font-size: 1.5rem;
+-  font-weight: 600;
+-  letter-spacing: -0.02em;
+-}
+-.to-dept h3 span {
+-  padding: 1px 12px;
+-  border: 1px solid var(--hair);
+-  border-radius: 999px;
+-  color: var(--a);
+-  font-size: 0.9375rem;
+-}
+-.to-dept ul {
+-  display: grid;
+-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+-  gap: 16px;
+-  margin: 18px 0 0;
+-  padding: 0;
+-  list-style: none;
+-}
+-.to-card {
+-  position: relative;
+-  display: flex;
+-  gap: 16px;
+-  padding: 18px;
+-  border: 1px solid var(--hair);
+-  border-radius: 20px;
+-  background: var(--card);
+-}
+-.to-card h4,
+-.to-profile h4 {
+-  margin: 0;
+-  color: #fff;
+-  font-size: 1.125rem;
+-  font-weight: 600;
+-  letter-spacing: -0.01em;
+-  line-height: 1.2;
+-}
+-.to-role {
+-  margin: 3px 0 0;
+-  color: var(--a);
+-  font-size: 0.9375rem;
+-  font-weight: 600;
+-}
+-.to-bio {
+-  margin: 8px 0 0;
+-  color: var(--soft);
+-  font-size: 1rem;
+-  line-height: 1.5;
+-}
+-/* the round photo (or the initials) */
+-.to-badge {
+-  --tone: 0;
+-  display: grid;
+-  flex: none;
+-  width: 68px;
+-  height: 68px;
+-  place-items: center;
+-  overflow: hidden;
+-  border: 2px solid hsl(calc(var(--th) + var(--tone)) calc(70% * var(--ts)) 66% / 0.8);
+-  border-radius: 50%;
+-  background: linear-gradient(145deg, hsl(calc(var(--th) + var(--tone)) calc(52% * var(--ts)) 34%), hsl(calc(var(--th) + var(--tone)) calc(52% * var(--ts)) 18%));
+-  color: #fff;
+-}
+-.to-badge b {
+-  font-size: 1.25rem;
+-  font-weight: 700;
+-  letter-spacing: -0.02em;
+-}
+-.to-badge img {
+-  width: 100%;
+-  height: 100%;
+-  object-fit: cover;
+-}
+-
+-/* the card of the person that is pointed at */
+-.to-profile {
+-  position: fixed;
+-  z-index: 60;
+-  padding: 18px 20px 20px;
+-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+-  border-radius: 20px;
+-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8.5% / 0.97);
+-  box-shadow: 0 30px 70px -22px rgba(0, 0, 0, 0.85);
+-  animation: vq-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+-}
+-.to-pr-top {
+-  display: flex;
+-  align-items: center;
+-  gap: 14px;
+-}
+-.to-pr-dept {
+-  display: inline-block;
+-  margin-top: 14px;
+-  padding: 2px 12px;
+-  border: 1px solid var(--hair);
+-  border-radius: 999px;
+-  color: #fff;
+-  font-size: 0.875rem;
+-  font-weight: 500;
+-}
+-.to-link {
+-  display: inline-block;
+-  margin-top: 12px;
+-  color: var(--a);
+-  font-size: 1rem;
+-  font-weight: 600;
+-  text-decoration: underline;
+-  text-underline-offset: 5px;
+-}
+-
+-/* the camera (a desktop that does not mind motion) */
+-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+-  .to {
+-    height: calc(100svh * (1.2 + var(--n) * 0.62));
+-  }
+-  .to-listwrap {
+-    position: absolute;
+-    width: 1px;
+-    height: 1px;
+-    padding: 0;
+-    overflow: hidden;
+-    clip: rect(0 0 0 0);
+-    white-space: nowrap;
+-  }
+-  .to-sticky {
+-    position: sticky;
+-    top: 0;
+-    display: block;
+-    height: 100svh;
+-  }
+-  .to-stage {
+-    position: relative;
+-    height: 100%;
+-    overflow: hidden;
+-    background: var(--floor);
+-  }
+-  .to-plan {
+-    position: absolute;
+-    top: 0;
+-    left: 0;
+-    transform-origin: 0 0;
+-    will-change: transform;
+-  }
+-  .to-floor {
+-    position: absolute;
+-    inset: 0;
+-    border: 30px solid hsl(calc(var(--th) + 347.58) calc(46% * var(--ts)) 17%);
+-    background:
+-      linear-gradient(rgba(255, 255, 255, 0.03) 2px, transparent 2px) 0 0 / 120px 120px,
+-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 2px, transparent 2px) 0 0 / 120px 120px,
+-      var(--floor);
+-    box-shadow: inset 0 0 0 2px hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.16);
+-  }
+-  .to-title {
+-    position: absolute;
+-    top: 38px;
+-    right: 0;
+-    left: 0;
+-    margin: 0;
+-    background: linear-gradient(180deg, #fff 22%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%));
+-    -webkit-background-clip: text;
+-    background-clip: text;
+-    color: transparent;
+-    font-size: 96px;
+-    font-weight: 600;
+-    letter-spacing: -0.045em;
+-    line-height: 1;
+-    opacity: 0.55;
+-    text-align: center;
+-  }
+-  .to-room {
+-    position: absolute;
+-    border-radius: 26px;
+-    background: hsl(calc(var(--th) + var(--tone)) calc(40% * var(--ts)) 15% / 0.55);
+-    box-shadow: inset 0 0 0 1px hsl(calc(var(--th) + var(--tone)) calc(60% * var(--ts)) 70% / 0.2);
+-  }
+-  .to-rname {
+-    position: absolute;
+-    top: -44px;
+-    left: 6px;
+-    color: hsl(calc(var(--th) + var(--tone)) calc(70% * var(--ts)) 84% / 0.65);
+-    font-size: 22px;
+-    font-weight: 700;
+-    letter-spacing: 0.18em;
+-    text-transform: uppercase;
+-  }
+-  .to-table {
+-    position: absolute;
+-    top: 166px;
+-    right: 40px;
+-    left: 40px;
+-    height: 92px;
+-    border-radius: 16px;
+-    background: linear-gradient(160deg, hsl(calc(var(--th) + 14) calc(38% * var(--ts)) 30%), hsl(calc(var(--th) + 14) calc(36% * var(--ts)) 22%));
+-    box-shadow:
+-      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+-      0 8px 18px rgba(0, 0, 0, 0.5);
+-  }
+-  .to-plant {
+-    position: absolute;
+-    width: 44px;
+-    height: 44px;
+-    border-radius: 50%;
+-    background: radial-gradient(circle at 36% 32%, hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 44%), hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 22%) 70%);
+-    opacity: 0.7;
+-  }
+-  .to-plant-a {
+-    right: 16px;
+-    bottom: 14px;
+-  }
+-  .to-plant-b {
+-    top: 16px;
+-    right: 18px;
+-  }
+-  .to-seat {
+-    position: absolute;
+-    z-index: 3;
+-    width: 0;
+-    height: 0;
+-  }
+-  .to-hit {
+-    position: absolute;
+-    top: -64px;
+-    left: -48px;
+-    width: 96px;
+-    height: 128px;
+-    padding: 0;
+-    border: 0;
+-    border-radius: 24px;
+-    background: transparent;
+-    cursor: pointer;
+-    transition: background 0.3s;
+-  }
+-  .to-hit:hover,
+-  .to-hit[data-on="true"] {
+-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
+-  }
+-  .to-hit:focus-visible {
+-    outline: 2px solid var(--a);
+-  }
+-  .to-hit .to-badge {
+-    position: absolute;
+-    top: -30px;
+-    left: 50%;
+-    width: 54px;
+-    height: 54px;
+-    border-width: 3px;
+-    translate: -50% 0;
+-    transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+-  }
+-  .to-hit:hover .to-badge,
+-  .to-hit[data-on="true"] .to-badge {
+-    scale: 1.18;
+-  }
+-  .to-hit .to-badge b {
+-    font-size: 1.05rem;
+-  }
+-  .to-av {
+-    position: absolute;
+-    top: 64px;
+-    left: 48px;
+-    width: 0;
+-    height: 0;
+-    scale: 2.7;
+-  }
+-  .to-av .of-chair {
+-    z-index: 3;
+-  }
+-  /* the interface over the office */
+-  .to-ui {
+-    position: absolute;
+-    inset: 0;
+-    pointer-events: none;
+-  }
+-  .to-now {
+-    position: absolute;
+-    top: 36px;
+-    left: clamp(1.5rem, 4vw, 4rem);
+-    display: grid;
+-    max-width: 24rem;
+-    gap: 4px;
+-    animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+-  }
+-  .to-now-k {
+-    color: var(--a);
+-    font-size: 0.875rem;
+-    font-weight: 600;
+-    letter-spacing: 0.14em;
+-    text-transform: uppercase;
+-  }
+-  .to-now b {
+-    color: #fff;
+-    font-size: clamp(2.2rem, 4vw, 3.4rem);
+-    font-weight: 600;
+-    letter-spacing: -0.04em;
+-    line-height: 1.05;
+-    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+-  }
+-  .to-now-n {
+-    color: var(--soft);
+-    font-size: 1.0625rem;
+-  }
+-  .to-nav {
+-    position: absolute;
+-    top: 50%;
+-    right: clamp(1rem, 2.4vw, 2.4rem);
+-    display: grid;
+-    gap: 8px;
+-    pointer-events: auto;
+-    translate: 0 -50%;
+-  }
+-  .to-nav button {
+-    display: flex;
+-    align-items: center;
+-    justify-content: flex-end;
+-    gap: 10px;
+-    padding: 0;
+-    border: 0;
+-    background: none;
+-    color: var(--soft);
+-    cursor: pointer;
+-  }
+-  .to-nav button span {
+-    max-width: 0;
+-    overflow: hidden;
+-    font-size: 0.9375rem;
+-    font-weight: 600;
+-    opacity: 0;
+-    white-space: nowrap;
+-    transition:
+-      max-width 0.4s,
+-      opacity 0.3s;
+-  }
+-  .to-nav button:hover span,
+-  .to-nav button[data-on="true"] span {
+-    max-width: 14rem;
+-    opacity: 1;
+-  }
+-  .to-nav button i {
+-    display: grid;
+-    min-width: 36px;
+-    height: 36px;
+-    place-items: center;
+-    padding: 0 8px;
+-    border: 1px solid var(--hair);
+-    border-radius: 18px;
+-    background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.85);
+-    font-size: 0.875rem;
+-    font-style: normal;
+-    font-weight: 700;
+-    transition:
+-      background 0.3s,
+-      color 0.3s;
+-  }
+-  .to-nav button[data-on="true"] i {
+-    border-color: var(--a);
+-    background: var(--a);
+-    color: var(--ad);
+-  }
+-  .to-hint {
+-    position: absolute;
+-    right: 0;
+-    bottom: 84px;
+-    left: 0;
+-    margin: 0;
+-    color: var(--soft);
+-    font-size: 1rem;
+-    text-align: center;
+-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+-  }
+-  .to-sticky[data-live="false"] .of-pp .ch-head {
+-    animation-play-state: paused;
+-  }
+-}
+-
+ /* ---------------------------------------------------------------------------------------------------------------------------------
+    Neon Reveal (components/site/modern/neon-reveal.tsx): a neon tube flickers on and its light uncovers the content under it. */
+ @property --nr-reach {
+@@ -22388,23 +21975,6 @@ a.md-rel-card:hover .md-rel-go {
+   -webkit-line-clamp: 3;
+ }
+ 
+-/* The team office (modern/team-office.tsx): the pinned plan was a solid dark box with a thick lighter border, with hard edges against the sections above
+-   and below. Now there is no box: the floor is only a faint grid on the sky of the page, the thick border and the ring are gone, and the top and the
+-   bottom of the picture fade into the sections around it. */
+-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+-  .to-stage {
+-    background: transparent;
+-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
+-    mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
+-  }
+-  .to-floor {
+-    border: 0;
+-    background:
+-      linear-gradient(rgba(255, 255, 255, 0.035) 2px, transparent 2px) 0 0 / 120px 120px,
+-      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 2px, transparent 2px) 0 0 / 120px 120px;
+-    box-shadow: none;
+-  }
+-}
+ 
+ /* ---------------------------------------------------------------------------------------------------------------------------------
+    The admin login page (components/admin/login-screen.tsx): a split screen. Left the form, right a rounded picture card with a line over a
+@@ -23053,3 +22623,254 @@ a.md-rel-card:hover .md-rel-go {
+   font-size: 1.0625rem;
+   line-height: 1.75;
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The team page (components/site/modern/team-office.tsx): the office of the About timeline (the .of-* rules above: floor, walls, corners,
++   tables, people) with the real people of the company in it. One screen, no camera. A card opens next to the person that is pointed at.
++   The same component is the preview of the admin panel (Team). */
++.to2-wrap {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
++  position: relative;
++}
++.to2 {
++  position: relative;
++  inset: auto;
++  width: 100%;
++  min-height: 520px;
++  overflow: hidden;
++  background: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4% / 0.7);
++  /* the top and the bottom melt into the sections around the office, so that there is no hard edge */
++  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 90%, transparent 100%);
++  mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 90%, transparent 100%);
++}
++.to2[data-preview="true"] {
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4%);
++  -webkit-mask-image: none;
++  mask-image: none;
++}
++.to2 .of-wall-b {
++  display: none;
++}
++.to2-zone {
++  z-index: 3;
++}
++.to2-label {
++  font-size: 11.5px;
++}
++
++/* a person: the avatar of the office (a round badge with the photo or the initials sits behind it) */
++.to2-p {
++  position: absolute;
++  z-index: 4;
++  width: 0;
++  height: 0;
++  padding: 0;
++  border: 0;
++  background: none;
++  cursor: pointer;
++  outline: none;
++}
++.to2-hit {
++  position: absolute;
++  left: -22px;
++  top: -26px;
++  width: 44px;
++  height: 52px;
++  border-radius: 14px;
++  transition:
++    background-color 0.25s,
++    box-shadow 0.25s;
++}
++.to2-p:hover .to2-hit,
++.to2-p:focus-visible .to2-hit,
++.to2-p[data-on="true"] .to2-hit {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
++  box-shadow: 0 0 0 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.7);
++}
++.to2-p[data-hl="true"] .to2-hit {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.22);
++  box-shadow: 0 0 0 2px #fff;
++}
++.to2-badge {
++  position: absolute;
++  z-index: 5;
++  display: grid;
++  width: 22px;
++  height: 22px;
++  margin: -11px 0 0 -11px;
++  place-items: center;
++  overflow: hidden;
++  border: 1.5px solid hsl(calc(var(--th) + var(--tone, 0)) calc(70% * var(--ts)) 68% / 0.85);
++  border-radius: 50%;
++  background: linear-gradient(145deg, hsl(calc(var(--th) + var(--tone, 0)) calc(52% * var(--ts)) 34%), hsl(calc(var(--th) + var(--tone, 0)) calc(52% * var(--ts)) 18%));
++  color: #fff;
++  transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.to2-badge b {
++  font-size: 8.5px;
++  font-weight: 700;
++  letter-spacing: -0.02em;
++}
++.to2-badge img {
++  width: 100%;
++  height: 100%;
++  object-fit: cover;
++}
++.to2-p:hover .to2-badge,
++.to2-p:focus-visible .to2-badge,
++.to2-p[data-on="true"] .to2-badge {
++  scale: 1.25;
++}
++
++/* the heading in the middle of the office */
++.to2-center {
++  position: absolute;
++  top: 50%;
++  left: calc(3.5% + 300px * var(--zs) + 2.5%);
++  right: calc(3.5% + 300px * var(--zs) + 2.5%);
++  z-index: 3;
++  display: grid;
++  justify-items: center;
++  gap: 18px;
++  text-align: center;
++  transform: translateY(-50%);
++  pointer-events: none;
++}
++.to2-chip {
++  padding: 6px 16px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 500;
++}
++.to2-h {
++  margin: 0;
++  background-image: linear-gradient(0deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%) 0%, hsl(calc(var(--th) + 352) calc(58% * var(--ts)) 62%) 100%);
++  -webkit-background-clip: text;
++  background-clip: text;
++  color: transparent;
++  font-size: clamp(2.6rem, 5vw, 4.6rem);
++  font-weight: 600;
++  letter-spacing: -0.04em;
++  line-height: 1.05;
++  white-space: pre-line;
++}
++.to2[data-preview="true"] .to2-h {
++  font-size: clamp(1.6rem, 3vw, 2.6rem);
++}
++.to2-intro {
++  max-width: 520px;
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.65;
++}
++.to2-count {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.125rem;
++}
++.to2-count b {
++  color: #fff;
++  font-weight: 600;
++}
++.to2-hint {
++  margin: 0;
++  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90% / 0.7);
++  font-size: 1rem;
++}
++
++/* the card of the person that is pointed at */
++.to2-card {
++  --card-bg: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9%);
++  position: absolute;
++  z-index: 20;
++  padding: 18px 20px 20px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8.5% / 0.97);
++  box-shadow: 0 30px 70px -22px rgba(0, 0, 0, 0.85);
++  transform: translateY(-50%);
++  animation: to2-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++@keyframes to2-in {
++  from {
++    opacity: 0;
++    translate: 0 8px;
++  }
++  to {
++    opacity: 1;
++    translate: 0 0;
++  }
++}
++.to2-card-top {
++  display: flex;
++  align-items: center;
++  gap: 14px;
++}
++.to2-badge-l {
++  position: static;
++  flex: none;
++  width: 68px;
++  height: 68px;
++  margin: 0;
++  border-width: 2px;
++}
++.to2-badge-l b {
++  font-size: 1.25rem;
++}
++.to2-card h3 {
++  margin: 0;
++  color: #fff;
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: -0.01em;
++  line-height: 1.2;
++}
++.to2-role {
++  margin: 4px 0 0;
++  color: var(--a);
++  font-size: 1rem;
++  font-weight: 600;
++}
++.to2-dept {
++  display: inline-block;
++  margin-top: 14px;
++  padding: 2px 12px;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  color: #fff;
++  font-size: 0.875rem;
++  font-weight: 500;
++}
++.to2-bio {
++  margin: 10px 0 0;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.55;
++}
++.to2-link {
++  display: inline-block;
++  margin-top: 12px;
++  color: var(--a);
++  font-size: 1rem;
++  font-weight: 600;
++  text-decoration: underline;
++  text-underline-offset: 5px;
++}
++.to2-sr {
++  position: absolute;
++  width: 1px;
++  height: 1px;
++  margin: -1px;
++  padding: 0;
++  overflow: hidden;
++  clip: rect(0 0 0 0);
++  white-space: nowrap;
++  border: 0;
++}
+diff --git a/a/src/components/admin/admin-nav.tsx b/b/src/components/admin/admin-nav.tsx
+index 43b31ed..0ff25dc 100644
+--- a/a/src/components/admin/admin-nav.tsx
++++ b/b/src/components/admin/admin-nav.tsx
+@@ -8,6 +8,7 @@ const items = [
+   { href: "/admin/pages", label: "Pages" },
+   { href: "/admin/projects", label: "Projects" },
+   { href: "/admin/blog", label: "Blog" },
++  { href: "/admin/team", label: "Team" },
+   { href: "/admin/settings", label: "Site settings" },
+   { href: "/admin/access", label: "Admin access" },
+   { href: "/admin/leads", label: "Leads" },
+diff --git a/b/src/components/admin/team-manager.tsx b/b/src/components/admin/team-manager.tsx
+new file mode 100644
+index 0000000..956517a
+--- /dev/null
++++ b/b/src/components/admin/team-manager.tsx
+@@ -0,0 +1,220 @@
++"use client";
++
++import { useEffect, useMemo, useState, useTransition } from "react";
++import { saveTeam } from "@/actions/team";
++import type { ActionResult } from "@/actions/types";
++import { byDepartment, CORNER_CAPACITY, MAX_PEOPLE, type TeamPerson } from "@/lib/team-shared";
++import { TeamOffice } from "../site/modern/team-office";
++import { ImageField } from "./image-field";
++import { btnDanger, btnIcon, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
++
++// Team in the admin panel: the people of the office. Every change is drawn at once in the preview (the real office of the Team page);
++// nothing is on the live website until "Save team" is pressed.
++
++const uid = () => `new-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
++
++export function TeamManager({ initial }: { initial: TeamPerson[] }) {
++  const [people, setPeople] = useState<TeamPerson[]>(initial);
++  const [sel, setSel] = useState<string>(initial[0]?.id ?? "");
++  const [dirty, setDirty] = useState(false);
++  const [result, setResult] = useState<ActionResult | null>(null);
++  const [pending, start] = useTransition();
++
++  useEffect(() => {
++    if (!dirty) return;
++    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
++    window.addEventListener("beforeunload", warn);
++    return () => window.removeEventListener("beforeunload", warn);
++  }, [dirty]);
++
++  const groups = useMemo(() => byDepartment(people), [people]);
++  const depts = groups.map((g) => g.name);
++  const current = people.find((p) => p.id === sel) ?? null;
++
++  const change = (next: TeamPerson[]) => {
++    setPeople(next);
++    setDirty(true);
++    setResult(null);
++  };
++  const patch = (id: string, part: Partial<TeamPerson>) => change(people.map((p) => (p.id === id ? { ...p, ...part } : p)));
++  const add = (dept: string) => {
++    if (people.length >= MAX_PEOPLE) return;
++    const p: TeamPerson = { id: uid(), name: "New person", role: "", dept: dept || "Team", bio: "", photo: "", linkedin: "", girl: false };
++    // right after the last person of that department (or at the end)
++    const last = people.map((x) => x.dept).lastIndexOf(p.dept);
++    const next = [...people];
++    next.splice(last < 0 ? next.length : last + 1, 0, p);
++    change(next);
++    setSel(p.id);
++  };
++  const remove = (id: string) => {
++    const i = people.findIndex((p) => p.id === id);
++    const next = people.filter((p) => p.id !== id);
++    change(next);
++    setSel(next[Math.min(i, next.length - 1)]?.id ?? "");
++  };
++  // moves a person one place within the department (the order at the tables)
++  const nudge = (id: string, dir: -1 | 1) => {
++    const p = people.find((x) => x.id === id);
++    if (!p) return;
++    const idx = people.indexOf(p);
++    let j = idx + dir;
++    while (j >= 0 && j < people.length && people[j].dept !== p.dept) j += dir;
++    if (j < 0 || j >= people.length) return;
++    const next = [...people];
++    [next[idx], next[j]] = [next[j], next[idx]];
++    change(next);
++  };
++  // moves a whole department up or down
++  const moveDept = (name: string, dir: -1 | 1) => {
++    const g = byDepartment(people);
++    const i = g.findIndex((x) => x.name === name);
++    const j = i + dir;
++    if (i < 0 || j < 0 || j >= g.length) return;
++    [g[i], g[j]] = [g[j], g[i]];
++    change(g.flatMap((x) => x.people));
++  };
++  const renameDept = (from: string) => {
++    const to = window.prompt("New name of the department:", from)?.trim().slice(0, 30);
++    if (!to || to === from) return;
++    change(people.map((p) => (p.dept === from ? { ...p, dept: to } : p)));
++  };
++
++  const save = () =>
++    start(async () => {
++      const res = await saveTeam(people.map((p) => ({ name: p.name, role: p.role, dept: p.dept, bio: p.bio, photo: p.photo, linkedin: p.linkedin, girl: p.girl })));
++      setResult(res);
++      if (res.ok) setDirty(false);
++    });
++
++  return (
++    <div className="space-y-6">
++      <section className={`${card} space-y-3`}>
++        <div className="flex flex-wrap items-center justify-between gap-3">
++          <div>
++            <h2 className="text-lg font-semibold">Preview of the office</h2>
++            <p className="text-sm text-zinc-500">This is the office of the Team page. Point at a person to see their card. It changes as you edit; the live website changes when you save.</p>
++          </div>
++          <span className={`rounded-full px-3 py-1 text-xs font-medium ${dirty ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"}`}>{dirty ? "Not saved yet" : "Saved"}</span>
++        </div>
++        <TeamOffice people={people} preview highlightId={sel} chip="The office" heading="Meet The Team" id="admin-preview" />
++      </section>
++
++      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
++        <section className={`${card} space-y-5`}>
++          <div className="flex items-center justify-between gap-3">
++            <h2 className="text-lg font-semibold">
++              People <span className="text-sm font-normal text-zinc-400">({people.length})</span>
++            </h2>
++            <button type="button" className={btnSecondary} onClick={() => add(current?.dept ?? depts[0] ?? "Team")} disabled={people.length >= MAX_PEOPLE}>
++              + Add person
++            </button>
++          </div>
++          {groups.length === 0 && <p className="text-sm text-zinc-500">Nobody yet. Add the first person.</p>}
++          {groups.map((g, gi) => (
++            <div key={g.name} className="rounded-xl border border-zinc-200">
++              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 bg-zinc-50 px-3 py-2">
++                <p className="text-sm font-semibold">
++                  {g.name} <span className="font-normal text-zinc-400">· {g.people.length}</span>
++                  {g.people.length > CORNER_CAPACITY && <span className="ml-2 text-xs font-normal text-amber-700">more than {CORNER_CAPACITY}: gets a second corner</span>}
++                </p>
++                <div className="flex gap-1">
++                  <button type="button" className={btnIcon} aria-label={`Move ${g.name} up`} disabled={gi === 0} onClick={() => moveDept(g.name, -1)}>
++                    ↑
++                  </button>
++                  <button type="button" className={btnIcon} aria-label={`Move ${g.name} down`} disabled={gi === groups.length - 1} onClick={() => moveDept(g.name, 1)}>
++                    ↓
++                  </button>
++                  <button type="button" className={`${btnIcon} w-auto px-2 text-xs`} onClick={() => renameDept(g.name)}>
++                    Rename
++                  </button>
++                  <button type="button" className={`${btnIcon} w-auto px-2 text-xs`} onClick={() => add(g.name)} disabled={people.length >= MAX_PEOPLE}>
++                    + Person
++                  </button>
++                </div>
++              </div>
++              <ul className="divide-y divide-zinc-100">
++                {g.people.map((p, pi) => (
++                  <li key={p.id} className={`flex items-center gap-2 px-3 py-2 ${p.id === sel ? "bg-brand/5" : ""}`}>
++                    <button type="button" className="min-w-0 flex-1 text-left" onClick={() => setSel(p.id)}>
++                      <span className="block truncate text-sm font-medium">{p.name}</span>
++                      <span className="block truncate text-xs text-zinc-500">{p.role || "no role yet"}</span>
++                    </button>
++                    <button type="button" className={btnIcon} aria-label="Up" disabled={pi === 0} onClick={() => nudge(p.id, -1)}>
++                      ↑
++                    </button>
++                    <button type="button" className={btnIcon} aria-label="Down" disabled={pi === g.people.length - 1} onClick={() => nudge(p.id, 1)}>
++                      ↓
++                    </button>
++                  </li>
++                ))}
++              </ul>
++            </div>
++          ))}
++        </section>
++
++        <section className={`${card} space-y-4`}>
++          {current ? (
++            <>
++              <div className="flex items-center justify-between gap-3">
++                <h2 className="text-lg font-semibold">Edit person</h2>
++                <button type="button" className={btnDanger} onClick={() => remove(current.id)}>
++                  Remove
++                </button>
++              </div>
++              <label className={labelClass}>
++                Name
++                <input className={inputClass} value={current.name} maxLength={60} onChange={(e) => patch(current.id, { name: e.target.value })} />
++              </label>
++              <div className="grid gap-4 sm:grid-cols-2">
++                <label className={labelClass}>
++                  Role
++                  <input className={inputClass} value={current.role} maxLength={70} placeholder="e.g. UI/UX Designer" onChange={(e) => patch(current.id, { role: e.target.value })} />
++                </label>
++                <label className={labelClass}>
++                  Department
++                  <input className={inputClass} list="team-depts" value={current.dept} maxLength={30} onChange={(e) => patch(current.id, { dept: e.target.value })} />
++                  <datalist id="team-depts">
++                    {depts.map((d) => (
++                      <option key={d} value={d} />
++                    ))}
++                  </datalist>
++                </label>
++              </div>
++              <p className="-mt-2 text-xs text-zinc-400">People with the same department sit in the same corner. Type a new name to open a new corner.</p>
++              <label className={labelClass}>
++                A few words about the person
++                <textarea className={`${inputClass} min-h-24`} value={current.bio} maxLength={260} onChange={(e) => patch(current.id, { bio: e.target.value })} />
++              </label>
++              <ImageField label="Photo (optional)" value={current.photo} onChange={(v) => patch(current.id, { photo: v })} hint="A square photo of the face works best. Without a photo the initials are shown." />
++              <label className={labelClass}>
++                LinkedIn link (optional)
++                <input className={inputClass} value={current.linkedin} maxLength={300} placeholder="https://www.linkedin.com/in/…" onChange={(e) => patch(current.id, { linkedin: e.target.value })} />
++              </label>
++              <label className="flex items-center gap-2 text-sm text-zinc-700">
++                <input type="checkbox" checked={current.girl} onChange={(e) => patch(current.id, { girl: e.target.checked })} />
++                Draw the avatar as a woman
++              </label>
++            </>
++          ) : (
++            <p className="text-sm text-zinc-500">Choose a person in the list to edit, or add one.</p>
++          )}
++        </section>
++      </div>
++
++      <div className={`${card} flex flex-wrap items-center gap-3`}>
++        <button type="button" className={btnPrimary} disabled={pending || !dirty} onClick={save}>
++          {pending ? "Saving…" : "Save team"}
++        </button>
++        <a href="/team" target="_blank" rel="noreferrer" className={btnSecondary}>
++          Open the Team page ↗
++        </a>
++        {result && (
++          <p role="status" className={`rounded-lg px-3 py-2 text-sm ${result.ok ? "bg-emerald-50 text-emerald-800" : "bg-rose-50 text-rose-700"}`}>
++            {result.ok ? result.message : result.error}
++          </p>
++        )}
++      </div>
++    </div>
++  );
++}
+diff --git a/a/src/components/site/modern/team-office.tsx b/b/src/components/site/modern/team-office.tsx
+index 26bab0b..7002d1b 100644
+--- a/a/src/components/site/modern/team-office.tsx
++++ b/b/src/components/site/modern/team-office.tsx
+@@ -1,25 +1,58 @@
+ "use client";
+ 
+ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
++import { byDepartment, CORNER_CAPACITY, type TeamPerson } from "@/lib/team-shared";
+ import { GlowEdge } from "../glow-edge";
+ import { PersonTop } from "../timeline-art";
++import { BOARDS } from "../timeline-boards";
+ 
+-// The team page: the office of We3vision seen from above (the same top-view people, floor and walls as the office of 2027 on the About page).
+-// Every department has its own room with a long table and the people of that department at it, facing each other. The page is pinned while
+-// you scroll: first the whole office, then the camera goes from room to room (the name of the department and the number of people stand
+-// at the side). Above every person there is a round photo (or the initials when there is no photo yet); point at a person (tap on a phone,
+-// or tab to them) and a card tells who they are: photo, name, role, a few words and a link. On a tablet, a phone and for visitors who prefer
+-// less motion there is no camera: the same people as cards, department by department. The look is in globals.css (.to-*).
++// The office of We3vision on the Team page: the same office as the end of the About timeline (floor, walls, plants, a corner for every
++// department with its wall board, the long table with laptops, the small meeting table, chairs and colleagues who walk about), but with the
++// real people of the company in it. Everything is on one screen: there is no camera and no zoom. Every department has a corner, the people of
++// the department sit in it (4 at the long table, 4 at the meeting table, 1 at the board; a bigger department gets a second corner).
++// Point at a person (tap, or tab to the person) and a card opens next to them: photo, name, role, a few words and a link.
++// The people come from the admin panel (Team). The same component draws the preview there (`preview`, with the person that is being edited
++// marked). The look is the .of-* rules of the About office and the .to2-* rules in globals.css.
+ 
+-export type Person = { name: string; role: string; dept: string; bio: string; photo: string; linkedin: string; girl: string };
++const HUES = [300, 340, 20, 60, 100, 200, 250];
++const WALKER_TONES = [40, 300, 100, 200, 340];
++const ZW = 300; // a corner is drawn on a 300 x 226 canvas and scaled with --zs
++const ZH = 226;
++
++type Seat = { kind: "w" | "m" | "p"; i: number; x: number; y: number; rot: number };
++const WORK = [
++  { x: 48, y: 150, rot: 0, lx: 14, ly: 7 },
++  { x: 130, y: 150, rot: 0, lx: 88, ly: 7 },
++  { x: 48, y: 210, rot: 180, lx: 14, ly: 23 },
++  { x: 130, y: 210, rot: 180, lx: 88, ly: 23 },
++];
++const MEET = [
++  { x: 232, y: 108, rot: 0 },
++  { x: 274, y: 150, rot: 90 },
++  { x: 232, y: 192, rot: 180 },
++  { x: 190, y: 150, rot: -90 },
++];
++// who sits down first: the long table, then the meeting table, the last one stands at the board
++const ORDER: Seat[] = [
++  { kind: "w", i: 0, ...WORK[0] },
++  { kind: "w", i: 1, ...WORK[1] },
++  { kind: "w", i: 2, ...WORK[2] },
++  { kind: "w", i: 3, ...WORK[3] },
++  { kind: "m", i: 1, ...MEET[1] },
++  { kind: "m", i: 3, ...MEET[3] },
++  { kind: "m", i: 0, ...MEET[0] },
++  { kind: "m", i: 2, ...MEET[2] },
++  { kind: "p", i: 0, x: 90, y: 122, rot: 180 },
++];
++
++// which wall board suits which department (the boards of timeline-boards.tsx: brand, web, mobile, AI, metaverse, UI/UX, CRM)
++const BOARD_RULES: [RegExp, number][] = [
++  [/metaverse|vr|xr|unity|3d/i, 4],
++  [/ai|crm|erp|software/i, 3],
++  [/web|mobile|app/i, 1],
++  [/ui|ux|design|brand|graphic/i, 5],
++];
+ 
+-const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+-const smooth = (t: number) => {
+-  const c = clamp(t);
+-  return c * c * (3 - 2 * c);
+-};
+-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+-const TONES = [352, 300, 40, 200, 100, 20, 250, 160];
+ const initials = (name: string) =>
+   name
+     .split(/\s+/)
+@@ -28,170 +61,152 @@ const initials = (name: string) =>
+     .map((w) => w[0]?.toUpperCase())
+     .join("") || "W3";
+ 
+-const SEAT = 132; // distance between two people of a row (px of the plan)
+-const ZH = 420; // height of a room
+-const GAP = 80;
+-const MAX_W = 2500;
+-
+-type Room = { name: string; x: number; y: number; w: number; tone: number; people: { p: Person; x: number; y: number; row: number; tone: number }[] };
++type Corner = { key: string; name: string; people: TeamPerson[]; tone: number; board: number };
+ 
+-/** the plan of the office: the rooms (one per department) in rows, and where every person sits */
+-function plan(people: Person[]) {
+-  const order: string[] = [];
+-  const by = new Map<string, Person[]>();
+-  for (const p of people) {
+-    const d = p.dept.trim() || "Team";
+-    if (!by.has(d)) {
+-      by.set(d, []);
+-      order.push(d);
+-    }
+-    by.get(d)!.push(p);
+-  }
+-  const rooms: Room[] = [];
+-  let x = 90;
+-  let y = 150;
+-  order.forEach((name, ri) => {
+-    const list = by.get(name)!;
+-    const top = Math.ceil(list.length / 2);
+-    const bottom = list.length - top;
+-    const w = Math.max(460, top * SEAT + 140);
+-    if (x + w > MAX_W && x > 90) {
+-      x = 90;
+-      y += ZH + GAP;
++/** the corners of the office: one per department (a department with more than 9 people gets more than one) */
++function corners(people: TeamPerson[]): Corner[] {
++  const out: Corner[] = [];
++  const used = new Set<number>();
++  byDepartment(people).forEach((d, di) => {
++    for (let c = 0; c * CORNER_CAPACITY < d.people.length; c++) {
++      const chunk = d.people.slice(c * CORNER_CAPACITY, (c + 1) * CORNER_CAPACITY);
++      let board = BOARD_RULES.find(([re]) => re.test(d.name))?.[1] ?? -1;
++      if (board < 0 || used.has(board)) {
++        board = [0, 1, 2, 3, 4, 5, 6].find((b) => !used.has(b)) ?? (out.length % 7);
++      }
++      used.add(board);
++      out.push({ key: `${d.name}-${c}`, name: d.name, people: chunk, tone: HUES[di % HUES.length], board });
+     }
+-    const tone = TONES[ri % TONES.length];
+-    const room: Room = { name, x, y, w, tone, people: [] };
+-    list.forEach((p, j) => {
+-      const row = j < top ? 0 : 1;
+-      const count = row === 0 ? top : bottom;
+-      const idx = row === 0 ? j : j - top;
+-      const sx = x + (w - count * SEAT) / 2 + SEAT / 2 + idx * SEAT;
+-      room.people.push({ p, x: sx, y: row === 0 ? y + 118 : y + 308, row, tone });
+-    });
+-    rooms.push(room);
+-    x += w + GAP;
+   });
+-  const W = Math.max(...rooms.map((r) => r.x + r.w)) + 90;
+-  const H = Math.max(...rooms.map((r) => r.y + ZH)) + 120;
+-  return { rooms, W, H };
++  return out;
+ }
+ 
+-export function TeamOffice({ id, chip, heading, intro, members }: { id?: string; chip: string; heading: string; intro: string; members: Person[] }) {
+-  const layout = useMemo(() => plan(members), [members]);
+-  const { rooms, W: PW, H: PH } = layout;
+-  const trackRef = useRef<HTMLElement>(null);
+-  const stickyRef = useRef<HTMLDivElement>(null);
+-  const stageRef = useRef<HTMLDivElement>(null);
+-  const planRef = useRef<HTMLDivElement>(null);
+-  const cardRef = useRef<HTMLDivElement>(null);
+-  const [room, setRoom] = useState(-1); // -1: the whole office
+-  const [hot, setHot] = useState<{ p: Person; tone: number; x: number; y: number } | null>(null);
++const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
++
++type Props = {
++  people: TeamPerson[];
++  chip?: string;
++  heading?: string;
++  intro?: string;
++  id?: string;
++  /** the preview of the admin panel: a smaller heading, and the person that is being edited is marked */
++  preview?: boolean;
++  highlightId?: string;
++};
++
++export function TeamOffice({ people, chip = "The office", heading = "Meet The Team", intro = "", id, preview = false, highlightId }: Props) {
++  const rootRef = useRef<HTMLDivElement>(null);
+   const closeT = useRef(0);
+-  const jump = useRef<(k: number) => void>(() => {});
+-  const nRooms = rooms.length;
++  const [hot, setHot] = useState<{ p: TeamPerson; tone: number; left: number; top: number } | null>(null);
++  const list = useMemo(() => corners(people), [people]);
++  const rows = Math.ceil(list.length / 2);
++  const split = rows; // the left column gets the first half
+ 
+-  // ---- the camera ----
++  // the size of the drawing follows the width of the box; the box is as high as its rows of corners need
+   useEffect(() => {
+-    const track = trackRef.current;
+-    const sticky = stickyRef.current;
+-    const stage = stageRef.current;
+-    const pl = planRef.current;
+-    if (!track || !sticky || !stage || !pl || nRooms < 1) return;
+-    const mq = window.matchMedia("(min-width: 1024px) and (prefers-reduced-motion: no-preference)");
+-    let raf = 0;
+-    let target = 0;
+-    let cur = -1;
+-    let lastT = 0;
+-    let lastRoom = -2;
+-    let W = 1;
+-    let H = 1;
+-    const keys = () => {
+-      // 0 = the whole office, k = the room k-1
+-      const fit = Math.min((W * 0.94) / PW, (H * 0.9) / PH);
+-      const k = [{ x: PW / 2, y: PH / 2, s: fit }];
+-      rooms.forEach((r) => {
+-        const s = Math.min(1.25, Math.min((W * 0.62) / (r.w + 140), (H * 0.8) / (ZH + 120)));
+-        k.push({ x: r.x + r.w / 2 + (W * 0.1) / s, y: r.y + ZH / 2, s });
+-      });
+-      return k;
++    const root = rootRef.current;
++    if (!root) return;
++    const measure = () => {
++      const W = root.clientWidth;
++      if (W < 2) return;
++      const zs = clamp((0.225 * W) / ZW, 0.4, 1.6);
++      const u = clamp(W / 1440, 0.55, 3);
++      const pitch = (ZH + 64) * zs;
++      const topPad = 16 * u + 34 * zs;
++      const need = topPad + Math.max(1, rows) * pitch - 40 * zs + 12 * u + 40 * zs;
++      const min = preview ? 520 : 700;
++      root.style.setProperty("--zs", zs.toFixed(3));
++      root.style.setProperty("--u", u.toFixed(3));
++      root.style.setProperty("--pitch", `${pitch.toFixed(1)}px`);
++      root.style.setProperty("--toppad", `${topPad.toFixed(1)}px`);
++      root.style.height = `${Math.round(Math.max(min, need))}px`;
+     };
+-    let K = keys();
+-    const place = (f: number) => {
+-      const i = clamp(Math.floor(f), 0, K.length - 1);
+-      const j = Math.min(K.length - 1, i + 1);
+-      const t = f - i;
+-      const x = lerp(K[i].x, K[j].x, t);
+-      const y = lerp(K[i].y, K[j].y, t);
+-      const s = lerp(K[i].s, K[j].s, t);
+-      pl.style.transform = `translate3d(${(W / 2 - x * s).toFixed(1)}px, ${(H / 2 - y * s).toFixed(1)}px, 0) scale(${s.toFixed(4)})`;
+-      const r = Math.round(f) - 1;
+-      if (r !== lastRoom) {
+-        lastRoom = r;
+-        setRoom(r);
+-      }
++    measure();
++    const ro = new ResizeObserver(measure);
++    ro.observe(root);
++    return () => ro.disconnect();
++  }, [rows, preview]);
++
++  // colleagues who get up and walk about the aisles (nothing here depends on the scroll)
++  useEffect(() => {
++    const root = rootRef.current;
++    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
++    const walkers = Array.from(root.querySelectorAll<HTMLElement>("[data-walker]"));
++    const st = walkers.map(() => ({ init: false, x: 0, y: 0, tx: 0, ty: 0, wait: 0, cur: 0, tgt: 0, speed: 60 }));
++    const rnd = (a: number, b: number) => a + Math.random() * (b - a);
++    let raf = 0;
++    let last = 0;
++    let visible = true;
++    const aisles = [0.3, 0.5, 0.7, 0.275, 0.725];
++    const pick = (s: (typeof st)[number], W: number, H: number) => {
++      s.tx = aisles[Math.floor(Math.random() * aisles.length)] * W;
++      s.ty = rnd(0.07, 0.93) * H;
++      s.speed = rnd(46, 64) * clamp(W / 1440, 0.6, 3);
+     };
+     const frame = (now: number) => {
+-      raf = 0;
+-      const dt = Math.min(0.05, Math.max(0.001, (now - lastT) / 1000 || 0.016));
+-      lastT = now;
+-      if (cur < 0) cur = target;
+-      cur += (target - cur) * (1 - Math.exp(-dt * 4.5));
+-      if (Math.abs(target - cur) < 0.0006) cur = target;
+-      place(cur);
+-      if (cur !== target) raf = requestAnimationFrame(frame);
+-    };
+-    const onScroll = () => {
+-      if (!mq.matches) return;
+-      const r = track.getBoundingClientRect();
+-      const top = parseFloat(getComputedStyle(sticky).top) || 0;
+-      const dist = Math.max(1, r.height - sticky.offsetHeight);
+-      const p = clamp((top - r.top) / dist);
+-      const seg = p * nRooms;
+-      const i = Math.min(nRooms - 1, Math.floor(seg));
+-      // the camera holds the overview and every room for a while, the move to the next one takes the middle of its part
+-      target = p >= 1 ? nRooms : i + smooth((seg - i - 0.3) / 0.5);
+-      if (!raf) {
+-        lastT = performance.now();
+-        raf = requestAnimationFrame(frame);
+-      }
+-    };
+-    const measure = () => {
+-      W = stage.clientWidth;
+-      H = stage.clientHeight;
+-      K = keys();
+-      place(Math.max(0, cur));
+-      onScroll();
+-    };
+-    jump.current = (kk: number) => {
+-      if (!mq.matches) return;
+-      const r = track.getBoundingClientRect();
+-      const top = parseFloat(getComputedStyle(sticky).top) || 0;
+-      const dist = Math.max(1, r.height - sticky.offsetHeight);
+-      const y = window.scrollY + r.top - top + (clamp(kk, 0, nRooms) / nRooms) * dist + (kk > 0 ? dist * 0.004 : 0);
+-      const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
+-      if (lenis) lenis.scrollTo(y, { duration: 1.2 });
+-      else window.scrollTo({ top: y, behavior: "smooth" });
++      raf = requestAnimationFrame(frame);
++      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
++      last = now;
++      if (!visible) return;
++      const W = root.clientWidth;
++      const H = root.clientHeight;
++      walkers.forEach((el, i) => {
++        const s = st[i];
++        if (!s.init) {
++          s.x = aisles[i % aisles.length] * W;
++          s.y = rnd(0.1, 0.9) * H;
++          s.wait = rnd(0, 3);
++          s.init = true;
++          pick(s, W, H);
++        }
++        let moving = false;
++        if (s.wait > 0) s.wait -= dt;
++        else {
++          const dx = s.tx - s.x;
++          const dy = s.ty - s.y;
++          const dist = Math.hypot(dx, dy);
++          const step = s.speed * dt;
++          if (dist <= step) {
++            s.x = s.tx;
++            s.y = s.ty;
++            s.wait = rnd(1.5, 6);
++            pick(s, W, H);
++          } else {
++            s.x += (dx / dist) * step;
++            s.y += (dy / dist) * step;
++            s.tgt = (Math.atan2(dy, dx) * 180) / Math.PI - 90;
++            moving = true;
++          }
++        }
++        const diff = ((s.tgt - s.cur + 540) % 360) - 180;
++        s.cur += diff * Math.min(1, dt * 5);
++        el.style.transform = `translate(${s.x.toFixed(1)}px, ${s.y.toFixed(1)}px)`;
++        el.dataset.pose = moving ? "walk" : "idle";
++        (el.firstElementChild as HTMLElement).style.transform = `rotate(${s.cur.toFixed(1)}deg)`;
++      });
+     };
+-    measure();
+-    window.addEventListener("scroll", onScroll, { passive: true });
+-    window.addEventListener("resize", measure);
+-    mq.addEventListener("change", measure);
+-    const io = new IntersectionObserver(([e]) => sticky.setAttribute("data-live", String(e.isIntersecting)), { rootMargin: "100px" });
+-    io.observe(track);
++    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { rootMargin: "100px" });
++    io.observe(root);
++    raf = requestAnimationFrame(frame);
+     return () => {
+-      window.removeEventListener("scroll", onScroll);
+-      window.removeEventListener("resize", measure);
+-      mq.removeEventListener("change", measure);
++      cancelAnimationFrame(raf);
+       io.disconnect();
+-      if (raf) cancelAnimationFrame(raf);
+     };
+-  }, [rooms, nRooms, PW, PH]);
++  }, []);
+ 
+   // ---- the card of a person ----
+-  const open = useCallback((p: Person, tone: number, el: HTMLElement) => {
++  const open = useCallback((p: TeamPerson, tone: number, el: HTMLElement) => {
+     window.clearTimeout(closeT.current);
++    const root = rootRef.current;
++    if (!root) return;
+     const r = el.getBoundingClientRect();
+-    setHot({ p, tone, x: r.left + r.width / 2, y: r.top });
++    const b = root.getBoundingClientRect();
++    // the card stands to the right of the person (to the left when there is no room), and stays inside the office
++    const x = r.left + r.width / 2 - b.left;
++    const y = r.top + r.height / 2 - b.top;
++    const w = 330;
++    const right = x + 34 + w <= root.clientWidth - 12;
++    setHot({ p, tone, left: right ? x + 34 : Math.max(12, x - 34 - w), top: clamp(y, 120, Math.max(120, root.clientHeight - 120)) });
+   }, []);
+   const closeSoon = useCallback((ms = 160) => {
+     window.clearTimeout(closeT.current);
+@@ -200,171 +215,195 @@ export function TeamOffice({ id, chip, heading, intro, members }: { id?: string;
+   useEffect(() => () => window.clearTimeout(closeT.current), []);
+   useEffect(() => {
+     if (!hot) return;
+-    const y0 = window.scrollY;
+-    const onScroll = () => Math.abs(window.scrollY - y0) > 40 && setHot(null);
+     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setHot(null);
+-    window.addEventListener("scroll", onScroll, { passive: true });
+     window.addEventListener("keydown", onKey);
+-    return () => {
+-      window.removeEventListener("scroll", onScroll);
+-      window.removeEventListener("keydown", onKey);
+-    };
++    return () => window.removeEventListener("keydown", onKey);
+   }, [hot]);
+-  // the card stays on the screen
+-  const cardStyle = () => {
+-    if (!hot) return {};
+-    const w = 330;
+-    const left = clamp(hot.x - w / 2, 12, (typeof window !== "undefined" ? window.innerWidth : 1200) - w - 12);
+-    const below = hot.y < 330;
+-    return { left, top: below ? hot.y + 96 : hot.y - 12, transform: below ? "none" : "translateY(-100%)", width: w } as React.CSSProperties;
+-  };
+ 
+-  const flat = rooms.flatMap((r) => r.people);
+-  const total = flat.length;
++  const hasPeople = people.length > 0;
++  const nDepts = byDepartment(people).length;
+ 
+-  const person = (pp: Room["people"][number], key: string) => (
+-    <div key={key} className="to-seat" style={{ left: pp.x, top: pp.y }}>
++  const seatPerson = (c: Corner, p: TeamPerson, seat: Seat, k: number) => {
++    const role = seat.kind === "p" ? "pres" : seat.kind === "w" ? "type" : seat.i === 1 ? "talk" : "meet";
++    // the round badge sits behind the person (away from the table)
++    const a = (seat.rot * Math.PI) / 180;
++    const bx = Math.sin(a) * 27;
++    const by = -Math.cos(a) * 27;
++    const on = hot?.p.id === p.id;
++    return (
+       <button
++        key={p.id}
+         type="button"
+-        className="to-hit"
+-        data-on={hot?.p === pp.p}
+-        aria-label={`${pp.p.name}, ${pp.p.role}`}
+-        onPointerEnter={(e) => e.pointerType === "mouse" && open(pp.p, pp.tone, e.currentTarget)}
++        className="to2-p"
++        data-on={on}
++        data-hl={highlightId === p.id}
++        style={{ left: seat.x, top: seat.y, "--tone": c.tone } as React.CSSProperties}
++        aria-label={`${p.name}${p.role ? ", " + p.role : ""}`}
++        onPointerEnter={(e) => e.pointerType === "mouse" && open(p, c.tone, e.currentTarget)}
+         onPointerLeave={(e) => e.pointerType === "mouse" && closeSoon()}
+-        onFocus={(e) => open(pp.p, pp.tone, e.currentTarget)}
++        onFocus={(e) => open(p, c.tone, e.currentTarget)}
+         onBlur={() => closeSoon(120)}
+-        onClick={(e) => open(pp.p, pp.tone, e.currentTarget)}
++        onClick={(e) => open(p, c.tone, e.currentTarget)}
+       >
+-        <span className="to-badge" style={{ "--tone": pp.tone } as React.CSSProperties}>
+-          {pp.p.photo ? (
++        <i className="to2-hit" />
++        <span className="to2-badge" style={{ left: bx, top: by }}>
++          {p.photo ? (
+             // eslint-disable-next-line @next/next/no-img-element
+-            <img src={pp.p.photo} alt="" loading="lazy" />
++            <img src={p.photo} alt="" loading="lazy" />
+           ) : (
+-            <b>{initials(pp.p.name)}</b>
++            <b>{initials(p.name)}</b>
+           )}
+         </span>
+-        <span className="to-av" style={{ "--rot": `${pp.row === 0 ? 0 : 180}deg`, "--tone": pp.tone } as React.CSSProperties}>
+-          <i className="of-chair" style={{ left: 0, top: pp.row === 0 ? 3 : -3 }} />
+-          <span className="of-pp" data-role="type" style={{ left: 0, top: 0, "--rot": `${pp.row === 0 ? 0 : 180}deg`, "--tone": pp.tone, "--d": `${((pp.x * 0.013) % 1.6).toFixed(2)}s` } as React.CSSProperties}>
+-            <PersonTop seated girl={pp.p.girl === "yes"} />
+-          </span>
++        <span
++          className="of-pp"
++          data-role={role}
++          style={{ left: 0, top: 0, "--rot": `${seat.rot}deg`, "--tone": c.tone + ((k * 17) % 40) - 20, "--d": `${((k * 0.37) % 1.6).toFixed(2)}s` } as React.CSSProperties}
++        >
++          <PersonTop seated={role !== "pres"} girl={p.girl} />
+         </span>
+       </button>
+-    </div>
+-  );
++    );
++  };
+ 
+-  return (
+-    <section ref={trackRef} id={id || "office"} className="to" style={{ "--n": nRooms } as React.CSSProperties} aria-label={heading}>
+-      {/* the same people as cards (a tablet, a phone, less motion; read by screen readers on a desktop) */}
+-      <div className="to-listwrap">
+-        <header className="to-head">
+-          <span className="md-chip">{chip}</span>
+-          <h2 className="text-vfade md-h2">{heading}</h2>
+-          {intro && <p className="md-intro to-intro">{intro}</p>}
+-        </header>
+-        {rooms.map((r) => (
+-          <div key={r.name} className="to-dept">
+-            <h3>
+-              {r.name} <span>{r.people.length}</span>
+-            </h3>
+-            <ul>
+-              {r.people.map((pp, i) => (
+-                <li key={i} className="to-card bglow">
+-                  <GlowEdge />
+-                  <span className="to-badge to-badge-l" style={{ "--tone": pp.tone } as React.CSSProperties}>
+-                    {pp.p.photo ? (
+-                      // eslint-disable-next-line @next/next/no-img-element
+-                      <img src={pp.p.photo} alt="" loading="lazy" />
+-                    ) : (
+-                      <b>{initials(pp.p.name)}</b>
+-                    )}
+-                  </span>
+-                  <div>
+-                    <h4>{pp.p.name}</h4>
+-                    <p className="to-role">{pp.p.role}</p>
+-                    <p className="to-bio">{pp.p.bio}</p>
+-                  </div>
+-                </li>
+-              ))}
+-            </ul>
+-          </div>
++  const corner = (c: Corner, order: number, style: React.CSSProperties) => {
++    const seated = c.people.map((p, i) => ({ p, seat: ORDER[i] }));
++    const workTaken = new Set(seated.filter((s) => s.seat.kind === "w").map((s) => s.seat.i));
++    const meetCount = seated.filter((s) => s.seat.kind === "m").length;
++    const Board = BOARDS[c.board % BOARDS.length];
++    return (
++      <div key={c.key} className="of-zone to2-zone" style={{ ...style, "--zt": c.tone, "--zi": order } as React.CSSProperties}>
++        <span className="of-carpet" />
++        <span className="of-label to2-label">{c.name}</span>
++        <span className="of-board">
++          <Board />
++        </span>
++        {WORK.map((w, i) => (
++          <i key={"wc" + i} className="of-chair" style={{ left: w.x, top: w.y + (w.rot ? -2 : 2) }} />
+         ))}
++        <span className="of-wt">
++          {WORK.map((w, i) => (workTaken.has(i) ? <i key={i} className="of-lap" style={{ left: w.lx, top: w.ly }} /> : null))}
++          <i className="of-mug" style={{ left: 66, top: 16 }} />
++        </span>
++        {MEET.map((m, i) => (
++          <i key={"mc" + i} className="of-chair" style={{ left: m.x, top: m.y }} />
++        ))}
++        <span className="of-mt">
++          <i className="of-paper" />
++          <i className="of-paper of-paper-b" />
++        </span>
++        {meetCount > 1 && (
++          <span className="of-say" aria-hidden>
++            <i />
++            <i />
++            <i />
++          </span>
++        )}
++        <span className="of-zplant" aria-hidden />
++        {seated.map(({ p, seat }, i) => seatPerson(c, p, seat, order * 9 + i))}
+       </div>
++    );
++  };
+ 
+-      <div ref={stickyRef} className="to-sticky" data-live="false">
+-        <div ref={stageRef} className="to-stage">
+-          <div ref={planRef} className="to-plan" style={{ width: PW, height: PH }}>
+-            <div className="to-floor" />
+-            <h3 className="to-title" aria-hidden>
+-              {heading}
+-            </h3>
+-            {rooms.map((r) => (
+-              <div key={r.name} className="to-room" style={{ left: r.x, top: r.y, width: r.w, height: ZH, "--tone": r.tone } as React.CSSProperties}>
+-                <span className="to-rname">{r.name}</span>
+-                <i className="to-table" />
+-                <i className="to-plant to-plant-a" />
+-                <i className="to-plant to-plant-b" />
+-              </div>
+-            ))}
+-            {flat.length > 0 && rooms.map((r) => r.people.map((pp, i) => person(pp, `${r.name}-${i}`)))}
+-          </div>
++  const SCALE = "scale(var(--zs))";
++  const leftX = "3.5%";
++  const rightX = "calc(96.5% - 300px * var(--zs))";
+ 
+-          <div className="to-ui" aria-hidden={false}>
+-            <div className="to-now" key={room}>
+-              <span className="to-now-k">{room < 0 ? "The office" : `Room ${room + 1} of ${nRooms}`}</span>
+-              <b>{room < 0 ? `${total} people` : rooms[room].name}</b>
+-              <span className="to-now-n">{room < 0 ? `${nRooms} departments` : `${rooms[room].people.length} ${rooms[room].people.length === 1 ? "person" : "people"}`}</span>
++  return (
++    <section id={id || "office"} className="to2-wrap" aria-label={heading}>
++      <div ref={rootRef} className="of to2" data-preview={preview}>
++        <div className="of-walls" aria-hidden>
++          <span className="of-wall of-wall-t of-wall-t1" />
++          <span className="of-wall of-wall-t of-wall-t2" />
++          <span className="of-wall of-wall-l" />
++          <span className="of-wall of-wall-r" />
++          <span className="of-wall of-wall-b" />
++          <span className="of-door" />
++        </div>
++        <div className="of-decor" aria-hidden>
++          <span className="of-plant" style={{ left: "24%", top: "6%" }} />
++          <span className="of-plant" style={{ left: "76%", top: "6%" }} />
++          <span className="of-plant" style={{ left: "24%", top: "50%" }} />
++          <span className="of-plant" style={{ left: "76%", top: "50%" }} />
++          <span className="of-plant" style={{ left: "24%", top: "95%" }} />
++          <span className="of-plant" style={{ left: "76%", top: "95%" }} />
++        </div>
++
++        {list.map((c, i) => {
++          const left = i < split;
++          const r = left ? i : i - split;
++          return corner(c, i, {
++            top: `calc(var(--toppad) + ${r} * var(--pitch))`,
++            left: left ? leftX : rightX,
++            transform: SCALE,
++          });
++        })}
++
++        {WALKER_TONES.map((tone, i) => (
++          <div key={i} data-walker="" className="of-walker" style={{ "--tone": tone } as React.CSSProperties}>
++            <div className="of-walker-in">
++              <PersonTop />
+             </div>
+-            <nav className="to-nav" aria-label="Rooms">
+-              <button type="button" data-on={room < 0} onClick={() => jump.current(0)} tabIndex={-1}>
+-                <i>All</i>
+-              </button>
+-              {rooms.map((r, i) => (
+-                <button key={r.name} type="button" data-on={room === i} onClick={() => jump.current(i + 1)} tabIndex={-1} title={r.name}>
+-                  <i>{String(i + 1).padStart(2, "0")}</i>
+-                  <span>{r.name}</span>
+-                </button>
+-              ))}
+-            </nav>
+-            <p className="to-hint">Scroll to walk through the office. Point at a person.</p>
+           </div>
++        ))}
++
++        <div className="to2-center">
++          {chip && <span className="to2-chip">{chip}</span>}
++          <h2 className="to2-h">{heading}</h2>
++          {intro && !preview && <p className="to2-intro">{intro}</p>}
++          <p className="to2-count">
++            {hasPeople ? (
++              <>
++                <b>{people.length}</b> {people.length === 1 ? "person" : "people"} · <b>{nDepts}</b> {nDepts === 1 ? "department" : "departments"}
++              </>
++            ) : (
++              "Nobody is in the office yet."
++            )}
++          </p>
++          {hasPeople && <p className="to2-hint">Point at a person to meet them.</p>}
+         </div>
+-      </div>
+ 
+-      {/* the card of the person that is pointed at */}
+-      {hot && (
+-        <div
+-          ref={cardRef}
+-          className="to-profile bglow"
+-          style={cardStyle()}
+-          role="status"
+-          onPointerEnter={() => window.clearTimeout(closeT.current)}
+-          onPointerLeave={(e) => e.pointerType === "mouse" && closeSoon()}
+-        >
+-          <GlowEdge />
+-          <div className="to-pr-top">
+-            <span className="to-badge to-badge-l" style={{ "--tone": hot.tone } as React.CSSProperties}>
+-              {hot.p.photo ? (
+-                // eslint-disable-next-line @next/next/no-img-element
+-                <img src={hot.p.photo} alt="" />
+-              ) : (
+-                <b>{initials(hot.p.name)}</b>
+-              )}
+-            </span>
+-            <div>
+-              <h4>{hot.p.name}</h4>
+-              <p className="to-role">{hot.p.role}</p>
++        {hot && (
++          <div
++            className="to2-card bglow"
++            style={{ left: hot.left, top: hot.top, width: 330 }}
++            role="status"
++            onPointerEnter={() => window.clearTimeout(closeT.current)}
++            onPointerLeave={(e) => e.pointerType === "mouse" && closeSoon()}
++          >
++            <GlowEdge />
++            <div className="to2-card-top">
++              <span className="to2-badge to2-badge-l" style={{ "--tone": hot.tone } as React.CSSProperties}>
++                {hot.p.photo ? (
++                  // eslint-disable-next-line @next/next/no-img-element
++                  <img src={hot.p.photo} alt="" />
++                ) : (
++                  <b>{initials(hot.p.name)}</b>
++                )}
++              </span>
++              <div>
++                <h3>{hot.p.name}</h3>
++                {hot.p.role && <p className="to2-role">{hot.p.role}</p>}
++              </div>
+             </div>
++            <span className="to2-dept">{hot.p.dept}</span>
++            {hot.p.bio && <p className="to2-bio">{hot.p.bio}</p>}
++            {hot.p.linkedin && (
++              <a href={hot.p.linkedin} target="_blank" rel="noopener noreferrer" className="to2-link">
++                LinkedIn →
++              </a>
++            )}
+           </div>
+-          <span className="to-pr-dept">{hot.p.dept}</span>
+-          <p className="to-bio">{hot.p.bio}</p>
+-          {hot.p.linkedin && (
+-            <a href={hot.p.linkedin} target="_blank" rel="noopener noreferrer" className="to-link">
+-              LinkedIn →
+-            </a>
+-          )}
+-        </div>
+-      )}
++        )}
++      </div>
++
++      {/* the same people as a plain list (for screen readers and search engines) */}
++      <ul className="to2-sr">
++        {people.map((p) => (
++          <li key={p.id}>
++            {p.name}, {p.role}, {p.dept}. {p.bio}
++          </li>
++        ))}
++      </ul>
+     </section>
+   );
+ }
+diff --git a/a/src/components/site/sections/team-office.tsx b/b/src/components/site/sections/team-office.tsx
+index 3ff8d8f..9e98d88 100644
+--- a/a/src/components/site/sections/team-office.tsx
++++ b/b/src/components/site/sections/team-office.tsx
+@@ -1,5 +1,9 @@
++import { getTeam } from "@/lib/team";
+ import { TeamOffice } from "../modern/team-office";
+ import type { SectionComponent } from "./shared";
+ 
+-/** The people of the company at their desks in the office seen from above (see modern/team-office.tsx). */
+-export const TeamOfficeSection: SectionComponent<"teamOffice"> = ({ data, sectionId }) => <TeamOffice id={sectionId === "teamOffice" ? "office" : sectionId} chip={data.chip} heading={data.heading} intro={data.intro} members={data.members} />;
++/** The people of the company in the office (see modern/team-office.tsx). The people come from the admin panel (Team). */
++export const TeamOfficeSection: SectionComponent<"teamOffice"> = async ({ data, sectionId }) => {
++  const people = await getTeam();
++  return <TeamOffice id={sectionId === "teamOffice" ? "office" : sectionId} chip={data.chip} heading={data.heading} intro={data.intro} people={people} />;
++};
+diff --git a/a/src/generated/prisma/browser.ts b/b/src/generated/prisma/browser.ts
+index 26650f6..e3993bc 100644
+--- a/a/src/generated/prisma/browser.ts
++++ b/b/src/generated/prisma/browser.ts
+@@ -57,3 +57,8 @@ export type Project = Prisma.ProjectModel
+  * 
+  */
+ export type BlogPost = Prisma.BlogPostModel
++/**
++ * Model TeamMember
++ * 
++ */
++export type TeamMember = Prisma.TeamMemberModel
+diff --git a/a/src/generated/prisma/client.ts b/b/src/generated/prisma/client.ts
+index a6c0323..90dc404 100644
+--- a/a/src/generated/prisma/client.ts
++++ b/b/src/generated/prisma/client.ts
+@@ -81,3 +81,8 @@ export type Project = Prisma.ProjectModel
+  * 
+  */
+ export type BlogPost = Prisma.BlogPostModel
++/**
++ * Model TeamMember
++ * 
++ */
++export type TeamMember = Prisma.TeamMemberModel
+diff --git a/a/src/generated/prisma/internal/class.ts b/b/src/generated/prisma/internal/class.ts
+index f5ad6b0..57f6e58 100644
+--- a/a/src/generated/prisma/internal/class.ts
++++ b/b/src/generated/prisma/internal/class.ts
+@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
+   "clientVersion": "7.10.0",
+   "engineVersion": "0edf323efd1d98336f3f0a68684b56f689b900d3",
+   "activeProvider": "postgresql",
+-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel AdminUser {\n  id           String    @id @default(cuid())\n  email        String    @unique\n  name         String\n  passwordHash String\n  createdAt    DateTime  @default(now())\n  lastLoginAt  DateTime?\n}\n\n// One row per editable website page. `draft` is what the editor works on,\n// `published` is what visitors see. Both hold { sections: [...] } JSON.\nmodel Page {\n  id             String        @id @default(cuid())\n  slug           String        @unique\n  title          String\n  seoTitle       String        @default(\"\")\n  seoDescription String        @default(\"\")\n  draft          Json?\n  published      Json?\n  publishedAt    DateTime?\n  createdAt      DateTime      @default(now())\n  updatedAt      DateTime      @updatedAt\n  versions       PageVersion[]\n}\n\n// Snapshot taken on every publish (we keep the latest 10 per page).\nmodel PageVersion {\n  id        String   @id @default(cuid())\n  pageId    String\n  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)\n  content   Json\n  createdAt DateTime @default(now())\n\n  @@index([pageId, createdAt])\n}\n\n// Key/value JSON store for site-wide settings (key \"site\" = logo text, contact, nav, footer).\nmodel Setting {\n  key       String   @id\n  value     Json\n  updatedAt DateTime @updatedAt\n}\n\nmodel Lead {\n  id        String   @id @default(cuid())\n  name      String\n  email     String\n  phone     String   @default(\"\")\n  message   String\n  isRead    Boolean  @default(false)\n  createdAt DateTime @default(now())\n\n  @@index([createdAt])\n}\n\n// An uploaded picture (the admin panel resizes it to a light .webp before uploading). Served by /media/<id>; the id never changes\n// content, a replaced picture gets a new id, so the browser may keep it for a year.\nmodel Media {\n  id        String   @id @default(cuid())\n  name      String   @default(\"\")\n  mime      String\n  size      Int\n  data      Bytes\n  createdAt DateTime @default(now())\n}\n\n// One portfolio project (a client work). The pictures are links (/media/<id> for uploaded ones). \\`group\\` says where it is shown:\n// \"brand\" = the sliding arches of the Brand Design page; every published project is also on the Portfolio page.\nmodel Project {\n  id        String   @id @default(cuid())\n  slug      String   @unique\n  title     String\n  category  String   @default(\"\")\n  summary   String   @default(\"\")\n  content   String   @default(\"\")\n  cover     String   @default(\"\")\n  images    Json     @default(\"[]\")\n  group     String   @default(\"brand\")\n  sortOrder Int      @default(0)\n  published Boolean  @default(true)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([group, sortOrder])\n}\n\n// One article of the blog (Blog in the admin panel). \\`cover\\` is a link (/media/<id> for an uploaded picture); \\`tile\\` is the shape of its picture\n// on the Blog page (landscape, square, portrait or tall); \\`content\\` is the article in a light text markup (## heading, - point, empty line between\n// paragraphs); \\`faq\\` is a list of { question, answer }; \\`sortOrder\\` is the place in the list of the Blog page (smaller = earlier).\nmodel BlogPost {\n  id          String   @id @default(cuid())\n  slug        String   @unique\n  title       String\n  category    String   @default(\"\")\n  summary     String   @default(\"\")\n  cover       String   @default(\"\")\n  tile        String   @default(\"portrait\")\n  content     String   @default(\"\")\n  tags        Json     @default(\"[]\")\n  faq         Json     @default(\"[]\")\n  publishedAt DateTime @default(now())\n  sortOrder   Int      @default(0)\n  published   Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  @@index([sortOrder])\n}\n",
++  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel AdminUser {\n  id           String    @id @default(cuid())\n  email        String    @unique\n  name         String\n  passwordHash String\n  createdAt    DateTime  @default(now())\n  lastLoginAt  DateTime?\n}\n\n// One row per editable website page. `draft` is what the editor works on,\n// `published` is what visitors see. Both hold { sections: [...] } JSON.\nmodel Page {\n  id             String        @id @default(cuid())\n  slug           String        @unique\n  title          String\n  seoTitle       String        @default(\"\")\n  seoDescription String        @default(\"\")\n  draft          Json?\n  published      Json?\n  publishedAt    DateTime?\n  createdAt      DateTime      @default(now())\n  updatedAt      DateTime      @updatedAt\n  versions       PageVersion[]\n}\n\n// Snapshot taken on every publish (we keep the latest 10 per page).\nmodel PageVersion {\n  id        String   @id @default(cuid())\n  pageId    String\n  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)\n  content   Json\n  createdAt DateTime @default(now())\n\n  @@index([pageId, createdAt])\n}\n\n// Key/value JSON store for site-wide settings (key \"site\" = logo text, contact, nav, footer).\nmodel Setting {\n  key       String   @id\n  value     Json\n  updatedAt DateTime @updatedAt\n}\n\nmodel Lead {\n  id        String   @id @default(cuid())\n  name      String\n  email     String\n  phone     String   @default(\"\")\n  message   String\n  isRead    Boolean  @default(false)\n  createdAt DateTime @default(now())\n\n  @@index([createdAt])\n}\n\n// An uploaded picture (the admin panel resizes it to a light .webp before uploading). Served by /media/<id>; the id never changes\n// content, a replaced picture gets a new id, so the browser may keep it for a year.\nmodel Media {\n  id        String   @id @default(cuid())\n  name      String   @default(\"\")\n  mime      String\n  size      Int\n  data      Bytes\n  createdAt DateTime @default(now())\n}\n\n// One portfolio project (a client work). The pictures are links (/media/<id> for uploaded ones). \\`group\\` says where it is shown:\n// \"brand\" = the sliding arches of the Brand Design page; every published project is also on the Portfolio page.\nmodel Project {\n  id        String   @id @default(cuid())\n  slug      String   @unique\n  title     String\n  category  String   @default(\"\")\n  summary   String   @default(\"\")\n  content   String   @default(\"\")\n  cover     String   @default(\"\")\n  images    Json     @default(\"[]\")\n  group     String   @default(\"brand\")\n  sortOrder Int      @default(0)\n  published Boolean  @default(true)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([group, sortOrder])\n}\n\n// One article of the blog (Blog in the admin panel). \\`cover\\` is a link (/media/<id> for an uploaded picture); \\`tile\\` is the shape of its picture\n// on the Blog page (landscape, square, portrait or tall); \\`content\\` is the article in a light text markup (## heading, - point, empty line between\n// paragraphs); \\`faq\\` is a list of { question, answer }; \\`sortOrder\\` is the place in the list of the Blog page (smaller = earlier).\nmodel BlogPost {\n  id          String   @id @default(cuid())\n  slug        String   @unique\n  title       String\n  category    String   @default(\"\")\n  summary     String   @default(\"\")\n  cover       String   @default(\"\")\n  tile        String   @default(\"portrait\")\n  content     String   @default(\"\")\n  tags        Json     @default(\"[]\")\n  faq         Json     @default(\"[]\")\n  publishedAt DateTime @default(now())\n  sortOrder   Int      @default(0)\n  published   Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  @@index([sortOrder])\n}\n\n// One person of the office on the Team page (Team in the admin panel). `dept` is the department (the people of one department sit in one\n// corner of the office, in the order of `sortOrder`); `photo` is a link (/media/<id> for an uploaded picture); `girl` draws the avatar as a woman.\nmodel TeamMember {\n  id        String   @id @default(cuid())\n  name      String\n  role      String   @default(\"\")\n  dept      String   @default(\"Team\")\n  bio       String   @default(\"\")\n  photo     String   @default(\"\")\n  linkedin  String   @default(\"\")\n  girl      Boolean  @default(false)\n  sortOrder Int      @default(0)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([sortOrder])\n}\n",
+   "runtimeDataModel": {
+     "models": {},
+     "enums": {},
+@@ -32,10 +32,10 @@ const config: runtime.GetPrismaClientConfig = {
+   }
+ }
+ 
+-config.runtimeDataModel = JSON.parse("{\"models\":{\"AdminUser\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastLoginAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Page\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"draft\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"versions\",\"kind\":\"object\",\"type\":\"PageVersion\",\"relationName\":\"PageToPageVersion\"}],\"dbName\":null,\"schema\":null},\"PageVersion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"page\",\"kind\":\"object\",\"type\":\"Page\",\"relationName\":\"PageToPageVersion\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Setting\":{\"fields\":[{\"name\":\"key\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Lead\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isRead\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Media\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"data\",\"kind\":\"scalar\",\"type\":\"Bytes\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cover\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"images\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"group\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"BlogPost\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cover\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tile\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"faq\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null}},\"enums\":{},\"types\":{}}")
++config.runtimeDataModel = JSON.parse("{\"models\":{\"AdminUser\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastLoginAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Page\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"draft\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"versions\",\"kind\":\"object\",\"type\":\"PageVersion\",\"relationName\":\"PageToPageVersion\"}],\"dbName\":null,\"schema\":null},\"PageVersion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"page\",\"kind\":\"object\",\"type\":\"Page\",\"relationName\":\"PageToPageVersion\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Setting\":{\"fields\":[{\"name\":\"key\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Lead\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isRead\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Media\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"data\",\"kind\":\"scalar\",\"type\":\"Bytes\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cover\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"images\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"group\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"BlogPost\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cover\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tile\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"faq\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"TeamMember\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dept\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bio\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"photo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"linkedin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"girl\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null}},\"enums\":{},\"types\":{}}")
+ config.parameterizationSchema = {
+-  strings: JSON.parse("[\"where\",\"AdminUser.findUnique\",\"AdminUser.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"AdminUser.findFirst\",\"AdminUser.findFirstOrThrow\",\"AdminUser.findMany\",\"data\",\"AdminUser.createOne\",\"AdminUser.createMany\",\"AdminUser.createManyAndReturn\",\"AdminUser.updateOne\",\"AdminUser.updateMany\",\"AdminUser.updateManyAndReturn\",\"create\",\"update\",\"AdminUser.upsertOne\",\"AdminUser.deleteOne\",\"AdminUser.deleteMany\",\"having\",\"_count\",\"_min\",\"_max\",\"AdminUser.groupBy\",\"AdminUser.aggregate\",\"page\",\"versions\",\"Page.findUnique\",\"Page.findUniqueOrThrow\",\"Page.findFirst\",\"Page.findFirstOrThrow\",\"Page.findMany\",\"Page.createOne\",\"Page.createMany\",\"Page.createManyAndReturn\",\"Page.updateOne\",\"Page.updateMany\",\"Page.updateManyAndReturn\",\"Page.upsertOne\",\"Page.deleteOne\",\"Page.deleteMany\",\"Page.groupBy\",\"Page.aggregate\",\"PageVersion.findUnique\",\"PageVersion.findUniqueOrThrow\",\"PageVersion.findFirst\",\"PageVersion.findFirstOrThrow\",\"PageVersion.findMany\",\"PageVersion.createOne\",\"PageVersion.createMany\",\"PageVersion.createManyAndReturn\",\"PageVersion.updateOne\",\"PageVersion.updateMany\",\"PageVersion.updateManyAndReturn\",\"PageVersion.upsertOne\",\"PageVersion.deleteOne\",\"PageVersion.deleteMany\",\"PageVersion.groupBy\",\"PageVersion.aggregate\",\"Setting.findUnique\",\"Setting.findUniqueOrThrow\",\"Setting.findFirst\",\"Setting.findFirstOrThrow\",\"Setting.findMany\",\"Setting.createOne\",\"Setting.createMany\",\"Setting.createManyAndReturn\",\"Setting.updateOne\",\"Setting.updateMany\",\"Setting.updateManyAndReturn\",\"Setting.upsertOne\",\"Setting.deleteOne\",\"Setting.deleteMany\",\"Setting.groupBy\",\"Setting.aggregate\",\"Lead.findUnique\",\"Lead.findUniqueOrThrow\",\"Lead.findFirst\",\"Lead.findFirstOrThrow\",\"Lead.findMany\",\"Lead.createOne\",\"Lead.createMany\",\"Lead.createManyAndReturn\",\"Lead.updateOne\",\"Lead.updateMany\",\"Lead.updateManyAndReturn\",\"Lead.upsertOne\",\"Lead.deleteOne\",\"Lead.deleteMany\",\"Lead.groupBy\",\"Lead.aggregate\",\"Media.findUnique\",\"Media.findUniqueOrThrow\",\"Media.findFirst\",\"Media.findFirstOrThrow\",\"Media.findMany\",\"Media.createOne\",\"Media.createMany\",\"Media.createManyAndReturn\",\"Media.updateOne\",\"Media.updateMany\",\"Media.updateManyAndReturn\",\"Media.upsertOne\",\"Media.deleteOne\",\"Media.deleteMany\",\"_avg\",\"_sum\",\"Media.groupBy\",\"Media.aggregate\",\"Project.findUnique\",\"Project.findUniqueOrThrow\",\"Project.findFirst\",\"Project.findFirstOrThrow\",\"Project.findMany\",\"Project.createOne\",\"Project.createMany\",\"Project.createManyAndReturn\",\"Project.updateOne\",\"Project.updateMany\",\"Project.updateManyAndReturn\",\"Project.upsertOne\",\"Project.deleteOne\",\"Project.deleteMany\",\"Project.groupBy\",\"Project.aggregate\",\"BlogPost.findUnique\",\"BlogPost.findUniqueOrThrow\",\"BlogPost.findFirst\",\"BlogPost.findFirstOrThrow\",\"BlogPost.findMany\",\"BlogPost.createOne\",\"BlogPost.createMany\",\"BlogPost.createManyAndReturn\",\"BlogPost.updateOne\",\"BlogPost.updateMany\",\"BlogPost.updateManyAndReturn\",\"BlogPost.upsertOne\",\"BlogPost.deleteOne\",\"BlogPost.deleteMany\",\"BlogPost.groupBy\",\"BlogPost.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"slug\",\"title\",\"category\",\"summary\",\"cover\",\"tile\",\"content\",\"tags\",\"faq\",\"publishedAt\",\"sortOrder\",\"published\",\"createdAt\",\"updatedAt\",\"equals\",\"not\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"string_contains\",\"string_starts_with\",\"string_ends_with\",\"array_starts_with\",\"array_ends_with\",\"array_contains\",\"contains\",\"startsWith\",\"endsWith\",\"images\",\"group\",\"name\",\"mime\",\"size\",\"email\",\"phone\",\"message\",\"isRead\",\"key\",\"value\",\"pageId\",\"seoTitle\",\"seoDescription\",\"draft\",\"every\",\"some\",\"none\",\"passwordHash\",\"lastLoginAt\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"createMany\",\"set\",\"disconnect\",\"delete\",\"connect\",\"updateMany\",\"deleteMany\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
+-  graph: "uQJIgAEJjgEAAPwBADCPAQAABAAQkAEAAPwBADCRAQEAAAABngFAAN4BACGzAQEA3AEAIbYBAQAAAAHDAQEA3AEAIcQBQAD3AQAhAQAAAAEAIAEAAAABACAJjgEAAPwBADCPAQAABAAQkAEAAPwBADCRAQEA3AEAIZ4BQADeAQAhswEBANwBACG2AQEA3AEAIcMBAQDcAQAhxAFAAPcBACEBxAEAAJwCACADAAAABAAgAwAABQAwBAAAAQAgAwAAAAQAIAMAAAUAMAQAAAEAIAMAAAAEACADAAAFADAEAAABACAGkQEBAAAAAZ4BQAAAAAGzAQEAAAABtgEBAAAAAcMBAQAAAAHEAUAAAAABAQgAAAkAIAaRAQEAAAABngFAAAAAAbMBAQAAAAG2AQEAAAABwwEBAAAAAcQBQAAAAAEBCAAACwAwAQgAAAsAMAaRAQEAggIAIZ4BQACDAgAhswEBAIICACG2AQEAggIAIcMBAQCCAgAhxAFAAKACACECAAAAAQAgCAAADgAgBpEBAQCCAgAhngFAAIMCACGzAQEAggIAIbYBAQCCAgAhwwEBAIICACHEAUAAoAIAIQIAAAAEACAIAAAQACACAAAABAAgCAAAEAAgAwAAAAEAIA8AAAkAIBAAAA4AIAEAAAABACABAAAABAAgBBUAALECACAWAACzAgAgFwAAsgIAIMQBAACcAgAgCY4BAAD7AQAwjwEAABcAEJABAAD7AQAwkQEBAMwBACGeAUAAzgEAIbMBAQDMAQAhtgEBAMwBACHDAQEAzAEAIcQBQADwAQAhAwAAAAQAIAMAABYAMBQAABcAIAMAAAAEACADAAAFADAEAAABACAOGwAA-AEAII4BAAD1AQAwjwEAACIAEJABAAD1AQAwkQEBAAAAAZIBAQAAAAGTAQEA3AEAIZsBQAD3AQAhnQEAAPYBACCeAUAA3gEAIZ8BQADeAQAhvQEBANwBACG-AQEA3AEAIb8BAAD2AQAgAQAAABoAIAgaAAD6AQAgjgEAAPkBADCPAQAAHAAQkAEAAPkBADCRAQEA3AEAIZgBAADdAQAgngFAAN4BACG8AQEA3AEAIQEaAACwAgAgCBoAAPoBACCOAQAA-QEAMI8BAAAcABCQAQAA-QEAMJEBAQAAAAGYAQAA3QEAIJ4BQADeAQAhvAEBANwBACEDAAAAHAAgAwAAHQAwBAAAHgAgAQAAABwAIAEAAAAaACAOGwAA-AEAII4BAAD1AQAwjwEAACIAEJABAAD1AQAwkQEBANwBACGSAQEA3AEAIZMBAQDcAQAhmwFAAPcBACGdAQAA9gEAIJ4BQADeAQAhnwFAAN4BACG9AQEA3AEAIb4BAQDcAQAhvwEAAPYBACAEGwAArwIAIJsBAACcAgAgnQEAAJwCACC_AQAAnAIAIAMAAAAiACADAAAjADAEAAAaACADAAAAIgAgAwAAIwAwBAAAGgAgAwAAACIAIAMAACMAMAQAABoAIAsbAACuAgAgkQEBAAAAAZIBAQAAAAGTAQEAAAABmwFAAAAAAZ0BgAAAAAGeAUAAAAABnwFAAAAAAb0BAQAAAAG-AQEAAAABvwGAAAAAAQEIAAAnACAKkQEBAAAAAZIBAQAAAAGTAQEAAAABmwFAAAAAAZ0BgAAAAAGeAUAAAAABnwFAAAAAAb0BAQAAAAG-AQEAAAABvwGAAAAAAQEIAAApADABCAAAKQAwCxsAAKECACCRAQEAggIAIZIBAQCCAgAhkwEBAIICACGbAUAAoAIAIZ0BgAAAAAGeAUAAgwIAIZ8BQACDAgAhvQEBAIICACG-AQEAggIAIb8BgAAAAAECAAAAGgAgCAAALAAgCpEBAQCCAgAhkgEBAIICACGTAQEAggIAIZsBQACgAgAhnQGAAAAAAZ4BQACDAgAhnwFAAIMCACG9AQEAggIAIb4BAQCCAgAhvwGAAAAAAQIAAAAiACAIAAAuACACAAAAIgAgCAAALgAgAwAAABoAIA8AACcAIBAAACwAIAEAAAAaACABAAAAIgAgBhUAAJ0CACAWAACfAgAgFwAAngIAIJsBAACcAgAgnQEAAJwCACC_AQAAnAIAIA2OAQAA7gEAMI8BAAA1ABCQAQAA7gEAMJEBAQDMAQAhkgEBAMwBACGTAQEAzAEAIZsBQADwAQAhnQEAAO8BACCeAUAAzgEAIZ8BQADOAQAhvQEBAMwBACG-AQEAzAEAIb8BAADvAQAgAwAAACIAIAMAADQAMBQAADUAIAMAAAAiACADAAAjADAEAAAaACABAAAAHgAgAQAAAB4AIAMAAAAcACADAAAdADAEAAAeACADAAAAHAAgAwAAHQAwBAAAHgAgAwAAABwAIAMAAB0AMAQAAB4AIAUaAACbAgAgkQEBAAAAAZgBgAAAAAGeAUAAAAABvAEBAAAAAQEIAAA9ACAEkQEBAAAAAZgBgAAAAAGeAUAAAAABvAEBAAAAAQEIAAA_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AQAgD5EBAQAAAAGSAQEAAAABkwEBAAAAAZQBAQAAAAGVAQEAAAABlgEBAAAAAZcBAQAAAAGYAQEAAAABmQGAAAAAAZoBgAAAAAGbAUAAAAABnAECAAAAAZ0BIAAAAAGeAUAAAAABnwFAAAAAAQEIAAC8AQAwAQgAALwBADAPkQEBAIICACGSAQEAggIAIZMBAQCCAgAhlAEBAIICACGVAQEAggIAIZYBAQCCAgAhlwEBAIICACGYAQEAggIAIZkBgAAAAAGaAYAAAAABmwFAAIMCACGcAQIAhAIAIZ0BIACFAgAhngFAAIMCACGfAUAAgwIAIQIAAACyAQAgCAAAvwEAIA-RAQEAggIAIZIBAQCCAgAhkwEBAIICACGUAQEAggIAIZUBAQCCAgAhlgEBAIICACGXAQEAggIAIZgBAQCCAgAhmQGAAAAAAZoBgAAAAAGbAUAAgwIAIZwBAgCEAgAhnQEgAIUCACGeAUAAgwIAIZ8BQACDAgAhAgAAALUBACAIAADBAQAgAgAAALUBACAIAADBAQAgAwAAALIBACAPAAC6AQAgEAAAvwEAIAEAAACyAQAgAQAAALUBACAFFQAA_QEAIBYAAIACACAXAAD_AQAgagAA_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-QEAMI8BAAAcABCQAQAA-QEAMJEBAQDcAQAhmAEAAN0BACCeAUAA3gEAIbwBAQDcAQAhEBsAAPgBACCOAQAA9QEAMI8BAAAiABCQAQAA9QEAMJEBAQDcAQAhkgEBANwBACGTAQEA3AEAIZsBQAD3AQAhnQEAAPYBACCeAUAA3gEAIZ8BQADeAQAhvQEBANwBACG-AQEA3AEAIb8BAAD2AQAgxQEAACIAIMYBAAAiACAJjgEAAPsBADCPAQAAFwAQkAEAAPsBADCRAQEAzAEAIZ4BQADOAQAhswEBAMwBACG2AQEAzAEAIcMBAQDMAQAhxAFAAPABACEJjgEAAPwBADCPAQAABAAQkAEAAPwBADCRAQEA3AEAIZ4BQADeAQAhswEBANwBACG2AQEA3AEAIcMBAQDcAQAhxAFAAPcBACEAAAAAAAHKAQEAAAABAcoBQAAAAAEFygECAAAAAdABAgAAAAHRAQIAAAAB0gECAAAAAdMBAgAAAAEBygEgAAAAAQAAAAAAAAAAAAABygEAAQAAAQAAAAAAAAAAAAUPAAC1AgAgEAAAuAIAIMcBAAC2AgAgyAEAALcCACDNAQAAGgAgAw8AALUCACDHAQAAtgIAIM0BAAAaACAAAAAAAcoBQAAAAAELDwAAogIAMBAAAKcCADDHAQAAowIAMMgBAACkAgAwyQEAAKUCACDKAQAApgIAMMsBAACmAgAwzAEAAKYCADDNAQAApgIAMM4BAACoAgAwzwEAAKkCADADkQEBAAAAAZgBgAAAAAGeAUAAAAABAgAAAB4AIA8AAK0CACADAAAAHgAgDwAArQIAIBAAAKwCACABCAAAtAIAMAgaAAD6AQAgjgEAAPkBADCPAQAAHAAQkAEAAPkBADCRAQEAAAABmAEAAN0BACCeAUAA3gEAIbwBAQDcAQAhAgAAAB4AIAgAAKwCACACAAAAqgIAIAgAAKsCACAHjgEAAKkCADCPAQAAqgIAEJABAACpAgAwkQEBANwBACGYAQAA3QEAIJ4BQADeAQAhvAEBANwBACEHjgEAAKkCADCPAQAAqgIAEJABAACpAgAwkQEBANwBACGYAQAA3QEAIJ4BQADeAQAhvAEBANwBACEDkQEBAIICACGYAYAAAAABngFAAIMCACEDkQEBAIICACGYAYAAAAABngFAAIMCACEDkQEBAAAAAZgBgAAAAAGeAUAAAAABBA8AAKICADDHAQAAowIAMMkBAAClAgAgzQEAAKYCADAABBsAAK8CACCbAQAAnAIAIJ0BAACcAgAgvwEAAJwCACAAAAADkQEBAAAAAZgBgAAAAAGeAUAAAAABCpEBAQAAAAGSAQEAAAABkwEBAAAAAZsBQAAAAAGdAYAAAAABngFAAAAAAZ8BQAAAAAG9AQEAAAABvgEBAAAAAb8BgAAAAAECAAAAGgAgDwAAtQIAIAMAAAAiACAPAAC1AgAgEAAAuQIAIAwAAAAiACAIAAC5AgAgkQEBAIICACGSAQEAggIAIZMBAQCCAgAhmwFAAKACACGdAYAAAAABngFAAIMCACGfAUAAgwIAIb0BAQCCAgAhvgEBAIICACG_AYAAAAABCpEBAQCCAgAhkgEBAIICACGTAQEAggIAIZsBQACgAgAhnQGAAAAAAZ4BQACDAgAhnwFAAIMCACG9AQEAggIAIb4BAQCCAgAhvwGAAAAAAQAAAAADFQAGFgAHFwAIAAAAAxUABhYABxcACAIVAAwbHwsBGgAKARsgAAAAAxUAEBYAERcAEgAAAAMVABAWABEXABIBGgAKARoACgMVABcWABgXABkAAAADFQAXFgAYFwAZAAAAAxUAHxYAIBcAIQAAAAMVAB8WACAXACEAAAADFQAnFgAoFwApAAAAAxUAJxYAKBcAKQAAAAUVAC8WADIXADNqADBrADEAAAAAAAUVAC8WADIXADNqADBrADEAAAAFFQA5FgA8FwA9agA6awA7AAAAAAAFFQA5FgA8FwA9agA6awA7AAAABRUAQxYARhcAR2oARGsARQAAAAAABRUAQxYARhcAR2oARGsARQECAQIDAQUGAQYHAQcIAQkKAQoMAgsNAwwPAQ0RAg4SBBETARIUARMVAhgYBRkZCRwbCh0hCh4kCh8lCiAmCiEoCiIqAiMrDSQtCiUvAiYwDicxCigyCikzAio2Dys3Eyw4Cy05Cy46Cy87CzA8CzE-CzJAAjNBFDRDCzVFAjZGFTdHCzhICzlJAjpMFjtNGjxPGz1QGz5TGz9UG0BVG0FXG0JZAkNaHERcG0VeAkZfHUdgG0hhG0liAkplHktmIkxoI01pI05sI09tI1BuI1FwI1JyAlNzJFR1I1V3AlZ4JVd5I1h6I1l7Alp-Jlt_KlyBAStdggErXoUBK1-GAStghwErYYkBK2KLAQJjjAEsZI4BK2WQAQJmkQEtZ5IBK2iTAStplAECbJcBLm2YATRumgE1b5sBNXCeATVxnwE1cqABNXOiATV0pAECdaUBNnanATV3qQECeKoBN3mrATV6rAE1e60BAnywATh9sQE-frMBP3-0AT-AAbcBP4EBuAE_ggG5AT-DAbsBP4QBvQEChQG-AUCGAcABP4cBwgECiAHDAUGJAcQBP4oBxQE_iwHGAQKMAckBQo0BygFI"
++  strings: JSON.parse("[\"where\",\"AdminUser.findUnique\",\"AdminUser.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"AdminUser.findFirst\",\"AdminUser.findFirstOrThrow\",\"AdminUser.findMany\",\"data\",\"AdminUser.createOne\",\"AdminUser.createMany\",\"AdminUser.createManyAndReturn\",\"AdminUser.updateOne\",\"AdminUser.updateMany\",\"AdminUser.updateManyAndReturn\",\"create\",\"update\",\"AdminUser.upsertOne\",\"AdminUser.deleteOne\",\"AdminUser.deleteMany\",\"having\",\"_count\",\"_min\",\"_max\",\"AdminUser.groupBy\",\"AdminUser.aggregate\",\"page\",\"versions\",\"Page.findUnique\",\"Page.findUniqueOrThrow\",\"Page.findFirst\",\"Page.findFirstOrThrow\",\"Page.findMany\",\"Page.createOne\",\"Page.createMany\",\"Page.createManyAndReturn\",\"Page.updateOne\",\"Page.updateMany\",\"Page.updateManyAndReturn\",\"Page.upsertOne\",\"Page.deleteOne\",\"Page.deleteMany\",\"Page.groupBy\",\"Page.aggregate\",\"PageVersion.findUnique\",\"PageVersion.findUniqueOrThrow\",\"PageVersion.findFirst\",\"PageVersion.findFirstOrThrow\",\"PageVersion.findMany\",\"PageVersion.createOne\",\"PageVersion.createMany\",\"PageVersion.createManyAndReturn\",\"PageVersion.updateOne\",\"PageVersion.updateMany\",\"PageVersion.updateManyAndReturn\",\"PageVersion.upsertOne\",\"PageVersion.deleteOne\",\"PageVersion.deleteMany\",\"PageVersion.groupBy\",\"PageVersion.aggregate\",\"Setting.findUnique\",\"Setting.findUniqueOrThrow\",\"Setting.findFirst\",\"Setting.findFirstOrThrow\",\"Setting.findMany\",\"Setting.createOne\",\"Setting.createMany\",\"Setting.createManyAndReturn\",\"Setting.updateOne\",\"Setting.updateMany\",\"Setting.updateManyAndReturn\",\"Setting.upsertOne\",\"Setting.deleteOne\",\"Setting.deleteMany\",\"Setting.groupBy\",\"Setting.aggregate\",\"Lead.findUnique\",\"Lead.findUniqueOrThrow\",\"Lead.findFirst\",\"Lead.findFirstOrThrow\",\"Lead.findMany\",\"Lead.createOne\",\"Lead.createMany\",\"Lead.createManyAndReturn\",\"Lead.updateOne\",\"Lead.updateMany\",\"Lead.updateManyAndReturn\",\"Lead.upsertOne\",\"Lead.deleteOne\",\"Lead.deleteMany\",\"Lead.groupBy\",\"Lead.aggregate\",\"Media.findUnique\",\"Media.findUniqueOrThrow\",\"Media.findFirst\",\"Media.findFirstOrThrow\",\"Media.findMany\",\"Media.createOne\",\"Media.createMany\",\"Media.createManyAndReturn\",\"Media.updateOne\",\"Media.updateMany\",\"Media.updateManyAndReturn\",\"Media.upsertOne\",\"Media.deleteOne\",\"Media.deleteMany\",\"_avg\",\"_sum\",\"Media.groupBy\",\"Media.aggregate\",\"Project.findUnique\",\"Project.findUniqueOrThrow\",\"Project.findFirst\",\"Project.findFirstOrThrow\",\"Project.findMany\",\"Project.createOne\",\"Project.createMany\",\"Project.createManyAndReturn\",\"Project.updateOne\",\"Project.updateMany\",\"Project.updateManyAndReturn\",\"Project.upsertOne\",\"Project.deleteOne\",\"Project.deleteMany\",\"Project.groupBy\",\"Project.aggregate\",\"BlogPost.findUnique\",\"BlogPost.findUniqueOrThrow\",\"BlogPost.findFirst\",\"BlogPost.findFirstOrThrow\",\"BlogPost.findMany\",\"BlogPost.createOne\",\"BlogPost.createMany\",\"BlogPost.createManyAndReturn\",\"BlogPost.updateOne\",\"BlogPost.updateMany\",\"BlogPost.updateManyAndReturn\",\"BlogPost.upsertOne\",\"BlogPost.deleteOne\",\"BlogPost.deleteMany\",\"BlogPost.groupBy\",\"BlogPost.aggregate\",\"TeamMember.findUnique\",\"TeamMember.findUniqueOrThrow\",\"TeamMember.findFirst\",\"TeamMember.findFirstOrThrow\",\"TeamMember.findMany\",\"TeamMember.createOne\",\"TeamMember.createMany\",\"TeamMember.createManyAndReturn\",\"TeamMember.updateOne\",\"TeamMember.updateMany\",\"TeamMember.updateManyAndReturn\",\"TeamMember.upsertOne\",\"TeamMember.deleteOne\",\"TeamMember.deleteMany\",\"TeamMember.groupBy\",\"TeamMember.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"role\",\"dept\",\"bio\",\"photo\",\"linkedin\",\"girl\",\"sortOrder\",\"createdAt\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"slug\",\"title\",\"category\",\"summary\",\"cover\",\"tile\",\"content\",\"tags\",\"faq\",\"publishedAt\",\"published\",\"string_contains\",\"string_starts_with\",\"string_ends_with\",\"array_starts_with\",\"array_ends_with\",\"array_contains\",\"images\",\"group\",\"mime\",\"size\",\"email\",\"phone\",\"message\",\"isRead\",\"key\",\"value\",\"pageId\",\"seoTitle\",\"seoDescription\",\"draft\",\"every\",\"some\",\"none\",\"passwordHash\",\"lastLoginAt\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"createMany\",\"set\",\"disconnect\",\"delete\",\"connect\",\"updateMany\",\"deleteMany\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
++  graph: "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_AgAgFwAAvgIAIMABAAC8AgAgwQEAALwCACDVAQAAvAIAIA2eAQAAiQIAMJ8BAAA1ABCgAQAAiQIAMKEBAQDlAQAhqgFAAOgBACGrAUAA6AEAIbcBAQDlAQAhuAEBAOUBACHAAUAAiwIAIcEBAACKAgAg0wEBAOUBACHUAQEA5QEAIdUBAACKAgAgAwAAACIAIAMAADQAMBQAADUAIAMAAAAiACADAAAjADAEAAAaACABAAAAHgAgAQAAAB4AIAMAAAAcACADAAAdADAEAAAeACADAAAAHAAgAwAAHQAwBAAAHgAgAwAAABwAIAMAAB0AMAQAAB4AIAUaAAC7AgAgoQEBAAAAAaoBQAAAAAG9AYAAAAAB0gEBAAAAAQEIAAA9ACAEoQEBAAAAAaoBQAAAAAG9AYAAAAAB0gEBAAAAAQEIAAA_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_wEAIZ4BAAD-AQAwnwEAAJYBABCgAQAA_gEAMKEBAQDlAQAhogEBAOUBACGqAUAA6AEAIcoBAQDlAQAhywECAOcBACEDAAAAgwEAIAMAAJUBADAUAACWAQAgAwAAAIMBACADAACEAQAwBAAAgAEAIBCeAQAA_QEAMJ8BAACcAQAQoAEAAP0BADChAQEAAAABqQECAPUBACGqAUAA9gEAIasBQAD2AQAhtwEBAAAAAbgBAQDzAQAhuQEBAPMBACG6AQEA8wEAIbsBAQDzAQAhvQEBAPMBACHBASAA9AEAIcgBAAD7AQAgyQEBAPMBACEBAAAAmQEAIAEAAACZAQAgEJ4BAAD9AQAwnwEAAJwBABCgAQAA_QEAMKEBAQDzAQAhqQECAPUBACGqAUAA9gEAIasBQAD2AQAhtwEBAPMBACG4AQEA8wEAIbkBAQDzAQAhugEBAPMBACG7AQEA8wEAIb0BAQDzAQAhwQEgAPQBACHIAQAA-wEAIMkBAQDzAQAhAAMAAACcAQAgAwAAnQEAMAQAAJkBACADAAAAnAEAIAMAAJ0BADAEAACZAQAgAwAAAJwBACADAACdAQAwBAAAmQEAIA2hAQEAAAABqQECAAAAAaoBQAAAAAGrAUAAAAABtwEBAAAAAbgBAQAAAAG5AQEAAAABugEBAAAAAbsBAQAAAAG9AQEAAAABwQEgAAAAAcgBgAAAAAHJAQEAAAABAQgAAKEBACANoQEBAAAAAakBAgAAAAGqAUAAAAABqwFAAAAAAbcBAQAAAAG4AQEAAAABuQEBAAAAAboBAQAAAAG7AQEAAAABvQEBAAAAAcEBIAAAAAHIAYAAAAAByQEBAAAAAQEIAACjAQAwAQgAAKMBADANoQEBAJ0CACGpAQIAnwIAIaoBQACgAgAhqwFAAKACACG3AQEAnQIAIbgBAQCdAgAhuQEBAJ0CACG6AQEAnQIAIbsBAQCdAgAhvQEBAJ0CACHBASAAngIAIcgBgAAAAAHJAQEAnQIAIQIAAACZAQAgCAAApgEAIA2hAQEAnQIAIakBAgCfAgAhqgFAAKACACGrAUAAoAIAIbcBAQCdAgAhuAEBAJ0CACG5AQEAnQIAIboBAQCdAgAhuwEBAJ0CACG9AQEAnQIAIcEBIACeAgAhyAGAAAAAAckBAQCdAgAhAgAAAJwBACAIAACoAQAgAgAAAJwBACAIAACoAQAgAwAAAJkBACAPAAChAQAgEAAApgEAIAEAAACZAQAgAQAAAJwBACAFFQAApgIAIBYAAKkCACAXAACoAgAgagAApwIAIGsAAKoCACAQngEAAPwBADCfAQAArwEAEKABAAD8AQAwoQEBAOUBACGpAQIA5wEAIaoBQADoAQAhqwFAAOgBACG3AQEA5QEAIbgBAQDlAQAhuQEBAOUBACG6AQEA5QEAIbsBAQDlAQAhvQEBAOUBACHBASAA5gEAIcgBAAD4AQAgyQEBAOUBACEDAAAAnAEAIAMAAK4BADAUAACvAQAgAwAAAJwBACADAACdAQAwBAAAmQEAIBKeAQAA-gEAMJ8BAAC1AQAQoAEAAPoBADChAQEAAAABqQECAPUBACGqAUAA9gEAIasBQAD2AQAhtwEBAAAAAbgBAQDzAQAhuQEBAPMBACG6AQEA8wEAIbsBAQDzAQAhvAEBAPMBACG9AQEA8wEAIb4BAAD7AQAgvwEAAPsBACDAAUAA9gEAIcEBIAD0AQAhAQAAALIBACABAAAAsgEAIBKeAQAA-gEAMJ8BAAC1AQAQoAEAAPoBADChAQEA8wEAIakBAgD1AQAhqgFAAPYBACGrAUAA9gEAIbcBAQDzAQAhuAEBAPMBACG5AQEA8wEAIboBAQDzAQAhuwEBAPMBACG8AQEA8wEAIb0BAQDzAQAhvgEAAPsBACC_AQAA-wEAIMABQAD2AQAhwQEgAPQBACEAAwAAALUBACADAAC2AQAwBAAAsgEAIAMAAAC1AQAgAwAAtgEAMAQAALIBACADAAAAtQEAIAMAALYBADAEAACyAQAgD6EBAQAAAAGpAQIAAAABqgFAAAAAAasBQAAAAAG3AQEAAAABuAEBAAAAAbkBAQAAAAG6AQEAAAABuwEBAAAAAbwBAQAAAAG9AQEAAAABvgGAAAAAAb8BgAAAAAHAAUAAAAABwQEgAAAAAQEIAAC6AQAgD6EBAQAAAAGpAQIAAAABqgFAAAAAAasBQAAAAAG3AQEAAAABuAEBAAAAAbkBAQAAAAG6AQEAAAABuwEBAAAAAbwBAQAAAAG9AQEAAAABvgGAAAAAAb8BgAAAAAHAAUAAAAABwQEgAAAAAQEIAAC8AQAwAQgAALwBADAPoQEBAJ0CACGpAQIAnwIAIaoBQACgAgAhqwFAAKACACG3AQEAnQIAIbgBAQCdAgAhuQEBAJ0CACG6AQEAnQIAIbsBAQCdAgAhvAEBAJ0CACG9AQEAnQIAIb4BgAAAAAG_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-AQAA-AEAIL8BAAD4AQAgwAFAAOgBACHBASAA5gEAIQ8VAADqAQAgFgAA-QEAIBcAAPkBACCsAYAAAAABrwGAAAAAAbABgAAAAAGxAYAAAAABsgGAAAAAAbMBgAAAAAHCAQEAAAABwwEBAAAAAcQBAQAAAAHFAYAAAAABxgGAAAAAAccBgAAAAAEMrAGAAAAAAa8BgAAAAAGwAYAAAAABsQGAAAAAAbIBgAAAAAGzAYAAAAABwgEBAAAAAcMBAQAAAAHEAQEAAAABxQGAAAAAAcYBgAAAAAHHAYAAAAABEp4BAAD6AQAwnwEAALUBABCgAQAA-gEAMKEBAQDzAQAhqQECAPUBACGqAUAA9gEAIasBQAD2AQAhtwEBAPMBACG4AQEA8wEAIbkBAQDzAQAhugEBAPMBACG7AQEA8wEAIbwBAQDzAQAhvQEBAPMBACG-AQAA-wEAIL8BAAD7AQAgwAFAAPYBACHBASAA9AEAIQysAYAAAAABrwGAAAAAAbABgAAAAAGxAYAAAAABsgGAAAAAAbMBgAAAAAHCAQEAAAABwwEBAAAAAcQBAQAAAAHFAYAAAAABxgGAAAAAAccBgAAAAAEQngEAAPwBADCfAQAArwEAEKABAAD8AQAwoQEBAOUBACGpAQIA5wEAIaoBQADoAQAhqwFAAOgBACG3AQEA5QEAIbgBAQDlAQAhuQEBAOUBACG6AQEA5QEAIbsBAQDlAQAhvQEBAOUBACHBASAA5gEAIcgBAAD4AQAgyQEBAOUBACEQngEAAP0BADCfAQAAnAEAEKABAAD9AQAwoQEBAPMBACGpAQIA9QEAIaoBQAD2AQAhqwFAAPYBACG3AQEA8wEAIbgBAQDzAQAhuQEBAPMBACG6AQEA8wEAIbsBAQDzAQAhvQEBAPMBACHBASAA9AEAIcgBAAD7AQAgyQEBAPMBACEJCAAB_wEAIZ4BAAD-AQAwnwEAAJYBABCgAQAA_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-Uxs_VBtAVRtBVxtCWQJDWhxEXBtFXgJGXx1HYBtIYRtJYgJKZR5LZiJMaCNNaSNObCNPbSNQbiNRcCNScgJTcyRUdSNVdwJWeCVXeSNYeiNZewJafiZbfypcgQErXYIBK16FAStfhgErYIcBK2GJAStiiwECY4wBLGSOAStlkAECZpEBLWeSAStokwEraZQBAmyXAS5tmAE0bpoBNW-bATVwngE1cZ8BNXKgATVzogE1dKQBAnWlATZ2pwE1d6kBAniqATd5qwE1eqwBNXutAQJ8sAE4fbEBPn6zAT9_tAE_gAG3AT-BAbgBP4IBuQE_gwG7AT-EAb0BAoUBvgFAhgHAAT-HAcIBAogBwwFBiQHEAT-KAcUBP4sBxgECjAHJAUKNAcoBSI4BzAFJjwHNAUmQAdABSZEB0QFJkgHSAUmTAdQBSZQB1gEClQHXAUqWAdkBSZcB2wECmAHcAUuZAd0BSZoB3gFJmwHfAQKcAeIBTJ0B4wFS"
+ }
+ 
+ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
+@@ -267,6 +267,16 @@ export interface PrismaClient<
+     * ```
+     */
+   get blogPost(): Prisma.BlogPostDelegate<ExtArgs, { omit: OmitOpts }>;
++
++  /**
++   * `prisma.teamMember`: Exposes CRUD operations for the **TeamMember** model.
++    * Example usage:
++    * ```ts
++    * // Fetch zero or more TeamMembers
++    * const teamMembers = await prisma.teamMember.findMany()
++    * ```
++    */
++  get teamMember(): Prisma.TeamMemberDelegate<ExtArgs, { omit: OmitOpts }>;
+ }
+ 
+ export function getPrismaClientClass(): PrismaClientConstructor {
+diff --git a/a/src/generated/prisma/internal/prismaNamespace.ts b/b/src/generated/prisma/internal/prismaNamespace.ts
+index da76db1..3816c42 100644
+--- a/a/src/generated/prisma/internal/prismaNamespace.ts
++++ b/b/src/generated/prisma/internal/prismaNamespace.ts
+@@ -404,7 +404,8 @@ export const ModelName = {
+   Lead: 'Lead',
+   Media: 'Media',
+   Project: 'Project',
+-  BlogPost: 'BlogPost'
++  BlogPost: 'BlogPost',
++  TeamMember: 'TeamMember'
+ } as const
+ 
+ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
+@@ -420,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
+     omit: GlobalOmitOptions
+   }
+   meta: {
+-    modelProps: "adminUser" | "page" | "pageVersion" | "setting" | "lead" | "media" | "project" | "blogPost"
++    modelProps: "adminUser" | "page" | "pageVersion" | "setting" | "lead" | "media" | "project" | "blogPost" | "teamMember"
+     txIsolationLevel: TransactionIsolationLevel
+   }
+   model: {
+@@ -1016,6 +1017,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
+         }
+       }
+     }
++    TeamMember: {
++      payload: Prisma.$TeamMemberPayload<ExtArgs>
++      fields: Prisma.TeamMemberFieldRefs
++      operations: {
++        findUnique: {
++          args: Prisma.TeamMemberFindUniqueArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload> | null
++        }
++        findUniqueOrThrow: {
++          args: Prisma.TeamMemberFindUniqueOrThrowArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>
++        }
++        findFirst: {
++          args: Prisma.TeamMemberFindFirstArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload> | null
++        }
++        findFirstOrThrow: {
++          args: Prisma.TeamMemberFindFirstOrThrowArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>
++        }
++        findMany: {
++          args: Prisma.TeamMemberFindManyArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
++        }
++        create: {
++          args: Prisma.TeamMemberCreateArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>
++        }
++        createMany: {
++          args: Prisma.TeamMemberCreateManyArgs<ExtArgs>
++          result: BatchPayload
++        }
++        createManyAndReturn: {
++          args: Prisma.TeamMemberCreateManyAndReturnArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
++        }
++        delete: {
++          args: Prisma.TeamMemberDeleteArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>
++        }
++        update: {
++          args: Prisma.TeamMemberUpdateArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>
++        }
++        deleteMany: {
++          args: Prisma.TeamMemberDeleteManyArgs<ExtArgs>
++          result: BatchPayload
++        }
++        updateMany: {
++          args: Prisma.TeamMemberUpdateManyArgs<ExtArgs>
++          result: BatchPayload
++        }
++        updateManyAndReturn: {
++          args: Prisma.TeamMemberUpdateManyAndReturnArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
++        }
++        upsert: {
++          args: Prisma.TeamMemberUpsertArgs<ExtArgs>
++          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberPayload>
++        }
++        aggregate: {
++          args: Prisma.TeamMemberAggregateArgs<ExtArgs>
++          result: runtime.Types.Utils.Optional<Prisma.AggregateTeamMember>
++        }
++        groupBy: {
++          args: Prisma.TeamMemberGroupByArgs<ExtArgs>
++          result: runtime.Types.Utils.Optional<Prisma.TeamMemberGroupByOutputType>[]
++        }
++        count: {
++          args: Prisma.TeamMemberCountArgs<ExtArgs>
++          result: runtime.Types.Utils.Optional<Prisma.TeamMemberCountAggregateOutputType> | number
++        }
++      }
++    }
+   }
+ } & {
+   other: {
+@@ -1167,6 +1242,23 @@ export const BlogPostScalarFieldEnum = {
+ export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
+ 
+ 
++export const TeamMemberScalarFieldEnum = {
++  id: 'id',
++  name: 'name',
++  role: 'role',
++  dept: 'dept',
++  bio: 'bio',
++  photo: 'photo',
++  linkedin: 'linkedin',
++  girl: 'girl',
++  sortOrder: 'sortOrder',
++  createdAt: 'createdAt',
++  updatedAt: 'updatedAt'
++} as const
++
++export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
++
++
+ export const SortOrder = {
+   asc: 'asc',
+   desc: 'desc'
+@@ -1470,6 +1562,7 @@ export type GlobalOmitConfig = {
+   media?: Prisma.MediaOmit
+   project?: Prisma.ProjectOmit
+   blogPost?: Prisma.BlogPostOmit
++  teamMember?: Prisma.TeamMemberOmit
+ }
+ 
+ /* Types for Logging */
+diff --git a/a/src/generated/prisma/internal/prismaNamespaceBrowser.ts b/b/src/generated/prisma/internal/prismaNamespaceBrowser.ts
+index cb2551f..64ea19f 100644
+--- a/a/src/generated/prisma/internal/prismaNamespaceBrowser.ts
++++ b/b/src/generated/prisma/internal/prismaNamespaceBrowser.ts
+@@ -58,7 +58,8 @@ export const ModelName = {
+   Lead: 'Lead',
+   Media: 'Media',
+   Project: 'Project',
+-  BlogPost: 'BlogPost'
++  BlogPost: 'BlogPost',
++  TeamMember: 'TeamMember'
+ } as const
+ 
+ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
+@@ -189,6 +190,23 @@ export const BlogPostScalarFieldEnum = {
+ export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
+ 
+ 
++export const TeamMemberScalarFieldEnum = {
++  id: 'id',
++  name: 'name',
++  role: 'role',
++  dept: 'dept',
++  bio: 'bio',
++  photo: 'photo',
++  linkedin: 'linkedin',
++  girl: 'girl',
++  sortOrder: 'sortOrder',
++  createdAt: 'createdAt',
++  updatedAt: 'updatedAt'
++} as const
++
++export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
++
++
+ export const SortOrder = {
+   asc: 'asc',
+   desc: 'desc'
+diff --git a/b/src/generated/prisma/models/TeamMember.ts b/b/src/generated/prisma/models/TeamMember.ts
+new file mode 100644
+index 0000000..849e64a
+--- /dev/null
++++ b/b/src/generated/prisma/models/TeamMember.ts
+@@ -0,0 +1,1361 @@
++
++/* !!! This is code generated by Prisma. Do not edit directly. !!! */
++/* eslint-disable */
++// biome-ignore-all lint: generated file
++// @ts-nocheck 
++/*
++ * This file exports the `TeamMember` model and its related types.
++ *
++ * 🟢 You can import this file directly.
++ */
++import type * as runtime from "@prisma/client/runtime/client"
++import type * as $Enums from "../enums"
++import type * as Prisma from "../internal/prismaNamespace"
++
++/**
++ * Model TeamMember
++ * 
++ */
++export type TeamMemberModel = runtime.Types.Result.DefaultSelection<Prisma.$TeamMemberPayload>
++
++export type AggregateTeamMember = {
++  _count: TeamMemberCountAggregateOutputType | null
++  _avg: TeamMemberAvgAggregateOutputType | null
++  _sum: TeamMemberSumAggregateOutputType | null
++  _min: TeamMemberMinAggregateOutputType | null
++  _max: TeamMemberMaxAggregateOutputType | null
++}
++
++export type TeamMemberAvgAggregateOutputType = {
++  sortOrder: number | null
++}
++
++export type TeamMemberSumAggregateOutputType = {
++  sortOrder: number | null
++}
++
++export type TeamMemberMinAggregateOutputType = {
++  id: string | null
++  name: string | null
++  role: string | null
++  dept: string | null
++  bio: string | null
++  photo: string | null
++  linkedin: string | null
++  girl: boolean | null
++  sortOrder: number | null
++  createdAt: Date | null
++  updatedAt: Date | null
++}
++
++export type TeamMemberMaxAggregateOutputType = {
++  id: string | null
++  name: string | null
++  role: string | null
++  dept: string | null
++  bio: string | null
++  photo: string | null
++  linkedin: string | null
++  girl: boolean | null
++  sortOrder: number | null
++  createdAt: Date | null
++  updatedAt: Date | null
++}
++
++export type TeamMemberCountAggregateOutputType = {
++  id: number
++  name: number
++  role: number
++  dept: number
++  bio: number
++  photo: number
++  linkedin: number
++  girl: number
++  sortOrder: number
++  createdAt: number
++  updatedAt: number
++  _all: number
++}
++
++
++export type TeamMemberAvgAggregateInputType = {
++  sortOrder?: true
++}
++
++export type TeamMemberSumAggregateInputType = {
++  sortOrder?: true
++}
++
++export type TeamMemberMinAggregateInputType = {
++  id?: true
++  name?: true
++  role?: true
++  dept?: true
++  bio?: true
++  photo?: true
++  linkedin?: true
++  girl?: true
++  sortOrder?: true
++  createdAt?: true
++  updatedAt?: true
++}
++
++export type TeamMemberMaxAggregateInputType = {
++  id?: true
++  name?: true
++  role?: true
++  dept?: true
++  bio?: true
++  photo?: true
++  linkedin?: true
++  girl?: true
++  sortOrder?: true
++  createdAt?: true
++  updatedAt?: true
++}
++
++export type TeamMemberCountAggregateInputType = {
++  id?: true
++  name?: true
++  role?: true
++  dept?: true
++  bio?: true
++  photo?: true
++  linkedin?: true
++  girl?: true
++  sortOrder?: true
++  createdAt?: true
++  updatedAt?: true
++  _all?: true
++}
++
++export type TeamMemberAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Filter which TeamMember to aggregate.
++   */
++  where?: Prisma.TeamMemberWhereInput
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
++   * 
++   * Determine the order of TeamMembers to fetch.
++   */
++  orderBy?: Prisma.TeamMemberOrderByWithRelationInput | Prisma.TeamMemberOrderByWithRelationInput[]
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
++   * 
++   * Sets the start position
++   */
++  cursor?: Prisma.TeamMemberWhereUniqueInput
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
++   * 
++   * Take `±n` TeamMembers from the position of the cursor.
++   */
++  take?: number
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
++   * 
++   * Skip the first `n` TeamMembers.
++   */
++  skip?: number
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
++   * 
++   * Count returned TeamMembers
++  **/
++  _count?: true | TeamMemberCountAggregateInputType
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
++   * 
++   * Select which fields to average
++  **/
++  _avg?: TeamMemberAvgAggregateInputType
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
++   * 
++   * Select which fields to sum
++  **/
++  _sum?: TeamMemberSumAggregateInputType
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
++   * 
++   * Select which fields to find the minimum value
++  **/
++  _min?: TeamMemberMinAggregateInputType
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
++   * 
++   * Select which fields to find the maximum value
++  **/
++  _max?: TeamMemberMaxAggregateInputType
++}
++
++export type GetTeamMemberAggregateType<T extends TeamMemberAggregateArgs> = {
++      [P in keyof T & keyof AggregateTeamMember]: P extends '_count' | 'count'
++    ? T[P] extends true
++      ? number
++      : Prisma.GetScalarType<T[P], AggregateTeamMember[P]>
++    : Prisma.GetScalarType<T[P], AggregateTeamMember[P]>
++}
++
++
++
++
++export type TeamMemberGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  where?: Prisma.TeamMemberWhereInput
++  orderBy?: Prisma.TeamMemberOrderByWithAggregationInput | Prisma.TeamMemberOrderByWithAggregationInput[]
++  by: Prisma.TeamMemberScalarFieldEnum[] | Prisma.TeamMemberScalarFieldEnum
++  having?: Prisma.TeamMemberScalarWhereWithAggregatesInput
++  take?: number
++  skip?: number
++  _count?: TeamMemberCountAggregateInputType | true
++  _avg?: TeamMemberAvgAggregateInputType
++  _sum?: TeamMemberSumAggregateInputType
++  _min?: TeamMemberMinAggregateInputType
++  _max?: TeamMemberMaxAggregateInputType
++}
++
++export type TeamMemberGroupByOutputType = {
++  id: string
++  name: string
++  role: string
++  dept: string
++  bio: string
++  photo: string
++  linkedin: string
++  girl: boolean
++  sortOrder: number
++  createdAt: Date
++  updatedAt: Date
++  _count: TeamMemberCountAggregateOutputType | null
++  _avg: TeamMemberAvgAggregateOutputType | null
++  _sum: TeamMemberSumAggregateOutputType | null
++  _min: TeamMemberMinAggregateOutputType | null
++  _max: TeamMemberMaxAggregateOutputType | null
++}
++
++export type GetTeamMemberGroupByPayload<T extends TeamMemberGroupByArgs> = Prisma.PrismaPromise<
++  Array<
++    Prisma.PickEnumerable<TeamMemberGroupByOutputType, T['by']> &
++      {
++        [P in ((keyof T) & (keyof TeamMemberGroupByOutputType))]: P extends '_count'
++          ? T[P] extends boolean
++            ? number
++            : Prisma.GetScalarType<T[P], TeamMemberGroupByOutputType[P]>
++          : Prisma.GetScalarType<T[P], TeamMemberGroupByOutputType[P]>
++      }
++    >
++  >
++
++
++
++export type TeamMemberWhereInput = {
++  AND?: Prisma.TeamMemberWhereInput | Prisma.TeamMemberWhereInput[]
++  OR?: Prisma.TeamMemberWhereInput[]
++  NOT?: Prisma.TeamMemberWhereInput | Prisma.TeamMemberWhereInput[]
++  id?: Prisma.StringFilter<"TeamMember"> | string
++  name?: Prisma.StringFilter<"TeamMember"> | string
++  role?: Prisma.StringFilter<"TeamMember"> | string
++  dept?: Prisma.StringFilter<"TeamMember"> | string
++  bio?: Prisma.StringFilter<"TeamMember"> | string
++  photo?: Prisma.StringFilter<"TeamMember"> | string
++  linkedin?: Prisma.StringFilter<"TeamMember"> | string
++  girl?: Prisma.BoolFilter<"TeamMember"> | boolean
++  sortOrder?: Prisma.IntFilter<"TeamMember"> | number
++  createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
++  updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
++}
++
++export type TeamMemberOrderByWithRelationInput = {
++  id?: Prisma.SortOrder
++  name?: Prisma.SortOrder
++  role?: Prisma.SortOrder
++  dept?: Prisma.SortOrder
++  bio?: Prisma.SortOrder
++  photo?: Prisma.SortOrder
++  linkedin?: Prisma.SortOrder
++  girl?: Prisma.SortOrder
++  sortOrder?: Prisma.SortOrder
++  createdAt?: Prisma.SortOrder
++  updatedAt?: Prisma.SortOrder
++}
++
++export type TeamMemberWhereUniqueInput = Prisma.AtLeast<{
++  id?: string
++  AND?: Prisma.TeamMemberWhereInput | Prisma.TeamMemberWhereInput[]
++  OR?: Prisma.TeamMemberWhereInput[]
++  NOT?: Prisma.TeamMemberWhereInput | Prisma.TeamMemberWhereInput[]
++  name?: Prisma.StringFilter<"TeamMember"> | string
++  role?: Prisma.StringFilter<"TeamMember"> | string
++  dept?: Prisma.StringFilter<"TeamMember"> | string
++  bio?: Prisma.StringFilter<"TeamMember"> | string
++  photo?: Prisma.StringFilter<"TeamMember"> | string
++  linkedin?: Prisma.StringFilter<"TeamMember"> | string
++  girl?: Prisma.BoolFilter<"TeamMember"> | boolean
++  sortOrder?: Prisma.IntFilter<"TeamMember"> | number
++  createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
++  updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
++}, "id">
++
++export type TeamMemberOrderByWithAggregationInput = {
++  id?: Prisma.SortOrder
++  name?: Prisma.SortOrder
++  role?: Prisma.SortOrder
++  dept?: Prisma.SortOrder
++  bio?: Prisma.SortOrder
++  photo?: Prisma.SortOrder
++  linkedin?: Prisma.SortOrder
++  girl?: Prisma.SortOrder
++  sortOrder?: Prisma.SortOrder
++  createdAt?: Prisma.SortOrder
++  updatedAt?: Prisma.SortOrder
++  _count?: Prisma.TeamMemberCountOrderByAggregateInput
++  _avg?: Prisma.TeamMemberAvgOrderByAggregateInput
++  _max?: Prisma.TeamMemberMaxOrderByAggregateInput
++  _min?: Prisma.TeamMemberMinOrderByAggregateInput
++  _sum?: Prisma.TeamMemberSumOrderByAggregateInput
++}
++
++export type TeamMemberScalarWhereWithAggregatesInput = {
++  AND?: Prisma.TeamMemberScalarWhereWithAggregatesInput | Prisma.TeamMemberScalarWhereWithAggregatesInput[]
++  OR?: Prisma.TeamMemberScalarWhereWithAggregatesInput[]
++  NOT?: Prisma.TeamMemberScalarWhereWithAggregatesInput | Prisma.TeamMemberScalarWhereWithAggregatesInput[]
++  id?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
++  name?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
++  role?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
++  dept?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
++  bio?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
++  photo?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
++  linkedin?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
++  girl?: Prisma.BoolWithAggregatesFilter<"TeamMember"> | boolean
++  sortOrder?: Prisma.IntWithAggregatesFilter<"TeamMember"> | number
++  createdAt?: Prisma.DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
++  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
++}
++
++export type TeamMemberCreateInput = {
++  id?: string
++  name: string
++  role?: string
++  dept?: string
++  bio?: string
++  photo?: string
++  linkedin?: string
++  girl?: boolean
++  sortOrder?: number
++  createdAt?: Date | string
++  updatedAt?: Date | string
++}
++
++export type TeamMemberUncheckedCreateInput = {
++  id?: string
++  name: string
++  role?: string
++  dept?: string
++  bio?: string
++  photo?: string
++  linkedin?: string
++  girl?: boolean
++  sortOrder?: number
++  createdAt?: Date | string
++  updatedAt?: Date | string
++}
++
++export type TeamMemberUpdateInput = {
++  id?: Prisma.StringFieldUpdateOperationsInput | string
++  name?: Prisma.StringFieldUpdateOperationsInput | string
++  role?: Prisma.StringFieldUpdateOperationsInput | string
++  dept?: Prisma.StringFieldUpdateOperationsInput | string
++  bio?: Prisma.StringFieldUpdateOperationsInput | string
++  photo?: Prisma.StringFieldUpdateOperationsInput | string
++  linkedin?: Prisma.StringFieldUpdateOperationsInput | string
++  girl?: Prisma.BoolFieldUpdateOperationsInput | boolean
++  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
++  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
++  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
++}
++
++export type TeamMemberUncheckedUpdateInput = {
++  id?: Prisma.StringFieldUpdateOperationsInput | string
++  name?: Prisma.StringFieldUpdateOperationsInput | string
++  role?: Prisma.StringFieldUpdateOperationsInput | string
++  dept?: Prisma.StringFieldUpdateOperationsInput | string
++  bio?: Prisma.StringFieldUpdateOperationsInput | string
++  photo?: Prisma.StringFieldUpdateOperationsInput | string
++  linkedin?: Prisma.StringFieldUpdateOperationsInput | string
++  girl?: Prisma.BoolFieldUpdateOperationsInput | boolean
++  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
++  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
++  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
++}
++
++export type TeamMemberCreateManyInput = {
++  id?: string
++  name: string
++  role?: string
++  dept?: string
++  bio?: string
++  photo?: string
++  linkedin?: string
++  girl?: boolean
++  sortOrder?: number
++  createdAt?: Date | string
++  updatedAt?: Date | string
++}
++
++export type TeamMemberUpdateManyMutationInput = {
++  id?: Prisma.StringFieldUpdateOperationsInput | string
++  name?: Prisma.StringFieldUpdateOperationsInput | string
++  role?: Prisma.StringFieldUpdateOperationsInput | string
++  dept?: Prisma.StringFieldUpdateOperationsInput | string
++  bio?: Prisma.StringFieldUpdateOperationsInput | string
++  photo?: Prisma.StringFieldUpdateOperationsInput | string
++  linkedin?: Prisma.StringFieldUpdateOperationsInput | string
++  girl?: Prisma.BoolFieldUpdateOperationsInput | boolean
++  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
++  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
++  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
++}
++
++export type TeamMemberUncheckedUpdateManyInput = {
++  id?: Prisma.StringFieldUpdateOperationsInput | string
++  name?: Prisma.StringFieldUpdateOperationsInput | string
++  role?: Prisma.StringFieldUpdateOperationsInput | string
++  dept?: Prisma.StringFieldUpdateOperationsInput | string
++  bio?: Prisma.StringFieldUpdateOperationsInput | string
++  photo?: Prisma.StringFieldUpdateOperationsInput | string
++  linkedin?: Prisma.StringFieldUpdateOperationsInput | string
++  girl?: Prisma.BoolFieldUpdateOperationsInput | boolean
++  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
++  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
++  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
++}
++
++export type TeamMemberCountOrderByAggregateInput = {
++  id?: Prisma.SortOrder
++  name?: Prisma.SortOrder
++  role?: Prisma.SortOrder
++  dept?: Prisma.SortOrder
++  bio?: Prisma.SortOrder
++  photo?: Prisma.SortOrder
++  linkedin?: Prisma.SortOrder
++  girl?: Prisma.SortOrder
++  sortOrder?: Prisma.SortOrder
++  createdAt?: Prisma.SortOrder
++  updatedAt?: Prisma.SortOrder
++}
++
++export type TeamMemberAvgOrderByAggregateInput = {
++  sortOrder?: Prisma.SortOrder
++}
++
++export type TeamMemberMaxOrderByAggregateInput = {
++  id?: Prisma.SortOrder
++  name?: Prisma.SortOrder
++  role?: Prisma.SortOrder
++  dept?: Prisma.SortOrder
++  bio?: Prisma.SortOrder
++  photo?: Prisma.SortOrder
++  linkedin?: Prisma.SortOrder
++  girl?: Prisma.SortOrder
++  sortOrder?: Prisma.SortOrder
++  createdAt?: Prisma.SortOrder
++  updatedAt?: Prisma.SortOrder
++}
++
++export type TeamMemberMinOrderByAggregateInput = {
++  id?: Prisma.SortOrder
++  name?: Prisma.SortOrder
++  role?: Prisma.SortOrder
++  dept?: Prisma.SortOrder
++  bio?: Prisma.SortOrder
++  photo?: Prisma.SortOrder
++  linkedin?: Prisma.SortOrder
++  girl?: Prisma.SortOrder
++  sortOrder?: Prisma.SortOrder
++  createdAt?: Prisma.SortOrder
++  updatedAt?: Prisma.SortOrder
++}
++
++export type TeamMemberSumOrderByAggregateInput = {
++  sortOrder?: Prisma.SortOrder
++}
++
++
++
++export type TeamMemberSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
++  id?: boolean
++  name?: boolean
++  role?: boolean
++  dept?: boolean
++  bio?: boolean
++  photo?: boolean
++  linkedin?: boolean
++  girl?: boolean
++  sortOrder?: boolean
++  createdAt?: boolean
++  updatedAt?: boolean
++}, ExtArgs["result"]["teamMember"]>
++
++export type TeamMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
++  id?: boolean
++  name?: boolean
++  role?: boolean
++  dept?: boolean
++  bio?: boolean
++  photo?: boolean
++  linkedin?: boolean
++  girl?: boolean
++  sortOrder?: boolean
++  createdAt?: boolean
++  updatedAt?: boolean
++}, ExtArgs["result"]["teamMember"]>
++
++export type TeamMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
++  id?: boolean
++  name?: boolean
++  role?: boolean
++  dept?: boolean
++  bio?: boolean
++  photo?: boolean
++  linkedin?: boolean
++  girl?: boolean
++  sortOrder?: boolean
++  createdAt?: boolean
++  updatedAt?: boolean
++}, ExtArgs["result"]["teamMember"]>
++
++export type TeamMemberSelectScalar = {
++  id?: boolean
++  name?: boolean
++  role?: boolean
++  dept?: boolean
++  bio?: boolean
++  photo?: boolean
++  linkedin?: boolean
++  girl?: boolean
++  sortOrder?: boolean
++  createdAt?: boolean
++  updatedAt?: boolean
++}
++
++export type TeamMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "role" | "dept" | "bio" | "photo" | "linkedin" | "girl" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["teamMember"]>
++
++export type $TeamMemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  name: "TeamMember"
++  objects: {}
++  scalars: runtime.Types.Extensions.GetPayloadResult<{
++    id: string
++    name: string
++    role: string
++    dept: string
++    bio: string
++    photo: string
++    linkedin: string
++    girl: boolean
++    sortOrder: number
++    createdAt: Date
++    updatedAt: Date
++  }, ExtArgs["result"]["teamMember"]>
++  composites: {}
++}
++
++export type TeamMemberGetPayload<S extends boolean | null | undefined | TeamMemberDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload, S>
++
++export type TeamMemberCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
++  Omit<TeamMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
++    select?: TeamMemberCountAggregateInputType | true
++  }
++
++export interface TeamMemberDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
++  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TeamMember'], meta: { name: 'TeamMember' } }
++  /**
++   * Find zero or one TeamMember that matches the filter.
++   * @param {TeamMemberFindUniqueArgs} args - Arguments to find a TeamMember
++   * @example
++   * // Get one TeamMember
++   * const teamMember = await prisma.teamMember.findUnique({
++   *   where: {
++   *     // ... provide filter here
++   *   }
++   * })
++   */
++  findUnique<T extends TeamMemberFindUniqueArgs>(args: Prisma.SelectSubset<T, TeamMemberFindUniqueArgs<ExtArgs>>): Prisma.Prisma__TeamMemberClient<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
++
++  /**
++   * Find one TeamMember that matches the filter or throw an error with `error.code='P2025'`
++   * if no matches were found.
++   * @param {TeamMemberFindUniqueOrThrowArgs} args - Arguments to find a TeamMember
++   * @example
++   * // Get one TeamMember
++   * const teamMember = await prisma.teamMember.findUniqueOrThrow({
++   *   where: {
++   *     // ... provide filter here
++   *   }
++   * })
++   */
++  findUniqueOrThrow<T extends TeamMemberFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, TeamMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__TeamMemberClient<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
++
++  /**
++   * Find the first TeamMember that matches the filter.
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * @param {TeamMemberFindFirstArgs} args - Arguments to find a TeamMember
++   * @example
++   * // Get one TeamMember
++   * const teamMember = await prisma.teamMember.findFirst({
++   *   where: {
++   *     // ... provide filter here
++   *   }
++   * })
++   */
++  findFirst<T extends TeamMemberFindFirstArgs>(args?: Prisma.SelectSubset<T, TeamMemberFindFirstArgs<ExtArgs>>): Prisma.Prisma__TeamMemberClient<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
++
++  /**
++   * Find the first TeamMember that matches the filter or
++   * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * @param {TeamMemberFindFirstOrThrowArgs} args - Arguments to find a TeamMember
++   * @example
++   * // Get one TeamMember
++   * const teamMember = await prisma.teamMember.findFirstOrThrow({
++   *   where: {
++   *     // ... provide filter here
++   *   }
++   * })
++   */
++  findFirstOrThrow<T extends TeamMemberFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, TeamMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__TeamMemberClient<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
++
++  /**
++   * Find zero or more TeamMembers that matches the filter.
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * @param {TeamMemberFindManyArgs} args - Arguments to filter and select certain fields only.
++   * @example
++   * // Get all TeamMembers
++   * const teamMembers = await prisma.teamMember.findMany()
++   * 
++   * // Get first 10 TeamMembers
++   * const teamMembers = await prisma.teamMember.findMany({ take: 10 })
++   * 
++   * // Only select the `id`
++   * const teamMemberWithIdOnly = await prisma.teamMember.findMany({ select: { id: true } })
++   * 
++   */
++  findMany<T extends TeamMemberFindManyArgs>(args?: Prisma.SelectSubset<T, TeamMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
++
++  /**
++   * Create a TeamMember.
++   * @param {TeamMemberCreateArgs} args - Arguments to create a TeamMember.
++   * @example
++   * // Create one TeamMember
++   * const TeamMember = await prisma.teamMember.create({
++   *   data: {
++   *     // ... data to create a TeamMember
++   *   }
++   * })
++   * 
++   */
++  create<T extends TeamMemberCreateArgs>(args: Prisma.SelectSubset<T, TeamMemberCreateArgs<ExtArgs>>): Prisma.Prisma__TeamMemberClient<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
++
++  /**
++   * Create many TeamMembers.
++   * @param {TeamMemberCreateManyArgs} args - Arguments to create many TeamMembers.
++   * @example
++   * // Create many TeamMembers
++   * const teamMember = await prisma.teamMember.createMany({
++   *   data: [
++   *     // ... provide data here
++   *   ]
++   * })
++   *     
++   */
++  createMany<T extends TeamMemberCreateManyArgs>(args?: Prisma.SelectSubset<T, TeamMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
++
++  /**
++   * Create many TeamMembers and returns the data saved in the database.
++   * @param {TeamMemberCreateManyAndReturnArgs} args - Arguments to create many TeamMembers.
++   * @example
++   * // Create many TeamMembers
++   * const teamMember = await prisma.teamMember.createManyAndReturn({
++   *   data: [
++   *     // ... provide data here
++   *   ]
++   * })
++   * 
++   * // Create many TeamMembers and only return the `id`
++   * const teamMemberWithIdOnly = await prisma.teamMember.createManyAndReturn({
++   *   select: { id: true },
++   *   data: [
++   *     // ... provide data here
++   *   ]
++   * })
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * 
++   */
++  createManyAndReturn<T extends TeamMemberCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TeamMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
++
++  /**
++   * Delete a TeamMember.
++   * @param {TeamMemberDeleteArgs} args - Arguments to delete one TeamMember.
++   * @example
++   * // Delete one TeamMember
++   * const TeamMember = await prisma.teamMember.delete({
++   *   where: {
++   *     // ... filter to delete one TeamMember
++   *   }
++   * })
++   * 
++   */
++  delete<T extends TeamMemberDeleteArgs>(args: Prisma.SelectSubset<T, TeamMemberDeleteArgs<ExtArgs>>): Prisma.Prisma__TeamMemberClient<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
++
++  /**
++   * Update one TeamMember.
++   * @param {TeamMemberUpdateArgs} args - Arguments to update one TeamMember.
++   * @example
++   * // Update one TeamMember
++   * const teamMember = await prisma.teamMember.update({
++   *   where: {
++   *     // ... provide filter here
++   *   },
++   *   data: {
++   *     // ... provide data here
++   *   }
++   * })
++   * 
++   */
++  update<T extends TeamMemberUpdateArgs>(args: Prisma.SelectSubset<T, TeamMemberUpdateArgs<ExtArgs>>): Prisma.Prisma__TeamMemberClient<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
++
++  /**
++   * Delete zero or more TeamMembers.
++   * @param {TeamMemberDeleteManyArgs} args - Arguments to filter TeamMembers to delete.
++   * @example
++   * // Delete a few TeamMembers
++   * const { count } = await prisma.teamMember.deleteMany({
++   *   where: {
++   *     // ... provide filter here
++   *   }
++   * })
++   * 
++   */
++  deleteMany<T extends TeamMemberDeleteManyArgs>(args?: Prisma.SelectSubset<T, TeamMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
++
++  /**
++   * Update zero or more TeamMembers.
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * @param {TeamMemberUpdateManyArgs} args - Arguments to update one or more rows.
++   * @example
++   * // Update many TeamMembers
++   * const teamMember = await prisma.teamMember.updateMany({
++   *   where: {
++   *     // ... provide filter here
++   *   },
++   *   data: {
++   *     // ... provide data here
++   *   }
++   * })
++   * 
++   */
++  updateMany<T extends TeamMemberUpdateManyArgs>(args: Prisma.SelectSubset<T, TeamMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
++
++  /**
++   * Update zero or more TeamMembers and returns the data updated in the database.
++   * @param {TeamMemberUpdateManyAndReturnArgs} args - Arguments to update many TeamMembers.
++   * @example
++   * // Update many TeamMembers
++   * const teamMember = await prisma.teamMember.updateManyAndReturn({
++   *   where: {
++   *     // ... provide filter here
++   *   },
++   *   data: [
++   *     // ... provide data here
++   *   ]
++   * })
++   * 
++   * // Update zero or more TeamMembers and only return the `id`
++   * const teamMemberWithIdOnly = await prisma.teamMember.updateManyAndReturn({
++   *   select: { id: true },
++   *   where: {
++   *     // ... provide filter here
++   *   },
++   *   data: [
++   *     // ... provide data here
++   *   ]
++   * })
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * 
++   */
++  updateManyAndReturn<T extends TeamMemberUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TeamMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
++
++  /**
++   * Create or update one TeamMember.
++   * @param {TeamMemberUpsertArgs} args - Arguments to update or create a TeamMember.
++   * @example
++   * // Update or create a TeamMember
++   * const teamMember = await prisma.teamMember.upsert({
++   *   create: {
++   *     // ... data to create a TeamMember
++   *   },
++   *   update: {
++   *     // ... in case it already exists, update
++   *   },
++   *   where: {
++   *     // ... the filter for the TeamMember we want to update
++   *   }
++   * })
++   */
++  upsert<T extends TeamMemberUpsertArgs>(args: Prisma.SelectSubset<T, TeamMemberUpsertArgs<ExtArgs>>): Prisma.Prisma__TeamMemberClient<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
++
++
++  /**
++   * Count the number of TeamMembers.
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * @param {TeamMemberCountArgs} args - Arguments to filter TeamMembers to count.
++   * @example
++   * // Count the number of TeamMembers
++   * const count = await prisma.teamMember.count({
++   *   where: {
++   *     // ... the filter for the TeamMembers we want to count
++   *   }
++   * })
++  **/
++  count<T extends TeamMemberCountArgs>(
++    args?: Prisma.Subset<T, TeamMemberCountArgs>,
++  ): Prisma.PrismaPromise<
++    T extends runtime.Types.Utils.Record<'select', any>
++      ? T['select'] extends true
++        ? number
++        : Prisma.GetScalarType<T['select'], TeamMemberCountAggregateOutputType>
++      : number
++  >
++
++  /**
++   * Allows you to perform aggregations operations on a TeamMember.
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * @param {TeamMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
++   * @example
++   * // Ordered by age ascending
++   * // Where email contains prisma.io
++   * // Limited to the 10 users
++   * const aggregations = await prisma.user.aggregate({
++   *   _avg: {
++   *     age: true,
++   *   },
++   *   where: {
++   *     email: {
++   *       contains: "prisma.io",
++   *     },
++   *   },
++   *   orderBy: {
++   *     age: "asc",
++   *   },
++   *   take: 10,
++   * })
++  **/
++  aggregate<T extends TeamMemberAggregateArgs>(args: Prisma.Subset<T, TeamMemberAggregateArgs>): Prisma.PrismaPromise<GetTeamMemberAggregateType<T>>
++
++  /**
++   * Group by TeamMember.
++   * Note, that providing `undefined` is treated as the value not being there.
++   * Read more here: https://pris.ly/d/null-undefined
++   * @param {TeamMemberGroupByArgs} args - Group by arguments.
++   * @example
++   * // Group by city, order by createdAt, get count
++   * const result = await prisma.user.groupBy({
++   *   by: ['city', 'createdAt'],
++   *   orderBy: {
++   *     createdAt: true
++   *   },
++   *   _count: {
++   *     _all: true
++   *   },
++   * })
++   * 
++  **/
++  groupBy<
++    T extends TeamMemberGroupByArgs,
++    HasSelectOrTake extends Prisma.Or<
++      Prisma.Extends<'skip', Prisma.Keys<T>>,
++      Prisma.Extends<'take', Prisma.Keys<T>>
++    >,
++    OrderByArg extends Prisma.True extends HasSelectOrTake
++      ? { orderBy: TeamMemberGroupByArgs['orderBy'] }
++      : { orderBy?: TeamMemberGroupByArgs['orderBy'] },
++    OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>,
++    ByFields extends Prisma.MaybeTupleToUnion<T['by']>,
++    ByValid extends Prisma.Has<ByFields, OrderFields>,
++    HavingFields extends Prisma.GetHavingFields<T['having']>,
++    HavingValid extends Prisma.Has<ByFields, HavingFields>,
++    ByEmpty extends T['by'] extends never[] ? Prisma.True : Prisma.False,
++    InputErrors extends ByEmpty extends Prisma.True
++    ? `Error: "by" must not be empty.`
++    : HavingValid extends Prisma.False
++    ? {
++        [P in HavingFields]: P extends ByFields
++          ? never
++          : P extends string
++          ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
++          : [
++              Error,
++              'Field ',
++              P,
++              ` in "having" needs to be provided in "by"`,
++            ]
++      }[HavingFields]
++    : 'take' extends Prisma.Keys<T>
++    ? 'orderBy' extends Prisma.Keys<T>
++      ? ByValid extends Prisma.True
++        ? {}
++        : {
++            [P in OrderFields]: P extends ByFields
++              ? never
++              : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
++          }[OrderFields]
++      : 'Error: If you provide "take", you also need to provide "orderBy"'
++    : 'skip' extends Prisma.Keys<T>
++    ? 'orderBy' extends Prisma.Keys<T>
++      ? ByValid extends Prisma.True
++        ? {}
++        : {
++            [P in OrderFields]: P extends ByFields
++              ? never
++              : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
++          }[OrderFields]
++      : 'Error: If you provide "skip", you also need to provide "orderBy"'
++    : ByValid extends Prisma.True
++    ? {}
++    : {
++        [P in OrderFields]: P extends ByFields
++          ? never
++          : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
++      }[OrderFields]
++  >(args: Prisma.SubsetIntersection<T, TeamMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeamMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
++/**
++ * Fields of the TeamMember model
++ */
++readonly fields: TeamMemberFieldRefs;
++}
++
++/**
++ * The delegate class that acts as a "Promise-like" for TeamMember.
++ * Why is this prefixed with `Prisma__`?
++ * Because we want to prevent naming conflicts as mentioned in
++ * https://github.com/prisma/prisma-client-js/issues/707
++ */
++export interface Prisma__TeamMemberClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
++  readonly [Symbol.toStringTag]: "PrismaPromise"
++  /**
++   * Attaches callbacks for the resolution and/or rejection of the Promise.
++   * @param onfulfilled The callback to execute when the Promise is resolved.
++   * @param onrejected The callback to execute when the Promise is rejected.
++   * @returns A Promise for the completion of which ever callback is executed.
++   */
++  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>
++  /**
++   * Attaches a callback for only the rejection of the Promise.
++   * @param onrejected The callback to execute when the Promise is rejected.
++   * @returns A Promise for the completion of the callback.
++   */
++  catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>
++  /**
++   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
++   * resolved value cannot be modified from the callback.
++   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
++   * @returns A Promise for the completion of the callback.
++   */
++  finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>
++}
++
++
++
++
++/**
++ * Fields of the TeamMember model
++ */
++export interface TeamMemberFieldRefs {
++  readonly id: Prisma.FieldRef<"TeamMember", 'String'>
++  readonly name: Prisma.FieldRef<"TeamMember", 'String'>
++  readonly role: Prisma.FieldRef<"TeamMember", 'String'>
++  readonly dept: Prisma.FieldRef<"TeamMember", 'String'>
++  readonly bio: Prisma.FieldRef<"TeamMember", 'String'>
++  readonly photo: Prisma.FieldRef<"TeamMember", 'String'>
++  readonly linkedin: Prisma.FieldRef<"TeamMember", 'String'>
++  readonly girl: Prisma.FieldRef<"TeamMember", 'Boolean'>
++  readonly sortOrder: Prisma.FieldRef<"TeamMember", 'Int'>
++  readonly createdAt: Prisma.FieldRef<"TeamMember", 'DateTime'>
++  readonly updatedAt: Prisma.FieldRef<"TeamMember", 'DateTime'>
++}
++    
++
++// Custom InputTypes
++/**
++ * TeamMember findUnique
++ */
++export type TeamMemberFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * Filter, which TeamMember to fetch.
++   */
++  where: Prisma.TeamMemberWhereUniqueInput
++}
++
++/**
++ * TeamMember findUniqueOrThrow
++ */
++export type TeamMemberFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * Filter, which TeamMember to fetch.
++   */
++  where: Prisma.TeamMemberWhereUniqueInput
++}
++
++/**
++ * TeamMember findFirst
++ */
++export type TeamMemberFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * Filter, which TeamMember to fetch.
++   */
++  where?: Prisma.TeamMemberWhereInput
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
++   * 
++   * Determine the order of TeamMembers to fetch.
++   */
++  orderBy?: Prisma.TeamMemberOrderByWithRelationInput | Prisma.TeamMemberOrderByWithRelationInput[]
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
++   * 
++   * Sets the position for searching for TeamMembers.
++   */
++  cursor?: Prisma.TeamMemberWhereUniqueInput
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
++   * 
++   * Take `±n` TeamMembers from the position of the cursor.
++   */
++  take?: number
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
++   * 
++   * Skip the first `n` TeamMembers.
++   */
++  skip?: number
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
++   * 
++   * Filter by unique combinations of TeamMembers.
++   */
++  distinct?: Prisma.TeamMemberScalarFieldEnum | Prisma.TeamMemberScalarFieldEnum[]
++}
++
++/**
++ * TeamMember findFirstOrThrow
++ */
++export type TeamMemberFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * Filter, which TeamMember to fetch.
++   */
++  where?: Prisma.TeamMemberWhereInput
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
++   * 
++   * Determine the order of TeamMembers to fetch.
++   */
++  orderBy?: Prisma.TeamMemberOrderByWithRelationInput | Prisma.TeamMemberOrderByWithRelationInput[]
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
++   * 
++   * Sets the position for searching for TeamMembers.
++   */
++  cursor?: Prisma.TeamMemberWhereUniqueInput
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
++   * 
++   * Take `±n` TeamMembers from the position of the cursor.
++   */
++  take?: number
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
++   * 
++   * Skip the first `n` TeamMembers.
++   */
++  skip?: number
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
++   * 
++   * Filter by unique combinations of TeamMembers.
++   */
++  distinct?: Prisma.TeamMemberScalarFieldEnum | Prisma.TeamMemberScalarFieldEnum[]
++}
++
++/**
++ * TeamMember findMany
++ */
++export type TeamMemberFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * Filter, which TeamMembers to fetch.
++   */
++  where?: Prisma.TeamMemberWhereInput
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
++   * 
++   * Determine the order of TeamMembers to fetch.
++   */
++  orderBy?: Prisma.TeamMemberOrderByWithRelationInput | Prisma.TeamMemberOrderByWithRelationInput[]
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
++   * 
++   * Sets the position for listing TeamMembers.
++   */
++  cursor?: Prisma.TeamMemberWhereUniqueInput
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
++   * 
++   * Take `±n` TeamMembers from the position of the cursor.
++   */
++  take?: number
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
++   * 
++   * Skip the first `n` TeamMembers.
++   */
++  skip?: number
++  /**
++   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
++   * 
++   * Filter by unique combinations of TeamMembers.
++   */
++  distinct?: Prisma.TeamMemberScalarFieldEnum | Prisma.TeamMemberScalarFieldEnum[]
++}
++
++/**
++ * TeamMember create
++ */
++export type TeamMemberCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * The data needed to create a TeamMember.
++   */
++  data: Prisma.XOR<Prisma.TeamMemberCreateInput, Prisma.TeamMemberUncheckedCreateInput>
++}
++
++/**
++ * TeamMember createMany
++ */
++export type TeamMemberCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * The data used to create many TeamMembers.
++   */
++  data: Prisma.TeamMemberCreateManyInput | Prisma.TeamMemberCreateManyInput[]
++  skipDuplicates?: boolean
++}
++
++/**
++ * TeamMember createManyAndReturn
++ */
++export type TeamMemberCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelectCreateManyAndReturn<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * The data used to create many TeamMembers.
++   */
++  data: Prisma.TeamMemberCreateManyInput | Prisma.TeamMemberCreateManyInput[]
++  skipDuplicates?: boolean
++}
++
++/**
++ * TeamMember update
++ */
++export type TeamMemberUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * The data needed to update a TeamMember.
++   */
++  data: Prisma.XOR<Prisma.TeamMemberUpdateInput, Prisma.TeamMemberUncheckedUpdateInput>
++  /**
++   * Choose, which TeamMember to update.
++   */
++  where: Prisma.TeamMemberWhereUniqueInput
++}
++
++/**
++ * TeamMember updateMany
++ */
++export type TeamMemberUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * The data used to update TeamMembers.
++   */
++  data: Prisma.XOR<Prisma.TeamMemberUpdateManyMutationInput, Prisma.TeamMemberUncheckedUpdateManyInput>
++  /**
++   * Filter which TeamMembers to update
++   */
++  where?: Prisma.TeamMemberWhereInput
++  /**
++   * Limit how many TeamMembers to update.
++   */
++  limit?: number
++}
++
++/**
++ * TeamMember updateManyAndReturn
++ */
++export type TeamMemberUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelectUpdateManyAndReturn<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * The data used to update TeamMembers.
++   */
++  data: Prisma.XOR<Prisma.TeamMemberUpdateManyMutationInput, Prisma.TeamMemberUncheckedUpdateManyInput>
++  /**
++   * Filter which TeamMembers to update
++   */
++  where?: Prisma.TeamMemberWhereInput
++  /**
++   * Limit how many TeamMembers to update.
++   */
++  limit?: number
++}
++
++/**
++ * TeamMember upsert
++ */
++export type TeamMemberUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * The filter to search for the TeamMember to update in case it exists.
++   */
++  where: Prisma.TeamMemberWhereUniqueInput
++  /**
++   * In case the TeamMember found by the `where` argument doesn't exist, create a new TeamMember with this data.
++   */
++  create: Prisma.XOR<Prisma.TeamMemberCreateInput, Prisma.TeamMemberUncheckedCreateInput>
++  /**
++   * In case the TeamMember was found with the provided `where` argument, update it with this data.
++   */
++  update: Prisma.XOR<Prisma.TeamMemberUpdateInput, Prisma.TeamMemberUncheckedUpdateInput>
++}
++
++/**
++ * TeamMember delete
++ */
++export type TeamMemberDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++  /**
++   * Filter which TeamMember to delete.
++   */
++  where: Prisma.TeamMemberWhereUniqueInput
++}
++
++/**
++ * TeamMember deleteMany
++ */
++export type TeamMemberDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Filter which TeamMembers to delete
++   */
++  where?: Prisma.TeamMemberWhereInput
++  /**
++   * Limit how many TeamMembers to delete.
++   */
++  limit?: number
++}
++
++/**
++ * TeamMember without action
++ */
++export type TeamMemberDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
++  /**
++   * Select specific fields to fetch from the TeamMember
++   */
++  select?: Prisma.TeamMemberSelect<ExtArgs> | null
++  /**
++   * Omit specific fields from the TeamMember
++   */
++  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
++}
+diff --git a/a/src/generated/prisma/models.ts b/b/src/generated/prisma/models.ts
+index 8a71e8b..41743cb 100644
+--- a/a/src/generated/prisma/models.ts
++++ b/b/src/generated/prisma/models.ts
+@@ -16,4 +16,5 @@ export type * from './models/Lead'
+ export type * from './models/Media'
+ export type * from './models/Project'
+ export type * from './models/BlogPost'
++export type * from './models/TeamMember'
+ export type * from './commonInputTypes'
+\ No newline at end of file
+diff --git a/a/src/lib/cms/content/team.ts b/b/src/lib/cms/content/team.ts
+index b215325..f03d6c4 100644
+--- a/a/src/lib/cms/content/team.ts
++++ b/b/src/lib/cms/content/team.ts
+@@ -4,7 +4,7 @@ import type { SectionData, SectionType } from "../sections";
+ // TEAM PAGE (/team): the office seen from above with the people of We3vision at their desks, department by department (see
+ // components/site/modern/team-office.tsx). The people with a real name and role come from the other pages of the site and from the team's
+ // own project descriptions. The other places are PLACEHOLDERS (the name says "Team member"): replace them in the admin panel with the real
+-// name, role, photo and a few words, and add or remove people there (20 to 30 fit well).
++// name, role, photo and a few words, and add or remove people there (Team in the admin panel, with a preview; 20 to 30 fit well).
+ 
+ const section = <T extends SectionType>(type: T, data: SectionData<T>, id: string = type): PageSection => ({ id, type, data: data as Record<string, unknown> });
+ 
+@@ -65,8 +65,7 @@ export const TEAM_SECTIONS: PageSection[] = [
+   section("teamOffice", {
+     chip: "The office",
+     heading: "Meet The Team",
+-    intro: "Every department has its own corner. Point at a person (tap on a phone) to see who they are.",
+-    members: TEAM_MEMBERS,
++    intro: "Every department has its own corner of the office, and every person has a seat. Come closer and say hello.",
+   }),
+   section("highlights", {
+     chip: "The team in numbers",
+diff --git a/a/src/lib/cms/sections.ts b/b/src/lib/cms/sections.ts
+index 317c0f6..0f140d3 100644
+--- a/a/src/lib/cms/sections.ts
++++ b/b/src/lib/cms/sections.ts
+@@ -1,7 +1,6 @@
+ import type { Field } from "./fields";
+ import { GOV_PROJECTS, GOV_TITLE } from "./content/gov-projects";
+ import { DEVICES, QUIZ } from "./content/metaverse-extra";
+-import { TEAM_MEMBERS } from "./content/team";
+ 
+ // Every section a page can contain. Adding a new section = add an entry here + a component in
+ // src/components/site/sections/ + one line in that folder's index.tsx. The admin editor picks it up automatically.
+@@ -789,30 +788,10 @@ export const SECTIONS = {
+     defaults: QUIZ,
+   }),
+   teamOffice: defineSection({
+-    label: "Team office (the people at their desks, camera goes room to room)",
+-    description: "The office seen from above with a room for every department and the people at the table (20 to 30 fit well). The page scrolls the camera from room to room; pointing at a person shows a card with the photo, name, role, a few words and a link. On a phone: the same people as cards.",
+-    fields: [
+-      chip(),
+-      headingField(),
+-      { kind: "textarea", key: "intro", label: "Intro text", max: 300 },
+-      {
+-        kind: "list",
+-        key: "members",
+-        label: "People (the rooms are made from the Department names, in the order of the first person of each)",
+-        itemLabel: "Person",
+-        max: 40,
+-        fields: [
+-          { kind: "text", key: "name", label: "Name", max: 60 },
+-          { kind: "text", key: "role", label: "Role", max: 70 },
+-          { kind: "text", key: "dept", label: "Department", max: 30, hint: "People with the same department sit in the same room" },
+-          { kind: "textarea", key: "bio", label: "A few words about the person", max: 260 },
+-          { kind: "image", key: "photo", label: "Photo (optional)", hint: "Image path or link. Without a photo the initials are shown." },
+-          { kind: "url", key: "linkedin", label: "LinkedIn link (optional)" },
+-          { kind: "text", key: "girl", label: "Draw as a girl (type yes)", max: 3 },
+-        ],
+-      },
+-    ],
+-    defaults: { chip: "The office", heading: "Meet The Team", intro: "", members: TEAM_MEMBERS },
++    label: "Team office (the people at their desks in the office)",
++    description: "The office of the company seen from above, in the look of the About office: a corner for every department with the people at the tables. Pointing at a person opens a card with the photo, name, role and a few words. The PEOPLE are managed in the admin panel under Team (with a preview), not here.",
++    fields: [chip(), headingField(), { kind: "textarea", key: "intro", label: "Intro text", max: 300 }],
++    defaults: { chip: "The office", heading: "Meet The Team", intro: "" },
+   }),
+   teamManifesto: defineSection({
+     label: "Team: why the people matter (a text to read)",
+diff --git a/b/src/lib/team-shared.ts b/b/src/lib/team-shared.ts
+new file mode 100644
+index 0000000..c54cc65
+--- /dev/null
++++ b/b/src/lib/team-shared.ts
+@@ -0,0 +1,64 @@
++// What the Team page and the admin panel (Team) both need: the shape of a person of the office and how the input of the admin panel is cleaned.
++// No server-only imports here: the preview of the admin panel draws the office from the same data in the browser.
++
++export type TeamPerson = {
++  id: string;
++  name: string;
++  role: string;
++  /** the department: the people of one department sit in the same corner of the office */
++  dept: string;
++  bio: string;
++  /** a link (/media/<id> for an uploaded picture); without it the initials are shown */
++  photo: string;
++  linkedin: string;
++  /** the avatar is drawn as a woman */
++  girl: boolean;
++};
++
++/** How many people one corner of the office holds (4 at the long table, 4 at the meeting table, 1 at the board). More people get a second corner. */
++export const CORNER_CAPACITY = 9;
++export const MAX_PEOPLE = 80;
++
++const text = (v: unknown, max: number) => (typeof v === "string" ? v.replace(/[\r\n]+/g, " ").trim().slice(0, max) : "");
++const safeLink = (v: unknown) => {
++  const s = text(v, 500);
++  return s === "" || /^(\/(?!\/)|https?:\/\/)/i.test(s) ? s : "";
++};
++
++/** Untrusted input -> a clean list (a person without a name is dropped). */
++export function cleanPeople(input: unknown): Omit<TeamPerson, "id">[] {
++  if (!Array.isArray(input)) return [];
++  const out: Omit<TeamPerson, "id">[] = [];
++  for (const raw of input.slice(0, MAX_PEOPLE)) {
++    const r = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
++    const name = text(r.name, 60);
++    if (!name) continue;
++    out.push({
++      name,
++      role: text(r.role, 70),
++      dept: text(r.dept, 30) || "Team",
++      bio: typeof r.bio === "string" ? r.bio.trim().slice(0, 260) : "",
++      photo: safeLink(r.photo),
++      linkedin: safeLink(r.linkedin),
++      girl: r.girl === true || r.girl === "yes",
++    });
++  }
++  return out;
++}
++
++/** The departments in the order of their first person, each with its people. */
++export function byDepartment<T extends { dept: string }>(people: T[]): { name: string; people: T[] }[] {
++  const out: { name: string; people: T[] }[] = [];
++  const idx = new Map<string, number>();
++  for (const p of people) {
++    const name = p.dept.trim() || "Team";
++    let i = idx.get(name);
++    if (i === undefined) {
++      i = out.length;
++      idx.set(name, i);
++      out.push({ name, people: [] });
++    }
++    out[i].people.push(p);
++  }
++  return out;
++}
+diff --git a/b/src/lib/team.ts b/b/src/lib/team.ts
+new file mode 100644
+index 0000000..f879143
+--- /dev/null
++++ b/b/src/lib/team.ts
+@@ -0,0 +1,16 @@
++import "server-only";
++import { db, hasDb } from "@/lib/db";
++import { TEAM_MEMBERS } from "@/lib/cms/content/team";
++import type { TeamPerson } from "@/lib/team-shared";
++
++// The people of the office on the Team page (Team in the admin panel). Read rules like the pages: without a database the built-in people are
++// shown; a database error is thrown, so that the last good cached page stays online.
++
++const builtIn = (): TeamPerson[] =>
++  TEAM_MEMBERS.map((m, i) => ({ id: `built-in-${i}`, name: m.name, role: m.role, dept: m.dept, bio: m.bio, photo: m.photo, linkedin: m.linkedin, girl: m.girl === "yes" }));
++
++export async function getTeam(): Promise<TeamPerson[]> {
++  if (!hasDb) return builtIn();
++  const rows = await db.teamMember.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] });
++  return rows.map((r) => ({ id: r.id, name: r.name, role: r.role, dept: r.dept, bio: r.bio, photo: r.photo, linkedin: r.linkedin, girl: r.girl }));
++}

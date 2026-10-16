@@ -1,0 +1,123 @@
+diff --git a/a/src/app/(site)/page.tsx b/b/src/app/(site)/page.tsx
+index df34105..1dde7f0 100644
+--- a/a/src/app/(site)/page.tsx
++++ b/b/src/app/(site)/page.tsx
+@@ -53,7 +53,7 @@ export default async function HomePage() {
+   return (
+     <>
+       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
+-      <PageSections sections={page.content.sections} site={site} />
++      <PageSections sections={page.content.sections} site={site} page="home" />
+     </>
+   );
+ }
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index b21e9ac..e856f43 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -12,7 +12,7 @@ import type { SectionComponent } from "./shared";
+ export const Industries: SectionComponent<"industries"> = ({ data, skin, page }) => (
+   <section id="industries" className="py-24 sm:py-32">
+     <div className="mx-auto w-full max-w-[1120px] px-4">
+-      <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split={skin === "modern"} />
++      <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split={skin === "modern" || page === "home"} />
+     </div>
+     <div className="mt-16">
+       {skin === "modern" ? <IndustriesMap items={data.items} variant={(page && VARIANTS[page]) || DEFAULT_VARIANT} /> : <IndustriesCity items={data.items} />}
+diff --git a/a/src/components/site/sections/reach.tsx b/b/src/components/site/sections/reach.tsx
+index c559a69..435d4cc 100644
+--- a/a/src/components/site/sections/reach.tsx
++++ b/b/src/components/site/sections/reach.tsx
+@@ -1,10 +1,11 @@
+ import { GlowEdge } from "../glow-edge";
+ import { Globe } from "../globe";
+ import { Reveal } from "../reveal";
++import { SplitHeading } from "../modern/split-heading";
+ import { ButtonLink, Chip, Wide } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+-export const Reach: SectionComponent<"reach"> = ({ data }) => {
++export const Reach: SectionComponent<"reach"> = ({ data, page }) => {
+   const places = data.places
+     .map((p) => ({ label: p.label, lat: Number(p.lat), lng: Number(p.lng) }))
+     .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng) && Math.abs(p.lat) <= 90 && Math.abs(p.lng) <= 180);
+@@ -17,7 +18,11 @@ export const Reach: SectionComponent<"reach"> = ({ data }) => {
+             <GlowEdge />
+             <div className="relative z-10">
+               <Chip>{data.chip}</Chip>
+-              <h2 className="text-vfade mt-6 whitespace-pre-line pb-1 text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]">{data.heading}</h2>
++              {page === "home" ? (
++                <SplitHeading text={data.heading} className="mt-6 pb-1 text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]" />
++              ) : (
++                <h2 className="text-vfade mt-6 whitespace-pre-line pb-1 text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]">{data.heading}</h2>
++              )}
+               <p className="mt-5 max-w-md text-base leading-[1.7] text-orchid">{data.text}</p>
+               <div className="mt-8">
+                 <ButtonLink href={data.buttonHref} variant="ghost">
+diff --git a/a/src/lib/cms/content/home.ts b/b/src/lib/cms/content/home.ts
+index 53189e2..0d3cde6 100644
+--- a/a/src/lib/cms/content/home.ts
++++ b/b/src/lib/cms/content/home.ts
+@@ -72,4 +72,62 @@ export const HOME_SECTIONS: PageSection[] = [
+       },
+     ],
+   }),
++  // Below the first scene (the sections above stay exactly as they were): the same glass cards and glow, with facts from the old site.
++  section("highlights", {
++    chip: "At a glance",
++    items: [
++      { value: "2019", label: "Founded in Surat" },
++      { value: "7", label: "Years of innovation" },
++      { value: "11–50", label: "Team members" },
++      { value: "2", label: "Offices: India & Germany" },
++    ],
++  }),
++  section("industries", {
++    chip: "Industries We Serve",
++    heading: "Built For\nEvery Industry",
++    intro: "We do not work with only one kind of business. Here is what our websites, apps, AI and VR can look like in some of them.",
++    items: [
++      { name: "E-commerce", description: "Fast and conversion-optimized online stores to help grow your sales." },
++      { name: "Healthcare", description: "Secure and user-friendly portals for clinics, hospitals and health startups." },
++      { name: "Real estate", description: "Listing platforms with advanced filters, maps and booking capabilities, and VR walkthroughs of properties." },
++      { name: "Education", description: "Online learning websites, course portals and student management systems." },
++      { name: "Finance", description: "Web apps for banking, fintech and secure transaction platforms." },
++      { name: "Construction & mining", description: "VR projects and immersive visualisation for construction, real estate and mining." },
++      { name: "Travel & hospitality", description: "Booking systems, tour showcase websites and itinerary planners." },
++    ],
++  }),
++  section("tags", {
++    chip: "Tools & Technologies",
++    heading: "The Technology\nBehind Our Work",
++    intro: "",
++    items: "React.js\nVue.js\nAngular\nNode.js\nLaravel\nPHP\nWordPress\nShopify\nKotlin\nSwift\nFlutter\nReact Native\nPython\nTensorFlow\nOpenAI\nUnity\nUnreal Engine\nPostgreSQL\nMongoDB\nDocker",
++  }),
++  section("advantages", {
++    chip: "Why Choose Us",
++    heading: "Why Choose\nWe3vision",
++    intro: "Our expertise, your success. We think big and have hands in all leading technology platforms to provide you a wide array of services.",
++    items: [
++      { title: "Client-Centric Approach", description: "We put your needs first, ensuring every solution is tailored to your goals." },
++      { title: "Scalable Solutions", description: "Our services grow with your business, adapting to new challenges and opportunities." },
++      { title: "Creative Thinking", description: "We bring fresh ideas and innovative strategies to every project." },
++      { title: "On-Time Delivery", description: "We respect your deadlines and deliver quality work, every time." },
++    ],
++  }),
++  section("reach", {
++    chip: "Global Reach",
++    heading: "From Surat\nTo The World",
++    text: "Our head office and development team are in Surat, India, and we have a second office in Marburg, Germany. We build digital solutions for companies in India and across the globe.",
++    buttonLabel: "Contact Us",
++    buttonHref: "#contact",
++    places: [
++      { label: "Surat, India", lat: "21.1702", lng: "72.8311" },
++      { label: "Marburg, Germany", lat: "50.8021", lng: "8.7667" },
++    ],
++  }),
++  section("contact", {
++    chip: "Let's talk",
++    heading: "Ready To Start\nYour Project?",
++    text: "Tell us about your idea and the We3vision team will get back to you. Web, AI, apps, VR and design: we are happy to help.",
++    buttonLabel: "Send a Message",
++  }),
+ ];

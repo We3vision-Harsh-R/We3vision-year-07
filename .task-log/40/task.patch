@@ -1,0 +1,83 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index a0a8a2e..edb3067 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17550,3 +17550,78 @@ a.md-rel-card:hover .md-rel-go {
+ .hub-headlink .hub-title {
+   transition: filter 0.25s;
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   Home industries: the list is ONE clean card (the earlier look had a card inside a card): a small title, rows of the same height with the icon
++   in a little tile, and the industry you are at as a bright pill with an arrow. */
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-ui {
++    grid-template-columns: 18.5rem minmax(0, 1fr) 22rem;
++  }
++  .cm-bird .cm-rail {
++    padding: 1.15rem 0.9rem 0.9rem;
++    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.45);
++    border-radius: 24px;
++    background: linear-gradient(165deg, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 14% / 0.97), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 7% / 0.97));
++    box-shadow:
++      0 0 30px -8px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.45),
++      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 85% / 0.3),
++      0 26px 56px -24px rgba(0, 0, 0, 0.9);
++    -webkit-backdrop-filter: none;
++    backdrop-filter: none;
++  }
++  .cm-bird .cm-rail::before {
++    content: "Industries we serve";
++    display: block;
++    margin: 0 0.3rem 0.7rem;
++    padding-bottom: 0.7rem;
++    border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.2);
++    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
++    font-size: 0.8125rem;
++    font-weight: 700;
++    letter-spacing: 0.12em;
++    text-transform: uppercase;
++  }
++  .cm-bird .cm-rail ol {
++    gap: 0.25rem;
++    padding: 0;
++    border: 0;
++    border-radius: 0;
++    background: none;
++    box-shadow: none;
++    -webkit-backdrop-filter: none;
++    backdrop-filter: none;
++  }
++  .cm-bird .cm-rail button {
++    min-height: 2.9rem;
++    gap: 0.8rem;
++    padding: 0.4rem 0.7rem 0.4rem 0.5rem;
++    border-radius: 14px;
++    font-size: 1rem;
++    line-height: 1.25;
++    transition:
++      background 0.25s,
++      border-color 0.25s,
++      box-shadow 0.25s;
++  }
++  .cm-bird .cm-rail button:hover {
++    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
++  }
++  .cm-bird .cm-rail button svg {
++    box-sizing: content-box;
++    width: 1.1rem;
++    height: 1.1rem;
++    padding: 0.4rem;
++    border-radius: 11px;
++    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
++  }
++  .cm-bird .cm-rail button[data-on="true"] svg {
++    background: rgba(255, 255, 255, 0.22);
++  }
++  .cm-bird .cm-rail button[data-on="true"]::after {
++    content: "→";
++    margin-left: auto;
++    color: #fff;
++    font-size: 1.05rem;
++  }
++}

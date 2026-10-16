@@ -1,0 +1,225 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 80d314a..3c7b56b 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -15443,6 +15443,50 @@ a.md-rel-card:hover .md-rel-go {
+   }
+ }
+ 
++/* the stage pinned while the page scrolls: the scroll opens the boxes (service-stage.tsx) */
++.sx-sticky {
++  position: relative;
++}
++.sx-track[data-pin="true"] .sx-sticky {
++  position: sticky;
++  top: 92px;
++}
++.sx[data-pin="true"] .sx-list {
++  grid-auto-rows: auto;
++  align-content: start;
++  gap: 10px;
++}
++.sx[data-pin="true"] .sx-tab {
++  padding: 14px 20px;
++  transition:
++    background 0.4s,
++    border-color 0.4s;
++}
++.sx[data-pin="true"] .sx-tab[data-on="false"] .sx-tab-t i {
++  -webkit-line-clamp: 1;
++}
++.sx[data-pin="true"] .sx-tab[data-on="true"] .sx-tab-t i {
++  display: block;
++  overflow: visible;
++  -webkit-line-clamp: unset;
++  animation: sx-open 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.sx[data-pin="true"] .sx-tab[data-on="true"] .sx-tab-bar {
++  opacity: 1;
++  transform: scaleX(var(--q, 0));
++  animation: none;
++}
++@keyframes sx-open {
++  from {
++    opacity: 0;
++    transform: translateY(-4px);
++  }
++  to {
++    opacity: 1;
++    transform: none;
++  }
++}
++
+ /* the panel */
+ .sx-panel {
+   position: relative;
+diff --git a/a/src/components/site/modern/service-stage.tsx b/b/src/components/site/modern/service-stage.tsx
+index 81aed63..6d19cea 100644
+--- a/a/src/components/site/modern/service-stage.tsx
++++ b/b/src/components/site/modern/service-stage.tsx
+@@ -7,8 +7,10 @@ import { SmartLink } from "../smart-link";
+ 
+ // "What we build" as a list and a stage: the services are a list on the left (a row of tabs on a phone), and the one you pick opens as a large
+ // panel on the right with a small live picture of what that service does (a chat that answers, a chart that predicts, an image that is scanned,
+-// a loop that keeps a model fresh), then when it is the right choice, the problems it solves and what you get. Nothing has to be dragged: it
+-// moves on by itself while it is on the screen, and stops as soon as the visitor picks one. The look is in globals.css (.sx-*).
++// a loop that keeps a model fresh), then when it is the right choice, the problems it solves and what you get. On a desktop the stage is
++// pinned while the page scrolls and the SCROLL opens the boxes one after the other (the open box shows its whole text, the panel shows the
++// service); a click on a box scrolls to it. Where it cannot be pinned (a phone, less motion) it moves on by itself while it is on the screen
++// and stops as soon as the visitor picks one. The look is in globals.css (.sx-*).
+ 
+ type Card = { title: string; description: string; href?: string; fit?: string; problems?: string; outcomes?: string };
+ type Scene = "chat" | "chart" | "scan" | "loop" | "orbit";
+@@ -107,15 +109,94 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+   const [active, setActive] = useState(0);
+   const [auto, setAuto] = useState(true);
+   const [inView, setInView] = useState(false);
++  const [pinned, setPinned] = useState(false); // the page scroll drives the boxes
+   const rootRef = useRef<HTMLDivElement>(null);
++  const trackRef = useRef<HTMLDivElement>(null);
++  const stickyRef = useRef<HTMLDivElement>(null);
+   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+ 
++  // where in the track of the page scroll the stage stands: 0 = it has just been pinned .. 1 = the last box is done
++  const progress = () => {
++    const track = trackRef.current;
++    const sticky = stickyRef.current;
++    if (!track || !sticky) return { p: 0, dist: 1, top: 0 };
++    const r = track.getBoundingClientRect();
++    const top = parseFloat(getComputedStyle(sticky).top) || 0;
++    const dist = Math.max(1, r.height - sticky.offsetHeight);
++    return { p: Math.min(1, Math.max(0, (top - r.top) / dist)), dist, top };
++  };
++
+   const pick = (i: number, focus = false) => {
++    if (pinned) {
++      // the page scrolls to the box (the scroll opens it)
++      const { p, dist } = progress();
++      const y = window.scrollY + ((i + 0.5) / n - p) * dist;
++      const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
++      if (lenis) lenis.scrollTo(y, { duration: 0.8 });
++      else window.scrollTo({ top: y, behavior: "smooth" });
++      if (focus) tabRefs.current[i]?.focus();
++      return;
++    }
+     setAuto(false);
+     setActive(i);
+     if (focus) tabRefs.current[i]?.focus();
+   };
+ 
++  // on a desktop (with motion) the stage is pinned and the scroll opens the boxes
++  useEffect(() => {
++    if (n < 2) return;
++    const mq = window.matchMedia("(min-width: 1024px) and (prefers-reduced-motion: no-preference)");
++    const on = () => setPinned(mq.matches);
++    mq.addEventListener("change", on);
++    const first = requestAnimationFrame(on);
++    return () => {
++      mq.removeEventListener("change", on);
++      cancelAnimationFrame(first);
++    };
++  }, [n]);
++  useEffect(() => {
++    if (!pinned) return;
++    const track = trackRef.current;
++    const sticky = stickyRef.current;
++    if (!track || !sticky) return;
++    // the track is as high as the stage plus a part of the screen for every box
++    const size = () => {
++      track.style.height = `${sticky.offsetHeight + n * window.innerHeight * 0.55}px`;
++    };
++    size();
++    const ro = new ResizeObserver(size);
++    ro.observe(sticky);
++    window.addEventListener("resize", size);
++    let raf = 0;
++    let last = -1;
++    const tick = () => {
++      raf = 0;
++      const { p } = progress();
++      const idx = Math.min(n - 1, Math.floor(p * n));
++      const q = Math.min(1, p * n - idx);
++      if (idx !== last) {
++        last = idx;
++        setActive(idx);
++      }
++      // how far the open box is (the thin bar at its bottom)
++      tabRefs.current[idx]?.style.setProperty("--q", q.toFixed(3));
++    };
++    const schedule = () => {
++      if (!raf) raf = requestAnimationFrame(tick);
++    };
++    schedule();
++    window.addEventListener("scroll", schedule, { passive: true });
++    window.addEventListener("resize", schedule);
++    return () => {
++      ro.disconnect();
++      window.removeEventListener("resize", size);
++      window.removeEventListener("scroll", schedule);
++      window.removeEventListener("resize", schedule);
++      if (raf) cancelAnimationFrame(raf);
++      track.style.height = "";
++    };
++  }, [pinned, n]);
++
+   // only while it is on the screen (and the visitor has not chosen one) it moves on by itself
+   useEffect(() => {
+     const el = rootRef.current;
+@@ -124,7 +205,7 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+     io.observe(el);
+     return () => io.disconnect();
+   }, []);
+-  const run = auto && inView && n > 1;
++  const run = auto && inView && n > 1 && !pinned;
+   useEffect(() => {
+     if (!run || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+     const t = window.setTimeout(() => setActive((a) => (a + 1) % n), AUTO_MS);
+@@ -147,7 +228,9 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+   };
+ 
+   return (
+-    <div ref={rootRef} className="md sx">
++    <div ref={trackRef} className="sx-track" data-pin={pinned}>
++    <div ref={stickyRef} className="sx-sticky">
++    <div ref={rootRef} className="md sx" data-pin={pinned}>
+       <div className="sx-list" role="tablist" aria-label="What we build" onKeyDown={onKey}>
+         {cards.map((c, i) => (
+           <button
+@@ -222,5 +305,7 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+         </div>
+       </div>
+     </div>
++    </div>
++    </div>
+   );
+ }
+diff --git a/a/src/lib/cms/content/services.ts b/b/src/lib/cms/content/services.ts
+index 0f219b8..eab232d 100644
+--- a/a/src/lib/cms/content/services.ts
++++ b/b/src/lib/cms/content/services.ts
+@@ -29,7 +29,7 @@ type Svc = {
+   industries: { heading: string; intro: string; items: { name: string; description: string }[] };
+   why: { heading: string; items: { title: string; description: string }[] };
+   faq: { question: string; answer: string }[];
+-  guide: { scene: string; chip: string; heading: string; text: string; tips: string[] };
++  guide?: { scene: string; chip: string; heading: string; text: string; tips: string[] };
+   related: Card[];
+   cta: { heading: string; text: string; button: string };
+ };
+@@ -45,7 +45,7 @@ const build = (s: Svc): PageSection[] => [
+     secondaryHref: "#services",
+   }),
+   section("story", { body: s.story }),
+-  section("guide", { chip: s.guide.chip, heading: s.guide.heading, text: s.guide.text, scene: s.guide.scene, tips: s.guide.tips.join("\n"), buttonLabel: "", buttonHref: "" }),
++  ...(s.guide ? [section("guide", { chip: s.guide.chip, heading: s.guide.heading, text: s.guide.text, scene: s.guide.scene, tips: s.guide.tips.join("\n"), buttonLabel: "", buttonHref: "" })] : []),
+   section("services", {
+     chip: s.subs.chip,
+     heading: s.subs.heading,
+@@ -245,7 +245,6 @@ export const MOBILE_SECTIONS = build({
+     { title: "AI\nDevelopment", description: "Add chatbots, recommendations and predictions to your app.", href: "/ai" },
+     { title: "CRM\nDevelopment", description: "Connect your app with a custom CRM.", href: "/crm" },
+   ],
+-  guide: { scene: "mobile", chip: "Meet the app maker", heading: "Tap the phone,\nopen the app", text: "Tap the phone to move between the screens of an app, the way your customers will. Then imagine it with your own brand on it.", tips: ["Tap my phone to switch between app screens.","Android, iOS or both from one codebase: I can do it all.","From idea to Play Store and App Store, we handle it.","Fast, secure and built to scale."] },
+   cta: { heading: "Have An App Idea?\nLet's Bring It To Life.", text: "Share your concept with us and we will guide you on the tech, timeline and cost.", button: "Get a free quote" },
+ });
+ 

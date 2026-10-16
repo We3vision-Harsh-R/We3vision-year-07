@@ -1,0 +1,13 @@
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index a97594f..224de30 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -32,7 +32,7 @@ export const Industries: SectionComponent<"industries"> = ({ data, skin, page })
+             ang={-90}
+             rx={58}
+             zoom={0.6}
+-            breathe={0.07}
++            breathe={0}
+             signs={0.8}
+             infinite
+             dof

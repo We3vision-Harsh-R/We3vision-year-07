@@ -1,0 +1,162 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index f489852..3dddfd1 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -23020,3 +23020,9 @@ a.md-rel-card:hover .md-rel-go {
+   font-weight: 500;
+   opacity: 0.8;
+ }
++
++/* the people who walk about are always in front of the tables and chairs, never under them */
++.to2 .of-walker {
++  z-index: 8;
++  pointer-events: none;
++}
+diff --git a/a/src/components/site/modern/team-office.tsx b/b/src/components/site/modern/team-office.tsx
+index b4821b6..f3e3f83 100644
+--- a/a/src/components/site/modern/team-office.tsx
++++ b/b/src/components/site/modern/team-office.tsx
+@@ -150,7 +150,8 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+   const widest = Math.max(1, ...rows.map((r) => r.reduce((n, t) => n + t.cw, 0) + r.length * 40));
+   const sT = clamp((0.92 * W) / widest, 0.42, 1.2);
+   const sM = Math.min(sT * 1.12, (0.6 * W) / MZW);
+-  const sC = Math.min(sT * 1.22, (0.7 * W) / (CXO_CAP * CSEAT));
++  // (the leaders are at least as wide as their titles: 150 px apart)
++  const sC = Math.min(Math.max(sT * 1.22, 0.95), (0.7 * W) / (CXO_CAP * CSEAT));
+ 
+   const blocks: Block[] = [];
+   const lines: Layout["lines"] = [];
+@@ -233,12 +234,14 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+   const headRef = useRef<HTMLDivElement>(null);
+   const closeT = useRef(0);
+   const aisleRef = useRef<number[]>([]);
++  const aisleVer = useRef(0);
+   const [dim, setDim] = useState({ W: 1200, headH: preview ? 170 : 250 });
+   const [hot, setHot] = useState<{ p: TeamPerson; tone: number; left: number; top: number } | null>(null);
+ 
+   const lay = useMemo(() => layout(people, dim.W, dim.headH, preview ? 480 : 640), [people, dim, preview]);
+   useEffect(() => {
+     aisleRef.current = lay.aisles;
++    aisleVer.current += 1; // the walkers start again on the aisles of the new office
+   }, [lay.aisles]);
+ 
+   // the width of the box and the height of the heading decide the layout
+@@ -259,21 +262,39 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+     return () => ro.disconnect();
+   }, [preview]);
+ 
+-  // colleagues who get up and walk about the aisles between the tiers
++  // colleagues who get up and walk about. They only walk along the aisles (the free strips between the tiers) and change from one aisle to
++  // another along the side of the office, so they never go through a table or a chair.
+   useEffect(() => {
+     const root = rootRef.current;
+     if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+     const walkers = Array.from(root.querySelectorAll<HTMLElement>("[data-walker]"));
+-    const st = walkers.map(() => ({ init: false, x: 0, y: 0, tx: 0, ty: 0, wait: 0, cur: 0, tgt: 0, speed: 60 }));
++    type Walker = { init: boolean; ver: number; x: number; y: number; path: [number, number][]; wait: number; cur: number; tgt: number; speed: number };
++    const st: Walker[] = walkers.map(() => ({ init: false, ver: -1, x: 0, y: 0, path: [], wait: 0, cur: 0, tgt: 0, speed: 60 }));
+     const rnd = (a: number, b: number) => a + Math.random() * (b - a);
+     let raf = 0;
+     let last = 0;
+     let visible = true;
+-    const pick = (s: (typeof st)[number], W: number) => {
++    const plan = (s: Walker, W: number) => {
+       const ys = aisleRef.current;
+-      s.tx = rnd(0.1, 0.9) * W;
+-      s.ty = ys.length ? ys[Math.floor(Math.random() * ys.length)] : 60;
+       s.speed = rnd(46, 64) * clamp(W / 1440, 0.6, 3);
++      if (ys.length === 0) {
++        s.path = [];
++        return;
++      }
++      const tx = rnd(0.1, 0.9) * W;
++      const others = ys.filter((v) => Math.abs(v - s.y) > 4);
++      if (others.length === 0 || Math.random() < 0.6) {
++        s.path = [[tx, s.y]];
++        return;
++      }
++      // to another aisle: along the side of the office
++      const side = (s.x < W / 2 ? 0.035 : 0.965) * W;
++      const ny = others[Math.floor(Math.random() * others.length)];
++      s.path = [
++        [side, s.y],
++        [side, ny],
++        [tx, ny],
++      ];
+     };
+     const frame = (now: number) => {
+       raf = requestAnimationFrame(frame);
+@@ -281,28 +302,34 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+       last = now;
+       if (!visible) return;
+       const W = root.clientWidth;
++      const ys = aisleRef.current;
+       walkers.forEach((el, i) => {
+         const s = st[i];
+-        if (!s.init) {
++        // (re)start on an aisle when the office has changed
++        if (!s.init || s.ver !== aisleVer.current) {
+           s.x = rnd(0.1, 0.9) * W;
+-          const ys = aisleRef.current;
+           s.y = ys.length ? ys[i % ys.length] : 60;
+           s.wait = rnd(0, 3);
++          s.path = [];
+           s.init = true;
+-          pick(s, W);
++          s.ver = aisleVer.current;
+         }
+         let moving = false;
+         if (s.wait > 0) s.wait -= dt;
+-        else {
+-          const dx = s.tx - s.x;
+-          const dy = s.ty - s.y;
++        else if (s.path.length === 0) {
++          plan(s, W);
++          if (s.path.length === 0) s.wait = 1;
++        } else {
++          const [tx, ty] = s.path[0];
++          const dx = tx - s.x;
++          const dy = ty - s.y;
+           const dist = Math.hypot(dx, dy);
+           const step = s.speed * dt;
+           if (dist <= step) {
+-            s.x = s.tx;
+-            s.y = s.ty;
+-            s.wait = rnd(1.5, 6);
+-            pick(s, W);
++            s.x = tx;
++            s.y = ty;
++            s.path.shift();
++            if (s.path.length === 0) s.wait = rnd(1.5, 6);
+           } else {
+             s.x += (dx / dist) * step;
+             s.y += (dy / dist) * step;
+diff --git a/a/src/lib/cms/content/team.ts b/b/src/lib/cms/content/team.ts
+index 3c8508b..5b07c2a 100644
+--- a/a/src/lib/cms/content/team.ts
++++ b/b/src/lib/cms/content/team.ts
+@@ -19,7 +19,7 @@ const m = (name: string, role: string, dept: string, bio = "", girl = ""): TeamM
+ 
+ // The hierarchy of the office (see modern/team-office.tsx): the department "Leadership" sits in the middle at the top, "Managers" at a long
+ // table under it, and every other department is a team under the managers. The first person of a team
+-// is the first seat of its table.
++// is the first seat of its table. AI is the biggest team of the company, so it has the most people (and the widest corner).
+ export const TEAM_MEMBERS: TeamMember[] = [
+   m("Harsh Ramoliya", "MD", "Leadership", "Managing Director and one of the founders of We3vision. Mentor of the metaverse team and of the VR projects for NRIDA and the Ministry of Coal."),
+   m("Vinod Patel", "CFO & Director", "Leadership", "Chief Financial Officer and director of We3vision. Leads the finance of the company."),
+@@ -42,6 +42,15 @@ export const TEAM_MEMBERS: TeamMember[] = [
+   m("Team member", "AI Engineer", "AI & CRM"),
+   m("Team member", "AI Engineer", "AI & CRM", "", "yes"),
+   m("Team member", "CRM Developer", "AI & CRM"),
++  m("Team member", "AI Engineer", "AI & CRM"),
++  m("Team member", "Machine Learning Engineer", "AI & CRM", "", "yes"),
++  m("Team member", "Machine Learning Engineer", "AI & CRM"),
++  m("Team member", "Data Engineer", "AI & CRM"),
++  m("Team member", "Prompt Engineer", "AI & CRM", "", "yes"),
++  m("Team member", "Chatbot Developer", "AI & CRM"),
++  m("Team member", "Computer Vision Engineer", "AI & CRM"),
++  m("Team member", "AI Engineer", "AI & CRM", "", "yes"),
++  m("Team member", "AI Integration Developer", "AI & CRM"),
+   m("Team member", "SEO Specialist", "Marketing"),
+   m("Team member", "Content Writer", "Marketing", "", "yes"),
+   m("Team member", "Business Development", "Marketing"),

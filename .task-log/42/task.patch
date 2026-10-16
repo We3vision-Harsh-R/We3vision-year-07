@@ -1,0 +1,271 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index c845138..a9ef495 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17625,3 +17625,107 @@ a.md-rel-card:hover .md-rel-go {
+     font-size: 1.05rem;
+   }
+ }
++
++/* the button of the global reach card: a clear, bright call to action with an arrow that moves on hover */
++.rp-cta {
++  display: inline-flex;
++  align-items: center;
++  gap: 12px;
++  height: 56px;
++  padding: 0 30px 0 32px;
++  border-radius: 999px;
++  background: linear-gradient(135deg, hsl(calc(var(--th) + 76) calc(81% * var(--ts)) 87%), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%) 70%);
++  box-shadow:
++    0 12px 34px -10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.7),
++    inset 0 1px 0 rgba(255, 255, 255, 0.5);
++  color: hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 12%);
++  font-size: 1.0625rem;
++  font-weight: 600;
++  text-decoration: none;
++  transition:
++    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
++    box-shadow 0.3s,
++    filter 0.3s;
++}
++.rp-cta svg {
++  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.rp-cta:hover {
++  transform: translateY(-2px);
++  filter: brightness(1.06);
++  box-shadow:
++    0 18px 40px -10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.85),
++    inset 0 1px 0 rgba(255, 255, 255, 0.6);
++}
++.rp-cta:hover svg {
++  transform: translateX(4px);
++}
++.rp-cta:focus-visible {
++  outline: 2px solid #fff;
++  outline-offset: 3px;
++}
++.rp-label {
++  margin: 0;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
++  font-size: 0.875rem;
++  font-weight: 600;
++  letter-spacing: 0.12em;
++  text-transform: uppercase;
++}
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   "Why We3vision" as wide as the screen: the list on the left and the reasons on the right use the whole width (a gutter at both sides), and the
++   words and the numbers grow with the screen, so that a big monitor is not left with an empty space round a narrow block. */
++@media (min-width: 1024px) {
++  .rs {
++    max-width: none;
++    padding-inline: clamp(1.5rem, 5vw, 7rem);
++    grid-template-columns: clamp(23rem, 24vw, 36rem) minmax(0, 1fr);
++    gap: clamp(3rem, 5vw, 8rem);
++  }
++  .rs-title {
++    font-size: clamp(3rem, 4.4vw, 5.6rem);
++  }
++  .rs-card h3 {
++    font-size: clamp(2rem, 3vw, 3.8rem);
++  }
++  .rs-card p {
++    max-width: min(46rem, 90%);
++    font-size: clamp(1.125rem, 1.25vw, 1.6rem);
++  }
++  .rs-no {
++    font-size: clamp(11rem, 12vw, 20rem);
++  }
++}
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .rs {
++    padding-inline: 0;
++  }
++  .rs-pin {
++    max-width: none;
++    grid-template-columns: clamp(23rem, 24vw, 36rem) minmax(0, 1fr);
++    gap: clamp(3rem, 5vw, 8rem);
++    padding-inline: clamp(1.5rem, 5vw, 7rem);
++  }
++}
++
++/* the global reach section has no box any more: a big soft light behind the globe blends it into the background */
++.rp-glow {
++  position: absolute;
++  top: 50%;
++  right: 4%;
++  width: min(75vw, 900px);
++  aspect-ratio: 1;
++  background: radial-gradient(closest-side, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.22), hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 40% / 0.1) 55%, transparent 100%);
++  pointer-events: none;
++  transform: translateY(-50%);
++}
++@media (max-width: 767px) {
++  .rp-glow {
++    top: auto;
++    right: 50%;
++    bottom: 0;
++    width: 120vw;
++    transform: translate(50%, 20%);
++  }
++}
+diff --git a/a/src/components/site/globe.tsx b/b/src/components/site/globe.tsx
+index c59a7a1..9fb65bc 100644
+--- a/a/src/components/site/globe.tsx
++++ b/b/src/components/site/globe.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useEffect, useRef } from "react";
++import { useEffect, useRef, useState } from "react";
+ import createGlobe from "cobe";
+ 
+ type Place = { lat: number; lng: number };
+@@ -25,8 +25,27 @@ const SPIN = 0.16; // how fast the globe turns (radians per second)
+  */
+ export function Globe({ places, label }: { places: Place[]; label: string }) {
+   const canvasRef = useRef<HTMLCanvasElement>(null);
++  const [box, setBox] = useState(0); // the width of the globe on the screen (in steps of 40 px), so that it is drawn again when the window changes size
+ 
+   useEffect(() => {
++    const canvas = canvasRef.current;
++    if (!canvas) return;
++    let timer = 0;
++    const measure = () => setBox(Math.round(canvas.offsetWidth / 40) * 40);
++    const ro = new ResizeObserver(() => {
++      window.clearTimeout(timer);
++      timer = window.setTimeout(measure, 200);
++    });
++    ro.observe(canvas);
++    measure();
++    return () => {
++      window.clearTimeout(timer);
++      ro.disconnect();
++    };
++  }, []);
++
++  useEffect(() => {
++    if (box === 0) return;
+     const canvas = canvasRef.current;
+     if (!canvas || places.length === 0) return;
+     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+@@ -135,7 +154,7 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
+       observer.disconnect();
+       globe.destroy();
+     };
+-  }, [places]);
++  }, [places, box]);
+ 
+-  return <canvas ref={canvasRef} role="img" aria-label={label} className="aspect-square w-full max-w-[440px]" />;
++  return <canvas ref={canvasRef} role="img" aria-label={label} className="aspect-square w-full max-w-[min(100%,72vh,780px)]" />;
+ }
+diff --git a/a/src/components/site/reach-places.tsx b/b/src/components/site/reach-places.tsx
+index 369a09d..f7b714e 100644
+--- a/a/src/components/site/reach-places.tsx
++++ b/b/src/components/site/reach-places.tsx
+@@ -15,7 +15,7 @@ export function ReachPlaces({ labels }: { labels: string[] }) {
+     return () => window.removeEventListener(REACH_EVENT, on);
+   }, []);
+   return (
+-    <ul className="mt-8 flex flex-wrap gap-2">
++    <ul className="mt-3 flex flex-wrap gap-2.5">
+       {labels.map((label, i) => (
+         <li key={label} className="rp-chip" data-hq={i === 0} data-on={i > 0 && i - 1 === active}>
+           {label}
+diff --git a/a/src/components/site/sections/reach.tsx b/b/src/components/site/sections/reach.tsx
+index 75f8689..c64a5ce 100644
+--- a/a/src/components/site/sections/reach.tsx
++++ b/b/src/components/site/sections/reach.tsx
+@@ -1,43 +1,58 @@
+-import { GlowEdge } from "../glow-edge";
+ import { Globe } from "../globe";
+ import { ReachPlaces } from "../reach-places";
+ import { Reveal } from "../reveal";
++import { SmartLink } from "../smart-link";
+ import { SplitHeading } from "../modern/split-heading";
+-import { ButtonLink, Chip, Wide } from "../ui";
++import { Chip } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
++/**
++ * Global reach: a card as wide as the screen. On the left what we say (we work with clients in many countries), a clear button and the
++ * names of the countries (the first place is the head office); on the right the globe with a line from the head office to every country.
++ */
+ export const Reach: SectionComponent<"reach"> = ({ data, page }) => {
+   const places = data.places
+     .map((p) => ({ label: p.label, lat: Number(p.lat), lng: Number(p.lng) }))
+     .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng) && Math.abs(p.lat) <= 90 && Math.abs(p.lng) <= 180);
+ 
+   return (
+-    <section id="reach" className="py-24 sm:py-32">
+-      <Wide>
++    <section id="reach" className="py-16 sm:py-24">
++      <div className="mx-auto w-full px-4 sm:px-8 lg:px-14 xl:px-20">
+         <Reveal>
+-          <div className="bglow card-glass relative overflow-hidden rounded-[19px] border border-violet/[0.08] p-8 sm:p-12 md:grid md:grid-cols-[1.1fr_1fr] md:items-center md:gap-8">
+-            <GlowEdge />
+-            <div className="relative z-10">
++          <div className="relative md:grid md:grid-cols-[1.05fr_1fr] md:items-center md:gap-10 lg:gap-16">
++            {/* no box: the section is part of the page; a soft light behind the globe joins it to the background */}
++            <div aria-hidden className="rp-glow" />
++            <div className="relative z-10 md:max-w-[640px]">
+               <Chip>{data.chip}</Chip>
+               {page === "home" ? (
+-                <SplitHeading text={data.heading} className="mt-6 pb-1 text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]" />
++                <SplitHeading text={data.heading} className="mt-6 pb-1 text-[2.2rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[3rem] lg:text-[3.6rem]" />
+               ) : (
+-                <h2 className="text-vfade mt-6 whitespace-pre-line pb-1 text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]">{data.heading}</h2>
++                <h2 className="text-vfade mt-6 whitespace-pre-line pb-1 text-[2.2rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[3rem] lg:text-[3.6rem]">{data.heading}</h2>
++              )}
++              <p className="mt-6 max-w-xl text-lg leading-[1.7] text-orchid">{data.text}</p>
++              {data.buttonLabel && (
++                <div className="mt-9">
++                  <SmartLink href={data.buttonHref || "#contact"} className="rp-cta">
++                    <span>{data.buttonLabel}</span>
++                    <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
++                      <path d="M5 12h14M13 6l6 6-6 6" />
++                    </svg>
++                  </SmartLink>
++                </div>
++              )}
++              {places.length > 0 && (
++                <div className="mt-10">
++                  <p className="rp-label">{places.length > 2 ? "Countries we work with" : "Our offices"}</p>
++                  <ReachPlaces labels={places.map((p) => p.label)} />
++                </div>
+               )}
+-              <p className="mt-5 max-w-md text-base leading-[1.7] text-orchid">{data.text}</p>
+-              <div className="mt-8">
+-                <ButtonLink href={data.buttonHref} variant="ghost">
+-                  {data.buttonLabel}
+-                </ButtonLink>
+-              </div>
+-              {places.length > 0 && <ReachPlaces labels={places.map((p) => p.label)} />}
+             </div>
+-            <div className="mt-10 flex justify-center md:mt-0 md:translate-x-6">
++            <div className="relative z-10 mt-12 flex justify-center md:mt-0">
+               <Globe places={places} label={`Globe showing ${places.map((p) => p.label).join(", ")}`} />
+             </div>
+           </div>
+         </Reveal>
+-      </Wide>
++      </div>
+     </section>
+   );
+ };
+diff --git a/a/src/lib/cms/content/home.ts b/b/src/lib/cms/content/home.ts
+index b5b6ce8..5a45c02 100644
+--- a/a/src/lib/cms/content/home.ts
++++ b/b/src/lib/cms/content/home.ts
+@@ -115,8 +115,8 @@ export const HOME_SECTIONS: PageSection[] = [
+   section("reach", {
+     chip: "Global Reach",
+     heading: "From Surat\nTo The World",
+-    text: "Our head office and development team are in Surat, India, and we have a second office in Marburg, Germany. We work with companies in many countries, so wherever your business is, we build with you.",
+-    buttonLabel: "Contact Us",
++    text: "We have worked with clients from many countries around the world. From our head office in Surat, India, our team builds websites, apps, AI and immersive experiences for businesses in the global market, wherever they are.",
++    buttonLabel: "Start your project",
+     buttonHref: "#contact",
+     // the first place is the head office; the globe turns to every other place in turn and a line of light travels there from it
+     // (change the list in the admin panel: Pages, Home, Global reach)

@@ -1,0 +1,235 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 4f6a220..1581ccb 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -16849,3 +16849,148 @@ a.md-rel-card:hover .md-rel-go {
+     opacity: 0.6;
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The panda and its street in 3D (the earlier rules above are overridden here). The panda is smaller (68 px) and turns round in 3D (a real
++   turn on its own axis, not a flat flip); its shadow stays on the ground. The street has depth: the trees, the lamps and the benches stand
++   at the back of the pavement, the panda walks in front of them on the pavement, which is a floor in perspective. */
++@media (min-width: 700px) {
++  .hub-stage {
++    --gap: clamp(106px, 13.5vh, 120px);
++  }
++}
++.hub-av::before {
++  bottom: -22px;
++  left: -42px;
++  width: 84px;
++  height: 14px;
++  opacity: 0.85;
++}
++.hub-av::after {
++  content: "";
++  position: absolute;
++  bottom: -20px;
++  left: -24px;
++  width: 48px;
++  height: 9px;
++  border-radius: 50%;
++  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), transparent);
++}
++.hub-av-body {
++  bottom: -17px;
++  left: -34px;
++  width: 68px;
++  height: 68px;
++  transform: none;
++  transition: none;
++  perspective: 460px;
++  perspective-origin: 50% 55%;
++  transform-style: preserve-3d;
++}
++.hub-av[data-face="left"] .hub-av-body {
++  transform: none;
++}
++.hub-av-body .hub-sp {
++  opacity: 0;
++  transform-origin: 50% 100%;
++  transition:
++    transform 0.46s cubic-bezier(0.45, 0, 0.25, 1),
++    opacity 0s linear 0.23s;
++}
++/* standing: the front; setting off: the panda turns on its axis to the side (the front turns away, the side turns in, at the half of the turn the two swap) */
++.hub-av[data-state="idle"] .hub-sp-idle {
++  opacity: 1;
++  transform: rotateY(0deg);
++}
++.hub-av[data-state="idle"] .hub-sp-walk {
++  opacity: 0;
++  transform: rotateY(90deg);
++}
++.hub-av[data-state="idle"][data-face="left"] .hub-sp-walk {
++  transform: rotateY(270deg);
++}
++.hub-av[data-state="walk"] .hub-sp-idle {
++  opacity: 0;
++  transform: rotateY(-90deg);
++}
++.hub-av[data-state="walk"][data-face="left"] .hub-sp-idle {
++  transform: rotateY(90deg);
++}
++.hub-av[data-state="walk"] .hub-sp-walk {
++  opacity: 1;
++  transform: rotateY(-15deg);
++}
++.hub-av[data-state="walk"][data-face="left"] .hub-sp-walk {
++  transform: rotateY(195deg);
++}
++.st {
++  --u: 0.85;
++}
++/* the pavement: a floor in perspective, the kerb at the back */
++.st-walk {
++  top: 0;
++  height: 40px;
++  border-radius: 0;
++  transform: perspective(210px) rotateX(58deg);
++  transform-origin: 50% 0;
++  background:
++    repeating-linear-gradient(90deg, transparent 0 59px, rgba(255, 255, 255, 0.09) 59px 60px),
++    repeating-linear-gradient(180deg, transparent 0 19px, rgba(255, 255, 255, 0.07) 19px 20px),
++    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03));
++  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.22);
++}
++/* things at the back of the pavement are a little further away, and they have a shadow on the ground */
++.st-item {
++  bottom: 0;
++  transform: translateX(-50%) scale(calc(var(--u) * 0.94));
++}
++.st-item::after {
++  content: "";
++  position: absolute;
++  right: 8%;
++  bottom: -3px;
++  left: 8%;
++  height: 7px;
++  border-radius: 50%;
++  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.5), transparent);
++  z-index: -1;
++}
++.st-lamp {
++  bottom: 0;
++}
++.st-cone {
++  height: 112px;
++}
++.st-pool {
++  bottom: -16px;
++  height: 22px;
++}
++@media (min-width: 700px) and (max-height: 720px) {
++  .hub-stage {
++    --gap: 84px;
++  }
++  .hub-av-body {
++    bottom: -14px;
++    left: -28px;
++    width: 56px;
++    height: 56px;
++  }
++  .hub-av::before {
++    bottom: -18px;
++    left: -34px;
++    width: 68px;
++  }
++  .hub-av::after {
++    bottom: -16px;
++    left: -19px;
++    width: 38px;
++  }
++  .st {
++    --u: 0.66;
++  }
++}
++@media (prefers-reduced-motion: reduce) {
++  .hub-av-body .hub-sp {
++    transition: none;
++  }
++}
+diff --git a/a/src/components/site/hero-scene.tsx b/b/src/components/site/hero-scene.tsx
+index b257900..29c2b12 100644
+--- a/a/src/components/site/hero-scene.tsx
++++ b/b/src/components/site/hero-scene.tsx
+@@ -17,7 +17,7 @@ const ACCENTS = ["hsl(calc(var(--th) + 76) calc(81.25% * var(--ts)) 87.45%)", "h
+ // The first 110vh of the scroll (about two flicks of the wheel) are the ball, the blast, the dots fading away and the boxes
+ // dropping in (PE_END of the whole track); the rest of the track is the walk of the little guide along the services.
+ const FIRST_VH = 110;
+-const WALK_VH = 150;
++const WALK_VH = 130; // about 100 px of scroll (one flick of the wheel) for every service
+ const PE_END = FIRST_VH / (FIRST_VH + WALK_VH);
+ // scroll progress (of that first part) at which the particle blast is over (the sphere finishes its own 0..1 animation here)
+ const BLAST_END = 0.4;
+@@ -165,6 +165,9 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above:
+     let face = "right";
+     let idx: number | null = null;
+     let lastIdx: number | null = null;
++    let stepIdx = 0; // the box the panda is sent to by the scroll (a step at a time, see below)
++    let lastF = 0; // where the scroll was when it last moved, and the direction of that move
++    let dir = 1;
+     let raf = 0;
+     let last = 0;
+     let onScreen = true;
+@@ -216,7 +219,25 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above:
+       // which service does the guide want to be at (fractional while it is between two boxes)?
+       let want: number | null = null;
+       if (pe > 0.45 && hoverRef.current !== null) want = hoverRef.current;
+-      else if (pe >= 1 && w > ENTER_W) want = w * (n - 1);
++      else if (pe >= 1 && w > ENTER_W) {
++        // one small scroll is enough to send the panda to the next box (it goes there and stands under it); the scroll does not drag it
++        // along between two boxes. Going down, the next box is chosen as soon as the scroll is a quarter of the way there; going up, the
++        // same from the other side.
++        const f = w * (n - 1);
++        if (f > lastF + 0.01) {
++          dir = 1;
++          lastF = f;
++        } else if (f < lastF - 0.01) {
++          dir = -1;
++          lastF = f;
++        }
++        stepIdx = dir > 0 ? Math.min(n - 1, Math.floor(f + 0.75)) : Math.max(0, Math.ceil(f - 0.75));
++        want = stepIdx;
++      } else {
++        stepIdx = 0;
++        lastF = 0;
++        dir = 1;
++      }
+ 
+       if (window.innerWidth < 700) {
+         // phones: the boxes wrap into two rows, so there is no walk: the scroll (or a tap) just opens the services one by one
+@@ -250,6 +271,11 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above:
+             const target = Math.max(-WALK_SPEED, Math.min(WALK_SPEED, dx * 5));
+             vel += (target - vel) * (1 - Math.exp(-dt * 9));
+             ax += vel * dt;
++            // never past the box (a slow frame must not make it swing to and fro): it stops under it
++            if ((tx - ax) * dx < 0) {
++              ax = tx;
++              vel = 0;
++            }
+             if (Math.abs(dx) < 0.6 && Math.abs(vel) < 8) {
+               ax = tx;
+               vel = 0;
+diff --git a/a/src/components/site/panda-walker.tsx b/b/src/components/site/panda-walker.tsx
+index 84fd2ec..be2f4d3 100644
+--- a/a/src/components/site/panda-walker.tsx
++++ b/b/src/components/site/panda-walker.tsx
+@@ -73,7 +73,6 @@ export function PandaFront({ className = "" }: { className?: string }) {
+   return (
+     <svg viewBox="0 0 120 130" preserveAspectRatio="xMidYMax meet" className={`pw pw-front ${className}`} aria-hidden focusable="false">
+       <Defs p={p} />
+-      <ellipse cx="60" cy="125" rx="36" ry="4.5" fill="#000" opacity="0.3" />
+       <g className="pw-breathe">
+         {/* feet, with toes and pads */}
+         <ellipse cx="42" cy="118" rx="14" ry="8.5" fill={`url(#${p}k)`} />
+@@ -118,7 +117,6 @@ export function PandaSide({ className = "" }: { className?: string }) {
+   return (
+     <svg viewBox="0 0 140 124" preserveAspectRatio="xMidYMax meet" className={`pw pw-side ${className}`} aria-hidden focusable="false">
+       <Defs p={p} />
+-      <ellipse cx="70" cy="120" rx="50" ry="4.5" fill="#000" opacity="0.3" />
+       {/* the legs: the far ones are darker; they are behind the body (the hips are hidden) */}
+       {leg(52, "pw-a", "#241d2d")}
+       {leg(94, "pw-b", "#241d2d")}

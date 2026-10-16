@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="640" viewBox="0 0 1800 640" fill="none">
+  <defs>
+    <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6a3ff"/><stop offset="1" stop-color="#9a55e6"/></linearGradient>
+    <linearGradient id="shirtBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cf86f5"/><stop offset="1" stop-color="#7f42c8"/></linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a5cc6"/><stop offset="1" stop-color="#2a1140"/></linearGradient>
+    <radialGradient id="hairTop" cx="0.38" cy="0.34" r="0.75"><stop offset="0" stop-color="#8a4fb3"/><stop offset="0.72" stop-color="#2a1140"/><stop offset="1" stop-color="#1d0a30"/></radialGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241036"/><stop offset="1" stop-color="#12051f"/></linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.6"><stop offset="0" stop-color="#d387ff" stop-opacity="0.32"/><stop offset="1" stop-color="#d387ff" stop-opacity="0"/></radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1800" height="640" rx="36" fill="#0d0316"/>
+  <rect x="0.5" y="0.5" width="1799" height="639" rx="35.5" stroke="#d387ff" stroke-opacity="0.2"/>
+
+  <!-- the four cards -->
+  <g font-family="DM Sans, Segoe UI, Arial, sans-serif">
+    <g id="p1" transform="translate(40 40)"><rect width="400" height="560" rx="28" fill="url(#card)" stroke="#d387ff" stroke-opacity="0.18"/><rect width="400" height="560" rx="28" fill="url(#glow)"/></g>
+    <g id="p2" transform="translate(470 40)"><rect width="400" height="560" rx="28" fill="url(#card)" stroke="#d387ff" stroke-opacity="0.18"/><rect width="400" height="560" rx="28" fill="url(#glow)"/></g>
+    <g id="p3" transform="translate(900 40)"><rect width="400" height="560" rx="28" fill="url(#card)" stroke="#d387ff" stroke-opacity="0.18"/><rect width="400" height="560" rx="28" fill="url(#glow)"/></g>
+    <g id="p4" transform="translate(1330 40)"><rect width="400" height="560" rx="28" fill="url(#card)" stroke="#d387ff" stroke-opacity="0.18"/><rect width="400" height="560" rx="28" fill="url(#glow)"/></g>
+    <g fill="#f3d7ff" fill-opacity="0.85" font-size="22" font-weight="600" letter-spacing="4" text-anchor="middle">
+      <text x="240" y="578">FRONT</text>
+      <text x="670" y="578">SIDE</text>
+      <text x="1100" y="578">BACK</text>
+      <text x="1530" y="578">TOP VIEW</text>
+    </g>
+  </g>
+
+  <!-- 1. FRONT (character box 28 x 40, scaled x10) -->
+  <g transform="translate(100 130) scale(10)">
+    <ellipse cx="14" cy="38.4" rx="10" ry="2.2" fill="#000" fill-opacity="0.38"/>
+    <rect x="10.1" y="23" width="3.9" height="13" rx="1.95" fill="#2a1140"/>
+    <rect x="14" y="23" width="3.9" height="13" rx="1.95" fill="#2a1140"/>
+    <rect x="9.1" y="34.9" width="5.4" height="2.7" rx="1.35" fill="#f9c5c5"/>
+    <rect x="13.5" y="34.9" width="5.4" height="2.7" rx="1.35" fill="#f9c5c5"/>
+    <rect x="4.9" y="13.4" width="3.4" height="10.6" rx="1.7" fill="#b46bf0"/>
+    <rect x="19.7" y="13.4" width="3.4" height="10.6" rx="1.7" fill="#b46bf0"/>
+    <circle cx="6.6" cy="24.2" r="1.8" fill="#f4c3a2"/>
+    <circle cx="21.4" cy="24.2" r="1.8" fill="#f4c3a2"/>
+    <rect x="8.2" y="12" width="11.6" height="13.5" rx="4.6" fill="url(#shirt)"/>
+    <path d="M10.4 14.2c2.2-1 4.8-1 7.2 0" stroke="#fff" stroke-opacity="0.45" stroke-width="1" stroke-linecap="round"/>
+    <circle cx="7.9" cy="8.4" r="1.2" fill="#d9a888"/>
+    <circle cx="20.1" cy="8.4" r="1.2" fill="#d9a888"/>
+    <circle cx="14" cy="7.4" r="6.3" fill="#f4c3a2"/>
+    <path d="M7.6 7.8C7.1 2.4 10.3.7 14 .7c3.7 0 6.9 1.7 6.4 7.1-1.2-2.1-3.4-3.2-6.4-3.2s-5.2 1.1-6.4 3.2z" fill="url(#hair)"/>
+    <circle cx="11.5" cy="8.4" r="0.95" fill="#2a1140"/>
+    <circle cx="16.5" cy="8.4" r="0.95" fill="#2a1140"/>
+    <circle cx="10" cy="10.3" r="1.2" fill="#f08d9a" fill-opacity="0.55"/>
+    <circle cx="18" cy="10.3" r="1.2" fill="#f08d9a" fill-opacity="0.55"/>
+    <path d="M12.7 10.9c.8.8 1.8.8 2.6 0" stroke="#2a1140" stroke-width="0.7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 2. SIDE (looking right) -->
+  <g transform="translate(530 130) scale(10)">
+    <ellipse cx="14" cy="38.4" rx="9.5" ry="2.2" fill="#000" fill-opacity="0.38"/>
+    <g opacity="0.7"><rect x="12.2" y="23" width="4.4" height="13" rx="2.2" fill="#1c0b2c"/><path d="M11.4 35.2h8.2c1.2 0 2 .8 2 1.8v.5h-10.2z" fill="#e8a6b6"/></g>
+    <g opacity="0.7"><rect x="12.8" y="13.5" width="3.4" height="10.5" rx="1.7" fill="#7b3fc0"/><circle cx="14.5" cy="24" r="1.7" fill="#d9a888"/></g>
+    <rect x="8.2" y="12" width="11.6" height="13.5" rx="4.6" fill="url(#shirt)"/>
+    <path d="M10 14.2c1.4-.8 3.2-1 5-.6" stroke="#fff" stroke-opacity="0.45" stroke-width="1" stroke-linecap="round"/>
+    <circle cx="14" cy="7.4" r="6.3" fill="#f4c3a2"/>
+    <path d="M7.6 7.6C7.2 2.6 10.6.7 14.4.9c3.6.2 6.1 2.7 5.9 6.4-1.4-1.7-3.7-2.6-6.4-2.4-2.7.2-5 1.1-6.3 2.7z" fill="url(#hair)"/>
+    <circle cx="12.1" cy="8.2" r="1.1" fill="#d9a888"/>
+    <circle cx="18.1" cy="7.9" r="0.95" fill="#2a1140"/>
+    <circle cx="17" cy="10" r="1.2" fill="#f08d9a" fill-opacity="0.55"/>
+    <rect x="12.2" y="23" width="4.4" height="13" rx="2.2" fill="#2a1140"/>
+    <path d="M11.4 35.2h8.2c1.2 0 2 .8 2 1.8v.5h-10.2z" fill="#f9c5c5"/>
+    <rect x="12.8" y="13.5" width="3.4" height="10.5" rx="1.7" fill="#b46bf0"/>
+    <circle cx="14.5" cy="24" r="1.7" fill="#f4c3a2"/>
+  </g>
+
+  <!-- 3. BACK -->
+  <g transform="translate(960 130) scale(10)">
+    <ellipse cx="14" cy="38.4" rx="10" ry="2.2" fill="#000" fill-opacity="0.38"/>
+    <rect x="10.1" y="23" width="3.9" height="13" rx="1.95" fill="#2a1140"/>
+    <rect x="14" y="23" width="3.9" height="13" rx="1.95" fill="#2a1140"/>
+    <rect x="9.1" y="34.9" width="5.4" height="2.7" rx="1.35" fill="#f9c5c5"/>
+    <rect x="13.5" y="34.9" width="5.4" height="2.7" rx="1.35" fill="#f9c5c5"/>
+    <rect x="4.9" y="13.4" width="3.4" height="10.6" rx="1.7" fill="#9a55e6"/>
+    <rect x="19.7" y="13.4" width="3.4" height="10.6" rx="1.7" fill="#9a55e6"/>
+    <circle cx="6.6" cy="24.2" r="1.8" fill="#f4c3a2"/>
+    <circle cx="21.4" cy="24.2" r="1.8" fill="#f4c3a2"/>
+    <rect x="8.2" y="12" width="11.6" height="13.5" rx="4.6" fill="url(#shirtBack)"/>
+    <path d="M14 13.4v10.4" stroke="#fff" stroke-opacity="0.18" stroke-width="0.7" stroke-linecap="round"/>
+    <circle cx="7.9" cy="8.6" r="1.2" fill="#d9a888"/>
+    <circle cx="20.1" cy="8.6" r="1.2" fill="#d9a888"/>
+    <circle cx="14" cy="7.4" r="6.3" fill="url(#hair)"/>
+    <path d="M9.6 4.2c1.3-1.3 3.1-1.9 5-1.8" stroke="#fff" stroke-opacity="0.25" stroke-width="1" stroke-linecap="round"/>
+    <path d="M10.6 12.4c2 .8 4.8.8 6.8 0" stroke="#9a5cc6" stroke-opacity="0.5" stroke-width="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 4. TOP VIEW (bird's eye: only the top of the head, ears, shoulders, hands, feet) -->
+  <g transform="translate(1530 300) scale(10)">
+    <ellipse cx="0" cy="1" rx="12.6" ry="12.6" fill="#000" fill-opacity="0.4" filter="url(#soft)"/>
+    <ellipse cx="-4.2" cy="12.6" rx="2.2" ry="3.4" fill="#f9c5c5"/>
+    <ellipse cx="4.2" cy="12.6" rx="2.2" ry="3.4" fill="#f9c5c5"/>
+    <ellipse cx="0" cy="3.2" rx="10.4" ry="5.6" fill="url(#shirt)"/>
+    <circle cx="-10.8" cy="7.6" r="2.1" fill="#f4c3a2"/>
+    <circle cx="10.8" cy="7.6" r="2.1" fill="#f4c3a2"/>
+    <circle cx="-7.9" cy="-0.8" r="1.9" fill="#f2bf9f"/>
+    <circle cx="7.9" cy="-0.8" r="1.9" fill="#f2bf9f"/>
+    <circle cx="0" cy="-1" r="7.4" fill="url(#hairTop)"/>
+    <circle cx="0" cy="-1" r="7.4" stroke="#fff" stroke-opacity="0.2" stroke-width="0.4"/>
+    <path d="M-3.6 4.1c2.3 1 4.9 1 7.2 0" stroke="#fff" stroke-opacity="0.45" stroke-width="1" stroke-linecap="round"/>
+    <path d="M-4.4 -5c1.6-1.4 3.6-2 5.6-1.6" stroke="#fff" stroke-opacity="0.3" stroke-width="0.9" stroke-linecap="round"/>
+  </g>
+</svg>

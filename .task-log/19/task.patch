@@ -1,0 +1,13 @@
+diff --git a/a/src/lib/cms/content/home.ts b/b/src/lib/cms/content/home.ts
+index 0d3cde6..131c9b1 100644
+--- a/a/src/lib/cms/content/home.ts
++++ b/b/src/lib/cms/content/home.ts
+@@ -79,7 +79,7 @@ export const HOME_SECTIONS: PageSection[] = [
+       { value: "2019", label: "Founded in Surat" },
+       { value: "7", label: "Years of innovation" },
+       { value: "11–50", label: "Team members" },
+-      { value: "2", label: "Offices: India & Germany" },
++      { value: "300+", label: "Successful projects" },
+     ],
+   }),
+   section("industries", {

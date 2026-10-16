@@ -1,0 +1,12 @@
+diff --git a/a/src/lib/cms/content/services.ts b/b/src/lib/cms/content/services.ts
+index eab232d..05854b1 100644
+--- a/a/src/lib/cms/content/services.ts
++++ b/b/src/lib/cms/content/services.ts
+@@ -563,7 +563,6 @@ export const CRM_SECTIONS = build({
+     { title: "Mobile App\nDevelopment", description: "A mobile app for your sales and support teams.", href: "/mobile" },
+     { title: "UI/UX\nDesign", description: "Dashboards your team enjoys using.", href: "/ui-ux-design" },
+   ],
+-  guide: { scene: "crm", chip: "Meet the sales guide", heading: "Move a deal,\nwin a customer", text: "Tap a deal to move it to the next stage and watch the number of won deals grow. A custom CRM keeps all of this in one place.", tips: ["Tap a deal card to move it to the next stage.","A CRM keeps leads, deals and customers in one place.","Automations follow up so nobody is forgotten.","We connect it to email, WhatsApp and your ERP."] },
+   cta: { heading: "Let's Build A CRM That\nWorks The Way You Do", text: "Tell us how you run your business and we will build a CRM that makes it faster, smarter and more profitable.", button: "Get a free quote" },
+ });
+ 

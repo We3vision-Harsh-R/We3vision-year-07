@@ -1,0 +1,40 @@
+diff --git a/a/src/components/site/modern/blog-masonry.tsx b/b/src/components/site/modern/blog-masonry.tsx
+index 0d5bd67..570b171 100644
+--- a/a/src/components/site/modern/blog-masonry.tsx
++++ b/b/src/components/site/modern/blog-masonry.tsx
+@@ -11,7 +11,7 @@ import { GlowEdge } from "../glow-edge";
+ // when the window changes size the pictures glide to their new places.
+ //  - The pointer INSIDE a card: that card is clear and has the border glow (it follows the pointer along the edge); all the other pictures go out of
+ //    focus (the frames of the cards stay sharp, so they still read as cards). The pointer between the cards: everything is clear.
+-//  - The pointer stays on one card for 2 seconds: a small panel with the brief of the article opens beside it (on the right, or the left, or below,
++//  - The pointer stays on one card for half a second: a small panel with the brief of the article opens beside it (on the right, or the left, or below,
+ //    wherever there is room). It stays while the pointer is on the panel, and it closes when the pointer goes to another card or away.
+ // The same component draws the preview in the admin panel (fixed number of columns, nothing to click, one picture marked).
+ // The look is in globals.css (.bm-*).
+@@ -23,7 +23,7 @@ export type MasonryItem = {
+   image: string;
+   tile: string;
+   href: string;
+-  /** shown in the panel that opens after 3 seconds */
++  /** shown in the panel that opens after half a second */
+   summary?: string;
+   dateLabel?: string;
+   tags?: string[];
+@@ -43,7 +43,7 @@ type Props = {
+   interactive?: boolean;
+ };
+ 
+-const OPEN_AFTER = 2000;
++const OPEN_AFTER = 500;
+ 
+ export function BlogMasonry({ items, columns, minColumn = 300, minColumns = 3, maxColumns = 6, highlightId, interactive = true }: Props) {
+   const boxRef = useRef<HTMLDivElement>(null);
+@@ -70,7 +70,7 @@ export function BlogMasonry({ items, columns, minColumn = 300, minColumns = 3, m
+     return () => window.clearTimeout(t);
+   }, [width, settled, items.length]);
+ 
+-  // 2 seconds on one card: its panel opens
++  // half a second on one card: its panel opens
+   useEffect(() => {
+     if (!interactive || !hoverId) return;
+     const t = window.setTimeout(() => setOpenId(hoverId), OPEN_AFTER);

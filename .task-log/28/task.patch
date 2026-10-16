@@ -1,0 +1,305 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 78ec043..baf294d 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17135,8 +17135,8 @@ a.md-rel-card:hover .md-rel-go {
+ .cm-dof i {
+   position: absolute;
+   inset: 0;
+-  -webkit-backdrop-filter: blur(var(--b));
+-  backdrop-filter: blur(var(--b));
++  -webkit-backdrop-filter: blur(calc(var(--b) * var(--cam-blur, 1)));
++  backdrop-filter: blur(calc(var(--b) * var(--cam-blur, 1)));
+   -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 var(--s), transparent var(--e));
+   mask-image: linear-gradient(to bottom, #000 0, #000 var(--s), transparent var(--e));
+ }
+@@ -17213,12 +17213,12 @@ a.md-rel-card:hover .md-rel-go {
+    middle and narrows towards the horizon (strong perspective). The camera looks at the floor from 45 degrees. */
+ @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+   .cm-bird .cm-scene {
+-    perspective: 2500px; /* a long lens: little distortion, like a portrait camera (not a wide one) */
++    perspective: var(--cam-p, 2500px); /* a long lens: little distortion, like a portrait camera (not a wide one) */
+     perspective-origin: 50% 50%;
+   }
+   .cm-bird .cm-world {
+-    left: 50%;
+-    top: 71%;
++    left: var(--cam-x, 50%);
++    top: var(--cam-y, 71%);
+   }
+   .cm-bird .cm-ui {
+     grid-template-columns: 15.5rem minmax(0, 1fr) 22rem; /* the list and the info stand at the two edges, the map has the middle for itself */
+@@ -17252,3 +17252,79 @@ a.md-rel-card:hover .md-rel-go {
+     mask-image: linear-gradient(to right, transparent 10%, #000 25%, #000 69%, transparent 79%);
+   }
+ }
++
++/* the camera tuner (camera-tuner.tsx): only with ?cam in the address */
++.ct {
++  position: fixed;
++  top: 84px;
++  right: 14px;
++  z-index: 90;
++  width: 290px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
++  border-radius: 18px;
++  background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 8% / 0.94);
++  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.8);
++  color: #fff;
++  font-size: 0.875rem;
++}
++.cm-sticky[data-live="false"] ~ .ct {
++  display: none;
++}
++.ct-head {
++  display: flex;
++  width: 100%;
++  align-items: center;
++  justify-content: space-between;
++  padding: 12px 16px;
++  background: none;
++  border: 0;
++  color: inherit;
++  font: inherit;
++  cursor: pointer;
++}
++.ct-head b {
++  font-size: 1rem;
++}
++.ct-head span {
++  opacity: 0.7;
++}
++.ct-body {
++  display: grid;
++  gap: 12px;
++  padding: 0 16px 16px;
++}
++.ct-row span {
++  display: flex;
++  justify-content: space-between;
++  gap: 8px;
++  margin-bottom: 4px;
++}
++.ct-row output {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  font-variant-numeric: tabular-nums;
++}
++.ct-row input {
++  width: 100%;
++  accent-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++}
++.ct-btns {
++  display: flex;
++  gap: 10px;
++}
++.ct-btns button {
++  flex: 1;
++  padding: 9px 12px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
++  border-radius: 12px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12);
++  color: #fff;
++  font: inherit;
++  cursor: pointer;
++}
++.ct-btns button:hover {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25);
++}
++.ct-body p {
++  margin: 0;
++  opacity: 0.65;
++}
+diff --git a/b/src/components/site/camera-tuner.tsx b/b/src/components/site/camera-tuner.tsx
+new file mode 100644
+index 0000000..71cf5f0
+--- /dev/null
++++ b/b/src/components/site/camera-tuner.tsx
+@@ -0,0 +1,75 @@
++"use client";
++
++import { useState } from "react";
++
++// A small panel to set the camera of the industries city by hand (it appears when "?cam" is added to the address of the page, e.g.
++// http://localhost:3000/?cam). Every slider moves the camera at once, and the values are kept in this browser (localStorage), so the camera
++// stays where it was put. "Copy values" puts the numbers on the clipboard, to send them to be fixed in the code for all visitors.
++// Nothing here is shown to visitors.
++
++export type Cam = {
++  zoom: number; // size of the city
++  pitch: number; // the angle of the camera to the floor (degrees): 90 = straight down, 0 = along the floor
++  ang: number; // turn of the camera round the road (degrees): -90 = looking along the road
++  lens: number; // the lens (px): small = wide angle, big = a long lens
++  x: number; // where the car is, from the left (%)
++  y: number; // where the car is, from the top (%)
++  blur: number; // strength of the blur in the distance (0 = none)
++};
++
++const FIELDS: { k: keyof Cam; label: string; min: number; max: number; step: number; unit: string }[] = [
++  { k: "zoom", label: "Zoom", min: 0.2, max: 1.6, step: 0.01, unit: "×" },
++  { k: "pitch", label: "Camera angle to the floor", min: 15, max: 85, step: 1, unit: "°" },
++  { k: "ang", label: "Turn round the road", min: -130, max: -50, step: 1, unit: "°" },
++  { k: "lens", label: "Lens (small = wide)", min: 500, max: 6000, step: 50, unit: "px" },
++  { k: "x", label: "Car: left / right", min: 25, max: 75, step: 1, unit: "%" },
++  { k: "y", label: "Car: up / down", min: 30, max: 95, step: 1, unit: "%" },
++  { k: "blur", label: "Blur in the distance", min: 0, max: 2.5, step: 0.05, unit: "×" },
++];
++
++export function CameraTuner({ cam, onChange, onReset }: { cam: Cam; onChange: (c: Cam) => void; onReset: () => void }) {
++  const [open, setOpen] = useState(true);
++  const [copied, setCopied] = useState(false);
++  const copy = async () => {
++    try {
++      await navigator.clipboard.writeText(JSON.stringify(cam));
++      setCopied(true);
++      window.setTimeout(() => setCopied(false), 1600);
++    } catch {
++      window.prompt("Copy these values:", JSON.stringify(cam));
++    }
++  };
++  return (
++    <div className="ct" data-lenis-prevent data-open={open}>
++      <button type="button" className="ct-head" onClick={() => setOpen(!open)} aria-expanded={open}>
++        <b>Camera</b>
++        <span>{open ? "hide" : "show"}</span>
++      </button>
++      {open && (
++        <div className="ct-body">
++          {FIELDS.map((f) => (
++            <label key={f.k} className="ct-row">
++              <span>
++                {f.label}
++                <output>
++                  {cam[f.k]}
++                  {f.unit}
++                </output>
++              </span>
++              <input type="range" min={f.min} max={f.max} step={f.step} value={cam[f.k]} onChange={(e) => onChange({ ...cam, [f.k]: Number(e.target.value) })} />
++            </label>
++          ))}
++          <div className="ct-btns">
++            <button type="button" onClick={onReset}>
++              Reset
++            </button>
++            <button type="button" onClick={copy}>
++              {copied ? "Copied" : "Copy values"}
++            </button>
++          </div>
++          <p>The values are saved in this browser.</p>
++        </div>
++      )}
++    </div>
++  );
++}
+diff --git a/a/src/components/site/industries-road.tsx b/b/src/components/site/industries-road.tsx
+index b5d001e..99ba6da 100644
+--- a/a/src/components/site/industries-road.tsx
++++ b/b/src/components/site/industries-road.tsx
+@@ -1,10 +1,11 @@
+ "use client";
+ 
+-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
++import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+ import { IndustryIcon } from "./icons";
+ import { Box, LANE_BOT, LANE_TOP, PH, PW, Piece, Vehicle, district, kindOf } from "./city-scene";
+ import type { Road } from "./modern/map-variants";
+ import type { ReactNode } from "react";
++import { CameraTuner, type Cam } from "./camera-tuner";
+ 
+ // The industries city of the service pages. It is the same city as the one on the home page (industries-city.tsx, the districts and the
+ // buildings come from city-scene.tsx, the look from the .cm-* styles) but the car does not drive round a ring road: it drives straight
+@@ -18,6 +19,23 @@ const S = 340; // the distance between two districts along the road (they stand
+ const Y0 = (LANE_TOP + LANE_BOT) / 2; // the road
+ const OUT = 28; // our lane; the oncoming traffic has the other one
+ const RX = 58; // the tilt of the camera (degrees from looking straight down)
++const CAM_KEY = "we3.camera.industries.v1"; // where the camera tuner keeps its values (this browser only)
++const CAM_EVENT = "we3-camera";
++const subscribeCam = (cb: () => void) => {
++  window.addEventListener("storage", cb);
++  window.addEventListener(CAM_EVENT, cb);
++  return () => {
++    window.removeEventListener("storage", cb);
++    window.removeEventListener(CAM_EVENT, cb);
++  };
++};
++const readCam = () => {
++  try {
++    return window.localStorage.getItem(CAM_KEY) ?? "";
++  } catch {
++    return "";
++  }
++};
+ const FAR = 4200; // an infinite road runs this far beyond the first and the last district (the haze and the blur hide the end)
+ const smooth = (t: number) => {
+   const c = Math.min(1, Math.max(0, t));
+@@ -34,9 +52,9 @@ const bend = (road: Road, u: number) => {
+ export function IndustriesRoad({
+   items,
+   road,
+-  ang,
+-  zoom = 1.1,
+-  rx = RX,
++  ang: angP,
++  zoom: zoomP = 1.1,
++  rx: rxP = RX,
+   infinite = false,
+   dof = false,
+   breathe = 0,
+@@ -60,6 +78,36 @@ export function IndustriesRoad({
+   const n = items.length;
+   const uid = useId();
+   const [active, setActive] = useState(0);
++  // the camera (on the home page it can be set by hand with the tuner: add ?cam to the address; the values are kept in this browser)
++  const base = useMemo<Cam>(() => ({ zoom: zoomP, pitch: 90 - rxP, ang: angP, lens: 2500, x: 50, y: 71, blur: 1 }), [zoomP, rxP, angP]);
++  const saved = useSyncExternalStore(subscribeCam, readCam, () => ""); // what this browser has kept (nothing on the server)
++  const tune = useSyncExternalStore(
++    () => () => {},
++    () => window.location.search.includes("cam"),
++    () => false,
++  );
++  const [moved, setMoved] = useState<Cam | null>(null); // the value of this visit (also when the browser cannot keep anything)
++  const cam = useMemo<Cam>(() => {
++    if (!dof) return base;
++    if (moved) return moved;
++    try {
++      return saved ? { ...base, ...JSON.parse(saved) } : base;
++    } catch {
++      return base;
++    }
++  }, [dof, moved, saved, base]);
++  const moveCam = (c: Cam) => {
++    setMoved(c);
++    try {
++      window.localStorage.setItem(CAM_KEY, JSON.stringify(c));
++      window.dispatchEvent(new Event(CAM_EVENT));
++    } catch {
++      /* the values are only not kept */
++    }
++  };
++  const zoom = cam.zoom;
++  const rx = 90 - cam.pitch;
++  const ang = cam.ang;
+   const trackRef = useRef<HTMLDivElement>(null);
+   const stickyRef = useRef<HTMLDivElement>(null);
+   const worldRef = useRef<HTMLDivElement>(null);
+@@ -225,7 +273,12 @@ export function IndustriesRoad({
+   const cur = items[Math.min(active, n - 1)];
+ 
+   return (
+-    <div ref={trackRef} className={dof ? "cm-track cm-bird" : "cm-track"} data-pin={n > 1} style={{ "--n": n } as React.CSSProperties}>
++    <div
++      ref={trackRef}
++      className={dof ? "cm-track cm-bird" : "cm-track"}
++      data-pin={n > 1}
++      style={{ "--n": n, ...(dof ? { "--cam-p": `${cam.lens}px`, "--cam-x": `${cam.x}%`, "--cam-y": `${cam.y}%`, "--cam-blur": cam.blur } : {}) } as React.CSSProperties}
++    >
+       {head && <div className="cm-head">{head}</div>}
+       {/* the real content: a list (the only thing shown on a tablet and a phone) */}
+       <ol className="cm-list">
+@@ -365,6 +418,7 @@ export function IndustriesRoad({
+           </div>
+         </div>
+       </div>
++      {tune && <CameraTuner cam={cam} onChange={moveCam} onReset={() => moveCam(base)} />}
+     </div>
+   );
+ }

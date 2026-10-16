@@ -1,0 +1,374 @@
+{
+  "tasks": {
+    "1": {
+      "title": "Service pages: the common sections (what we build, process, why us, FAQ, related) redesigned (not Metaverse, Brand Design, About)",
+      "status": "done",
+      "files": 13
+    },
+    "2": {
+      "title": "Industries city: a different map, road, buildings and walker/cyclist for each service page",
+      "status": "done",
+      "files": 8
+    },
+    "3": {
+      "title": "Border glow on every card and box of the site",
+      "status": "done",
+      "files": 3
+    },
+    "4": {
+      "title": "Team page: the office with 20-30 people, profile on hover, scroll effect",
+      "status": "done",
+      "files": 10
+    },
+    "5": {
+      "title": "Neon Reveal effect (own build, React Bits Pro style) used where it fits",
+      "status": "done",
+      "files": 3
+    },
+    "6": {
+      "title": "About page hero: text based, not in the 3D space",
+      "status": "done",
+      "files": 8
+    },
+    "7": {
+      "title": "Dappled Light effect (own build) used where it fits",
+      "status": "done",
+      "files": 3
+    },
+    "8": {
+      "title": "Circle Gallery: draggable ring of cards on a 3D floor",
+      "status": "done",
+      "files": 3
+    },
+    "9": {
+      "title": "More React Bits style effects + smoother animations on the other pages",
+      "status": "done",
+      "files": 10
+    },
+    "10": {
+      "title": "Home page: new sections with the same concepts (the existing ones stay as they are)",
+      "status": "done",
+      "files": 4
+    },
+    "11": {
+      "title": "Footer pages: blog, contact, careers and 6 technology pages in the site design",
+      "status": "done",
+      "files": 18
+    },
+    "12": {
+      "title": "Industries road on service pages: the same 3D city design as before on every page, only the road shape differs, the car goes straight (no U-turn); the old map redesign (task 2) is removed",
+      "status": "done",
+      "files": 5
+    },
+    "13": {
+      "title": "Home page: the walking avatar of the services section becomes the panda, walking smoothly",
+      "status": "done",
+      "files": 3
+    },
+    "14": {
+      "title": "Home page walking panda: a properly designed, bigger panda with room above the rail",
+      "status": "done",
+      "files": 2
+    },
+    "15": {
+      "title": "Home page panda: more detail, and a creative street with lamps (coloured light on the panda), trees, benches and decorations",
+      "status": "done",
+      "files": 4
+    },
+    "16": {
+      "title": "Home panda street: smaller and more real, 3D turn of the panda (no flat flip), one scroll = next service, panda stands under its box",
+      "status": "done",
+      "files": 3
+    },
+    "17": {
+      "title": "Home page AI chat bar: smaller width, expands on hover",
+      "status": "done",
+      "files": 1
+    },
+    "18": {
+      "title": "Home page At a glance: minimal redesign without the panda, with count-up animation (About keeps its own version)",
+      "status": "done",
+      "files": 3
+    },
+    "19": {
+      "title": "Home At a glance: 2 offices replaced by 300+ successful projects",
+      "status": "done",
+      "files": 1
+    },
+    "20": {
+      "title": "Home At a glance: the team members figure removed",
+      "status": "done",
+      "files": 3
+    },
+    "21": {
+      "title": "Home industries city: straight road (no U-turn), all industries along it, 20% smaller",
+      "status": "done",
+      "files": 2
+    },
+    "22": {
+      "title": "Home industries: infinite road, bird's-eye camera straight above the road, depth-of-field blur in the distance",
+      "status": "done",
+      "files": 3
+    },
+    "23": {
+      "title": "Home industries: cinematic angle, camera further with a zoom that breathes, panel back on the right, the section title stays on screen while pinned",
+      "status": "done",
+      "files": 3
+    },
+    "24": {
+      "title": "Home industries: layout and camera as drawn (list left, info right, map between two perspective lines, title top with soft blur, 45 degree camera)",
+      "status": "done",
+      "files": 3
+    },
+    "25": {
+      "title": "Home industries: camera angle refined for a better look",
+      "status": "done",
+      "files": 2
+    },
+    "26": {
+      "title": "Home industries: tighter (portrait / telephoto) camera, lower and closer to the road",
+      "status": "done",
+      "files": 2
+    },
+    "27": {
+      "title": "Home industries: camera fixed (no zoom in/out while the car drives)",
+      "status": "done",
+      "files": 1
+    },
+    "28": {
+      "title": "Home industries: a camera tuner (add ?cam to the address) with sliders; the values are saved in the browser",
+      "status": "done",
+      "files": 3
+    },
+    "29": {
+      "title": "Global reach: arcs from Surat to many countries (we work worldwide)",
+      "status": "done",
+      "files": 5
+    },
+    "30": {
+      "title": "Home industries: the camera values set by the user are the defaults, cards at the bottom, camera tuner hidden in the code",
+      "status": "done",
+      "files": 3
+    },
+    "31": {
+      "title": "Global reach: all lines from India to every country shown together",
+      "status": "done",
+      "files": 1
+    },
+    "32": {
+      "title": "Admin panel: image upload, Projects (portfolio) manager feeding the Brand Design slider and a Portfolio page, admin account",
+      "status": "done",
+      "files": 40
+    },
+    "33": {
+      "title": "Home industries: the list and the info card stay near the centre (on wide screens too)",
+      "status": "done",
+      "files": 1
+    },
+    "34": {
+      "title": "Home industries: the road itself (not the car) is in the middle of the screen",
+      "status": "done",
+      "files": 3
+    },
+    "35": {
+      "title": "Home industries: the list and the info card are bright, readable and the active industry is highlighted",
+      "status": "done",
+      "files": 1
+    },
+    "36": {
+      "title": "Home services walk: the original cartoon avatar again instead of the panda",
+      "status": "done",
+      "files": 3
+    },
+    "37": {
+      "title": "AI chat bar: no white ring when it opens, smoother opening (the window and the blur keep their size while the bar widens)",
+      "status": "done",
+      "files": 2
+    },
+    "38": {
+      "title": "Remove the sub-service pages (Brand Design sub pages) and the links to them; the sub-service lists stay as text",
+      "status": "done",
+      "files": 10
+    },
+    "39": {
+      "title": "Home services: clicking the title / text of an open service goes to its page",
+      "status": "done",
+      "files": 2
+    },
+    "40": {
+      "title": "Home industries list card: one clean card with a title, even rows, nicer active row",
+      "status": "done",
+      "files": 1
+    },
+    "41": {
+      "title": "Tech space: the planets are placed at random (not on a spiral) and orbit at different speeds",
+      "status": "done",
+      "files": 2
+    },
+    "42": {
+      "title": "Global reach card: full screen width, the text says we work for clients in many countries, a better CTA button",
+      "status": "done",
+      "files": 5
+    },
+    "43": {
+      "title": "Why choose us: as wide as the screen",
+      "status": "done",
+      "files": 2
+    },
+    "44": {
+      "title": "Contact section redesigned as a short interactive flow (pick what you need, then your details)",
+      "status": "done",
+      "files": 6
+    },
+    "45": {
+      "title": "Why-choose-us: no hard edge line at the cards' glow; Contact flow: more unique (project ticket, budget, rocket launch)",
+      "status": "done",
+      "files": 91
+    },
+    "46": {
+      "title": "Team page: hero background like About + story sections",
+      "status": "done",
+      "files": 6
+    },
+    "47": {
+      "title": "Team office: no zoom, hover pop-up, admin team management + preview",
+      "status": "done",
+      "files": 18
+    },
+    "48": {
+      "title": "Team office: hierarchy (CXO centre, managers, teams)",
+      "status": "done",
+      "files": 6
+    },
+    "49": {
+      "title": "Managers table: Venshi sits at the table, main chair empty",
+      "status": "done",
+      "files": 3
+    },
+    "50": {
+      "title": "Team office: a big team (AI) gets a wider corner",
+      "status": "done",
+      "files": 3
+    },
+    "51": {
+      "title": "Team office: avatars never walk under tables, AI team biggest",
+      "status": "done",
+      "files": 3
+    },
+    "52": {
+      "title": "Contact hero: receptionist scene + guided options",
+      "status": "done",
+      "files": 3
+    },
+    "53": {
+      "title": "Contact hero: interactive layered avatar receptionist",
+      "status": "done",
+      "files": 261
+    },
+    "54": {
+      "title": "Blog: hover pop-up opens after 0.5 s",
+      "status": "done",
+      "files": 1
+    },
+    "55": {
+      "title": "Team: seats chosen in the admin panel (seat picker)",
+      "status": "done",
+      "files": 11
+    },
+    "56": {
+      "title": "Careers: train journey page + admin careers",
+      "status": "done",
+      "files": 29
+    },
+    "57": {
+      "title": "Careers: railway across the whole page, one-page boarding pass",
+      "status": "done",
+      "files": 10
+    },
+    "58": {
+      "title": "Careers: soft railway curves, theme colours, 2-step ticket form (img 2/3)",
+      "status": "done",
+      "files": 5
+    },
+    "59": {
+      "title": "Careers: tunnels under sections, engines both ends, W3V readable, train graphics",
+      "status": "done",
+      "files": 2
+    },
+    "60": {
+      "title": "Careers: scroll lock until city, train on city, miss-train popup, tunnel names/cut/lead-in, mile posts",
+      "status": "done",
+      "files": 4
+    },
+    "61": {
+      "title": "Brand page hero alignment",
+      "status": "done",
+      "files": 2
+    },
+    "62": {
+      "title": "Careers: job openings list + single job page + admin jobs/applications",
+      "status": "done",
+      "files": 30
+    },
+    "63": {
+      "title": "Careers: job list moved into the Surat Junction station section",
+      "status": "done",
+      "files": 7
+    },
+    "64": {
+      "title": "Careers: office in one line with the station heading, job list in the left area",
+      "status": "done",
+      "files": 3
+    },
+    "65": {
+      "title": "Careers: the track fades out at its end with a buffer stop",
+      "status": "done",
+      "files": 2
+    },
+    "66": {
+      "title": "Hero leaf designs removed; themed gradient backgrounds, different pattern per page",
+      "status": "done",
+      "files": 4
+    },
+    "67": {
+      "title": "Service pages: What we build boxes open one after another while scrolling",
+      "status": "done",
+      "files": 3
+    },
+    "68": {
+      "title": "Service pages: What we build pinned with its heading, compulsory scroll",
+      "status": "done",
+      "files": 3
+    },
+    "69": {
+      "title": "Tools & Technologies: heading scrolls up with the section (not fixed)",
+      "status": "done",
+      "files": 1
+    },
+    "70": {
+      "title": "CRM page: remove the Meet the sales guide section",
+      "status": "done",
+      "files": 1
+    },
+    "71": {
+      "title": "Animation page guide: no avatar, After Effects style box",
+      "status": "done",
+      "files": 5
+    },
+    "72": {
+      "title": "UI/UX page: Figma studio guide (full screen, no avatar) and a different What we design section",
+      "status": "done",
+      "files": 9
+    },
+    "73": {
+      "title": "3D Modeling page: remove the Meet the 3D artist section",
+      "status": "done",
+      "files": 1
+    },
+    "74": {
+      "title": "Service pages: every repeated section gets its own design on each page",
+      "status": "done",
+      "files": 16
+    }
+  }
+}

@@ -1,0 +1,5396 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 7dae48e..177abe5 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -28062,3 +28062,3401 @@ a.rt-row:hover {
+     transition: none;
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The repeated sections of the service pages in different designs (components/site/modern/*-variants.tsx). Every page has its own one.
++   First the heading they share (.vk-head), then the process (.vp-*). */
++.vk-head {
++  max-width: 640px;
++}
++.vk-head[data-center="true"] {
++  margin: 0 auto;
++  text-align: center;
++}
++.vk-head[data-center="true"] .md-intro {
++  margin-right: auto;
++  margin-left: auto;
++}
++.vp-pts {
++  display: grid;
++  gap: 8px;
++  margin: 16px 0 0;
++  padding: 0;
++  list-style: none;
++}
++.vp-pts li {
++  position: relative;
++  padding-left: 24px;
++  color: #fff;
++  font-size: 1rem;
++  line-height: 1.5;
++}
++.vp-pts li::before {
++  content: "";
++  position: absolute;
++  top: 0.45em;
++  left: 0;
++  width: 14px;
++  height: 14px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
++  border-radius: 5px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
++}
++.vp-pts li::after {
++  content: "";
++  position: absolute;
++  top: 0.62em;
++  left: 4.5px;
++  width: 4px;
++  height: 7px;
++  border-right: 1.6px solid var(--a);
++  border-bottom: 1.6px solid var(--a);
++  transform: rotate(45deg);
++}
++
++/* 1: stepper */
++.vp-stepper {
++  display: grid;
++  gap: 40px;
++}
++.vp-st-track {
++  position: relative;
++  display: grid;
++  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vp-st-line {
++  position: absolute;
++  top: 27px;
++  right: calc(50% / var(--n));
++  left: calc(50% / var(--n));
++  height: 3px;
++  border-radius: 3px;
++  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
++}
++.vp-st-line i {
++  position: absolute;
++  inset: 0;
++  width: calc(var(--i) / (var(--n) - 1) * 100%);
++  border-radius: 3px;
++  background: var(--a);
++  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vp-st-track li {
++  position: relative;
++  display: grid;
++  justify-items: center;
++  gap: 12px;
++  text-align: center;
++}
++.vp-st-track button {
++  display: grid;
++  width: 56px;
++  height: 56px;
++  place-items: center;
++  border: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9%);
++  color: var(--soft);
++  font: inherit;
++  font-size: 1.0625rem;
++  font-weight: 700;
++  cursor: pointer;
++  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.3s;
++}
++.vp-st-track li[data-done="true"] button {
++  border-color: var(--a);
++  color: var(--a);
++}
++.vp-st-track li[data-on="true"] button {
++  border-color: var(--a);
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  transform: scale(1.12);
++}
++.vp-st-track b {
++  max-width: 150px;
++  color: var(--soft);
++  font-size: 1rem;
++  font-weight: 600;
++  line-height: 1.3;
++}
++.vp-st-track li[data-on="true"] b {
++  color: #fff;
++}
++.vp-st-panel {
++  position: relative;
++  max-width: 820px;
++  margin: 0 auto;
++  padding: 30px 34px;
++  border: 1px solid var(--hair);
++  border-radius: 26px;
++  background: var(--card);
++  animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vp-st-no {
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 700;
++  letter-spacing: 0.12em;
++  text-transform: uppercase;
++}
++.vp-st-panel h3,
++.vp-rg-panel h3,
++.vp-tb-panel h3 {
++  margin: 8px 0 0;
++  font-size: 1.75rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.15;
++}
++.vp-st-panel p,
++.vp-rg-panel p,
++.vp-tb-panel p {
++  margin: 12px 0 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.65;
++}
++
++/* 2: zigzag */
++.vp-zz {
++  display: grid;
++  gap: 48px;
++}
++.vp-zz-list {
++  position: relative;
++  display: grid;
++  gap: 28px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vp-zz-list::before {
++  content: "";
++  position: absolute;
++  top: 0;
++  bottom: 0;
++  left: 50%;
++  width: 2px;
++  background: linear-gradient(180deg, transparent, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5) 8%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5) 92%, transparent);
++  transform: translateX(-50%);
++}
++.vp-zz-list li {
++  position: relative;
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
++  align-items: center;
++}
++.vp-zz-list li[data-side="l"] > :not(.vp-zz-dot) {
++  grid-column: 1;
++  margin-right: 56px;
++}
++.vp-zz-list li[data-side="r"] > :not(.vp-zz-dot) {
++  grid-column: 2;
++  margin-left: 56px;
++}
++.vp-zz-dot {
++  position: absolute;
++  top: 50%;
++  left: 50%;
++  display: grid;
++  width: 46px;
++  height: 46px;
++  place-items: center;
++  border: 2px solid var(--a);
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
++  color: var(--a);
++  font-size: 0.9375rem;
++  font-weight: 700;
++  transform: translate(-50%, -50%);
++}
++.vp-zz-card {
++  position: relative;
++  padding: 22px 26px 24px;
++  border: 1px solid var(--hair);
++  border-radius: 22px;
++  background: var(--card);
++}
++.vp-zz-card h3,
++.vp-ss-card h3,
++.vp-bd-col h3 {
++  margin: 0;
++  font-size: 1.375rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.2;
++}
++.vp-zz-card p,
++.vp-ss-card p,
++.vp-bd-col p {
++  margin: 8px 0 0;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.6;
++}
++
++/* 3: stairs */
++.vp-stairs {
++  display: grid;
++  gap: 44px;
++}
++.vp-ss-list {
++  display: grid;
++  gap: 18px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vp-ss-list li {
++  margin-left: calc(var(--i) * (100% - 560px) / max(var(--n) - 1, 1));
++  max-width: 560px;
++}
++.vp-ss-card {
++  position: relative;
++  display: flex;
++  gap: 20px;
++  padding: 20px 24px;
++  border: 1px solid var(--hair);
++  border-left: 3px solid var(--a);
++  border-radius: 18px;
++  background: var(--card);
++}
++.vp-ss-no {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
++  font-size: 2.5rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++  line-height: 1;
++}
++
++/* 4: rows */
++.vp-rows {
++  display: grid;
++  gap: 36px;
++}
++@media (min-width: 1024px) {
++  .vp-rows {
++    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
++    gap: 72px;
++  }
++  .vp-rows aside {
++    position: sticky;
++    top: 110px;
++    align-self: start;
++  }
++}
++.vp-rw-list {
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vp-rw-list li {
++  border-top: 1px solid var(--hair);
++}
++.vp-rw-list li:last-child {
++  border-bottom: 1px solid var(--hair);
++}
++.vp-rw-list button {
++  display: flex;
++  width: 100%;
++  align-items: center;
++  gap: 20px;
++  padding: 22px 0;
++  border: 0;
++  background: none;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.7);
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++  transition: color 0.3s;
++}
++.vp-rw-list li[data-on="true"] button,
++.vp-rw-list button:hover {
++  color: #fff;
++}
++.vp-rw-no {
++  min-width: 62px;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
++  font-size: 2.25rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++  line-height: 1;
++}
++.vp-rw-list li[data-on="true"] .vp-rw-no {
++  color: var(--a);
++}
++.vp-rw-t {
++  flex: 1;
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++}
++.vp-rw-plus {
++  position: relative;
++  width: 22px;
++  height: 22px;
++}
++.vp-rw-plus::before,
++.vp-rw-plus::after {
++  content: "";
++  position: absolute;
++  top: 50%;
++  left: 0;
++  width: 100%;
++  height: 2px;
++  background: var(--a);
++  transition: transform 0.3s;
++}
++.vp-rw-plus::after {
++  transform: rotate(90deg);
++}
++.vp-rw-list li[data-on="true"] .vp-rw-plus::after {
++  transform: rotate(0);
++}
++.vp-rw-body {
++  display: grid;
++  grid-template-rows: 0fr;
++  transition: grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vp-rw-body[data-open="true"] {
++  grid-template-rows: 1fr;
++}
++.vp-rw-in {
++  display: grid;
++  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
++  gap: 28px;
++  min-height: 0;
++  overflow: hidden;
++  padding: 0 0 0 82px;
++}
++.vp-rw-body[data-open="true"] .vp-rw-in {
++  padding-bottom: 26px;
++}
++.vp-rw-in p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.65;
++}
++.vp-rw-in .vp-pts {
++  margin: 0;
++}
++
++/* 5: ring */
++.vp-ring {
++  display: grid;
++  gap: 40px;
++}
++.vp-rg-grid {
++  display: grid;
++  align-items: center;
++  gap: 40px;
++}
++@media (min-width: 1024px) {
++  .vp-rg-grid {
++    grid-template-columns: 460px minmax(0, 1fr);
++    gap: 64px;
++  }
++}
++.vp-rg-wheel {
++  position: relative;
++  width: min(100%, 460px);
++  aspect-ratio: 1;
++  margin: 0 auto;
++}
++.vp-rg-orbit {
++  position: absolute;
++  inset: 8%;
++  border: 2px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
++  border-radius: 50%;
++}
++.vp-rg-core {
++  position: absolute;
++  top: 50%;
++  left: 50%;
++  display: grid;
++  width: 150px;
++  height: 150px;
++  place-content: center;
++  border-radius: 50%;
++  background: radial-gradient(circle at 35% 30%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.55), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 10%) 72%);
++  box-shadow: 0 0 60px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.25);
++  text-align: center;
++  transform: translate(-50%, -50%);
++}
++.vp-rg-core b {
++  font-size: 2.75rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++  line-height: 1;
++}
++.vp-rg-core small {
++  color: var(--soft);
++  font-size: 0.875rem;
++}
++.vp-rg-wheel button {
++  position: absolute;
++  display: grid;
++  width: 54px;
++  height: 54px;
++  place-items: center;
++  border: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9%);
++  color: var(--soft);
++  font: inherit;
++  font-size: 1rem;
++  font-weight: 700;
++  cursor: pointer;
++  transform: translate(-50%, -50%);
++  transition: background 0.3s, border-color 0.3s, color 0.3s, scale 0.3s;
++}
++.vp-rg-wheel button[data-done="true"] {
++  border-color: var(--a);
++  color: var(--a);
++}
++.vp-rg-wheel button[data-on="true"] {
++  border-color: var(--a);
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  scale: 1.18;
++}
++.vp-rg-panel {
++  position: relative;
++  padding: 30px 32px;
++  border: 1px solid var(--hair);
++  border-radius: 26px;
++  background: var(--card);
++  animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++
++/* 6: tabs */
++.vp-tabs {
++  display: grid;
++  gap: 36px;
++}
++@media (min-width: 1024px) {
++  .vp-tabs {
++    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
++    gap: 56px;
++  }
++}
++.vp-tb-list {
++  display: grid;
++  gap: 8px;
++  margin: 30px 0 0;
++  padding: 0;
++  list-style: none;
++}
++.vp-tb-list button {
++  position: relative;
++  display: flex;
++  width: 100%;
++  align-items: center;
++  gap: 14px;
++  padding: 14px 18px;
++  overflow: hidden;
++  border: 1px solid var(--hair);
++  border-radius: 16px;
++  background: none;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.75);
++  font: inherit;
++  font-size: 1.0625rem;
++  font-weight: 600;
++  text-align: left;
++  cursor: pointer;
++  transition: background 0.3s, border-color 0.3s, color 0.3s;
++}
++.vp-tb-list button span {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
++  font-weight: 700;
++}
++.vp-tb-list button[data-on="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.16);
++  color: #fff;
++}
++.vp-tb-list button[data-on="true"] span {
++  color: var(--a);
++}
++.vp-tb-list i {
++  position: absolute;
++  right: 0;
++  bottom: 0;
++  left: 0;
++  height: 3px;
++  background: var(--a);
++  opacity: 0;
++  transform-origin: left;
++}
++.vp-tb-list button[data-on="true"] i {
++  opacity: 0.6;
++}
++.vp-tb-list button[data-on="true"] i[data-run="true"] {
++  opacity: 1;
++  animation: sx-fill 6s linear both;
++}
++.vp-tb-panel {
++  position: relative;
++  min-height: 340px;
++  padding: 36px 38px;
++  overflow: hidden;
++  border: 1px solid var(--hair);
++  border-radius: 28px;
++  background: var(--card);
++  animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vp-tb-mark {
++  position: absolute;
++  top: -8px;
++  right: 22px;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
++  font-size: 9rem;
++  font-weight: 700;
++  letter-spacing: -0.06em;
++  line-height: 1;
++}
++
++/* 7: board */
++.vp-board {
++  display: grid;
++  gap: 32px;
++}
++.vp-bd-pipe {
++  display: flex;
++  flex-wrap: wrap;
++  justify-content: center;
++  gap: 6px 4px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vp-bd-pipe li {
++  position: relative;
++  padding: 7px 22px 7px 18px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
++  color: var(--a);
++  font-size: 0.9375rem;
++  font-weight: 600;
++}
++.vp-bd-pipe li:not(:last-child)::after {
++  content: "›";
++  position: absolute;
++  top: 50%;
++  right: -12px;
++  color: var(--a);
++  font-size: 1.25rem;
++  transform: translateY(-52%);
++}
++.vp-bd-cols {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 18px;
++}
++.vp-bd-col {
++  display: flex;
++  height: 100%;
++  flex-direction: column;
++  padding: 20px;
++  border: 1px solid var(--hair);
++  border-top: 3px solid var(--a);
++  border-radius: 18px;
++  background: var(--card);
++}
++.vp-bd-col header {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  margin-bottom: 4px;
++}
++.vp-bd-col header span {
++  display: grid;
++  width: 34px;
++  height: 34px;
++  place-items: center;
++  border-radius: 10px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
++  color: var(--a);
++  font-size: 0.9375rem;
++  font-weight: 700;
++}
++.vp-bd-cards {
++  display: grid;
++  gap: 8px;
++  margin: 14px 0 0;
++  padding: 0;
++  list-style: none;
++}
++.vp-bd-cards li {
++  padding: 9px 12px;
++  border: 1px solid var(--hair);
++  border-radius: 10px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.7);
++  color: #fff;
++  font-size: 0.9375rem;
++  line-height: 1.4;
++}
++.vp-bd-bar {
++  height: 5px;
++  margin-top: auto;
++  overflow: hidden;
++  border-radius: 5px;
++  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.12);
++}
++.vp-bd-col > p {
++  margin-bottom: 14px;
++}
++.vp-bd-bar i {
++  display: block;
++  height: 100%;
++  border-radius: 5px;
++  background: var(--a);
++}
++@media (prefers-reduced-motion: reduce) {
++  .vp-st-line i,
++  .vp-rw-body {
++    transition: none;
++  }
++}
++
++/* ---- the questions (.vf-*) ---- */
++.vf {
++  display: grid;
++  gap: 40px;
++}
++.vf h3 {
++  margin: 0;
++}
++
++/* 1: stack */
++.vf-sk-list {
++  display: grid;
++  gap: 12px;
++  max-width: 860px;
++  margin: 0 auto;
++  width: 100%;
++}
++.vf-sk-item {
++  border: 1px solid var(--hair);
++  border-radius: 20px;
++  background: var(--card);
++  transition: border-color 0.3s, background 0.3s;
++}
++.vf-sk-item[data-open="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.45);
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 12% / 0.9);
++}
++.vf-sk-item button {
++  display: flex;
++  width: 100%;
++  align-items: center;
++  gap: 18px;
++  padding: 20px 24px;
++  border: 0;
++  background: none;
++  color: #fff;
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++}
++.vf-sk-item button span {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
++  font-size: 1.125rem;
++  font-weight: 700;
++}
++.vf-sk-item[data-open="true"] button span {
++  color: var(--a);
++}
++.vf-sk-item button b {
++  flex: 1;
++  font-size: 1.1875rem;
++  font-weight: 600;
++  letter-spacing: -0.01em;
++  line-height: 1.35;
++}
++.vf-sk-item button i {
++  position: relative;
++  width: 14px;
++  height: 14px;
++  border-right: 2px solid var(--a);
++  border-bottom: 2px solid var(--a);
++  transform: rotate(45deg) translate(-3px, -3px);
++  transition: transform 0.3s;
++}
++.vf-sk-item[data-open="true"] button i {
++  transform: rotate(-135deg) translate(-3px, -3px);
++}
++.vf-sk-body {
++  display: grid;
++  grid-template-rows: 0fr;
++  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vf-sk-item[data-open="true"] .vf-sk-body {
++  grid-template-rows: 1fr;
++}
++.vf-sk-body p {
++  min-height: 0;
++  margin: 0;
++  overflow: hidden;
++  padding: 0 24px 0 66px;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.7;
++}
++.vf-sk-item[data-open="true"] .vf-sk-body p {
++  padding-bottom: 22px;
++}
++
++/* 2: cards */
++.vf-cd-grid {
++  display: grid;
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++  gap: 18px;
++}
++.vf-cd {
++  position: relative;
++  height: 100%;
++  padding: 26px 28px 28px;
++  border: 1px solid var(--hair);
++  border-radius: 24px;
++  background: var(--card);
++}
++.vf-cd-q {
++  display: grid;
++  width: 36px;
++  height: 36px;
++  place-items: center;
++  margin-bottom: 14px;
++  border-radius: 11px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
++  color: var(--a);
++  font-size: 1.0625rem;
++  font-weight: 700;
++}
++.vf-cd h3 {
++  font-size: 1.3125rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.3;
++}
++.vf-cd p {
++  margin: 10px 0 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.65;
++}
++
++/* 3: chat */
++.vf-ch-grid {
++  display: grid;
++  gap: 24px;
++}
++@media (min-width: 1024px) {
++  .vf-ch-grid {
++    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
++    gap: 32px;
++  }
++}
++.vf-ch-list {
++  display: grid;
++  gap: 10px;
++  align-content: start;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vf-ch-list button {
++  display: block;
++  width: 100%;
++  padding: 14px 18px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
++  border-radius: 999px;
++  background: none;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.85);
++  font: inherit;
++  font-size: 1rem;
++  font-weight: 500;
++  line-height: 1.35;
++  text-align: left;
++  cursor: pointer;
++  transition: background 0.25s, border-color 0.25s, color 0.25s;
++}
++.vf-ch-list button[data-on="true"] {
++  border-color: var(--a);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.2);
++  color: #fff;
++}
++.vf-ch-win {
++  overflow: hidden;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.28);
++  border-radius: 26px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.95);
++}
++.vf-ch-top {
++  display: flex;
++  align-items: center;
++  gap: 10px;
++  padding: 14px 20px;
++  border-bottom: 1px solid var(--hair);
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 11%);
++}
++.vf-ch-top i {
++  width: 12px;
++  height: 12px;
++  border-radius: 50%;
++  background: var(--a);
++  box-shadow: 0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
++}
++.vf-ch-top b {
++  font-size: 1rem;
++}
++.vf-ch-top small {
++  margin-left: auto;
++  color: var(--soft);
++  font-size: 0.875rem;
++}
++.vf-ch-body {
++  display: grid;
++  gap: 12px;
++  min-height: 300px;
++  align-content: start;
++  padding: 24px;
++}
++.vf-ch-msg {
++  max-width: 88%;
++  margin: 0;
++  padding: 13px 18px;
++  font-size: 1.0625rem;
++  line-height: 1.6;
++}
++.vf-ch-you {
++  justify-self: end;
++  border-radius: 20px 20px 4px 20px;
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-weight: 600;
++  animation: vq-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vf-ch-bot {
++  justify-self: start;
++  border-radius: 20px 20px 20px 4px;
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 16%);
++  color: #fff;
++}
++.vf-ch-dots {
++  display: flex;
++  gap: 5px;
++  animation: vf-dots 0.9s ease both;
++  animation-delay: 0.25s;
++}
++.vf-ch-dots i {
++  width: 8px;
++  height: 8px;
++  border-radius: 50%;
++  background: var(--a);
++  animation: vf-blink 0.8s ease-in-out infinite;
++}
++.vf-ch-dots i:nth-child(2) {
++  animation-delay: 0.15s;
++}
++.vf-ch-dots i:nth-child(3) {
++  animation-delay: 0.3s;
++}
++.vf-ch-ans {
++  animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 1.1s both;
++}
++@keyframes vf-dots {
++  0% {
++    opacity: 0;
++    max-height: 48px;
++  }
++  15%,
++  80% {
++    opacity: 1;
++    max-height: 48px;
++  }
++  100% {
++    opacity: 0;
++    max-height: 0;
++    padding-top: 0;
++    padding-bottom: 0;
++    margin-top: -12px;
++  }
++}
++@keyframes vf-blink {
++  0%,
++  100% {
++    opacity: 0.3;
++  }
++  50% {
++    opacity: 1;
++  }
++}
++
++/* 4: tabs */
++.vf-tabs {
++  display: grid;
++  gap: 32px;
++}
++@media (min-width: 1024px) {
++  .vf-tabs {
++    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.2fr);
++    gap: 56px;
++  }
++}
++.vf-tb-list ol {
++  display: grid;
++  gap: 4px;
++  margin: 28px 0 0;
++  padding: 0 0 0 18px;
++  border-left: 2px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
++  list-style: none;
++}
++.vf-tb-list button {
++  position: relative;
++  display: block;
++  width: 100%;
++  padding: 12px 0 12px 14px;
++  border: 0;
++  background: none;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.7);
++  font: inherit;
++  font-size: 1.0625rem;
++  font-weight: 500;
++  line-height: 1.4;
++  text-align: left;
++  cursor: pointer;
++  transition: color 0.25s;
++}
++.vf-tb-list button[data-on="true"] {
++  color: #fff;
++  font-weight: 600;
++}
++.vf-tb-list button[data-on="true"]::before {
++  content: "";
++  position: absolute;
++  top: 8px;
++  bottom: 8px;
++  left: -20px;
++  width: 2px;
++  background: var(--a);
++}
++.vf-tb-panel {
++  position: relative;
++  align-self: start;
++  padding: 40px 42px 44px;
++  overflow: hidden;
++  border: 1px solid var(--hair);
++  border-radius: 30px;
++  background: var(--card);
++  animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vf-tb-mark {
++  position: absolute;
++  top: -30px;
++  right: 24px;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12);
++  font-size: 11rem;
++  font-weight: 700;
++  line-height: 1;
++}
++.vf-tb-no {
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 700;
++  letter-spacing: 0.12em;
++}
++.vf-tb-panel h3 {
++  margin-top: 10px;
++  font-size: 1.75rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.2;
++}
++.vf-tb-panel p {
++  margin: 16px 0 0;
++  color: var(--soft);
++  font-size: 1.125rem;
++  line-height: 1.75;
++}
++
++/* 5: flip */
++.vf-fl-hint {
++  margin: -22px 0 0;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  text-align: center;
++}
++.vf-fl-grid {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 18px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vf-fl-grid button {
++  display: block;
++  width: 100%;
++  height: 230px;
++  padding: 0;
++  border: 0;
++  background: none;
++  color: #fff;
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++  perspective: 900px;
++}
++.vf-fl-in {
++  position: relative;
++  display: block;
++  width: 100%;
++  height: 100%;
++  transform-style: preserve-3d;
++  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vf-fl-grid button[data-flip="true"] .vf-fl-in {
++  transform: rotateY(180deg);
++}
++.vf-fl-face {
++  position: absolute;
++  inset: 0;
++  display: flex;
++  flex-direction: column;
++  justify-content: space-between;
++  padding: 22px 22px 24px;
++  overflow: hidden;
++  border: 1px solid var(--hair);
++  border-radius: 22px;
++  background: var(--card);
++  backface-visibility: hidden;
++  -webkit-backface-visibility: hidden;
++}
++.vf-fl-front em {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
++  font-size: 2rem;
++  font-style: normal;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++}
++.vf-fl-front b {
++  font-size: 1.1875rem;
++  font-weight: 600;
++  line-height: 1.35;
++}
++.vf-fl-back {
++  gap: 10px;
++  justify-content: flex-start;
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.45);
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 13%);
++  transform: rotateY(180deg);
++}
++.vf-fl-back small {
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 700;
++  letter-spacing: 0.1em;
++  text-transform: uppercase;
++}
++.vf-fl-back span {
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 96% / 0.92);
++  font-size: 0.9375rem;
++  line-height: 1.55;
++}
++
++/* 6: editorial */
++.vf-ed-list {
++  border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++}
++.vf-ed-row {
++  display: grid;
++  grid-template-columns: 70px minmax(0, 0.9fr) minmax(0, 1.2fr);
++  gap: 32px;
++  padding: 26px 0;
++  border-bottom: 1px solid var(--hair);
++}
++.vf-ed-row span {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45);
++  font-size: 2.25rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++  line-height: 1;
++}
++.vf-ed-row h3 {
++  font-size: 1.3125rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.3;
++}
++.vf-ed-row p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.7;
++}
++@media (prefers-reduced-motion: reduce) {
++  .vf-sk-body,
++  .vf-fl-in {
++    transition: none;
++  }
++  .vf-ch-dots {
++    display: none;
++  }
++  .vf-ch-ans {
++    animation: none;
++  }
++}
++
++/* ---- why we3vision (.vw-*) ---- */
++.vw {
++  display: grid;
++  gap: 44px;
++}
++.vw h3 {
++  margin: 0;
++}
++/* 1: grid */
++.vw-gd-list {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 18px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vw-gd-list li {
++  display: flex;
++}
++.vw-gd-card {
++  position: relative;
++  width: 100%;
++  padding: 26px 26px 28px;
++  border: 1px solid var(--hair);
++  border-radius: 24px;
++  background: var(--card);
++  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
++}
++.vw-gd-card:hover {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.45);
++  transform: translateY(-6px);
++}
++.vw-gd-card h3 {
++  margin-top: 18px;
++  font-size: 1.3125rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.25;
++}
++.vw-gd-card p {
++  margin: 8px 0 0;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.6;
++}
++/* 2: list */
++.vw-list {
++  gap: 36px;
++}
++@media (min-width: 1024px) {
++  .vw-list {
++    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.5fr);
++    gap: 64px;
++  }
++  .vw-ls-head {
++    position: sticky;
++    top: 110px;
++    align-self: start;
++  }
++}
++.vw-ls-rows {
++  margin: 0;
++  padding: 0;
++  list-style: none;
++  border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++}
++.vw-ls-rows li {
++  display: grid;
++  grid-template-columns: 56px minmax(0, 0.9fr) minmax(0, 1.1fr);
++  gap: 24px;
++  align-items: baseline;
++  padding: 24px 12px;
++  border-bottom: 1px solid var(--hair);
++  transition: background 0.3s, padding 0.3s;
++}
++.vw-ls-rows li:hover {
++  padding-left: 22px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.07);
++}
++.vw-ls-no {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
++  font-size: 1.5rem;
++  font-weight: 700;
++  letter-spacing: -0.04em;
++}
++.vw-ls-rows h3 {
++  font-size: 1.3125rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.25;
++}
++.vw-ls-rows p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.6;
++}
++/* 3: carousel */
++.vw-cr-top {
++  display: flex;
++  align-items: flex-end;
++  justify-content: space-between;
++  gap: 24px;
++}
++.vw-cr-ar {
++  display: flex;
++  gap: 10px;
++}
++.vw-cr-ar button {
++  width: 52px;
++  height: 52px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
++  border-radius: 50%;
++  background: none;
++  color: var(--a);
++  font-size: 1.375rem;
++  cursor: pointer;
++  transition: background 0.25s;
++}
++.vw-cr-ar button:hover {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
++}
++.vw-cr-row {
++  display: flex;
++  gap: 18px;
++  margin: 0;
++  padding: 4px 4px 14px;
++  overflow-x: auto;
++  list-style: none;
++  scroll-snap-type: x mandatory;
++  scrollbar-width: none;
++}
++.vw-cr-row::-webkit-scrollbar {
++  display: none;
++}
++.vw-cr-row li {
++  flex: none;
++  width: 360px;
++  scroll-snap-align: start;
++}
++.vw-cr-card {
++  display: grid;
++  gap: 10px;
++  height: 100%;
++  min-height: 260px;
++  align-content: start;
++  padding: 26px;
++  border: 1px solid var(--hair);
++  border-radius: 24px;
++  background: linear-gradient(160deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.14), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9% / 0.8) 60%);
++}
++.vw-cr-card span {
++  color: var(--a);
++  font-size: 2.5rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++  line-height: 1;
++}
++.vw-cr-card h3 {
++  font-size: 1.3125rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.25;
++}
++.vw-cr-card p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.6;
++}
++/* 4: checklist */
++.vw-chk {
++  gap: 32px;
++}
++@media (min-width: 1024px) {
++  .vw-chk {
++    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr);
++    gap: 72px;
++  }
++  .vw-chk aside {
++    position: sticky;
++    top: 110px;
++    align-self: start;
++  }
++}
++.vw-ck-list {
++  display: grid;
++  gap: 14px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vw-ck-row {
++  display: flex;
++  gap: 18px;
++  padding: 20px 22px;
++  border: 1px solid var(--hair);
++  border-radius: 20px;
++  background: var(--card);
++}
++.vw-ck-tick {
++  position: relative;
++  flex: none;
++  width: 30px;
++  height: 30px;
++  margin-top: 2px;
++  border-radius: 50%;
++  background: var(--a);
++}
++.vw-ck-tick::after {
++  content: "";
++  position: absolute;
++  top: 7px;
++  left: 11px;
++  width: 7px;
++  height: 13px;
++  border-right: 3px solid hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  border-bottom: 3px solid hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  transform: rotate(45deg);
++}
++.vw-ck-row h3 {
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.25;
++}
++.vw-ck-row p {
++  margin: 6px 0 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.6;
++}
++/* 5: tiles */
++.vw-tl-grid {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  grid-auto-flow: dense;
++  gap: 18px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vw-tl-grid li[data-big="true"] {
++  grid-column: span 2;
++}
++.vw-tl-grid li {
++  display: flex;
++}
++.vw-tl {
++  position: relative;
++  display: grid;
++  width: 100%;
++  min-height: 210px;
++  align-content: end;
++  gap: 8px;
++  padding: 26px;
++  overflow: hidden;
++  border: 1px solid var(--hair);
++  border-radius: 26px;
++  background: radial-gradient(120% 120% at 100% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.2), transparent 60%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10% / 0.9);
++}
++.vw-tl-no {
++  position: absolute;
++  top: -10px;
++  right: 14px;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.09);
++  font-size: 6rem;
++  font-weight: 700;
++  letter-spacing: -0.06em;
++  line-height: 1;
++}
++.vw-tl h3 {
++  position: relative;
++  font-size: 1.375rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.25;
++}
++.vw-tl p {
++  position: relative;
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.6;
++}
++/* 6: marquee */
++.vw-mq-rows {
++  display: grid;
++  gap: 16px;
++  margin: 0 -16px;
++  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
++  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
++}
++.vw-mq-row {
++  overflow: hidden;
++}
++.vw-mq-track {
++  display: flex;
++  width: max-content;
++  gap: 16px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++  animation: vw-run 70s linear infinite;
++}
++.vw-mq-row[data-rev="true"] .vw-mq-track {
++  animation-direction: reverse;
++}
++.vw-mq-row:hover .vw-mq-track {
++  animation-play-state: paused;
++}
++.vw-mq-card {
++  width: 340px;
++  height: 100%;
++  padding: 22px 24px;
++  border: 1px solid var(--hair);
++  border-radius: 22px;
++  background: var(--card);
++}
++.vw-mq-card h3 {
++  font-size: 1.1875rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++}
++.vw-mq-card p {
++  margin: 8px 0 0;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.55;
++}
++@keyframes vw-run {
++  to {
++    transform: translateX(-33.333%);
++  }
++}
++/* 7: spotlight */
++.vw-sp-grid {
++  display: grid;
++  gap: 24px;
++}
++@media (min-width: 1024px) {
++  .vw-sp-grid {
++    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
++    gap: 40px;
++  }
++}
++.vw-sp-list {
++  display: grid;
++  gap: 6px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vw-sp-list button {
++  display: flex;
++  width: 100%;
++  align-items: center;
++  gap: 16px;
++  padding: 14px 20px;
++  border: 1px solid transparent;
++  border-radius: 16px;
++  background: none;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.65);
++  font: inherit;
++  font-size: 1.1875rem;
++  font-weight: 600;
++  text-align: left;
++  cursor: pointer;
++  transition: background 0.3s, color 0.3s, border-color 0.3s;
++}
++.vw-sp-list button span {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45);
++  font-size: 0.9375rem;
++}
++.vw-sp-list button[data-on="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.14);
++  color: #fff;
++}
++.vw-sp-panel {
++  position: relative;
++  display: grid;
++  align-content: center;
++  gap: 14px;
++  min-height: 320px;
++  padding: 36px 38px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 30px;
++  background: radial-gradient(120% 120% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.2), transparent 62%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 9% / 0.95);
++  animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vw-sp-panel h3 {
++  font-size: 1.875rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.15;
++}
++.vw-sp-panel p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.125rem;
++  line-height: 1.7;
++}
++
++/* ---- more from we3vision (.vl-*) ---- */
++.vl {
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vl h3 {
++  margin: 0;
++}
++.vl-go {
++  display: inline-grid;
++  width: 44px;
++  height: 44px;
++  place-items: center;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
++  border-radius: 50%;
++  color: var(--a);
++  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s;
++}
++.vl-go svg {
++  width: 20px;
++  height: 20px;
++  fill: none;
++  stroke: currentColor;
++  stroke-width: 2;
++  stroke-linecap: round;
++  stroke-linejoin: round;
++}
++.vl-no {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
++  font-size: 1.25rem;
++  font-weight: 700;
++  letter-spacing: -0.03em;
++}
++/* 1: rows */
++.vl-rows {
++  border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++}
++.vl-row {
++  display: grid;
++  grid-template-columns: 64px minmax(0, 0.8fr) minmax(0, 1.2fr) 44px;
++  gap: 24px;
++  align-items: center;
++  padding: 24px 12px;
++  border-bottom: 1px solid var(--hair);
++  color: #fff;
++  text-decoration: none;
++  transition: background 0.3s, padding 0.3s;
++}
++.vl-row:hover {
++  padding-left: 24px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
++}
++.vl-row:hover .vl-go {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2);
++  transform: translateX(6px);
++}
++.vl-row h3 {
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.2;
++}
++.vl-row p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.55;
++}
++/* 2: deck */
++.vl-deck {
++  display: flex;
++  justify-content: center;
++  padding: 10px 0 24px;
++}
++.vl-deck li {
++  flex: 0 1 290px;
++  min-width: 0;
++  margin-left: -26px;
++  transform: translateY(calc((var(--i) - (var(--n) - 1) / 2) * 6px)) rotate(calc((var(--i) - (var(--n) - 1) / 2) * 3deg));
++  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), margin 0.45s;
++}
++.vl-deck li:first-child {
++  margin-left: 0;
++}
++.vl-deck:hover li {
++  margin-left: 14px;
++  transform: none;
++}
++.vl-deck:hover li:first-child {
++  margin-left: 0;
++}
++.vl-dk {
++  position: relative;
++  display: grid;
++  gap: 10px;
++  min-height: 300px;
++  align-content: start;
++  padding: 24px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 24px;
++  background: hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10%);
++  color: #fff;
++  text-decoration: none;
++  box-shadow: 0 20px 50px -26px rgba(0, 0, 0, 0.9);
++}
++.vl-dk:hover {
++  border-color: var(--a);
++}
++.vl-dk h3 {
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.25;
++}
++.vl-dk p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.55;
++}
++.vl-dk .vl-go {
++  margin-top: 4px;
++}
++/* 3: marquee */
++.vl-mq {
++  overflow: hidden;
++  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
++  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
++}
++.vl-mq-track {
++  display: flex;
++  width: max-content;
++  gap: 16px;
++  margin: 0;
++  padding: 6px 0;
++  list-style: none;
++  animation: vw-run 60s linear infinite;
++}
++.vl-mq:hover .vl-mq-track {
++  animation-play-state: paused;
++}
++.vl-mq-pill {
++  display: flex;
++  width: 380px;
++  align-items: center;
++  gap: 16px;
++  padding: 16px 22px;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  background: var(--card);
++  color: #fff;
++  text-decoration: none;
++  transition: border-color 0.3s;
++}
++.vl-mq-pill:hover {
++  border-color: var(--a);
++}
++.vl-mq-pill b {
++  display: block;
++  font-size: 1.125rem;
++  font-weight: 600;
++  line-height: 1.25;
++}
++.vl-mq-pill small {
++  display: block;
++  margin-top: 2px;
++  overflow: hidden;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++.vl-mq-pill span {
++  min-width: 0;
++}
++/* 4: tiles */
++.vl-tiles {
++  display: grid;
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++  gap: 18px;
++}
++.vl-tile {
++  position: relative;
++  display: grid;
++  min-height: 190px;
++  align-content: end;
++  gap: 8px;
++  padding: 26px 28px;
++  overflow: hidden;
++  border: 1px solid var(--hair);
++  border-radius: 28px;
++  color: #fff;
++  text-decoration: none;
++  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vl-tiles li[data-k="0"] .vl-tile {
++  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.3), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10%) 70%);
++}
++.vl-tiles li[data-k="1"] .vl-tile {
++  background: linear-gradient(225deg, hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 62% / 0.26), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10%) 70%);
++}
++.vl-tiles li[data-k="2"] .vl-tile {
++  background: linear-gradient(45deg, hsl(calc(var(--th) + 326) calc(80% * var(--ts)) 62% / 0.26), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10%) 70%);
++}
++.vl-tiles li[data-k="3"] .vl-tile {
++  background: linear-gradient(315deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 74% / 0.22), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10%) 70%);
++}
++.vl-tile:hover {
++  transform: translateY(-5px);
++}
++.vl-tile h3 {
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.2;
++}
++.vl-tile p {
++  margin: 0;
++  max-width: 28rem;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.55;
++}
++.vl-tile .vl-no {
++  position: absolute;
++  top: 18px;
++  left: 28px;
++}
++.vl-tile .vl-go {
++  position: absolute;
++  top: 18px;
++  right: 22px;
++}
++.vl-tile:hover .vl-go {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2);
++  transform: rotate(-45deg);
++}
++/* 5: cloud */
++.vl-cloud {
++  display: flex;
++  flex-wrap: wrap;
++  justify-content: center;
++  gap: 14px;
++}
++.vl-chip {
++  display: grid;
++  gap: 2px;
++  padding: 16px 28px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.32);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
++  color: #fff;
++  text-decoration: none;
++  transition: background 0.3s, border-color 0.3s, transform 0.3s;
++}
++.vl-chip b {
++  font-size: 1.125rem;
++  font-weight: 600;
++}
++.vl-cloud li[data-k="0"] .vl-chip b {
++  font-size: 1.5rem;
++}
++.vl-cloud li[data-k="1"] .vl-chip b {
++  font-size: 1.25rem;
++}
++.vl-chip small {
++  max-width: 0;
++  max-height: 0;
++  overflow: hidden;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  line-height: 1.4;
++  opacity: 0;
++  transition: max-width 0.4s, max-height 0.4s, opacity 0.3s;
++}
++.vl-chip:hover {
++  border-color: var(--a);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
++  transform: translateY(-3px);
++}
++.vl-chip:hover small {
++  max-width: 280px;
++  max-height: 90px;
++  opacity: 1;
++}
++/* 6: strip */
++.vl-strip {
++  display: flex;
++  gap: 12px;
++  height: 300px;
++}
++.vl-strip li {
++  flex: 1;
++  min-width: 0;
++  transition: flex 0.55s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vl-strip li:hover,
++.vl-strip li:focus-within {
++  flex: 3.4;
++}
++.vl-sp {
++  position: relative;
++  display: flex;
++  height: 100%;
++  flex-direction: column;
++  justify-content: flex-end;
++  gap: 8px;
++  padding: 22px;
++  overflow: hidden;
++  border: 1px solid var(--hair);
++  border-radius: 26px;
++  background: var(--card);
++  color: #fff;
++  text-decoration: none;
++}
++.vl-sp h3 {
++  font-size: 1.3125rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.2;
++}
++.vl-sp p {
++  max-height: 0;
++  margin: 0;
++  overflow: hidden;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.5;
++  opacity: 0;
++  transition: max-height 0.5s, opacity 0.4s 0.1s;
++}
++.vl-strip li:hover .vl-sp,
++.vl-strip li:focus-within .vl-sp {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.45);
++  background: linear-gradient(160deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.2), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10%) 70%);
++}
++.vl-strip li:hover .vl-sp p,
++.vl-strip li:focus-within .vl-sp p {
++  max-height: 120px;
++  opacity: 1;
++}
++.vl-sp .vl-no {
++  position: absolute;
++  top: 16px;
++  left: 22px;
++}
++.vl-sp .vl-go {
++  position: absolute;
++  top: 14px;
++  right: 16px;
++}
++@media (prefers-reduced-motion: reduce) {
++  .vw-mq-track,
++  .vl-mq-track {
++    animation: none;
++  }
++}
++
++/* ---- tools & technologies (.vt-*) ---- */
++.vt {
++  display: grid;
++  gap: 40px;
++}
++.vt h3,
++.vt h4 {
++  margin: 0;
++}
++.vt [data-c="0"] { --ch: calc(var(--th) + 354); }
++.vt [data-c="1"] { --ch: calc(var(--th) + 24); }
++.vt [data-c="2"] { --ch: calc(var(--th) + 326); }
++.vt [data-c="3"] { --ch: calc(var(--th) + 300); }
++.vt [data-c="4"] { --ch: calc(var(--th) + 44); }
++.vt [data-c="5"] { --ch: calc(var(--th) + 10); }
++.vt-sym {
++  display: inline-grid;
++  flex: none;
++  width: 52px;
++  height: 52px;
++  place-items: center;
++  border: 1px solid hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.5);
++  border-radius: 16px;
++  background: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 70% / 0.16);
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 84%);
++  font-size: 1.3125rem;
++  font-weight: 700;
++  letter-spacing: -0.03em;
++}
++.vt-tag {
++  margin: 0;
++  color: #fff;
++  font-size: 1.125rem;
++  line-height: 1.6;
++}
++.vt-facts {
++  display: grid;
++  gap: 18px;
++  margin-top: 16px;
++}
++.vt-facts b,
++.vt-why b {
++  display: block;
++  margin-bottom: 8px;
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 600;
++  letter-spacing: 0.08em;
++  text-transform: uppercase;
++}
++.vt-facts ul {
++  display: grid;
++  gap: 6px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vt-facts li {
++  position: relative;
++  padding-left: 18px;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.5;
++}
++.vt-facts li::before {
++  content: "";
++  position: absolute;
++  top: 0.6em;
++  left: 0;
++  width: 7px;
++  height: 7px;
++  border-radius: 50%;
++  background: var(--a);
++}
++.vt-inds {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 8px;
++}
++.vt-inds span {
++  padding: 6px 14px;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  color: var(--soft);
++  font-size: 0.9375rem;
++}
++.vt-why {
++  margin: 18px 0 0;
++  padding: 16px 18px;
++  border-left: 3px solid var(--a);
++  border-radius: 0 14px 14px 0;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.6;
++}
++/* 1: tabs */
++.vt-tb-cats {
++  display: flex;
++  flex-wrap: wrap;
++  justify-content: center;
++  gap: 10px;
++}
++.vt-tb-cats button {
++  display: inline-flex;
++  align-items: center;
++  gap: 10px;
++  padding: 11px 20px;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  background: var(--card);
++  color: var(--soft);
++  font: inherit;
++  font-size: 1rem;
++  font-weight: 600;
++  cursor: pointer;
++  transition: background 0.3s, border-color 0.3s, color 0.3s;
++}
++.vt-tb-cats button small {
++  padding: 1px 9px;
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
++  font-size: 0.875rem;
++}
++.vt-tb-cats button:hover {
++  border-color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.5);
++  color: #fff;
++}
++.vt-tb-cats button[data-on="true"] {
++  border-color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.7);
++  background: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 70% / 0.2);
++  color: #fff;
++}
++.vt-tb-grid {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 18px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vt-tb-grid > li {
++  display: flex;
++  animation: vq-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
++  animation-delay: calc(var(--i) * 60ms);
++}
++.vt-tb-card {
++  position: relative;
++  display: grid;
++  width: 100%;
++  align-content: start;
++  gap: 8px;
++  padding: 24px;
++  border: 1px solid var(--hair);
++  border-radius: 24px;
++  background: var(--card);
++  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
++}
++.vt-tb-card:hover {
++  border-color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.5);
++  transform: translateY(-5px);
++}
++.vt-tb-card h3 {
++  margin-top: 8px;
++  font-size: 1.375rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++}
++.vt-tb-card p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.55;
++}
++.vt-tb-card ul {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 8px;
++  margin: 8px 0 0;
++  padding: 0;
++  list-style: none;
++}
++.vt-tb-card li {
++  padding: 5px 12px;
++  border-radius: 999px;
++  background: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 70% / 0.14);
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 86%);
++  font-size: 0.875rem;
++}
++/* 2: shelves */
++.vt-sh-rows {
++  display: grid;
++  gap: 18px;
++}
++.vt-sh-row {
++  display: grid;
++  grid-template-columns: 190px minmax(0, 1fr);
++  gap: 22px;
++  align-items: center;
++  padding: 14px 0;
++  border-top: 1px solid var(--hair);
++}
++.vt-sh-cat b {
++  display: block;
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 84%);
++  font-size: 1.1875rem;
++  font-weight: 600;
++  line-height: 1.25;
++}
++.vt-sh-cat small {
++  color: var(--soft);
++  font-size: 0.9375rem;
++}
++.vt-sh-view {
++  overflow: hidden;
++  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
++  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
++}
++.vt-sh-track {
++  display: flex;
++  width: max-content;
++  gap: 14px;
++  margin: 0;
++  padding: 4px 0;
++  list-style: none;
++  animation: vt-run 60s linear infinite;
++}
++.vt-sh-row[data-rev="true"] .vt-sh-track {
++  animation-direction: reverse;
++}
++.vt-sh-row:hover .vt-sh-track {
++  animation-play-state: paused;
++}
++.vt-sh-pill {
++  display: flex;
++  width: 290px;
++  align-items: center;
++  gap: 14px;
++  padding: 12px 18px 12px 12px;
++  border: 1px solid var(--hair);
++  border-radius: 20px;
++  background: var(--card);
++}
++.vt-sh-pill span:last-child {
++  min-width: 0;
++}
++.vt-sh-pill b {
++  display: block;
++  font-size: 1.0625rem;
++  font-weight: 600;
++}
++.vt-sh-pill small {
++  display: block;
++  overflow: hidden;
++  color: var(--soft);
++  font-size: 0.875rem;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++.vt-sh-pill .vt-sym {
++  width: 46px;
++  height: 46px;
++  font-size: 1.125rem;
++}
++@keyframes vt-run {
++  to {
++    transform: translateX(calc(-100% / var(--c)));
++  }
++}
++/* 3: accordion */
++.vt-acc {
++  gap: 36px;
++}
++@media (min-width: 1024px) {
++  .vt-acc {
++    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.4fr);
++    gap: 64px;
++  }
++  .vt-acc aside {
++    position: sticky;
++    top: 110px;
++    align-self: start;
++  }
++}
++.vt-ac-list {
++  display: grid;
++  gap: 12px;
++}
++.vt-ac-item {
++  border: 1px solid var(--hair);
++  border-radius: 22px;
++  background: var(--card);
++  transition: border-color 0.3s, background 0.3s;
++}
++.vt-ac-item[data-open="true"] {
++  border-color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.5);
++  background: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 70% / 0.08);
++}
++.vt-ac-item > button {
++  display: grid;
++  width: 100%;
++  grid-template-columns: 44px minmax(0, 1fr) auto 28px;
++  gap: 14px;
++  align-items: center;
++  padding: 20px 24px;
++  border: 0;
++  background: none;
++  color: #fff;
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++}
++.vt-ac-item > button span {
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 80%);
++  font-size: 1.125rem;
++  font-weight: 700;
++}
++.vt-ac-item > button b {
++  font-size: 1.3125rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++}
++.vt-ac-item > button em {
++  color: var(--soft);
++  font-size: 0.9375rem;
++  font-style: normal;
++}
++.vt-ac-item > button i {
++  position: relative;
++  width: 22px;
++  height: 22px;
++}
++.vt-ac-item > button i::before,
++.vt-ac-item > button i::after {
++  content: "";
++  position: absolute;
++  top: 10px;
++  left: 2px;
++  width: 18px;
++  height: 2px;
++  border-radius: 2px;
++  background: var(--a);
++  transition: transform 0.35s;
++}
++.vt-ac-item > button i::after {
++  transform: rotate(90deg);
++}
++.vt-ac-item[data-open="true"] > button i::after {
++  transform: rotate(0);
++}
++.vt-ac-body {
++  display: grid;
++  grid-template-rows: 0fr;
++  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vt-ac-item[data-open="true"] .vt-ac-body {
++  grid-template-rows: 1fr;
++}
++.vt-ac-in {
++  display: grid;
++  gap: 4px;
++  min-height: 0;
++  margin: 0;
++  padding: 0 24px;
++  overflow: hidden;
++  list-style: none;
++}
++.vt-ac-item[data-open="true"] .vt-ac-in {
++  padding-bottom: 22px;
++}
++.vt-ac-in li {
++  display: grid;
++  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
++  gap: 18px;
++  padding: 12px 0;
++  border-top: 1px solid var(--hair);
++}
++.vt-ac-in li b {
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 86%);
++  font-size: 1.0625rem;
++  font-weight: 600;
++}
++.vt-ac-in li span {
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.5;
++}
++/* 4: matrix */
++.vt-mx-grid {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 18px;
++}
++.vt-mx-card {
++  display: flex;
++  flex-direction: column;
++  gap: 16px;
++  padding: 24px;
++  border: 1px solid var(--hair);
++  border-radius: 26px;
++  background: radial-gradient(120% 90% at 0% 0%, hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 66% / 0.2), transparent 60%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10% / 0.9);
++}
++.vt-mx-card header {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++}
++.vt-mx-card header span {
++  display: grid;
++  width: 36px;
++  height: 36px;
++  place-items: center;
++  border-radius: 50%;
++  background: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 70% / 0.22);
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 86%);
++  font-size: 0.9375rem;
++  font-weight: 700;
++}
++.vt-mx-card h3 {
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++}
++.vt-mx-chips {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 8px;
++}
++.vt-mx-chips button {
++  padding: 7px 14px;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06);
++  color: var(--soft);
++  font: inherit;
++  font-size: 0.9375rem;
++  cursor: pointer;
++  transition: background 0.25s, border-color 0.25s, color 0.25s;
++}
++.vt-mx-chips button[data-on="true"] {
++  border-color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.7);
++  background: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 70% / 0.24);
++  color: #fff;
++}
++.vt-mx-card p {
++  margin: auto 0 0;
++  padding-top: 14px;
++  border-top: 1px solid var(--hair);
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.55;
++  animation: vq-in 0.4s both;
++}
++.vt-mx-card p b {
++  display: block;
++  margin-bottom: 2px;
++  color: #fff;
++  font-size: 1.0625rem;
++}
++/* 5: detail */
++.vt-dt-grid {
++  display: grid;
++  gap: 24px;
++}
++@media (min-width: 1024px) {
++  .vt-dt-grid {
++    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr);
++    gap: 32px;
++  }
++}
++.vt-dt-list {
++  display: grid;
++  gap: 18px;
++  align-content: start;
++}
++.vt-dt-list h4 {
++  margin-bottom: 8px;
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 600;
++  letter-spacing: 0.08em;
++  text-transform: uppercase;
++}
++.vt-dt-list ul {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 8px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vt-dt-list button {
++  padding: 9px 18px;
++  border: 1px solid var(--hair);
++  border-radius: 14px;
++  background: var(--card);
++  color: var(--soft);
++  font: inherit;
++  font-size: 1rem;
++  font-weight: 600;
++  cursor: pointer;
++  transition: background 0.25s, border-color 0.25s, color 0.25s;
++}
++.vt-dt-list button[data-on="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.6);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.2);
++  color: #fff;
++}
++.vt-dt-panel {
++  position: relative;
++  padding: 32px 34px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 30px;
++  background: radial-gradient(120% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.18), transparent 60%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 9% / 0.95);
++  animation: vq-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vt-dt-top {
++  display: flex;
++  align-items: center;
++  gap: 16px;
++  margin-bottom: 16px;
++}
++.vt-dt-top h3 {
++  font-size: 1.75rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.15;
++}
++.vt-dt-top small {
++  color: var(--soft);
++  font-size: 0.9375rem;
++}
++.vt-dt-panel .vt-facts {
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++}
++/* 6: layers */
++.vt-ly-stack {
++  display: grid;
++  gap: 14px;
++}
++.vt-ly {
++  position: relative;
++  display: grid;
++  grid-template-columns: 54px 200px minmax(0, 1fr);
++  gap: 20px;
++  align-items: center;
++  margin-left: calc(var(--k) * 36px);
++  padding: 20px 26px;
++  border: 1px solid hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.3);
++  border-radius: 22px;
++  background: linear-gradient(100deg, hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 66% / 0.2), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10% / 0.9) 55%);
++  transition: opacity 0.3s, border-color 0.3s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vt-ly-stack[data-has="true"] .vt-ly:not([data-on="true"]) {
++  opacity: 0.45;
++}
++.vt-ly[data-on="true"] {
++  border-color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 80% / 0.7);
++  transform: translateX(10px);
++}
++.vt-ly-no {
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 84%);
++  font-size: 1.875rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++}
++.vt-ly h3 {
++  font-size: 1.1875rem;
++  font-weight: 600;
++  line-height: 1.25;
++}
++.vt-ly ul {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 12px 24px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vt-ly li b {
++  display: block;
++  font-size: 1.0625rem;
++  font-weight: 600;
++}
++.vt-ly li small {
++  display: block;
++  max-width: 220px;
++  color: var(--soft);
++  font-size: 0.875rem;
++  line-height: 1.4;
++}
++/* 7: periodic table */
++.vt-pt-legend {
++  display: flex;
++  flex-wrap: wrap;
++  justify-content: center;
++  gap: 10px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vt-pt-legend button {
++  display: inline-flex;
++  align-items: center;
++  gap: 10px;
++  padding: 8px 18px;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  background: none;
++  color: var(--soft);
++  font: inherit;
++  font-size: 0.9375rem;
++  font-weight: 600;
++  cursor: default;
++}
++.vt-pt-legend button i {
++  width: 12px;
++  height: 12px;
++  border-radius: 50%;
++  background: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 70%);
++}
++.vt-pt-legend button[data-on="true"] {
++  border-color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.7);
++  color: #fff;
++}
++.vt-pt-grid {
++  display: grid;
++  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
++  gap: 12px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vt-pt-tile {
++  position: relative;
++  display: grid;
++  width: 100%;
++  min-height: 124px;
++  align-content: end;
++  gap: 2px;
++  padding: 12px 14px;
++  border: 1px solid hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.35);
++  border-radius: 18px;
++  background: linear-gradient(160deg, hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 66% / 0.22), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10% / 0.9) 75%);
++  color: #fff;
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++  transition: opacity 0.3s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
++}
++.vt-pt-tile em {
++  position: absolute;
++  top: 10px;
++  left: 14px;
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 84% / 0.7);
++  font-size: 0.875rem;
++  font-style: normal;
++}
++.vt-pt-sym {
++  color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 86%);
++  font-size: 2.125rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++  line-height: 1;
++}
++.vt-pt-tile b {
++  font-size: 0.9375rem;
++  font-weight: 600;
++  line-height: 1.25;
++}
++.vt-pt-tile:hover,
++.vt-pt-tile[data-on="true"] {
++  border-color: hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 84% / 0.9);
++  transform: translateY(-4px);
++}
++.vt-pt-tile[data-dim="true"] {
++  opacity: 0.25;
++}
++.vt-pt-bar {
++  display: grid;
++  gap: 18px;
++  padding: 24px 28px;
++  border: 1px solid hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 76% / 0.4);
++  border-radius: 26px;
++  background: radial-gradient(100% 140% at 0% 0%, hsl(var(--ch, calc(var(--th) + 354)) calc(100% * var(--ts)) 66% / 0.2), transparent 60%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 9% / 0.95);
++  animation: vq-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++@media (min-width: 1024px) {
++  .vt-pt-bar {
++    grid-template-columns: 280px minmax(0, 1fr);
++    align-items: start;
++    gap: 32px;
++  }
++}
++.vt-pt-bar-h {
++  display: flex;
++  align-items: center;
++  gap: 16px;
++}
++.vt-pt-bar-h h3 {
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++}
++.vt-pt-bar-h small {
++  color: var(--soft);
++  font-size: 0.9375rem;
++}
++.vt-pt-bar .vt-facts {
++  grid-template-columns: minmax(0, 1fr);
++  margin-top: 10px;
++}
++@media (prefers-reduced-motion: reduce) {
++  .vt-sh-track {
++    animation: none;
++  }
++}
++
++/* ---- what we build: phone, pipeline, layers, palette, search results (.vz-*) ---- */
++.vz h3,
++.vz h4,
++.vz p {
++  margin: 0;
++}
++.vz-pos {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
++  font-size: 0.9375rem;
++  font-weight: 600;
++  letter-spacing: 0.08em;
++}
++.vz-pts {
++  display: grid;
++  gap: 18px 32px;
++  margin-top: 16px;
++  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
++}
++.vz-pts h4 {
++  margin-bottom: 8px;
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 600;
++  letter-spacing: 0.08em;
++  text-transform: uppercase;
++}
++.vz-pts p,
++.vz-pts li {
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.55;
++}
++.vz-pts ul {
++  display: grid;
++  gap: 6px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vz-pts li {
++  position: relative;
++  padding-left: 18px;
++}
++.vz-pts li::before {
++  content: "";
++  position: absolute;
++  top: 0.62em;
++  left: 0;
++  width: 7px;
++  height: 7px;
++  border-radius: 50%;
++  background: var(--a);
++}
++/* phone */
++.vz-ph {
++  display: grid;
++  gap: 28px;
++  align-items: center;
++}
++@media (min-width: 1024px) {
++  .vz-ph {
++    grid-template-columns: 300px minmax(0, 1fr);
++    gap: 56px;
++  }
++}
++.vz-ph-phone {
++  position: relative;
++  display: flex;
++  width: 280px;
++  height: 420px;
++  flex-direction: column;
++  margin: 0 auto;
++  padding: 10px;
++  overflow: hidden;
++  border: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
++  border-radius: 40px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
++  box-shadow: 0 30px 70px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.5), inset 0 0 0 6px hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 5%);
++}
++.vz-ph-notch {
++  position: absolute;
++  top: 10px;
++  left: 50%;
++  width: 84px;
++  height: 20px;
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 4%);
++  transform: translateX(-50%);
++}
++.vz-ph-screen {
++  display: grid;
++  flex: 1;
++  align-content: center;
++  justify-items: center;
++  gap: 12px;
++  padding: 36px 20px 8px;
++  text-align: center;
++  background: radial-gradient(90% 70% at 50% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.28), transparent 70%);
++  border-radius: 30px 30px 0 0;
++  animation: vq-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vz-ph-time {
++  position: absolute;
++  top: 14px;
++  left: 28px;
++  font-size: 0.8125rem;
++  font-weight: 600;
++}
++.vz-ph-screen h4 {
++  font-size: 1.1875rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.25;
++}
++.vz-ph-screen p {
++  color: var(--soft);
++  font-size: 0.875rem;
++  line-height: 1.5;
++}
++.vz-ph-btn {
++  padding: 8px 26px;
++  border-radius: 999px;
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347) calc(76% * var(--ts)) 6%);
++  font-size: 0.875rem;
++  font-weight: 700;
++}
++.vz-ph-bar {
++  display: flex;
++  justify-content: space-around;
++  gap: 4px;
++  padding: 10px 6px 4px;
++  border-top: 1px solid var(--hair);
++}
++.vz-ph-tab {
++  display: grid;
++  place-items: center;
++  padding: 0;
++  border: 0;
++  background: none;
++  cursor: pointer;
++  opacity: 0.45;
++  transform: scale(0.7);
++  transition: opacity 0.3s, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vz-ph-tab[data-on="true"] {
++  opacity: 1;
++  transform: scale(0.9);
++}
++.vz-ph-panel {
++  display: grid;
++  gap: 8px;
++  padding: 8px 0;
++  animation: vq-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vz-ph-panel h3 {
++  color: #fff;
++  font-size: 2rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.12;
++}
++/* pipeline */
++.vz-pl {
++  display: grid;
++  gap: 22px;
++}
++.vz-pl-row {
++  display: flex;
++}
++.vz-pl-st {
++  position: relative;
++  display: flex;
++  min-width: 0;
++  flex: 1;
++  align-items: center;
++  gap: 10px;
++  margin-left: -10px;
++  padding: 18px 26px 18px 34px;
++  border: 0;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.07);
++  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%);
++  color: var(--soft);
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++  transition: background 0.4s, color 0.3s;
++}
++.vz-pl-st:first-child {
++  margin-left: 0;
++  padding-left: 22px;
++  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
++}
++.vz-pl-st[data-done="true"] {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.22);
++  color: #fff;
++}
++.vz-pl-st[data-on="true"] {
++  background: linear-gradient(100deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.4));
++  color: #fff;
++}
++.vz-pl-no {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  font-size: 0.9375rem;
++  font-weight: 700;
++}
++.vz-pl-st b {
++  display: -webkit-box;
++  min-width: 0;
++  overflow: hidden;
++  font-size: 1rem;
++  font-weight: 600;
++  line-height: 1.25;
++  -webkit-box-orient: vertical;
++  -webkit-line-clamp: 2;
++}
++.vz-pl-card {
++  position: relative;
++  display: grid;
++  gap: 20px;
++  padding: 28px 32px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 28px;
++  background: radial-gradient(100% 140% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.16), transparent 60%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 9% / 0.95);
++  animation: vq-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++@media (min-width: 1024px) {
++  .vz-pl-card {
++    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
++    gap: 40px;
++  }
++}
++.vz-pl-chip {
++  display: inline-block;
++  margin-bottom: 10px;
++  padding: 4px 14px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
++  border-radius: 999px;
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 600;
++}
++.vz-pl-h h3 {
++  font-size: 1.75rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.15;
++}
++.vz-pl-h p {
++  margin-top: 10px;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.55;
++}
++.vz-pl-card .vz-pts {
++  margin-top: 0;
++}
++/* layers */
++.vz-ly {
++  display: grid;
++  gap: 14px;
++}
++.vz-ly-top {
++  display: flex;
++  align-items: center;
++  gap: 14px;
++  padding: 0 4px;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  font-variant-numeric: tabular-nums;
++}
++.vz-ly-top span:first-child {
++  color: var(--a);
++  font-weight: 700;
++}
++.vz-ly-top i {
++  flex: 1;
++  height: 1px;
++  background: var(--hair);
++}
++.vz-ly-rows {
++  position: relative;
++  display: grid;
++  gap: 4px;
++  padding: 8px;
++  border: 1px solid var(--hair);
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.8);
++}
++.vz-ly-row {
++  display: grid;
++  grid-template-columns: 260px minmax(0, 1fr);
++  gap: 12px;
++  align-items: center;
++}
++.vz-ly-name {
++  display: flex;
++  min-width: 0;
++  align-items: center;
++  gap: 12px;
++  padding: 9px 12px;
++  border: 0;
++  border-radius: 10px;
++  background: none;
++  color: var(--soft);
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++  transition: background 0.3s, color 0.3s;
++}
++.vz-ly-name[data-on="true"] {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.2);
++  color: #fff;
++}
++.vz-ly-eye {
++  width: 12px;
++  height: 12px;
++  border: 2px solid currentColor;
++  border-radius: 50%;
++  opacity: 0.6;
++}
++.vz-ly-no {
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
++  font-size: 0.9375rem;
++  font-weight: 700;
++}
++.vz-ly-name b {
++  overflow: hidden;
++  font-size: 1rem;
++  font-weight: 600;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++.vz-ly-lane {
++  position: relative;
++  height: 28px;
++  border-radius: 8px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.05);
++}
++.vz-ly-bar {
++  position: absolute;
++  top: 4px;
++  bottom: 4px;
++  left: var(--s);
++  width: var(--w);
++  border-radius: 6px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.35);
++  transition: background 0.35s;
++}
++.vz-ly-row[data-on="true"] .vz-ly-bar {
++  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 72% / 0.9), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.7));
++}
++.vz-ly-head {
++  position: absolute;
++  top: 0;
++  bottom: 0;
++  left: calc(8px + 272px + (100% - 16px - 272px) * var(--p));
++  width: 2px;
++  background: var(--a);
++  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.8);
++  transition: left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
++  pointer-events: none;
++}
++.vz-ly-head::before {
++  content: "";
++  position: absolute;
++  top: -2px;
++  left: -5px;
++  border: 6px solid transparent;
++  border-top: 9px solid var(--a);
++}
++.vz-ly-panel {
++  display: grid;
++  gap: 16px;
++  padding: 18px 8px 0;
++  animation: vq-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++@media (min-width: 1024px) {
++  .vz-ly-panel {
++    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
++    gap: 40px;
++  }
++}
++.vz-ly-ph h3 {
++  font-size: 1.5rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++}
++.vz-ly-ph p {
++  margin-top: 8px;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.55;
++}
++.vz-ly-panel .vz-pts {
++  margin-top: 0;
++}
++/* palette */
++.vz-pa {
++  display: grid;
++  gap: 18px;
++}
++@media (min-width: 1024px) {
++  .vz-pa {
++    grid-template-columns: 330px minmax(0, 1fr);
++    gap: 22px;
++  }
++}
++.vz-pa-list {
++  display: grid;
++  gap: 8px;
++  align-content: start;
++}
++.vz-pa-sw {
++  display: flex;
++  align-items: center;
++  gap: 14px;
++  padding: 8px 18px 8px 8px;
++  border: 1px solid var(--hair);
++  border-radius: 18px;
++  background: var(--card);
++  color: var(--soft);
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++  transition: border-color 0.3s, background 0.3s, color 0.3s, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.vz-pa-sw i {
++  flex: none;
++  width: 44px;
++  height: 44px;
++  border-radius: 12px;
++  background: linear-gradient(145deg, hsl(var(--h) calc(90% * var(--ts)) 70%), hsl(var(--h) calc(90% * var(--ts)) 46%));
++}
++.vz-pa-sw small {
++  display: block;
++  font-size: 0.875rem;
++  letter-spacing: 0.04em;
++}
++.vz-pa-sw b {
++  display: block;
++  font-size: 1.0625rem;
++  font-weight: 600;
++  line-height: 1.25;
++}
++.vz-pa-sw[data-on="true"] {
++  border-color: hsl(var(--h) calc(90% * var(--ts)) 72% / 0.7);
++  background: hsl(var(--h) calc(90% * var(--ts)) 60% / 0.18);
++  color: #fff;
++  transform: translateX(8px);
++}
++.vz-pa-poster {
++  position: relative;
++  display: flex;
++  min-height: 380px;
++  align-items: flex-end;
++  padding: 32px 34px;
++  overflow: hidden;
++  border: 1px solid hsl(var(--h) calc(90% * var(--ts)) 72% / 0.5);
++  border-radius: 30px;
++  background: radial-gradient(110% 100% at 100% 0%, hsl(var(--h) calc(90% * var(--ts)) 60% / 0.4), transparent 62%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 9% / 0.96);
++  animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vz-pa-no {
++  position: absolute;
++  top: -18px;
++  right: 24px;
++  color: transparent;
++  font-size: 11rem;
++  font-weight: 700;
++  letter-spacing: -0.06em;
++  line-height: 1;
++  -webkit-text-stroke: 2px hsl(var(--h) calc(90% * var(--ts)) 76% / 0.5);
++}
++.vz-pa-in {
++  position: relative;
++  max-width: 600px;
++}
++.vz-pa-in h3 {
++  color: #fff;
++  font-size: 2rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.12;
++}
++.vz-pa-in > p {
++  margin-top: 10px;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.55;
++}
++/* search results */
++.vz-sp {
++  display: grid;
++  gap: 16px;
++  max-width: 900px;
++  margin: 0 auto;
++}
++.vz-sp-bar {
++  display: flex;
++  align-items: center;
++  gap: 14px;
++  padding: 12px 22px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06);
++  font-size: 1.0625rem;
++}
++.vz-sp-bar svg {
++  width: 20px;
++  height: 20px;
++  fill: none;
++  stroke: var(--a);
++  stroke-width: 2;
++  stroke-linecap: round;
++}
++.vz-sp-bar span {
++  flex: 1;
++}
++.vz-sp-bar em {
++  color: var(--soft);
++  font-size: 0.9375rem;
++  font-style: normal;
++}
++.vz-sp-list {
++  display: grid;
++  gap: 6px;
++}
++.vz-sp-res {
++  border: 1px solid transparent;
++  border-radius: 20px;
++  transition: background 0.3s, border-color 0.3s;
++}
++.vz-sp-res[data-on="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.1);
++}
++.vz-sp-btn {
++  display: flex;
++  width: 100%;
++  align-items: center;
++  gap: 16px;
++  padding: 10px 20px;
++  border: 0;
++  background: none;
++  color: #fff;
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++}
++.vz-sp-pos {
++  display: grid;
++  flex: none;
++  width: 34px;
++  height: 34px;
++  place-items: center;
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  font-size: 0.9375rem;
++  font-weight: 700;
++}
++.vz-sp-main small {
++  display: block;
++  color: var(--soft);
++  font-size: 0.875rem;
++}
++.vz-sp-main b {
++  display: block;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: -0.01em;
++  line-height: 1.3;
++}
++.vz-sp-btn:hover .vz-sp-main b {
++  text-decoration: underline;
++}
++.vz-sp-snip {
++  padding: 0 22px 18px 70px;
++  animation: vq-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.vz-sp-snip > p {
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.55;
++}
++
++/* ---- the story: stack, quote, line (.vy-*) ---- */
++.vy-stack {
++  display: grid;
++  max-width: 1040px;
++  gap: 1.2rem;
++  margin-inline: auto;
++}
++.vy-st {
++  display: grid;
++  grid-template-columns: 5.5rem minmax(0, 1fr);
++  gap: 1.4rem;
++  align-items: start;
++  margin-left: calc(var(--i) * 3.5rem);
++  padding: 1.7rem 2rem;
++  border: 1px solid var(--hair);
++  border-left: 3px solid var(--a);
++  border-radius: 0 24px 24px 0;
++  background: linear-gradient(100deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.16), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 10% / 0.86) 60%);
++}
++.vy-st-no {
++  color: transparent;
++  font-size: 3.6rem;
++  font-weight: 700;
++  letter-spacing: -0.05em;
++  line-height: 0.95;
++  -webkit-text-stroke: 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
++}
++.vy-st .sy-p {
++  font-size: 1.25rem;
++  line-height: 1.65;
++}
++.vy-quote {
++  display: grid;
++  gap: 2.4rem;
++  max-width: 1100px;
++  margin-inline: auto;
++}
++@media (min-width: 960px) {
++  .vy-quote {
++    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
++    gap: 3.4rem;
++    align-items: start;
++  }
++}
++.vy-q-main {
++  position: relative;
++  margin: 0;
++  padding: 4.6rem 2.4rem 2rem;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 30px;
++  background: radial-gradient(120% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.22), transparent 62%), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9% / 0.9);
++}
++.vy-q-mark {
++  position: absolute;
++  top: 0.6rem;
++  left: 2.2rem;
++  height: 3.4rem;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
++  font-size: 7rem;
++  font-weight: 700;
++  line-height: 1;
++}
++.vy-q-main p {
++  position: relative;
++  margin: 0;
++  background: linear-gradient(180deg, #fff 20%, hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 84%));
++  -webkit-background-clip: text;
++  background-clip: text;
++  color: transparent;
++  font-size: clamp(1.45rem, 2.3vw, 2rem);
++  font-weight: 600;
++  letter-spacing: -0.025em;
++  line-height: 1.3;
++}
++.vy-q-main p .text-violet {
++  color: var(--a);
++  -webkit-text-fill-color: var(--a);
++}
++.vy-q-main cite {
++  display: block;
++  margin-top: 1.4rem;
++  color: var(--a);
++  font-size: 1rem;
++  font-style: normal;
++  font-weight: 600;
++  letter-spacing: 0.08em;
++  text-transform: uppercase;
++}
++.vy-q-notes {
++  display: grid;
++  gap: 1.5rem;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.vy-q-notes li {
++  display: grid;
++  grid-template-columns: 2.6rem minmax(0, 1fr);
++  gap: 1rem;
++  padding-bottom: 1.5rem;
++  border-bottom: 1px solid var(--hair);
++}
++.vy-q-notes li:last-child {
++  border-bottom: 0;
++}
++.vy-q-notes li > span {
++  color: var(--a);
++  font-size: 1.125rem;
++  font-weight: 700;
++}
++.vy-line {
++  position: relative;
++  max-width: 1040px;
++  margin-inline: auto;
++  padding: 0.5rem 0;
++}
++.vy-line::before {
++  content: "";
++  position: absolute;
++  top: 0;
++  bottom: 0;
++  left: 50%;
++  width: 2px;
++  background: linear-gradient(180deg, transparent, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6) 12%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6) 88%, transparent);
++  transform: translateX(-1px);
++}
++.vy-ln {
++  position: relative;
++  width: calc(50% - 2.4rem);
++  margin-bottom: 1.6rem;
++}
++.vy-ln[data-side="r"] {
++  margin-left: calc(50% + 2.4rem);
++}
++.vy-ln-dot {
++  position: absolute;
++  top: 2rem;
++  width: 18px;
++  height: 18px;
++  border: 3px solid var(--a);
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
++  box-shadow: 0 0 18px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
++}
++.vy-ln[data-side="l"] .vy-ln-dot {
++  right: -3.3rem;
++}
++.vy-ln[data-side="r"] .vy-ln-dot {
++  left: -3.3rem;
++}
++.vy-ln-card {
++  padding: 1.6rem 1.8rem 1.8rem;
++  border: 1px solid var(--hair);
++  border-radius: 24px;
++  background: radial-gradient(120% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.16), transparent 62%), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 10% / 0.86);
++}
++.vy-ln-no {
++  display: block;
++  margin-bottom: 0.6rem;
++  color: var(--a);
++  font-size: 0.9375rem;
++  font-weight: 600;
++  letter-spacing: 0.08em;
++  text-transform: uppercase;
++}
++.vy-ln-card .sy-p {
++  font-size: 1.1875rem;
++}
++
++/* the repeated sections (.vt, .vz, .vw, .vf, .vl, .vp): one column that may be narrower than its content, so that a long row is cut or scrolls inside its own box */
++:where(.vt, .vz, .vw, .vf, .vp) {
++  grid-template-columns: minmax(0, 1fr);
++}
++.vz-pl-row {
++  min-width: 0;
++}
+diff --git a/b/src/components/site/modern/faq-variants.tsx b/b/src/components/site/modern/faq-variants.tsx
+new file mode 100644
+index 0000000..aaad78a
+--- /dev/null
++++ b/b/src/components/site/modern/faq-variants.tsx
+@@ -0,0 +1,220 @@
++"use client";
++
++import { useState } from "react";
++import { GlowEdge } from "../glow-edge";
++import { Reveal } from "../reveal";
++import { VHead, two, useCycle } from "./variant-kit";
++
++// The questions in six more designs (the first one is faq-split.tsx), one for every service page. All of them tell Google about the questions
++// (FAQPage). The look is in globals.css (.vf-*).
++
++type Q = { question: string; answer: string };
++type P = { chip: string; heading: string; intro?: string; items: Q[] };
++
++function Json({ items }: { items: Q[] }) {
++  const json = {
++    "@context": "https://schema.org",
++    "@type": "FAQPage",
++    mainEntity: items.map((q) => ({ "@type": "Question", name: q.question, acceptedAnswer: { "@type": "Answer", text: q.answer } })),
++  };
++  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json).replace(/</g, "\\u003c") }} />;
++}
++
++/** 1: a stack of wide bars, one open at a time */
++function Stack({ chip, heading, intro, items }: P) {
++  const [open, setOpen] = useState<number | null>(0);
++  return (
++    <div className="md vf vf-stack">
++      <Json items={items} />
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <div className="vf-sk-list">
++        {items.map((q, i) => (
++          <div key={i} className="vf-sk-item" data-open={open === i}>
++            <button type="button" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}>
++              <span>{two(i + 1)}</span>
++              <b>{q.question}</b>
++              <i aria-hidden />
++            </button>
++            <div className="vf-sk-body">
++              <p>{q.answer}</p>
++            </div>
++          </div>
++        ))}
++      </div>
++    </div>
++  );
++}
++
++/** 2: every question is a card and every answer is open, in two columns */
++function Cards({ chip, heading, intro, items }: P) {
++  return (
++    <div className="md vf vf-cards">
++      <Json items={items} />
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <div className="vf-cd-grid">
++        {items.map((q, i) => (
++          <Reveal key={i} delay={(i % 2) * 70}>
++            <article className="vf-cd bglow">
++              <GlowEdge />
++              <span className="vf-cd-q" aria-hidden>
++                Q
++              </span>
++              <h3>{q.question}</h3>
++              <p>{q.answer}</p>
++            </article>
++          </Reveal>
++        ))}
++      </div>
++    </div>
++  );
++}
++
++/** 3: a chat: the visitor picks a question and the answer is written back, with the three dots of someone who is typing */
++function Chat({ chip, heading, intro, items }: P) {
++  const { active, pick, ref } = useCycle(items.length, 7200);
++  const q = items[active];
++  return (
++    <div ref={ref} className="md vf vf-chat">
++      <Json items={items} />
++      <VHead chip={chip} heading={heading} intro={intro} />
++      <div className="vf-ch-grid">
++        <ul className="vf-ch-list" role="tablist" aria-label={chip}>
++          {items.map((it, i) => (
++            <li key={i}>
++              <button
++                type="button"
++                role="tab"
++                aria-selected={i === active}
++                data-on={i === active}
++                onClick={() => pick(i)}
++              >
++                {it.question}
++              </button>
++            </li>
++          ))}
++        </ul>
++        <div className="vf-ch-win" role="tabpanel">
++          <div className="vf-ch-top" aria-hidden>
++            <i />
++            <b>We3vision</b>
++            <small>usually answers at once</small>
++          </div>
++          <div key={active} className="vf-ch-body">
++            <p className="vf-ch-msg vf-ch-you">{q.question}</p>
++            {/* the three dots of someone who is writing show for a moment, then the answer comes in (both are in CSS) */}
++            <p className="vf-ch-msg vf-ch-bot vf-ch-dots" aria-hidden>
++              <i />
++              <i />
++              <i />
++            </p>
++            <p className="vf-ch-msg vf-ch-bot vf-ch-ans">{q.answer}</p>
++          </div>
++        </div>
++      </div>
++    </div>
++  );
++}
++
++/** 4: the questions in a list, the answer of the open one as a large panel */
++function TabsFaq({ chip, heading, intro, items }: P) {
++  const { active, pick, ref } = useCycle(items.length, 8000);
++  const q = items[active];
++  return (
++    <div ref={ref} className="md vf vf-tabs">
++      <Json items={items} />
++      <div className="vf-tb-list">
++        <VHead chip={chip} heading={heading} intro={intro} />
++        <ol role="tablist" aria-label={chip}>
++          {items.map((it, i) => (
++            <li key={i}>
++              <button type="button" role="tab" aria-selected={i === active} data-on={i === active} onClick={() => pick(i)}>
++                {it.question}
++              </button>
++            </li>
++          ))}
++        </ol>
++      </div>
++      <div key={active} className="vf-tb-panel bglow" role="tabpanel">
++        <GlowEdge />
++        <span className="vf-tb-mark" aria-hidden>
++          “
++        </span>
++        <span className="vf-tb-no">
++          {two(active + 1)} / {two(items.length)}
++        </span>
++        <h3>{q.question}</h3>
++        <p>{q.answer}</p>
++      </div>
++    </div>
++  );
++}
++
++/** 5: cards that turn over: the question in front, the answer behind */
++function Flip({ chip, heading, intro, items }: P) {
++  const [on, setOn] = useState<Record<number, boolean>>({});
++  return (
++    <div className="md vf vf-flip">
++      <Json items={items} />
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <p className="vf-fl-hint">Tap a card to turn it over</p>
++      <ul className="vf-fl-grid">
++        {items.map((q, i) => (
++          <li key={i}>
++            <button type="button" aria-pressed={!!on[i]} data-flip={!!on[i]} onClick={() => setOn((o) => ({ ...o, [i]: !o[i] }))}>
++              <span className="vf-fl-in">
++                <span className="vf-fl-face vf-fl-front">
++                  <em>{two(i + 1)}</em>
++                  <b>{q.question}</b>
++                </span>
++                <span className="vf-fl-face vf-fl-back">
++                  <small>Answer</small>
++                  <span>{q.answer}</span>
++                </span>
++              </span>
++            </button>
++          </li>
++        ))}
++      </ul>
++    </div>
++  );
++}
++
++/** 6: like a magazine: the number, the question and the answer in three columns, all of it open */
++function Editorial({ chip, heading, intro, items }: P) {
++  return (
++    <div className="md vf vf-ed">
++      <Json items={items} />
++      <VHead chip={chip} heading={heading} intro={intro} />
++      <div className="vf-ed-list">
++        {items.map((q, i) => (
++          <Reveal key={i} delay={40}>
++            <div className="vf-ed-row">
++              <span aria-hidden>{two(i + 1)}</span>
++              <h3>{q.question}</h3>
++              <p>{q.answer}</p>
++            </div>
++          </Reveal>
++        ))}
++      </div>
++    </div>
++  );
++}
++
++/** the design of the page: 1..6 (0 is faq-split.tsx) */
++export function FaqVariant({ variant, ...p }: P & { variant: number }) {
++  if (p.items.length === 0) return null;
++  switch (variant) {
++    case 1:
++      return <Stack {...p} />;
++    case 2:
++      return <Cards {...p} />;
++    case 3:
++      return <Chat {...p} />;
++    case 4:
++      return <TabsFaq {...p} />;
++    case 5:
++      return <Flip {...p} />;
++    default:
++      return <Editorial {...p} />;
++  }
++}
+diff --git a/b/src/components/site/modern/process-variants.tsx b/b/src/components/site/modern/process-variants.tsx
+new file mode 100644
+index 0000000..6a6eff7
+--- /dev/null
++++ b/b/src/components/site/modern/process-variants.tsx
+@@ -0,0 +1,278 @@
++"use client";
++
++import { GlowEdge } from "../glow-edge";
++import { Reveal } from "../reveal";
++import { VHead, lines, two, useCycle } from "./variant-kit";
++
++// "How we work" in seven more designs (the first one is process-rail.tsx), one for every service page, so that no two pages show their steps the
++// same way. All of them get the same steps: a title, a text and (when there are) points. The look is in globals.css (.vp-*).
++
++type Step = { title: string; text: string; points?: string };
++type P = { chip: string; heading: string; intro?: string; items: Step[] };
++
++const plain = (s: string) => s.replace(/\s*\n\s*/g, " ");
++
++function Points({ s }: { s: Step }) {
++  const pts = lines(s.points);
++  if (!pts.length) return null;
++  return (
++    <ul className="vp-pts">
++      {pts.map((t) => (
++        <li key={t}>{t}</li>
++      ))}
++    </ul>
++  );
++}
++
++/** 1: a row of numbered steps on a line that fills, the open step is read in a panel under it */
++function Stepper({ chip, heading, intro, items }: P) {
++  const n = items.length;
++  const { active, pick, ref, run } = useCycle(n, 5600);
++  const s = items[active];
++  return (
++    <div ref={ref} className="md vp vp-stepper">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <ol className="vp-st-track" style={{ "--n": n, "--i": active } as React.CSSProperties}>
++        <span className="vp-st-line" aria-hidden>
++          <i data-run={run} />
++        </span>
++        {items.map((it, i) => (
++          <li key={i} data-on={i === active} data-done={i < active}>
++            <button type="button" onClick={() => pick(i)} aria-label={`Step ${i + 1}: ${plain(it.title)}`}>
++              <span>{two(i + 1)}</span>
++            </button>
++            <b>{plain(it.title)}</b>
++          </li>
++        ))}
++      </ol>
++      <div key={active} className="vp-st-panel bglow">
++        <GlowEdge />
++        <span className="vp-st-no">Step {two(active + 1)}</span>
++        <h3>{plain(s.title)}</h3>
++        <p>{s.text}</p>
++        <Points s={s} />
++      </div>
++    </div>
++  );
++}
++
++/** 2: a line in the middle, the steps come out of it to the left and to the right, one after the other */
++function Zigzag({ chip, heading, intro, items }: P) {
++  return (
++    <div className="md vp vp-zz">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <ol className="vp-zz-list">
++        {items.map((it, i) => (
++          <li key={i} data-side={i % 2 ? "r" : "l"}>
++            <span className="vp-zz-dot" aria-hidden>
++              {two(i + 1)}
++            </span>
++            <Reveal delay={60}>
++              <article className="vp-zz-card bglow">
++                <GlowEdge />
++                <h3>{plain(it.title)}</h3>
++                <p>{it.text}</p>
++                <Points s={it} />
++              </article>
++            </Reveal>
++          </li>
++        ))}
++      </ol>
++    </div>
++  );
++}
++
++/** 3: the steps go down like a staircase, every one a step to the right of the one before it */
++function Stairs({ chip, heading, intro, items }: P) {
++  const n = items.length;
++  return (
++    <div className="md vp vp-stairs" style={{ "--n": n } as React.CSSProperties}>
++      <VHead chip={chip} heading={heading} intro={intro} />
++      <ol className="vp-ss-list">
++        {items.map((it, i) => (
++          <li key={i} style={{ "--i": i } as React.CSSProperties}>
++            <Reveal delay={40}>
++              <article className="vp-ss-card bglow">
++                <GlowEdge />
++                <span className="vp-ss-no" aria-hidden>
++                  {two(i + 1)}
++                </span>
++                <div>
++                  <h3>{plain(it.title)}</h3>
++                  <p>{it.text}</p>
++                  <Points s={it} />
++                </div>
++              </article>
++            </Reveal>
++          </li>
++        ))}
++      </ol>
++    </div>
++  );
++}
++
++/** 4: big rows with the number and the name; the open one shows its text and its points side by side */
++function Rows({ chip, heading, intro, items }: P) {
++  const { active, pick, ref } = useCycle(items.length, 6200);
++  return (
++    <div ref={ref} className="md vp vp-rows">
++      <aside>
++        <VHead chip={chip} heading={heading} intro={intro} />
++      </aside>
++      <ol className="vp-rw-list">
++        {items.map((it, i) => (
++          <li key={i} data-on={i === active}>
++            <button type="button" aria-expanded={i === active} onClick={() => pick(i)}>
++              <span className="vp-rw-no">{two(i + 1)}</span>
++              <span className="vp-rw-t">{plain(it.title)}</span>
++              <span className="vp-rw-plus" aria-hidden />
++            </button>
++            <div className="vp-rw-body" data-open={i === active}>
++              <div className="vp-rw-in">
++                <p>{it.text}</p>
++                <Points s={it} />
++              </div>
++            </div>
++          </li>
++        ))}
++      </ol>
++    </div>
++  );
++}
++
++/** 5: the steps are the points of a ring; the open one is explained next to it */
++function Ring({ chip, heading, intro, items }: P) {
++  const n = items.length;
++  const { active, pick, ref } = useCycle(n, 4800);
++  const s = items[active];
++  return (
++    <div ref={ref} className="md vp vp-ring">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <div className="vp-rg-grid">
++        <div className="vp-rg-wheel" role="tablist" aria-label={chip}>
++          <span className="vp-rg-orbit" aria-hidden />
++          <span className="vp-rg-core" aria-hidden>
++            <b>{two(active + 1)}</b>
++            <small>of {two(n)}</small>
++          </span>
++          {items.map((it, i) => {
++            const a = (i / n) * Math.PI * 2 - Math.PI / 2;
++            return (
++              <button
++                key={i}
++                type="button"
++                role="tab"
++                aria-selected={i === active}
++                data-on={i === active}
++                data-done={i < active}
++                aria-label={plain(it.title)}
++                style={{ left: `${50 + Math.cos(a) * 42}%`, top: `${50 + Math.sin(a) * 42}%` }}
++                onClick={() => pick(i)}
++              >
++                {two(i + 1)}
++              </button>
++            );
++          })}
++        </div>
++        <div key={active} className="vp-rg-panel bglow" role="tabpanel">
++          <GlowEdge />
++          <h3>{plain(s.title)}</h3>
++          <p>{s.text}</p>
++          <Points s={s} />
++        </div>
++      </div>
++    </div>
++  );
++}
++
++/** 6: a list of steps on the left with a bar that fills, the open step as a large panel on the right */
++function TabsSteps({ chip, heading, intro, items }: P) {
++  const n = items.length;
++  const { active, pick, ref, run } = useCycle(n, 6000);
++  const s = items[active];
++  return (
++    <div ref={ref} className="md vp vp-tabs">
++      <div className="vp-tb-side">
++        <VHead chip={chip} heading={heading} intro={intro} />
++        <ol className="vp-tb-list" role="tablist" aria-label={chip}>
++          {items.map((it, i) => (
++            <li key={i}>
++              <button type="button" role="tab" aria-selected={i === active} data-on={i === active} onClick={() => pick(i)}>
++                <span>{two(i + 1)}</span>
++                {plain(it.title)}
++                <i aria-hidden data-run={run && i === active} />
++              </button>
++            </li>
++          ))}
++        </ol>
++      </div>
++      <div key={active} className="vp-tb-panel bglow" role="tabpanel">
++        <GlowEdge />
++        <span className="vp-tb-mark" aria-hidden>
++          {two(active + 1)}
++        </span>
++        <h3>{plain(s.title)}</h3>
++        <p>{s.text}</p>
++        <Points s={s} />
++      </div>
++    </div>
++  );
++}
++
++/** 7: a board: a pipeline of the steps on top, under it a column for every step with its points as cards */
++function Board({ chip, heading, intro, items }: P) {
++  return (
++    <div className="md vp vp-board">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <ol className="vp-bd-pipe" aria-hidden>
++        {items.map((it, i) => (
++          <li key={i}>{plain(it.title)}</li>
++        ))}
++      </ol>
++      <div className="vp-bd-cols" style={{ "--n": items.length } as React.CSSProperties}>
++        {items.map((it, i) => (
++          <Reveal key={i} delay={(i % 3) * 70}>
++            <section className="vp-bd-col">
++              <header>
++                <span>{two(i + 1)}</span>
++                <h3>{plain(it.title)}</h3>
++              </header>
++              <p>{it.text}</p>
++              {lines(it.points).length > 0 && (
++                <ul className="vp-bd-cards">
++                  {lines(it.points).map((t) => (
++                    <li key={t}>{t}</li>
++                  ))}
++                </ul>
++              )}
++              <div className="vp-bd-bar" aria-hidden>
++                <i style={{ width: `${Math.round(((i + 1) / items.length) * 100)}%` }} />
++              </div>
++            </section>
++          </Reveal>
++        ))}
++      </div>
++    </div>
++  );
++}
++
++/** the design of the page: 1..7 (0 is the rail, process-rail.tsx) */
++export function ProcessVariant({ variant, ...p }: P & { variant: number }) {
++  if (p.items.length === 0) return null;
++  switch (variant) {
++    case 1:
++      return <Stepper {...p} />;
++    case 2:
++      return <Zigzag {...p} />;
++    case 3:
++      return <Stairs {...p} />;
++    case 4:
++      return <Rows {...p} />;
++    case 5:
++      return <Ring {...p} />;
++    case 6:
++      return <TabsSteps {...p} />;
++    default:
++      return <Board {...p} />;
++  }
++}
+diff --git a/b/src/components/site/modern/related-variants.tsx b/b/src/components/site/modern/related-variants.tsx
+new file mode 100644
+index 0000000..5451212
+--- /dev/null
++++ b/b/src/components/site/modern/related-variants.tsx
+@@ -0,0 +1,159 @@
++import { GlowEdge } from "../glow-edge";
++import { IconTile } from "../icons";
++import { SmartLink } from "../smart-link";
++
++// "More from We3vision" in six more designs (the first one is related-links.tsx), one for every service page. The cards are a title, a text
++// and a link. The look is in globals.css (.vl-*).
++
++type Card = { title: string; description: string; href?: string };
++type P = { cards: Card[] };
++
++const two = (n: number) => String(n).padStart(2, "0");
++const plain = (s: string) => s.replace(/\s*\n\s*/g, " ");
++
++function Item({ c, className, children }: { c: Card; className: string; children: React.ReactNode }) {
++  return c.href ? (
++    <SmartLink href={c.href} className={className}>
++      {children}
++    </SmartLink>
++  ) : (
++    <div className={className}>{children}</div>
++  );
++}
++const Arrow = () => (
++  <span className="vl-go" aria-hidden>
++    <svg viewBox="0 0 24 24">
++      <path d="M5 12h14M13 6l6 6-6 6" />
++    </svg>
++  </span>
++);
++
++/** 1: big rows (a magazine contents list): the number, the name and the text, the arrow moves out on hover */
++function Rows({ cards }: P) {
++  return (
++    <ul className="md vl vl-rows">
++      {cards.map((c, i) => (
++        <li key={i}>
++          <Item c={c} className="vl-row">
++            <span className="vl-no">{two(i + 1)}</span>
++            <h3>{plain(c.title)}</h3>
++            <p>{c.description}</p>
++            <Arrow />
++          </Item>
++        </li>
++      ))}
++    </ul>
++  );
++}
++
++/** 2: a deck of cards that lie on each other and fan out when the mouse comes to them */
++function Deck({ cards }: P) {
++  return (
++    <ul className="md vl vl-deck" style={{ "--n": cards.length } as React.CSSProperties}>
++      {cards.map((c, i) => (
++        <li key={i} style={{ "--i": i } as React.CSSProperties}>
++          <Item c={c} className="vl-dk bglow">
++            <GlowEdge />
++            <IconTile index={i + 1} />
++            <h3>{plain(c.title)}</h3>
++            <p>{c.description}</p>
++            <Arrow />
++          </Item>
++        </li>
++      ))}
++    </ul>
++  );
++}
++
++/** 3: the links as pills that move slowly past (they stop when the mouse is on them) */
++function Marquee({ cards }: P) {
++  const all = [...cards, ...cards, ...cards];
++  return (
++    <div className="md vl vl-mq">
++      <ul className="vl-mq-track">
++        {all.map((c, i) => (
++          <li key={i} aria-hidden={i >= cards.length}>
++            <Item c={c} className="vl-mq-pill">
++              <IconTile index={(i % cards.length) + 1} />
++              <span>
++                <b>{plain(c.title)}</b>
++                <small>{c.description}</small>
++              </span>
++            </Item>
++          </li>
++        ))}
++      </ul>
++    </div>
++  );
++}
++
++/** 4: large tiles with a colour field and the arrow in a corner */
++function Tiles({ cards }: P) {
++  return (
++    <ul className="md vl vl-tiles">
++      {cards.map((c, i) => (
++        <li key={i} data-k={i % 4}>
++          <Item c={c} className="vl-tile">
++            <span className="vl-no">{two(i + 1)}</span>
++            <h3>{plain(c.title)}</h3>
++            <p>{c.description}</p>
++            <Arrow />
++          </Item>
++        </li>
++      ))}
++    </ul>
++  );
++}
++
++/** 5: chips of different sizes, the text comes out under the one that is hovered */
++function Cloud({ cards }: P) {
++  return (
++    <ul className="md vl vl-cloud">
++      {cards.map((c, i) => (
++        <li key={i} data-k={i % 3}>
++          <Item c={c} className="vl-chip">
++            <b>{plain(c.title)}</b>
++            <small>{c.description}</small>
++          </Item>
++        </li>
++      ))}
++    </ul>
++  );
++}
++
++/** 6: a strip of panels: the one that is hovered opens wide and shows its text, the others are slim */
++function Strip({ cards }: P) {
++  return (
++    <ul className="md vl vl-strip">
++      {cards.map((c, i) => (
++        <li key={i}>
++          <Item c={c} className="vl-sp">
++            <span className="vl-no">{two(i + 1)}</span>
++            <h3>{plain(c.title)}</h3>
++            <p>{c.description}</p>
++            <Arrow />
++          </Item>
++        </li>
++      ))}
++    </ul>
++  );
++}
++
++/** the design of the page: 1..6 (0 is related-links.tsx) */
++export function RelatedVariant({ variant, cards }: { variant: number; cards: Card[] }) {
++  switch (variant) {
++    case 1:
++      return <Rows cards={cards} />;
++    case 2:
++      return <Deck cards={cards} />;
++    case 3:
++      return <Marquee cards={cards} />;
++    case 4:
++      return <Tiles cards={cards} />;
++    case 5:
++      return <Cloud cards={cards} />;
++    default:
++      return <Strip cards={cards} />;
++  }
++}
++
+diff --git a/b/src/components/site/modern/service-bodies.tsx b/b/src/components/site/modern/service-bodies.tsx
+new file mode 100644
+index 0000000..b5ef930
+--- /dev/null
++++ b/b/src/components/site/modern/service-bodies.tsx
+@@ -0,0 +1,280 @@
++"use client";
++
++import type { KeyboardEvent } from "react";
++import { GlowEdge } from "../glow-edge";
++import { IconTile } from "../icons";
++import { SmartLink } from "../smart-link";
++
++// The bodies of "What we build" for the service pages that do not have the first two designs (the stage and the canvas in service-stage.tsx):
++// a phone, a pipeline, a timeline of layers, a palette and a search result page. The pinned scroll, the zoom and the open box all stay in
++// ServiceStage; these only show the open box in their own way. The look is in globals.css (.vz-*).
++
++export type StageCard = { title: string; description: string; href?: string; fit?: string; problems?: string; outcomes?: string };
++export type BodyKind = "phone" | "pipeline" | "layers" | "palette" | "serp";
++
++type B = {
++  cards: StageCard[];
++  active: number;
++  pick: (i: number, focus?: boolean) => void;
++  setTab: (i: number, el: HTMLButtonElement | null) => void;
++  pinned: boolean;
++  onKey: (e: KeyboardEvent) => void;
++};
++
++const lines = (s?: string) => (s ?? "").split("\n").map((l) => l.trim()).filter(Boolean);
++const plain = (s: string) => s.replace(/\s*\n\s*/g, " ");
++const two = (n: number) => String(n).padStart(2, "0");
++const slug = (s: string) => plain(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
++
++/** the button of a box: the same ids and keys as the other designs, so the scroll and the keyboard work the same way */
++const tab = (b: B, i: number) => ({
++  ref: (el: HTMLButtonElement | null) => b.setTab(i, el),
++  role: "tab" as const,
++  id: `sx-tab-${i}`,
++  "aria-selected": i === b.active,
++  "aria-controls": "sx-panel",
++  tabIndex: i === b.active ? 0 : -1,
++  onClick: () => b.pick(i),
++});
++const panel = (b: B) => ({ id: "sx-panel", role: "tabpanel" as const, "aria-labelledby": `sx-tab-${b.active}` });
++
++/** when it is right for you, the problems and what you get (or just the text when the card has no points) */
++function Points({ c }: { c: StageCard }) {
++  const fit = (c.fit ?? "").trim();
++  const problems = lines(c.problems);
++  const outcomes = lines(c.outcomes);
++  return (
++    <div className="vz-pts">
++      {fit && (
++        <div>
++          <h4>Right for you when</h4>
++          <p>{fit}</p>
++        </div>
++      )}
++      {problems.length > 0 && (
++        <div>
++          <h4>Problems it solves</h4>
++          <ul>
++            {problems.map((t) => (
++              <li key={t}>{t}</li>
++            ))}
++          </ul>
++        </div>
++      )}
++      {outcomes.length > 0 && (
++        <div>
++          <h4>What you get</h4>
++          <ul>
++            {outcomes.map((t) => (
++              <li key={t}>{t}</li>
++            ))}
++          </ul>
++        </div>
++      )}
++      {!fit && problems.length === 0 && outcomes.length === 0 && (
++        <div>
++          <p>{c.description}</p>
++        </div>
++      )}
++    </div>
++  );
++}
++const More = ({ c }: { c: StageCard }) =>
++  c.href ? (
++    <SmartLink href={c.href} className="sx-more">
++      Read more →
++    </SmartLink>
++  ) : null;
++
++/** a phone: the open box is the screen of the app, the boxes are the icons of its tab bar; the points are beside it */
++function Phone(b: B) {
++  const { cards, active } = b;
++  const cur = cards[active];
++  return (
++    <div className="md vz vz-ph" data-pin={b.pinned}>
++      <div className="vz-ph-phone">
++        <i className="vz-ph-notch" aria-hidden />
++        <div key={active} className="vz-ph-screen" aria-hidden>
++          <span className="vz-ph-time">9:41</span>
++          <IconTile index={active} large />
++          <h4>{plain(cur.title)}</h4>
++          <p>{cur.description}</p>
++          <span className="vz-ph-btn">Open</span>
++        </div>
++        <div className="vz-ph-bar" role="tablist" aria-label="What we build" onKeyDown={b.onKey}>
++          {cards.map((c, i) => (
++            <button key={i} type="button" {...tab(b, i)} className="vz-ph-tab" data-on={i === active} aria-label={plain(c.title)}>
++              <IconTile index={i} />
++            </button>
++          ))}
++        </div>
++      </div>
++      <div key={active} {...panel(b)} className="vz-ph-panel">
++        <span className="vz-pos">
++          {two(active + 1)} / {two(cards.length)}
++        </span>
++        <h3>{plain(cur.title)}</h3>
++        <Points c={cur} />
++        <More c={cur} />
++      </div>
++    </div>
++  );
++}
++
++/** a pipeline: the boxes are the stages in a row (the ones before the open one are done), the open one is a card under it */
++function Pipeline(b: B) {
++  const { cards, active } = b;
++  const cur = cards[active];
++  return (
++    <div className="md vz vz-pl" data-pin={b.pinned}>
++      <div className="vz-pl-row" role="tablist" aria-label="What we build" onKeyDown={b.onKey}>
++        {cards.map((c, i) => (
++          <button key={i} type="button" {...tab(b, i)} className="vz-pl-st" data-on={i === active} data-done={i < active}>
++            <span className="vz-pl-no">{two(i + 1)}</span>
++            <b>{plain(c.title)}</b>
++          </button>
++        ))}
++      </div>
++      <div key={active} {...panel(b)} className="vz-pl-card bglow">
++        <GlowEdge />
++        <div className="vz-pl-h">
++          <span className="vz-pl-chip">
++            Stage {active + 1} of {cards.length}
++          </span>
++          <h3>{plain(cur.title)}</h3>
++          <p>{cur.description}</p>
++          <More c={cur} />
++        </div>
++        <Points c={cur} />
++      </div>
++    </div>
++  );
++}
++
++/** a timeline of layers (like in an editing program): every box is a layer with its bar, the playhead stands on the open one */
++function Layers(b: B) {
++  const { cards, active } = b;
++  const cur = cards[active];
++  const n = cards.length;
++  return (
++    <div className="md vz vz-ly" data-pin={b.pinned}>
++      <div className="vz-ly-top" aria-hidden>
++        <span>
++          00:{two(active + 1)}:12
++        </span>
++        <i />
++        <span>{n} layers</span>
++      </div>
++      <div className="vz-ly-rows" role="tablist" aria-label="What we build" onKeyDown={b.onKey} style={{ "--p": (active + 0.5) / n } as React.CSSProperties}>
++        {cards.map((c, i) => (
++          <div key={i} className="vz-ly-row" data-on={i === active}>
++            <button type="button" {...tab(b, i)} className="vz-ly-name" data-on={i === active}>
++              <span className="vz-ly-eye" aria-hidden />
++              <span className="vz-ly-no">{two(i + 1)}</span>
++              <b>{plain(c.title)}</b>
++            </button>
++            <div className="vz-ly-lane" aria-hidden>
++              <span className="vz-ly-bar" style={{ "--s": `${(i * 17) % 38}%`, "--w": `${34 + ((i * 23) % 40)}%` } as React.CSSProperties} />
++            </div>
++          </div>
++        ))}
++        <i className="vz-ly-head" aria-hidden />
++      </div>
++      <div key={active} {...panel(b)} className="vz-ly-panel">
++        <div className="vz-ly-ph">
++          <h3>{plain(cur.title)}</h3>
++          <p>{cur.description}</p>
++          <More c={cur} />
++        </div>
++        <Points c={cur} />
++      </div>
++    </div>
++  );
++}
++
++/** a palette: the boxes are colour swatches in a list, the open one is a large poster in its colour */
++function Palette(b: B) {
++  const { cards, active } = b;
++  const cur = cards[active];
++  const hue = (i: number) => `calc(var(--th) + ${(354 + i * 37) % 360})`;
++  return (
++    <div className="md vz vz-pa" data-pin={b.pinned}>
++      <div className="vz-pa-list" role="tablist" aria-label="What we build" onKeyDown={b.onKey}>
++        {cards.map((c, i) => (
++          <button key={i} type="button" {...tab(b, i)} className="vz-pa-sw" data-on={i === active} style={{ "--h": hue(i) } as React.CSSProperties}>
++            <i aria-hidden />
++            <span>
++              <small>No. {two(i + 1)}</small>
++              <b>{plain(c.title)}</b>
++            </span>
++          </button>
++        ))}
++      </div>
++      <div key={active} {...panel(b)} className="vz-pa-poster bglow" style={{ "--h": hue(active) } as React.CSSProperties}>
++        <GlowEdge />
++        <span className="vz-pa-no" aria-hidden>
++          {two(active + 1)}
++        </span>
++        <div className="vz-pa-in">
++          <h3>{plain(cur.title)}</h3>
++          <p>{cur.description}</p>
++          <Points c={cur} />
++          <More c={cur} />
++        </div>
++      </div>
++    </div>
++  );
++}
++
++/** a search result page: every box is a result, the open one is the large one with the points in it */
++function Serp(b: B) {
++  const { cards, active } = b;
++  return (
++    <div className="md vz vz-sp" data-pin={b.pinned}>
++      <div className="vz-sp-bar" aria-hidden>
++        <svg viewBox="0 0 24 24">
++          <circle cx="11" cy="11" r="7" />
++          <path d="M20 20l-4-4" />
++        </svg>
++        <span>we3vision.com</span>
++        <em>{cards.length} results</em>
++      </div>
++      <div className="vz-sp-list" role="tablist" aria-label="What we build" onKeyDown={b.onKey}>
++        {cards.map((c, i) => (
++          <div key={i} className="vz-sp-res" data-on={i === active}>
++            <button type="button" {...tab(b, i)} className="vz-sp-btn">
++              <span className="vz-sp-pos">{i + 1}</span>
++              <span className="vz-sp-main">
++                <small>we3vision.com › services › {slug(c.title)}</small>
++                <b>{plain(c.title)}</b>
++              </span>
++            </button>
++            {i === active && (
++              <div key={active} {...panel(b)} className="vz-sp-snip">
++                <p>{c.description}</p>
++                <Points c={c} />
++                <More c={c} />
++              </div>
++            )}
++          </div>
++        ))}
++      </div>
++    </div>
++  );
++}
++
++export function StageBody({ kind, ...b }: B & { kind: BodyKind }) {
++  if (b.cards.length === 0) return null;
++  switch (kind) {
++    case "phone":
++      return <Phone {...b} />;
++    case "pipeline":
++      return <Pipeline {...b} />;
++    case "layers":
++      return <Layers {...b} />;
++    case "palette":
++      return <Palette {...b} />;
++    default:
++      return <Serp {...b} />;
++  }
++}
+diff --git a/a/src/components/site/modern/service-stage.tsx b/b/src/components/site/modern/service-stage.tsx
+index fae9d40..50dd27d 100644
+--- a/a/src/components/site/modern/service-stage.tsx
++++ b/b/src/components/site/modern/service-stage.tsx
+@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
+ import { GlowEdge } from "../glow-edge";
+ import { IconTile } from "../icons";
+ import { SmartLink } from "../smart-link";
++import { StageBody, type BodyKind } from "./service-bodies";
+ 
+ // "What we build" as a list and a stage: the services are a list on the left (a row of tabs on a phone), and the one you pick opens as a large
+ // panel on the right with a small live picture of what that service does (a chat that answers, a chart that predicts, an image that is scanned,
+@@ -106,7 +107,7 @@ function Art({ scene, index }: { scene: Scene; index: number }) {
+   );
+ }
+ 
+-export function ServiceStage({ cards, head, variant = "stage" }: { cards: Card[]; head?: React.ReactNode; variant?: "stage" | "canvas" }) {
++export function ServiceStage({ cards, head, variant = "stage" }: { cards: Card[]; head?: React.ReactNode; variant?: "stage" | "canvas" | BodyKind }) {
+   const n = cards.length;
+   const [active, setActive] = useState(0);
+   const [auto, setAuto] = useState(true);
+@@ -357,6 +358,20 @@ export function ServiceStage({ cards, head, variant = "stage" }: { cards: Card[]
+           </div>
+         </div>
+       </div>
++    ) : variant !== "stage" ? (
++      <div ref={rootRef}>
++        <StageBody
++          kind={variant}
++          cards={cards}
++          active={Math.min(active, n - 1)}
++          pick={pick}
++          setTab={(i, el) => {
++            tabRefs.current[i] = el;
++          }}
++          pinned={pinned}
++          onKey={onKey}
++        />
++      </div>
+     ) : (
+     <div ref={rootRef} className="md sx" data-pin={pinned}>
+       <div className="sx-list" role="tablist" aria-label="What we build" onKeyDown={onKey}>
+diff --git a/b/src/components/site/modern/tools-variants.tsx b/b/src/components/site/modern/tools-variants.tsx
+new file mode 100644
+index 0000000..1634cc5
+--- /dev/null
++++ b/b/src/components/site/modern/tools-variants.tsx
+@@ -0,0 +1,383 @@
++"use client";
++
++import { useMemo, useState } from "react";
++import { techDetail } from "@/lib/cms/content/tech-details";
++import { GlowEdge } from "../glow-edge";
++import { VHead, two, useCycle } from "./variant-kit";
++
++// "Tools & technologies" in seven more designs (the first one is the planets in tech-space.tsx), one for every service page. All of them show
++// the same things: the groups of technologies and for every technology the line, what you can build with it and why we use it
++// (src/lib/cms/content/tech-details.ts). The look is in globals.css (.vt-*).
++
++type P = { chip: string; heading: string; intro?: string; items: string[] };
++type Group = [string, string[]];
++
++const groupOf = (items: string[]): Group[] => {
++  const m = new Map<string, string[]>();
++  for (const n of items) {
++    const c = techDetail(n)?.cat ?? "More tools";
++    m.set(c, [...(m.get(c) ?? []), n]);
++  }
++  return [...m.entries()];
++};
++/** the "symbol" of a technology, like in a periodic table: Next.js -> Ne, Node Express -> Nx */
++const sym = (n: string) => {
++  const w = n.replace(/[^A-Za-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
++  const s = w.length > 1 ? w[0][0] + w[1][0] : (w[0] ?? n).slice(0, 2);
++  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
++};
++const FALLBACK = (n: string) => `We use ${n} where it fits your project.`;
++
++/** what you can build, who it is for and why we use it */
++function Facts({ name, full = true }: { name: string; full?: boolean }) {
++  const d = techDetail(name);
++  if (!d) return <p className="vt-tag">{FALLBACK(name)} Tell us what you want to build and we will pick the right tools for it.</p>;
++  return (
++    <>
++      <p className="vt-tag">{d.tagline}</p>
++      <div className="vt-facts">
++        <div>
++          <b>What you can build</b>
++          <ul>
++            {d.builds.map((x) => (
++              <li key={x}>{x}</li>
++            ))}
++          </ul>
++        </div>
++        {full && (
++          <div>
++            <b>Great for</b>
++            <div className="vt-inds">
++              {d.industries.map((x) => (
++                <span key={x}>{x}</span>
++              ))}
++            </div>
++          </div>
++        )}
++      </div>
++      {full && (
++        <p className="vt-why">
++          <b>Why we use it</b>
++          {d.why}
++        </p>
++      )}
++    </>
++  );
++}
++
++/** 1: the groups are tabs, the technologies of the open group are cards */
++function Tabs({ chip, heading, intro, items }: P) {
++  const groups = useMemo(() => groupOf(items), [items]);
++  const [g, setG] = useState(0);
++  const names = groups[g]?.[1] ?? [];
++  return (
++    <div className="md vt vt-tabs">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <div className="vt-tb-cats" role="tablist" aria-label={chip}>
++        {groups.map(([c, n], i) => (
++          <button key={c} type="button" role="tab" aria-selected={i === g} data-on={i === g} data-c={i % 6} onClick={() => setG(i)}>
++            {c}
++            <small>{n.length}</small>
++          </button>
++        ))}
++      </div>
++      <ul key={g} className="vt-tb-grid" data-c={g % 6} role="tabpanel">
++        {names.map((n, i) => {
++          const d = techDetail(n);
++          return (
++            <li key={n} style={{ "--i": i } as React.CSSProperties}>
++              <article className="vt-tb-card bglow">
++                <GlowEdge />
++                <span className="vt-sym">{sym(n)}</span>
++                <h3>{n}</h3>
++                <p>{d?.tagline ?? FALLBACK(n)}</p>
++                {d && (
++                  <ul>
++                    {d.builds.slice(0, 3).map((x) => (
++                      <li key={x}>{x}</li>
++                    ))}
++                  </ul>
++                )}
++              </article>
++            </li>
++          );
++        })}
++      </ul>
++    </div>
++  );
++}
++
++/** 2: a shelf for every group: its technologies move slowly past (and stop when the mouse is on the shelf) */
++function Shelves({ chip, heading, intro, items }: P) {
++  const groups = useMemo(() => groupOf(items), [items]);
++  return (
++    <div className="md vt vt-shelves">
++      <VHead chip={chip} heading={heading} intro={intro} />
++      <div className="vt-sh-rows">
++        {groups.map(([c, names], k) => {
++          const copies = Math.max(3, Math.ceil(9 / names.length));
++          return (
++            <div key={c} className="vt-sh-row" data-c={k % 6} data-rev={k % 2 === 1}>
++              <span className="vt-sh-cat">
++                <b>{c}</b>
++                <small>
++                  {names.length} {names.length === 1 ? "tool" : "tools"}
++                </small>
++              </span>
++              <div className="vt-sh-view">
++                <ul className="vt-sh-track" style={{ "--c": copies } as React.CSSProperties}>
++                  {Array.from({ length: copies }).flatMap((_, r) =>
++                    names.map((n) => (
++                      <li key={r + n} aria-hidden={r > 0}>
++                        <div className="vt-sh-pill">
++                          <span className="vt-sym">{sym(n)}</span>
++                          <span>
++                            <b>{n}</b>
++                            <small>{techDetail(n)?.tagline ?? ""}</small>
++                          </span>
++                        </div>
++                      </li>
++                    )),
++                  )}
++                </ul>
++              </div>
++            </div>
++          );
++        })}
++      </div>
++    </div>
++  );
++}
++
++/** 3: a row for every group that opens and shows its technologies, one by one with the line of each */
++function Accordion({ chip, heading, intro, items }: P) {
++  const groups = useMemo(() => groupOf(items), [items]);
++  const [open, setOpen] = useState(0);
++  return (
++    <div className="md vt vt-acc">
++      <aside>
++        <VHead chip={chip} heading={heading} intro={intro} />
++      </aside>
++      <div className="vt-ac-list">
++        {groups.map(([c, names], i) => (
++          <div key={c} className="vt-ac-item" data-open={open === i} data-c={i % 6}>
++            <button type="button" aria-expanded={open === i} onClick={() => setOpen(open === i ? -1 : i)}>
++              <span>{two(i + 1)}</span>
++              <b>{c}</b>
++              <em>
++                {names.length} {names.length === 1 ? "tool" : "tools"}
++              </em>
++              <i aria-hidden />
++            </button>
++            <div className="vt-ac-body">
++              <ul className="vt-ac-in">
++                {names.map((n) => (
++                  <li key={n}>
++                    <b>{n}</b>
++                    <span>{techDetail(n)?.tagline ?? FALLBACK(n)}</span>
++                  </li>
++                ))}
++              </ul>
++            </div>
++          </div>
++        ))}
++      </div>
++    </div>
++  );
++}
++
++/** 4: a card for every group with all of its technologies as chips; the line of the one under the mouse shows in the card */
++function Matrix({ chip, heading, intro, items }: P) {
++  const groups = useMemo(() => groupOf(items), [items]);
++  const [hov, setHov] = useState<Record<string, string>>({});
++  return (
++    <div className="md vt vt-matrix">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <div className="vt-mx-grid">
++        {groups.map(([c, names], k) => {
++          const on = hov[c] ?? names[0];
++          return (
++            <article key={c} className="vt-mx-card" data-c={k % 6}>
++              <header>
++                <span>{two(k + 1)}</span>
++                <h3>{c}</h3>
++              </header>
++              <div className="vt-mx-chips">
++                {names.map((n) => (
++                  <button key={n} type="button" data-on={n === on} onMouseEnter={() => setHov((h) => ({ ...h, [c]: n }))} onFocus={() => setHov((h) => ({ ...h, [c]: n }))} onClick={() => setHov((h) => ({ ...h, [c]: n }))}>
++                    {n}
++                  </button>
++                ))}
++              </div>
++              <p key={on}>
++                <b>{on}</b>
++                {techDetail(on)?.tagline ?? FALLBACK(on)}
++              </p>
++            </article>
++          );
++        })}
++      </div>
++    </div>
++  );
++}
++
++/** 5: all technologies in a list on the left, the one that is on is explained in a large panel (it goes on by itself, until you pick one) */
++function Detail({ chip, heading, intro, items }: P) {
++  const groups = useMemo(() => groupOf(items), [items]);
++  const flat = groups.flatMap(([, n]) => n);
++  const { active, pick, ref } = useCycle(flat.length, 6000);
++  const name = flat[active];
++  const d = techDetail(name);
++  let idx = -1;
++  return (
++    <div ref={ref} className="md vt vt-detail">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <div className="vt-dt-grid">
++        <div className="vt-dt-list">
++          {groups.map(([c, names]) => (
++            <div key={c}>
++              <h4>{c}</h4>
++              <ul>
++                {names.map((n) => {
++                  const i = ++idx;
++                  return (
++                    <li key={n}>
++                      <button type="button" data-on={i === active} onMouseEnter={() => pick(i)} onFocus={() => pick(i)} onClick={() => pick(i)}>
++                        {n}
++                      </button>
++                    </li>
++                  );
++                })}
++              </ul>
++            </div>
++          ))}
++        </div>
++        <div key={active} className="vt-dt-panel bglow">
++          <GlowEdge />
++          <div className="vt-dt-top">
++            <span className="vt-sym">{sym(name)}</span>
++            <div>
++              <h3>{name}</h3>
++              <small>{d?.cat ?? "Technology"}</small>
++            </div>
++          </div>
++          <Facts name={name} />
++        </div>
++      </div>
++    </div>
++  );
++}
++
++/** 6: the stack as a diagram: every group is a layer, the layers step down like the parts of a building */
++function Layers({ chip, heading, intro, items }: P) {
++  const groups = useMemo(() => groupOf(items), [items]);
++  const [on, setOn] = useState<string | null>(null);
++  return (
++    <div className="md vt vt-layers">
++      <VHead chip={chip} heading={heading} intro={intro} />
++      <div className="vt-ly-stack" data-has={on !== null}>
++        {groups.map(([c, names], k) => (
++          <div
++            key={c}
++            className="vt-ly"
++            data-c={k % 6}
++            data-on={on === c}
++            style={{ "--k": k } as React.CSSProperties}
++            onMouseEnter={() => setOn(c)}
++            onMouseLeave={() => setOn(null)}
++          >
++            <span className="vt-ly-no">{two(k + 1)}</span>
++            <h3>{c}</h3>
++            <ul>
++              {names.map((n) => (
++                <li key={n}>
++                  <b>{n}</b>
++                  <small>{techDetail(n)?.tagline ?? ""}</small>
++                </li>
++              ))}
++            </ul>
++          </div>
++        ))}
++      </div>
++    </div>
++  );
++}
++
++/** 7: a table of the technologies, every one with its "symbol"; the group of the legend that is hovered lights up, the tile you pick opens below */
++function Periodic({ chip, heading, intro, items }: P) {
++  const groups = useMemo(() => groupOf(items), [items]);
++  const flat = groups.flatMap(([c, n], k) => n.map((name) => ({ name, c, k })));
++  const [sel, setSel] = useState(0);
++  const [cat, setCat] = useState<string | null>(null);
++  const cur = flat[Math.min(sel, flat.length - 1)];
++  return (
++    <div className="md vt vt-pt">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <ul className="vt-pt-legend">
++        {groups.map(([c], k) => (
++          <li key={c}>
++            <button type="button" data-c={k % 6} data-on={cat === c} onMouseEnter={() => setCat(c)} onMouseLeave={() => setCat(null)} onFocus={() => setCat(c)} onBlur={() => setCat(null)}>
++              <i aria-hidden />
++              {c}
++            </button>
++          </li>
++        ))}
++      </ul>
++      <ul className="vt-pt-grid" data-has={cat !== null}>
++        {flat.map((t, i) => (
++          <li key={t.name}>
++            <button
++              type="button"
++              className="vt-pt-tile"
++              data-c={t.k % 6}
++              data-on={i === sel}
++              data-dim={cat !== null && cat !== t.c}
++              onClick={() => setSel(i)}
++              onMouseEnter={() => setSel(i)}
++              onFocus={() => setSel(i)}
++            >
++              <em>{two(i + 1)}</em>
++              <span className="vt-pt-sym">{sym(t.name)}</span>
++              <b>{t.name}</b>
++            </button>
++          </li>
++        ))}
++      </ul>
++      {cur && (
++        <div key={cur.name} className="vt-pt-bar" data-c={cur.k % 6}>
++          <div className="vt-pt-bar-h">
++            <span className="vt-sym">{sym(cur.name)}</span>
++            <div>
++              <h3>{cur.name}</h3>
++              <small>{cur.c}</small>
++            </div>
++          </div>
++          <div className="vt-pt-bar-b">
++            <Facts name={cur.name} full={false} />
++          </div>
++        </div>
++      )}
++    </div>
++  );
++}
++
++/** the design of the page: 1..7 (0 is the planets, tech-space.tsx) */
++export function ToolsVariant({ variant, ...p }: P & { variant: number }) {
++  if (p.items.length === 0) return null;
++  switch (variant) {
++    case 1:
++      return <Tabs {...p} />;
++    case 2:
++      return <Shelves {...p} />;
++    case 3:
++      return <Accordion {...p} />;
++    case 4:
++      return <Matrix {...p} />;
++    case 5:
++      return <Detail {...p} />;
++    case 6:
++      return <Layers {...p} />;
++    default:
++      return <Periodic {...p} />;
++  }
++}
+diff --git a/b/src/components/site/modern/variant-kit.tsx b/b/src/components/site/modern/variant-kit.tsx
+new file mode 100644
+index 0000000..b389dec
+--- /dev/null
++++ b/b/src/components/site/modern/variant-kit.tsx
+@@ -0,0 +1,52 @@
++"use client";
++
++import { useEffect, useRef, useState } from "react";
++import { SplitHeading } from "./split-heading";
++
++// Small pieces shared by the designs of the repeated sections (the table of which page gets which design is in variant-table.ts).
++
++export const lines = (s?: string) => (s ?? "").split("\n").map((l) => l.trim()).filter(Boolean);
++export const two = (n: number) => String(n).padStart(2, "0");
++export const plain = (s: string) => s.replace(/\s*\n\s*/g, " ");
++
++/** the chip, the heading and the text of a section, at the left or in the centre */
++export function VHead({ chip, heading, intro, center = false }: { chip?: string; heading?: string; intro?: string; center?: boolean }) {
++  return (
++    <header className="vk-head" data-center={center}>
++      {chip && <span className="md-chip">{chip}</span>}
++      {heading && <SplitHeading text={heading} className="md-h2" />}
++      {intro && <p className="md-intro">{intro}</p>}
++    </header>
++  );
++}
++
++/**
++ * One item is open at a time and it moves on by itself while the section is on the screen; as soon as the visitor picks one it stops.
++ * (Nothing moves for visitors who prefer less motion.)
++ */
++export function useCycle(n: number, ms = 5200) {
++  const [active, setActive] = useState(0);
++  const [auto, setAuto] = useState(true);
++  const [seen, setSeen] = useState(false);
++  const ref = useRef<HTMLDivElement>(null);
++
++  useEffect(() => {
++    const el = ref.current;
++    if (!el) return;
++    const io = new IntersectionObserver(([e]) => setSeen(e.isIntersecting), { threshold: 0.35 });
++    io.observe(el);
++    return () => io.disconnect();
++  }, []);
++  const run = auto && seen && n > 1;
++  useEffect(() => {
++    if (!run || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
++    const t = window.setTimeout(() => setActive((a) => (a + 1) % n), ms);
++    return () => window.clearTimeout(t);
++  }, [run, active, n, ms]);
++
++  const pick = (i: number) => {
++    setAuto(false);
++    setActive(i);
++  };
++  return { active: Math.min(active, Math.max(0, n - 1)), pick, ref, run };
++}
+diff --git a/b/src/components/site/modern/variant-table.ts b/b/src/components/site/modern/variant-table.ts
+new file mode 100644
+index 0000000..742efd9
+--- /dev/null
++++ b/b/src/components/site/modern/variant-table.ts
+@@ -0,0 +1,24 @@
++// The repeated sections of the service pages (process, FAQ, why we3vision, more from we3vision, tools, what we build, the story) must not look
++// the same on two pages. Every one of them has eight designs (the variants, see modern/*-variants.tsx) and this table says which page gets which:
++// the pages are in the order of PAGES_ORDER, the numbers are the variants (0 = the design that was there before). The pages that are not in the
++// table keep the design they have. The look is in globals.css (.vp-*, .vf-*, .vw-*, .vl-*, .vt-*, .vz-*, .vy-*).
++
++export const PAGES_ORDER = ["webdev", "mobile", "crm", "animation", "ui-ux-design", "graphics", "seo", "brand-identity"] as const;
++
++export type VariantType = "process" | "faq" | "why" | "related" | "tools" | "services" | "story";
++
++const TABLE: Record<VariantType, number[]> = {
++  process: [0, 1, 2, 3, 4, 5, 6, 7],
++  faq: [2, 0, 1, 3, 4, 5, 6, 0],
++  why: [1, 0, 2, 3, 4, 5, 6, 7],
++  related: [1, 0, 2, 3, 4, 5, 6, 0],
++  tools: [1, 2, 0, 3, 4, 5, 6, 7],
++  services: [0, 2, 3, 4, 1, 5, 6, 7],
++  story: [0, 1, 4, 5, 2, 3, 6, 0],
++};
++
++/** which design the page gets for that section (null: the page is not in the table) */
++export function variantOf(page: string | undefined, type: VariantType): number | null {
++  const i = PAGES_ORDER.indexOf((page ?? "") as (typeof PAGES_ORDER)[number]);
++  return i < 0 ? null : TABLE[type][i];
++}
+diff --git a/b/src/components/site/modern/why-variants.tsx b/b/src/components/site/modern/why-variants.tsx
+new file mode 100644
+index 0000000..640640e
+--- /dev/null
++++ b/b/src/components/site/modern/why-variants.tsx
+@@ -0,0 +1,217 @@
++"use client";
++
++import { useRef } from "react";
++import { GlowEdge } from "../glow-edge";
++import { IconTile } from "../icons";
++import { Reveal } from "../reveal";
++import { VHead, plain, two, useCycle } from "./variant-kit";
++
++// "Why We3vision" in seven more designs (the first one is why-bento.tsx), one for every service page. The reasons are a title and a text.
++// The look is in globals.css (.vw-*).
++
++type Item = { title: string; description: string };
++type P = { chip: string; heading: string; intro?: string; items: Item[] };
++
++/** 1: a grid of cards with an icon, the card that is hovered lifts and glows */
++function Grid({ chip, heading, intro, items }: P) {
++  return (
++    <div className="md vw vw-grid">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <ul className="vw-gd-list">
++        {items.map((it, i) => (
++          <li key={i}>
++            <Reveal delay={(i % 3) * 70}>
++              <article className="vw-gd-card bglow">
++                <GlowEdge />
++                <IconTile index={i + 1} />
++                <h3>{plain(it.title)}</h3>
++                <p>{it.description}</p>
++              </article>
++            </Reveal>
++          </li>
++        ))}
++      </ul>
++    </div>
++  );
++}
++
++/** 2: a list: the number, the reason and what it means in three columns, the row that is hovered lights up */
++function List({ chip, heading, intro, items }: P) {
++  return (
++    <div className="md vw vw-list">
++      <div className="vw-ls-head">
++        <VHead chip={chip} heading={heading} intro={intro} />
++      </div>
++      <ol className="vw-ls-rows">
++        {items.map((it, i) => (
++          <li key={i}>
++            <span className="vw-ls-no">{two(i + 1)}</span>
++            <h3>{plain(it.title)}</h3>
++            <p>{it.description}</p>
++          </li>
++        ))}
++      </ol>
++    </div>
++  );
++}
++
++/** 3: cards in one row that can be moved with the arrows (or the scroll of the row) */
++function Carousel({ chip, heading, intro, items }: P) {
++  const ref = useRef<HTMLUListElement>(null);
++  const go = (dir: number) => ref.current?.scrollBy({ left: dir * 380, behavior: "smooth" });
++  return (
++    <div className="md vw vw-car">
++      <div className="vw-cr-top">
++        <VHead chip={chip} heading={heading} intro={intro} />
++        <div className="vw-cr-ar">
++          <button type="button" aria-label="Previous" onClick={() => go(-1)}>
++            ←
++          </button>
++          <button type="button" aria-label="Next" onClick={() => go(1)}>
++            →
++          </button>
++        </div>
++      </div>
++      <ul ref={ref} className="vw-cr-row">
++        {items.map((it, i) => (
++          <li key={i}>
++            <article className="vw-cr-card">
++              <span>{two(i + 1)}</span>
++              <h3>{plain(it.title)}</h3>
++              <p>{it.description}</p>
++            </article>
++          </li>
++        ))}
++      </ul>
++    </div>
++  );
++}
++
++/** 4: the heading is fixed on the left, the reasons are ticked off one after the other on the right */
++function Checklist({ chip, heading, intro, items }: P) {
++  return (
++    <div className="md vw vw-chk">
++      <aside>
++        <VHead chip={chip} heading={heading} intro={intro} />
++      </aside>
++      <ul className="vw-ck-list">
++        {items.map((it, i) => (
++          <li key={i}>
++            <Reveal delay={40}>
++              <div className="vw-ck-row">
++                <span className="vw-ck-tick" aria-hidden />
++                <div>
++                  <h3>{plain(it.title)}</h3>
++                  <p>{it.description}</p>
++                </div>
++              </div>
++            </Reveal>
++          </li>
++        ))}
++      </ul>
++    </div>
++  );
++}
++
++/** 5: big tiles with a giant number behind the words */
++function Tiles({ chip, heading, intro, items }: P) {
++  return (
++    <div className="md vw vw-tiles">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <ul className="vw-tl-grid">
++        {items.map((it, i) => (
++          <li key={i} data-big={i % 5 === 0}>
++            <Reveal delay={(i % 3) * 60}>
++              <article className="vw-tl">
++                <span className="vw-tl-no" aria-hidden>
++                  {two(i + 1)}
++                </span>
++                <h3>{plain(it.title)}</h3>
++                <p>{it.description}</p>
++              </article>
++            </Reveal>
++          </li>
++        ))}
++      </ul>
++    </div>
++  );
++}
++
++/** 6: two rows of cards that slide past, one to the left and one to the right (they stop when the mouse is on them) */
++function Marquee({ chip, heading, intro, items }: P) {
++  const a = items.filter((_, i) => i % 2 === 0);
++  const b = items.filter((_, i) => i % 2 === 1);
++  const row = (list: Item[], rev: boolean) => (
++    <div className="vw-mq-row" data-rev={rev}>
++      <ul className="vw-mq-track">
++        {[...list, ...list, ...list].map((it, i) => (
++          <li key={i} aria-hidden={i >= list.length}>
++            <article className="vw-mq-card">
++              <h3>{plain(it.title)}</h3>
++              <p>{it.description}</p>
++            </article>
++          </li>
++        ))}
++      </ul>
++    </div>
++  );
++  return (
++    <div className="md vw vw-mq">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <div className="vw-mq-rows">
++        {row(a, false)}
++        {b.length > 0 && row(b, true)}
++      </div>
++    </div>
++  );
++}
++
++/** 7: a list of the reasons; the one that is on (hover, click or by itself) is explained in a large panel */
++function Spotlight({ chip, heading, intro, items }: P) {
++  const { active, pick, ref } = useCycle(items.length, 5600);
++  const it = items[active];
++  return (
++    <div ref={ref} className="md vw vw-spot">
++      <VHead chip={chip} heading={heading} intro={intro} center />
++      <div className="vw-sp-grid">
++        <ol className="vw-sp-list">
++          {items.map((x, i) => (
++            <li key={i}>
++              <button type="button" data-on={i === active} onMouseEnter={() => pick(i)} onFocus={() => pick(i)} onClick={() => pick(i)}>
++                <span>{two(i + 1)}</span>
++                {plain(x.title)}
++              </button>
++            </li>
++          ))}
++        </ol>
++        <div key={active} className="vw-sp-panel bglow">
++          <GlowEdge />
++          <IconTile index={active + 1} large />
++          <h3>{plain(it.title)}</h3>
++          <p>{it.description}</p>
++        </div>
++      </div>
++    </div>
++  );
++}
++
++/** the design of the page: 1..7 (0 is why-bento.tsx) */
++export function WhyVariant({ variant, ...p }: P & { variant: number }) {
++  if (p.items.length === 0) return null;
++  switch (variant) {
++    case 1:
++      return <Grid {...p} />;
++    case 2:
++      return <List {...p} />;
++    case 3:
++      return <Carousel {...p} />;
++    case 4:
++      return <Checklist {...p} />;
++    case 5:
++      return <Tiles {...p} />;
++    case 6:
++      return <Marquee {...p} />;
++    default:
++      return <Spotlight {...p} />;
++  }
++}
+diff --git a/a/src/components/site/sections/advantages.tsx b/b/src/components/site/sections/advantages.tsx
+index 1da07a0..6095247 100644
+--- a/a/src/components/site/sections/advantages.tsx
++++ b/b/src/components/site/sections/advantages.tsx
+@@ -1,11 +1,24 @@
+ import { ReasonsStack } from "../reasons-stack";
+ import { WhyBento } from "../modern/why-bento";
++import { WhyVariant } from "../modern/why-variants";
++import { variantOf } from "../modern/variant-table";
+ import { SectionHead } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+ /** The reasons to choose us. Service pages ("modern"): a bento of cards. Others ("classic"): a check list that stays on the left while the reasons pass by. */
+-export const Advantages: SectionComponent<"advantages"> = ({ data, skin }) =>
+-  skin === "modern" ? (
++export const Advantages: SectionComponent<"advantages"> = ({ data, skin, page }) => {
++  const v = variantOf(page, "why");
++  // the service pages: every page shows its reasons in its own design (modern/variant-table.ts)
++  if (v !== null && v > 0) {
++    return (
++      <section id="advantages" className="py-24 sm:py-32">
++        <div className="mx-auto w-full max-w-[1120px] px-4">
++          <WhyVariant variant={v} chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
++        </div>
++      </section>
++    );
++  }
++  return skin === "modern" ? (
+     <section id="advantages" className="py-24 sm:py-32">
+       <div className="mx-auto w-full max-w-[1120px] px-4">
+         <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split />
+@@ -19,3 +32,4 @@ export const Advantages: SectionComponent<"advantages"> = ({ data, skin }) =>
+       <ReasonsStack chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
+     </section>
+   );
++};
+diff --git a/a/src/components/site/sections/faq.tsx b/b/src/components/site/sections/faq.tsx
+index 4dacf20..bdb7a40 100644
+--- a/a/src/components/site/sections/faq.tsx
++++ b/b/src/components/site/sections/faq.tsx
+@@ -3,6 +3,8 @@
+ import { useState } from "react";
+ import { Reveal } from "../reveal";
+ import { FaqSplit } from "../modern/faq-split";
++import { FaqVariant } from "../modern/faq-variants";
++import { variantOf } from "../modern/variant-table";
+ import { SectionHead } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+@@ -53,8 +55,19 @@ function ClassicFaq({ data }: { data: { chip: string; heading: string; intro: st
+   );
+ }
+ 
+-export const Faq: SectionComponent<"faq"> = ({ data, skin }) =>
+-  skin === "modern" ? (
++export const Faq: SectionComponent<"faq"> = ({ data, skin, page }) => {
++  const v = variantOf(page, "faq");
++  // the service pages: every page asks its questions in its own design (modern/variant-table.ts)
++  if (v !== null && v > 0) {
++    return (
++      <section id="faq" className="py-24 sm:py-32">
++        <div className="mx-auto w-full max-w-[1120px] px-4">
++          <FaqVariant variant={v} chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
++        </div>
++      </section>
++    );
++  }
++  return skin === "modern" ? (
+     <section id="faq" className="py-24 sm:py-32">
+       <div className="mx-auto w-full max-w-[1120px] px-4">
+         <FaqSplit chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
+@@ -63,4 +76,5 @@ export const Faq: SectionComponent<"faq"> = ({ data, skin }) =>
+   ) : (
+     <ClassicFaq data={data} />
+   );
++};
+ 
+diff --git a/a/src/components/site/sections/process.tsx b/b/src/components/site/sections/process.tsx
+index db48ff3..bf85708 100644
+--- a/a/src/components/site/sections/process.tsx
++++ b/b/src/components/site/sections/process.tsx
+@@ -1,5 +1,7 @@
+ import { ProcessFloor } from "../process-floor";
+ import { ProcessRail } from "../modern/process-rail";
++import { ProcessVariant } from "../modern/process-variants";
++import { variantOf } from "../modern/variant-table";
+ import { SectionHead } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+@@ -7,8 +9,19 @@ import type { SectionComponent } from "./shared";
+  * The steps of the work. Service pages ("modern" skin): a column that counts the steps stays on the left while the step cards pass by on a
+  * line that is drawn while you scroll. Home, About and the others ("classic"): walked along a path on a 3D floor.
+  */
+-export const Process: SectionComponent<"process"> = ({ data, skin }) =>
+-  skin === "modern" ? (
++export const Process: SectionComponent<"process"> = ({ data, skin, page }) => {
++  const v = variantOf(page, "process");
++  // the service pages: every page shows its steps in its own design (modern/variant-kit.tsx)
++  if (v !== null && v > 0) {
++    return (
++      <section id="process" className="py-24 sm:py-32">
++        <div className="mx-auto w-full max-w-[1180px] px-4">
++          <ProcessVariant variant={v} chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
++        </div>
++      </section>
++    );
++  }
++  return skin === "modern" ? (
+     <section id="process" className="py-24 sm:py-32">
+       <div className="mx-auto w-full max-w-[1180px] px-4">
+         <ProcessRail chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />
+@@ -24,3 +37,4 @@ export const Process: SectionComponent<"process"> = ({ data, skin }) =>
+       </div>
+     </section>
+   );
++};
+diff --git a/a/src/components/site/sections/services.tsx b/b/src/components/site/sections/services.tsx
+index 9a3b4c8..94d520f 100644
+--- a/a/src/components/site/sections/services.tsx
++++ b/b/src/components/site/sections/services.tsx
+@@ -1,17 +1,25 @@
+ import { RelatedLinks } from "../modern/related-links";
++import { RelatedVariant } from "../modern/related-variants";
++import { variantOf } from "../modern/variant-table";
+ import { ServiceStage } from "../modern/service-stage";
+ import { Reveal } from "../reveal";
+ import { ServiceStrip } from "../service-strip";
+ import { ButtonLink, SectionHead, Wide } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
++// "What we build": the body of the stage for the number of the table (modern/variant-table.ts); 7 is the strip of the classic pages
++const BODY = ["stage", "canvas", "phone", "pipeline", "layers", "palette", "serp"] as const;
++
+ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin, page }) => (
+   skin === "modern" && sectionId === "related-services" ? (
+     <section id="related-services" className="py-24 sm:py-32">
+       <Wide>
+         <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split />
+         <div className="mt-14">
+-          <RelatedLinks cards={data.cards} />
++          {(() => {
++            const v = variantOf(page, "related");
++            return v !== null && v > 0 ? <RelatedVariant variant={v} cards={data.cards} /> : <RelatedLinks cards={data.cards} />;
++          })()}
+         </div>
+       </Wide>
+     </section>
+@@ -20,7 +28,7 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin,
+       {/* the heading is part of the stage: it stays with it while the page scrolls through the boxes (see modern/service-stage.tsx) */}
+       <ServiceStage
+         cards={data.cards}
+-        variant={page === "ui-ux-design" ? "canvas" : "stage"}
++        variant={BODY[variantOf(page, "services") ?? 0] ?? "stage"}
+         head={
+           <Wide>
+             <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split>
+diff --git a/a/src/components/site/sections/story.tsx b/b/src/components/site/sections/story.tsx
+index 9c353b7..f1f8947 100644
+--- a/a/src/components/site/sections/story.tsx
++++ b/b/src/components/site/sections/story.tsx
+@@ -1,6 +1,7 @@
+ import { IconTile } from "../icons";
+ import { Reveal } from "../reveal";
+ import { Rich, paragraphs } from "../ui";
++import { variantOf } from "../modern/variant-table";
+ import type { SectionComponent } from "./shared";
+ 
+ // The text section "about this service", in four different looks, so that the pages of the site do not all have the same block:
+@@ -8,8 +9,13 @@ import type { SectionComponent } from "./shared";
+ //  lead   the first paragraph as one large statement, the others in columns under it
+ //  rail   rows: a big outline number and a small title on the left, the paragraph on the right
+ //  chips  the highlighted phrases as a row of chips ("key ideas"), then the paragraphs in two columns
+-// Every page has its own look (see LOOK), the other pages get one by their address. The look is in globals.css (.sy-*).
+-type Look = "duo" | "lead" | "rail" | "chips";
++//  stack  the paragraphs as steps of a staircase, every one a little further to the right
++//  quote  the first paragraph as a pull quote on the left, the others as numbered notes on the right
++//  line   a vertical line with the paragraphs on both sides of it, like a timeline
++// The service pages have their look from the table in modern/variant-table.ts (no two the same); the other pages have one by LOOK or by their
++// address. The look is in globals.css (.sy-*, .vy-*).
++type Look = "duo" | "lead" | "rail" | "chips" | "stack" | "quote" | "line";
++const BY_NUMBER: Look[] = ["duo", "lead", "rail", "chips", "stack", "quote", "line"];
+ 
+ const LOOK: Record<string, Look> = {
+   ai: "chips",
+@@ -38,7 +44,8 @@ const keyPhrases = (paras: string[]) =>
+ 
+ export const Story: SectionComponent<"story"> = ({ data, page }) => {
+   const paras = paragraphs(data.body);
+-  const look = lookOf(page);
++  const v = variantOf(page, "story");
++  const look = v !== null ? (BY_NUMBER[v] ?? "duo") : lookOf(page);
+   const phrases = keyPhrases(paras);
+ 
+   return (
+@@ -97,6 +104,63 @@ export const Story: SectionComponent<"story"> = ({ data, page }) => {
+           </Reveal>
+         )}
+ 
++        {look === "stack" && (
++          <Reveal className="vy-stack">
++            {paras.map((p, i) => (
++              <article key={i} className="vy-st" style={{ "--i": i } as React.CSSProperties}>
++                <span className="vy-st-no" aria-hidden>
++                  {String(i + 1).padStart(2, "0")}
++                </span>
++                <p className="sy-p">
++                  <Rich text={p} />
++                </p>
++              </article>
++            ))}
++          </Reveal>
++        )}
++
++        {look === "quote" && (
++          <Reveal className="vy-quote">
++            <blockquote className="vy-q-main">
++              <span className="vy-q-mark" aria-hidden>
++                “
++              </span>
++              <p>
++                <Rich text={paras[0] ?? ""} />
++              </p>
++              <cite>We3vision</cite>
++            </blockquote>
++            {paras.length > 1 && (
++              <ol className="vy-q-notes">
++                {paras.slice(1).map((p, i) => (
++                  <li key={i}>
++                    <span aria-hidden>{String(i + 1).padStart(2, "0")}</span>
++                    <p className="sy-p">
++                      <Rich text={p} />
++                    </p>
++                  </li>
++                ))}
++              </ol>
++            )}
++          </Reveal>
++        )}
++
++        {look === "line" && (
++          <Reveal className="vy-line">
++            {paras.map((p, i) => (
++              <div key={i} className="vy-ln" data-side={i % 2 === 0 ? "l" : "r"}>
++                <span className="vy-ln-dot" aria-hidden />
++                <div className="vy-ln-card">
++                  <span className="vy-ln-no">{TITLES[i % TITLES.length]}</span>
++                  <p className="sy-p">
++                    <Rich text={p} />
++                  </p>
++                </div>
++              </div>
++            ))}
++          </Reveal>
++        )}
++
+         {look === "chips" && (
+           <Reveal className="sy-chips-wrap">
+             {phrases.length > 0 && (
+diff --git a/a/src/components/site/sections/tags.tsx b/b/src/components/site/sections/tags.tsx
+index 3d44074..4fd4d4c 100644
+--- a/a/src/components/site/sections/tags.tsx
++++ b/b/src/components/site/sections/tags.tsx
+@@ -1,10 +1,23 @@
+ import { Reveal } from "../reveal";
+ import { TechSpace } from "../tech-space";
++import { ToolsVariant } from "../modern/tools-variants";
++import { variantOf } from "../modern/variant-table";
+ import type { SectionComponent } from "./shared";
+ 
+ /** The tools and technologies of a service as constellations in space, all on one screen; a pop-up with what can be built when you hover one. */
+-export const Tags: SectionComponent<"tags"> = ({ data }) => {
++export const Tags: SectionComponent<"tags"> = ({ data, page }) => {
+   const items = data.items.split("\n").map((t) => t.trim()).filter(Boolean);
++  const v = variantOf(page, "tools");
++  // the service pages: every page shows its tools in its own design (modern/variant-table.ts)
++  if (v !== null && v > 0) {
++    return (
++      <section id="tools" className="py-24 sm:py-32">
++        <div className="mx-auto w-full max-w-[1120px] px-4">
++          <ToolsVariant variant={v} chip={data.chip} heading={data.heading} intro={data.intro} items={items} />
++        </div>
++      </section>
++    );
++  }
+   return (
+     <section id="tools" className="ts">
+       <Reveal className="ts-head">

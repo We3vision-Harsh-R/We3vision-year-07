@@ -1,0 +1,75 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index be9fa69..cf8cf0d 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17421,3 +17421,70 @@ a.md-rel-card:hover .md-rel-go {
+     background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 9% / 0.88);
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   Home industries: the list and the info card must be seen and read at once, over the busy picture: a solid dark glass, a bright edge, bright
++   words, and the industry you are at is lit (a bright pill in the list, the card in the colour of the brand with a glow). */
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-rail ol {
++    gap: 0.2rem;
++    padding: 0.6rem;
++    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
++    border-radius: 20px;
++    background: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 7% / 0.94);
++    box-shadow:
++      0 0 0 1px hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 5% / 0.6),
++      0 24px 50px -22px rgba(0, 0, 0, 0.9);
++  }
++  .cm-bird .cm-rail button {
++    padding: 0.55rem 0.8rem;
++    border: 1px solid transparent;
++    color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 92% / 0.92);
++    font-size: 1.0625rem;
++  }
++  .cm-bird .cm-rail button svg {
++    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  }
++  .cm-bird .cm-rail button[data-done="true"] {
++    color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 92% / 0.92);
++  }
++  .cm-bird .cm-rail button[data-on="true"] {
++    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.85);
++    background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55), hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 56% / 0.5));
++    box-shadow: 0 0 22px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
++    color: #fff;
++    font-weight: 700;
++  }
++  .cm-bird .cm-rail button[data-on="true"] svg {
++    color: #fff;
++  }
++  .cm-bird .cm-panel {
++    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.55);
++    background: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 14% / 0.97), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8% / 0.97));
++    box-shadow:
++      0 0 36px -6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55),
++      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 85% / 0.35),
++      0 28px 60px -24px rgba(0, 0, 0, 0.9);
++  }
++  .cm-bird .cm-p-top span {
++    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
++    color: #fff;
++  }
++  .cm-bird .cm-p-ico {
++    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.6);
++    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
++    color: #fff;
++  }
++  .cm-bird .cm-panel h3 {
++    font-size: 2.1rem;
++    font-weight: 700;
++  }
++  .cm-bird .cm-p-text {
++    color: #fff;
++    font-size: 1.125rem;
++    opacity: 0.94;
++  }
++  .cm-bird .cm-p-nav span {
++    color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 90% / 0.9);
++  }
++}

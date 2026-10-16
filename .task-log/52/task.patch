@@ -1,0 +1,642 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 3dddfd1..15c9280 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -23026,3 +23026,363 @@ a.md-rel-card:hover .md-rel-go {
+   z-index: 8;
+   pointer-events: none;
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The Contact page, first screen (components/site/contact-reception.tsx): the words and the choices at the top, below them the reception of
++   an office: a real photo of a receptionist whose edges melt into a blurred copy of the same photo, a counter in front of her, soft
++   lights and plants out of focus. The bottom melts into the next section. For laptop and desktop screens. */
++.rc {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.18);
++  position: relative;
++  min-height: max(100svh, 820px);
++  overflow: hidden;
++  text-align: center;
++}
++.rc-top {
++  position: relative;
++  z-index: 3;
++  display: grid;
++  justify-items: center;
++  gap: 12px;
++  max-width: 980px;
++  margin: 0 auto;
++  padding: 104px 24px 0;
++}
++.rc-h {
++  margin: 4px 0 0;
++  background-image: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 352.8) calc(100% * var(--ts)) 85.29%));
++  -webkit-background-clip: text;
++  background-clip: text;
++  color: transparent;
++  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
++  font-weight: 600;
++  letter-spacing: -0.04em;
++  line-height: 1.08;
++  filter: drop-shadow(0 6px 24px hsl(calc(var(--th) + 344) calc(71.43% * var(--ts)) 4.12% / 0.8));
++}
++.rc-sub {
++  max-width: 620px;
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.6;
++  text-shadow: 0 2px 16px hsl(calc(var(--th) + 344) calc(71.43% * var(--ts)) 4.12% / 0.9);
++}
++
++/* the talk with the receptionist */
++.rc-chat {
++  display: grid;
++  justify-items: center;
++  gap: 16px;
++  width: min(760px, 100%);
++  min-height: 190px;
++  margin-top: 4px;
++}
++.rc-lines {
++  display: grid;
++  gap: 10px;
++  width: 100%;
++}
++.rc-line {
++  display: flex;
++  align-items: flex-end;
++  gap: 12px;
++  animation: rc-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++  transition: opacity 0.4s;
++}
++.rc-line[data-who="you"] {
++  justify-content: flex-end;
++}
++.rc-line[data-old="true"] {
++  opacity: 0.45;
++}
++.rc-line p {
++  max-width: 640px;
++  margin: 0;
++  padding: 10px 18px;
++  border: 1px solid var(--hair);
++  border-radius: 18px 18px 18px 6px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9% / 0.82);
++  -webkit-backdrop-filter: blur(10px);
++  backdrop-filter: blur(10px);
++  color: #fff;
++  font-size: 1.0625rem;
++  line-height: 1.5;
++  text-align: left;
++}
++.rc-line[data-who="you"] p {
++  border-radius: 18px 18px 6px 18px;
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
++  background: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85.29%), hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06%));
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-weight: 500;
++}
++@keyframes rc-in {
++  from {
++    opacity: 0;
++    transform: translateY(10px);
++  }
++  to {
++    opacity: 1;
++    transform: none;
++  }
++}
++.rc-face {
++  flex: none;
++  width: 44px;
++  height: 44px;
++  border: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.6);
++  border-radius: 50%;
++  background: url("/images/contact/reception.webp") 39% 56% / 380% auto no-repeat;
++  box-shadow: 0 0 18px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.35);
++}
++.rc-dots {
++  display: flex;
++  gap: 6px;
++  padding: 16px 18px !important;
++}
++.rc-dots i {
++  width: 8px;
++  height: 8px;
++  border-radius: 50%;
++  background: var(--a);
++  animation: rc-dot 1s ease-in-out infinite;
++}
++.rc-dots i:nth-child(2) {
++  animation-delay: 0.15s;
++}
++.rc-dots i:nth-child(3) {
++  animation-delay: 0.3s;
++}
++@keyframes rc-dot {
++  0%,
++  80%,
++  100% {
++    opacity: 0.3;
++    transform: translateY(0);
++  }
++  40% {
++    opacity: 1;
++    transform: translateY(-4px);
++  }
++}
++.rc-opts {
++  display: flex;
++  flex-wrap: wrap;
++  justify-content: center;
++  gap: 10px;
++}
++.rc-opt {
++  padding: 11px 20px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.09);
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
++  font: inherit;
++  font-size: 1rem;
++  font-weight: 500;
++  cursor: pointer;
++  animation: rc-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++  transition:
++    background 0.25s,
++    border-color 0.25s,
++    transform 0.25s,
++    color 0.25s;
++}
++.rc-opt:hover,
++.rc-opt:focus-visible {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2);
++  color: #fff;
++  outline: none;
++  transform: translateY(-2px);
++}
++.rc-go {
++  display: inline-flex;
++  align-items: center;
++  gap: 10px;
++  padding: 12px 26px;
++  border-radius: 999px;
++  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85.29%) 0%, hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06%) 100%);
++  box-shadow:
++    inset 0 1px 0 rgba(255, 255, 255, 0.45),
++    0 6px 24px hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06% / 0.28);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-size: 1rem;
++  font-weight: 600;
++  text-decoration: none;
++  animation: rc-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++  transition: transform 0.25s;
++}
++.rc-go:hover,
++.rc-go:focus-visible {
++  outline: none;
++  transform: translateY(-2px);
++}
++.rc-links {
++  display: flex;
++  gap: 22px;
++  margin: 2px 0 0;
++}
++.rc-links a {
++  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90% / 0.78);
++  font-size: 1rem;
++  text-decoration: underline;
++  text-underline-offset: 5px;
++  transition: color 0.2s;
++}
++.rc-links a:hover {
++  color: #fff;
++}
++
++/* the reception: everything is out of focus towards the edges, and the bottom melts into the section below */
++.rc-scene {
++  position: absolute;
++  right: 0;
++  bottom: 0;
++  left: 0;
++  z-index: 1;
++  height: min(54%, 580px);
++  pointer-events: none;
++  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30%, #000 80%, transparent 100%), linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
++  mask-image: linear-gradient(to bottom, transparent 0, #000 30%, #000 80%, transparent 100%), linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
++  -webkit-mask-composite: source-in;
++  mask-composite: intersect;
++}
++.rc-back {
++  position: absolute;
++  inset: -50px;
++  background: url("/images/contact/reception.webp") center 30% / cover no-repeat;
++  filter: blur(34px) saturate(1.25) brightness(0.5);
++}
++.rc-back::after {
++  content: "";
++  position: absolute;
++  inset: 0;
++  background: linear-gradient(180deg, hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 6% / 0.5), hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 24% / 0.4));
++}
++.rc-glow {
++  position: absolute;
++  left: 50%;
++  top: 4%;
++  width: 70%;
++  height: 90%;
++  transform: translateX(-50%);
++  background: radial-gradient(closest-side, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.34), transparent);
++}
++.rc-photo {
++  position: absolute;
++  left: 50%;
++  bottom: 120px;
++  width: min(900px, 62%);
++  aspect-ratio: 5 / 3;
++  /* (she sits a little left of the middle of the photo: the photo is moved so that she is in the middle of the screen) */
++  transform: translateX(-39%);
++  background: url("/images/contact/reception.webp") center / cover no-repeat;
++  filter: saturate(0.92) contrast(1.04) brightness(0.96);
++  /* the edges of the photo go out of focus into the blurred copy behind it */
++  -webkit-mask-image: radial-gradient(ellipse 54% 60% at 50% 46%, #000 36%, transparent 96%);
++  mask-image: radial-gradient(ellipse 54% 60% at 50% 46%, #000 36%, transparent 96%);
++}
++/* the wall behind her is darker towards the top (the colours of the site), and the lower part goes dark under the counter */
++.rc-photo::after {
++  content: "";
++  position: absolute;
++  inset: 0;
++  background: linear-gradient(180deg, hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 6% / 0.62) 0%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 14% / 0.2) 40%, transparent 58%, hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 6% / 0.55));
++  mix-blend-mode: multiply;
++}
++.rc-lights {
++  position: absolute;
++  top: 8%;
++  right: 0;
++  left: 0;
++  display: flex;
++  justify-content: space-around;
++  padding: 0 12%;
++  filter: blur(8px);
++}
++.rc-lights i {
++  width: 120px;
++  height: 14px;
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88% / 0.5);
++}
++.rc-plant {
++  position: absolute;
++  bottom: 60px;
++  width: 150px;
++  height: 230px;
++  border-radius: 60% 60% 40% 40% / 70% 70% 30% 30%;
++  background: radial-gradient(ellipse at 50% 40%, hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 36% / 0.85), hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 14% / 0.7) 70%, transparent);
++  filter: blur(9px);
++}
++.rc-plant-l {
++  left: 12%;
++}
++.rc-plant-r {
++  right: 12%;
++}
++.rc-counter {
++  position: absolute;
++  bottom: 56px;
++  left: 50%;
++  width: min(1040px, 78%);
++  height: 112px;
++  transform: translateX(-50%);
++  border-radius: 26px 26px 0 0;
++  background: linear-gradient(180deg, hsl(calc(var(--th) + 349) calc(40% * var(--ts)) 19%), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8%));
++  box-shadow:
++    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.4),
++    0 -24px 70px -26px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.5);
++}
++.rc-logo {
++  position: absolute;
++  top: 34px;
++  left: 50%;
++  transform: translateX(-50%);
++  color: hsl(0 0% 100% / 0.82);
++  font-size: 1.125rem;
++  font-weight: 600;
++  letter-spacing: 0.42em;
++}
++.rc-bell {
++  position: absolute;
++  top: -9px;
++  left: 17%;
++  width: 22px;
++  height: 11px;
++  border-radius: 12px 12px 3px 3px;
++  background: linear-gradient(180deg, hsl(calc(var(--th) + 40) 60% 76%), hsl(calc(var(--th) + 40) 50% 46%));
++  box-shadow: 0 0 14px hsl(calc(var(--th) + 40) 80% 70% / 0.4);
++}
++.rc-pot {
++  position: absolute;
++  top: -22px;
++  right: 15%;
++  width: 26px;
++  height: 22px;
++  border-radius: 6px 6px 10px 10px;
++  background: linear-gradient(180deg, hsl(calc(var(--th) + 14) 30% 40%), hsl(calc(var(--th) + 14) 30% 24%));
++}
++.rc-pot::before {
++  content: "";
++  position: absolute;
++  left: 50%;
++  bottom: 70%;
++  width: 36px;
++  height: 30px;
++  transform: translateX(-50%);
++  border-radius: 50% 50% 40% 40%;
++  background: radial-gradient(circle at 50% 70%, hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 44%), hsl(calc(var(--th) + 222) calc(50% * var(--ts)) 22%));
++}
++@media (prefers-reduced-motion: reduce) {
++  .rc-line,
++  .rc-opt,
++  .rc-go,
++  .rc-dots i {
++    animation: none;
++  }
++}
+diff --git a/b/src/components/site/contact-reception.tsx b/b/src/components/site/contact-reception.tsx
+new file mode 100644
+index 0000000..bbb38ca
+--- /dev/null
++++ b/b/src/components/site/contact-reception.tsx
+@@ -0,0 +1,234 @@
++"use client";
++
++import Link from "next/link";
++import { useCallback, useEffect, useRef, useState } from "react";
++import { Chip } from "./ui";
++
++// The first screen of the Contact page: a receptionist at the reception desk of the office. She welcomes the visitor ("two minutes of your
++// time?"), asks what they would like to know about We3vision and offers five answers (services, work, their problem, joining the team,
++// working together). The choice gets a short answer and one button that goes to the right place. The picture is a real photograph (2D, not a
++// cartoon) whose edges are blurred into the page; the counter in front of her is drawn in CSS. The look is in globals.css (.rc-*).
++// (Photo: Unsplash, free licence. Cropped from photo-1576092783872-50eaba4d62bf.)
++
++type Choice = {
++  id: string;
++  label: string;
++  /** what the receptionist says about it */
++  say: string;
++  /** the button that goes on */
++  cta: string;
++  href: string;
++};
++
++const CHOICES: Choice[] = [
++  {
++    id: "services",
++    label: "Know about your services",
++    say: "We build websites, mobile apps, AI, VR and metaverse, brand design and CRM. Have a look at everything we do.",
++    cta: "See our services",
++    href: "/#services",
++  },
++  {
++    id: "work",
++    label: "See your work",
++    say: "We have made VR projects for the government, brands, websites and apps. Here is some of our work.",
++    cta: "See our work",
++    href: "/portfolio",
++  },
++  {
++    id: "problem",
++    label: "Tell you my problem",
++    say: "Tell us what is not working. A few lines are enough, and we will find the way together.",
++    cta: "Tell us your problem",
++    href: "#contact",
++  },
++  {
++    id: "team",
++    label: "Join the team",
++    say: "We are always happy to meet new people. See the open roles and say hello.",
++    cta: "See open roles",
++    href: "/careers",
++  },
++  {
++    id: "collab",
++    label: "Work together on a project",
++    say: "Wonderful. Tell us about your project and the team will come back to you soon.",
++    cta: "Start a project",
++    href: "#contact",
++  },
++];
++
++type Line = { who: "her" | "you"; text: string };
++
++const HELLO = "Hello, and welcome to We3vision! Do you have two minutes? Let's have a quick chat.";
++const ASK = "What would you like to know about We3vision?";
++
++export function ContactReception({
++  chip,
++  heading,
++  text,
++  links,
++  badges,
++}: {
++  chip: string;
++  heading: string;
++  text: string;
++  links: { label: string; href: string }[];
++  badges?: React.ReactNode;
++}) {
++  const [lines, setLines] = useState<Line[]>([]);
++  const [typing, setTyping] = useState(true);
++  const [picked, setPicked] = useState<Choice | null>(null);
++  const [offer, setOffer] = useState(false);
++  const timers = useRef<number[]>([]);
++
++  const later = useCallback((fn: () => void, ms: number) => {
++    timers.current.push(window.setTimeout(fn, ms));
++  }, []);
++  useEffect(() => {
++    const t = timers.current;
++    return () => t.forEach((x) => window.clearTimeout(x));
++  }, []);
++
++  // she says hello, then asks what the visitor would like to know
++  useEffect(() => {
++    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
++    const k = reduce ? 0 : 1;
++    later(() => {
++      setLines([{ who: "her", text: HELLO }]);
++      setTyping(true);
++    }, 700 * k);
++    later(() => {
++      setLines([
++        { who: "her", text: HELLO },
++        { who: "her", text: ASK },
++      ]);
++      setTyping(false);
++      setOffer(true);
++    }, 2300 * k);
++  }, [later]);
++
++  const choose = (c: Choice) => {
++    setOffer(false);
++    setPicked(null);
++    setLines((l) => [...l, { who: "you", text: c.label }]);
++    setTyping(true);
++    later(() => {
++      setLines((l) => [...l, { who: "her", text: c.say }]);
++      setTyping(false);
++      setPicked(c);
++    }, 900);
++  };
++
++  const again = () => {
++    setPicked(null);
++    setLines((l) => [...l, { who: "her", text: "Of course. What else would you like to know?" }]);
++    setOffer(true);
++  };
++
++  const go = (e: React.MouseEvent, href: string) => {
++    if (!href.startsWith("#")) return;
++    e.preventDefault();
++    const el = document.querySelector(href);
++    const lenis = (window as unknown as { __lenis?: { scrollTo: (t: Element | number, o?: object) => void } }).__lenis;
++    if (el) {
++      if (lenis) lenis.scrollTo(el, { offset: -20, duration: 1.2 });
++      else el.scrollIntoView({ behavior: "smooth", block: "start" });
++    }
++  };
++
++  // the last two lines stay visible: older ones fade
++  const shown = lines.slice(-3);
++
++  return (
++    <section id="top" className="rc">
++      <div className="rc-scene" aria-hidden>
++        <div className="rc-back" />
++        <div className="rc-lights">
++          <i />
++          <i />
++          <i />
++        </div>
++        <i className="rc-plant rc-plant-l" />
++        <i className="rc-plant rc-plant-r" />
++        <div className="rc-glow" />
++        <div className="rc-photo" />
++        <div className="rc-counter">
++          <span className="rc-logo">WE3VISION</span>
++          <i className="rc-bell" />
++          <i className="rc-pot" />
++        </div>
++      </div>
++
++      {badges}
++
++      <div className="rc-top">
++        {chip && (
++          <div className="animate-rise" style={{ animationDelay: "100ms" }}>
++            <Chip>{chip}</Chip>
++          </div>
++        )}
++        <h1 className="rc-h animate-rise" style={{ animationDelay: "220ms" }}>
++          {heading.replace(/\n/g, " ")}
++        </h1>
++        {text && (
++          <p className="rc-sub animate-rise" style={{ animationDelay: "340ms" }}>
++            {text}
++          </p>
++        )}
++
++        <div className="rc-chat" role="region" aria-label="Reception" aria-live="polite">
++          <div className="rc-lines">
++            {shown.map((l, i) => (
++              <div key={lines.length - shown.length + i} className="rc-line" data-who={l.who} data-old={i < shown.length - 2 ? "true" : "false"}>
++                {l.who === "her" && <span className="rc-face" aria-hidden />}
++                <p>{l.text}</p>
++              </div>
++            ))}
++            {typing && (
++              <div className="rc-line" data-who="her">
++                <span className="rc-face" aria-hidden />
++                <p className="rc-dots" aria-label="typing">
++                  <i />
++                  <i />
++                  <i />
++                </p>
++              </div>
++            )}
++          </div>
++
++          {offer && (
++            <div className="rc-opts" role="group" aria-label="What would you like to know?">
++              {CHOICES.map((c, i) => (
++                <button key={c.id} type="button" className="rc-opt" style={{ animationDelay: `${i * 70}ms` }} onClick={() => choose(c)}>
++                  {c.label}
++                </button>
++              ))}
++            </div>
++          )}
++
++          {picked && (
++            <div className="rc-opts rc-act">
++              <Link href={picked.href} className="rc-go" onClick={(e) => go(e, picked.href)}>
++                {picked.cta} <span aria-hidden>→</span>
++              </Link>
++              <button type="button" className="rc-opt rc-again" onClick={again}>
++                Ask something else
++              </button>
++            </div>
++          )}
++        </div>
++
++        {links.length > 0 && (
++          <p className="rc-links">
++            {links.map((l) => (
++              <Link key={l.href + l.label} href={l.href} onClick={(e) => go(e, l.href)}>
++                {l.label}
++              </Link>
++            ))}
++          </p>
++        )}
++      </div>
++    </section>
++  );
++}
+diff --git a/a/src/components/site/sections/page-hero.tsx b/b/src/components/site/sections/page-hero.tsx
+index 3639423..135e50d 100644
+--- a/a/src/components/site/sections/page-hero.tsx
++++ b/b/src/components/site/sections/page-hero.tsx
+@@ -1,3 +1,4 @@
++import { ContactReception } from "../contact-reception";
+ import { HeroBadges } from "../hero-badges";
+ import { AiHeroBg } from "../modern/ai-hero-bg";
+ import CursorGrid from "../modern/cursor-grid";
+@@ -8,7 +9,16 @@ import type { SectionComponent } from "./shared";
+ const rise = (ms: number) => ({ animationDelay: `${ms}ms` });
+ 
+ /** First screen of an inner page: small label, big heading, short text and two buttons, centred. */
+-export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page }) => (
++export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page }) => {
++  // the contact page: a receptionist at the reception desk who asks what the visitor would like to know
++  if (page === "contact") {
++    const links = [
++      { label: data.primaryLabel, href: data.primaryHref },
++      { label: data.secondaryLabel, href: data.secondaryHref },
++    ].filter((l) => l.label && l.href);
++    return <ContactReception chip={data.chip} heading={data.heading} text={data.text} links={links} badges={<HeroBadges badges={site.badges} />} />;
++  }
++  return (
+   <section id="top" className="relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
+     {/* service pages: sunlight through leaves on the wall behind the words */}
+     {skin === "modern" && page !== "ai" && page !== "blog" && page !== "team" && <DappledLight seed={(data.heading.length % 9) + 3} />}
+@@ -56,4 +66,5 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page
+       </div>
+     </div>
+   </section>
+-);
++  );
++};

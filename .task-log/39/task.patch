@@ -1,0 +1,51 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index c069c78..a0a8a2e 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17535,3 +17535,18 @@ a.md-rel-card:hover .md-rel-go {
+ .pd {
+   transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+ }
++
++/* the title and the text of an open service are a link to its page */
++.hub-headlink {
++  display: block;
++  color: inherit;
++  text-decoration: none;
++  cursor: pointer;
++}
++.hub-headlink:hover .hub-title,
++.hub-headlink:focus-visible .hub-title {
++  filter: brightness(1.12);
++}
++.hub-headlink .hub-title {
++  transition: filter 0.25s;
++}
+diff --git a/a/src/components/site/hero-scene.tsx b/b/src/components/site/hero-scene.tsx
+index c887896..0bc5fc7 100644
+--- a/a/src/components/site/hero-scene.tsx
++++ b/b/src/components/site/hero-scene.tsx
+@@ -408,11 +408,20 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above:
+                   className="hub-panel"
+                 >
+                   <header className="hub-head">
+-                    <div>
+-                      <span className="hub-idx">{String(i + 1).padStart(2, "0")}</span>
++                    {/* the title and the text of the open service are a link to the page of the service (the sub-services below are not) */}
++                    {card.href ? (
++                      <SmartLink href={card.href} className="hub-headlink" tabIndex={-1}>
++                        <span className="hub-idx">{String(i + 1).padStart(2, "0")}</span>
+                       <h2 className="hub-title">{oneLine(card.title)}</h2>
+                       {card.summary && <p className="hub-sum">{card.summary}</p>}
+-                    </div>
++                      </SmartLink>
++                    ) : (
++                      <div>
++                        <span className="hub-idx">{String(i + 1).padStart(2, "0")}</span>
++                      <h2 className="hub-title">{oneLine(card.title)}</h2>
++                      {card.summary && <p className="hub-sum">{card.summary}</p>}
++                      </div>
++                    )}
+                     {card.href && (
+                       <SmartLink href={card.href} className="hub-more" tabIndex={active === i ? 0 : -1}>
+                         Explore {oneLine(card.title)} <span aria-hidden>→</span>

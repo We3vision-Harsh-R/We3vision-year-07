@@ -1,0 +1,93 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index cf8cf0d..c069c78 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17488,3 +17488,50 @@ a.md-rel-card:hover .md-rel-go {
+     color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 90% / 0.9);
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The walker of the services is the original cartoon guide again (avatar.tsx), not the panda: its own size (tall and slim), the same 3D turn
++   and the same street; the light of the lamp it stands under gives it a soft glow in the colour of the service. */
++.hub-av-body {
++  bottom: -17px;
++  left: -29px;
++  width: 58px;
++  height: 87px;
++}
++.hub-av-body .hub-sp {
++  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--ac) calc(var(--plit, 0.3) * 70%), transparent));
++}
++@media (min-width: 700px) and (max-height: 720px) {
++  .hub-av-body {
++    bottom: -14px;
++    left: -24px;
++    width: 48px;
++    height: 72px;
++  }
++}
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   PANDA chat, smoother: no ring of light round the bar any more; the window above the bar and the blur behind it have the size of the OPEN chat
++   all the time (they only fade and grow in), so only the bar itself changes its width while it widens: nothing else has to be laid out
++   again in every frame. */
++.pd-ring {
++  display: none;
++}
++.pd[data-open="true"] .pd-ring {
++  animation: none;
++}
++.pd-panel {
++  right: auto;
++  left: 50%;
++  width: min(var(--wo), calc(100vw - 24px));
++  translate: -50% 0;
++}
++.pd-blur {
++  right: auto;
++  left: 50%;
++  width: min(calc(var(--wo) + 2 * (var(--ax) + var(--fx))), 100vw);
++  translate: -50% 0;
++}
++.pd {
++  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
++}
+diff --git a/a/src/components/site/ai-chat.tsx b/b/src/components/site/ai-chat.tsx
+index 5b93aad..ac2232a 100644
+--- a/a/src/components/site/ai-chat.tsx
++++ b/b/src/components/site/ai-chat.tsx
+@@ -113,7 +113,6 @@ export function AiChat() {
+         </div>
+       </section>
+ 
+-      <span className="pd-ring" aria-hidden />
+       <form className="pd-bar" role="search" onSubmit={onSubmit}>
+         <span className="pd-icon">
+           <PandaMini paws={false} />
+diff --git a/a/src/components/site/hero-scene.tsx b/b/src/components/site/hero-scene.tsx
+index 29c2b12..7a06c34 100644
+--- a/a/src/components/site/hero-scene.tsx
++++ b/b/src/components/site/hero-scene.tsx
+@@ -2,7 +2,7 @@
+ 
+ import { useEffect, useRef, useState, type CSSProperties } from "react";
+ import { AiChat } from "./ai-chat";
+-import { PandaFront, PandaSide } from "./panda-walker";
++import { GuideFront, GuideSide } from "./avatar";
+ import { clamp } from "./anim-utils";
+ import { ICONS } from "./icons";
+ import { Street } from "./home-street";
+@@ -392,9 +392,9 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above:
+             </span>
+             <div ref={avRef} className="hub-av" data-show="false" data-state="idle" data-face="right" aria-hidden>
+               <div className="hub-av-body">
+-                {/* the panda: standing = the front view; walking = the side view (it faces right, turned round for left) */}
+-                <PandaFront className="hub-sp hub-sp-idle" />
+-                <PandaSide className="hub-sp hub-sp-walk" />
++                {/* the cartoon guide: standing = the front view; walking = the side view (it faces right, turned round for left) */}
++                <GuideFront className="hub-sp hub-sp-idle" />
++                <GuideSide className="hub-sp hub-sp-walk" />
+               </div>
+             </div>
+             {cards.map((card, i) => {

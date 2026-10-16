@@ -1,0 +1,56 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 240149d..7fdccc5 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -18712,19 +18712,14 @@ a.md-rel-card:hover .md-rel-go {
+ }
+ 
+ /* ---------------------------------------------------------------------------------------------------------------------------------
+-   Tech space: its title sticks at the top (at the same place where the title of the industries was) while the section goes by: the planets
+-   scroll away under it (it has a soft background so that they do not run through the letters). Desktop only. */
++   Tech space: its title is part of the section (it is NOT fixed at the top): it goes up with the section and the planets. Desktop only. */
+ @media (min-width: 901px) {
+   .ts {
+     padding-top: 0;
+   }
+   .ts-head {
+-    position: sticky;
+-    top: 0;
+-    z-index: 5;
++    position: relative;
+     padding: 3.4rem 1rem 1.6rem;
+-    /* no coloured band behind the title any more (it showed as a dark stripe across the page): the planets that pass under it are only blurred, by the
+-       layer below, which fades out at the top and at the bottom */
+     background: none;
+   }
+ }
+@@ -19719,7 +19714,7 @@ a.md-rel-card:hover .md-rel-go {
+ 
+ /* ---------------------------------------------------------------------------------------------------------------------------------
+    The logo is fixed at the top centre (24 px to 68 px from the top of the screen): the titles that stay on the screen (stick) while a section is
+-   pinned start below it, so nothing sticks behind the logo. */
++   pinned start below it, so nothing sticks behind the logo (the title of the tech space is not one of them: it goes up with its section). */
+ @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+   .cm-bird .cm-head {
+     top: 5.6rem;
+@@ -21394,20 +21389,6 @@ a.md-rel-card:hover .md-rel-go {
+   mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 95%, transparent 100%);
+ }
+ 
+-@media (min-width: 901px) {
+-  .ts-head::before {
+-    content: "";
+-    position: absolute;
+-    inset: 0;
+-    z-index: -1;
+-    pointer-events: none;
+-    -webkit-backdrop-filter: blur(14px);
+-    backdrop-filter: blur(14px);
+-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40%, #000 62%, transparent 100%);
+-    mask-image: linear-gradient(to bottom, transparent 0, #000 40%, #000 62%, transparent 100%);
+-  }
+-}
+-
+ /* Tech space, tighter: a smaller heading block (below the logo, not lower than that), so the planets get the room and the whole section stays inside the
+    screen with the menu pill under it. */
+ @media (min-width: 901px) {

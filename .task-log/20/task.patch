@@ -1,0 +1,49 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 527549e..e94da4d 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17033,7 +17033,7 @@ a.md-rel-card:hover .md-rel-go {
+ }
+ @media (min-width: 900px) {
+   .gm-row {
+-    grid-template-columns: repeat(4, minmax(0, 1fr));
++    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+     gap: 0 40px;
+   }
+ }
+@@ -17114,3 +17114,10 @@ a.md-rel-card:hover .md-rel-go {
+     transition: none;
+   }
+ }
++
++/* an odd number of figures on a narrow screen: the last one takes the whole row */
++@media (max-width: 899px) {
++  .gm-item:last-child:nth-child(odd) {
++    grid-column: 1 / -1;
++  }
++}
+diff --git a/a/src/components/site/glance-min.tsx b/b/src/components/site/glance-min.tsx
+index f3d0d83..3bcac0c 100644
+--- a/a/src/components/site/glance-min.tsx
++++ b/b/src/components/site/glance-min.tsx
+@@ -62,7 +62,7 @@ export function GlanceMin({ chip, items }: { chip: string; items: Item[] }) {
+   return (
+     <div className="gm">
+       <SplitHeading text={chip} className="sh-center mx-auto text-[2.4rem] font-semibold leading-[1.1] tracking-[-0.04em] sm:text-5xl md:text-[60px]" />
+-      <ol ref={ref} className="gm-row">
++      <ol ref={ref} className="gm-row" style={{ "--cols": items.length } as React.CSSProperties}>
+         {items.map((it, i) => (
+           <li key={i} className="gm-item" style={{ "--i": i } as React.CSSProperties}>
+             <span className="gm-idx">{String(i + 1).padStart(2, "0")}</span>
+diff --git a/a/src/lib/cms/content/home.ts b/b/src/lib/cms/content/home.ts
+index 131c9b1..44a64fc 100644
+--- a/a/src/lib/cms/content/home.ts
++++ b/b/src/lib/cms/content/home.ts
+@@ -78,7 +78,6 @@ export const HOME_SECTIONS: PageSection[] = [
+     items: [
+       { value: "2019", label: "Founded in Surat" },
+       { value: "7", label: "Years of innovation" },
+-      { value: "11–50", label: "Team members" },
+       { value: "300+", label: "Successful projects" },
+     ],
+   }),

@@ -1,0 +1,361 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 9686a39..80d314a 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -15292,28 +15292,6 @@ a.md-rel-card:hover .md-rel-go {
+   }
+ }
+ 
+-/* ---------------------------------------------------------------------------------------------------------------------------------
+-   Dappled Light (components/site/modern/dappled-light.tsx): sunlight through swaying leaves on a wall, behind the first screen. */
+-.dl {
+-  position: absolute;
+-  inset: 0;
+-  overflow: hidden;
+-  pointer-events: none;
+-  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 62% 30%, #000 28%, transparent 78%);
+-  mask-image: radial-gradient(ellipse 90% 85% at 62% 30%, #000 28%, transparent 78%);
+-}
+-.dl-light {
+-  position: absolute;
+-  inset: 0;
+-  background: radial-gradient(ellipse 58% 62% at 66% 26%, hsl(calc(var(--th) + 24) calc(100% * var(--ts)) 80% / 0.5), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.2) 48%, transparent 76%);
+-}
+-.dl-leaves {
+-  position: absolute;
+-  inset: 0;
+-  width: 100%;
+-  height: 100%;
+-}
+-
+ /* ---------------------------------------------------------------------------------------------------------------------------------
+    "What we build" as a list and a stage (components/site/modern/service-stage.tsx): the services in a list, the chosen one as a large panel
+    with a small live picture, then when it fits, the problems it solves and what you get. */
+@@ -26352,3 +26330,100 @@ a.rt-row:hover {
+   font-weight: 800;
+   letter-spacing: 0.16em;
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The background of the first screen of the inner pages (components/site/modern/hero-gradient.tsx): soft light in the colours of the theme.
++   Every page has its own pattern: the shape (::before), the angle, the shades and the three glows (the <i>). */
++.hg {
++  --c1: hsl(calc(var(--th) + 354 + var(--ha)) calc(100% * var(--ts)) 60% / 0.5);
++  --c2: hsl(calc(var(--th) + 354 + var(--hb)) calc(90% * var(--ts)) 52% / 0.42);
++  --c3: hsl(calc(var(--th) + 354 + var(--hc)) calc(100% * var(--ts)) 70% / 0.3);
++  position: absolute;
++  inset: 0;
++  overflow: hidden;
++  pointer-events: none;
++  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
++  mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
++}
++.hg::before {
++  content: "";
++  position: absolute;
++  inset: -12%;
++  opacity: 0.9;
++  filter: blur(34px);
++  animation: hg-sway 28s ease-in-out infinite alternate;
++}
++.hg[data-flip="1"]::before {
++  scale: -1 1;
++}
++.hg > i {
++  position: absolute;
++  left: calc(var(--x) - var(--w) / 2);
++  top: calc(var(--y) - var(--h) / 2);
++  width: var(--w);
++  height: var(--h);
++  border-radius: 50%;
++  background: radial-gradient(closest-side, var(--bc), transparent);
++  filter: blur(26px);
++  animation: hg-drift 24s ease-in-out infinite alternate;
++}
++.hg > i:nth-child(1) {
++  --bc: var(--c1);
++}
++.hg > i:nth-child(2) {
++  --bc: var(--c2);
++  animation-duration: 31s;
++  animation-direction: alternate-reverse;
++}
++.hg > i:nth-child(3) {
++  --bc: var(--c3);
++  animation-duration: 37s;
++}
++.hg[data-shape="aurora"]::before {
++  background: linear-gradient(var(--ang), transparent 24%, var(--c2) 44%, var(--c1) 56%, transparent 74%);
++}
++.hg[data-shape="ring"]::before {
++  background: radial-gradient(circle at var(--rx) var(--ry), transparent 0 16%, var(--c1) 28%, var(--c2) 38%, transparent 54%);
++}
++.hg[data-shape="cone"]::before {
++  background: conic-gradient(from 195deg at 50% -8%, transparent 0 8%, var(--c1) 14%, transparent 26%, var(--c2) 34%, transparent 48%, var(--c3) 54%, transparent 64%);
++}
++.hg[data-shape="corner"]::before {
++  background:
++    radial-gradient(60% 75% at 0% 0%, var(--c1), transparent 62%),
++    radial-gradient(55% 70% at 100% 100%, var(--c2), transparent 62%);
++}
++.hg[data-shape="horizon"]::before {
++  background: radial-gradient(130% 62% at 50% 112%, var(--c1), var(--c2) 38%, transparent 72%);
++}
++.hg[data-shape="sweep"]::before {
++  background: conic-gradient(from var(--ang) at 82% 18%, var(--c1), transparent 22%, var(--c2) 46%, transparent 70%, var(--c3));
++}
++.hg[data-shape="diagonal"]::before {
++  background: linear-gradient(var(--ang), var(--c1) 0%, transparent 38%, transparent 62%, var(--c2) 100%);
++}
++.hg[data-shape="curtain"]::before {
++  background: linear-gradient(90deg, transparent 4%, var(--c2) 18%, transparent 34%, var(--c1) 52%, transparent 68%, var(--c3) 84%, transparent 96%);
++}
++@keyframes hg-sway {
++  from {
++    transform: translate3d(-2%, -1%, 0) scale(1);
++  }
++  to {
++    transform: translate3d(2%, 1.5%, 0) scale(1.06);
++  }
++}
++@keyframes hg-drift {
++  from {
++    transform: translate3d(-3%, -2%, 0) scale(1);
++  }
++  to {
++    transform: translate3d(4%, 3%, 0) scale(1.1);
++  }
++}
++@media (prefers-reduced-motion: reduce) {
++  .hg::before,
++  .hg > i {
++    animation: none;
++  }
++}
+diff --git a/a/src/components/site/modern/dappled-light.tsx b/a/src/components/site/modern/dappled-light.tsx
+deleted file mode 100644
+index 29e3a3c..0000000
+--- a/a/src/components/site/modern/dappled-light.tsx
++++ /dev/null
+@@ -1,105 +0,0 @@
+-"use client";
+-
+-import { useEffect, useRef } from "react";
+-
+-// "Dappled Light": sunlight falling through swaying leaves onto a wall (the idea is the Dappled Light of React Bits Pro, built here without
+-// any library). A soft light in the colour of the site lies on the wall; over it a small canvas (320 x 180 pixels, scaled up so that the
+-// shadows are soft) draws about seventy leaves that sway a little in the wind, so that spots of light slide over the wall between them.
+-// It draws about 24 times a second, only while it is on the screen, and draws one still picture for visitors who prefer less motion.
+-// Put it behind content: it is absolutely positioned, does not take clicks and fades out at its edges. The look is in globals.css (.dl-*).
+-
+-const W = 320;
+-const H = 180;
+-
+-// a small seeded random generator, so that the leaves are the same on every visit (and on the server)
+-function rng(seed: number) {
+-  let a = seed;
+-  return () => {
+-    a |= 0;
+-    a = (a + 0x6d2b79f5) | 0;
+-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+-  };
+-}
+-
+-type Leaf = { x: number; y: number; s: number; r: number; amp: number; ph: number; sp: number; dx: number };
+-
+-export function DappledLight({ className = "", seed = 7 }: { className?: string; seed?: number }) {
+-  const ref = useRef<HTMLCanvasElement>(null);
+-  const box = useRef<HTMLDivElement>(null);
+-
+-  useEffect(() => {
+-    const cv = ref.current;
+-    const wrap = box.current;
+-    if (!cv || !wrap) return;
+-    const ctx = cv.getContext("2d");
+-    if (!ctx) return;
+-    const rnd = rng(seed);
+-    // the leaves hang in clusters along a few branches from the top right
+-    const leaves: Leaf[] = Array.from({ length: 74 }, (_, i) => {
+-      const branch = i % 5;
+-      const bx = 0.25 + branch * 0.17 + rnd() * 0.08;
+-      return { x: bx + (rnd() - 0.5) * 0.22, y: rnd() * 0.95, s: 0.07 + rnd() * 0.085, r: rnd() * Math.PI * 2, amp: 0.1 + rnd() * 0.22, ph: rnd() * 6.28, sp: 0.5 + rnd() * 0.7, dx: 0.004 + rnd() * 0.012 };
+-    });
+-    const draw = (t: number) => {
+-      ctx.clearRect(0, 0, W, H);
+-      ctx.fillStyle = "rgba(6, 2, 12, 0.78)";
+-      ctx.strokeStyle = "rgba(6, 2, 12, 0.78)";
+-      for (const l of leaves) {
+-        const a = l.r + Math.sin(t * l.sp + l.ph) * l.amp;
+-        const px = (l.x + Math.sin(t * 0.5 + l.ph) * l.dx) * W;
+-        const py = l.y * H;
+-        const len = l.s * W * 0.5;
+-        const wid = len * 0.46;
+-        ctx.save();
+-        ctx.translate(px, py);
+-        ctx.rotate(a);
+-        // a leaf: two curves that meet in a point at both ends
+-        ctx.beginPath();
+-        ctx.moveTo(-len, 0);
+-        ctx.quadraticCurveTo(0, -wid * 1.6, len, 0);
+-        ctx.quadraticCurveTo(0, wid * 1.6, -len, 0);
+-        ctx.fill();
+-        ctx.lineWidth = 1.4;
+-        ctx.beginPath();
+-        ctx.moveTo(-len * 1.5, 0);
+-        ctx.lineTo(-len, 0);
+-        ctx.stroke();
+-        ctx.restore();
+-      }
+-      // a thick wall of shade on the top and the right, so that the light comes through a gap
+-      const g = ctx.createLinearGradient(W, 0, W * 0.55, H * 0.6);
+-      g.addColorStop(0, "rgba(6, 2, 12, 0.85)");
+-      g.addColorStop(1, "rgba(6, 2, 12, 0)");
+-      ctx.fillStyle = g;
+-      ctx.fillRect(0, 0, W, H);
+-    };
+-
+-    draw(0);
+-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+-    let raf = 0;
+-    let visible = false;
+-    let last = 0;
+-    const loop = (now: number) => {
+-      raf = requestAnimationFrame(loop);
+-      if (!visible || now - last < 41) return;
+-      last = now;
+-      draw(now / 1000);
+-    };
+-    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { rootMargin: "60px" });
+-    io.observe(wrap);
+-    raf = requestAnimationFrame(loop);
+-    return () => {
+-      cancelAnimationFrame(raf);
+-      io.disconnect();
+-    };
+-  }, [seed]);
+-
+-  return (
+-    <div ref={box} className={`dl ${className}`} aria-hidden>
+-      <span className="dl-light" />
+-      <canvas ref={ref} width={W} height={H} className="dl-leaves" />
+-    </div>
+-  );
+-}
+diff --git a/b/src/components/site/modern/hero-gradient.tsx b/b/src/components/site/modern/hero-gradient.tsx
+new file mode 100644
+index 0000000..58c56e6
+--- /dev/null
++++ b/b/src/components/site/modern/hero-gradient.tsx
+@@ -0,0 +1,75 @@
++import type { CSSProperties } from "react";
++
++// The background of the first screen of the inner pages (it replaces the leaves): soft light of the colours of the company theme. Every page has
++// its own pattern (the shape of the light, the angle, where the three glows stand and which shades of the theme they use), so that no two pages
++// look the same. The colours come from the theme (--th, --ts), so they follow the theme of the site. The look is in globals.css (.hg-*).
++
++type Shape = "aurora" | "ring" | "cone" | "corner" | "horizon" | "sweep" | "diagonal" | "curtain";
++/** x, y, width, height of a glow, in % of the first screen */
++type Blob = [number, number, number, number];
++type Pattern = {
++  shape: Shape;
++  /** the angle of the main light (deg) */
++  ang: number;
++  /** the shades: how far (in degrees of hue) each of the three lights is from the theme colour */
++  hue: [number, number, number];
++  blobs: [Blob, Blob, Blob];
++  /** the centre of the ring (% of the screen) */
++  ring?: [number, number];
++  /** the shape is mirrored */
++  flip?: boolean;
++};
++
++const PATTERNS: Record<string, Pattern> = {
++  webdev: { shape: "aurora", ang: 120, hue: [0, 28, -20], blobs: [[76, 22, 60, 72], [16, 70, 50, 60], [58, 100, 70, 44]] },
++  mobile: { shape: "ring", ang: 160, hue: [14, -16, 34], blobs: [[22, 28, 56, 70], [84, 64, 48, 64], [50, 100, 60, 40]], ring: [72, 34] },
++  metaverse: { shape: "cone", ang: 200, hue: [-24, 18, 40], blobs: [[50, 6, 70, 50], [10, 62, 40, 70], [90, 70, 44, 70]] },
++  "ui-ux-design": { shape: "corner", ang: 135, hue: [20, -10, 36], blobs: [[88, 14, 50, 60], [12, 84, 56, 60], [50, 50, 60, 56]] },
++  crm: { shape: "horizon", ang: 180, hue: [-12, 24, 0], blobs: [[30, 94, 70, 50], [72, 88, 60, 48], [50, 6, 70, 40]] },
++  animation: { shape: "sweep", ang: 40, hue: [30, -28, 10], blobs: [[84, 18, 52, 66], [20, 56, 46, 60], [64, 92, 64, 44]] },
++  "3d-modeling": { shape: "diagonal", ang: 150, hue: [-30, 12, 34], blobs: [[14, 20, 54, 64], [86, 78, 56, 62], [50, 50, 50, 40]] },
++  graphics: { shape: "curtain", ang: 90, hue: [10, -22, 38], blobs: [[30, 30, 46, 80], [70, 70, 46, 80], [50, 0, 70, 40]] },
++  seo: { shape: "aurora", ang: 62, hue: [-16, 30, 6], blobs: [[22, 76, 62, 60], [82, 24, 52, 64], [50, 50, 56, 40]], flip: true },
++  shopify: { shape: "ring", ang: 100, hue: [26, -8, -26], blobs: [[78, 30, 54, 66], [18, 78, 50, 60], [52, 4, 66, 40]], ring: [24, 62], flip: true },
++  "custom-woocommerce": { shape: "cone", ang: 160, hue: [-6, 36, -26], blobs: [[50, 8, 64, 46], [88, 58, 44, 70], [12, 76, 44, 60]], flip: true },
++  "shopify-app": { shape: "corner", ang: 45, hue: [32, 4, -24], blobs: [[10, 16, 54, 62], [90, 86, 54, 62], [56, 44, 50, 50]], flip: true },
++  "wordpress-plugin": { shape: "horizon", ang: 0, hue: [-22, 8, 30], blobs: [[70, 96, 66, 50], [24, 90, 56, 46], [50, 8, 60, 36]], flip: true },
++  "custom-wordpress": { shape: "diagonal", ang: 30, hue: [18, -26, 2], blobs: [[84, 16, 56, 64], [16, 80, 56, 62], [50, 50, 46, 40]], flip: true },
++  "headless-cms": { shape: "curtain", ang: 60, hue: [-10, 26, 40], blobs: [[22, 40, 44, 80], [78, 60, 44, 80], [50, 100, 70, 40]], flip: true },
++  portfolio: { shape: "sweep", ang: 210, hue: [4, 36, -30], blobs: [[16, 22, 54, 64], [80, 74, 54, 64], [50, 100, 60, 40]], flip: true },
++};
++
++/** a page that has no pattern of its own gets one from its address (the same one every time) */
++function fallback(page: string): Pattern {
++  let h = 0;
++  for (const c of page) h = (h * 31 + c.charCodeAt(0)) >>> 0;
++  const shapes: Shape[] = ["aurora", "ring", "cone", "corner", "horizon", "sweep", "diagonal", "curtain"];
++  const a = (h % 7) * 9 - 28;
++  return {
++    shape: shapes[h % shapes.length],
++    ang: 20 + (h % 300),
++    hue: [a, (a + 40) % 60 - 30, ((h >> 3) % 70) - 30],
++    blobs: [[20 + (h % 60), 18 + ((h >> 2) % 20), 56, 66], [10 + ((h >> 4) % 70), 70, 50, 60], [50, 96, 64, 42]],
++    ring: [30 + (h % 40), 30 + ((h >> 5) % 30)],
++    flip: h % 2 === 0,
++  };
++}
++
++export function HeroGradient({ page }: { page: string }) {
++  const p = PATTERNS[page] ?? fallback(page);
++  const style = {
++    "--ang": `${p.ang}deg`,
++    "--ha": p.hue[0],
++    "--hb": p.hue[1],
++    "--hc": p.hue[2],
++    "--rx": `${p.ring?.[0] ?? 70}%`,
++    "--ry": `${p.ring?.[1] ?? 34}%`,
++  } as CSSProperties;
++  return (
++    <div className="hg" data-shape={p.shape} data-flip={p.flip ? "1" : "0"} style={style} aria-hidden>
++      {p.blobs.map(([x, y, w, h], i) => (
++        <i key={i} style={{ "--x": `${x}%`, "--y": `${y}%`, "--w": `${w}%`, "--h": `${h}%` } as CSSProperties} />
++      ))}
++    </div>
++  );
++}
+diff --git a/a/src/components/site/sections/page-hero.tsx b/b/src/components/site/sections/page-hero.tsx
+index 135e50d..7aa0176 100644
+--- a/a/src/components/site/sections/page-hero.tsx
++++ b/b/src/components/site/sections/page-hero.tsx
+@@ -2,7 +2,7 @@ import { ContactReception } from "../contact-reception";
+ import { HeroBadges } from "../hero-badges";
+ import { AiHeroBg } from "../modern/ai-hero-bg";
+ import CursorGrid from "../modern/cursor-grid";
+-import { DappledLight } from "../modern/dappled-light";
++import { HeroGradient } from "../modern/hero-gradient";
+ import { Chip, ButtonLink } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+@@ -20,9 +20,9 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page
+   }
+   return (
+   <section id="top" className="relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
+-    {/* service pages: sunlight through leaves on the wall behind the words */}
+-    {skin === "modern" && page !== "ai" && page !== "blog" && page !== "team" && <DappledLight seed={(data.heading.length % 9) + 3} />}
+-    {/* the AI page: a smooth gradient with a quiet neural network instead of the leaves */}
++    {/* the service pages: soft light in the colours of the theme behind the words, a different pattern on every page */}
++    {skin === "modern" && page !== "ai" && page !== "blog" && page !== "team" && <HeroGradient page={page ?? ""} />}
++    {/* the AI page: a smooth gradient with a quiet neural network */}
+     {page === "ai" && <AiHeroBg />}
+     {/* the team page: the same background as the About page, three soft lights of colour that drift very slowly */}
+     {page === "team" && (
+@@ -32,7 +32,7 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page
+         <i />
+       </div>
+     )}
+-    {/* the blog: a grid of cells that light up round the pointer (React Bits CursorGrid) instead of the leaves; it listens to the whole first screen */}
++    {/* the blog: a grid of cells that light up round the pointer (React Bits CursorGrid); it listens to the whole first screen */}
+     {page === "blog" && (
+       <div className="cg-hero" aria-hidden>
+         <CursorGrid follow cellSize={45} radius={110} falloff="smooth" holdTime={300} fadeDuration={500} lineWidth={1.5} maxOpacity={0.6} fillOpacity={0.02} gridOpacity={0} cellRadius={10} clickPulse pulseSpeed={600} />

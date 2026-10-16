@@ -1,0 +1,109 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 9b4d648..dcbbeda 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17245,13 +17245,6 @@ a.md-rel-card:hover .md-rel-go {
+   }
+ }
+ 
+-/* the map never goes under the two cards: its sides fade out before they reach them */
+-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+-  .cm-bird .cm-scene {
+-    -webkit-mask-image: linear-gradient(to right, transparent 10%, #000 25%, #000 69%, transparent 79%);
+-    mask-image: linear-gradient(to right, transparent 10%, #000 25%, #000 69%, transparent 79%);
+-  }
+-}
+ 
+ /* the camera tuner (camera-tuner.tsx): only with ?cam in the address */
+ .ct {
+@@ -17353,3 +17346,14 @@ a.md-rel-card:hover .md-rel-go {
+   color: #fff;
+   transform: translateY(-2px);
+ }
++
++/* the list and the info stand at the bottom of the screen so that the buildings in the middle are in the clear */
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-ui {
++    align-items: end;
++    padding-bottom: clamp(0.8rem, 2.5vh, 1.6rem);
++  }
++  .cm-bird .cm-rail {
++    align-self: end;
++  }
++}
+diff --git a/a/src/components/site/industries-road.tsx b/b/src/components/site/industries-road.tsx
+index 99ba6da..bddf250 100644
+--- a/a/src/components/site/industries-road.tsx
++++ b/b/src/components/site/industries-road.tsx
+@@ -19,6 +19,9 @@ const S = 340; // the distance between two districts along the road (they stand
+ const Y0 = (LANE_TOP + LANE_BOT) / 2; // the road
+ const OUT = 28; // our lane; the oncoming traffic has the other one
+ const RX = 58; // the tilt of the camera (degrees from looking straight down)
++// The camera tuner (camera-tuner.tsx) is switched off for now: set this to true to bring it back (it shows with ?cam in the address). It is meant
++// to move into the editor of the admin panel later; the values given to the component are the camera that every visitor gets.
++const TUNER = false;
+ const CAM_KEY = "we3.camera.industries.v1"; // where the camera tuner keeps its values (this browser only)
+ const CAM_EVENT = "we3-camera";
+ const subscribeCam = (cb: () => void) => {
+@@ -59,6 +62,10 @@ export function IndustriesRoad({
+   dof = false,
+   breathe = 0,
+   signs = 0,
++  lens = 2500,
++  x = 50,
++  y = 71,
++  blur = 1,
+   head,
+ }: {
+   items: Item[];
+@@ -72,6 +79,11 @@ export function IndustriesRoad({
+   breathe?: number;
+   /** the names of the districts keep this size on the screen whatever the zoom (0 = they zoom with the city) */
+   signs?: number;
++  /** the camera of the bird's-eye version: the lens (px, big = a long lens), where the car stands (% from the left / from the top), the strength of the blur */
++  lens?: number;
++  x?: number;
++  y?: number;
++  blur?: number;
+   /** the title of the section: it stays on the screen while the city is pinned (see .cm-head) */
+   head?: ReactNode;
+ }) {
+@@ -79,16 +91,16 @@ export function IndustriesRoad({
+   const uid = useId();
+   const [active, setActive] = useState(0);
+   // the camera (on the home page it can be set by hand with the tuner: add ?cam to the address; the values are kept in this browser)
+-  const base = useMemo<Cam>(() => ({ zoom: zoomP, pitch: 90 - rxP, ang: angP, lens: 2500, x: 50, y: 71, blur: 1 }), [zoomP, rxP, angP]);
++  const base = useMemo<Cam>(() => ({ zoom: zoomP, pitch: 90 - rxP, ang: angP, lens, x, y, blur }), [zoomP, rxP, angP, lens, x, y, blur]);
+   const saved = useSyncExternalStore(subscribeCam, readCam, () => ""); // what this browser has kept (nothing on the server)
+   const tune = useSyncExternalStore(
+     () => () => {},
+-    () => window.location.search.includes("cam"),
++    () => TUNER && window.location.search.includes("cam"),
+     () => false,
+   );
+   const [moved, setMoved] = useState<Cam | null>(null); // the value of this visit (also when the browser cannot keep anything)
+   const cam = useMemo<Cam>(() => {
+-    if (!dof) return base;
++    if (!dof || !TUNER) return base;
+     if (moved) return moved;
+     try {
+       return saved ? { ...base, ...JSON.parse(saved) } : base;
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index 224de30..5ad9170 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -30,8 +30,12 @@ export const Industries: SectionComponent<"industries"> = ({ data, skin, page })
+             items={data.items}
+             road="straight"
+             ang={-90}
+-            rx={58}
+-            zoom={0.6}
++            rx={75}
++            zoom={2.1}
++            lens={2050}
++            x={49}
++            y={53}
++            blur={0.95}
+             breathe={0}
+             signs={0.8}
+             infinite

@@ -1,0 +1,169 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 154afe5..7f000e0 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -26251,3 +26251,68 @@ a.rt-row:hover {
+   height: 1px;
+   pointer-events: none;
+ }
++
++/* ---- the list of the open roles, in the left column of Surat Junction ---- */
++.cj-jobs h3 {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++}
++.cj-jobs-count {
++  min-width: 34px;
++  padding: 2px 11px;
++  border-radius: 999px;
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-size: 1rem;
++  font-weight: 700;
++  text-align: center;
++}
++.cj-roles {
++  display: grid;
++  gap: 12px;
++  margin: 24px 0 0;
++  padding: 0;
++  list-style: none;
++}
++.cj-role {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) auto;
++  align-items: center;
++  gap: 18px;
++  padding: 16px 18px 16px 22px;
++  border: 1px solid var(--hair);
++  border-radius: 18px;
++  background: var(--card);
++  transition:
++    border-color 0.25s,
++    translate 0.3s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.cj-role:hover {
++  translate: 4px 0;
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
++}
++.cj-role-main {
++  display: block;
++  min-width: 0;
++  text-decoration: none;
++}
++.cj-role-t {
++  display: block;
++  color: #fff;
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.25;
++}
++.cj-role-m {
++  display: block;
++  margin-top: 4px;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  line-height: 1.45;
++}
++.cj-role-act {
++  display: flex;
++  gap: 10px;
++}
+diff --git a/a/src/components/site/career/destination.tsx b/b/src/components/site/career/destination.tsx
+index 291801a..18255a7 100644
+--- a/a/src/components/site/career/destination.tsx
++++ b/b/src/components/site/career/destination.tsx
+@@ -3,13 +3,11 @@
+ import Link from "next/link";
+ import { useCareer } from "@/lib/career-store";
+ import type { JobView } from "@/lib/careers-shared";
+-import { GlowEdge } from "../glow-edge";
+-import { Reveal } from "../reveal";
+ 
+-// The last section of the Careers page: Surat Junction, where We3vision has its office. The station itself (the platform, the office building
+-// and the train that arrives) is drawn by the railway of the page (career/railway.tsx) in the empty place on the right. Nothing arrives here
+-// until a visitor has sent their ticket. At this station are also all the open jobs (written under Careers > Jobs in the admin panel): a card
+-// for each, with a button to read about the job and one to apply.
++// The last section of the Careers page: Surat Junction, where We3vision has its office. On the right is the station, drawn by the railway of the
++// page (career/railway.tsx): the office stands in one line with the heading, the platform is under it and the train arrives there. Nothing
++// arrives until a visitor has sent their ticket. In the left column, under the heading and the text, is the list of ALL the open roles
++// (written under Careers > Jobs in the admin panel): one row for each, with a button to read about the role and one to apply.
+ 
+ type Props = {
+   chip: string;
+@@ -43,38 +41,29 @@ export function CareerDestination({ chip, heading, text, station, address, butto
+ 
+           {jobsHeading && (
+             <div id="openings" className="cj-jobs">
+-              <h3>{jobsHeading}</h3>
++              <h3>
++                {jobsHeading}
++                {jobs.length > 0 && <span className="cj-jobs-count">{jobs.length}</span>}
++              </h3>
+               {jobsText && <p className="cj-jobs-text">{jobsText}</p>}
+               {jobs.length === 0 ? (
+                 <p className="ro-empty">{jobsEmpty}</p>
+               ) : (
+-                <ul className="ro-list">
+-                  {jobs.map((j, i) => (
+-                    <li key={j.id}>
+-                      <Reveal className="ro-card bglow" delay={(i % 2) * 80}>
+-                        <GlowEdge />
+-                        <div className="ro-top">
+-                          <span className="ro-team">{j.team || "All teams"}</span>
+-                          <span className="ro-posted">{j.postedLabel}</span>
+-                        </div>
+-                        <h3>
+-                          <Link href={`/careers/${j.slug}`}>{j.title}</Link>
+-                        </h3>
+-                        {j.summary && <p className="ro-sum">{j.summary}</p>}
+-                        <ul className="ro-facts">
+-                          {[j.workType, j.workMode, j.location, j.experience].filter(Boolean).map((f) => (
+-                            <li key={f}>{f}</li>
+-                          ))}
+-                        </ul>
+-                        <div className="ro-act">
+-                          <Link href={`/careers/${j.slug}`} className="ro-view">
+-                            View details
+-                          </Link>
+-                          <Link href={`/careers/${j.slug}#apply`} className="ro-apply">
+-                            Apply now
+-                          </Link>
+-                        </div>
+-                      </Reveal>
++                <ul className="cj-roles">
++                  {jobs.map((j) => (
++                    <li key={j.id} className="cj-role">
++                      <Link href={`/careers/${j.slug}`} className="cj-role-main">
++                        <span className="cj-role-t">{j.title}</span>
++                        <span className="cj-role-m">{[j.team, j.workType, j.workMode, j.location, j.experience].filter(Boolean).join(" · ")}</span>
++                      </Link>
++                      <span className="cj-role-act">
++                        <Link href={`/careers/${j.slug}`} className="ro-view">
++                          View
++                        </Link>
++                        <Link href={`/careers/${j.slug}#apply`} className="ro-apply">
++                          Apply now
++                        </Link>
++                      </span>
+                     </li>
+                   ))}
+                 </ul>
+diff --git a/a/src/components/site/career/railway.tsx b/b/src/components/site/career/railway.tsx
+index 862bb44..9dd80f7 100644
+--- a/a/src/components/site/career/railway.tsx
++++ b/b/src/components/site/career/railway.tsx
+@@ -118,7 +118,10 @@ function measure(root: HTMLElement): Geo | null {
+   const x2 = Math.min(W - 60, slot2.left + slot2.width * 0.74);
+   // (the engine stops inside the first screen, whatever the height of the ticket is)
+   const yHead1 = slot1.top + Math.min(slot1.height, window.innerHeight - 70) * 0.8;
+-  const yHead2 = slot2.top + slot2.height * 0.88;
++  // the office of the last station stands in one line with the heading of that section (the centre of the office is 767px above the
++  // place where the train stops); the list of the jobs is in the text column, beside the platform and not inside it
++  const destHead = rel(main.querySelector("#surat-junction h2"), top0, scrollY);
++  const yHead2 = destHead && destHead.height > 0 ? destHead.top + destHead.height / 2 + 767 : slot2.top + slot2.height * 0.88;
+ 
+   // the margins: the middle of the space beside the cards of the values (right) and beside the board of the teams (left)
+   const advList = rel(main.querySelector("#advantages .rv-list"), top0, scrollY);

@@ -1,0 +1,179 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 3c7b56b..240149d 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -15449,7 +15449,7 @@ a.md-rel-card:hover .md-rel-go {
+ }
+ .sx-track[data-pin="true"] .sx-sticky {
+   position: sticky;
+-  top: 92px;
++  top: 78px;
+ }
+ .sx[data-pin="true"] .sx-list {
+   grid-auto-rows: auto;
+diff --git a/a/src/components/site/modern/service-stage.tsx b/b/src/components/site/modern/service-stage.tsx
+index 6d19cea..07cf8a2 100644
+--- a/a/src/components/site/modern/service-stage.tsx
++++ b/b/src/components/site/modern/service-stage.tsx
+@@ -8,8 +8,10 @@ import { SmartLink } from "../smart-link";
+ // "What we build" as a list and a stage: the services are a list on the left (a row of tabs on a phone), and the one you pick opens as a large
+ // panel on the right with a small live picture of what that service does (a chat that answers, a chart that predicts, an image that is scanned,
+ // a loop that keeps a model fresh), then when it is the right choice, the problems it solves and what you get. On a desktop the stage is
+-// pinned while the page scrolls and the SCROLL opens the boxes one after the other (the open box shows its whole text, the panel shows the
+-// service); a click on a box scrolls to it. Where it cannot be pinned (a phone, less motion) it moves on by itself while it is on the screen
++// pinned while the page scrolls together with the heading of the section (the chip, the heading and the text stay where they are, so that it
++// can be seen which section it is) and the SCROLL opens the boxes one after the other (the open box shows its whole text, the panel shows the
++// service). The scroll is compulsory: when it stops the page settles on a box. A click on a box scrolls to it. After the last box the whole
++// section goes up with the page. Where it cannot be pinned (a phone, less motion) it moves on by itself while it is on the screen
+ // and stops as soon as the visitor picks one. The look is in globals.css (.sx-*).
+ 
+ type Card = { title: string; description: string; href?: string; fit?: string; problems?: string; outcomes?: string };
+@@ -104,7 +106,7 @@ function Art({ scene, index }: { scene: Scene; index: number }) {
+   );
+ }
+ 
+-export function ServiceStage({ cards }: { cards: Card[] }) {
++export function ServiceStage({ cards, head }: { cards: Card[]; head?: React.ReactNode }) {
+   const n = cards.length;
+   const [active, setActive] = useState(0);
+   const [auto, setAuto] = useState(true);
+@@ -113,6 +115,7 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+   const rootRef = useRef<HTMLDivElement>(null);
+   const trackRef = useRef<HTMLDivElement>(null);
+   const stickyRef = useRef<HTMLDivElement>(null);
++  const fitRef = useRef<HTMLDivElement>(null);
+   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+ 
+   // where in the track of the page scroll the stage stands: 0 = it has just been pinned .. 1 = the last box is done
+@@ -122,7 +125,7 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+     if (!track || !sticky) return { p: 0, dist: 1, top: 0 };
+     const r = track.getBoundingClientRect();
+     const top = parseFloat(getComputedStyle(sticky).top) || 0;
+-    const dist = Math.max(1, r.height - sticky.offsetHeight);
++    const dist = Math.max(1, r.height - sticky.getBoundingClientRect().height);
+     return { p: Math.min(1, Math.max(0, (top - r.top) / dist)), dist, top };
+   };
+ 
+@@ -159,13 +162,21 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+     const track = trackRef.current;
+     const sticky = stickyRef.current;
+     if (!track || !sticky) return;
+-    // the track is as high as the stage plus a part of the screen for every box
++    const fit = fitRef.current;
++    const lenis = () => (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
++    // the heading and the stage must be on the screen together: when they are higher than the screen they are made a little smaller (once)
+     const size = () => {
+-      track.style.height = `${sticky.offsetHeight + n * window.innerHeight * 0.55}px`;
++      if (fit) {
++        fit.style.zoom = "";
++        const natural = fit.getBoundingClientRect().height;
++        const room = window.innerHeight - 78 - 20;
++        fit.style.zoom = natural > room ? String(Math.max(0.7, room / natural)) : "";
++      }
++      // the track is as high as the stage plus a part of the screen for every box
++      track.style.height = `${sticky.getBoundingClientRect().height + n * window.innerHeight * 0.55}px`;
+     };
+     size();
+-    const ro = new ResizeObserver(size);
+-    ro.observe(sticky);
++    document.fonts?.ready.then(size);
+     window.addEventListener("resize", size);
+     let raf = 0;
+     let last = -1;
+@@ -181,19 +192,43 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+       // how far the open box is (the thin bar at its bottom)
+       tabRefs.current[idx]?.style.setProperty("--q", q.toFixed(3));
+     };
++    // compulsory scroll: when the scrolling stops while the stage is pinned, the page settles on the nearest box (before and after the boxes it is free)
++    let snapTimer = 0;
++    const snap = () => {
++      const { p, dist } = progress();
++      if (p <= 0.015 || p >= 0.995) return;
++      let to = 0.5 / n;
++      let bd = Infinity;
++      for (let i = 0; i < n; i++) {
++        const pt = (i + 0.75) / n;
++        const d = Math.abs(p - pt);
++        if (d < bd) {
++          bd = d;
++          to = pt;
++        }
++      }
++      if (bd * dist < 6) return;
++      const y = window.scrollY + (to - p) * dist;
++      const l = lenis();
++      if (l) l.scrollTo(y, { duration: 0.8 });
++      else window.scrollTo({ top: y, behavior: "smooth" });
++    };
+     const schedule = () => {
+       if (!raf) raf = requestAnimationFrame(tick);
++      window.clearTimeout(snapTimer);
++      snapTimer = window.setTimeout(snap, 170);
+     };
+     schedule();
+     window.addEventListener("scroll", schedule, { passive: true });
+     window.addEventListener("resize", schedule);
+     return () => {
+-      ro.disconnect();
+       window.removeEventListener("resize", size);
+       window.removeEventListener("scroll", schedule);
+       window.removeEventListener("resize", schedule);
++      window.clearTimeout(snapTimer);
+       if (raf) cancelAnimationFrame(raf);
+       track.style.height = "";
++      if (fit) fit.style.zoom = "";
+     };
+   }, [pinned, n]);
+ 
+@@ -230,6 +265,9 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+   return (
+     <div ref={trackRef} className="sx-track" data-pin={pinned}>
+     <div ref={stickyRef} className="sx-sticky">
++    <div ref={fitRef} className="sx-fit">
++    {head}
++    <div className="mx-auto mt-10 w-full max-w-[1180px] px-4">
+     <div ref={rootRef} className="md sx" data-pin={pinned}>
+       <div className="sx-list" role="tablist" aria-label="What we build" onKeyDown={onKey}>
+         {cards.map((c, i) => (
+@@ -307,5 +345,7 @@ export function ServiceStage({ cards }: { cards: Card[] }) {
+     </div>
+     </div>
+     </div>
++    </div>
++    </div>
+   );
+ }
+diff --git a/a/src/components/site/sections/services.tsx b/b/src/components/site/sections/services.tsx
+index 30a22ff..cda743e 100644
+--- a/a/src/components/site/sections/services.tsx
++++ b/b/src/components/site/sections/services.tsx
+@@ -17,16 +17,19 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin,
+     </section>
+   ) : skin === "modern" ? (
+     <section id="services" className="py-24 sm:py-32">
+-      <Wide>
+-        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split>
+-          <ButtonLink href={data.buttonHref} variant="ghost">
+-            {data.buttonLabel}
+-          </ButtonLink>
+-        </SectionHead>
+-      </Wide>
+-      <div className="mx-auto mt-10 w-full max-w-[1180px] px-4">
+-        <ServiceStage cards={data.cards} />
+-      </div>
++      {/* the heading is part of the stage: it stays with it while the page scrolls through the boxes (see modern/service-stage.tsx) */}
++      <ServiceStage
++        cards={data.cards}
++        head={
++          <Wide>
++            <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split>
++              <ButtonLink href={data.buttonHref} variant="ghost">
++                {data.buttonLabel}
++              </ButtonLink>
++            </SectionHead>
++          </Wide>
++        }
++      />
+     </section>
+   ) : (
+   <section id={sectionId === "related-services" ? sectionId : "services"} className="py-24 sm:py-32">

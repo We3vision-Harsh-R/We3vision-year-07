@@ -1,0 +1,16 @@
+---
+description: We3vision website project rules (always apply)
+alwaysApply: true
+---
+
+Read `AGENTS.md` and the `brain/` folder before editing (index: `brain/README.md`; first `brain/00-START-HERE.md` and
+`brain/02-rules-and-preferences.md`).
+
+- Work in the main repo folder only; no commit/push/production build unless asked; never print secrets.
+- Change only what the task names. Home page `/` is locked; locked sections (service strip, TechSpace pop-up, Industries city) need permission.
+- Desktop/laptop only. Poppins. Paragraphs >= 16px, labels >= 14px.
+- Colours: `hsl(calc(var(--th) + N) calc(S% * var(--ts)) L%)` or Tailwind tokens (violet, orchid, void, dusk) — never hard-coded violet/pink.
+- New CSS: append a commented block with a new unique prefix at the end of `src/app/globals.css`.
+- Content comes from www.we3vision.com; never invent numbers or testimonials.
+- Number big tasks with `node tools/tasks.mjs begin N "title"` / `end N` and update `brain/08-task-history.md`.
+- The owner writes romanized Gujarati/Hinglish; reply in simple Gujarati-English, short.

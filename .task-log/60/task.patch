@@ -1,0 +1,743 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 19efd4c..273ccf0 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -24028,9 +24028,9 @@ a.md-rel-card:hover .md-rel-go {
+ }
+ .rw-mile-t {
+   fill: hsl(calc(var(--th) + 347) 40% 14%);
+-  font-size: 9.5px;
++  font-size: 12px;
+   font-weight: 700;
+-  letter-spacing: 0.04em;
++  letter-spacing: 0.03em;
+ }
+ .rw-sig-post {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 56%);
+@@ -25553,3 +25553,209 @@ a.rt-row:hover {
+     animation: none;
+   }
+ }
++
++/* ---- the tunnels: gate, open cut, roof, and the board with the name ---- */
++.rw-gt {
++  fill: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 30%);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.6);
++  stroke-width: 1.6;
++}
++.rw-gt-sh,
++.rw-bd-sh {
++  fill: rgba(0, 0, 0, 0.45);
++  filter: blur(5px);
++}
++.rw-gt-top {
++  fill: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 46% / 0.75);
++}
++.rw-tn-sh {
++  fill: none;
++  stroke: rgba(0, 0, 0, 0.5);
++  stroke-width: 114px;
++  filter: blur(9px);
++}
++.rw-tn-edge {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 62% / 0.75);
++  stroke-width: 106px;
++  stroke-linejoin: round;
++}
++.rw-tn-body {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 26%);
++  stroke-width: 98px;
++  stroke-linejoin: round;
++}
++.rw-tn-ribs {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 44% / 0.85);
++  stroke-width: 86px;
++  stroke-dasharray: 3 13;
++}
++.rw-tn-ridge {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88% / 0.6);
++  stroke-width: 3px;
++  stroke-dasharray: 12 9;
++  stroke-linecap: round;
++}
++.rw-cut-wall {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 20%);
++  stroke-width: 100px;
++}
++.rw-cut-hatch {
++  fill: none;
++  stroke: url(#rw-hatch);
++  stroke-width: 100px;
++}
++.rw-cut-floor {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 6%);
++  stroke-width: 70px;
++}
++.rw-hatch-bg {
++  fill: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 22%);
++}
++.rw-hatch-ln {
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.6);
++  stroke-width: 2;
++}
++.rw-bd {
++  fill: hsl(calc(var(--th) + 347) calc(56% * var(--ts)) 6% / 0.96);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.75);
++  stroke-width: 1.6;
++}
++.rw-bd-ic {
++  fill: none;
++  stroke: var(--a);
++  stroke-width: 2.6;
++  stroke-linecap: round;
++}
++.rw-bd-ic2 {
++  fill: none;
++  stroke: var(--a);
++  stroke-width: 2.6;
++  stroke-linecap: round;
++}
++.rw-bd-t {
++  fill: #fff;
++  font-size: 14px;
++  font-weight: 800;
++  letter-spacing: 0.05em;
++  text-transform: uppercase;
++}
++.rw-bd-s {
++  fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 88% / 0.85);
++  font-size: 12px;
++  font-weight: 500;
++}
++
++/* ---- the notices of the ticket office ---- */
++.cj-lock {
++  max-width: 820px;
++  margin: 16px 0 0;
++  padding: 13px 18px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
++  border-radius: 14px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12);
++  color: #fff;
++  font-size: 1.0625rem;
++  font-weight: 500;
++  line-height: 1.45;
++  animation: cj-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
++}
++@keyframes cj-shake {
++  0%,
++  100% {
++    transform: translateX(0);
++  }
++  20% {
++    transform: translateX(-9px);
++  }
++  40% {
++    transform: translateX(8px);
++  }
++  60% {
++    transform: translateX(-5px);
++  }
++  80% {
++    transform: translateX(3px);
++  }
++}
++.cj-miss {
++  position: fixed;
++  right: 0;
++  bottom: 30px;
++  left: 0;
++  z-index: 80;
++  display: flex;
++  width: min(580px, calc(100% - 48px));
++  margin: 0 auto;
++  gap: 16px;
++  padding: 20px 24px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
++  border-radius: 22px;
++  background: hsl(calc(var(--th) + 347) calc(52% * var(--ts)) 7% / 0.97);
++  box-shadow:
++    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16),
++    0 30px 80px -20px rgba(0, 0, 0, 0.9);
++  animation: cj-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.cj-miss-ic {
++  position: relative;
++  flex: none;
++  width: 40px;
++  height: 40px;
++  border-radius: 50%;
++  background: var(--a);
++}
++.cj-miss-ic::before {
++  content: "!";
++  position: absolute;
++  inset: 0;
++  display: grid;
++  place-items: center;
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-size: 1.375rem;
++  font-weight: 800;
++}
++.cj-miss b {
++  display: block;
++  color: #fff;
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: -0.01em;
++}
++.cj-miss p {
++  margin: 6px 0 0;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.5;
++}
++.cj-miss-act {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 12px;
++  margin-top: 16px;
++}
++.cj-miss-go,
++.cj-miss-no {
++  min-height: 46px;
++  padding: 0 22px;
++  border-radius: 12px;
++  font: inherit;
++  font-size: 1rem;
++  font-weight: 600;
++  cursor: pointer;
++}
++.cj-miss-go {
++  border: 0;
++  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85.29%) 0%, hsl(calc(var(--th) + 348.46) calc(72.62% * var(--ts)) 67.06%) 100%);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++}
++.cj-miss-no {
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
++  background: none;
++  color: #fff;
++}
+diff --git a/a/src/components/site/career/journey.tsx b/b/src/components/site/career/journey.tsx
+index abdbeb8..d328228 100644
+--- a/a/src/components/site/career/journey.tsx
++++ b/b/src/components/site/career/journey.tsx
+@@ -9,7 +9,9 @@ import { LocationPicker } from "./location-picker";
+ 
+ // The first screen of the Careers page: the ticket office, all on ONE page, in three moments:
+ //   1. "Your location": the visitor types the first letters of their city (the cities that do not match go away as dust, the matching ones
+-//      come in) and clicks one. The city is the only thing that is needed to book a seat.
++//      come in) and clicks one. The city is the only thing that is needed to book a seat. Until then the page cannot be scrolled (a line says
++//      so); as soon as the city is chosen the train comes to the platform and the page opens. If the visitor goes on down the page without a
++//      booked seat, the train leaves without them and a notice says "You are missing your train".
+ //   2. The questions of the booking, nothing else: current career status (typed or picked), the destination (the open positions of We3vision),
+ //      the day the candidate can join, the arrival time (notice period), the resume and a call slot with HR. "Book your seat" books it.
+ //   3. The passenger details (the usual questions and the ones of HR from the admin panel) under a summary of the seat. "Confirm the ticket"
+@@ -59,21 +61,86 @@ export function CareerJourney({
+   const [fields, setFields] = useState<Record<string, string>>({});
+   const [custom, setCustom] = useState<Record<string, string>>({});
+   const [website, setWebsite] = useState("");
++  const [nudge, setNudge] = useState(0); // how many times the visitor tried to scroll before the city was chosen
++  const [missed, setMissed] = useState(false);
+   const detailsRef = useRef<HTMLDivElement>(null);
++  const warned = useRef(false);
+ 
+   const role = roles.find((r) => r.id === roleId) ?? null;
+   const days = useMemo(() => callSlots(), []);
+   const roleOptions = useMemo(() => roles.map((r) => ({ value: r.id, label: r.team ? `${r.title} · ${r.team}` : r.title })), [roles]);
+   const noticeOptions = useMemo(() => NOTICE_PERIODS.map((n) => ({ value: n, label: n })), []);
+ 
+-  // what the railway of the page needs to know: the train comes when the city, the current status and the destination are chosen (or the seat is booked)
++  // what the railway of the page needs to know: the train comes as soon as the city is chosen
+   const answers = [city, status, roleId, joinDate, notice, resume?.url ?? "", slot];
+   const step = answers.filter(Boolean).length;
+-  const called = Boolean(city && ((status && roleId) || booked));
+-  const summoned = called && !done;
+   useEffect(() => {
+-    setCareer({ city, step, steps: 7, summoned: called, passenger: Boolean(city), role: role?.title ?? "", name: fields.name ?? "" });
+-  }, [city, step, called, role?.title, fields.name]);
++    setCareer({ city, step, steps: 7, summoned: Boolean(city), passenger: Boolean(city), role: role?.title ?? "", name: fields.name ?? "" });
++  }, [city, step, role?.title, fields.name]);
++
++  // nothing below the ticket office can be reached before the visitor has said where they are
++  useEffect(() => {
++    if (city) return;
++    const html = document.documentElement;
++    const lenis = (window as unknown as { __lenis?: { stop?: () => void; start?: () => void; scrollTo: (y: number, o?: object) => void } }).__lenis;
++    const was = html.style.overflow;
++    html.style.overflow = "hidden";
++    lenis?.stop?.();
++    window.scrollTo(0, 0);
++    const bump = () => setNudge((n) => n + 1);
++    const block = (e: Event) => {
++      e.preventDefault();
++      bump();
++    };
++    const typing = (t: EventTarget | null) => t instanceof HTMLElement && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName));
++    const key = (e: KeyboardEvent) => {
++      if (typing(e.target)) return;
++      if ([" ", "PageDown", "PageUp", "End", "Home", "ArrowDown", "ArrowUp"].includes(e.key)) {
++        e.preventDefault();
++        bump();
++      }
++    };
++    // (the scroll bar of the site, a link, anything else that moves the page: it goes back)
++    const back = () => {
++      if (window.scrollY <= 0) return;
++      if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
++      else window.scrollTo(0, 0);
++      bump();
++    };
++    window.addEventListener("wheel", block, { passive: false });
++    window.addEventListener("touchmove", block, { passive: false });
++    window.addEventListener("keydown", key);
++    window.addEventListener("scroll", back);
++    return () => {
++      window.removeEventListener("wheel", block);
++      window.removeEventListener("touchmove", block);
++      window.removeEventListener("keydown", key);
++      window.removeEventListener("scroll", back);
++      html.style.overflow = was;
++      lenis?.start?.();
++    };
++  }, [city]);
++
++  // the page is open, but the seat is not booked: when the visitor goes on down the page the train leaves without them
++  useEffect(() => {
++    if (!city || booked) return;
++    const check = () => {
++      const away = window.scrollY > window.innerHeight * 0.55;
++      setCareer({ away });
++      if (away && !warned.current) {
++        warned.current = true;
++        setMissed(true);
++      }
++      if (!away) warned.current = false;
++    };
++    window.addEventListener("scroll", check, { passive: true });
++    const first = requestAnimationFrame(check);
++    return () => {
++      cancelAnimationFrame(first);
++      window.removeEventListener("scroll", check);
++      setCareer({ away: false });
++    };
++  }, [city, booked]);
+   useEffect(() => {
+     setCareer({ stage: done ? "departing" : booked ? "booked" : "idle" });
+   }, [booked, done]);
+@@ -156,8 +223,13 @@ export function CareerJourney({
+ 
+           <div className="cj-loc-block">
+             <h2 className="cj-q">{locationLabel}</h2>
+-            {!city && <p className="cj-sub">Type the first letters of your city. The track stays empty until you tell us where you are.</p>}
++            {!city && <p className="cj-sub">Type the first letters of your city. The page opens, and the train comes, as soon as you tell us where you are.</p>}
+             <LocationPicker value={city} onSelect={setCity} onClear={() => setCity("")} locked={booked} />
++            {!city && nudge > 0 && (
++              <p key={nudge} className="cj-lock" role="status">
++                Select your location once, then the train comes and the rest of the page opens.
++              </p>
++            )}
+           </div>
+ 
+           {city && view === "form" && (
+@@ -323,12 +395,36 @@ export function CareerJourney({
+             </div>
+           )}
+ 
+-          {city && !summoned && !done && view === "form" && <p className="cj-note">Choose your current status and a destination: the train comes to the platform.</p>}
+         </div>
+ 
+         {/* the platform and the train of the railway are drawn here (see career/railway.tsx) */}
+         <div className="cj-slot" aria-hidden />
+       </div>
++
++      {missed && !booked && !done && (
++        <div className="cj-miss" role="alertdialog" aria-labelledby="cj-miss-t">
++          <span className="cj-miss-ic" aria-hidden />
++          <div>
++            <b id="cj-miss-t">You are missing your train!</b>
++            <p>The train is leaving the platform without you. Go back and book your seat to board it.</p>
++            <div className="cj-miss-act">
++              <button
++                type="button"
++                className="cj-miss-go"
++                onClick={() => {
++                  setMissed(false);
++                  lenisTo(0, { duration: 1.1 });
++                }}
++              >
++                Back to the platform
++              </button>
++              <button type="button" className="cj-miss-no" onClick={() => setMissed(false)}>
++                Keep reading
++              </button>
++            </div>
++          </div>
++        </div>
++      )}
+     </section>
+   );
+ }
+diff --git a/a/src/components/site/career/railway.tsx b/b/src/components/site/career/railway.tsx
+index 59574db..0ef15c6 100644
+--- a/a/src/components/site/career/railway.tsx
++++ b/b/src/components/site/career/railway.tsx
+@@ -6,8 +6,10 @@ import { PersonTop } from "../timeline-art";
+ 
+ // The railway of the Careers page: ONE track that runs through the whole page, from above the first screen to the last section, in a few long,
+ // soft sweeps from one edge of the page to the other. It stays in the margins beside the content; where it has to go under a block (the board
+-// of the teams, the window of the help desk) it goes into a tunnel: a portal in front of the block, nothing of the track or of the train is
+-// to be seen over or under the block, and the train comes out of the portal on the other side. It is drawn on one layer
++// of the teams, the window of the help desk) it goes into a tunnel with a name. The tunnel starts well in front of the block, so that nobody
++// is surprised: first a gate with a board that says the name, then a short open cut (the walls are cut across, so that it can be seen that the
++// line goes down into the ground), then the roof. Nothing of the track or of the train is to be seen under the roof or under the block, and
++// the train comes out of the gate on the other side. It is drawn on one layer
+ // behind the page (it is not in a box). On the way: the first station (the ticket office) with its platform, signals, a level crossing,
+ // a bridge over a stream, a little stop for every value of the company, mile posts, poles, trees, and Surat Junction at the end.
+ // The train (an engine at both ends and three coaches, seen from above, every car turns with the curve) does not exist until the visitor has chosen a city,
+@@ -24,10 +26,20 @@ const GAP = 6;
+ const COACHES = 3;
+ const CARS = COACHES + 2; // an engine at the front, the coaches, an engine at the back
+ const TRAIN_L = ENGINE_L * 2 + COACHES * (COACH_L + GAP) + GAP;
++const LEAD = 200; // a tunnel starts this far in front of the block it goes under
++const CUT = 64; // the open cut at its start (the walls are cut across)
++const TAIL = 34; // and goes on this far after the block
++// the names of the tunnels (Surat is the city of diamonds and of silk)
++const TUNNEL_NAMES = [
++  { name: "Diamond Tunnel", sub: "Surat, the diamond city" },
++  { name: "Silk Route Tunnel", sub: "Surat, the silk city" },
++  { name: "Idea Tunnel", sub: "Where good work begins" },
++  { name: "Hello Tunnel", sub: "Say hi to our team" },
++];
+ // the blocks of the page that the track must not run over or under: where it meets one, it goes through a tunnel
+ const COVER = ".rt-board, .rh-window, .rv-card, .cj-form, .cj-after, .cj-loc-block, .cj-station-card, #contact address";
+ // (and the lines of text of the headings: only where there is text, not the whole width of the block that holds it)
+-const COVER_TEXT = ".rv-head h2, .rv-head p, .cj-head h1, .cj-head p, .cj-dest-text h2, .cj-dest-text > p, #contact h2";
++const COVER_TEXT = ".rv-head h2, .rv-head p, .cj-head h1, .cj-head p, .cj-dest-text h2, .cj-dest-text > p, #contact > :first-child h2, #contact > :first-child p";
+ 
+ type Sample = { xs: Float32Array; ys: Float32Array; as: Float32Array; n: number };
+ type Stop = { x: number; y: number; side: 1 | -1; label: string };
+@@ -52,8 +64,24 @@ type Geo = {
+   trees: { x: number; y: number; r: number }[];
+   /** the blocks that have a tunnel under them (the track and the train are not drawn there) */
+   covers: { x: number; y: number; w: number; h: number; r: number }[];
+-  /** the mouths of the tunnels: where the track goes in and where it comes out */
+-  portals: { x: number; y: number; a: number; kind: "in" | "out" }[];
++  /** the tunnels: the line under the roof is not drawn, the roof is */
++  tunnels: Tunnel[];
++};
++type Pt = { x: number; y: number; a: number };
++type Tunnel = {
++  name: string;
++  sub: string;
++  /** the open cut at the start, the roof, and the part of the line that is out of sight (as paths) */
++  dCut: string;
++  dRoof: string;
++  dUnder: string;
++  gateIn: Pt;
++  gateOut: Pt;
++  boardIn: { x: number; y: number };
++  boardOut: { x: number; y: number };
++  /** the train is out of sight between these two places of the line (px from the start of the line) */
++  sA: number;
++  sB: number;
+ };
+ 
+ const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+@@ -217,9 +245,9 @@ function measure(root: HTMLElement): Geo | null {
+     if (x > 14 && x < W - 14 && (x < gw || x > W - gw)) trees.push({ x, y: y + rnd() * 40, r: 8 + rnd() * 9 });
+   }
+ 
+-  // the tunnels: every block that the line goes into has a mouth where the line goes in and one where it comes out
++  // the tunnels: every block that the line goes into becomes a tunnel with a name, a gate in front of it and a gate after it
+   const covers: Geo["covers"] = [];
+-  const portals: Geo["portals"] = [];
++  const tunnels: Tunnel[] = [];
+   const blocks: { el: HTMLElement; r: ReturnType<typeof rel> }[] = [];
+   main.querySelectorAll<HTMLElement>(COVER).forEach((el) => blocks.push({ el, r: rel(el, top0, scrollY) }));
+   main.querySelectorAll<HTMLElement>(COVER_TEXT).forEach((el) => {
+@@ -228,30 +256,77 @@ function measure(root: HTMLElement): Geo | null {
+     const tb = range.getBoundingClientRect();
+     blocks.push({ el, r: { top: tb.top + scrollY - top0, bottom: tb.bottom + scrollY - top0, left: tb.left, right: tb.right, width: tb.width, height: tb.height } });
+   });
++  const poly = (i0: number, i1: number) => {
++    let out = `M${xs[i0].toFixed(1)} ${ys[i0].toFixed(1)}`;
++    for (let i = i0 + 1; i <= i1; i++) out += `L${xs[i].toFixed(1)} ${ys[i].toFixed(1)}`;
++    return out;
++  };
++  const pt = (i: number): Pt => ({ x: xs[i], y: ys[i], a: as[i] });
++  const runs: { i0: number; i1: number; el: HTMLElement }[] = [];
+   blocks.forEach(({ el, r }) => {
+     if (!r || r.width < 40 || r.height < 30) return;
+-    const L = r.left;
+-    const R = r.right;
+-    const T = r.top;
+-    const B = r.bottom;
+     let run = -1;
+-    let hit = false;
+     for (let i = 0; i <= n; i++) {
+-      const inside = i < n && xs[i] > L - 8 && xs[i] < R + 8 && ys[i] > T - 8 && ys[i] < B + 8;
++      const inside = i < n && xs[i] > r.left - 8 && xs[i] < r.right + 8 && ys[i] > r.top - 8 && ys[i] < r.bottom + 8;
+       if (inside && run < 0) run = i;
+       if (!inside && run >= 0) {
+         if (i - run >= 3) {
+-          portals.push({ x: xs[run], y: ys[run], a: as[run], kind: "in" });
+-          portals.push({ x: xs[i - 1], y: ys[i - 1], a: as[i - 1], kind: "out" });
+-          hit = true;
++          runs.push({ i0: run, i1: i - 1, el });
++          covers.push({ x: r.left, y: r.top, w: r.width, h: r.height, r: parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0 });
+         }
+         run = -1;
+       }
+     }
+-    if (hit) covers.push({ x: L, y: T, w: r.width, h: r.height, r: parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0 });
++  });
++  // (blocks that touch each other make one tunnel, not two)
++  runs.sort((p1, p2) => p1.i0 - p2.i0);
++  for (let k = runs.length - 1; k > 0; k--) {
++    if (runs[k].i0 <= runs[k - 1].i1 + 12) {
++      runs[k - 1].i1 = Math.max(runs[k - 1].i1, runs[k].i1);
++      runs.splice(k, 1);
++    }
++  }
++  // (a board with the name of the tunnel stands beside each gate, on the side where there is room for it)
++  const BW = 250;
++  const BH = 54;
++  const boardAt = (g: Pt) => {
++    const nx = -Math.sin(g.a);
++    const ny = Math.cos(g.a);
++    const ext = Math.abs(nx) * (BW / 2) + Math.abs(ny) * (BH / 2);
++    const place = (side: number) => ({ x: g.x + nx * side * (50 + 12 + ext), y: g.y + ny * side * (50 + 12 + ext) });
++    const free = (c: { x: number; y: number }) =>
++      c.x - BW / 2 > 8 &&
++      c.x + BW / 2 < W - 8 &&
++      !blocks.some(({ r }) => r && r.width > 0 && c.x + BW / 2 > r.left && c.x - BW / 2 < r.right && c.y + BH / 2 > r.top && c.y - BH / 2 < r.bottom);
++    const first = place(1);
++    const second = place(-1);
++    // (toward the middle of the page first)
++    const prefer = Math.abs(first.x - W / 2) < Math.abs(second.x - W / 2) ? [first, second] : [second, first];
++    return prefer.find(free) ?? prefer[0];
++  };
++  runs.forEach((run, k) => {
++    const iF = Math.max(0, run.i0 - Math.round(LEAD / STEP));
++    const iC = Math.min(run.i0, iF + Math.round(CUT / STEP));
++    const iX = Math.min(n - 1, run.i1 + Math.round(TAIL / STEP));
++    const names = run.el.closest(".rt-board") ? TUNNEL_NAMES[0] : run.el.closest(".rh-window") ? TUNNEL_NAMES[1] : TUNNEL_NAMES[2 + (k % 2)];
++    const gateIn = pt(iF);
++    const gateOut = pt(iX);
++    tunnels.push({
++      name: names.name,
++      sub: names.sub,
++      dCut: poly(iF, iC),
++      dRoof: poly(iC, iX),
++      dUnder: poly(iC, iX),
++      gateIn,
++      gateOut,
++      boardIn: boardAt(gateIn),
++      boardOut: boardAt(gateOut),
++      sA: iC * STEP,
++      sB: iX * STEP,
++    });
+   });
+ 
+-  return { W, H, d, len, sample, x1, yHead1, x2, yHead2, sStop1, sEnd, stops, crossing, river, signals, poles, miles, trees, covers, portals };
++  return { W, H, d, len, sample, x1, yHead1, x2, yHead2, sStop1, sEnd, stops, crossing, river, signals, poles, miles, trees, covers, tunnels };
+ }
+ 
+ function at(sm: Sample, s: number) {
+@@ -356,27 +431,38 @@ function Plate() {
+   );
+ }
+ 
+-/** the mouth of a tunnel, in front of a block: a stone wall with the dark opening of the track (the part inside the block is cut by the mask) */
+-function Portal({ x, y, a, kind }: { x: number; y: number; a: number; kind: "in" | "out" }) {
+-  const D = 38;
+-  const EXT = 110;
+-  const Wd = 92;
+-  const x0 = kind === "in" ? -D : -EXT;
+-  const x1 = kind === "in" ? EXT : D;
+-  const front = kind === "in" ? -D : D;
+-  const bow = kind === "in" ? -11 : 11;
++/** the gate of a tunnel: a stone beam across the line with a lamp at each end */
++function Gate({ p }: { p: Pt }) {
++  const Wd = 104;
+   return (
+-    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${((a * 180) / Math.PI).toFixed(1)})`}>
+-      <rect className="rw-pt-sh" x={x0 + 4} y={-Wd / 2 + 6} width={x1 - x0} height={Wd} rx="14" />
+-      <rect className="rw-pt" x={x0} y={-Wd / 2} width={x1 - x0} height={Wd} rx="14" />
+-      <rect className="rw-pt-top" x={x0 + 5} y={-Wd / 2 + 5} width={x1 - x0 - 10} height="9" rx="4" />
+-      <rect className="rw-pt-top" x={x0 + 5} y={Wd / 2 - 14} width={x1 - x0 - 10} height="9" rx="4" />
+-      <rect className="rw-pt-slot" x={x0} y="-32" width={x1 - x0} height="64" />
+-      <path className="rw-pt-arch" d={`M${front} -32Q${front + bow} 0 ${front} 32`} />
+-      <circle className="rw-glow" cx={front + (kind === "in" ? 9 : -9)} cy={-Wd / 2 + 9} r="20" />
+-      <circle className="rw-glow" cx={front + (kind === "in" ? 9 : -9)} cy={Wd / 2 - 9} r="20" />
+-      <circle className="rw-lampost" cx={front + (kind === "in" ? 9 : -9)} cy={-Wd / 2 + 9} r="3.6" />
+-      <circle className="rw-lampost" cx={front + (kind === "in" ? 9 : -9)} cy={Wd / 2 - 9} r="3.6" />
++    <g transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${((p.a * 180) / Math.PI).toFixed(1)})`}>
++      <rect className="rw-gt-sh" x="-5" y={-Wd / 2 + 6} width="22" height={Wd} rx="9" />
++      <rect className="rw-gt" x="-9" y={-Wd / 2} width="18" height={Wd} rx="9" />
++      <rect className="rw-gt-top" x="-5" y={-Wd / 2 + 5} width="10" height={Wd - 10} rx="5" />
++      <circle className="rw-glow" cx="0" cy={-Wd / 2 + 4} r="22" />
++      <circle className="rw-glow" cx="0" cy={Wd / 2 - 4} r="22" />
++      <circle className="rw-lampost" cx="0" cy={-Wd / 2 + 4} r="4" />
++      <circle className="rw-lampost" cx="0" cy={Wd / 2 - 4} r="4" />
++    </g>
++  );
++}
++
++/** the board that says the name of the tunnel */
++function Board({ x, y, name, sub }: { x: number; y: number; name: string; sub: string }) {
++  const w = 250;
++  const h = 54;
++  return (
++    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
++      <rect className="rw-bd-sh" x={-w / 2 + 3} y={-h / 2 + 6} width={w} height={h} rx="13" />
++      <rect className="rw-bd" x={-w / 2} y={-h / 2} width={w} height={h} rx="13" />
++      <path className="rw-bd-ic" d={`M${-w / 2 + 14} 11V-3Q${-w / 2 + 14} -12 ${-w / 2 + 23} -12Q${-w / 2 + 32} -12 ${-w / 2 + 32} -3V11`} />
++      <path className="rw-bd-ic2" d={`M${-w / 2 + 14} 11H${-w / 2 + 32}`} />
++      <text className="rw-bd-t" x={-w / 2 + 44} y="-3">
++        {name}
++      </text>
++      <text className="rw-bd-s" x={-w / 2 + 44} y="15">
++        {sub}
++      </text>
+     </g>
+   );
+ }
+@@ -576,7 +662,8 @@ export function CareerRailway() {
+       let target = -TRAIN_L - 400;
+       if (c.summoned) {
+         target = geo.sStop1;
+-        if (c.stage !== "idle") {
++        // (when the visitor goes on without a booked seat the train leaves without the passenger)
++        if (c.stage !== "idle" || c.away) {
+           const centreY = window.scrollY + window.innerHeight * 0.55 - top0;
+           target = clamp(sOfYFast(sm, centreY) + 90, geo.sStop1, geo.sEnd);
+         }
+@@ -639,7 +726,7 @@ export function CareerRailway() {
+         const office = { x: geo.x2 - 246 + 106, y: geo.yHead2 - 660 - 14 };
+         let px = walk.x + (seatPos.x - walk.x) * seat;
+         let py = walk.y + (seatPos.y - walk.y) * seat;
+-        let moving = Math.abs(t - 0) > 0 && seat < 0.98;
++        let moving = Math.abs(t - 0) > 0 && seat < 0.98 && !(c.away && c.stage === "idle");
+         let rot = (Math.atan2(door.y - start.y, door.x - start.x) * 180) / Math.PI - 90;
+         if (seat > 0.98) rot = (car1.a * 180) / Math.PI - 90 + 180;
+         if (exit > 0.001) {
+@@ -653,7 +740,8 @@ export function CareerRailway() {
+           rot = (Math.atan2(office.y - platDoor.y, office.x - platDoor.x) * 180) / Math.PI - 90;
+         }
+         // (inside a tunnel nothing is seen: the passenger is with the train)
+-        const hidden = geo.covers.some((c2) => px > c2.x + 2 && px < c2.x + c2.w - 2 && py > c2.y + 2 && py < c2.y + c2.h - 2);
++        const sCar = sCur - ENGINE_L - GAP - COACH_L / 2;
++        const hidden = (seat > 0.6 && geo.tunnels.some((tn) => sCar > tn.sA && sCar < tn.sB)) || geo.covers.some((c2) => px > c2.x + 2 && px < c2.x + c2.w - 2 && py > c2.y + 2 && py < c2.y + c2.h - 2);
+         const visible = (c.passenger || c.stage !== "idle") && !hidden;
+         av.style.opacity = visible ? "1" : "0";
+         av.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px)`;
+@@ -697,6 +785,17 @@ export function CareerRailway() {
+                   <rect key={i} x={c.x} y={c.y} width={c.w} height={c.h} rx={c.r} fill="#000" />
+                 ))}
+               </mask>
++              {/* the line and the train are not seen under the roof of a tunnel */}
++              <mask id="rw-under" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
++                <rect x="0" y="0" width={geo.W} height={geo.H} fill="#fff" />
++                {geo.tunnels.map((t, i) => (
++                  <path key={i} d={t.dUnder} fill="none" stroke="#000" strokeWidth="76" strokeLinecap="butt" strokeLinejoin="round" />
++                ))}
++              </mask>
++              <pattern id="rw-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
++                <rect width="9" height="9" className="rw-hatch-bg" />
++                <line x1="0" y1="0" x2="0" y2="9" className="rw-hatch-ln" />
++              </pattern>
+               <linearGradient id="rw-beam-g" x1="0" x2="1">
+                 <stop offset="0" className="rw-lite" stopOpacity="0.5" />
+                 <stop offset="1" className="rw-lite" stopOpacity="0" />
+@@ -704,6 +803,7 @@ export function CareerRailway() {
+             </defs>
+ 
+             <g mask={geo.covers.length ? "url(#rw-cover)" : undefined}>
++            <g mask={geo.tunnels.length ? "url(#rw-under)" : undefined}>
+             {/* the stream and the bridge */}
+             {geo.river && (
+               <g>
+@@ -733,6 +833,15 @@ export function CareerRailway() {
+               </g>
+             ))}
+ 
++            {/* the open cut at the start of a tunnel: walls that are cut across (hatched, as on a drawing of a section), the floor between them */}
++            {geo.tunnels.map((t, i) => (
++              <g key={`cut-${i}`}>
++                <path d={t.dCut} className="rw-cut-wall" />
++                <path d={t.dCut} className="rw-cut-hatch" />
++                <path d={t.dCut} className="rw-cut-floor" />
++              </g>
++            ))}
++
+             {/* the track: stones, sleepers, the two rails */}
+             <path d={geo.d} className="rw-ballast" />
+             <path d={geo.d} className="rw-sleepers" />
+@@ -782,9 +891,9 @@ export function CareerRailway() {
+               const q = at(geo.sample, m.s);
+               const out = q.x < geo.W / 2 ? -1 : 1;
+               return (
+-                <g key={i} transform={`translate(${clamp(q.x + out * 58, 40, geo.W - 40)} ${q.y})`}>
+-                  <rect className="rw-mile" x="-30" y="-9" width="60" height="18" rx="4" />
+-                  <text className="rw-mile-t" x="0" y="4" textAnchor="middle">
++                <g key={i} transform={`translate(${clamp(q.x + out * 72, 62, geo.W - 62)} ${q.y})`}>
++                  <rect className="rw-mile" x="-52" y="-13" width="104" height="26" rx="7" />
++                  <text className="rw-mile-t" x="0" y="4.5" textAnchor="middle">
+                     {m.label}
+                   </text>
+                 </g>
+@@ -819,9 +928,21 @@ export function CareerRailway() {
+               ))}
+             </g>
+ 
+-            {/* the mouths of the tunnels: over the train, so that it goes into them */}
+-            {geo.portals.map((pt, i) => (
+-              <Portal key={i} x={pt.x} y={pt.y} a={pt.a} kind={pt.kind} />
++            </g>
++
++            {/* the tunnels: the roof (over the train, so that it goes under it), the gates and the boards with the names */}
++            {geo.tunnels.map((t, i) => (
++              <g key={`tn-${i}`}>
++                <path d={t.dRoof} className="rw-tn-sh" />
++                <path d={t.dRoof} className="rw-tn-edge" />
++                <path d={t.dRoof} className="rw-tn-body" />
++                <path d={t.dRoof} className="rw-tn-ribs" />
++                <path d={t.dRoof} className="rw-tn-ridge" />
++                <Gate p={t.gateIn} />
++                <Gate p={t.gateOut} />
++                <Board x={t.boardIn.x} y={t.boardIn.y} name={t.name} sub={t.sub} />
++                <Board x={t.boardOut.x} y={t.boardOut.y} name={t.name} sub={t.sub} />
++              </g>
+             ))}
+             </g>
+           </svg>
+diff --git a/a/src/lib/career-store.ts b/b/src/lib/career-store.ts
+index 24a365c..704da04 100644
+--- a/a/src/lib/career-store.ts
++++ b/b/src/lib/career-store.ts
+@@ -18,13 +18,15 @@ export type CareerState = {
+   /** how many answers the passenger has given (0..steps): the passenger walks that many steps towards the train */
+   step: number;
+   steps: number;
+-  /** the city, the current status and the destination are chosen: the train comes */
++  /** the city is chosen: the train comes to the platform */
+   summoned: boolean;
++  /** the visitor has gone on down the page without a booked seat: the train leaves without the passenger */
++  away: boolean;
+   /** the passenger has a city (stands on the platform) */
+   passenger: boolean;
+ };
+ 
+-let state: CareerState = { stage: "idle", name: "", role: "", city: "", step: 0, steps: 7, summoned: false, passenger: false };
++let state: CareerState = { stage: "idle", name: "", role: "", city: "", step: 0, steps: 7, summoned: false, away: false, passenger: false };
+ const listeners = new Set<() => void>();
+ 
+ export function setCareer(patch: Partial<CareerState>) {

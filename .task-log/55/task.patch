@@ -1,0 +1,1072 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index a623972..dcac79a 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -22640,16 +22640,24 @@ a.md-rel-card:hover .md-rel-go {
+   width: 100%;
+   min-height: 520px;
+   overflow: hidden;
+-  background: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4% / 0.7);
+-  /* the top and the bottom melt into the sections around the office, so that there is no hard edge */
+-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 90%, transparent 100%);
+-  mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 90%, transparent 100%);
++  /* the floor fades out at the top and at the bottom (only the floor: the people and the tables are never faded), so that there is no hard
++     edge against the sections around the office and everything in the office stays sharp */
++  background: linear-gradient(
++    to bottom,
++    transparent 0,
++    hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4% / 0.72) 60px,
++    hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4% / 0.72) calc(100% - 110px),
++    transparent 100%
++  );
+ }
+ .to2[data-preview="true"] {
+   border-radius: 20px;
+   background: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 7.4%);
+-  -webkit-mask-image: none;
+-  mask-image: none;
++}
++/* the walls fade with the floor (the walls only; not what is in the office) */
++.to2:not([data-preview="true"]) .of-walls {
++  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 140px), transparent 100%);
++  mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 140px), transparent 100%);
+ }
+ .to2 .of-wall-b {
+   display: none;
+diff --git a/b/src/components/admin/seat-picker.tsx b/b/src/components/admin/seat-picker.tsx
+new file mode 100644
+index 0000000..af9e1b9
+--- /dev/null
++++ b/b/src/components/admin/seat-picker.tsx
+@@ -0,0 +1,143 @@
++"use client";
++
++import { useState } from "react";
++import { tierOf, type TeamPerson } from "@/lib/team-shared";
++import {
++  CSEAT,
++  CXO_CAP,
++  CZH,
++  MAX_PODS,
++  MGR_CAP,
++  MGR_SEATS,
++  MZH,
++  MZW,
++  POD_SEATS,
++  TEAM_SEATS,
++  TZH,
++  TZW,
++  cxoSlots,
++  placeInSeats,
++  podCount,
++} from "@/lib/team-seats";
++import { btnSecondary } from "./ui";
++
++// The seat picker of the admin panel (Team): a small plan of the table(s) of the department of the person that is being edited. Click a chair
++// and the person sits there (the person who was there is seated on another free chair). "Automatic" = the order of the list.
++
++const initials = (name: string) =>
++  name
++    .split(/\s+/)
++    .filter(Boolean)
++    .slice(0, 2)
++    .map((w) => w[0]?.toUpperCase())
++    .join("") || "?";
++
++export function SeatPicker({ people, current, onAssign }: { people: TeamPerson[]; current: TeamPerson; onAssign: (seat: number) => void }) {
++  const tier = tierOf(current.dept);
++  const dept = current.dept.trim();
++  const group = people.filter((p) => (tier === "team" ? p.dept.trim() === dept : tierOf(p.dept) === tier));
++  const [extra, setExtra] = useState(0);
++
++  // the seats of the group, with the person on each of them (the same rule as the office of the Team page)
++  let slotCount: number;
++  if (tier === "team") slotCount = Math.min(MAX_PODS, podCount(group) + extra) * POD_SEATS;
++  else if (tier === "mgr") slotCount = MGR_CAP;
++  else slotCount = Math.min(CXO_CAP, cxoSlots(group) + extra);
++  const slots = placeInSeats(group, slotCount);
++  const mine = slots.indexOf(current);
++  const label = (i: number) => {
++    if (tier === "team") return `Island ${Math.floor(i / POD_SEATS) + 1}, ${TEAM_SEATS[i % POD_SEATS].label.toLowerCase()}`;
++    if (tier === "mgr") return MGR_SEATS[i].label;
++    return `Leader seat ${i + 1}`;
++  };
++
++  const seat = (i: number, x: number, y: number, r = 14) => {
++    const p = slots[i];
++    const isMe = p === current;
++    return (
++      <g key={i} className="cursor-pointer" onClick={() => onAssign(i)}>
++        <title>{p ? `${label(i)}: ${p.name}` : `${label(i)}: free`}</title>
++        <circle cx={x} cy={y} r={r + 3} fill="transparent" />
++        <circle
++          cx={x}
++          cy={y}
++          r={r}
++          fill={isMe ? "#7c5cff" : p ? "#d4d4d8" : "#ffffff"}
++          stroke={isMe ? "#4c2fd1" : "#a1a1aa"}
++          strokeWidth={isMe ? 3 : 1.5}
++          strokeDasharray={p ? undefined : "4 3"}
++        />
++        {p && (
++          <text x={x} y={y + 4} textAnchor="middle" fontSize={r > 14 ? 12 : 11} fontWeight={700} fill={isMe ? "#ffffff" : "#3f3f46"}>
++            {initials(p.name)}
++          </text>
++        )}
++      </g>
++    );
++  };
++
++  return (
++    <div className="space-y-3">
++      <div className="flex flex-wrap items-center justify-between gap-2">
++        <p className="text-sm font-medium text-zinc-700">
++          Seat:{" "}
++          <span className="font-normal text-zinc-500">
++            {current.seat >= 0 && mine >= 0 ? label(mine) : mine >= 0 ? `automatic (${label(mine).toLowerCase()})` : "automatic"}
++          </span>
++        </p>
++        <button type="button" className={btnSecondary} disabled={current.seat < 0} onClick={() => onAssign(-1)}>
++          Automatic seat
++        </button>
++      </div>
++
++      {tier === "team" && (
++        <div className="space-y-3">
++          {Array.from({ length: slotCount / POD_SEATS }, (_, k) => (
++            <svg key={k} viewBox={`0 0 ${TZW} ${TZH}`} className="w-full max-w-[380px] rounded-xl border border-zinc-200 bg-zinc-50" aria-label={`Island ${k + 1}`}>
++              <rect x="14" y="26" width="150" height="78" rx="8" fill="#e4e4e7" stroke="#a1a1aa" />
++              <text x="89" y="70" textAnchor="middle" fontSize="11" fill="#71717a">
++                wall board
++              </text>
++              <rect x="20" y="164" width="150" height="32" rx="8" fill="#d4d4d8" />
++              <circle cx="232" cy="150" r="26" fill="#d4d4d8" />
++              <text x="14" y="16" fontSize="11" fill="#71717a">
++                Island {k + 1}
++              </text>
++              {TEAM_SEATS.map((s, j) => seat(k * POD_SEATS + j, s.x, s.y))}
++            </svg>
++          ))}
++          {slotCount / POD_SEATS < MAX_PODS && (
++            <button type="button" className={btnSecondary} onClick={() => setExtra((e) => e + 1)}>
++              + Another island
++            </button>
++          )}
++        </div>
++      )}
++
++      {tier === "mgr" && (
++        <svg viewBox={`0 0 ${MZW} ${MZH}`} className="w-full max-w-[420px] rounded-xl border border-zinc-200 bg-zinc-50" aria-label="Managers table">
++          <rect x="36" y="66" width="244" height="44" rx="10" fill="#d4d4d8" />
++          <text x="158" y="92" textAnchor="middle" fontSize="11" fill="#71717a">
++            managers&apos; table
++          </text>
++          {MGR_SEATS.map((s, i) => seat(i, s.x, s.y, s.kind === "h" ? 17 : 14))}
++        </svg>
++      )}
++
++      {tier === "cxo" && (
++        <div className="space-y-3">
++          <svg viewBox={`0 0 ${slotCount * CSEAT} ${CZH}`} className="w-full max-w-[520px] rounded-xl border border-zinc-200 bg-zinc-50" aria-label="Desk of the leaders">
++            <rect x="12" y="70" width={slotCount * CSEAT - 24} height="34" rx="10" fill="#d4d4d8" />
++            {Array.from({ length: slotCount }, (_, i) => seat(i, CSEAT / 2 + i * CSEAT, 44, 18))}
++          </svg>
++          {slotCount < CXO_CAP && (
++            <button type="button" className={btnSecondary} onClick={() => setExtra((e) => e + 1)}>
++              + Another chair
++            </button>
++          )}
++        </div>
++      )}
++      <p className="text-xs text-zinc-400">Click a chair to seat this person there. Chairs without a choice are filled in the order of the list.</p>
++    </div>
++  );
++}
+diff --git a/a/src/components/admin/team-manager.tsx b/b/src/components/admin/team-manager.tsx
+index 6788fe1..beb4169 100644
+--- a/a/src/components/admin/team-manager.tsx
++++ b/b/src/components/admin/team-manager.tsx
+@@ -3,9 +3,10 @@
+ import { useEffect, useMemo, useState, useTransition } from "react";
+ import { saveTeam } from "@/actions/team";
+ import type { ActionResult } from "@/actions/types";
+-import { byDepartment, CORNER_CAPACITY, MAX_PEOPLE, type TeamPerson } from "@/lib/team-shared";
++import { byDepartment, CORNER_CAPACITY, MAX_PEOPLE, tierOf, type TeamPerson } from "@/lib/team-shared";
+ import { TeamOffice } from "../site/modern/team-office";
+ import { ImageField } from "./image-field";
++import { SeatPicker } from "./seat-picker";
+ import { btnDanger, btnIcon, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
+ 
+ // Team in the admin panel: the people of the office. Every change is drawn at once in the preview (the real office of the Team page);
+@@ -37,9 +38,16 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
+     setResult(null);
+   };
+   const patch = (id: string, part: Partial<TeamPerson>) => change(people.map((p) => (p.id === id ? { ...p, ...part } : p)));
++  // gives a person a seat; the person who had that chosen seat in the same group sits on an automatic seat again
++  const assignSeat = (id: string, seat: number) => {
++    const me = people.find((p) => p.id === id);
++    if (!me) return;
++    const same = (p: TeamPerson) => (tierOf(me.dept) === "team" ? p.dept.trim() === me.dept.trim() : tierOf(p.dept) === tierOf(me.dept));
++    change(people.map((p) => (p.id === id ? { ...p, seat } : seat >= 0 && p.seat === seat && same(p) ? { ...p, seat: -1 } : p)));
++  };
+   const add = (dept: string) => {
+     if (people.length >= MAX_PEOPLE) return;
+-    const p: TeamPerson = { id: uid(), name: "New person", role: "", dept: dept || "Team", bio: "", photo: "", linkedin: "", girl: false };
++    const p: TeamPerson = { id: uid(), name: "New person", role: "", dept: dept || "Team", bio: "", photo: "", linkedin: "", girl: false, seat: -1 };
+     // right after the last person of that department (or at the end)
+     const last = people.map((x) => x.dept).lastIndexOf(p.dept);
+     const next = [...people];
+@@ -82,7 +90,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
+ 
+   const save = () =>
+     start(async () => {
+-      const res = await saveTeam(people.map((p) => ({ name: p.name, role: p.role, dept: p.dept, bio: p.bio, photo: p.photo, linkedin: p.linkedin, girl: p.girl })));
++      const res = await saveTeam(people.map((p) => ({ name: p.name, role: p.role, dept: p.dept, bio: p.bio, photo: p.photo, linkedin: p.linkedin, girl: p.girl, seat: p.seat })));
+       setResult(res);
+       if (res.ok) setDirty(false);
+     });
+@@ -173,7 +181,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
+                 </label>
+                 <label className={labelClass}>
+                   Department
+-                  <input className={inputClass} list="team-depts" value={current.dept} maxLength={30} onChange={(e) => patch(current.id, { dept: e.target.value })} />
++                  <input className={inputClass} list="team-depts" value={current.dept} maxLength={30} onChange={(e) => patch(current.id, { dept: e.target.value, seat: -1 })} />
+                   <datalist id="team-depts">
+                     {depts.map((d) => (
+                       <option key={d} value={d} />
+@@ -191,6 +199,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
+                 LinkedIn link (optional)
+                 <input className={inputClass} value={current.linkedin} maxLength={300} placeholder="https://www.linkedin.com/in/…" onChange={(e) => patch(current.id, { linkedin: e.target.value })} />
+               </label>
++              <SeatPicker people={people} current={current} onAssign={(seat) => assignSeat(current.id, seat)} />
+               <label className="flex items-center gap-2 text-sm text-zinc-700">
+                 <input type="checkbox" checked={current.girl} onChange={(e) => patch(current.id, { girl: e.target.checked })} />
+                 Draw the avatar as a woman
+diff --git a/a/src/components/site/modern/team-office.tsx b/b/src/components/site/modern/team-office.tsx
+index f3e3f83..463f6a9 100644
+--- a/a/src/components/site/modern/team-office.tsx
++++ b/b/src/components/site/modern/team-office.tsx
+@@ -1,7 +1,27 @@
+ "use client";
+ 
+ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+-import { byDepartment, CORNER_CAPACITY, tierOf, type TeamPerson } from "@/lib/team-shared";
++import { byDepartment, tierOf, type TeamPerson } from "@/lib/team-shared";
++import {
++  CSEAT,
++  CXO_CAP,
++  CZH,
++  MAX_PODS,
++  MEET,
++  MGR_CAP,
++  MGR_SEATS,
++  MZH,
++  MZW,
++  POD_SEATS,
++  TEAM_SEATS,
++  TZH,
++  TZW,
++  WORK,
++  cxoSlots,
++  placeInSeats,
++  podCount,
++  type Seat,
++} from "@/lib/team-seats";
+ import { GlowEdge } from "../glow-edge";
+ import { PersonTop } from "../timeline-art";
+ import { BOARDS } from "../timeline-boards";
+@@ -9,65 +29,19 @@ import { BOARDS } from "../timeline-boards";
+ // The office of We3vision on the Team page, in the look of the office at the end of the About timeline (floor, walls, plants, tables with
+ // laptops, chairs, colleagues who walk about), with the real people of the company in it, arranged as the company is built:
+ //   top      the leaders (the department "Leadership"), at a long desk in the middle of the office, with their title under them
+-//   middle   the managers (the department "Managers") at a long table (the chair at the end of the table stays empty)
++//   middle   the managers (the department "Managers") at a long table with a chair at the end
+ //   bottom   the teams (every other department), a corner each, hanging from a line that comes down from the managers; a big team gets a
+ //            wider corner (one more table island for every 9 people), so the biggest team is also the widest corner of the office
+-// Everything is on one screen: there is no camera and no zoom. Point at a person (tap, or tab to the person) and a card opens next to them:
+-// photo, name, role, a few words and a link. The people come from the admin panel (Team). The same component draws the preview there
+-// (`preview`, with the person that is being edited marked). The look is the .of-* rules of the About office and the .to2-* rules in globals.css.
++// Who sits where is chosen in the admin panel (Team, "Seat"); people without a seat sit down in the order of the list (lib/team-seats.ts).
++// Everything is on one screen: there is no camera and no zoom. The drawing grows and shrinks with the width of the screen (laptop to big
++// desktop); when the width is small the teams go into more rows instead of becoming tiny. Point at a person (tap, or tab to the person)
++// and a card opens next to them: photo, name, role, a few words and a link. The people come from the admin panel (Team). The same component
++// draws the preview there (`preview`, with the person that is being edited marked).
++// The look is the .of-* rules of the About office and the .to2-* rules in globals.css.
+ 
+ const HUES = [300, 340, 20, 60, 100, 200, 250];
+ const WALKER_TONES = [40, 300, 100, 200, 340];
+ 
+-type Seat = { x: number; y: number; rot: number; kind: "w" | "m" | "p" | "b" | "h" | "s"; i: number };
+-
+-// ---- a team corner: the canvas of the About office (300 x 226) ----
+-const TZW = 300;
+-const TZH = 226;
+-const WORK = [
+-  { x: 48, y: 150, rot: 0, lx: 14, ly: 7 },
+-  { x: 130, y: 150, rot: 0, lx: 88, ly: 7 },
+-  { x: 48, y: 210, rot: 180, lx: 14, ly: 23 },
+-  { x: 130, y: 210, rot: 180, lx: 88, ly: 23 },
+-];
+-const MEET = [
+-  { x: 232, y: 108, rot: 0 },
+-  { x: 274, y: 150, rot: 90 },
+-  { x: 232, y: 192, rot: 180 },
+-  { x: 190, y: 150, rot: -90 },
+-];
+-// who sits down first: the long table, then the meeting table, the last one stands at the board
+-const TEAM_SEATS: Seat[] = [
+-  { kind: "w", i: 0, ...WORK[0] },
+-  { kind: "w", i: 1, ...WORK[1] },
+-  { kind: "w", i: 2, ...WORK[2] },
+-  { kind: "w", i: 3, ...WORK[3] },
+-  { kind: "m", i: 1, ...MEET[1] },
+-  { kind: "m", i: 3, ...MEET[3] },
+-  { kind: "m", i: 0, ...MEET[0] },
+-  { kind: "m", i: 2, ...MEET[2] },
+-  { kind: "p", i: 0, x: 90, y: 122, rot: 180 },
+-];
+-
+-// ---- the managers' table: a long table with three chairs on each long side; the chair at the right end stays empty (340 x 176) ----
+-const MZW = 340;
+-const MZH = 176;
+-const MGR_CAP = 6;
+-const MAX_PODS = 6; // islands of tables in one row of the teams
+-const MGR_SEATS: Seat[] = [
+-  { kind: "s", i: 0, x: 80, y: 50, rot: 0 },
+-  { kind: "s", i: 1, x: 80, y: 126, rot: 180 },
+-  { kind: "s", i: 2, x: 140, y: 50, rot: 0 },
+-  { kind: "s", i: 3, x: 140, y: 126, rot: 180 },
+-  { kind: "s", i: 4, x: 200, y: 50, rot: 0 },
+-  { kind: "s", i: 5, x: 200, y: 126, rot: 180 },
+-];
+-
+-// ---- the leaders' desk: boss chairs in a row behind a long desk ----
+-const CXO_CAP = 5;
+-const CSEAT = 150; // distance between two leaders (canvas px; the title of a leader stands under him, so it must be wide)
+-const CZH = 116;
+-
+ // which wall board suits which team (the boards of timeline-boards.tsx: brand, web, mobile, AI, metaverse, UI/UX, CRM)
+ const BOARD_RULES: [RegExp, number][] = [
+   [/metaverse|vr|xr|unity|3d/i, 4],
+@@ -94,9 +68,11 @@ type Block = {
+   people: TeamPerson[];
+   tone: number;
+   board: number;
+-  /** a team corner is made of islands of 9 people side by side (a big team has several) */
+-  pods?: TeamPerson[][];
++  /** a team corner is made of islands side by side (a big team has several); every island has 9 seats (a person or nobody) */
++  pods?: (TeamPerson | null)[][];
+   boards?: number[];
++  /** the leaders and the managers: the seats of the desk / the table (a person or nobody) */
++  slots?: (TeamPerson | null)[];
+   cw: number; // canvas size
+   ch: number;
+   s: number; // scale
+@@ -118,8 +94,10 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+   const teams: Block[] = [];
+   teamGroups.forEach((g, gi) => {
+     // a team of more than MAX_PODS islands continues in a second corner of the same name
+-    chunk(g.people, CORNER_CAPACITY * MAX_PODS).forEach((part, c) => {
+-      const pods = chunk(part, CORNER_CAPACITY);
++    chunk(g.people, POD_SEATS * MAX_PODS).forEach((part, c) => {
++      const n = podCount(part);
++      const seats = placeInSeats(part, n * POD_SEATS);
++      const pods = chunk(seats, POD_SEATS);
+       const first = BOARD_RULES.find(([re]) => re.test(g.name))?.[1] ?? -1;
+       const boards = pods.map((_, k) => {
+         const want = k === 0 ? first : -1;
+@@ -131,15 +109,16 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+     });
+   });
+ 
+-  // the rows of the teams: as few rows as possible, not more than MAX_PODS islands in a row
++  // the rows of the teams: an island is never drawn smaller than 0.66 of its size, so a narrow screen gets more rows
+   const totalPods = teams.reduce((n, t) => n + (t.pods?.length ?? 1), 0);
+-  const rowsCount = Math.max(1, Math.ceil(totalPods / MAX_PODS));
++  const maxRow = Math.max(3, Math.floor((0.92 * W) / (0.66 * (TZW + 40))));
++  const rowsCount = Math.max(1, Math.ceil(totalPods / maxRow));
+   const perRowPods = Math.max(1, Math.ceil(totalPods / rowsCount));
+   const rows: Block[][] = [];
+   let curPods = 0;
+   teams.forEach((t) => {
+     const n = t.pods?.length ?? 1;
+-    if (rows.length === 0 || (curPods + n > perRowPods && curPods > 0 && rows.length < rowsCount)) {
++    if (rows.length === 0 || (curPods + n > perRowPods && curPods > 0)) {
+       rows.push([]);
+       curPods = 0;
+     }
+@@ -148,10 +127,10 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+   });
+   // one scale for all teams: the widest row decides
+   const widest = Math.max(1, ...rows.map((r) => r.reduce((n, t) => n + t.cw, 0) + r.length * 40));
+-  const sT = clamp((0.92 * W) / widest, 0.42, 1.2);
+-  const sM = Math.min(sT * 1.12, (0.6 * W) / MZW);
++  const sT = clamp((0.92 * W) / widest, 0.4, 1.25);
++  const sM = Math.min(Math.max(sT * 1.12, 0.8), (0.6 * W) / MZW);
+   // (the leaders are at least as wide as their titles: 150 px apart)
+-  const sC = Math.min(Math.max(sT * 1.22, 0.95), (0.7 * W) / (CXO_CAP * CSEAT));
++  const sC = Math.min(Math.max(sT * 1.22, 0.9), (0.7 * W) / (CXO_CAP * CSEAT));
+ 
+   const blocks: Block[] = [];
+   const lines: Layout["lines"] = [];
+@@ -162,8 +141,10 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+   // the leaders
+   let cxoLineFrom = 0;
+   chunk(cxoPeople, CXO_CAP).forEach((part, c) => {
+-    const cw = Math.max(3, part.length) * CSEAT;
+-    const b: Block = { key: `cxo-${c}`, tier: "cxo", name: "Leadership", people: part, tone: HUES[0], board: 0, cw, ch: CZH, s: sC, x: (W - cw * sC) / 2, y };
++    const m = cxoSlots(part);
++    const slots = placeInSeats(part, m);
++    const cw = m * CSEAT;
++    const b: Block = { key: `cxo-${c}`, tier: "cxo", name: "Leadership", people: part, slots, tone: HUES[0], board: 0, cw, ch: CZH, s: sC, x: (W - cw * sC) / 2, y };
+     blocks.push(b);
+     cxoLineFrom = y + CZH * sC + 52; // (the titles of the leaders stand under the desk)
+     y = cxoLineFrom + 24;
+@@ -173,7 +154,8 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+   // the managers
+   let mgrBottom = 0;
+   chunk(mgrPeople, MGR_CAP).forEach((part, c) => {
+-    const b: Block = { key: `mgr-${c}`, tier: "mgr", name: "Managers", people: part, tone: HUES[1], board: 0, cw: MZW, ch: MZH, s: sM, x: (W - MZW * sM) / 2, y: y + LABEL };
++    const slots = placeInSeats(part, MGR_CAP);
++    const b: Block = { key: `mgr-${c}`, tier: "mgr", name: "Managers", people: part, slots, tone: HUES[1], board: 0, cw: MZW, ch: MZH, s: sM, x: (W - MZW * sM) / 2, y: y + LABEL };
+     blocks.push(b);
+     if (hasCxo && c === 0) lines.push({ x: W / 2 - 1, y: cxoLineFrom, w: 2, h: b.y - cxoLineFrom });
+     mgrBottom = b.y + MZH * sM;
+@@ -185,6 +167,8 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+   // the teams, row by row; a line comes down from the tier above to a bus, and from the bus to every team
+   const parentBottom = hasMgr ? mgrBottom : hasCxo ? cxoLineFrom : 0;
+   let prevBus = 0;
++  let prevX0 = 0;
++  let prevLeft = 0;
+   for (let r = 0; r < rows.length; r++) {
+     const row = rows[r];
+     if (row.length === 0) continue;
+@@ -192,9 +176,9 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+     const topY = busY + 34 + LABEL;
+     // the corners share the width of the row in proportion to their size
+     const totalW = row.reduce((n, t) => n + t.cw * sT, 0);
+-    const gap = Math.max(12, Math.min(60, (0.92 * W - totalW) / Math.max(1, row.length - 1)));
++    const gap = Math.max(12, Math.min(60, (0.94 * W - totalW) / Math.max(1, row.length - 1)));
+     const used0 = totalW + gap * (row.length - 1);
+-    let x = (W - used0) / 2;
++    let x = Math.max(0, (W - used0) / 2);
+     row.forEach((b) => {
+       b.s = sT;
+       b.x = x;
+@@ -202,20 +186,29 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+       x += b.cw * sT + gap;
+       blocks.push(b);
+     });
+-    // the line comes down from the tier above (for the next rows: from the bus of the row above)
+-    if (r === 0 && parentBottom > 0) lines.push({ x: W / 2 - 1, y: parentBottom, w: 2, h: busY - parentBottom });
+-    if (r > 0) lines.push({ x: W / 2 - 1, y: prevBus, w: 2, h: busY - prevBus });
+-    prevBus = busY;
++    // the line comes down from the tier above; for the next rows it goes down along the left side of the office (never through a corner)
+     const xs = row.map((b) => b.x + (b.cw * b.s) / 2);
+-    const x0 = Math.min(...xs, W / 2);
++    const leftEdge = Math.min(...row.map((b) => b.x));
++    let x0 = Math.min(...xs, W / 2);
+     const x1 = Math.max(...xs, W / 2);
++    if (r === 0 && parentBottom > 0) lines.push({ x: W / 2 - 1, y: parentBottom, w: 2, h: busY - parentBottom });
++    if (r > 0) {
++      const sx = Math.max(16, Math.min(leftEdge, prevLeft) - 22);
++      lines.push({ x: sx, y: prevBus - 1, w: Math.max(0, prevX0 - sx), h: 2 });
++      lines.push({ x: sx - 1, y: prevBus, w: 2, h: busY - prevBus });
++      x0 = Math.min(x0, sx);
++    }
++    prevBus = busY;
++    prevX0 = Math.min(...xs, W / 2);
++    prevLeft = leftEdge;
+     lines.push({ x: x0, y: busY - 1, w: x1 - x0, h: 2 });
+     xs.forEach((cx) => lines.push({ x: cx - 1, y: busY, w: 2, h: topY - busY }));
+     aisles.push(busY + 10);
+-    y = topY + TZH * sT + 34;
++    y = topY + TZH * sT + 40;
+   }
+ 
+-  return { blocks, lines, aisles, height: Math.max(minH, Math.round(y + 20)) };
++  // (room under the last row: the floor fades out there, the people are never in the fade)
++  return { blocks, lines, aisles, height: Math.max(minH, Math.round(y + 64)) };
+ }
+ 
+ type Props = {
+@@ -360,12 +353,13 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+     if (!root) return;
+     const r = el.getBoundingClientRect();
+     const b = root.getBoundingClientRect();
+-    // the card stands to the right of the person (to the left when there is no room), and stays inside the office
++    // the card stands to the right of the person (to the left when there is no room), and always stays inside the office
+     const x = r.left + r.width / 2 - b.left;
+     const y = r.top + r.height / 2 - b.top;
+-    const w = 330;
++    const w = Math.min(330, Math.max(240, root.clientWidth - 24));
+     const right = x + 34 + w <= root.clientWidth - 12;
+-    setHot({ p, tone, left: right ? x + 34 : Math.max(12, x - 34 - w), top: clamp(y, 120, Math.max(120, root.clientHeight - 120)) });
++    const left = right ? x + 34 : x - 34 - w;
++    setHot({ p, tone, left: clamp(left, 12, Math.max(12, root.clientWidth - w - 12)), top: clamp(y, 130, Math.max(130, root.clientHeight - 150)) });
+   }, []);
+   const closeSoon = useCallback((ms = 160) => {
+     window.clearTimeout(closeT.current);
+@@ -427,43 +421,43 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+ 
+   const renderBlock = (b: Block, z: number) => {
+     if (b.tier === "cxo") {
+-      const n = b.people.length;
+-      const x0 = b.cw / 2 - ((n - 1) * CSEAT) / 2;
++      const slots = b.slots ?? [];
++      const m = slots.length;
++      const x0 = b.cw / 2 - ((m - 1) * CSEAT) / 2;
+       return (
+         <div key={b.key} className="of-zone to2-zone to2-cxo" style={zoneStyle(b, z)}>
+-          <span className="to2-desk" style={{ left: x0 - CSEAT / 2 + 10, width: n * CSEAT - 20 }}>
+-            {b.people.map((p, i) => (
+-              <i key={p.id} className="to2-mon" style={{ left: CSEAT / 2 - 10 + i * CSEAT - 19 }} />
++          <span className="to2-desk" style={{ left: x0 - CSEAT / 2 + 10, width: m * CSEAT - 20 }}>
++            {slots.map((_, i) => (
++              <i key={i} className="to2-mon" style={{ left: CSEAT / 2 - 10 + i * CSEAT - 19 }} />
+             ))}
+           </span>
+-          {b.people.map((p, i) => (
+-            <i key={"c" + p.id} className="to2-bosschair" style={{ left: x0 + i * CSEAT, top: 42 }} />
++          {slots.map((_, i) => (
++            <i key={"c" + i} className="to2-bosschair" style={{ left: x0 + i * CSEAT, top: 42 }} />
+           ))}
+-          {b.people.map((p, i) => person(b, p, { kind: "b", i, x: x0 + i * CSEAT, y: 44, rot: 0 }, 10 + i))}
++          {slots.map((p, i) => (p ? person(b, p, { kind: "b", i, x: x0 + i * CSEAT, y: 44, rot: 0, label: "" }, 10 + i) : null))}
+         </div>
+       );
+     }
+     if (b.tier === "mgr") {
+-      const seats = MGR_SEATS.slice(0, b.people.length);
+-      const END = { x: 304, y: 88 }; // the chair at the end of the table
++      const slots = b.slots ?? [];
+       return (
+         <div key={b.key} className="of-zone to2-zone to2-mgr" style={zoneStyle(b, z)}>
+           <span className="to2-longtable" />
+-          {MGR_SEATS.map((s, i) => (
++          {MGR_SEATS.filter((s) => s.kind === "s").map((s, i) => (
+             <i key={"mc" + i} className="of-chair" style={{ left: s.x, top: s.y + (s.rot ? -2 : 2) }} />
+           ))}
+-          <i className="to2-mainchair" style={{ left: END.x + 6, top: END.y }} />
+-          {b.people.map((p, i) => person(b, p, seats[i], 30 + i))}
++          <i className="to2-mainchair" style={{ left: MGR_SEATS[6].x + 6, top: MGR_SEATS[6].y }} />
++          {slots.map((p, i) => (p ? person(b, p, MGR_SEATS[i], 30 + i) : null))}
+         </div>
+       );
+     }
+-    const pods = b.pods ?? [b.people];
++    const pods = b.pods ?? [];
+     return (
+       <div key={b.key} className="to2-pods">
+         {pods.map((podPeople, k) => {
+-          const seated = podPeople.map((p, i) => ({ p, seat: TEAM_SEATS[i] }));
+-          const workTaken = new Set(seated.filter((s) => s.seat.kind === "w").map((s) => s.seat.i));
+-          const meetCount = seated.filter((s) => s.seat.kind === "m").length;
++          const seated = podPeople.map((p, i) => (p ? { p, seat: TEAM_SEATS[i] } : null));
++          const workTaken = new Set(seated.filter((s) => s && s.seat.kind === "w").map((s) => s!.seat.i));
++          const meetCount = seated.filter((s) => s && s.seat.kind === "m").length;
+           const Board = BOARDS[(b.boards?.[k] ?? b.board) % BOARDS.length];
+           const style = { ...zoneStyle(b, z), left: b.x + k * TZW * b.s, width: TZW } as React.CSSProperties;
+           return (
+@@ -494,7 +488,7 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+                 </span>
+               )}
+               <span className="of-zplant" aria-hidden />
+-              {seated.map(({ p, seat }, i) => person(b, p, seat, z * 9 + k * 31 + i))}
++              {seated.map((s, i) => (s ? person(b, s.p, s.seat, z * 9 + k * 31 + i) : null))}
+             </div>
+           );
+         })}
+@@ -517,8 +511,8 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+           <span className="of-plant" style={{ left: "94.5%", top: "5%" }} />
+           <span className="of-plant" style={{ left: "5.5%", top: "50%" }} />
+           <span className="of-plant" style={{ left: "94.5%", top: "50%" }} />
+-          <span className="of-plant" style={{ left: "5.5%", top: "96%" }} />
+-          <span className="of-plant" style={{ left: "94.5%", top: "96%" }} />
++          <span className="of-plant" style={{ left: "5.5%", top: "90%" }} />
++          <span className="of-plant" style={{ left: "94.5%", top: "90%" }} />
+         </div>
+ 
+         {/* the lines of the hierarchy: leaders -> managers -> teams */}
+@@ -531,9 +525,9 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+         {/* the names of the corners and the titles of the leaders: not scaled with the drawing, so that they stay easy to read */}
+         {lay.blocks.map((b) =>
+           b.tier === "cxo" ? (
+-            b.people.map((p, i) => {
+-              const n = b.people.length;
+-              const cx = b.x + (b.cw / 2 + (i - (n - 1) / 2) * CSEAT) * b.s;
++            (b.slots ?? []).map((p, i, all) => {
++              if (!p) return null;
++              const cx = b.x + (b.cw / 2 + (i - (all.length - 1) / 2) * CSEAT) * b.s;
+               return (
+                 <span key={p.id} className="to2-tag" style={{ left: cx, top: b.y + CZH * b.s + 6 }}>
+                   <b>{p.name}</b>
+@@ -575,7 +569,7 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+         {hot && (
+           <div
+             className="to2-card bglow"
+-            style={{ left: hot.left, top: hot.top, width: 330 }}
++            style={{ left: hot.left, top: hot.top, width: Math.min(330, Math.max(240, dim.W - 24)) }}
+             role="status"
+             onPointerEnter={() => window.clearTimeout(closeT.current)}
+             onPointerLeave={(e) => e.pointerType === "mouse" && closeSoon()}
+diff --git a/a/src/generated/prisma/internal/class.ts b/b/src/generated/prisma/internal/class.ts
+index 57f6e58..33c4dc2 100644
+--- a/a/src/generated/prisma/internal/class.ts
++++ b/b/src/generated/prisma/internal/class.ts
+@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
+   "clientVersion": "7.10.0",
+   "engineVersion": "0edf323efd1d98336f3f0a68684b56f689b900d3",
+   "activeProvider": "postgresql",
+-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel AdminUser {\n  id           String    @id @default(cuid())\n  email        String    @unique\n  name         String\n  passwordHash String\n  createdAt    DateTime  @default(now())\n  lastLoginAt  DateTime?\n}\n\n// One row per editable website page. `draft` is what the editor works on,\n// `published` is what visitors see. Both hold { sections: [...] } JSON.\nmodel Page {\n  id             String        @id @default(cuid())\n  slug           String        @unique\n  title          String\n  seoTitle       String        @default(\"\")\n  seoDescription String        @default(\"\")\n  draft          Json?\n  published      Json?\n  publishedAt    DateTime?\n  createdAt      DateTime      @default(now())\n  updatedAt      DateTime      @updatedAt\n  versions       PageVersion[]\n}\n\n// Snapshot taken on every publish (we keep the latest 10 per page).\nmodel PageVersion {\n  id        String   @id @default(cuid())\n  pageId    String\n  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)\n  content   Json\n  createdAt DateTime @default(now())\n\n  @@index([pageId, createdAt])\n}\n\n// Key/value JSON store for site-wide settings (key \"site\" = logo text, contact, nav, footer).\nmodel Setting {\n  key       String   @id\n  value     Json\n  updatedAt DateTime @updatedAt\n}\n\nmodel Lead {\n  id        String   @id @default(cuid())\n  name      String\n  email     String\n  phone     String   @default(\"\")\n  message   String\n  isRead    Boolean  @default(false)\n  createdAt DateTime @default(now())\n\n  @@index([createdAt])\n}\n\n// An uploaded picture (the admin panel resizes it to a light .webp before uploading). Served by /media/<id>; the id never changes\n// content, a replaced picture gets a new id, so the browser may keep it for a year.\nmodel Media {\n  id        String   @id @default(cuid())\n  name      String   @default(\"\")\n  mime      String\n  size      Int\n  data      Bytes\n  createdAt DateTime @default(now())\n}\n\n// One portfolio project (a client work). The pictures are links (/media/<id> for uploaded ones). \\`group\\` says where it is shown:\n// \"brand\" = the sliding arches of the Brand Design page; every published project is also on the Portfolio page.\nmodel Project {\n  id        String   @id @default(cuid())\n  slug      String   @unique\n  title     String\n  category  String   @default(\"\")\n  summary   String   @default(\"\")\n  content   String   @default(\"\")\n  cover     String   @default(\"\")\n  images    Json     @default(\"[]\")\n  group     String   @default(\"brand\")\n  sortOrder Int      @default(0)\n  published Boolean  @default(true)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([group, sortOrder])\n}\n\n// One article of the blog (Blog in the admin panel). \\`cover\\` is a link (/media/<id> for an uploaded picture); \\`tile\\` is the shape of its picture\n// on the Blog page (landscape, square, portrait or tall); \\`content\\` is the article in a light text markup (## heading, - point, empty line between\n// paragraphs); \\`faq\\` is a list of { question, answer }; \\`sortOrder\\` is the place in the list of the Blog page (smaller = earlier).\nmodel BlogPost {\n  id          String   @id @default(cuid())\n  slug        String   @unique\n  title       String\n  category    String   @default(\"\")\n  summary     String   @default(\"\")\n  cover       String   @default(\"\")\n  tile        String   @default(\"portrait\")\n  content     String   @default(\"\")\n  tags        Json     @default(\"[]\")\n  faq         Json     @default(\"[]\")\n  publishedAt DateTime @default(now())\n  sortOrder   Int      @default(0)\n  published   Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  @@index([sortOrder])\n}\n\n// One person of the office on the Team page (Team in the admin panel). `dept` is the department (the people of one department sit in one\n// corner of the office, in the order of `sortOrder`); `photo` is a link (/media/<id> for an uploaded picture); `girl` draws the avatar as a woman.\nmodel TeamMember {\n  id        String   @id @default(cuid())\n  name      String\n  role      String   @default(\"\")\n  dept      String   @default(\"Team\")\n  bio       String   @default(\"\")\n  photo     String   @default(\"\")\n  linkedin  String   @default(\"\")\n  girl      Boolean  @default(false)\n  sortOrder Int      @default(0)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([sortOrder])\n}\n",
++  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel AdminUser {\n  id           String    @id @default(cuid())\n  email        String    @unique\n  name         String\n  passwordHash String\n  createdAt    DateTime  @default(now())\n  lastLoginAt  DateTime?\n}\n\n// One row per editable website page. `draft` is what the editor works on,\n// `published` is what visitors see. Both hold { sections: [...] } JSON.\nmodel Page {\n  id             String        @id @default(cuid())\n  slug           String        @unique\n  title          String\n  seoTitle       String        @default(\"\")\n  seoDescription String        @default(\"\")\n  draft          Json?\n  published      Json?\n  publishedAt    DateTime?\n  createdAt      DateTime      @default(now())\n  updatedAt      DateTime      @updatedAt\n  versions       PageVersion[]\n}\n\n// Snapshot taken on every publish (we keep the latest 10 per page).\nmodel PageVersion {\n  id        String   @id @default(cuid())\n  pageId    String\n  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)\n  content   Json\n  createdAt DateTime @default(now())\n\n  @@index([pageId, createdAt])\n}\n\n// Key/value JSON store for site-wide settings (key \"site\" = logo text, contact, nav, footer).\nmodel Setting {\n  key       String   @id\n  value     Json\n  updatedAt DateTime @updatedAt\n}\n\nmodel Lead {\n  id        String   @id @default(cuid())\n  name      String\n  email     String\n  phone     String   @default(\"\")\n  message   String\n  isRead    Boolean  @default(false)\n  createdAt DateTime @default(now())\n\n  @@index([createdAt])\n}\n\n// An uploaded picture (the admin panel resizes it to a light .webp before uploading). Served by /media/<id>; the id never changes\n// content, a replaced picture gets a new id, so the browser may keep it for a year.\nmodel Media {\n  id        String   @id @default(cuid())\n  name      String   @default(\"\")\n  mime      String\n  size      Int\n  data      Bytes\n  createdAt DateTime @default(now())\n}\n\n// One portfolio project (a client work). The pictures are links (/media/<id> for uploaded ones). \\`group\\` says where it is shown:\n// \"brand\" = the sliding arches of the Brand Design page; every published project is also on the Portfolio page.\nmodel Project {\n  id        String   @id @default(cuid())\n  slug      String   @unique\n  title     String\n  category  String   @default(\"\")\n  summary   String   @default(\"\")\n  content   String   @default(\"\")\n  cover     String   @default(\"\")\n  images    Json     @default(\"[]\")\n  group     String   @default(\"brand\")\n  sortOrder Int      @default(0)\n  published Boolean  @default(true)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([group, sortOrder])\n}\n\n// One article of the blog (Blog in the admin panel). \\`cover\\` is a link (/media/<id> for an uploaded picture); \\`tile\\` is the shape of its picture\n// on the Blog page (landscape, square, portrait or tall); \\`content\\` is the article in a light text markup (## heading, - point, empty line between\n// paragraphs); \\`faq\\` is a list of { question, answer }; \\`sortOrder\\` is the place in the list of the Blog page (smaller = earlier).\nmodel BlogPost {\n  id          String   @id @default(cuid())\n  slug        String   @unique\n  title       String\n  category    String   @default(\"\")\n  summary     String   @default(\"\")\n  cover       String   @default(\"\")\n  tile        String   @default(\"portrait\")\n  content     String   @default(\"\")\n  tags        Json     @default(\"[]\")\n  faq         Json     @default(\"[]\")\n  publishedAt DateTime @default(now())\n  sortOrder   Int      @default(0)\n  published   Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  @@index([sortOrder])\n}\n\n// One person of the office on the Team page (Team in the admin panel). `dept` is the department (the people of one department sit in one\n// corner of the office, in the order of `sortOrder`); `photo` is a link (/media/<id> for an uploaded picture); `girl` draws the avatar as a woman.\nmodel TeamMember {\n  id        String   @id @default(cuid())\n  name      String\n  role      String   @default(\"\")\n  dept      String   @default(\"Team\")\n  bio       String   @default(\"\")\n  photo     String   @default(\"\")\n  linkedin  String   @default(\"\")\n  girl      Boolean  @default(false)\n  /// the seat in the office (-1 = automatic: in the order of the list); see lib/team-seats.ts\n  seat      Int      @default(-1)\n  sortOrder Int      @default(0)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([sortOrder])\n}\n",
+   "runtimeDataModel": {
+     "models": {},
+     "enums": {},
+@@ -32,10 +32,10 @@ const config: runtime.GetPrismaClientConfig = {
+   }
+ }
+ 
+-config.runtimeDataModel = JSON.parse("{\"models\":{\"AdminUser\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastLoginAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Page\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"draft\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"versions\",\"kind\":\"object\",\"type\":\"PageVersion\",\"relationName\":\"PageToPageVersion\"}],\"dbName\":null,\"schema\":null},\"PageVersion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"page\",\"kind\":\"object\",\"type\":\"Page\",\"relationName\":\"PageToPageVersion\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Setting\":{\"fields\":[{\"name\":\"key\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Lead\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isRead\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Media\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"data\",\"kind\":\"scalar\",\"type\":\"Bytes\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cover\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"images\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"group\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"BlogPost\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cover\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tile\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"faq\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"TeamMember\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dept\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bio\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"photo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"linkedin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"girl\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null}},\"enums\":{},\"types\":{}}")
++config.runtimeDataModel = JSON.parse("{\"models\":{\"AdminUser\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastLoginAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Page\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seoDescription\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"draft\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"versions\",\"kind\":\"object\",\"type\":\"PageVersion\",\"relationName\":\"PageToPageVersion\"}],\"dbName\":null,\"schema\":null},\"PageVersion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"page\",\"kind\":\"object\",\"type\":\"Page\",\"relationName\":\"PageToPageVersion\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Setting\":{\"fields\":[{\"name\":\"key\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Lead\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isRead\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Media\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"data\",\"kind\":\"scalar\",\"type\":\"Bytes\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cover\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"images\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"group\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"BlogPost\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cover\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tile\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"faq\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null},\"TeamMember\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dept\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bio\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"photo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"linkedin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"girl\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"seat\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null,\"schema\":null}},\"enums\":{},\"types\":{}}")
+ config.parameterizationSchema = {
+-  strings: JSON.parse("[\"where\",\"AdminUser.findUnique\",\"AdminUser.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"AdminUser.findFirst\",\"AdminUser.findFirstOrThrow\",\"AdminUser.findMany\",\"data\",\"AdminUser.createOne\",\"AdminUser.createMany\",\"AdminUser.createManyAndReturn\",\"AdminUser.updateOne\",\"AdminUser.updateMany\",\"AdminUser.updateManyAndReturn\",\"create\",\"update\",\"AdminUser.upsertOne\",\"AdminUser.deleteOne\",\"AdminUser.deleteMany\",\"having\",\"_count\",\"_min\",\"_max\",\"AdminUser.groupBy\",\"AdminUser.aggregate\",\"page\",\"versions\",\"Page.findUnique\",\"Page.findUniqueOrThrow\",\"Page.findFirst\",\"Page.findFirstOrThrow\",\"Page.findMany\",\"Page.createOne\",\"Page.createMany\",\"Page.createManyAndReturn\",\"Page.updateOne\",\"Page.updateMany\",\"Page.updateManyAndReturn\",\"Page.upsertOne\",\"Page.deleteOne\",\"Page.deleteMany\",\"Page.groupBy\",\"Page.aggregate\",\"PageVersion.findUnique\",\"PageVersion.findUniqueOrThrow\",\"PageVersion.findFirst\",\"PageVersion.findFirstOrThrow\",\"PageVersion.findMany\",\"PageVersion.createOne\",\"PageVersion.createMany\",\"PageVersion.createManyAndReturn\",\"PageVersion.updateOne\",\"PageVersion.updateMany\",\"PageVersion.updateManyAndReturn\",\"PageVersion.upsertOne\",\"PageVersion.deleteOne\",\"PageVersion.deleteMany\",\"PageVersion.groupBy\",\"PageVersion.aggregate\",\"Setting.findUnique\",\"Setting.findUniqueOrThrow\",\"Setting.findFirst\",\"Setting.findFirstOrThrow\",\"Setting.findMany\",\"Setting.createOne\",\"Setting.createMany\",\"Setting.createManyAndReturn\",\"Setting.updateOne\",\"Setting.updateMany\",\"Setting.updateManyAndReturn\",\"Setting.upsertOne\",\"Setting.deleteOne\",\"Setting.deleteMany\",\"Setting.groupBy\",\"Setting.aggregate\",\"Lead.findUnique\",\"Lead.findUniqueOrThrow\",\"Lead.findFirst\",\"Lead.findFirstOrThrow\",\"Lead.findMany\",\"Lead.createOne\",\"Lead.createMany\",\"Lead.createManyAndReturn\",\"Lead.updateOne\",\"Lead.updateMany\",\"Lead.updateManyAndReturn\",\"Lead.upsertOne\",\"Lead.deleteOne\",\"Lead.deleteMany\",\"Lead.groupBy\",\"Lead.aggregate\",\"Media.findUnique\",\"Media.findUniqueOrThrow\",\"Media.findFirst\",\"Media.findFirstOrThrow\",\"Media.findMany\",\"Media.createOne\",\"Media.createMany\",\"Media.createManyAndReturn\",\"Media.updateOne\",\"Media.updateMany\",\"Media.updateManyAndReturn\",\"Media.upsertOne\",\"Media.deleteOne\",\"Media.deleteMany\",\"_avg\",\"_sum\",\"Media.groupBy\",\"Media.aggregate\",\"Project.findUnique\",\"Project.findUniqueOrThrow\",\"Project.findFirst\",\"Project.findFirstOrThrow\",\"Project.findMany\",\"Project.createOne\",\"Project.createMany\",\"Project.createManyAndReturn\",\"Project.updateOne\",\"Project.updateMany\",\"Project.updateManyAndReturn\",\"Project.upsertOne\",\"Project.deleteOne\",\"Project.deleteMany\",\"Project.groupBy\",\"Project.aggregate\",\"BlogPost.findUnique\",\"BlogPost.findUniqueOrThrow\",\"BlogPost.findFirst\",\"BlogPost.findFirstOrThrow\",\"BlogPost.findMany\",\"BlogPost.createOne\",\"BlogPost.createMany\",\"BlogPost.createManyAndReturn\",\"BlogPost.updateOne\",\"BlogPost.updateMany\",\"BlogPost.updateManyAndReturn\",\"BlogPost.upsertOne\",\"BlogPost.deleteOne\",\"BlogPost.deleteMany\",\"BlogPost.groupBy\",\"BlogPost.aggregate\",\"TeamMember.findUnique\",\"TeamMember.findUniqueOrThrow\",\"TeamMember.findFirst\",\"TeamMember.findFirstOrThrow\",\"TeamMember.findMany\",\"TeamMember.createOne\",\"TeamMember.createMany\",\"TeamMember.createManyAndReturn\",\"TeamMember.updateOne\",\"TeamMember.updateMany\",\"TeamMember.updateManyAndReturn\",\"TeamMember.upsertOne\",\"TeamMember.deleteOne\",\"TeamMember.deleteMany\",\"TeamMember.groupBy\",\"TeamMember.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"role\",\"dept\",\"bio\",\"photo\",\"linkedin\",\"girl\",\"sortOrder\",\"createdAt\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"slug\",\"title\",\"category\",\"summary\",\"cover\",\"tile\",\"content\",\"tags\",\"faq\",\"publishedAt\",\"published\",\"string_contains\",\"string_starts_with\",\"string_ends_with\",\"array_starts_with\",\"array_ends_with\",\"array_contains\",\"images\",\"group\",\"mime\",\"size\",\"email\",\"phone\",\"message\",\"isRead\",\"key\",\"value\",\"pageId\",\"seoTitle\",\"seoDescription\",\"draft\",\"every\",\"some\",\"none\",\"passwordHash\",\"lastLoginAt\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"createMany\",\"set\",\"disconnect\",\"delete\",\"connect\",\"updateMany\",\"deleteMany\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
+-  graph: "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_AgAgFwAAvgIAIMABAAC8AgAgwQEAALwCACDVAQAAvAIAIA2eAQAAiQIAMJ8BAAA1ABCgAQAAiQIAMKEBAQDlAQAhqgFAAOgBACGrAUAA6AEAIbcBAQDlAQAhuAEBAOUBACHAAUAAiwIAIcEBAACKAgAg0wEBAOUBACHUAQEA5QEAIdUBAACKAgAgAwAAACIAIAMAADQAMBQAADUAIAMAAAAiACADAAAjADAEAAAaACABAAAAHgAgAQAAAB4AIAMAAAAcACADAAAdADAEAAAeACADAAAAHAAgAwAAHQAwBAAAHgAgAwAAABwAIAMAAB0AMAQAAB4AIAUaAAC7AgAgoQEBAAAAAaoBQAAAAAG9AYAAAAAB0gEBAAAAAQEIAAA9ACAEoQEBAAAAAaoBQAAAAAG9AYAAAAAB0gEBAAAAAQEIAAA_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_wEAIZ4BAAD-AQAwnwEAAJYBABCgAQAA_gEAMKEBAQDlAQAhogEBAOUBACGqAUAA6AEAIcoBAQDlAQAhywECAOcBACEDAAAAgwEAIAMAAJUBADAUAACWAQAgAwAAAIMBACADAACEAQAwBAAAgAEAIBCeAQAA_QEAMJ8BAACcAQAQoAEAAP0BADChAQEAAAABqQECAPUBACGqAUAA9gEAIasBQAD2AQAhtwEBAAAAAbgBAQDzAQAhuQEBAPMBACG6AQEA8wEAIbsBAQDzAQAhvQEBAPMBACHBASAA9AEAIcgBAAD7AQAgyQEBAPMBACEBAAAAmQEAIAEAAACZAQAgEJ4BAAD9AQAwnwEAAJwBABCgAQAA_QEAMKEBAQDzAQAhqQECAPUBACGqAUAA9gEAIasBQAD2AQAhtwEBAPMBACG4AQEA8wEAIbkBAQDzAQAhugEBAPMBACG7AQEA8wEAIb0BAQDzAQAhwQEgAPQBACHIAQAA-wEAIMkBAQDzAQAhAAMAAACcAQAgAwAAnQEAMAQAAJkBACADAAAAnAEAIAMAAJ0BADAEAACZAQAgAwAAAJwBACADAACdAQAwBAAAmQEAIA2hAQEAAAABqQECAAAAAaoBQAAAAAGrAUAAAAABtwEBAAAAAbgBAQAAAAG5AQEAAAABugEBAAAAAbsBAQAAAAG9AQEAAAABwQEgAAAAAcgBgAAAAAHJAQEAAAABAQgAAKEBACANoQEBAAAAAakBAgAAAAGqAUAAAAABqwFAAAAAAbcBAQAAAAG4AQEAAAABuQEBAAAAAboBAQAAAAG7AQEAAAABvQEBAAAAAcEBIAAAAAHIAYAAAAAByQEBAAAAAQEIAACjAQAwAQgAAKMBADANoQEBAJ0CACGpAQIAnwIAIaoBQACgAgAhqwFAAKACACG3AQEAnQIAIbgBAQCdAgAhuQEBAJ0CACG6AQEAnQIAIbsBAQCdAgAhvQEBAJ0CACHBASAAngIAIcgBgAAAAAHJAQEAnQIAIQIAAACZAQAgCAAApgEAIA2hAQEAnQIAIakBAgCfAgAhqgFAAKACACGrAUAAoAIAIbcBAQCdAgAhuAEBAJ0CACG5AQEAnQIAIboBAQCdAgAhuwEBAJ0CACG9AQEAnQIAIcEBIACeAgAhyAGAAAAAAckBAQCdAgAhAgAAAJwBACAIAACoAQAgAgAAAJwBACAIAACoAQAgAwAAAJkBACAPAAChAQAgEAAApgEAIAEAAACZAQAgAQAAAJwBACAFFQAApgIAIBYAAKkCACAXAACoAgAgagAApwIAIGsAAKoCACAQngEAAPwBADCfAQAArwEAEKABAAD8AQAwoQEBAOUBACGpAQIA5wEAIaoBQADoAQAhqwFAAOgBACG3AQEA5QEAIbgBAQDlAQAhuQEBAOUBACG6AQEA5QEAIbsBAQDlAQAhvQEBAOUBACHBASAA5gEAIcgBAAD4AQAgyQEBAOUBACEDAAAAnAEAIAMAAK4BADAUAACvAQAgAwAAAJwBACADAACdAQAwBAAAmQEAIBKeAQAA-gEAMJ8BAAC1AQAQoAEAAPoBADChAQEAAAABqQECAPUBACGqAUAA9gEAIasBQAD2AQAhtwEBAAAAAbgBAQDzAQAhuQEBAPMBACG6AQEA8wEAIbsBAQDzAQAhvAEBAPMBACG9AQEA8wEAIb4BAAD7AQAgvwEAAPsBACDAAUAA9gEAIcEBIAD0AQAhAQAAALIBACABAAAAsgEAIBKeAQAA-gEAMJ8BAAC1AQAQoAEAAPoBADChAQEA8wEAIakBAgD1AQAhqgFAAPYBACGrAUAA9gEAIbcBAQDzAQAhuAEBAPMBACG5AQEA8wEAIboBAQDzAQAhuwEBAPMBACG8AQEA8wEAIb0BAQDzAQAhvgEAAPsBACC_AQAA-wEAIMABQAD2AQAhwQEgAPQBACEAAwAAALUBACADAAC2AQAwBAAAsgEAIAMAAAC1AQAgAwAAtgEAMAQAALIBACADAAAAtQEAIAMAALYBADAEAACyAQAgD6EBAQAAAAGpAQIAAAABqgFAAAAAAasBQAAAAAG3AQEAAAABuAEBAAAAAbkBAQAAAAG6AQEAAAABuwEBAAAAAbwBAQAAAAG9AQEAAAABvgGAAAAAAb8BgAAAAAHAAUAAAAABwQEgAAAAAQEIAAC6AQAgD6EBAQAAAAGpAQIAAAABqgFAAAAAAasBQAAAAAG3AQEAAAABuAEBAAAAAbkBAQAAAAG6AQEAAAABuwEBAAAAAbwBAQAAAAG9AQEAAAABvgGAAAAAAb8BgAAAAAHAAUAAAAABwQEgAAAAAQEIAAC8AQAwAQgAALwBADAPoQEBAJ0CACGpAQIAnwIAIaoBQACgAgAhqwFAAKACACG3AQEAnQIAIbgBAQCdAgAhuQEBAJ0CACG6AQEAnQIAIbsBAQCdAgAhvAEBAJ0CACG9AQEAnQIAIb4BgAAAAAG_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-AQAA-AEAIL8BAAD4AQAgwAFAAOgBACHBASAA5gEAIQ8VAADqAQAgFgAA-QEAIBcAAPkBACCsAYAAAAABrwGAAAAAAbABgAAAAAGxAYAAAAABsgGAAAAAAbMBgAAAAAHCAQEAAAABwwEBAAAAAcQBAQAAAAHFAYAAAAABxgGAAAAAAccBgAAAAAEMrAGAAAAAAa8BgAAAAAGwAYAAAAABsQGAAAAAAbIBgAAAAAGzAYAAAAABwgEBAAAAAcMBAQAAAAHEAQEAAAABxQGAAAAAAcYBgAAAAAHHAYAAAAABEp4BAAD6AQAwnwEAALUBABCgAQAA-gEAMKEBAQDzAQAhqQECAPUBACGqAUAA9gEAIasBQAD2AQAhtwEBAPMBACG4AQEA8wEAIbkBAQDzAQAhugEBAPMBACG7AQEA8wEAIbwBAQDzAQAhvQEBAPMBACG-AQAA-wEAIL8BAAD7AQAgwAFAAPYBACHBASAA9AEAIQysAYAAAAABrwGAAAAAAbABgAAAAAGxAYAAAAABsgGAAAAAAbMBgAAAAAHCAQEAAAABwwEBAAAAAcQBAQAAAAHFAYAAAAABxgGAAAAAAccBgAAAAAEQngEAAPwBADCfAQAArwEAEKABAAD8AQAwoQEBAOUBACGpAQIA5wEAIaoBQADoAQAhqwFAAOgBACG3AQEA5QEAIbgBAQDlAQAhuQEBAOUBACG6AQEA5QEAIbsBAQDlAQAhvQEBAOUBACHBASAA5gEAIcgBAAD4AQAgyQEBAOUBACEQngEAAP0BADCfAQAAnAEAEKABAAD9AQAwoQEBAPMBACGpAQIA9QEAIaoBQAD2AQAhqwFAAPYBACG3AQEA8wEAIbgBAQDzAQAhuQEBAPMBACG6AQEA8wEAIbsBAQDzAQAhvQEBAPMBACHBASAA9AEAIcgBAAD7AQAgyQEBAPMBACEJCAAB_wEAIZ4BAAD-AQAwnwEAAJYBABCgAQAA_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-Uxs_VBtAVRtBVxtCWQJDWhxEXBtFXgJGXx1HYBtIYRtJYgJKZR5LZiJMaCNNaSNObCNPbSNQbiNRcCNScgJTcyRUdSNVdwJWeCVXeSNYeiNZewJafiZbfypcgQErXYIBK16FAStfhgErYIcBK2GJAStiiwECY4wBLGSOAStlkAECZpEBLWeSAStokwEraZQBAmyXAS5tmAE0bpoBNW-bATVwngE1cZ8BNXKgATVzogE1dKQBAnWlATZ2pwE1d6kBAniqATd5qwE1eqwBNXutAQJ8sAE4fbEBPn6zAT9_tAE_gAG3AT-BAbgBP4IBuQE_gwG7AT-EAb0BAoUBvgFAhgHAAT-HAcIBAogBwwFBiQHEAT-KAcUBP4sBxgECjAHJAUKNAcoBSI4BzAFJjwHNAUmQAdABSZEB0QFJkgHSAUmTAdQBSZQB1gEClQHXAUqWAdkBSZcB2wECmAHcAUuZAd0BSZoB3gFJmwHfAQKcAeIBTJ0B4wFS"
++  strings: JSON.parse("[\"where\",\"AdminUser.findUnique\",\"AdminUser.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"AdminUser.findFirst\",\"AdminUser.findFirstOrThrow\",\"AdminUser.findMany\",\"data\",\"AdminUser.createOne\",\"AdminUser.createMany\",\"AdminUser.createManyAndReturn\",\"AdminUser.updateOne\",\"AdminUser.updateMany\",\"AdminUser.updateManyAndReturn\",\"create\",\"update\",\"AdminUser.upsertOne\",\"AdminUser.deleteOne\",\"AdminUser.deleteMany\",\"having\",\"_count\",\"_min\",\"_max\",\"AdminUser.groupBy\",\"AdminUser.aggregate\",\"page\",\"versions\",\"Page.findUnique\",\"Page.findUniqueOrThrow\",\"Page.findFirst\",\"Page.findFirstOrThrow\",\"Page.findMany\",\"Page.createOne\",\"Page.createMany\",\"Page.createManyAndReturn\",\"Page.updateOne\",\"Page.updateMany\",\"Page.updateManyAndReturn\",\"Page.upsertOne\",\"Page.deleteOne\",\"Page.deleteMany\",\"Page.groupBy\",\"Page.aggregate\",\"PageVersion.findUnique\",\"PageVersion.findUniqueOrThrow\",\"PageVersion.findFirst\",\"PageVersion.findFirstOrThrow\",\"PageVersion.findMany\",\"PageVersion.createOne\",\"PageVersion.createMany\",\"PageVersion.createManyAndReturn\",\"PageVersion.updateOne\",\"PageVersion.updateMany\",\"PageVersion.updateManyAndReturn\",\"PageVersion.upsertOne\",\"PageVersion.deleteOne\",\"PageVersion.deleteMany\",\"PageVersion.groupBy\",\"PageVersion.aggregate\",\"Setting.findUnique\",\"Setting.findUniqueOrThrow\",\"Setting.findFirst\",\"Setting.findFirstOrThrow\",\"Setting.findMany\",\"Setting.createOne\",\"Setting.createMany\",\"Setting.createManyAndReturn\",\"Setting.updateOne\",\"Setting.updateMany\",\"Setting.updateManyAndReturn\",\"Setting.upsertOne\",\"Setting.deleteOne\",\"Setting.deleteMany\",\"Setting.groupBy\",\"Setting.aggregate\",\"Lead.findUnique\",\"Lead.findUniqueOrThrow\",\"Lead.findFirst\",\"Lead.findFirstOrThrow\",\"Lead.findMany\",\"Lead.createOne\",\"Lead.createMany\",\"Lead.createManyAndReturn\",\"Lead.updateOne\",\"Lead.updateMany\",\"Lead.updateManyAndReturn\",\"Lead.upsertOne\",\"Lead.deleteOne\",\"Lead.deleteMany\",\"Lead.groupBy\",\"Lead.aggregate\",\"Media.findUnique\",\"Media.findUniqueOrThrow\",\"Media.findFirst\",\"Media.findFirstOrThrow\",\"Media.findMany\",\"Media.createOne\",\"Media.createMany\",\"Media.createManyAndReturn\",\"Media.updateOne\",\"Media.updateMany\",\"Media.updateManyAndReturn\",\"Media.upsertOne\",\"Media.deleteOne\",\"Media.deleteMany\",\"_avg\",\"_sum\",\"Media.groupBy\",\"Media.aggregate\",\"Project.findUnique\",\"Project.findUniqueOrThrow\",\"Project.findFirst\",\"Project.findFirstOrThrow\",\"Project.findMany\",\"Project.createOne\",\"Project.createMany\",\"Project.createManyAndReturn\",\"Project.updateOne\",\"Project.updateMany\",\"Project.updateManyAndReturn\",\"Project.upsertOne\",\"Project.deleteOne\",\"Project.deleteMany\",\"Project.groupBy\",\"Project.aggregate\",\"BlogPost.findUnique\",\"BlogPost.findUniqueOrThrow\",\"BlogPost.findFirst\",\"BlogPost.findFirstOrThrow\",\"BlogPost.findMany\",\"BlogPost.createOne\",\"BlogPost.createMany\",\"BlogPost.createManyAndReturn\",\"BlogPost.updateOne\",\"BlogPost.updateMany\",\"BlogPost.updateManyAndReturn\",\"BlogPost.upsertOne\",\"BlogPost.deleteOne\",\"BlogPost.deleteMany\",\"BlogPost.groupBy\",\"BlogPost.aggregate\",\"TeamMember.findUnique\",\"TeamMember.findUniqueOrThrow\",\"TeamMember.findFirst\",\"TeamMember.findFirstOrThrow\",\"TeamMember.findMany\",\"TeamMember.createOne\",\"TeamMember.createMany\",\"TeamMember.createManyAndReturn\",\"TeamMember.updateOne\",\"TeamMember.updateMany\",\"TeamMember.updateManyAndReturn\",\"TeamMember.upsertOne\",\"TeamMember.deleteOne\",\"TeamMember.deleteMany\",\"TeamMember.groupBy\",\"TeamMember.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"role\",\"dept\",\"bio\",\"photo\",\"linkedin\",\"girl\",\"seat\",\"sortOrder\",\"createdAt\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"slug\",\"title\",\"category\",\"summary\",\"cover\",\"tile\",\"content\",\"tags\",\"faq\",\"publishedAt\",\"published\",\"string_contains\",\"string_starts_with\",\"string_ends_with\",\"array_starts_with\",\"array_ends_with\",\"array_contains\",\"images\",\"group\",\"mime\",\"size\",\"email\",\"phone\",\"message\",\"isRead\",\"key\",\"value\",\"pageId\",\"seoTitle\",\"seoDescription\",\"draft\",\"every\",\"some\",\"none\",\"passwordHash\",\"lastLoginAt\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"createMany\",\"set\",\"disconnect\",\"delete\",\"connect\",\"updateMany\",\"deleteMany\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
++  graph: "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_AgAgFwAAvgIAIMEBAAC8AgAgwgEAALwCACDWAQAAvAIAIA2eAQAAiQIAMJ8BAAA1ABCgAQAAiQIAMKEBAQDlAQAhqwFAAOgBACGsAUAA6AEAIbgBAQDlAQAhuQEBAOUBACHBAUAAiwIAIcIBAACKAgAg1AEBAOUBACHVAQEA5QEAIdYBAACKAgAgAwAAACIAIAMAADQAMBQAADUAIAMAAAAiACADAAAjADAEAAAaACABAAAAHgAgAQAAAB4AIAMAAAAcACADAAAdADAEAAAeACADAAAAHAAgAwAAHQAwBAAAHgAgAwAAABwAIAMAAB0AMAQAAB4AIAUaAAC7AgAgoQEBAAAAAasBQAAAAAG-AYAAAAAB0wEBAAAAAQEIAAA9ACAEoQEBAAAAAasBQAAAAAG-AYAAAAAB0wEBAAAAAQEIAAA_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_wEAIZ4BAAD-AQAwnwEAAJYBABCgAQAA_gEAMKEBAQDlAQAhogEBAOUBACGrAUAA6AEAIcsBAQDlAQAhzAECAOcBACEDAAAAgwEAIAMAAJUBADAUAACWAQAgAwAAAIMBACADAACEAQAwBAAAgAEAIBCeAQAA_QEAMJ8BAACcAQAQoAEAAP0BADChAQEAAAABqgECAPUBACGrAUAA9gEAIawBQAD2AQAhuAEBAAAAAbkBAQDzAQAhugEBAPMBACG7AQEA8wEAIbwBAQDzAQAhvgEBAPMBACHCASAA9AEAIckBAAD7AQAgygEBAPMBACEBAAAAmQEAIAEAAACZAQAgEJ4BAAD9AQAwnwEAAJwBABCgAQAA_QEAMKEBAQDzAQAhqgECAPUBACGrAUAA9gEAIawBQAD2AQAhuAEBAPMBACG5AQEA8wEAIboBAQDzAQAhuwEBAPMBACG8AQEA8wEAIb4BAQDzAQAhwgEgAPQBACHJAQAA-wEAIMoBAQDzAQAhAAMAAACcAQAgAwAAnQEAMAQAAJkBACADAAAAnAEAIAMAAJ0BADAEAACZAQAgAwAAAJwBACADAACdAQAwBAAAmQEAIA2hAQEAAAABqgECAAAAAasBQAAAAAGsAUAAAAABuAEBAAAAAbkBAQAAAAG6AQEAAAABuwEBAAAAAbwBAQAAAAG-AQEAAAABwgEgAAAAAckBgAAAAAHKAQEAAAABAQgAAKEBACANoQEBAAAAAaoBAgAAAAGrAUAAAAABrAFAAAAAAbgBAQAAAAG5AQEAAAABugEBAAAAAbsBAQAAAAG8AQEAAAABvgEBAAAAAcIBIAAAAAHJAYAAAAABygEBAAAAAQEIAACjAQAwAQgAAKMBADANoQEBAJ0CACGqAQIAnwIAIasBQACgAgAhrAFAAKACACG4AQEAnQIAIbkBAQCdAgAhugEBAJ0CACG7AQEAnQIAIbwBAQCdAgAhvgEBAJ0CACHCASAAngIAIckBgAAAAAHKAQEAnQIAIQIAAACZAQAgCAAApgEAIA2hAQEAnQIAIaoBAgCfAgAhqwFAAKACACGsAUAAoAIAIbgBAQCdAgAhuQEBAJ0CACG6AQEAnQIAIbsBAQCdAgAhvAEBAJ0CACG-AQEAnQIAIcIBIACeAgAhyQGAAAAAAcoBAQCdAgAhAgAAAJwBACAIAACoAQAgAgAAAJwBACAIAACoAQAgAwAAAJkBACAPAAChAQAgEAAApgEAIAEAAACZAQAgAQAAAJwBACAFFQAApgIAIBYAAKkCACAXAACoAgAgagAApwIAIGsAAKoCACAQngEAAPwBADCfAQAArwEAEKABAAD8AQAwoQEBAOUBACGqAQIA5wEAIasBQADoAQAhrAFAAOgBACG4AQEA5QEAIbkBAQDlAQAhugEBAOUBACG7AQEA5QEAIbwBAQDlAQAhvgEBAOUBACHCASAA5gEAIckBAAD4AQAgygEBAOUBACEDAAAAnAEAIAMAAK4BADAUAACvAQAgAwAAAJwBACADAACdAQAwBAAAmQEAIBKeAQAA-gEAMJ8BAAC1AQAQoAEAAPoBADChAQEAAAABqgECAPUBACGrAUAA9gEAIawBQAD2AQAhuAEBAAAAAbkBAQDzAQAhugEBAPMBACG7AQEA8wEAIbwBAQDzAQAhvQEBAPMBACG-AQEA8wEAIb8BAAD7AQAgwAEAAPsBACDBAUAA9gEAIcIBIAD0AQAhAQAAALIBACABAAAAsgEAIBKeAQAA-gEAMJ8BAAC1AQAQoAEAAPoBADChAQEA8wEAIaoBAgD1AQAhqwFAAPYBACGsAUAA9gEAIbgBAQDzAQAhuQEBAPMBACG6AQEA8wEAIbsBAQDzAQAhvAEBAPMBACG9AQEA8wEAIb4BAQDzAQAhvwEAAPsBACDAAQAA-wEAIMEBQAD2AQAhwgEgAPQBACEAAwAAALUBACADAAC2AQAwBAAAsgEAIAMAAAC1AQAgAwAAtgEAMAQAALIBACADAAAAtQEAIAMAALYBADAEAACyAQAgD6EBAQAAAAGqAQIAAAABqwFAAAAAAawBQAAAAAG4AQEAAAABuQEBAAAAAboBAQAAAAG7AQEAAAABvAEBAAAAAb0BAQAAAAG-AQEAAAABvwGAAAAAAcABgAAAAAHBAUAAAAABwgEgAAAAAQEIAAC6AQAgD6EBAQAAAAGqAQIAAAABqwFAAAAAAawBQAAAAAG4AQEAAAABuQEBAAAAAboBAQAAAAG7AQEAAAABvAEBAAAAAb0BAQAAAAG-AQEAAAABvwGAAAAAAcABgAAAAAHBAUAAAAABwgEgAAAAAQEIAAC8AQAwAQgAALwBADAPoQEBAJ0CACGqAQIAnwIAIasBQACgAgAhrAFAAKACACG4AQEAnQIAIbkBAQCdAgAhugEBAJ0CACG7AQEAnQIAIbwBAQCdAgAhvQEBAJ0CACG-AQEAnQIAIb8BgAAAAAHAAYAAAAABwQFAAKACACHCASAAngIAIQIAAACyAQAgCAAAvwEAIA-hAQEAnQIAIaoBAgCfAgAhqwFAAKACACGsAUAAoAIAIbgBAQCdAgAhuQEBAJ0CACG6AQEAnQIAIbsBAQCdAgAhvAEBAJ0CACG9AQEAnQIAIb4BAQCdAgAhvwGAAAAAAcABgAAAAAHBAUAAoAIAIcIBIACeAgAhAgAAALUBACAIAADBAQAgAgAAALUBACAIAADBAQAgAwAAALIBACAPAAC6AQAgEAAAvwEAIAEAAACyAQAgAQAAALUBACAFFQAAoQIAIBYAAKQCACAXAACjAgAgagAAogIAIGsAAKUCACASngEAAPcBADCfAQAAyAEAEKABAAD3AQAwoQEBAOUBACGqAQIA5wEAIasBQADoAQAhrAFAAOgBACG4AQEA5QEAIbkBAQDlAQAhugEBAOUBACG7AQEA5QEAIbwBAQDlAQAhvQEBAOUBACG-AQEA5QEAIb8BAAD4AQAgwAEAAPgBACDBAUAA6AEAIcIBIADmAQAhAwAAALUBACADAADHAQAwFAAAyAEAIAMAAAC1AQAgAwAAtgEAMAQAALIBACAPngEAAPIBADCfAQAAzgEAEKABAADyAQAwoQEBAAAAAaIBAQDzAQAhowEBAPMBACGkAQEA8wEAIaUBAQDzAQAhpgEBAPMBACGnAQEA8wEAIagBIAD0AQAhqQECAPUBACGqAQIA9QEAIasBQAD2AQAhrAFAAPYBACEBAAAAywEAIAEAAADLAQAgD54BAADyAQAwnwEAAM4BABCgAQAA8gEAMKEBAQDzAQAhogEBAPMBACGjAQEA8wEAIaQBAQDzAQAhpQEBAPMBACGmAQEA8wEAIacBAQDzAQAhqAEgAPQBACGpAQIA9QEAIaoBAgD1AQAhqwFAAPYBACGsAUAA9gEAIQADAAAAzgEAIAMAAM8BADAEAADLAQAgAwAAAM4BACADAADPAQAwBAAAywEAIAMAAADOAQAgAwAAzwEAMAQAAMsBACAMoQEBAAAAAaIBAQAAAAGjAQEAAAABpAEBAAAAAaUBAQAAAAGmAQEAAAABpwEBAAAAAagBIAAAAAGpAQIAAAABqgECAAAAAasBQAAAAAGsAUAAAAABAQgAANMBACAMoQEBAAAAAaIBAQAAAAGjAQEAAAABpAEBAAAAAaUBAQAAAAGmAQEAAAABpwEBAAAAAagBIAAAAAGpAQIAAAABqgECAAAAAasBQAAAAAGsAUAAAAABAQgAANUBADABCAAA1QEAMAyhAQEAnQIAIaIBAQCdAgAhowEBAJ0CACGkAQEAnQIAIaUBAQCdAgAhpgEBAJ0CACGnAQEAnQIAIagBIACeAgAhqQECAJ8CACGqAQIAnwIAIasBQACgAgAhrAFAAKACACECAAAAywEAIAgAANgBACAMoQEBAJ0CACGiAQEAnQIAIaMBAQCdAgAhpAEBAJ0CACGlAQEAnQIAIaYBAQCdAgAhpwEBAJ0CACGoASAAngIAIakBAgCfAgAhqgECAJ8CACGrAUAAoAIAIawBQACgAgAhAgAAAM4BACAIAADaAQAgAgAAAM4BACAIAADaAQAgAwAAAMsBACAPAADTAQAgEAAA2AEAIAEAAADLAQAgAQAAAM4BACAFFQAAmAIAIBYAAJsCACAXAACaAgAgagAAmQIAIGsAAJwCACAPngEAAOQBADCfAQAA4QEAEKABAADkAQAwoQEBAOUBACGiAQEA5QEAIaMBAQDlAQAhpAEBAOUBACGlAQEA5QEAIaYBAQDlAQAhpwEBAOUBACGoASAA5gEAIakBAgDnAQAhqgECAOcBACGrAUAA6AEAIawBQADoAQAhAwAAAM4BACADAADgAQAwFAAA4QEAIAMAAADOAQAgAwAAzwEAMAQAAMsBACAPngEAAOQBADCfAQAA4QEAEKABAADkAQAwoQEBAOUBACGiAQEA5QEAIaMBAQDlAQAhpAEBAOUBACGlAQEA5QEAIaYBAQDlAQAhpwEBAOUBACGoASAA5gEAIakBAgDnAQAhqgECAOcBACGrAUAA6AEAIawBQADoAQAhDhUAAOoBACAWAADxAQAgFwAA8QEAIK0BAQAAAAGuAQEAAAAErwEBAAAABLABAQAAAAGxAQEAAAABsgEBAAAAAbMBAQAAAAG0AQEA8AEAIbUBAQAAAAG2AQEAAAABtwEBAAAAAQUVAADqAQAgFgAA7wEAIBcAAO8BACCtASAAAAABtAEgAO4BACENFQAA6gEAIBYAAOoBACAXAADqAQAgagAA7QEAIGsAAOoBACCtAQIAAAABrgECAAAABK8BAgAAAASwAQIAAAABsQECAAAAAbIBAgAAAAGzAQIAAAABtAECAOwBACELFQAA6gEAIBYAAOsBACAXAADrAQAgrQFAAAAAAa4BQAAAAASvAUAAAAAEsAFAAAAAAbEBQAAAAAGyAUAAAAABswFAAAAAAbQBQADpAQAhCxUAAOoBACAWAADrAQAgFwAA6wEAIK0BQAAAAAGuAUAAAAAErwFAAAAABLABQAAAAAGxAUAAAAABsgFAAAAAAbMBQAAAAAG0AUAA6QEAIQitAQIAAAABrgECAAAABK8BAgAAAASwAQIAAAABsQECAAAAAbIBAgAAAAGzAQIAAAABtAECAOoBACEIrQFAAAAAAa4BQAAAAASvAUAAAAAEsAFAAAAAAbEBQAAAAAGyAUAAAAABswFAAAAAAbQBQADrAQAhDRUAAOoBACAWAADqAQAgFwAA6gEAIGoAAO0BACBrAADqAQAgrQECAAAAAa4BAgAAAASvAQIAAAAEsAECAAAAAbEBAgAAAAGyAQIAAAABswECAAAAAbQBAgDsAQAhCK0BCAAAAAGuAQgAAAAErwEIAAAABLABCAAAAAGxAQgAAAABsgEIAAAAAbMBCAAAAAG0AQgA7QEAIQUVAADqAQAgFgAA7wEAIBcAAO8BACCtASAAAAABtAEgAO4BACECrQEgAAAAAbQBIADvAQAhDhUAAOoBACAWAADxAQAgFwAA8QEAIK0BAQAAAAGuAQEAAAAErwEBAAAABLABAQAAAAGxAQEAAAABsgEBAAAAAbMBAQAAAAG0AQEA8AEAIbUBAQAAAAG2AQEAAAABtwEBAAAAAQutAQEAAAABrgEBAAAABK8BAQAAAASwAQEAAAABsQEBAAAAAbIBAQAAAAGzAQEAAAABtAEBAPEBACG1AQEAAAABtgEBAAAAAbcBAQAAAAEPngEAAPIBADCfAQAAzgEAEKABAADyAQAwoQEBAPMBACGiAQEA8wEAIaMBAQDzAQAhpAEBAPMBACGlAQEA8wEAIaYBAQDzAQAhpwEBAPMBACGoASAA9AEAIakBAgD1AQAhqgECAPUBACGrAUAA9gEAIawBQAD2AQAhC60BAQAAAAGuAQEAAAAErwEBAAAABLABAQAAAAGxAQEAAAABsgEBAAAAAbMBAQAAAAG0AQEA8QEAIbUBAQAAAAG2AQEAAAABtwEBAAAAAQKtASAAAAABtAEgAO8BACEIrQECAAAAAa4BAgAAAASvAQIAAAAEsAECAAAAAbEBAgAAAAGyAQIAAAABswECAAAAAbQBAgDqAQAhCK0BQAAAAAGuAUAAAAAErwFAAAAABLABQAAAAAGxAUAAAAABsgFAAAAAAbMBQAAAAAG0AUAA6wEAIRKeAQAA9wEAMJ8BAADIAQAQoAEAAPcBADChAQEA5QEAIaoBAgDnAQAhqwFAAOgBACGsAUAA6AEAIbgBAQDlAQAhuQEBAOUBACG6AQEA5QEAIbsBAQDlAQAhvAEBAOUBACG9AQEA5QEAIb4BAQDlAQAhvwEAAPgBACDAAQAA-AEAIMEBQADoAQAhwgEgAOYBACEPFQAA6gEAIBYAAPkBACAXAAD5AQAgrQGAAAAAAbABgAAAAAGxAYAAAAABsgGAAAAAAbMBgAAAAAG0AYAAAAABwwEBAAAAAcQBAQAAAAHFAQEAAAABxgGAAAAAAccBgAAAAAHIAYAAAAABDK0BgAAAAAGwAYAAAAABsQGAAAAAAbIBgAAAAAGzAYAAAAABtAGAAAAAAcMBAQAAAAHEAQEAAAABxQEBAAAAAcYBgAAAAAHHAYAAAAAByAGAAAAAARKeAQAA-gEAMJ8BAAC1AQAQoAEAAPoBADChAQEA8wEAIaoBAgD1AQAhqwFAAPYBACGsAUAA9gEAIbgBAQDzAQAhuQEBAPMBACG6AQEA8wEAIbsBAQDzAQAhvAEBAPMBACG9AQEA8wEAIb4BAQDzAQAhvwEAAPsBACDAAQAA-wEAIMEBQAD2AQAhwgEgAPQBACEMrQGAAAAAAbABgAAAAAGxAYAAAAABsgGAAAAAAbMBgAAAAAG0AYAAAAABwwEBAAAAAcQBAQAAAAHFAQEAAAABxgGAAAAAAccBgAAAAAHIAYAAAAABEJ4BAAD8AQAwnwEAAK8BABCgAQAA_AEAMKEBAQDlAQAhqgECAOcBACGrAUAA6AEAIawBQADoAQAhuAEBAOUBACG5AQEA5QEAIboBAQDlAQAhuwEBAOUBACG8AQEA5QEAIb4BAQDlAQAhwgEgAOYBACHJAQAA-AEAIMoBAQDlAQAhEJ4BAAD9AQAwnwEAAJwBABCgAQAA_QEAMKEBAQDzAQAhqgECAPUBACGrAUAA9gEAIawBQAD2AQAhuAEBAPMBACG5AQEA8wEAIboBAQDzAQAhuwEBAPMBACG8AQEA8wEAIb4BAQDzAQAhwgEgAPQBACHJAQAA-wEAIMoBAQDzAQAhCQgAAf8BACGeAQAA_gEAMJ8BAACWAQAQoAEAAP4BADChAQEA5QEAIaIBAQDlAQAhqwFAAOgBACHLAQEA5QEAIcwBAgDnAQAhBxUAAOoBACAWAACBAgAgFwAAgQIAIK0BAAEAAAGuAQABAAAErwEAAQAABLQBAAGAAgAhBxUAAOoBACAWAACBAgAgFwAAgQIAIK0BAAEAAAGuAQABAAAErwEAAQAABLQBAAGAAgAhBK0BAAEAAAGuAQABAAAErwEAAQAABLQBAAGBAgAhCQgAAYMCACGeAQAAggIAMJ8BAACDAQAQoAEAAIICADChAQEA8wEAIaIBAQDzAQAhqwFAAPYBACHLAQEA8wEAIcwBAgD1AQAhBK0BAAEAAAGuAQABAAAErwEAAQAABLQBAAGBAgAhCp4BAACEAgAwnwEAAH0AEKABAACEAgAwoQEBAOUBACGiAQEA5QEAIasBQADoAQAhzQEBAOUBACHOAQEA5QEAIc8BAQDlAQAh0AEgAOYBACEKngEAAIUCADCfAQAAagAQoAEAAIUCADChAQEA8wEAIaIBAQDzAQAhqwFAAPYBACHNAQEA8wEAIc4BAQDzAQAhzwEBAPMBACHQASAA9AEAIQaeAQAAhgIAMJ8BAABkABCgAQAAhgIAMKwBQADoAQAh0QEBAOUBACHSAQAA-AEAIAaeAQAAhwIAMJ8BAABRABCgAQAAhwIAMKwBQAD2AQAh0QEBAPMBACHSAQAA-wEAIAeeAQAAiAIAMJ8BAABLABCgAQAAiAIAMKEBAQDlAQAhqwFAAOgBACG-AQAA-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-AQAA-wEAINMBAQDzAQAhB54BAADJAgAwnwEAAMoCABCgAQAAyQIAMKEBAQDzAQAhqwFAAPYBACG-AQAA-wEAINMBAQDzAQAhA6EBAQCdAgAhqwFAAKACACG-AYAAAAABA6EBAQCdAgAhqwFAAKACACG-AYAAAAABA6EBAQAAAAGrAUAAAAABvgGAAAAAAQQPAADCAgAw3gEAAMMCADDgAQAAxQIAIOQBAADGAgAwAAQbAADPAgAgwQEAALwCACDCAQAAvAIAINYBAAC8AgAgAAAAA6EBAQAAAAGrAUAAAAABvgGAAAAAAQqhAQEAAAABqwFAAAAAAawBQAAAAAG4AQEAAAABuQEBAAAAAcEBQAAAAAHCAYAAAAAB1AEBAAAAAdUBAQAAAAHWAYAAAAABAgAAABoAIA8AANUCACADAAAAIgAgDwAA1QIAIBAAANkCACAMAAAAIgAgCAAA2QIAIKEBAQCdAgAhqwFAAKACACGsAUAAoAIAIbgBAQCdAgAhuQEBAJ0CACHBAUAAwAIAIcIBgAAAAAHUAQEAnQIAIdUBAQCdAgAh1gGAAAAAAQqhAQEAnQIAIasBQACgAgAhrAFAAKACACG4AQEAnQIAIbkBAQCdAgAhwQFAAMACACHCAYAAAAAB1AEBAJ0CACHVAQEAnQIAIdYBgAAAAAEAAAAAAxUABhYABxcACAAAAAMVAAYWAAcXAAgCFQAMGx8LARoACgEbIAAAAAMVABAWABEXABIAAAADFQAQFgARFwASARoACgEaAAoDFQAXFgAYFwAZAAAAAxUAFxYAGBcAGQAAAAMVAB8WACAXACEAAAADFQAfFgAgFwAhAAAAAxUAJxYAKBcAKQAAAAMVACcWACgXACkAAAAFFQAvFgAyFwAzagAwawAxAAAAAAAFFQAvFgAyFwAzagAwawAxAAAABRUAORYAPBcAPWoAOmsAOwAAAAAABRUAORYAPBcAPWoAOmsAOwAAAAUVAEMWAEYXAEdqAERrAEUAAAAAAAUVAEMWAEYXAEdqAERrAEUAAAAFFQBNFgBQFwBRagBOawBPAAAAAAAFFQBNFgBQFwBRagBOawBPAQIBAgMBBQYBBgcBBwgBCQoBCgwCCw0DDA8BDRECDhIEERMBEhQBExUCGBgFGRkJHBsKHSEKHiQKHyUKICYKISgKIioCIysNJC0KJS8CJjAOJzEKKDIKKTMCKjYPKzcTLDgLLTkLLjoLLzsLMDwLMT4LMkACM0EUNEMLNUUCNkYVN0cLOEgLOUkCOkwWO00aPE8bPVAbPlMbP1QbQFUbQVcbQlkCQ1ocRFwbRV4CRl8dR2AbSGEbSWICSmUeS2YiTGgjTWkjTmwjT20jUG4jUXAjUnICU3MkVHUjVXcCVnglV3kjWHojWXsCWn4mW38qXIEBK12CAStehQErX4YBK2CHASthiQErYosBAmOMASxkjgErZZABAmaRAS1nkgEraJMBK2mUAQJslwEubZgBNG6aATVvmwE1cJ4BNXGfATVyoAE1c6IBNXSkAQJ1pQE2dqcBNXepAQJ4qgE3easBNXqsATV7rQECfLABOH2xAT5-swE_f7QBP4ABtwE_gQG4AT-CAbkBP4MBuwE_hAG9AQKFAb4BQIYBwAE_hwHCAQKIAcMBQYkBxAE_igHFAT-LAcYBAowByQFCjQHKAUiOAcwBSY8BzQFJkAHQAUmRAdEBSZIB0gFJkwHUAUmUAdYBApUB1wFKlgHZAUmXAdsBApgB3AFLmQHdAUmaAd4BSZsB3wECnAHiAUydAeMBUg"
+ }
+ 
+ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
+diff --git a/a/src/generated/prisma/internal/prismaNamespace.ts b/b/src/generated/prisma/internal/prismaNamespace.ts
+index 3816c42..456d01b 100644
+--- a/a/src/generated/prisma/internal/prismaNamespace.ts
++++ b/b/src/generated/prisma/internal/prismaNamespace.ts
+@@ -1251,6 +1251,7 @@ export const TeamMemberScalarFieldEnum = {
+   photo: 'photo',
+   linkedin: 'linkedin',
+   girl: 'girl',
++  seat: 'seat',
+   sortOrder: 'sortOrder',
+   createdAt: 'createdAt',
+   updatedAt: 'updatedAt'
+diff --git a/a/src/generated/prisma/internal/prismaNamespaceBrowser.ts b/b/src/generated/prisma/internal/prismaNamespaceBrowser.ts
+index 64ea19f..9d7a286 100644
+--- a/a/src/generated/prisma/internal/prismaNamespaceBrowser.ts
++++ b/b/src/generated/prisma/internal/prismaNamespaceBrowser.ts
+@@ -199,6 +199,7 @@ export const TeamMemberScalarFieldEnum = {
+   photo: 'photo',
+   linkedin: 'linkedin',
+   girl: 'girl',
++  seat: 'seat',
+   sortOrder: 'sortOrder',
+   createdAt: 'createdAt',
+   updatedAt: 'updatedAt'
+diff --git a/a/src/generated/prisma/models/TeamMember.ts b/b/src/generated/prisma/models/TeamMember.ts
+index 849e64a..7cb7cd1 100644
+--- a/a/src/generated/prisma/models/TeamMember.ts
++++ b/b/src/generated/prisma/models/TeamMember.ts
+@@ -27,10 +27,12 @@ export type AggregateTeamMember = {
+ }
+ 
+ export type TeamMemberAvgAggregateOutputType = {
++  seat: number | null
+   sortOrder: number | null
+ }
+ 
+ export type TeamMemberSumAggregateOutputType = {
++  seat: number | null
+   sortOrder: number | null
+ }
+ 
+@@ -43,6 +45,7 @@ export type TeamMemberMinAggregateOutputType = {
+   photo: string | null
+   linkedin: string | null
+   girl: boolean | null
++  seat: number | null
+   sortOrder: number | null
+   createdAt: Date | null
+   updatedAt: Date | null
+@@ -57,6 +60,7 @@ export type TeamMemberMaxAggregateOutputType = {
+   photo: string | null
+   linkedin: string | null
+   girl: boolean | null
++  seat: number | null
+   sortOrder: number | null
+   createdAt: Date | null
+   updatedAt: Date | null
+@@ -71,6 +75,7 @@ export type TeamMemberCountAggregateOutputType = {
+   photo: number
+   linkedin: number
+   girl: number
++  seat: number
+   sortOrder: number
+   createdAt: number
+   updatedAt: number
+@@ -79,10 +84,12 @@ export type TeamMemberCountAggregateOutputType = {
+ 
+ 
+ export type TeamMemberAvgAggregateInputType = {
++  seat?: true
+   sortOrder?: true
+ }
+ 
+ export type TeamMemberSumAggregateInputType = {
++  seat?: true
+   sortOrder?: true
+ }
+ 
+@@ -95,6 +102,7 @@ export type TeamMemberMinAggregateInputType = {
+   photo?: true
+   linkedin?: true
+   girl?: true
++  seat?: true
+   sortOrder?: true
+   createdAt?: true
+   updatedAt?: true
+@@ -109,6 +117,7 @@ export type TeamMemberMaxAggregateInputType = {
+   photo?: true
+   linkedin?: true
+   girl?: true
++  seat?: true
+   sortOrder?: true
+   createdAt?: true
+   updatedAt?: true
+@@ -123,6 +132,7 @@ export type TeamMemberCountAggregateInputType = {
+   photo?: true
+   linkedin?: true
+   girl?: true
++  seat?: true
+   sortOrder?: true
+   createdAt?: true
+   updatedAt?: true
+@@ -224,6 +234,7 @@ export type TeamMemberGroupByOutputType = {
+   photo: string
+   linkedin: string
+   girl: boolean
++  seat: number
+   sortOrder: number
+   createdAt: Date
+   updatedAt: Date
+@@ -261,6 +272,7 @@ export type TeamMemberWhereInput = {
+   photo?: Prisma.StringFilter<"TeamMember"> | string
+   linkedin?: Prisma.StringFilter<"TeamMember"> | string
+   girl?: Prisma.BoolFilter<"TeamMember"> | boolean
++  seat?: Prisma.IntFilter<"TeamMember"> | number
+   sortOrder?: Prisma.IntFilter<"TeamMember"> | number
+   createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
+   updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
+@@ -275,6 +287,7 @@ export type TeamMemberOrderByWithRelationInput = {
+   photo?: Prisma.SortOrder
+   linkedin?: Prisma.SortOrder
+   girl?: Prisma.SortOrder
++  seat?: Prisma.SortOrder
+   sortOrder?: Prisma.SortOrder
+   createdAt?: Prisma.SortOrder
+   updatedAt?: Prisma.SortOrder
+@@ -292,6 +305,7 @@ export type TeamMemberWhereUniqueInput = Prisma.AtLeast<{
+   photo?: Prisma.StringFilter<"TeamMember"> | string
+   linkedin?: Prisma.StringFilter<"TeamMember"> | string
+   girl?: Prisma.BoolFilter<"TeamMember"> | boolean
++  seat?: Prisma.IntFilter<"TeamMember"> | number
+   sortOrder?: Prisma.IntFilter<"TeamMember"> | number
+   createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
+   updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
+@@ -306,6 +320,7 @@ export type TeamMemberOrderByWithAggregationInput = {
+   photo?: Prisma.SortOrder
+   linkedin?: Prisma.SortOrder
+   girl?: Prisma.SortOrder
++  seat?: Prisma.SortOrder
+   sortOrder?: Prisma.SortOrder
+   createdAt?: Prisma.SortOrder
+   updatedAt?: Prisma.SortOrder
+@@ -328,6 +343,7 @@ export type TeamMemberScalarWhereWithAggregatesInput = {
+   photo?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
+   linkedin?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
+   girl?: Prisma.BoolWithAggregatesFilter<"TeamMember"> | boolean
++  seat?: Prisma.IntWithAggregatesFilter<"TeamMember"> | number
+   sortOrder?: Prisma.IntWithAggregatesFilter<"TeamMember"> | number
+   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
+   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
+@@ -342,6 +358,7 @@ export type TeamMemberCreateInput = {
+   photo?: string
+   linkedin?: string
+   girl?: boolean
++  seat?: number
+   sortOrder?: number
+   createdAt?: Date | string
+   updatedAt?: Date | string
+@@ -356,6 +373,7 @@ export type TeamMemberUncheckedCreateInput = {
+   photo?: string
+   linkedin?: string
+   girl?: boolean
++  seat?: number
+   sortOrder?: number
+   createdAt?: Date | string
+   updatedAt?: Date | string
+@@ -370,6 +388,7 @@ export type TeamMemberUpdateInput = {
+   photo?: Prisma.StringFieldUpdateOperationsInput | string
+   linkedin?: Prisma.StringFieldUpdateOperationsInput | string
+   girl?: Prisma.BoolFieldUpdateOperationsInput | boolean
++  seat?: Prisma.IntFieldUpdateOperationsInput | number
+   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+@@ -384,6 +403,7 @@ export type TeamMemberUncheckedUpdateInput = {
+   photo?: Prisma.StringFieldUpdateOperationsInput | string
+   linkedin?: Prisma.StringFieldUpdateOperationsInput | string
+   girl?: Prisma.BoolFieldUpdateOperationsInput | boolean
++  seat?: Prisma.IntFieldUpdateOperationsInput | number
+   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+@@ -398,6 +418,7 @@ export type TeamMemberCreateManyInput = {
+   photo?: string
+   linkedin?: string
+   girl?: boolean
++  seat?: number
+   sortOrder?: number
+   createdAt?: Date | string
+   updatedAt?: Date | string
+@@ -412,6 +433,7 @@ export type TeamMemberUpdateManyMutationInput = {
+   photo?: Prisma.StringFieldUpdateOperationsInput | string
+   linkedin?: Prisma.StringFieldUpdateOperationsInput | string
+   girl?: Prisma.BoolFieldUpdateOperationsInput | boolean
++  seat?: Prisma.IntFieldUpdateOperationsInput | number
+   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+@@ -426,6 +448,7 @@ export type TeamMemberUncheckedUpdateManyInput = {
+   photo?: Prisma.StringFieldUpdateOperationsInput | string
+   linkedin?: Prisma.StringFieldUpdateOperationsInput | string
+   girl?: Prisma.BoolFieldUpdateOperationsInput | boolean
++  seat?: Prisma.IntFieldUpdateOperationsInput | number
+   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+@@ -440,12 +463,14 @@ export type TeamMemberCountOrderByAggregateInput = {
+   photo?: Prisma.SortOrder
+   linkedin?: Prisma.SortOrder
+   girl?: Prisma.SortOrder
++  seat?: Prisma.SortOrder
+   sortOrder?: Prisma.SortOrder
+   createdAt?: Prisma.SortOrder
+   updatedAt?: Prisma.SortOrder
+ }
+ 
+ export type TeamMemberAvgOrderByAggregateInput = {
++  seat?: Prisma.SortOrder
+   sortOrder?: Prisma.SortOrder
+ }
+ 
+@@ -458,6 +483,7 @@ export type TeamMemberMaxOrderByAggregateInput = {
+   photo?: Prisma.SortOrder
+   linkedin?: Prisma.SortOrder
+   girl?: Prisma.SortOrder
++  seat?: Prisma.SortOrder
+   sortOrder?: Prisma.SortOrder
+   createdAt?: Prisma.SortOrder
+   updatedAt?: Prisma.SortOrder
+@@ -472,12 +498,14 @@ export type TeamMemberMinOrderByAggregateInput = {
+   photo?: Prisma.SortOrder
+   linkedin?: Prisma.SortOrder
+   girl?: Prisma.SortOrder
++  seat?: Prisma.SortOrder
+   sortOrder?: Prisma.SortOrder
+   createdAt?: Prisma.SortOrder
+   updatedAt?: Prisma.SortOrder
+ }
+ 
+ export type TeamMemberSumOrderByAggregateInput = {
++  seat?: Prisma.SortOrder
+   sortOrder?: Prisma.SortOrder
+ }
+ 
+@@ -492,6 +520,7 @@ export type TeamMemberSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
+   photo?: boolean
+   linkedin?: boolean
+   girl?: boolean
++  seat?: boolean
+   sortOrder?: boolean
+   createdAt?: boolean
+   updatedAt?: boolean
+@@ -506,6 +535,7 @@ export type TeamMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
+   photo?: boolean
+   linkedin?: boolean
+   girl?: boolean
++  seat?: boolean
+   sortOrder?: boolean
+   createdAt?: boolean
+   updatedAt?: boolean
+@@ -520,6 +550,7 @@ export type TeamMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
+   photo?: boolean
+   linkedin?: boolean
+   girl?: boolean
++  seat?: boolean
+   sortOrder?: boolean
+   createdAt?: boolean
+   updatedAt?: boolean
+@@ -534,12 +565,13 @@ export type TeamMemberSelectScalar = {
+   photo?: boolean
+   linkedin?: boolean
+   girl?: boolean
++  seat?: boolean
+   sortOrder?: boolean
+   createdAt?: boolean
+   updatedAt?: boolean
+ }
+ 
+-export type TeamMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "role" | "dept" | "bio" | "photo" | "linkedin" | "girl" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["teamMember"]>
++export type TeamMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "role" | "dept" | "bio" | "photo" | "linkedin" | "girl" | "seat" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["teamMember"]>
+ 
+ export type $TeamMemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+   name: "TeamMember"
+@@ -553,6 +585,10 @@ export type $TeamMemberPayload<ExtArgs extends runtime.Types.Extensions.Internal
+     photo: string
+     linkedin: string
+     girl: boolean
++    /**
++     * the seat in the office (-1 = automatic: in the order of the list); see lib/team-seats.ts
++     */
++    seat: number
+     sortOrder: number
+     createdAt: Date
+     updatedAt: Date
+@@ -987,6 +1023,7 @@ export interface TeamMemberFieldRefs {
+   readonly photo: Prisma.FieldRef<"TeamMember", 'String'>
+   readonly linkedin: Prisma.FieldRef<"TeamMember", 'String'>
+   readonly girl: Prisma.FieldRef<"TeamMember", 'Boolean'>
++  readonly seat: Prisma.FieldRef<"TeamMember", 'Int'>
+   readonly sortOrder: Prisma.FieldRef<"TeamMember", 'Int'>
+   readonly createdAt: Prisma.FieldRef<"TeamMember", 'DateTime'>
+   readonly updatedAt: Prisma.FieldRef<"TeamMember", 'DateTime'>
+diff --git a/b/src/lib/team-seats.ts b/b/src/lib/team-seats.ts
+new file mode 100644
+index 0000000..abf7b9e
+--- /dev/null
++++ b/b/src/lib/team-seats.ts
+@@ -0,0 +1,87 @@
++// The seats of the office on the Team page: where the chairs are in a team corner, at the managers' table and at the desk of the leaders, and
++// how the people are put on them. A person can be given a seat in the admin panel (Team, "Seat"); everybody without a seat sits down in the
++// order of the list, on the chairs that are still free. No server-only imports: the office and the seat picker of the admin panel both use it.
++
++export type SeatKind = "w" | "m" | "p" | "b" | "h" | "s";
++export type Seat = { x: number; y: number; rot: number; kind: SeatKind; i: number; label: string };
++
++// ---- a team corner (the canvas of the About office, 300 x 226): one island = the long table, the meeting table and the board ----
++export const TZW = 300;
++export const TZH = 226;
++export const WORK = [
++  { x: 48, y: 150, rot: 0, lx: 14, ly: 7 },
++  { x: 130, y: 150, rot: 0, lx: 88, ly: 7 },
++  { x: 48, y: 210, rot: 180, lx: 14, ly: 23 },
++  { x: 130, y: 210, rot: 180, lx: 88, ly: 23 },
++];
++export const MEET = [
++  { x: 232, y: 108, rot: 0 },
++  { x: 274, y: 150, rot: 90 },
++  { x: 232, y: 192, rot: 180 },
++  { x: 190, y: 150, rot: -90 },
++];
++/** the 9 seats of one island, in the order in which people sit down when nobody has chosen a seat */
++export const TEAM_SEATS: Seat[] = [
++  { kind: "w", i: 0, ...WORK[0], label: "Long table, top left" },
++  { kind: "w", i: 1, ...WORK[1], label: "Long table, top right" },
++  { kind: "w", i: 2, ...WORK[2], label: "Long table, bottom left" },
++  { kind: "w", i: 3, ...WORK[3], label: "Long table, bottom right" },
++  { kind: "m", i: 1, ...MEET[1], label: "Meeting table, right" },
++  { kind: "m", i: 3, ...MEET[3], label: "Meeting table, left" },
++  { kind: "m", i: 0, ...MEET[0], label: "Meeting table, top" },
++  { kind: "m", i: 2, ...MEET[2], label: "Meeting table, bottom" },
++  { kind: "p", i: 0, x: 90, y: 122, rot: 180, label: "At the wall board" },
++];
++export const POD_SEATS = 9;
++/** islands in one corner (a bigger team continues in a second corner of the same name) */
++export const MAX_PODS = 6;
++
++// ---- the managers' table (340 x 176): three chairs on each long side and the main chair at the end ----
++export const MZW = 340;
++export const MZH = 176;
++export const MGR_SEATS: Seat[] = [
++  { kind: "s", i: 0, x: 80, y: 50, rot: 0, label: "Table, top 1" },
++  { kind: "s", i: 1, x: 80, y: 126, rot: 180, label: "Table, bottom 1" },
++  { kind: "s", i: 2, x: 140, y: 50, rot: 0, label: "Table, top 2" },
++  { kind: "s", i: 3, x: 140, y: 126, rot: 180, label: "Table, bottom 2" },
++  { kind: "s", i: 4, x: 200, y: 50, rot: 0, label: "Table, top 3" },
++  { kind: "s", i: 5, x: 200, y: 126, rot: 180, label: "Table, bottom 3" },
++  { kind: "h", i: 6, x: 304, y: 88, rot: -90, label: "Main chair (the end of the table)" },
++];
++export const MGR_CAP = MGR_SEATS.length;
++
++// ---- the desk of the leaders: boss chairs in a row ----
++export const CXO_CAP = 5;
++export const CXO_MIN = 3;
++export const CSEAT = 150;
++export const CZH = 116;
++
++/**
++ * Puts people on `slots` seats: the people who have a seat of their own (seat >= 0) first, then everybody else on the free seats in the
++ * order of the list. Two people with the same seat: the second one is seated like a person without a seat.
++ */
++export function placeInSeats<T extends { seat: number }>(people: T[], slots: number): (T | null)[] {
++  const out: (T | null)[] = Array.from({ length: slots }, () => null);
++  const rest: T[] = [];
++  for (const p of people) {
++    if (p.seat >= 0 && p.seat < slots && out[p.seat] === null) out[p.seat] = p;
++    else rest.push(p);
++  }
++  for (const p of rest) {
++    const i = out.indexOf(null);
++    if (i >= 0) out[i] = p;
++  }
++  return out;
++}
++
++/** how many islands a team needs: one for every 9 people, and enough for the highest seat that was chosen */
++export function podCount(people: { seat: number }[]): number {
++  const top = people.reduce((m, p) => (p.seat >= 0 && p.seat < MAX_PODS * POD_SEATS ? Math.max(m, p.seat) : m), -1);
++  return Math.min(MAX_PODS, Math.max(1, Math.ceil(people.length / POD_SEATS), Math.floor(top / POD_SEATS) + 1));
++}
++
++/** how many boss chairs the desk of the leaders has: the people, the highest chosen chair, at least three */
++export function cxoSlots(people: { seat: number }[]): number {
++  const top = people.reduce((m, p) => (p.seat >= 0 && p.seat < CXO_CAP ? Math.max(m, p.seat) : m), -1);
++  return Math.min(CXO_CAP, Math.max(CXO_MIN, people.length, top + 1));
++}
+diff --git a/a/src/lib/team-shared.ts b/b/src/lib/team-shared.ts
+index be53ae6..c49a15f 100644
+--- a/a/src/lib/team-shared.ts
++++ b/b/src/lib/team-shared.ts
+@@ -13,6 +13,8 @@ export type TeamPerson = {
+   linkedin: string;
+   /** the avatar is drawn as a woman */
+   girl: boolean;
++  /** the seat in the office (see lib/team-seats.ts); -1 = automatic: in the order of the list */
++  seat: number;
+ };
+ 
+ /** How many people one corner of the office holds (4 at the long table, 4 at the meeting table, 1 at the board). More people get a second corner. */
+@@ -41,6 +43,7 @@ export function cleanPeople(input: unknown): Omit<TeamPerson, "id">[] {
+       photo: safeLink(r.photo),
+       linkedin: safeLink(r.linkedin),
+       girl: r.girl === true || r.girl === "yes",
++      seat: typeof r.seat === "number" && Number.isInteger(r.seat) && r.seat >= 0 && r.seat < 100 ? r.seat : -1,
+     });
+   }
+   return out;
+diff --git a/a/src/lib/team.ts b/b/src/lib/team.ts
+index f879143..9cb4523 100644
+--- a/a/src/lib/team.ts
++++ b/b/src/lib/team.ts
+@@ -7,10 +7,10 @@ import type { TeamPerson } from "@/lib/team-shared";
+ // shown; a database error is thrown, so that the last good cached page stays online.
+ 
+ const builtIn = (): TeamPerson[] =>
+-  TEAM_MEMBERS.map((m, i) => ({ id: `built-in-${i}`, name: m.name, role: m.role, dept: m.dept, bio: m.bio, photo: m.photo, linkedin: m.linkedin, girl: m.girl === "yes" }));
++  TEAM_MEMBERS.map((m, i) => ({ id: `built-in-${i}`, name: m.name, role: m.role, dept: m.dept, bio: m.bio, photo: m.photo, linkedin: m.linkedin, girl: m.girl === "yes", seat: -1 }));
+ 
+ export async function getTeam(): Promise<TeamPerson[]> {
+   if (!hasDb) return builtIn();
+   const rows = await db.teamMember.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] });
+-  return rows.map((r) => ({ id: r.id, name: r.name, role: r.role, dept: r.dept, bio: r.bio, photo: r.photo, linkedin: r.linkedin, girl: r.girl }));
++  return rows.map((r) => ({ id: r.id, name: r.name, role: r.role, dept: r.dept, bio: r.bio, photo: r.photo, linkedin: r.linkedin, girl: r.girl, seat: r.seat }));
+ }

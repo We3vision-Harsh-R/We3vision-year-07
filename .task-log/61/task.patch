@@ -1,0 +1,1325 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 273ccf0..8efa931 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -23843,7 +23843,7 @@ a.md-rel-card:hover .md-rel-go {
+ 
+ /* ---------------------------------------------------------------------------------------------------------------------------------
+    The Careers page as a railway (components/site/career/*, sections/career.tsx). One track runs through the whole page, drawn on a layer
+-   behind the sections (career/railway.tsx, .rw-*); the sections are the stations of the line: the ticket office (.cj-*), the values as stops
++   behind the sections (career/railway.tsx, .rl-*); the sections are the stations of the line: the ticket office (.cj-*), the values as stops
+    (.rv-*), the teams as a departure board (.rt-*), the help desk (.rh-*) and Surat Junction (.cj-dest-*). For laptop and desktop screens. */
+ .cj,
+ .cj-dest,
+@@ -23859,7 +23859,7 @@ a.md-rel-card:hover .md-rel-go {
+ }
+ 
+ /* ---- the railway layer ---- */
+-.rw {
++.rl {
+   --p: 1.15px;
+   position: absolute;
+   top: 0;
+@@ -23869,285 +23869,285 @@ a.md-rel-card:hover .md-rel-go {
+   overflow: hidden;
+   pointer-events: none;
+ }
+-.rw-svg {
++.rl-svg {
+   display: block;
+ }
+-.rw-ballast {
++.rl-ballast {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(12% * var(--ts)) 17%);
+   stroke-width: 50;
+   stroke-linejoin: round;
+ }
+-.rw-sleepers {
++.rl-sleepers {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(26% * var(--ts)) 34%);
+   stroke-width: 40;
+   stroke-dasharray: 5 13;
+ }
+-.rw-railbed {
++.rl-railbed {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 74%);
+   stroke-width: 26;
+ }
+-.rw-railgap {
++.rl-railgap {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(12% * var(--ts)) 15%);
+   stroke-width: 20;
+ }
+-.rw-plat {
++.rl-plat {
+   fill: hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 17%);
+   stroke: rgba(255, 255, 255, 0.07);
+ }
+-.rw-plat-edge {
++.rl-plat-edge {
+   fill: hsl(calc(var(--th) + 354) calc(92% * var(--ts)) 58%);
+   opacity: 0.9;
+ }
+-.rw-plat-tact {
++.rl-plat-tact {
+   fill: rgba(255, 255, 255, 0.05);
+ }
+-.rw-canopy rect {
++.rl-canopy rect {
+   fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.09);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
+ }
+-.rw-canopy line {
++.rl-canopy line {
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.2);
+ }
+-.rw-post {
++.rl-post {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 72%);
+ }
+-.rw-glow {
+-  fill: url(#rw-glow-g);
++.rl-glow {
++  fill: url(#rl-glow-g);
+ }
+-.rw-lampost {
++.rl-lampost {
+   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
+ }
+-.rw-clock {
++.rl-clock {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 94%);
+   stroke: hsl(calc(var(--th) + 347) 30% 22%);
+   stroke-width: 3;
+ }
+-.rw-clock-hand {
++.rl-clock-hand {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 347) 30% 18%);
+   stroke-width: 2.4;
+   stroke-linecap: round;
+ }
+-.rw-bench {
++.rl-bench {
+   fill: hsl(calc(var(--th) + 354) calc(32% * var(--ts)) 36%);
+ }
+-.rw-bench-back {
++.rl-bench-back {
+   fill: hsl(calc(var(--th) + 354) calc(32% * var(--ts)) 26%);
+ }
+-.rw-kiosk {
++.rl-kiosk {
+   fill: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 36%);
+   stroke: rgba(255, 255, 255, 0.2);
+ }
+-.rw-board {
++.rl-board {
+   fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
+ }
+-.rw-board-lines {
++.rl-board-lines {
+   stroke: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 62%);
+   stroke-width: 2.4;
+   stroke-linecap: round;
+ }
+-.rw-sign {
++.rl-sign {
+   fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.95);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
+ }
+-.rw-sign-t {
++.rl-sign-t {
+   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88%);
+   font-size: 13.5px;
+   font-weight: 600;
+   letter-spacing: 0.08em;
+ }
+-.rw-office-body {
++.rl-office-body {
+   fill: hsl(calc(var(--th) + 349) calc(40% * var(--ts)) 22%);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.45);
+   stroke-width: 1.5;
+ }
+-.rw-office-roof {
++.rl-office-roof {
+   fill: none;
+   stroke: rgba(255, 255, 255, 0.08);
+   stroke-width: 2;
+ }
+-.rw-office-t {
++.rl-office-t {
+   fill: #fff;
+   font-size: 19px;
+   font-weight: 600;
+   letter-spacing: 0.3em;
+ }
+-.rw-office-door {
++.rl-office-door {
+   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+ }
+-.rw-stub {
++.rl-stub {
+   fill: hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 20%);
+   stroke: rgba(255, 255, 255, 0.08);
+ }
+-.rw-stub-edge {
++.rl-stub-edge {
+   fill: hsl(calc(var(--th) + 354) calc(92% * var(--ts)) 58%);
+   opacity: 0.8;
+ }
+-.rw-river {
++.rl-river {
+   fill: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 28% / 0.55);
+ }
+-.rw-ripple {
++.rl-ripple {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 76% / 0.35);
+   stroke-width: 2;
+ }
+-.rw-road {
++.rl-road {
+   fill: hsl(calc(var(--th) + 354) calc(8% * var(--ts)) 18%);
+ }
+-.rw-road-line {
++.rl-road-line {
+   stroke: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 80% / 0.5);
+   stroke-width: 2;
+   stroke-dasharray: 12 10;
+ }
+-.rw-barrier {
++.rl-barrier {
+   fill: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 64%);
+   stroke: #fff;
+   stroke-width: 1.5;
+ }
+-.rw-tree-sh {
++.rl-tree-sh {
+   fill: rgba(0, 0, 0, 0.35);
+ }
+-.rw-tree {
++.rl-tree {
+   fill: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 22%);
+ }
+-.rw-tree-hi {
++.rl-tree-hi {
+   fill: hsl(calc(var(--th) + 354) calc(44% * var(--ts)) 32%);
+ }
+-.rw-pole {
++.rl-pole {
+   fill: hsl(calc(var(--th) + 354) calc(20% * var(--ts)) 40%);
+ }
+-.rw-mile {
++.rl-mile {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 94%);
+   stroke: hsl(calc(var(--th) + 347) 30% 22%);
+   stroke-width: 1.5;
+ }
+-.rw-mile-t {
++.rl-mile-t {
+   fill: hsl(calc(var(--th) + 347) 40% 14%);
+   font-size: 12px;
+   font-weight: 700;
+   letter-spacing: 0.03em;
+ }
+-.rw-sig-post {
++.rl-sig-post {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 56%);
+ }
+-.rw-sig-head {
++.rl-sig-head {
+   fill: hsl(calc(var(--th) + 347) 30% 10%);
+   stroke: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 60%);
+ }
+-.rw-sig-lamp {
++.rl-sig-lamp {
+   fill: hsl(calc(var(--th) + 354) calc(24% * var(--ts)) 24%);
+ }
+-.rw-sig-lamp[data-on="true"][data-c="r"] {
++.rl-sig-lamp[data-on="true"][data-c="r"] {
+   fill: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 58%);
+   filter: drop-shadow(0 0 5px hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 58%));
+ }
+-.rw-sig-lamp[data-on="true"][data-c="g"] {
++.rl-sig-lamp[data-on="true"][data-c="g"] {
+   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 92%);
+   filter: drop-shadow(0 0 6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%));
+ }
+ 
+ /* the train: nothing until the visitor has chosen, then it comes out of a blur */
+-.rw-train {
++.rl-train {
+   opacity: 0;
+   filter: blur(10px);
+   transition:
+     opacity 1.6s ease-out,
+     filter 2.2s ease-out;
+ }
+-.rw-train[data-on="true"] {
++.rl-train[data-on="true"] {
+   opacity: 1;
+   filter: blur(0);
+ }
+-.rw-bogie {
++.rl-bogie {
+   fill: hsl(calc(var(--th) + 354) calc(10% * var(--ts)) 12%);
+ }
+-.rw-coach {
++.rl-coach {
+   fill: hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 36%);
+   stroke: rgba(255, 255, 255, 0.2);
+   stroke-width: 1.2;
+ }
+-.rw-roof {
++.rl-roof {
+   fill: hsl(calc(var(--th) + 340) calc(24% * var(--ts)) 46%);
+ }
+-.rw-roof[data-open="true"] {
++.rl-roof[data-open="true"] {
+   fill: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 9% / 0.94);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+ }
+-.rw-seat {
++.rl-seat {
+   fill: hsl(calc(var(--th) + 354) calc(55% * var(--ts)) 46%);
+ }
+-.rw-aisle {
++.rl-aisle {
+   fill: rgba(255, 255, 255, 0.06);
+ }
+-.rw-ac {
++.rl-ac {
+   fill: hsl(calc(var(--th) + 340) 14% 62%);
+   stroke: rgba(0, 0, 0, 0.25);
+ }
+-.rw-rib {
++.rl-rib {
+   fill: none;
+   stroke: rgba(0, 0, 0, 0.22);
+   stroke-width: 1.4;
+ }
+-.rw-win {
++.rl-win {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.75);
+   stroke-width: 3;
+   stroke-dasharray: 11 5;
+ }
+-.rw-door {
++.rl-door {
+   fill: hsl(calc(var(--th) + 354) calc(95% * var(--ts)) 62%);
+ }
+-.rw-engine {
++.rl-engine {
+   fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 46%);
+   stroke: rgba(255, 255, 255, 0.28);
+   stroke-width: 1.4;
+ }
+-.rw-engine-hi {
++.rl-engine-hi {
+   fill: none;
+   stroke: rgba(255, 255, 255, 0.22);
+   stroke-width: 3;
+   stroke-linecap: round;
+ }
+-.rw-cab {
++.rl-cab {
+   fill: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 8% / 0.9);
+ }
+-.rw-cab-hi {
++.rl-cab-hi {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.6);
+   stroke-width: 2;
+   stroke-linecap: round;
+ }
+-.rw-pan {
++.rl-pan {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 80%);
+   stroke-width: 2;
+ }
+-.rw-num {
++.rl-num {
+   fill: rgba(255, 255, 255, 0.85);
+   font-size: 12px;
+   font-weight: 700;
+   letter-spacing: 0.12em;
+ }
+-.rw-lamp {
++.rl-lamp {
+   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88%);
+   filter: drop-shadow(0 0 6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%));
+ }
+-.rw-beam {
+-  fill: url(#rw-beam-g);
++.rl-beam {
++  fill: url(#rl-beam-g);
+ }
+-.rw-av {
++.rl-av {
+   z-index: 3;
+   transition: opacity 0.12s;
+ }
+-.rw-av[data-inside="true"] .tl-pt {
++.rl-av[data-inside="true"] .tl-pt {
+   opacity: 0.96;
+ }
+-.rw-you {
++.rl-you {
+   position: absolute;
+   top: 100%;
+   left: 50%;
+@@ -25309,7 +25309,7 @@ a.rt-row:hover {
+   text-decoration: none;
+ }
+ @media (prefers-reduced-motion: reduce) {
+-  .rw-train {
++  .rl-train {
+     transition-duration: 0.01s;
+   }
+   .cj-cities button,
+@@ -25319,139 +25319,139 @@ a.rt-row:hover {
+   }
+ }
+ 
+-.rw-plat-shadow {
++.rl-plat-shadow {
+   fill: rgba(0, 0, 0, 0.35);
+   filter: blur(6px);
+ }
+-.rw-plat-lip {
++.rl-plat-lip {
+   fill: rgba(0, 0, 0, 0.35);
+ }
+-.rw-roof-sh {
++.rl-roof-sh {
+   fill: rgba(0, 0, 0, 0.28);
+   filter: blur(5px);
+ }
+-.rw-roof-glass {
++.rl-roof-glass {
+   fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 72% / 0.12);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.4);
+   stroke-width: 1.4;
+ }
+-.rw-bench-slat {
++.rl-bench-slat {
+   stroke: rgba(0, 0, 0, 0.3);
+   stroke-width: 1.2;
+ }
+-.rw-awn-a {
++.rl-awn-a {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 94%);
+ }
+-.rw-awn-b {
++.rl-awn-b {
+   fill: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 56%);
+ }
+-.rw-machine {
++.rl-machine {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 30%);
+   stroke: rgba(255, 255, 255, 0.16);
+ }
+-.rw-machine-screen {
++.rl-machine-screen {
+   fill: hsl(calc(var(--th) + 354) calc(95% * var(--ts)) 58%);
+   opacity: 0.85;
+ }
+-.rw-bin {
++.rl-bin {
+   fill: hsl(calc(var(--th) + 354) calc(10% * var(--ts)) 34%);
+   stroke: rgba(255, 255, 255, 0.18);
+ }
+-.rw-pot {
++.rl-pot {
+   fill: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 30%);
+ }
+-.rw-pot-leaf {
++.rl-pot-leaf {
+   fill: hsl(calc(var(--th) + 354) calc(46% * var(--ts)) 34%);
+ }
+-.rw-clock-tick {
++.rl-clock-tick {
+   stroke: hsl(calc(var(--th) + 347) 30% 22%);
+   stroke-width: 1.4;
+ }
+-.rw-map {
++.rl-map {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
+   stroke-width: 2;
+   stroke-dasharray: 6 5;
+ }
+-.rw-person-sh {
++.rl-person-sh {
+   fill: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 40%);
+ }
+-.rw-person-a {
++.rl-person-a {
+   fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80%);
+ }
+-.rw-person-b {
++.rl-person-b {
+   fill: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 64%);
+ }
+-.rw-sign-n {
++.rl-sign-n {
+   fill: var(--a);
+ }
+-.rw-sign-num {
++.rl-sign-num {
+   fill: hsl(calc(var(--th) + 347.58) 60% 8%);
+   font-size: 15px;
+   font-weight: 700;
+ }
+-.rw-bridge-sh {
++.rl-bridge-sh {
+   fill: rgba(0, 0, 0, 0.4);
+   filter: blur(5px);
+ }
+-.rw-bridge-deck {
++.rl-bridge-deck {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 26%);
+   stroke: rgba(255, 255, 255, 0.18);
+ }
+-.rw-bridge line {
++.rl-bridge line {
+   stroke: rgba(255, 255, 255, 0.22);
+   stroke-width: 1.4;
+ }
+ 
+-.rw-av .tl-pt {
++.rl-av .tl-pt {
+   display: block;
+   width: 100% !important;
+   height: 100% !important;
+   overflow: visible;
+ }
+-.rw-av .tl-pt svg {
++.rl-av .tl-pt svg {
+   width: 170% !important;
+   height: 170% !important;
+   margin: -35% 0 0 -35%;
+   overflow: visible;
+ }
+-.rw-av .of-walker-in {
++.rl-av .of-walker-in {
+   width: 100%;
+   height: 100%;
+ }
+ 
+-.rw-office-sh {
++.rl-office-sh {
+   fill: rgba(0, 0, 0, 0.4);
+   filter: blur(6px);
+ }
+-.rw-office-s {
++.rl-office-s {
+   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
+   font-size: 11px;
+   font-weight: 600;
+   letter-spacing: 0.24em;
+ }
+ 
+-.rw-lite {
++.rl-lite {
+   stop-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
+ }
+ 
+ /* ---- the tunnels: the mouth of a tunnel in front of a block of the page ---- */
+-.rw-pt {
++.rl-pt {
+   fill: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 30%);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.6);
+   stroke-width: 1.6;
+ }
+-.rw-pt-sh {
++.rl-pt-sh {
+   fill: rgba(0, 0, 0, 0.45);
+   filter: blur(6px);
+ }
+-.rw-pt-top {
++.rl-pt-top {
+   fill: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 46% / 0.75);
+ }
+-.rw-pt-slot {
++.rl-pt-slot {
+   fill: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 3%);
+ }
+-.rw-pt-arch {
++.rl-pt-arch {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.85);
+   stroke-width: 2.6;
+@@ -25459,78 +25459,78 @@ a.rt-row:hover {
+ }
+ 
+ /* ---- the train: the engines at both ends, the coaches, the lights ---- */
+-.rw-engine {
++.rl-engine {
+   fill: hsl(calc(var(--th) + 354) calc(62% * var(--ts)) 44%);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90% / 0.5);
+   stroke-width: 1.4;
+ }
+-.rw-engine-roof {
++.rl-engine-roof {
+   fill: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 54%);
+ }
+-.rw-stripe {
++.rl-stripe {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88% / 0.85);
+   stroke-width: 2;
+   stroke-linecap: round;
+ }
+-.rw-glass {
++.rl-glass {
+   fill: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 5% / 0.96);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.55);
+   stroke-width: 1.2;
+ }
+-.rw-glass-hi {
++.rl-glass-hi {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 94% / 0.7);
+   stroke-width: 2;
+   stroke-linecap: round;
+ }
+-.rw-bellow {
++.rl-bellow {
+   fill: hsl(calc(var(--th) + 354) calc(16% * var(--ts)) 12%);
+ }
+-.rw-pan {
++.rl-pan {
+   stroke: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 84%);
+ }
+-.rw-spark {
++.rl-spark {
+   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 96%);
+   opacity: 0;
+ }
+-.rw-tail {
++.rl-tail {
+   fill: hsl(calc(var(--th) + 354) calc(95% * var(--ts)) 58%);
+   filter: drop-shadow(0 0 5px hsl(calc(var(--th) + 354) calc(95% * var(--ts)) 58%));
+ }
+-.rw-plate {
++.rl-plate {
+   fill: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 6% / 0.96);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84% / 0.9);
+   stroke-width: 1.5;
+ }
+-.rw-plate-t {
++.rl-plate-t {
+   fill: #fff;
+   font-size: 14px;
+   font-weight: 800;
+   letter-spacing: 0.04em;
+ }
+-.rw-livery {
++.rl-livery {
+   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90% / 0.92);
+   font-size: 8px;
+   font-weight: 700;
+   letter-spacing: 0.16em;
+ }
+-.rw-roof[data-open="false"] {
++.rl-roof[data-open="false"] {
+   fill: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 40%);
+ }
+-.rw-beam {
++.rl-beam {
+   transition: opacity 0.7s;
+ }
+-.rw-train[data-motion="stopped"] .rw-beam {
++.rl-train[data-motion="stopped"] .rl-beam {
+   opacity: 0.4;
+ }
+-.rw-train[data-motion="moving"] .rw-spark {
+-  animation: rw-spark 0.16s steps(2, end) infinite;
++.rl-train[data-motion="moving"] .rl-spark {
++  animation: rl-spark 0.16s steps(2, end) infinite;
+ }
+-.rw-train[data-motion="stopped"] .rw-door {
+-  animation: rw-door 1.6s ease-in-out infinite;
++.rl-train[data-motion="stopped"] .rl-door {
++  animation: rl-door 1.6s ease-in-out infinite;
+ }
+-@keyframes rw-spark {
++@keyframes rl-spark {
+   0% {
+     opacity: 0.95;
+   }
+@@ -25538,7 +25538,7 @@ a.rt-row:hover {
+     opacity: 0.1;
+   }
+ }
+-@keyframes rw-door {
++@keyframes rl-door {
+   0%,
+   100% {
+     opacity: 1;
+@@ -25548,104 +25548,104 @@ a.rt-row:hover {
+   }
+ }
+ @media (prefers-reduced-motion: reduce) {
+-  .rw-train .rw-spark,
+-  .rw-train .rw-door {
++  .rl-train .rl-spark,
++  .rl-train .rl-door {
+     animation: none;
+   }
+ }
+ 
+ /* ---- the tunnels: gate, open cut, roof, and the board with the name ---- */
+-.rw-gt {
++.rl-gt {
+   fill: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 30%);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.6);
+   stroke-width: 1.6;
+ }
+-.rw-gt-sh,
+-.rw-bd-sh {
++.rl-gt-sh,
++.rl-bd-sh {
+   fill: rgba(0, 0, 0, 0.45);
+   filter: blur(5px);
+ }
+-.rw-gt-top {
++.rl-gt-top {
+   fill: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 46% / 0.75);
+ }
+-.rw-tn-sh {
++.rl-tn-sh {
+   fill: none;
+   stroke: rgba(0, 0, 0, 0.5);
+   stroke-width: 114px;
+   filter: blur(9px);
+ }
+-.rw-tn-edge {
++.rl-tn-edge {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 62% / 0.75);
+   stroke-width: 106px;
+   stroke-linejoin: round;
+ }
+-.rw-tn-body {
++.rl-tn-body {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 26%);
+   stroke-width: 98px;
+   stroke-linejoin: round;
+ }
+-.rw-tn-ribs {
++.rl-tn-ribs {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 44% / 0.85);
+   stroke-width: 86px;
+   stroke-dasharray: 3 13;
+ }
+-.rw-tn-ridge {
++.rl-tn-ridge {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88% / 0.6);
+   stroke-width: 3px;
+   stroke-dasharray: 12 9;
+   stroke-linecap: round;
+ }
+-.rw-cut-wall {
++.rl-cut-wall {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 20%);
+   stroke-width: 100px;
+ }
+-.rw-cut-hatch {
++.rl-cut-hatch {
+   fill: none;
+-  stroke: url(#rw-hatch);
++  stroke: url(#rl-hatch);
+   stroke-width: 100px;
+ }
+-.rw-cut-floor {
++.rl-cut-floor {
+   fill: none;
+   stroke: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 6%);
+   stroke-width: 70px;
+ }
+-.rw-hatch-bg {
++.rl-hatch-bg {
+   fill: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 22%);
+ }
+-.rw-hatch-ln {
++.rl-hatch-ln {
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.6);
+   stroke-width: 2;
+ }
+-.rw-bd {
++.rl-bd {
+   fill: hsl(calc(var(--th) + 347) calc(56% * var(--ts)) 6% / 0.96);
+   stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.75);
+   stroke-width: 1.6;
+ }
+-.rw-bd-ic {
++.rl-bd-ic {
+   fill: none;
+   stroke: var(--a);
+   stroke-width: 2.6;
+   stroke-linecap: round;
+ }
+-.rw-bd-ic2 {
++.rl-bd-ic2 {
+   fill: none;
+   stroke: var(--a);
+   stroke-width: 2.6;
+   stroke-linecap: round;
+ }
+-.rw-bd-t {
++.rl-bd-t {
+   fill: #fff;
+   font-size: 14px;
+   font-weight: 800;
+   letter-spacing: 0.05em;
+   text-transform: uppercase;
+ }
+-.rw-bd-s {
++.rl-bd-s {
+   fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 88% / 0.85);
+   font-size: 12px;
+   font-weight: 500;
+diff --git a/a/src/components/site/career/railway.tsx b/b/src/components/site/career/railway.tsx
+index 0ef15c6..a5f787e 100644
+--- a/a/src/components/site/career/railway.tsx
++++ b/b/src/components/site/career/railway.tsx
+@@ -16,7 +16,7 @@ import { PersonTop } from "../timeline-art";
+ // a current status and a destination. Then it comes in from the top and stands at the platform. When the seat is booked it rides down the
+ // page with the scroll, smoothly; when the passenger details are sent the page rides to Surat Junction and the passenger gets out.
+ // The geometry is measured from the sections of the page: they only have to carry the markers that are listed in measure().
+-// The look is in globals.css (.rw-*). Laptop and desktop screens.
++// The look is in globals.css (.rl-*). Laptop and desktop screens.
+ 
+ const STEP = 6; // px between two samples of the path
+ const COACH_L = 96;
+@@ -356,37 +356,37 @@ function Coach({ first }: { first: boolean }) {
+   const w = CAR_W / 2;
+   return (
+     <>
+-      <rect className="rw-bogie" x={-L / 2 + 9} y={-w - 1} width="22" height={CAR_W + 2} rx="4" />
+-      <rect className="rw-bogie" x={L / 2 - 31} y={-w - 1} width="22" height={CAR_W + 2} rx="4" />
++      <rect className="rl-bogie" x={-L / 2 + 9} y={-w - 1} width="22" height={CAR_W + 2} rx="4" />
++      <rect className="rl-bogie" x={L / 2 - 31} y={-w - 1} width="22" height={CAR_W + 2} rx="4" />
+       {/* the rubber between this car and the one in front of it */}
+-      <rect className="rw-bellow" x={L / 2 - 2} y={-w + 9} width={GAP + 4} height={CAR_W - 18} rx="2" />
+-      <rect className="rw-coach" x={-L / 2} y={-w} width={L} height={CAR_W} rx="10" />
+-      <path className="rw-stripe" d={`M${-L / 2 + 8} ${-w + 4.5}H${L / 2 - 8}M${-L / 2 + 8} ${w - 4.5}H${L / 2 - 8}`} />
+-      <rect className="rw-roof" x={-L / 2 + 6} y={-w + 8} width={L - 12} height={CAR_W - 16} rx="7" data-open={first} />
++      <rect className="rl-bellow" x={L / 2 - 2} y={-w + 9} width={GAP + 4} height={CAR_W - 18} rx="2" />
++      <rect className="rl-coach" x={-L / 2} y={-w} width={L} height={CAR_W} rx="10" />
++      <path className="rl-stripe" d={`M${-L / 2 + 8} ${-w + 4.5}H${L / 2 - 8}M${-L / 2 + 8} ${w - 4.5}H${L / 2 - 8}`} />
++      <rect className="rl-roof" x={-L / 2 + 6} y={-w + 8} width={L - 12} height={CAR_W - 16} rx="7" data-open={first} />
+       {first ? (
+         // the first coach has its roof off: the seats can be seen
+         <g>
+           {[0, 1, 2, 3].map((i) => (
+             <g key={i}>
+-              <rect className="rw-seat" x={-L / 2 + 14 + i * 20} y={-w + 10} width="12" height="10" rx="3" />
+-              <rect className="rw-seat" x={-L / 2 + 14 + i * 20} y={w - 20} width="12" height="10" rx="3" />
++              <rect className="rl-seat" x={-L / 2 + 14 + i * 20} y={-w + 10} width="12" height="10" rx="3" />
++              <rect className="rl-seat" x={-L / 2 + 14 + i * 20} y={w - 20} width="12" height="10" rx="3" />
+             </g>
+           ))}
+-          <rect className="rw-aisle" x={-L / 2 + 8} y="-3" width={L - 16} height="6" rx="3" />
++          <rect className="rl-aisle" x={-L / 2 + 8} y="-3" width={L - 16} height="6" rx="3" />
+         </g>
+       ) : (
+         <g>
+-          <rect className="rw-ac" x={-L / 2 + 8} y="-8" width="13" height="16" rx="4" />
+-          <rect className="rw-ac" x={L / 2 - 21} y="-8" width="13" height="16" rx="4" />
+-          <path className="rw-rib" d={`M${-L / 2 + 12} -8V8M${-L / 2 + 17} -8V8M${L / 2 - 17} -8V8M${L / 2 - 12} -8V8`} />
+-          <text className="rw-livery" x="0" y="3" textAnchor="middle">
++          <rect className="rl-ac" x={-L / 2 + 8} y="-8" width="13" height="16" rx="4" />
++          <rect className="rl-ac" x={L / 2 - 21} y="-8" width="13" height="16" rx="4" />
++          <path className="rl-rib" d={`M${-L / 2 + 12} -8V8M${-L / 2 + 17} -8V8M${L / 2 - 17} -8V8M${L / 2 - 12} -8V8`} />
++          <text className="rl-livery" x="0" y="3" textAnchor="middle">
+             WE3VISION
+           </text>
+         </g>
+       )}
+-      <path className="rw-win" d={`M${-L / 2 + 10} ${-w + 2.5}H${L / 2 - 10}M${-L / 2 + 10} ${w - 2.5}H${L / 2 - 10}`} />
+-      <rect className="rw-door" x="-4" y={-w - 1} width="8" height="3.5" rx="1.5" />
+-      <rect className="rw-door" x="-4" y={w - 2.5} width="8" height="3.5" rx="1.5" />
++      <path className="rl-win" d={`M${-L / 2 + 10} ${-w + 2.5}H${L / 2 - 10}M${-L / 2 + 10} ${w - 2.5}H${L / 2 - 10}`} />
++      <rect className="rl-door" x="-4" y={-w - 1} width="8" height="3.5" rx="1.5" />
++      <rect className="rl-door" x="-4" y={w - 2.5} width="8" height="3.5" rx="1.5" />
+     </>
+   );
+ }
+@@ -399,22 +399,22 @@ function Engine({ rear }: { rear: boolean }) {
+   const roof = `M${-L / 2 + 9} ${-w + 7}H${L / 2 - 42}Q${L / 2 - 24} ${-w + 8} ${L / 2 - 16} -9Q${L / 2 - 12} 0 ${L / 2 - 16} 9Q${L / 2 - 24} ${w - 8} ${L / 2 - 42} ${w - 7}H${-L / 2 + 9}Q${-L / 2 + 5} ${w - 7} ${-L / 2 + 5} ${w - 12}V${-w + 12}Q${-L / 2 + 5} ${-w + 7} ${-L / 2 + 9} ${-w + 7}Z`;
+   return (
+     <g transform={rear ? "rotate(180)" : undefined}>
+-      {!rear && <path className="rw-beam" d={`M${L / 2 - 2} -13L${L / 2 + 170} -64V64L${L / 2 - 2} 13Z`} />}
+-      <rect className="rw-bogie" x={-L / 2 + 9} y={-w - 1} width="26" height={CAR_W + 2} rx="4" />
+-      <rect className="rw-bogie" x={L / 2 - 45} y={-w - 1} width="26" height={CAR_W + 2} rx="4" />
+-      {rear && <rect className="rw-bellow" x={-L / 2 - GAP - 2} y={-w + 9} width={GAP + 4} height={CAR_W - 18} rx="2" />}
+-      <path className="rw-engine" d={body} />
+-      <path className="rw-engine-roof" d={roof} />
+-      <path className="rw-stripe" d={`M${-L / 2 + 8} ${-w + 4}H${L / 2 - 40}M${-L / 2 + 8} ${w - 4}H${L / 2 - 40}`} />
++      {!rear && <path className="rl-beam" d={`M${L / 2 - 2} -13L${L / 2 + 170} -64V64L${L / 2 - 2} 13Z`} />}
++      <rect className="rl-bogie" x={-L / 2 + 9} y={-w - 1} width="26" height={CAR_W + 2} rx="4" />
++      <rect className="rl-bogie" x={L / 2 - 45} y={-w - 1} width="26" height={CAR_W + 2} rx="4" />
++      {rear && <rect className="rl-bellow" x={-L / 2 - GAP - 2} y={-w + 9} width={GAP + 4} height={CAR_W - 18} rx="2" />}
++      <path className="rl-engine" d={body} />
++      <path className="rl-engine-roof" d={roof} />
++      <path className="rl-stripe" d={`M${-L / 2 + 8} ${-w + 4}H${L / 2 - 40}M${-L / 2 + 8} ${w - 4}H${L / 2 - 40}`} />
+       {/* the windscreen with its shine */}
+-      <path className="rw-glass" d={`M${L / 2 - 44} ${-w + 8}L${L / 2 - 16} -9Q${L / 2 - 11} 0 ${L / 2 - 16} 9L${L / 2 - 44} ${w - 8}Z`} />
+-      <path className="rw-glass-hi" d={`M${L / 2 - 40} ${-w + 11}L${L / 2 - 22} -8`} />
++      <path className="rl-glass" d={`M${L / 2 - 44} ${-w + 8}L${L / 2 - 16} -9Q${L / 2 - 11} 0 ${L / 2 - 16} 9L${L / 2 - 44} ${w - 8}Z`} />
++      <path className="rl-glass-hi" d={`M${L / 2 - 40} ${-w + 11}L${L / 2 - 22} -8`} />
+       {/* the pantograph on the roof, with the little spark at its head */}
+-      <path className="rw-pan" d={`M${-L / 2 + 10} -11L${-L / 2 + 22} 0L${-L / 2 + 10} 11M${-L / 2 + 22} -11L${-L / 2 + 10} 0L${-L / 2 + 22} 11M${-L / 2 + 24} -13V13`} />
+-      <circle className="rw-spark" cx={-L / 2 + 24} cy="0" r="3" />
++      <path className="rl-pan" d={`M${-L / 2 + 10} -11L${-L / 2 + 22} 0L${-L / 2 + 10} 11M${-L / 2 + 22} -11L${-L / 2 + 10} 0L${-L / 2 + 22} 11M${-L / 2 + 24} -13V13`} />
++      <circle className="rl-spark" cx={-L / 2 + 24} cy="0" r="3" />
+       {/* the lamps: white at the front, red at the back */}
+-      <circle className={rear ? "rw-tail" : "rw-lamp"} cx={L / 2 - 3} cy="-8.5" r="3.4" />
+-      <circle className={rear ? "rw-tail" : "rw-lamp"} cx={L / 2 - 3} cy="8.5" r="3.4" />
++      <circle className={rear ? "rl-tail" : "rl-lamp"} cx={L / 2 - 3} cy="-8.5" r="3.4" />
++      <circle className={rear ? "rl-tail" : "rl-lamp"} cx={L / 2 - 3} cy="8.5" r="3.4" />
+     </g>
+   );
+ }
+@@ -423,8 +423,8 @@ function Engine({ rear }: { rear: boolean }) {
+ function Plate() {
+   return (
+     <>
+-      <rect className="rw-plate" x="-22" y="-12" width="44" height="24" rx="7" />
+-      <text className="rw-plate-t" x="0" y="5" textAnchor="middle">
++      <rect className="rl-plate" x="-22" y="-12" width="44" height="24" rx="7" />
++      <text className="rl-plate-t" x="0" y="5" textAnchor="middle">
+         W3V
+       </text>
+     </>
+@@ -436,13 +436,13 @@ function Gate({ p }: { p: Pt }) {
+   const Wd = 104;
+   return (
+     <g transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${((p.a * 180) / Math.PI).toFixed(1)})`}>
+-      <rect className="rw-gt-sh" x="-5" y={-Wd / 2 + 6} width="22" height={Wd} rx="9" />
+-      <rect className="rw-gt" x="-9" y={-Wd / 2} width="18" height={Wd} rx="9" />
+-      <rect className="rw-gt-top" x="-5" y={-Wd / 2 + 5} width="10" height={Wd - 10} rx="5" />
+-      <circle className="rw-glow" cx="0" cy={-Wd / 2 + 4} r="22" />
+-      <circle className="rw-glow" cx="0" cy={Wd / 2 - 4} r="22" />
+-      <circle className="rw-lampost" cx="0" cy={-Wd / 2 + 4} r="4" />
+-      <circle className="rw-lampost" cx="0" cy={Wd / 2 - 4} r="4" />
++      <rect className="rl-gt-sh" x="-5" y={-Wd / 2 + 6} width="22" height={Wd} rx="9" />
++      <rect className="rl-gt" x="-9" y={-Wd / 2} width="18" height={Wd} rx="9" />
++      <rect className="rl-gt-top" x="-5" y={-Wd / 2 + 5} width="10" height={Wd - 10} rx="5" />
++      <circle className="rl-glow" cx="0" cy={-Wd / 2 + 4} r="22" />
++      <circle className="rl-glow" cx="0" cy={Wd / 2 - 4} r="22" />
++      <circle className="rl-lampost" cx="0" cy={-Wd / 2 + 4} r="4" />
++      <circle className="rl-lampost" cx="0" cy={Wd / 2 - 4} r="4" />
+     </g>
+   );
+ }
+@@ -453,14 +453,14 @@ function Board({ x, y, name, sub }: { x: number; y: number; name: string; sub: s
+   const h = 54;
+   return (
+     <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
+-      <rect className="rw-bd-sh" x={-w / 2 + 3} y={-h / 2 + 6} width={w} height={h} rx="13" />
+-      <rect className="rw-bd" x={-w / 2} y={-h / 2} width={w} height={h} rx="13" />
+-      <path className="rw-bd-ic" d={`M${-w / 2 + 14} 11V-3Q${-w / 2 + 14} -12 ${-w / 2 + 23} -12Q${-w / 2 + 32} -12 ${-w / 2 + 32} -3V11`} />
+-      <path className="rw-bd-ic2" d={`M${-w / 2 + 14} 11H${-w / 2 + 32}`} />
+-      <text className="rw-bd-t" x={-w / 2 + 44} y="-3">
++      <rect className="rl-bd-sh" x={-w / 2 + 3} y={-h / 2 + 6} width={w} height={h} rx="13" />
++      <rect className="rl-bd" x={-w / 2} y={-h / 2} width={w} height={h} rx="13" />
++      <path className="rl-bd-ic" d={`M${-w / 2 + 14} 11V-3Q${-w / 2 + 14} -12 ${-w / 2 + 23} -12Q${-w / 2 + 32} -12 ${-w / 2 + 32} -3V11`} />
++      <path className="rl-bd-ic2" d={`M${-w / 2 + 14} 11H${-w / 2 + 32}`} />
++      <text className="rl-bd-t" x={-w / 2 + 44} y="-3">
+         {name}
+       </text>
+-      <text className="rw-bd-s" x={-w / 2 + 44} y="15">
++      <text className="rl-bd-s" x={-w / 2 + 44} y="15">
+         {sub}
+       </text>
+     </g>
+@@ -480,29 +480,29 @@ function Platform({ x, yHead, kind }: { x: number; yHead: number; kind: "start"
+   return (
+     <g>
+       {/* the floor: tiles, a shadow on the ground round it, tactile paving and the yellow line at the edge */}
+-      <rect className="rw-plat-shadow" x={left - 6} y={top - 4} width={w + 12} height={h + 12} rx="16" />
+-      <rect className="rw-plat" x={left} y={top} width={w} height={h} rx="12" />
+-      <rect x={left} y={top} width={w} height={h} rx="12" fill="url(#rw-tile)" />
+-      <rect x={edge - 34} y={top} width="26" height={h} fill="url(#rw-dots)" />
+-      <rect className="rw-plat-edge" x={edge - 7} y={top} width="6" height={h} />
+-      <rect className="rw-plat-lip" x={edge - 1} y={top} width="3" height={h} />
++      <rect className="rl-plat-shadow" x={left - 6} y={top - 4} width={w + 12} height={h + 12} rx="16" />
++      <rect className="rl-plat" x={left} y={top} width={w} height={h} rx="12" />
++      <rect x={left} y={top} width={w} height={h} rx="12" fill="url(#rl-tile)" />
++      <rect x={edge - 34} y={top} width="26" height={h} fill="url(#rl-dots)" />
++      <rect className="rl-plat-edge" x={edge - 7} y={top} width="6" height={h} />
++      <rect className="rl-plat-lip" x={edge - 1} y={top} width="3" height={h} />
+ 
+       {/* the roof: glass between steel beams, a shadow under it, posts, the lamps hang from it */}
+-      <g className="rw-canopy">
+-        <rect className="rw-roof-sh" x={left + 18} y={roofTop + 14} width={w - 62} height={roofH} rx="10" />
+-        <rect className="rw-roof-glass" x={left + 14} y={roofTop} width={w - 62} height={roofH} rx="10" />
++      <g className="rl-canopy">
++        <rect className="rl-roof-sh" x={left + 18} y={roofTop + 14} width={w - 62} height={roofH} rx="10" />
++        <rect className="rl-roof-glass" x={left + 14} y={roofTop} width={w - 62} height={roofH} rx="10" />
+         {Array.from({ length: 10 }, (_, i) => (
+           <line key={i} x1={left + 14} x2={left + 14 + w - 62} y1={roofTop + (i * roofH) / 9} y2={roofTop + (i * roofH) / 9} />
+         ))}
+         <line x1={left + 14 + (w - 62) / 2} x2={left + 14 + (w - 62) / 2} y1={roofTop} y2={roofTop + roofH} />
+       </g>
+-      {[0, 3, 6, 9].flatMap((i) => [left + 14, left + 14 + w - 62].map((px) => <circle key={`${px}-${i}`} className="rw-post" cx={px} cy={roofTop + (i * roofH) / 9} r="5.5" />))}
++      {[0, 3, 6, 9].flatMap((i) => [left + 14, left + 14 + w - 62].map((px) => <circle key={`${px}-${i}`} className="rl-post" cx={px} cy={roofTop + (i * roofH) / 9} r="5.5" />))}
+       {[0, 1, 2, 3].map((i) => {
+         const y = roofTop + 60 + i * 130;
+         return (
+           <g key={i}>
+-            <circle className="rw-glow" cx={left + 14 + (w - 62) / 2} cy={y} r="46" />
+-            <circle className="rw-lampost" cx={left + 14 + (w - 62) / 2} cy={y} r="4.5" />
++            <circle className="rl-glow" cx={left + 14 + (w - 62) / 2} cy={y} r="46" />
++            <circle className="rl-lampost" cx={left + 14 + (w - 62) / 2} cy={y} r="4.5" />
+           </g>
+         );
+       })}
+@@ -510,67 +510,67 @@ function Platform({ x, yHead, kind }: { x: number; yHead: number; kind: "start"
+       {/* furniture: benches, a ticket machine, a kiosk with an awning, bins, planters, the timetable, a clock, the route map */}
+       {[yHead - 420, yHead - 320, yHead - 220].map((y) => (
+         <g key={y}>
+-          <rect className="rw-bench" x={left + 38} y={y} width="66" height="17" rx="5" />
++          <rect className="rl-bench" x={left + 38} y={y} width="66" height="17" rx="5" />
+           {[0, 1, 2, 3].map((k) => (
+-            <line key={k} className="rw-bench-slat" x1={left + 38 + 8 + k * 16} x2={left + 38 + 8 + k * 16} y1={y + 2} y2={y + 15} />
++            <line key={k} className="rl-bench-slat" x1={left + 38 + 8 + k * 16} x2={left + 38 + 8 + k * 16} y1={y + 2} y2={y + 15} />
+           ))}
+-          <rect className="rw-bench-back" x={left + 38} y={y - 5} width="66" height="5" rx="2" />
++          <rect className="rl-bench-back" x={left + 38} y={y - 5} width="66" height="5" rx="2" />
+         </g>
+       ))}
+       <g>
+-        <rect className="rw-kiosk" x={left + 20} y={yHead - 150} width="54" height="44" rx="8" />
++        <rect className="rl-kiosk" x={left + 20} y={yHead - 150} width="54" height="44" rx="8" />
+         {Array.from({ length: 6 }, (_, i) => (
+-          <rect key={i} className={i % 2 ? "rw-awn-a" : "rw-awn-b"} x={left + 20 + i * 9} y={yHead - 150} width="9" height="14" />
++          <rect key={i} className={i % 2 ? "rl-awn-a" : "rl-awn-b"} x={left + 20 + i * 9} y={yHead - 150} width="9" height="14" />
+         ))}
+-        <rect className="rw-machine" x={left + 86} y={yHead - 150} width="26" height="44" rx="6" />
+-        <rect className="rw-machine-screen" x={left + 91} y={yHead - 143} width="16" height="12" rx="2" />
++        <rect className="rl-machine" x={left + 86} y={yHead - 150} width="26" height="44" rx="6" />
++        <rect className="rl-machine-screen" x={left + 91} y={yHead - 143} width="16" height="12" rx="2" />
+       </g>
+-      <circle className="rw-bin" cx={left + 128} cy={yHead - 120} r="7" />
+-      <circle className="rw-bin" cx={left + 128} cy={yHead - 380} r="7" />
++      <circle className="rl-bin" cx={left + 128} cy={yHead - 120} r="7" />
++      <circle className="rl-bin" cx={left + 128} cy={yHead - 380} r="7" />
+       {[yHead - 500, yHead - 60].map((y) => (
+         <g key={y}>
+-          <circle className="rw-pot" cx={left + 150} cy={y} r="13" />
+-          <circle className="rw-pot-leaf" cx={left + 150} cy={y} r="9" />
++          <circle className="rl-pot" cx={left + 150} cy={y} r="13" />
++          <circle className="rl-pot-leaf" cx={left + 150} cy={y} r="9" />
+         </g>
+       ))}
+       <g>
+-        <circle className="rw-clock" cx={left + 54} cy={yHead - 520} r="21" />
++        <circle className="rl-clock" cx={left + 54} cy={yHead - 520} r="21" />
+         {Array.from({ length: 12 }, (_, i) => {
+           const ang = (i / 12) * Math.PI * 2;
+-          return <line key={i} className="rw-clock-tick" x1={left + 54 + Math.cos(ang) * 16} y1={yHead - 520 + Math.sin(ang) * 16} x2={left + 54 + Math.cos(ang) * 19} y2={yHead - 520 + Math.sin(ang) * 19} />;
++          return <line key={i} className="rl-clock-tick" x1={left + 54 + Math.cos(ang) * 16} y1={yHead - 520 + Math.sin(ang) * 16} x2={left + 54 + Math.cos(ang) * 19} y2={yHead - 520 + Math.sin(ang) * 19} />;
+         })}
+-        <path className="rw-clock-hand" d={`M${left + 54} ${yHead - 520}V${yHead - 534}M${left + 54} ${yHead - 520}L${left + 64} ${yHead - 514}`} />
++        <path className="rl-clock-hand" d={`M${left + 54} ${yHead - 520}V${yHead - 534}M${left + 54} ${yHead - 520}L${left + 64} ${yHead - 514}`} />
+       </g>
+       <g>
+-        <rect className="rw-board" x={left + 84} y={yHead - 546} width="52" height="52" rx="6" />
+-        <path className="rw-board-lines" d={`M${left + 92} ${yHead - 530}H${left + 128}M${left + 92} ${yHead - 518}H${left + 120}M${left + 92} ${yHead - 506}H${left + 126}`} />
++        <rect className="rl-board" x={left + 84} y={yHead - 546} width="52" height="52" rx="6" />
++        <path className="rl-board-lines" d={`M${left + 92} ${yHead - 530}H${left + 128}M${left + 92} ${yHead - 518}H${left + 120}M${left + 92} ${yHead - 506}H${left + 126}`} />
+       </g>
+-      <path className="rw-map" d={`M${left + 28} ${yHead - 38}Q${left + 58} ${yHead - 62} ${left + 96} ${yHead - 38}T${left + 164} ${yHead - 44}`} />
++      <path className="rl-map" d={`M${left + 28} ${yHead - 38}Q${left + 58} ${yHead - 62} ${left + 96} ${yHead - 38}T${left + 164} ${yHead - 44}`} />
+ 
+       {/* people waiting (seen from above: shoulders and a head) */}
+       {waiting.map(([px, py], i) => (
+         <g key={i}>
+-          <ellipse className="rw-person-sh" cx={px} cy={py} rx="9" ry="6" />
+-          <circle className={i % 2 ? "rw-person-a" : "rw-person-b"} cx={px} cy={py} r="4.8" />
++          <ellipse className="rl-person-sh" cx={px} cy={py} rx="9" ry="6" />
++          <circle className={i % 2 ? "rl-person-a" : "rl-person-b"} cx={px} cy={py} r="4.8" />
+         </g>
+       ))}
+ 
+       {/* the name of the platform */}
+       <g>
+-        <rect className="rw-sign" x={left + 16} y={yHead + 38} width={w - 60} height="44" rx="9" />
+-        <circle className="rw-sign-n" cx={left + 40} cy={yHead + 60} r="14" />
+-        <text className="rw-sign-num" x={left + 40} y={yHead + 65} textAnchor="middle">
++        <rect className="rl-sign" x={left + 16} y={yHead + 38} width={w - 60} height="44" rx="9" />
++        <circle className="rl-sign-n" cx={left + 40} cy={yHead + 60} r="14" />
++        <text className="rl-sign-num" x={left + 40} y={yHead + 65} textAnchor="middle">
+           {kind === "start" ? "1" : "S"}
+         </text>
+-        <text className="rw-sign-t" x={left + 62} y={yHead + 65}>
++        <text className="rl-sign-t" x={left + 62} y={yHead + 65}>
+           {kind === "start" ? "CAREERS" : "SURAT JN"}
+         </text>
+       </g>
+ 
+       {/* a footbridge over the track, above the place where the train comes in (only at the first station) */}
+-      <g className="rw-bridge" display={kind === "start" ? undefined : "none"}>
+-        <rect className="rw-bridge-sh" x={left + 28} y={yHead - 650 + 10} width={w + 130} height="26" rx="4" />
+-        <rect className="rw-bridge-deck" x={left + 24} y={yHead - 650} width={w + 130} height="26" rx="4" />
++      <g className="rl-bridge" display={kind === "start" ? undefined : "none"}>
++        <rect className="rl-bridge-sh" x={left + 28} y={yHead - 650 + 10} width={w + 130} height="26" rx="4" />
++        <rect className="rl-bridge-deck" x={left + 24} y={yHead - 650} width={w + 130} height="26" rx="4" />
+         <line x1={left + 24} x2={left + 24 + w + 130} y1={yHead - 650 + 5} y2={yHead - 650 + 5} />
+         <line x1={left + 24} x2={left + 24 + w + 130} y1={yHead - 650 + 21} y2={yHead - 650 + 21} />
+         {Array.from({ length: 14 }, (_, i) => (
+@@ -587,10 +587,10 @@ function Signal({ x, y, a, side, green }: { x: number; y: number; a: number; sid
+   const dy = Math.cos(a) * side * 40;
+   return (
+     <g transform={`translate(${x + dx} ${y + dy})`}>
+-      <rect className="rw-sig-post" x="-3" y="-3" width="6" height="26" rx="3" />
+-      <rect className="rw-sig-head" x="-7" y="-14" width="14" height="22" rx="5" />
+-      <circle className="rw-sig-lamp" data-on={!green} data-c="r" cx="0" cy="-8" r="3.4" />
+-      <circle className="rw-sig-lamp" data-on={green} data-c="g" cx="0" cy="1" r="3.4" />
++      <rect className="rl-sig-post" x="-3" y="-3" width="6" height="26" rx="3" />
++      <rect className="rl-sig-head" x="-7" y="-14" width="14" height="22" rx="5" />
++      <circle className="rl-sig-lamp" data-on={!green} data-c="r" cx="0" cy="-8" r="3.4" />
++      <circle className="rl-sig-lamp" data-on={green} data-c="g" cx="0" cy="1" r="3.4" />
+     </g>
+   );
+ }
+@@ -764,114 +764,114 @@ export function CareerRailway() {
+   const summoned = career.summoned;
+ 
+   return (
+-    <div ref={rootRef} className="rw" aria-hidden>
++    <div ref={rootRef} className="rl" aria-hidden>
+       {geo && (
+         <>
+-          <svg width={geo.W} height={geo.H} viewBox={`0 0 ${geo.W} ${geo.H}`} className="rw-svg">
++          <svg width={geo.W} height={geo.H} viewBox={`0 0 ${geo.W} ${geo.H}`} className="rl-svg">
+             <defs>
+-              <pattern id="rw-tile" width="26" height="26" patternUnits="userSpaceOnUse">
++              <pattern id="rl-tile" width="26" height="26" patternUnits="userSpaceOnUse">
+                 <path d="M26 0H0V26" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+               </pattern>
+-              <pattern id="rw-dots" width="9" height="9" patternUnits="userSpaceOnUse">
++              <pattern id="rl-dots" width="9" height="9" patternUnits="userSpaceOnUse">
+                 <circle cx="4.5" cy="4.5" r="1.6" fill="rgba(255,255,255,0.22)" />
+               </pattern>
+-              <radialGradient id="rw-glow-g">
+-                <stop offset="0" className="rw-lite" stopOpacity="0.5" />
+-                <stop offset="1" className="rw-lite" stopOpacity="0" />
++              <radialGradient id="rl-glow-g">
++                <stop offset="0" className="rl-lite" stopOpacity="0.5" />
++                <stop offset="1" className="rl-lite" stopOpacity="0" />
+               </radialGradient>
+-              <mask id="rw-cover" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
++              <mask id="rl-cover" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
+                 <rect x="0" y="0" width={geo.W} height={geo.H} fill="#fff" />
+                 {geo.covers.map((c, i) => (
+                   <rect key={i} x={c.x} y={c.y} width={c.w} height={c.h} rx={c.r} fill="#000" />
+                 ))}
+               </mask>
+               {/* the line and the train are not seen under the roof of a tunnel */}
+-              <mask id="rw-under" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
++              <mask id="rl-under" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
+                 <rect x="0" y="0" width={geo.W} height={geo.H} fill="#fff" />
+                 {geo.tunnels.map((t, i) => (
+                   <path key={i} d={t.dUnder} fill="none" stroke="#000" strokeWidth="76" strokeLinecap="butt" strokeLinejoin="round" />
+                 ))}
+               </mask>
+-              <pattern id="rw-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+-                <rect width="9" height="9" className="rw-hatch-bg" />
+-                <line x1="0" y1="0" x2="0" y2="9" className="rw-hatch-ln" />
++              <pattern id="rl-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
++                <rect width="9" height="9" className="rl-hatch-bg" />
++                <line x1="0" y1="0" x2="0" y2="9" className="rl-hatch-ln" />
+               </pattern>
+-              <linearGradient id="rw-beam-g" x1="0" x2="1">
+-                <stop offset="0" className="rw-lite" stopOpacity="0.5" />
+-                <stop offset="1" className="rw-lite" stopOpacity="0" />
++              <linearGradient id="rl-beam-g" x1="0" x2="1">
++                <stop offset="0" className="rl-lite" stopOpacity="0.5" />
++                <stop offset="1" className="rl-lite" stopOpacity="0" />
+               </linearGradient>
+             </defs>
+ 
+-            <g mask={geo.covers.length ? "url(#rw-cover)" : undefined}>
+-            <g mask={geo.tunnels.length ? "url(#rw-under)" : undefined}>
++            <g mask={geo.covers.length ? "url(#rl-cover)" : undefined}>
++            <g mask={geo.tunnels.length ? "url(#rl-under)" : undefined}>
+             {/* the stream and the bridge */}
+             {geo.river && (
+               <g>
+-                <rect className="rw-river" x="0" y={geo.river.y} width={geo.W} height={geo.river.h} />
+-                <path className="rw-ripple" d={`M0 ${geo.river.y + 22}Q${geo.W * 0.1} ${geo.river.y + 10} ${geo.W * 0.2} ${geo.river.y + 22}T${geo.W * 0.4} ${geo.river.y + 22}T${geo.W * 0.6} ${geo.river.y + 22}T${geo.W * 0.8} ${geo.river.y + 22}T${geo.W} ${geo.river.y + 22}M0 ${geo.river.y + 54}Q${geo.W * 0.1} ${geo.river.y + 42} ${geo.W * 0.2} ${geo.river.y + 54}T${geo.W * 0.4} ${geo.river.y + 54}T${geo.W * 0.6} ${geo.river.y + 54}T${geo.W * 0.8} ${geo.river.y + 54}T${geo.W} ${geo.river.y + 54}`} />
++                <rect className="rl-river" x="0" y={geo.river.y} width={geo.W} height={geo.river.h} />
++                <path className="rl-ripple" d={`M0 ${geo.river.y + 22}Q${geo.W * 0.1} ${geo.river.y + 10} ${geo.W * 0.2} ${geo.river.y + 22}T${geo.W * 0.4} ${geo.river.y + 22}T${geo.W * 0.6} ${geo.river.y + 22}T${geo.W * 0.8} ${geo.river.y + 22}T${geo.W} ${geo.river.y + 22}M0 ${geo.river.y + 54}Q${geo.W * 0.1} ${geo.river.y + 42} ${geo.W * 0.2} ${geo.river.y + 54}T${geo.W * 0.4} ${geo.river.y + 54}T${geo.W * 0.6} ${geo.river.y + 54}T${geo.W * 0.8} ${geo.river.y + 54}T${geo.W} ${geo.river.y + 54}`} />
+               </g>
+             )}
+ 
+             {/* the level crossing: a road that crosses the line, with the barriers */}
+             {geo.crossing && (
+               <g>
+-                <rect className="rw-road" x={geo.crossing.x < geo.W / 2 ? 0 : geo.crossing.x - 130} y={geo.crossing.y - 24} width={geo.crossing.x < geo.W / 2 ? geo.crossing.x + 130 : geo.W - geo.crossing.x + 130} height="48" />
+-                <path className="rw-road-line" d={geo.crossing.x < geo.W / 2 ? `M0 ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.crossing.x + 130}` : `M${geo.crossing.x - 130} ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.W}`} />
+-                <rect className="rw-barrier" x={geo.crossing.x - 76} y={geo.crossing.y - 34} width="46" height="6" rx="3" />
+-                <rect className="rw-barrier" x={geo.crossing.x + 30} y={geo.crossing.y + 28} width="46" height="6" rx="3" />
+-                <circle className="rw-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x - 80} cy={geo.crossing.y - 31} r="3.5" />
+-                <circle className="rw-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x + 80} cy={geo.crossing.y + 31} r="3.5" />
++                <rect className="rl-road" x={geo.crossing.x < geo.W / 2 ? 0 : geo.crossing.x - 130} y={geo.crossing.y - 24} width={geo.crossing.x < geo.W / 2 ? geo.crossing.x + 130 : geo.W - geo.crossing.x + 130} height="48" />
++                <path className="rl-road-line" d={geo.crossing.x < geo.W / 2 ? `M0 ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.crossing.x + 130}` : `M${geo.crossing.x - 130} ${geo.crossing.y}H${geo.crossing.x - 40}M${geo.crossing.x + 40} ${geo.crossing.y}H${geo.W}`} />
++                <rect className="rl-barrier" x={geo.crossing.x - 76} y={geo.crossing.y - 34} width="46" height="6" rx="3" />
++                <rect className="rl-barrier" x={geo.crossing.x + 30} y={geo.crossing.y + 28} width="46" height="6" rx="3" />
++                <circle className="rl-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x - 80} cy={geo.crossing.y - 31} r="3.5" />
++                <circle className="rl-sig-lamp" data-on="true" data-c="r" cx={geo.crossing.x + 80} cy={geo.crossing.y + 31} r="3.5" />
+               </g>
+             )}
+ 
+             {/* trees */}
+             {geo.trees.map((t, i) => (
+               <g key={i}>
+-                <circle className="rw-tree-sh" cx={t.x + 3} cy={t.y + 4} r={t.r} />
+-                <circle className="rw-tree" cx={t.x} cy={t.y} r={t.r} />
+-                <circle className="rw-tree-hi" cx={t.x - t.r * 0.3} cy={t.y - t.r * 0.3} r={t.r * 0.45} />
++                <circle className="rl-tree-sh" cx={t.x + 3} cy={t.y + 4} r={t.r} />
++                <circle className="rl-tree" cx={t.x} cy={t.y} r={t.r} />
++                <circle className="rl-tree-hi" cx={t.x - t.r * 0.3} cy={t.y - t.r * 0.3} r={t.r * 0.45} />
+               </g>
+             ))}
+ 
+             {/* the open cut at the start of a tunnel: walls that are cut across (hatched, as on a drawing of a section), the floor between them */}
+             {geo.tunnels.map((t, i) => (
+               <g key={`cut-${i}`}>
+-                <path d={t.dCut} className="rw-cut-wall" />
+-                <path d={t.dCut} className="rw-cut-hatch" />
+-                <path d={t.dCut} className="rw-cut-floor" />
++                <path d={t.dCut} className="rl-cut-wall" />
++                <path d={t.dCut} className="rl-cut-hatch" />
++                <path d={t.dCut} className="rl-cut-floor" />
+               </g>
+             ))}
+ 
+             {/* the track: stones, sleepers, the two rails */}
+-            <path d={geo.d} className="rw-ballast" />
+-            <path d={geo.d} className="rw-sleepers" />
+-            <path d={geo.d} className="rw-railbed" />
+-            <path d={geo.d} className="rw-railgap" />
++            <path d={geo.d} className="rl-ballast" />
++            <path d={geo.d} className="rl-sleepers" />
++            <path d={geo.d} className="rl-railbed" />
++            <path d={geo.d} className="rl-railgap" />
+ 
+             {/* the stations */}
+             <Platform x={geo.x1} yHead={geo.yHead1} kind="start" />
+             <Platform x={geo.x2} yHead={geo.yHead2} kind="end" />
+-            <g className="rw-office">
+-              <rect className="rw-office-sh" x={geo.x2 - 246 + 10} y={geo.yHead2 - 660 - 190} width="204" height="182" rx="16" />
+-              <rect className="rw-office-body" x={geo.x2 - 246 + 4} y={geo.yHead2 - 660 - 198} width="204" height="182" rx="16" />
+-              <path className="rw-office-roof" d={`M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 170}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 140}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 50}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 20}H${geo.x2 - 246 + 196}`} />
+-              <text className="rw-office-t" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 96} textAnchor="middle">
++            <g className="rl-office">
++              <rect className="rl-office-sh" x={geo.x2 - 246 + 10} y={geo.yHead2 - 660 - 190} width="204" height="182" rx="16" />
++              <rect className="rl-office-body" x={geo.x2 - 246 + 4} y={geo.yHead2 - 660 - 198} width="204" height="182" rx="16" />
++              <path className="rl-office-roof" d={`M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 170}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 140}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 50}H${geo.x2 - 246 + 196}M${geo.x2 - 246 + 16} ${geo.yHead2 - 660 - 20}H${geo.x2 - 246 + 196}`} />
++              <text className="rl-office-t" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 96} textAnchor="middle">
+                 WE3VISION
+               </text>
+-              <text className="rw-office-s" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 72} textAnchor="middle">
++              <text className="rl-office-s" x={geo.x2 - 246 + 106} y={geo.yHead2 - 660 - 72} textAnchor="middle">
+                 HEAD OFFICE
+               </text>
+-              <rect className="rw-office-door" x={geo.x2 - 246 + 76} y={geo.yHead2 - 660 - 24} width="60" height="10" rx="5" />
++              <rect className="rl-office-door" x={geo.x2 - 246 + 76} y={geo.yHead2 - 660 - 24} width="60" height="10" rx="5" />
+             </g>
+ 
+             {/* a little stop for every value */}
+             {geo.stops.map((s, i) => (
+               <g key={i} transform={`translate(${s.x} ${s.y})`}>
+-                <rect className="rw-stub" x={s.side === 1 ? 24 : -24 - 54} y="-48" width="54" height="96" rx="10" />
+-                <rect className="rw-stub-edge" x={s.side === 1 ? 24 : -24 - 5} y="-48" width="5" height="96" />
+-                <circle className="rw-glow" cx={s.side === 1 ? 52 : -52} cy="-30" r="22" />
+-                <circle className="rw-lampost" cx={s.side === 1 ? 52 : -52} cy="-30" r="3.5" />
+-                <rect className="rw-bench" x={s.side === 1 ? 36 : -36 - 28} y="6" width="28" height="12" rx="4" />
++                <rect className="rl-stub" x={s.side === 1 ? 24 : -24 - 54} y="-48" width="54" height="96" rx="10" />
++                <rect className="rl-stub-edge" x={s.side === 1 ? 24 : -24 - 5} y="-48" width="5" height="96" />
++                <circle className="rl-glow" cx={s.side === 1 ? 52 : -52} cy="-30" r="22" />
++                <circle className="rl-lampost" cx={s.side === 1 ? 52 : -52} cy="-30" r="3.5" />
++                <rect className="rl-bench" x={s.side === 1 ? 36 : -36 - 28} y="6" width="28" height="12" rx="4" />
+               </g>
+             ))}
+ 
+@@ -882,8 +882,8 @@ export function CareerRailway() {
+               const dy = Math.cos(q.a) * p.side * 34;
+               return (
+                 <g key={i} transform={`translate(${q.x + dx} ${q.y + dy}) rotate(${(q.a * 180) / Math.PI})`}>
+-                  <rect className="rw-pole" x="-1.5" y="-9" width="3" height="18" />
+-                  <rect className="rw-pole" x="-6" y="-1.5" width="12" height="3" />
++                  <rect className="rl-pole" x="-1.5" y="-9" width="3" height="18" />
++                  <rect className="rl-pole" x="-6" y="-1.5" width="12" height="3" />
+                 </g>
+               );
+             })}
+@@ -892,8 +892,8 @@ export function CareerRailway() {
+               const out = q.x < geo.W / 2 ? -1 : 1;
+               return (
+                 <g key={i} transform={`translate(${clamp(q.x + out * 72, 62, geo.W - 62)} ${q.y})`}>
+-                  <rect className="rw-mile" x="-52" y="-13" width="104" height="26" rx="7" />
+-                  <text className="rw-mile-t" x="0" y="4.5" textAnchor="middle">
++                  <rect className="rl-mile" x="-52" y="-13" width="104" height="26" rx="7" />
++                  <text className="rl-mile-t" x="0" y="4.5" textAnchor="middle">
+                     {m.label}
+                   </text>
+                 </g>
+@@ -905,7 +905,7 @@ export function CareerRailway() {
+             })}
+ 
+             {/* the train: nothing at all until the visitor has chosen */}
+-            <g ref={trainRef} className="rw-train" data-on={summoned} data-motion="stopped">
++            <g ref={trainRef} className="rl-train" data-on={summoned} data-motion="stopped">
+               {Array.from({ length: CARS }, (_, i) => (
+                 <g
+                   key={i}
+@@ -933,11 +933,11 @@ export function CareerRailway() {
+             {/* the tunnels: the roof (over the train, so that it goes under it), the gates and the boards with the names */}
+             {geo.tunnels.map((t, i) => (
+               <g key={`tn-${i}`}>
+-                <path d={t.dRoof} className="rw-tn-sh" />
+-                <path d={t.dRoof} className="rw-tn-edge" />
+-                <path d={t.dRoof} className="rw-tn-body" />
+-                <path d={t.dRoof} className="rw-tn-ribs" />
+-                <path d={t.dRoof} className="rw-tn-ridge" />
++                <path d={t.dRoof} className="rl-tn-sh" />
++                <path d={t.dRoof} className="rl-tn-edge" />
++                <path d={t.dRoof} className="rl-tn-body" />
++                <path d={t.dRoof} className="rl-tn-ribs" />
++                <path d={t.dRoof} className="rl-tn-ridge" />
+                 <Gate p={t.gateIn} />
+                 <Gate p={t.gateOut} />
+                 <Board x={t.boardIn.x} y={t.boardIn.y} name={t.name} sub={t.sub} />
+@@ -948,11 +948,11 @@ export function CareerRailway() {
+           </svg>
+ 
+           {/* the passenger: "You" */}
+-          <div ref={avRef} className="of-walker rw-av" style={{ "--tone": 352, opacity: 0 } as React.CSSProperties}>
++          <div ref={avRef} className="of-walker rl-av" style={{ "--tone": 352, opacity: 0 } as React.CSSProperties}>
+             <div className="of-walker-in">
+               <PersonTop seated={career.stage !== "idle"} />
+             </div>
+-            <span ref={youRef} className="rw-you">
++            <span ref={youRef} className="rl-you">
+               You
+             </span>
+           </div>

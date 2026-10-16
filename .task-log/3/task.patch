@@ -1,0 +1,76 @@
+diff --git a/a/src/components/site/contact-form.tsx b/b/src/components/site/contact-form.tsx
+index 10af18b..9870ce3 100644
+--- a/a/src/components/site/contact-form.tsx
++++ b/b/src/components/site/contact-form.tsx
+@@ -2,6 +2,7 @@
+ 
+ import { useActionState, useEffect, useRef } from "react";
+ import { submitLead, type LeadState } from "@/actions/leads";
++import { GlowEdge } from "./glow-edge";
+ 
+ const field =
+   "w-full rounded-lg border border-violet/10 bg-[hsl(calc(var(--th)_+_348.73)_calc(60%_*_var(--ts))_10.78%)] px-4 py-3.5 text-base text-violet outline-none transition placeholder:text-orchid focus:border-violet/50 focus:bg-[hsl(calc(var(--th)_+_347.5)_calc(57.14%_*_var(--ts))_13.73%)]";
+@@ -22,7 +23,8 @@ export function ContactForm({ buttonLabel }: { buttonLabel: string }) {
+ 
+   if (state.status === "success") {
+     return (
+-      <div role="status" className="card-glass rounded-[19px] p-10 text-center">
++      <div role="status" className="bglow card-glass rounded-[19px] border border-violet/[0.12] p-10 text-center">
++        <GlowEdge />
+         <p className="text-vfade pb-1 text-3xl font-semibold tracking-tight">Message sent</p>
+         <p className="mt-3 text-orchid">{state.message}</p>
+       </div>
+diff --git a/a/src/components/site/modern/industries-map.tsx b/b/src/components/site/modern/industries-map.tsx
+index 41a9c55..13cc35b 100644
+--- a/a/src/components/site/modern/industries-map.tsx
++++ b/b/src/components/site/modern/industries-map.tsx
+@@ -1,6 +1,7 @@
+ "use client";
+ 
+ import { useEffect, useId, useRef, useState } from "react";
++import { GlowEdge } from "../glow-edge";
+ import { IndustryIcon } from "../icons";
+ import { kindOf } from "../city-scene";
+ import { PersonTop } from "../timeline-art";
+@@ -459,7 +460,8 @@ export function IndustriesMap({ items, variant = DEFAULT_VARIANT }: { items: Ite
+           </div>
+ 
+           {/* the reading panel */}
+-          <div id={`${uid}-panel`} className="im-panel">
++          <div id={`${uid}-panel`} className="im-panel bglow">
++            <GlowEdge />
+             <div key={active} className="im-p-in">
+               <p className="im-p-top">
+                 Stop {active + 1} of {n}
+diff --git a/a/src/components/site/sections/contact.tsx b/b/src/components/site/sections/contact.tsx
+index deb87ee..4a3c07e 100644
+--- a/a/src/components/site/sections/contact.tsx
++++ b/b/src/components/site/sections/contact.tsx
+@@ -15,16 +15,23 @@ function Line({ text }: { text: string }) {
+   return <>{value}</>;
+ }
+ 
+-export const Contact: SectionComponent<"contact"> = ({ data, site }) => (
++export const Contact: SectionComponent<"contact"> = ({ data, site, skin }) => (
+   <section id="contact" className="py-24 sm:py-32">
+     <Wide>
+       <SectionHead chip={data.chip} heading={data.heading} intro={data.text} />
+       <Reveal className="mt-12">
+-        <Frame width="max-w-[560px]" className="px-0">
+-          <div className="px-4 py-10 sm:px-8">
++        {skin === "modern" ? (
++          <div className="bglow card-glass mx-auto w-full max-w-[560px] rounded-[19px] border border-violet/[0.12] p-6 sm:p-9">
++            <GlowEdge />
+             <ContactForm buttonLabel={data.buttonLabel} />
+           </div>
+-        </Frame>
++        ) : (
++          <Frame width="max-w-[560px]" className="px-0">
++            <div className="px-4 py-10 sm:px-8">
++              <ContactForm buttonLabel={data.buttonLabel} />
++            </div>
++          </Frame>
++        )}
+       </Reveal>
+ 
+       {site.contactCards.length > 0 && (

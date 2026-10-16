@@ -1,0 +1,141 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 7f000e0..9686a39 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -26316,3 +26316,39 @@ a.rt-row:hover {
+   display: flex;
+   gap: 10px;
+ }
++
++/* ---- the end of the line: the track fades away and a buffer stop stands there ---- */
++.rl-hz-a {
++  fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 12%);
++}
++.rl-hz-b {
++  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++}
++.rl-bs-sh {
++  fill: rgba(0, 0, 0, 0.5);
++  filter: blur(5px);
++}
++.rl-bs-post {
++  fill: hsl(calc(var(--th) + 354) calc(34% * var(--ts)) 34%);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.6);
++  stroke-width: 1.4;
++}
++.rl-bs-bar {
++  fill: url(#rl-hazard);
++}
++.rl-bs-bar-ln {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90% / 0.7);
++  stroke-width: 1.5;
++}
++.rl-bs-plate {
++  fill: hsl(calc(var(--th) + 347) calc(56% * var(--ts)) 6% / 0.96);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.75);
++  stroke-width: 1.4;
++}
++.rl-bs-t {
++  fill: #fff;
++  font-size: 13px;
++  font-weight: 800;
++  letter-spacing: 0.16em;
++}
+diff --git a/a/src/components/site/career/railway.tsx b/b/src/components/site/career/railway.tsx
+index 9dd80f7..85f32e9 100644
+--- a/a/src/components/site/career/railway.tsx
++++ b/b/src/components/site/career/railway.tsx
+@@ -66,6 +66,8 @@ type Geo = {
+   covers: { x: number; y: number; w: number; h: number; r: number }[];
+   /** the tunnels: the line under the roof is not drawn, the roof is */
+   tunnels: Tunnel[];
++  /** where the line ends (it fades out there and a buffer stop stands at its end) */
++  endY: number;
+ };
+ type Pt = { x: number; y: number; a: number };
+ type Tunnel = {
+@@ -165,7 +167,9 @@ function measure(root: HTMLElement): Geo | null {
+   // and down to the platform of Surat Junction
+   const yEnd = Math.max(yHead2 - 640, cy + 300);
+   sweep(x2, yEnd);
+-  d += ` L${x2} ${Math.max(yHead2 + 700, yEnd + 400)}`;
++  // the line ends beside the list of the jobs: it fades away and a buffer stop stands at its end
++  const endY = Math.max(clamp(yHead2 + 560, yHead2 + 220, Math.max(yHead2 + 220, H - 70)), yEnd + 200);
++  d += ` L${x2} ${endY}`;
+ 
+   // measure the line (a path in a hidden svg)
+   const NS = "http://www.w3.org/2000/svg";
+@@ -329,7 +333,7 @@ function measure(root: HTMLElement): Geo | null {
+     });
+   });
+ 
+-  return { W, H, d, len, sample, x1, yHead1, x2, yHead2, sStop1, sEnd, stops, crossing, river, signals, poles, miles, trees, covers, tunnels };
++  return { W, H, d, len, sample, x1, yHead1, x2, yHead2, sStop1, sEnd, stops, crossing, river, signals, poles, miles, trees, covers, tunnels, endY };
+ }
+ 
+ function at(sm: Sample, s: number) {
+@@ -450,6 +454,27 @@ function Gate({ p }: { p: Pt }) {
+   );
+ }
+ 
++/** the buffer stop at the end of the line: a stout bar with hazard stripes, two posts, two lamps and a sign */
++function BufferStop({ x, y }: { x: number; y: number }) {
++  return (
++    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}>
++      <rect className="rl-bs-sh" x="-46" y="-2" width="96" height="30" rx="8" />
++      <rect className="rl-bs-post" x="-48" y="-14" width="14" height="38" rx="5" />
++      <rect className="rl-bs-post" x="34" y="-14" width="14" height="38" rx="5" />
++      <rect className="rl-bs-bar" x="-44" y="-4" width="88" height="16" rx="5" />
++      <rect className="rl-bs-bar-ln" x="-44" y="-4" width="88" height="16" rx="5" />
++      <circle className="rl-glow" cx="-41" cy="-14" r="20" />
++      <circle className="rl-glow" cx="41" cy="-14" r="20" />
++      <circle className="rl-lampost" cx="-41" cy="-14" r="4.5" />
++      <circle className="rl-lampost" cx="41" cy="-14" r="4.5" />
++      <rect className="rl-bs-plate" x="-30" y="18" width="60" height="22" rx="6" />
++      <text className="rl-bs-t" x="0" y="34" textAnchor="middle">
++        STOP
++      </text>
++    </g>
++  );
++}
++
+ /** the board that says the name of the tunnel */
+ function Board({ x, y, name, sub }: { x: number; y: number; name: string; sub: string }) {
+   const w = 250;
+@@ -795,6 +820,17 @@ export function CareerRailway() {
+                   <path key={i} d={t.dUnder} fill="none" stroke="#000" strokeWidth="76" strokeLinecap="butt" strokeLinejoin="round" />
+                 ))}
+               </mask>
++              <linearGradient id="rl-fade-g" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1={geo.endY - 300} y2={geo.endY - 30}>
++                <stop offset="0" stopColor="#fff" />
++                <stop offset="1" stopColor="#000" />
++              </linearGradient>
++              <mask id="rl-fade" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.W} height={geo.H}>
++                <rect x="0" y="0" width={geo.W} height={geo.H} fill="url(#rl-fade-g)" />
++              </mask>
++              <pattern id="rl-hazard" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
++                <rect width="14" height="14" className="rl-hz-a" />
++                <rect width="7" height="14" className="rl-hz-b" />
++              </pattern>
+               <pattern id="rl-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                 <rect width="9" height="9" className="rl-hatch-bg" />
+                 <line x1="0" y1="0" x2="0" y2="9" className="rl-hatch-ln" />
+@@ -846,10 +882,13 @@ export function CareerRailway() {
+             ))}
+ 
+             {/* the track: stones, sleepers, the two rails */}
+-            <path d={geo.d} className="rl-ballast" />
+-            <path d={geo.d} className="rl-sleepers" />
+-            <path d={geo.d} className="rl-railbed" />
+-            <path d={geo.d} className="rl-railgap" />
++            <g mask="url(#rl-fade)">
++              <path d={geo.d} className="rl-ballast" />
++              <path d={geo.d} className="rl-sleepers" />
++              <path d={geo.d} className="rl-railbed" />
++              <path d={geo.d} className="rl-railgap" />
++            </g>
++            <BufferStop x={geo.x2} y={geo.endY - 140} />
+ 
+             {/* the stations */}
+             <Platform x={geo.x1} yHead={geo.yHead1} kind="start" />

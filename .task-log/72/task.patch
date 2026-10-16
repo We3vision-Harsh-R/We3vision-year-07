@@ -1,0 +1,2127 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index d27a1c1..7dae48e 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -26800,3 +26800,1265 @@ a.rt-row:hover {
+   background: var(--a);
+   transform: translateX(-50%);
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The UI/UX page: a small Figma on a whole screen (components/site/figma-studio.tsx) */
++.fg-section {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
++  display: flex;
++  min-height: 100svh;
++  align-items: center;
++  padding: 76px 0 56px;
++}
++.fg-in {
++  width: 100%;
++  max-width: 1280px;
++  margin: 0 auto;
++  padding: 0 32px;
++}
++.fg-head {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
++  align-items: end;
++  gap: 8px 48px;
++  margin-bottom: 22px;
++}
++.fg-head .cj-chip {
++  justify-self: start;
++  grid-column: 1;
++}
++.fg-head h2 {
++  grid-column: 1;
++  margin: 10px 0 0;
++  background-image: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 352.8) calc(100% * var(--ts)) 85.29%));
++  -webkit-background-clip: text;
++  background-clip: text;
++  color: transparent;
++  font-size: clamp(2rem, 3.4vw, 3rem);
++  font-weight: 600;
++  letter-spacing: -0.04em;
++  line-height: 1.06;
++}
++.fg-head p {
++  grid-column: 2;
++  grid-row: 1 / span 2;
++  margin: 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.6;
++}
++.fg-win {
++  overflow: hidden;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
++  box-shadow:
++    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.14),
++    0 40px 100px -50px rgba(0, 0, 0, 0.9);
++  color: #fff;
++}
++.fg-top {
++  display: flex;
++  align-items: center;
++  gap: 14px;
++  padding: 10px 16px;
++  border-bottom: 1px solid var(--hair);
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 11%);
++}
++.fg-menu {
++  display: grid;
++  gap: 3px;
++}
++.fg-menu i {
++  width: 16px;
++  height: 2px;
++  border-radius: 2px;
++  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.7);
++}
++.fg-file {
++  font-size: 1rem;
++  font-weight: 600;
++}
++.fg-file small {
++  color: var(--soft);
++  font-size: 0.875rem;
++  font-weight: 400;
++}
++.fg-seg {
++  display: inline-flex;
++  margin: 0 auto;
++  padding: 3px;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7%);
++}
++.fg-seg button {
++  padding: 6px 16px;
++  border: 0;
++  border-radius: 999px;
++  background: none;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.85);
++  font: inherit;
++  font-size: 0.875rem;
++  font-weight: 600;
++  cursor: pointer;
++  transition: background 0.2s, color 0.2s;
++}
++.fg-seg button[data-on="true"] {
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++}
++.fg-who {
++  display: inline-flex;
++}
++.fg-who i {
++  display: grid;
++  place-items: center;
++  width: 28px;
++  height: 28px;
++  margin-left: -6px;
++  border: 2px solid hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 11%);
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70%);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-size: 0.75rem;
++  font-style: normal;
++  font-weight: 700;
++}
++.fg-who i:nth-child(2) {
++  background: hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 70%);
++}
++.fg-share {
++  padding: 7px 16px;
++  border: 0;
++  border-radius: 8px;
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font: inherit;
++  font-size: 0.875rem;
++  font-weight: 700;
++  cursor: pointer;
++}
++.fg-body {
++  display: grid;
++  grid-template-columns: 196px minmax(0, 1fr) 236px;
++  height: clamp(420px, 60svh, 600px);
++}
++.fg-layers,
++.fg-props {
++  overflow: auto;
++  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 10%);
++  scrollbar-width: thin;
++}
++.fg-layers {
++  border-right: 1px solid var(--hair);
++}
++.fg-props {
++  border-left: 1px solid var(--hair);
++}
++.fg-p-h {
++  margin: 0;
++  padding: 12px 14px 6px;
++  color: var(--soft);
++  font-size: 0.875rem;
++  font-weight: 600;
++}
++.fg-layers ul {
++  margin: 0;
++  padding: 0 6px 10px;
++  list-style: none;
++}
++.fg-layers li {
++  position: relative;
++}
++.fg-layer {
++  display: flex;
++  width: 100%;
++  align-items: center;
++  gap: 9px;
++  padding: 7px 34px 7px 10px;
++  border: 0;
++  border-radius: 8px;
++  background: none;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.9);
++  font: inherit;
++  font-size: 0.875rem;
++  text-align: left;
++  cursor: pointer;
++}
++.fg-layer:hover {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
++}
++.fg-layer[data-on="true"] {
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.22);
++  color: #fff;
++}
++.fg-ic {
++  flex: none;
++  width: 14px;
++  height: 14px;
++  border: 1.5px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.8);
++  border-radius: 3px;
++}
++.fg-ic[data-k="title"],
++.fg-ic[data-k="text"] {
++  border: 0;
++  border-top: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.8);
++  border-bottom: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.8);
++  border-radius: 0;
++}
++.fg-ic[data-k="button"] {
++  border-radius: 7px;
++}
++.fg-ic[data-k="logo"] {
++  border-radius: 50%;
++}
++.fg-eye {
++  position: absolute;
++  top: 50%;
++  right: 10px;
++  width: 14px;
++  height: 9px;
++  border: 1.5px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.7);
++  border-radius: 50%;
++  background: none;
++  cursor: pointer;
++  transform: translateY(-50%);
++}
++.fg-eye[data-off="true"] {
++  opacity: 0.35;
++}
++.fg-eye[data-off="true"]::after {
++  content: "";
++  position: absolute;
++  top: 3px;
++  left: -2px;
++  width: 16px;
++  border-top: 1.5px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.9);
++  transform: rotate(-35deg);
++}
++.fg-canvas {
++  position: relative;
++  display: grid;
++  place-items: center;
++  overflow: hidden;
++  padding: 36px 20px 54px;
++  background:
++    radial-gradient(circle, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16) 1px, transparent 1.6px) 0 0 / 22px 22px,
++    hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 6%);
++}
++.fg-frame-name {
++  position: absolute;
++  top: 12px;
++  left: 50%;
++  margin: 0;
++  color: var(--soft);
++  font-size: 0.875rem;
++  transform: translateX(-50%);
++}
++.fg-frame {
++  display: block;
++  width: min(100%, 700px);
++  height: auto;
++  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.8);
++  touch-action: none;
++}
++.fg-frame-bg {
++  fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9%);
++}
++.fg-win[data-final="false"] .fg-frame-bg {
++  fill: hsl(calc(var(--th) + 347) calc(30% * var(--ts)) 14%);
++}
++.fg-el {
++  cursor: grab;
++}
++.fg-el[data-hide="true"] {
++  opacity: 0;
++  pointer-events: none;
++}
++.fg-hit {
++  fill: transparent;
++}
++.fg-w-box {
++  fill: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 85% / 0.05);
++  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.4);
++  stroke-width: 1.2;
++}
++.fg-w-line {
++  fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.3);
++}
++.fg-w-x {
++  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.35);
++  stroke-width: 1.2;
++}
++.fg-bar-f {
++  fill: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 14%);
++  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.18);
++}
++.fg-card-f {
++  fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 15%);
++  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.2);
++}
++.fg-t {
++  fill: #fff;
++  font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
++  pointer-events: none;
++}
++.fg-t-logo {
++  font-size: 12px;
++  font-weight: 600;
++}
++.fg-t-h {
++  font-size: 25px;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++}
++.fg-t-p {
++  fill: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 92% / 0.75);
++  font-size: 11px;
++}
++.fg-t-b {
++  fill: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-size: 12px;
++  font-weight: 700;
++}
++.fg-t-c {
++  font-size: 12px;
++  font-weight: 600;
++}
++.fg-sel {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  stroke-width: 1.5;
++}
++.fg-handle {
++  fill: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8%);
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  stroke-width: 1.4;
++}
++.fg-dim {
++  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70%);
++}
++.fg-dim-t {
++  fill: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-size: 10px;
++  font-weight: 700;
++}
++.fg-flow path {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  stroke-width: 2;
++  stroke-dasharray: 5 4;
++}
++.fg-flow circle {
++  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++}
++.fg-flow .fg-flow-head {
++  stroke-dasharray: none;
++  stroke-linecap: round;
++  stroke-linejoin: round;
++}
++.fg-tools {
++  position: absolute;
++  bottom: 12px;
++  left: 50%;
++  display: flex;
++  gap: 4px;
++  padding: 5px;
++  border: 1px solid var(--hair);
++  border-radius: 12px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 11% / 0.96);
++  transform: translateX(-50%);
++}
++.fg-tools button {
++  display: grid;
++  place-items: center;
++  width: 34px;
++  height: 34px;
++  border: 0;
++  border-radius: 8px;
++  background: none;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.85);
++  cursor: pointer;
++}
++.fg-tools button[data-on="true"] {
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++}
++.fg-tools svg {
++  width: 18px;
++  height: 18px;
++  fill: none;
++  stroke: currentColor;
++  stroke-width: 1.6;
++  stroke-linecap: round;
++  stroke-linejoin: round;
++}
++.fg-canvas[data-tool="hand"] .fg-el {
++  cursor: grab;
++}
++.fg-cur {
++  position: absolute;
++  z-index: 3;
++  width: 0;
++  height: 0;
++  pointer-events: none;
++  border-top: 7px solid transparent;
++  border-bottom: 7px solid transparent;
++  border-left: 12px solid var(--a);
++  transform: rotate(-24deg);
++}
++.fg-cur b {
++  position: absolute;
++  top: 10px;
++  left: -2px;
++  padding: 2px 8px;
++  border-radius: 6px;
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-size: 0.8125rem;
++  font-weight: 700;
++  white-space: nowrap;
++  transform: rotate(24deg);
++}
++.fg-cur-a {
++  top: 30%;
++  left: 20%;
++  animation: fg-a 16s ease-in-out infinite alternate;
++}
++.fg-cur-b {
++  top: 60%;
++  left: 74%;
++  border-left-color: hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 70%);
++  animation: fg-b 19s ease-in-out infinite alternate;
++}
++.fg-cur-b b {
++  background: hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 70%);
++}
++@keyframes fg-a {
++  0% {
++    transform: translate(0, 0) rotate(-24deg);
++  }
++  50% {
++    transform: translate(180px, 70px) rotate(-24deg);
++  }
++  100% {
++    transform: translate(60px, 190px) rotate(-24deg);
++  }
++}
++@keyframes fg-b {
++  0% {
++    transform: translate(0, 0) rotate(-24deg);
++  }
++  50% {
++    transform: translate(-150px, -90px) rotate(-24deg);
++  }
++  100% {
++    transform: translate(-60px, 60px) rotate(-24deg);
++  }
++}
++.fg-tabs {
++  display: flex;
++  border-bottom: 1px solid var(--hair);
++}
++.fg-tabs button {
++  flex: 1;
++  padding: 11px 0;
++  border: 0;
++  border-bottom: 2px solid transparent;
++  background: none;
++  color: var(--soft);
++  font: inherit;
++  font-size: 0.875rem;
++  font-weight: 600;
++  cursor: pointer;
++}
++.fg-tabs button[data-on="true"] {
++  border-bottom-color: var(--a);
++  color: #fff;
++}
++.fg-pbody {
++  padding: 4px 0 14px;
++}
++.fg-p-name {
++  margin: 0;
++  padding: 12px 14px 4px;
++  color: #fff;
++  font-size: 1rem;
++  font-weight: 600;
++}
++.fg-p-t {
++  margin: 0;
++  padding: 0 14px;
++  color: var(--soft);
++  font-size: 0.875rem;
++  line-height: 1.5;
++}
++.fg-grid {
++  display: grid;
++  grid-template-columns: 1fr 1fr;
++  gap: 6px;
++  margin: 8px 14px 4px;
++}
++.fg-grid div {
++  display: flex;
++  justify-content: space-between;
++  padding: 6px 9px;
++  border-radius: 7px;
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 14%);
++  font-size: 0.875rem;
++}
++.fg-grid dt {
++  color: var(--soft);
++}
++.fg-grid dd {
++  margin: 0;
++  color: #fff;
++  font-variant-numeric: tabular-nums;
++}
++.fg-sw {
++  display: flex;
++  gap: 8px;
++  padding: 2px 14px 8px;
++}
++.fg-sw button {
++  width: 26px;
++  height: 26px;
++  border: 2px solid transparent;
++  border-radius: 8px;
++  cursor: pointer;
++}
++.fg-sw button[data-on="true"] {
++  border-color: #fff;
++}
++.fg-hint {
++  margin: 14px 0 0;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  text-align: center;
++}
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The SEO page: the search results (components/site/seo-lab.tsx) */
++.sl {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
++  overflow: hidden;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
++  box-shadow:
++    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.14),
++    0 40px 90px -50px rgba(0, 0, 0, 0.9);
++  color: #fff;
++}
++.sl-bar {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  padding: 11px 14px;
++  border-bottom: 1px solid var(--hair);
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 11%);
++}
++.sl-dots {
++  display: inline-flex;
++  gap: 6px;
++}
++.sl-dots i {
++  width: 10px;
++  height: 10px;
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 60% / 0.35);
++}
++.sl-q {
++  display: flex;
++  flex: 1;
++  align-items: center;
++  gap: 10px;
++  padding: 8px 16px;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 6%);
++  font-size: 0.9375rem;
++}
++.sl-q svg {
++  width: 16px;
++  height: 16px;
++  fill: none;
++  stroke: var(--a);
++  stroke-width: 2;
++  stroke-linecap: round;
++}
++.sl-main {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) 232px;
++}
++.sl-results {
++  min-width: 0;
++  padding: 12px 14px 14px;
++}
++.sl-count {
++  margin: 0 0 10px;
++  color: var(--soft);
++  font-size: 0.875rem;
++}
++.sl-list {
++  position: relative;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.sl-row {
++  position: absolute;
++  top: 0;
++  right: 0;
++  left: 0;
++  display: flex;
++  height: 70px;
++  align-items: center;
++  gap: 12px;
++  padding: 0 12px;
++  border: 1px solid transparent;
++  border-radius: 14px;
++  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s, border-color 0.4s;
++}
++.sl-row[data-you="true"] {
++  z-index: 2;
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.18);
++}
++.sl-pos {
++  min-width: 18px;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
++  font-size: 1.125rem;
++  font-weight: 700;
++}
++.sl-fav {
++  display: grid;
++  flex: none;
++  place-items: center;
++  width: 30px;
++  height: 30px;
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 60% / 0.3);
++  font-size: 0.875rem;
++  font-weight: 700;
++}
++.sl-row[data-you="true"] .sl-fav {
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++}
++.sl-txt {
++  display: grid;
++  min-width: 0;
++  gap: 1px;
++}
++.sl-txt small {
++  color: var(--soft);
++  font-size: 0.8125rem;
++}
++.sl-txt b {
++  overflow: hidden;
++  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
++  font-size: 0.9375rem;
++  font-weight: 600;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++.sl-txt i {
++  overflow: hidden;
++  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 92% / 0.7);
++  font-size: 0.875rem;
++  font-style: normal;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++.sl-side {
++  display: grid;
++  align-content: start;
++  gap: 12px;
++  padding: 14px;
++  border-left: 1px solid var(--hair);
++  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 10%);
++}
++.sl-score {
++  position: relative;
++  display: grid;
++  justify-items: center;
++}
++.sl-score svg {
++  width: 96px;
++  height: 96px;
++  transform: rotate(-90deg);
++}
++.sl-ring-bg {
++  fill: none;
++  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
++  stroke-width: 7;
++}
++.sl-ring {
++  fill: none;
++  stroke: var(--a);
++  stroke-width: 7;
++  stroke-linecap: round;
++  transition: stroke-dashoffset 0.8s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.sl-score b {
++  position: absolute;
++  top: 28px;
++  font-size: 1.75rem;
++  font-weight: 700;
++}
++.sl-score span {
++  color: var(--soft);
++  font-size: 0.875rem;
++}
++.sl-traffic {
++  display: flex;
++  height: 46px;
++  align-items: flex-end;
++  gap: 6px;
++}
++.sl-traffic span {
++  flex: 1;
++  border-radius: 4px 4px 0 0;
++  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
++  transition: background 0.5s;
++}
++.sl-traffic span[data-on="true"] {
++  background: var(--a);
++}
++.sl-steps {
++  display: grid;
++  gap: 6px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.sl-steps button {
++  display: flex;
++  width: 100%;
++  align-items: center;
++  gap: 10px;
++  padding: 8px 10px;
++  border: 1px solid var(--hair);
++  border-radius: 10px;
++  background: none;
++  color: #fff;
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++  transition: background 0.3s, border-color 0.3s;
++}
++.sl-steps button[data-on="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.16);
++}
++.sl-steps i {
++  position: relative;
++  flex: none;
++  width: 18px;
++  height: 18px;
++  border: 1.5px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.5);
++  border-radius: 6px;
++}
++.sl-steps button[data-on="true"] i {
++  border-color: var(--a);
++  background: var(--a);
++}
++.sl-steps button[data-on="true"] i::after {
++  content: "";
++  position: absolute;
++  top: 2px;
++  left: 5px;
++  width: 4px;
++  height: 8px;
++  border-right: 2px solid hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  border-bottom: 2px solid hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  transform: rotate(45deg);
++}
++.sl-steps b {
++  display: block;
++  font-size: 0.875rem;
++  font-weight: 600;
++  line-height: 1.25;
++}
++.sl-steps small {
++  display: block;
++  color: var(--soft);
++  font-size: 0.8125rem;
++  line-height: 1.3;
++}
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The Graphics page: the brand kit (components/site/brand-board.tsx) */
++.kit {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
++  overflow: hidden;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
++  box-shadow:
++    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.14),
++    0 40px 90px -50px rgba(0, 0, 0, 0.9);
++  color: #fff;
++}
++.kit-bar {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  padding: 11px 14px;
++  border-bottom: 1px solid var(--hair);
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 11%);
++}
++.kit-dots {
++  display: inline-flex;
++  gap: 6px;
++}
++.kit-dots i {
++  width: 10px;
++  height: 10px;
++  border-radius: 50%;
++  background: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 60% / 0.35);
++}
++.kit-file {
++  font-size: 0.9375rem;
++  font-weight: 600;
++}
++.kit-ok {
++  width: 14px;
++  height: 14px;
++  margin-left: auto;
++  border-radius: 50%;
++  transition: background 0.4s;
++}
++.kit-main {
++  display: grid;
++  grid-template-columns: 190px minmax(0, 1fr);
++}
++.kit-ctl {
++  display: grid;
++  align-content: start;
++  gap: 14px;
++  padding: 14px;
++  border-right: 1px solid var(--hair);
++  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 10%);
++}
++.kit-f {
++  display: grid;
++  gap: 6px;
++}
++.kit-f > span {
++  color: var(--soft);
++  font-size: 0.875rem;
++  font-weight: 600;
++}
++.kit-f input {
++  width: 100%;
++  min-height: 40px;
++  padding: 0 12px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
++  border-radius: 10px;
++  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7%);
++  color: #fff;
++  font: inherit;
++  font-size: 0.9375rem;
++  outline: none;
++}
++.kit-f input:focus {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
++}
++.kit-sw {
++  display: flex;
++  gap: 7px;
++}
++.kit-sw button {
++  width: 28px;
++  height: 28px;
++  border: 2px solid transparent;
++  border-radius: 9px;
++  cursor: pointer;
++}
++.kit-sw button[data-on="true"] {
++  border-color: #fff;
++}
++.kit-pill {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 6px;
++}
++.kit-pill button {
++  padding: 5px 11px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
++  border-radius: 999px;
++  background: none;
++  color: #fff;
++  font: inherit;
++  font-size: 0.875rem;
++  cursor: pointer;
++}
++.kit-pill button[data-on="true"] {
++  border-color: var(--a);
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-weight: 600;
++}
++.kit-board {
++  display: grid;
++  gap: 12px;
++  padding: 14px;
++}
++.kit-logo {
++  display: flex;
++  height: 124px;
++  align-items: center;
++  justify-content: center;
++  gap: 16px;
++  border-radius: 16px;
++  transition: background 0.5s;
++}
++.kit-logo b {
++  font-family: var(--kit-font);
++  font-size: 2rem;
++  font-weight: var(--kit-w);
++  letter-spacing: -0.02em;
++}
++.kit-letter {
++  fill: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++  font-family: var(--kit-font);
++  font-size: 30px;
++  font-weight: 800;
++}
++.kit-mark path,
++.kit-mark rect,
++.kit-mark circle {
++  transition: fill 0.4s;
++}
++.kit-row {
++  display: grid;
++  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
++  gap: 12px;
++}
++.kit-card {
++  position: relative;
++  display: grid;
++  align-content: center;
++  gap: 2px;
++  min-height: 112px;
++  padding: 14px 16px;
++  overflow: hidden;
++  border-radius: 12px;
++  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 16%);
++}
++.kit-card b {
++  margin-top: 6px;
++  font-family: var(--kit-font);
++  font-size: 1.0625rem;
++  font-weight: var(--kit-w);
++}
++.kit-card small {
++  overflow: hidden;
++  color: var(--soft);
++  font-size: 0.8125rem;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++.kit-card i {
++  position: absolute;
++  right: 0;
++  bottom: 0;
++  left: 0;
++  height: 6px;
++  transition: background 0.4s;
++}
++.kit-post {
++  display: grid;
++  align-content: end;
++  gap: 2px;
++  min-height: 112px;
++  padding: 12px 14px;
++  border-radius: 12px;
++  transition: background 0.5s;
++}
++.kit-post b {
++  font-family: var(--kit-font);
++  font-size: 1.125rem;
++  font-weight: var(--kit-w);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++}
++.kit-post span {
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 8% / 0.8);
++  font-size: 0.8125rem;
++}
++.kit-chips .kit-app {
++  display: grid;
++  place-items: center;
++  width: 44px;
++  height: 44px;
++  margin-right: 6px;
++  border-radius: 12px;
++  transition: background 0.5s;
++}
++.kit-chips {
++  display: flex;
++  align-items: center;
++  gap: 8px;
++}
++.kit-chips span {
++  width: 36px;
++  height: 36px;
++  border-radius: 10px;
++  transition: background 0.4s;
++}
++.kit-chips em {
++  margin-left: auto;
++  font-family: var(--kit-font);
++  font-size: 1.375rem;
++  font-style: normal;
++  font-weight: var(--kit-w);
++}
++.kit-chips small {
++  margin-left: 6px;
++  color: var(--soft);
++  font-family: inherit;
++  font-size: 0.875rem;
++  font-weight: 400;
++}
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   What we design on the UI/UX page (modern/service-stage.tsx, variant "canvas"): the services are frames on a canvas, the open one is selected,
++   the details are in a panel under the canvas. */
++.cv {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
++  display: grid;
++  gap: 14px;
++}
++.cv-board {
++  position: relative;
++  height: 330px;
++  overflow: hidden;
++  border: 1px solid var(--hair);
++  border-radius: 24px;
++  background:
++    radial-gradient(circle, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16) 1px, transparent 1.6px) 0 0 / 22px 22px,
++    hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 6% / 0.85);
++}
++.cv-track {
++  --fw: 320px;
++  --gap: 26px;
++  position: absolute;
++  top: 0;
++  bottom: 0;
++  left: 50%;
++  display: flex;
++  align-items: center;
++  gap: var(--gap);
++  margin: 0;
++  padding: 0;
++  list-style: none;
++  transform: translateX(calc(var(--fw) / -2 - var(--i) * (var(--fw) + var(--gap))));
++  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.cv-frame {
++  flex: none;
++  width: var(--fw);
++  opacity: 0.55;
++  transform: scale(0.84);
++  transition: opacity 0.5s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.cv-frame[data-on="true"] {
++  opacity: 1;
++  transform: scale(1);
++}
++.cv-frame[data-d="2"] {
++  opacity: 0.35;
++}
++.cv-frame[data-d="3"] {
++  opacity: 0.2;
++}
++.cv-btn {
++  position: relative;
++  display: block;
++  width: 100%;
++  padding: 26px 0 28px;
++  border: 0;
++  background: none;
++  color: #fff;
++  font: inherit;
++  text-align: left;
++  cursor: pointer;
++}
++.cv-btn:focus-visible {
++  outline: 2px solid var(--a);
++  outline-offset: 4px;
++}
++.cv-name {
++  position: absolute;
++  top: 4px;
++  left: 0;
++  color: var(--soft);
++  font-size: 0.875rem;
++  font-weight: 500;
++}
++.cv-frame[data-on="true"] .cv-name {
++  color: var(--a);
++}
++.cv-card {
++  position: relative;
++  display: grid;
++  gap: 6px;
++  min-height: 190px;
++  padding: 18px 20px 20px;
++  border: 1px solid var(--hair);
++  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 11% / 0.95);
++}
++.cv-frame[data-on="true"] .cv-card {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  box-shadow: 0 20px 60px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6);
++}
++.cv-art {
++  display: grid;
++  width: 44px;
++  height: 44px;
++  place-items: center;
++}
++.cv-card b {
++  font-size: 1.25rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++  line-height: 1.2;
++}
++.cv-card i {
++  display: -webkit-box;
++  overflow: hidden;
++  color: var(--soft);
++  font-size: 1rem;
++  font-style: normal;
++  line-height: 1.45;
++  -webkit-box-orient: vertical;
++  -webkit-line-clamp: 3;
++}
++.cv-h {
++  position: absolute;
++  width: 9px;
++  height: 9px;
++  border: 1.5px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
++  background: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8%);
++}
++.cv-h1 {
++  top: -5px;
++  left: -5px;
++}
++.cv-h2 {
++  top: -5px;
++  right: -5px;
++}
++.cv-h3 {
++  bottom: -5px;
++  left: -5px;
++}
++.cv-h4 {
++  right: -5px;
++  bottom: -5px;
++}
++.cv-dim {
++  position: absolute;
++  bottom: 2px;
++  left: 50%;
++  padding: 1px 9px;
++  border-radius: 5px;
++  background: transparent;
++  color: transparent;
++  font-size: 0.8125rem;
++  font-weight: 600;
++  transform: translateX(-50%);
++}
++.cv-frame[data-on="true"] .cv-dim {
++  background: var(--a);
++  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
++}
++.cv-insp {
++  padding: 16px 22px 18px;
++  border: 1px solid var(--hair);
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 9% / 0.92);
++  animation: vq-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++.cv-insp-h {
++  display: flex;
++  align-items: baseline;
++  gap: 14px;
++}
++.cv-insp-h > span {
++  color: var(--soft);
++  font-size: 0.875rem;
++  font-weight: 700;
++  letter-spacing: 0.08em;
++}
++.cv-insp-h h3 {
++  margin: 0;
++  font-size: 1.375rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++}
++.cv-insp-h .sx-more {
++  margin-left: auto;
++}
++.cv-insp-cols {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 22px;
++  margin-top: 10px;
++}
++.cv-insp-cols h4 {
++  margin: 0 0 6px;
++  color: var(--a);
++  font-size: 0.875rem;
++  font-weight: 600;
++  letter-spacing: 0.08em;
++  text-transform: uppercase;
++}
++.cv-insp-cols p,
++.cv-insp-cols li {
++  margin: 0;
++  color: #fff;
++  font-size: 0.9375rem;
++  line-height: 1.5;
++}
++.cv-insp-cols ul {
++  display: grid;
++  gap: 5px;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.cv-insp-cols li {
++  position: relative;
++  padding-left: 18px;
++}
++.cv-insp-cols li::before {
++  content: "";
++  position: absolute;
++  top: 0.55em;
++  left: 0;
++  width: 8px;
++  height: 8px;
++  border-radius: 3px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
++}
++@media (prefers-reduced-motion: reduce) {
++  .fg-cur,
++  .sl-row,
++  .cv-track,
++  .cv-frame {
++    animation: none;
++    transition: none;
++  }
++}
+diff --git a/b/src/components/site/brand-board.tsx b/b/src/components/site/brand-board.tsx
+new file mode 100644
+index 0000000..3f20465
+--- /dev/null
++++ b/b/src/components/site/brand-board.tsx
+@@ -0,0 +1,128 @@
++"use client";
++
++import { useState } from "react";
++
++// The box of the Graphics page (the "guide" section with the scene "brandboard"): a small brand kit. The visitor writes a name, picks a colour, a
++// shape and a font, and the logo, the business card, the post, the app icon and the colour chips all change together: one consistent look is
++// what good branding is about. No cartoon guide. The look is in globals.css (.kit-*).
++
++const HUES = [0, 28, -24, 44, -52];
++const SHAPES = [
++  { id: "circle", name: "Circle" },
++  { id: "round", name: "Rounded" },
++  { id: "hex", name: "Hexagon" },
++] as const;
++const FONTS = [
++  { id: "sans", name: "Sans", css: "var(--font-poppins), Poppins, system-ui, sans-serif", weight: 600 },
++  { id: "serif", name: "Serif", css: "Georgia, 'Times New Roman', serif", weight: 700 },
++  { id: "mono", name: "Mono", css: "ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace", weight: 700 },
++] as const;
++
++const c = (h: number, l: number, a = 1, s = 92) => `hsl(calc(var(--th) + 354 + ${h}) calc(${s}% * var(--ts)) ${l}% / ${a})`;
++
++function Mark({ shape, hue, letter, size }: { shape: (typeof SHAPES)[number]["id"]; hue: number; letter: string; size: number }) {
++  return (
++    <svg width={size} height={size} viewBox="0 0 60 60" aria-hidden className="kit-mark">
++      {shape === "circle" && <circle cx="30" cy="30" r="27" fill={c(hue, 66)} />}
++      {shape === "round" && <rect x="4" y="4" width="52" height="52" rx="16" fill={c(hue, 66)} />}
++      {shape === "hex" && <path d="M30 3l24 14v26L30 57 6 43V17z" fill={c(hue, 66)} />}
++      <text x="30" y="40" textAnchor="middle" className="kit-letter">
++        {letter}
++      </text>
++    </svg>
++  );
++}
++
++export function BrandBoard() {
++  const [name, setName] = useState("Orbit");
++  const [hue, setHue] = useState(0);
++  const [shape, setShape] = useState<(typeof SHAPES)[number]["id"]>("round");
++  const [font, setFont] = useState<(typeof FONTS)[number]["id"]>("sans");
++  const f = FONTS.find((x) => x.id === font) ?? FONTS[0];
++  const brand = name.trim() || "Your brand";
++  const letter = brand[0].toUpperCase();
++  const style = { "--kit-font": f.css, "--kit-w": f.weight } as React.CSSProperties;
++
++  return (
++    <div className="kit" style={style}>
++      <div className="kit-bar">
++        <span className="kit-dots" aria-hidden>
++          <i />
++          <i />
++          <i />
++        </span>
++        <span className="kit-file">Brand kit · {brand}</span>
++        <span className="kit-ok" style={{ background: c(hue, 66) }} aria-hidden />
++      </div>
++
++      <div className="kit-main">
++        <div className="kit-ctl">
++          <label className="kit-f">
++            <span>Brand name</span>
++            <input value={name} maxLength={18} onChange={(e) => setName(e.target.value)} placeholder="Your brand" />
++          </label>
++          <div className="kit-f">
++            <span>Colour</span>
++            <div className="kit-sw">
++              {HUES.map((h) => (
++                <button key={h} type="button" aria-label={`Colour ${h}`} data-on={hue === h} style={{ background: c(h, 66) }} onClick={() => setHue(h)} />
++              ))}
++            </div>
++          </div>
++          <div className="kit-f">
++            <span>Logo shape</span>
++            <div className="kit-pill">
++              {SHAPES.map((s) => (
++                <button key={s.id} type="button" data-on={shape === s.id} onClick={() => setShape(s.id)}>
++                  {s.name}
++                </button>
++              ))}
++            </div>
++          </div>
++          <div className="kit-f">
++            <span>Font</span>
++            <div className="kit-pill">
++              {FONTS.map((x) => (
++                <button key={x.id} type="button" data-on={font === x.id} onClick={() => setFont(x.id)}>
++                  {x.name}
++                </button>
++              ))}
++            </div>
++          </div>
++        </div>
++
++        <div className="kit-board">
++          <div className="kit-logo" style={{ background: `linear-gradient(135deg, ${c(hue, 22, 0.9)}, ${c(hue + 20, 10, 0.95)})` }}>
++            <Mark shape={shape} hue={hue} letter={letter} size={64} />
++            <b>{brand}</b>
++          </div>
++
++          <div className="kit-row">
++            <div className="kit-card">
++              <Mark shape={shape} hue={hue} letter={letter} size={30} />
++              <b>{brand}</b>
++              <small>hello@{brand.toLowerCase().replace(/[^a-z0-9]/g, "") || "brand"}.com</small>
++              <i style={{ background: c(hue, 66) }} aria-hidden />
++            </div>
++            <div className="kit-post" style={{ background: `linear-gradient(160deg, ${c(hue, 60)}, ${c(hue - 24, 34)})` }}>
++              <b>{brand}</b>
++              <span>New season, new look</span>
++            </div>
++          </div>
++
++          <div className="kit-chips" aria-hidden>
++            <span className="kit-app" style={{ background: c(hue, 14) }}>
++              <Mark shape={shape} hue={hue} letter={letter} size={26} />
++            </span>
++            {[c(hue, 78), c(hue, 66), c(hue, 50), c(hue - 24, 34), c(hue, 14)].map((col, i) => (
++              <span key={i} style={{ background: col }} />
++            ))}
++            <em>
++              Aa <small>{f.name}</small>
++            </em>
++          </div>
++        </div>
++      </div>
++    </div>
++  );
++}
+diff --git a/b/src/components/site/figma-studio.tsx b/b/src/components/site/figma-studio.tsx
+new file mode 100644
+index 0000000..5e44d73
+--- /dev/null
++++ b/b/src/components/site/figma-studio.tsx
+@@ -0,0 +1,360 @@
++"use client";
++
++import { useRef, useState } from "react";
++
++// The "Meet the designer" section of the UI/UX page (the "guide" section with the scene "figma"): a small Figma on a whole screen. There is a
++// layers panel, a canvas with a frame that holds a landing page and a properties panel. A click selects a layer (on the canvas or in the list),
++// a drag moves it, the eye hides it, the swatches change its colour, "Wireframe / Final design" turns the frame from grey boxes to the finished
++// design, "Prototype" shows the flow and two cursors of colleagues move on the canvas. No cartoon guide. The look is in globals.css (.fg-*).
++
++type Kind = "bar" | "logo" | "title" | "text" | "button" | "image" | "card";
++type El = { id: string; label: string; kind: Kind; x: number; y: number; w: number; h: number; r: number; hue: number };
++
++const FRAME = { w: 520, h: 330 };
++const ELEMENTS: El[] = [
++  { id: "nav", label: "Navbar", kind: "bar", x: 0, y: 0, w: 520, h: 42, r: 0, hue: 0 },
++  { id: "logo", label: "Logo", kind: "logo", x: 18, y: 12, w: 74, h: 18, r: 6, hue: 0 },
++  { id: "title", label: "Heading", kind: "title", x: 36, y: 72, w: 232, h: 66, r: 0, hue: 0 },
++  { id: "sub", label: "Body text", kind: "text", x: 36, y: 148, w: 206, h: 36, r: 0, hue: 0 },
++  { id: "cta", label: "Button / Primary", kind: "button", x: 36, y: 200, w: 116, h: 38, r: 19, hue: 0 },
++  { id: "hero", label: "Hero image", kind: "image", x: 300, y: 64, w: 188, h: 160, r: 16, hue: 28 },
++  { id: "c1", label: "Card 1", kind: "card", x: 36, y: 252, w: 140, h: 58, r: 12, hue: 0 },
++  { id: "c2", label: "Card 2", kind: "card", x: 190, y: 252, w: 140, h: 58, r: 12, hue: -24 },
++  { id: "c3", label: "Card 3", kind: "card", x: 344, y: 252, w: 140, h: 58, r: 12, hue: 44 },
++];
++const SWATCHES = [0, 28, -24, 44, -48];
++const TOOLS = [
++  { id: "move", name: "Move", d: "M5 3l12 7-5 1.5L9.5 17z" },
++  { id: "frame", name: "Frame", d: "M7 3v14M13 3v14M3 7h14M3 13h14" },
++  { id: "rect", name: "Rectangle", d: "M4 5h12v10H4z" },
++  { id: "pen", name: "Pen", d: "M4 16l1-4 8-8 3 3-8 8z" },
++  { id: "text", name: "Text", d: "M5 5h10M10 5v11" },
++  { id: "hand", name: "Hand", d: "M7 10V5.5a1.2 1.2 0 012.4 0V10m0-5a1.2 1.2 0 012.4 0V10m0-3a1.2 1.2 0 012.4 0v5c0 3-2 5-5 5S6 15 5 12" },
++];
++
++const fillOf = (hue: number, l = 62, a = 1) => `hsl(calc(var(--th) + 354 + ${hue}) calc(92% * var(--ts)) ${l}% / ${a})`;
++
++export function FigmaStudio({ chip, heading, text }: { chip: string; heading: string; text: string }) {
++  const [final, setFinal] = useState(false);
++  const [tab, setTab] = useState<"design" | "prototype">("design");
++  const [tool, setTool] = useState("move");
++  const [sel, setSel] = useState("cta");
++  const [off, setOff] = useState<Record<string, { x: number; y: number }>>({});
++  const [hue, setHue] = useState<Record<string, number>>({});
++  const [hidden, setHidden] = useState<Record<string, boolean>>({});
++  const svgRef = useRef<SVGSVGElement>(null);
++  const drag = useRef<{ id: string; px: number; py: number; ox: number; oy: number } | null>(null);
++
++  const el = (id: string) => ELEMENTS.find((e) => e.id === id) ?? ELEMENTS[0];
++  const pos = (e: El) => ({ x: e.x + (off[e.id]?.x ?? 0), y: e.y + (off[e.id]?.y ?? 0) });
++  const hueOf = (e: El) => hue[e.id] ?? e.hue;
++  const cur = el(sel);
++  const cp = pos(cur);
++
++  const onDown = (e: React.PointerEvent, id: string) => {
++    e.stopPropagation();
++    setSel(id);
++    if (tool !== "move" && tool !== "hand") setTool("move");
++    if (id === "nav") return;
++    drag.current = { id, px: e.clientX, py: e.clientY, ox: off[id]?.x ?? 0, oy: off[id]?.y ?? 0 };
++    (e.currentTarget as Element).setPointerCapture(e.pointerId);
++  };
++  const onMove = (e: React.PointerEvent) => {
++    const d = drag.current;
++    const svg = svgRef.current;
++    if (!d || !svg) return;
++    const k = FRAME.w / svg.getBoundingClientRect().width;
++    const base = el(d.id);
++    const nx = Math.min(FRAME.w - base.w - base.x, Math.max(-base.x, d.ox + (e.clientX - d.px) * k));
++    const ny = Math.min(FRAME.h - base.h - base.y, Math.max(-base.y, d.oy + (e.clientY - d.py) * k));
++    setOff((o) => ({ ...o, [d.id]: { x: nx, y: ny } }));
++  };
++  const onUp = () => {
++    drag.current = null;
++  };
++
++  const draw = (e: El) => {
++    const p = pos(e);
++    const h = hueOf(e);
++    const g = (children: React.ReactNode) => (
++      <g key={e.id} className="fg-el" data-sel={sel === e.id} data-hide={!!hidden[e.id]} transform={`translate(${p.x} ${p.y})`} onPointerDown={(ev) => onDown(ev, e.id)}>
++        {children}
++        <rect className="fg-hit" width={e.w} height={e.h} />
++      </g>
++    );
++    if (e.kind === "bar")
++      return g(<rect className={final ? "fg-bar-f" : "fg-w-box"} width={e.w} height={e.h} />);
++    if (e.kind === "logo")
++      return g(
++        final ? (
++          <>
++            <circle cx="9" cy="9" r="8" fill={fillOf(h, 66)} />
++            <text x="24" y="14" className="fg-t fg-t-logo">
++              Studio
++            </text>
++          </>
++        ) : (
++          <rect className="fg-w-box" width={e.w} height={e.h} rx={e.r} />
++        ),
++      );
++    if (e.kind === "title")
++      return g(
++        final ? (
++          <>
++            <text x="0" y="26" className="fg-t fg-t-h">
++              Design that
++            </text>
++            <text x="0" y="58" className="fg-t fg-t-h" style={{ fill: fillOf(h, 76) }}>
++              people love
++            </text>
++          </>
++        ) : (
++          <>
++            <rect className="fg-w-line" width="206" height="14" rx="4" />
++            <rect className="fg-w-line" y="26" width="150" height="14" rx="4" />
++          </>
++        ),
++      );
++    if (e.kind === "text")
++      return g(
++        final ? (
++          <>
++            <text x="0" y="12" className="fg-t fg-t-p">
++              Wireframes, prototypes and
++            </text>
++            <text x="0" y="30" className="fg-t fg-t-p">
++              pixels, tested with people.
++            </text>
++          </>
++        ) : (
++          <>
++            <rect className="fg-w-line" width="190" height="8" rx="4" />
++            <rect className="fg-w-line" y="16" width="160" height="8" rx="4" />
++          </>
++        ),
++      );
++    if (e.kind === "button")
++      return g(
++        final ? (
++          <>
++            <rect width={e.w} height={e.h} rx={e.r} fill={fillOf(h, 74)} />
++            <text x={e.w / 2} y={e.h / 2 + 5} textAnchor="middle" className="fg-t fg-t-b">
++              Get started
++            </text>
++          </>
++        ) : (
++          <>
++            <rect className="fg-w-box" width={e.w} height={e.h} rx={e.r} />
++            <rect className="fg-w-line" x="26" y="15" width="64" height="8" rx="4" />
++          </>
++        ),
++      );
++    if (e.kind === "image")
++      return g(
++        final ? (
++          <>
++            <rect width={e.w} height={e.h} rx={e.r} fill={fillOf(h, 50, 0.9)} />
++            <circle cx={e.w * 0.68} cy={e.h * 0.34} r="30" fill={fillOf(h + 20, 78, 0.95)} />
++            <path d={`M0 ${e.h - 46}Q${e.w * 0.3} ${e.h - 86} ${e.w * 0.58} ${e.h - 50}T${e.w} ${e.h - 56}V${e.h - e.r}Q${e.w} ${e.h} ${e.w - e.r} ${e.h}H${e.r}Q0 ${e.h} 0 ${e.h - e.r}Z`} fill={fillOf(h - 20, 36, 0.95)} />
++          </>
++        ) : (
++          <>
++            <rect className="fg-w-box" width={e.w} height={e.h} rx={e.r} />
++            <path className="fg-w-x" d={`M0 0L${e.w} ${e.h}M${e.w} 0L0 ${e.h}`} />
++          </>
++        ),
++      );
++    // card
++    return g(
++      final ? (
++        <>
++          <rect width={e.w} height={e.h} rx={e.r} className="fg-card-f" />
++          <circle cx="22" cy={e.h / 2} r="11" fill={fillOf(h, 70)} />
++          <text x="42" y={e.h / 2 - 2} className="fg-t fg-t-c">
++            Feature
++          </text>
++          <rect x="42" y={e.h / 2 + 8} width="62" height="6" rx="3" fill={fillOf(h, 80, 0.45)} />
++        </>
++      ) : (
++        <>
++          <rect className="fg-w-box" width={e.w} height={e.h} rx={e.r} />
++          <rect className="fg-w-line" x="14" y="16" width="26" height="26" rx="13" />
++          <rect className="fg-w-line" x="50" y="20" width="70" height="8" rx="4" />
++          <rect className="fg-w-line" x="50" y="34" width="46" height="8" rx="4" />
++        </>
++      ),
++    );
++  };
++
++  return (
++    <section id="guide" className="fg-section">
++      <div className="fg-in">
++        <div className="fg-head">
++          {chip && <span className="cj-chip">{chip}</span>}
++          <h2>{heading.replace(/\n/g, " ")}</h2>
++          {text && <p>{text}</p>}
++        </div>
++
++        <div className="fg-win" data-final={final}>
++          <div className="fg-top">
++            <span className="fg-menu" aria-hidden>
++              <i />
++              <i />
++              <i />
++            </span>
++            <span className="fg-file">
++              Landing page <small>· Draft</small>
++            </span>
++            <div className="fg-seg" role="group" aria-label="Fidelity">
++              <button type="button" data-on={!final} onClick={() => setFinal(false)}>
++                Wireframe
++              </button>
++              <button type="button" data-on={final} onClick={() => setFinal(true)}>
++                Final design
++              </button>
++            </div>
++            <span className="fg-who" aria-hidden>
++              <i>HC</i>
++              <i>RV</i>
++            </span>
++            <button type="button" className="fg-share">
++              Share
++            </button>
++          </div>
++
++          <div className="fg-body">
++            <aside className="fg-layers" aria-label="Layers">
++              <p className="fg-p-h">Layers</p>
++              <ul>
++                {ELEMENTS.map((e) => (
++                  <li key={e.id}>
++                    <button type="button" className="fg-layer" data-on={sel === e.id} onClick={() => setSel(e.id)}>
++                      <i className="fg-ic" data-k={e.kind} aria-hidden />
++                      <span>{e.label}</span>
++                    </button>
++                    <button type="button" className="fg-eye" data-off={!!hidden[e.id]} aria-label={`${hidden[e.id] ? "Show" : "Hide"} ${e.label}`} onClick={() => setHidden((h) => ({ ...h, [e.id]: !h[e.id] }))} />
++                  </li>
++                ))}
++              </ul>
++            </aside>
++
++            <div className="fg-canvas" data-tool={tool} onPointerDown={() => setSel("")}>
++              <span className="fg-cur fg-cur-a" aria-hidden>
++                <b>Harsh</b>
++              </span>
++              <span className="fg-cur fg-cur-b" aria-hidden>
++                <b>Riya</b>
++              </span>
++              <p className="fg-frame-name">Landing · Desktop</p>
++              <svg ref={svgRef} className="fg-frame" viewBox={`0 0 ${FRAME.w} ${FRAME.h}`} role="img" aria-label="The landing page frame" onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
++                <rect className="fg-frame-bg" width={FRAME.w} height={FRAME.h} />
++                {ELEMENTS.map(draw)}
++                {tab === "prototype" && (
++                  <g className="fg-flow" pointerEvents="none">
++                    <path d={`M${pos(el("cta")).x + 116} ${pos(el("cta")).y + 19}C 200 ${pos(el("cta")).y + 19}, 250 190, 300 ${pos(el("hero")).y + 80}`} />
++                    <circle cx={pos(el("cta")).x + 116} cy={pos(el("cta")).y + 19} r="4" />
++                    <path className="fg-flow-head" d={`M292 ${pos(el("hero")).y + 72}l10 8-10 8`} />
++                  </g>
++                )}
++                {cur && sel && !hidden[sel] && (
++                  <g pointerEvents="none" transform={`translate(${cp.x} ${cp.y})`}>
++                    <rect className="fg-sel" width={cur.w} height={cur.h} />
++                    {[[0, 0], [cur.w, 0], [0, cur.h], [cur.w, cur.h]].map(([hx, hy]) => (
++                      <rect key={`${hx}-${hy}`} className="fg-handle" x={hx - 4} y={hy - 4} width="8" height="8" />
++                    ))}
++                    <g transform={`translate(0 ${cur.h + 10})`}>
++                      <rect className="fg-dim" x={cur.w / 2 - 34} width="68" height="18" rx="5" />
++                      <text className="fg-dim-t" x={cur.w / 2} y="13" textAnchor="middle">
++                        {Math.round(cur.w)} × {Math.round(cur.h)}
++                      </text>
++                    </g>
++                  </g>
++                )}
++              </svg>
++
++              <div className="fg-tools" role="toolbar" aria-label="Tools">
++                {TOOLS.map((t) => (
++                  <button key={t.id} type="button" data-on={tool === t.id} aria-label={t.name} title={t.name} onClick={() => setTool(t.id)}>
++                    <svg viewBox="0 0 20 20" aria-hidden>
++                      <path d={t.d} />
++                    </svg>
++                  </button>
++                ))}
++              </div>
++            </div>
++
++            <aside className="fg-props" aria-label="Properties">
++              <div className="fg-tabs" role="tablist">
++                <button type="button" role="tab" aria-selected={tab === "design"} data-on={tab === "design"} onClick={() => setTab("design")}>
++                  Design
++                </button>
++                <button type="button" role="tab" aria-selected={tab === "prototype"} data-on={tab === "prototype"} onClick={() => setTab("prototype")}>
++                  Prototype
++                </button>
++              </div>
++              {tab === "design" ? (
++                sel ? (
++                  <div className="fg-pbody">
++                    <p className="fg-p-name">{cur.label}</p>
++                    <dl className="fg-grid">
++                      <div>
++                        <dt>X</dt>
++                        <dd>{Math.round(cp.x)}</dd>
++                      </div>
++                      <div>
++                        <dt>Y</dt>
++                        <dd>{Math.round(cp.y)}</dd>
++                      </div>
++                      <div>
++                        <dt>W</dt>
++                        <dd>{cur.w}</dd>
++                      </div>
++                      <div>
++                        <dt>H</dt>
++                        <dd>{cur.h}</dd>
++                      </div>
++                      <div>
++                        <dt>R</dt>
++                        <dd>{cur.r}</dd>
++                      </div>
++                    </dl>
++                    <p className="fg-p-h">Fill</p>
++                    <div className="fg-sw">
++                      {SWATCHES.map((s) => (
++                        <button
++                          key={s}
++                          type="button"
++                          aria-label={`Colour ${s}`}
++                          data-on={hueOf(cur) === s}
++                          style={{ background: fillOf(s, 66) }}
++                          onClick={() => {
++                            setHue((h) => ({ ...h, [cur.id]: s }));
++                            setFinal(true);
++                          }}
++                        />
++                      ))}
++                    </div>
++                    <p className="fg-p-h">Layer</p>
++                    <p className="fg-p-t">{cur.kind === "title" || cur.kind === "text" ? "Poppins · Semibold" : "Auto layout · Fill"}</p>
++                  </div>
++                ) : (
++                  <div className="fg-pbody">
++                    <p className="fg-p-t">Select a layer on the canvas or in the list to see its properties. Drag it to move it.</p>
++                  </div>
++                )
++              ) : (
++                <div className="fg-pbody">
++                  <p className="fg-p-name">Flow 1</p>
++                  <p className="fg-p-t">On click · Get started → Navigate to Pricing</p>
++                  <p className="fg-p-h">Animation</p>
++                  <p className="fg-p-t">Smart animate · Ease out · 300 ms</p>
++                </div>
++              )}
++            </aside>
++          </div>
++        </div>
++        <p className="fg-hint">Click a layer, drag it, change its colour, switch from wireframe to the final design.</p>
++      </div>
++    </section>
++  );
++}
+diff --git a/a/src/components/site/modern/service-stage.tsx b/b/src/components/site/modern/service-stage.tsx
+index 07cf8a2..fae9d40 100644
+--- a/a/src/components/site/modern/service-stage.tsx
++++ b/b/src/components/site/modern/service-stage.tsx
+@@ -106,7 +106,7 @@ function Art({ scene, index }: { scene: Scene; index: number }) {
+   );
+ }
+ 
+-export function ServiceStage({ cards, head }: { cards: Card[]; head?: React.ReactNode }) {
++export function ServiceStage({ cards, head, variant = "stage" }: { cards: Card[]; head?: React.ReactNode; variant?: "stage" | "canvas" }) {
+   const n = cards.length;
+   const [active, setActive] = useState(0);
+   const [auto, setAuto] = useState(true);
+@@ -268,6 +268,96 @@ export function ServiceStage({ cards, head }: { cards: Card[]; head?: React.Reac
+     <div ref={fitRef} className="sx-fit">
+     {head}
+     <div className="mx-auto mt-10 w-full max-w-[1180px] px-4">
++    {variant === "canvas" ? (
++      <div ref={rootRef} className="md cv" data-pin={pinned}>
++        {/* a canvas of frames, like a design file: the open frame is selected (corner handles), the others are smaller; the details are in the panel under it */}
++        <div className="cv-board" role="tablist" aria-label="What we design" onKeyDown={onKey}>
++          <ul className="cv-track" style={{ "--i": active } as React.CSSProperties}>
++            {cards.map((c, i) => (
++              <li key={i} className="cv-frame" data-on={i === active} data-d={Math.min(3, Math.abs(i - active))}>
++                <button
++                  type="button"
++                  role="tab"
++                  id={`sx-tab-${i}`}
++                  aria-selected={i === active}
++                  aria-controls="sx-panel"
++                  tabIndex={i === active ? 0 : -1}
++                  className="cv-btn"
++                  ref={(el) => {
++                    tabRefs.current[i] = el;
++                  }}
++                  onClick={() => pick(i)}
++                >
++                  <span className="cv-name">Frame {String(i + 1).padStart(2, "0")}</span>
++                  <span className="cv-card">
++                    <span className="cv-art" aria-hidden>
++                      <IconTile index={i + 1} />
++                    </span>
++                    <b>{plain(c.title)}</b>
++                    <i>{c.description}</i>
++                    {i === active && (
++                      <>
++                        <span className="cv-h cv-h1" aria-hidden />
++                        <span className="cv-h cv-h2" aria-hidden />
++                        <span className="cv-h cv-h3" aria-hidden />
++                        <span className="cv-h cv-h4" aria-hidden />
++                      </>
++                    )}
++                  </span>
++                  <span className="cv-dim" aria-hidden>
++                    1440 × 900
++                  </span>
++                </button>
++              </li>
++            ))}
++          </ul>
++        </div>
++        <div key={active} id="sx-panel" role="tabpanel" aria-labelledby={`sx-tab-${active}`} className="cv-insp">
++          <div className="cv-insp-h">
++            <span>{String(active + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}</span>
++            <h3>{plain(cur.title)}</h3>
++            {cur.href && (
++              <SmartLink href={cur.href} className="sx-more">
++                Read more →
++              </SmartLink>
++            )}
++          </div>
++          <div className="cv-insp-cols">
++            {fit && (
++              <div>
++                <h4>Right for you when</h4>
++                <p>{fit}</p>
++              </div>
++            )}
++            {problems.length > 0 && (
++              <div>
++                <h4>Problems it solves</h4>
++                <ul>
++                  {problems.map((t) => (
++                    <li key={t}>{t}</li>
++                  ))}
++                </ul>
++              </div>
++            )}
++            {outcomes.length > 0 && (
++              <div>
++                <h4>What you get</h4>
++                <ul>
++                  {outcomes.map((t) => (
++                    <li key={t}>{t}</li>
++                  ))}
++                </ul>
++              </div>
++            )}
++            {!fit && problems.length === 0 && outcomes.length === 0 && (
++              <div>
++                <p>{cur.description}</p>
++              </div>
++            )}
++          </div>
++        </div>
++      </div>
++    ) : (
+     <div ref={rootRef} className="md sx" data-pin={pinned}>
+       <div className="sx-list" role="tablist" aria-label="What we build" onKeyDown={onKey}>
+         {cards.map((c, i) => (
+@@ -343,6 +433,7 @@ export function ServiceStage({ cards, head }: { cards: Card[]; head?: React.Reac
+         </div>
+       </div>
+     </div>
++    )}
+     </div>
+     </div>
+     </div>
+diff --git a/a/src/components/site/sections/guide.tsx b/b/src/components/site/sections/guide.tsx
+index 4138692..604ba6f 100644
+--- a/a/src/components/site/sections/guide.tsx
++++ b/b/src/components/site/sections/guide.tsx
+@@ -1,5 +1,8 @@
+ import { AfterEffects } from "../after-effects";
+ import { AiBuddy } from "../ai-buddy";
++import { BrandBoard } from "../brand-board";
++import { FigmaStudio } from "../figma-studio";
++import { SeoLab } from "../seo-lab";
+ import { GuideScene } from "../guide-scene";
+ import { OfficeBuilder } from "../office-builder";
+ import { Reveal } from "../reveal";
+@@ -9,6 +12,8 @@ import type { SectionComponent } from "./shared";
+ // "Meet the guide": text on one side, the interactive scene of the cartoon guide on the other (guide-scene.tsx).
+ export const Guide: SectionComponent<"guide"> = ({ data, sectionId }) => {
+   const tips = data.tips.split("\n").map((t) => t.trim()).filter(Boolean);
++  // the UI/UX page: a small Figma on a whole screen (no cartoon guide)
++  if (data.scene === "figma") return <FigmaStudio chip={data.chip} heading={data.heading} text={data.text} />;
+   // the office scene fills the whole screen
+   if (data.scene === "office") return <OfficeBuilder chip={data.chip} heading={data.heading} tips={tips} />;
+   // the AI page: a chat window with the robot buddy (ai-buddy.tsx) instead of the cartoon scene
+@@ -44,7 +49,7 @@ export const Guide: SectionComponent<"guide"> = ({ data, sectionId }) => {
+           </Reveal>
+           <Reveal>
+             {/* the Animation page: a small After Effects (the composition, the layers and the timeline) instead of the cartoon guide */}
+-            {data.scene === "aftereffects" ? <AfterEffects /> : <GuideScene scene={data.scene} tips={tips} />}
++            {data.scene === "aftereffects" ? <AfterEffects /> : data.scene === "serp" ? <SeoLab /> : data.scene === "brandboard" ? <BrandBoard /> : <GuideScene scene={data.scene} tips={tips} />}
+           </Reveal>
+         </div>
+       </div>
+diff --git a/a/src/components/site/sections/services.tsx b/b/src/components/site/sections/services.tsx
+index cda743e..9a3b4c8 100644
+--- a/a/src/components/site/sections/services.tsx
++++ b/b/src/components/site/sections/services.tsx
+@@ -20,6 +20,7 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin,
+       {/* the heading is part of the stage: it stays with it while the page scrolls through the boxes (see modern/service-stage.tsx) */}
+       <ServiceStage
+         cards={data.cards}
++        variant={page === "ui-ux-design" ? "canvas" : "stage"}
+         head={
+           <Wide>
+             <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split>
+diff --git a/b/src/components/site/seo-lab.tsx b/b/src/components/site/seo-lab.tsx
+new file mode 100644
+index 0000000..efee670
+--- /dev/null
++++ b/b/src/components/site/seo-lab.tsx
+@@ -0,0 +1,147 @@
++"use client";
++
++import { useEffect, useRef, useState } from "react";
++
++// The box of the SEO page (the "guide" section with the scene "serp"): a search results page with your website at the bottom of the list. Five
++// improvements can be switched on (page title, speed, content, backlinks, mobile): every one lifts your website one place, the score ring fills
++// and the traffic grows. It runs by itself while it is on the screen and stops as soon as the visitor touches it. No cartoon guide. The look is in
++// globals.css (.sl-*).
++
++const STEPS = [
++  { name: "Page title & meta", hint: "Titles that match what people type" },
++  { name: "Fast loading", hint: "Core Web Vitals in the green" },
++  { name: "Helpful content", hint: "Pages that answer the question" },
++  { name: "Quality backlinks", hint: "Trusted sites link to you" },
++  { name: "Mobile friendly", hint: "Great on every phone" },
++];
++const RIVALS = [
++  { name: "Competitor A", url: "competitor-a.com", text: "A long list of services and a contact form." },
++  { name: "Competitor B", url: "competitor-b.com", text: "Prices, plans and a blog that is rarely updated." },
++  { name: "Competitor C", url: "competitor-c.com", text: "About us, our team and our story." },
++  { name: "Competitor D", url: "competitor-d.com", text: "Welcome to our website. Call us today." },
++  { name: "Competitor E", url: "competitor-e.com", text: "Home page. Latest news and offers." },
++];
++const ROW = 76;
++
++export function SeoLab() {
++  const [done, setDone] = useState<boolean[]>([false, false, false, false, false]);
++  const [auto, setAuto] = useState(true);
++  const [inView, setInView] = useState(false);
++  const rootRef = useRef<HTMLDivElement>(null);
++
++  const n = done.filter(Boolean).length;
++  const rank = 6 - n;
++  const score = n * 20;
++
++  useEffect(() => {
++    const el = rootRef.current;
++    if (!el) return;
++    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.35 });
++    io.observe(el);
++    return () => io.disconnect();
++  }, []);
++
++  // by itself: one improvement after the other, then it starts again
++  useEffect(() => {
++    if (!auto || !inView || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
++    const t = window.setTimeout(
++      () => {
++        setDone((d) => {
++          const i = d.indexOf(false);
++          if (i === -1) return [false, false, false, false, false];
++          const next = [...d];
++          next[i] = true;
++          return next;
++        });
++      },
++      n === 5 ? 3400 : 1700,
++    );
++    return () => window.clearTimeout(t);
++  }, [auto, inView, n]);
++
++  // the order of the results: your website at its rank, the others in their order round it
++  const order: { key: string; you: boolean; r: (typeof RIVALS)[number] | null }[] = [];
++  let ri = 0;
++  for (let i = 0; i < 6; i++) {
++    if (i === rank - 1) order.push({ key: "you", you: true, r: null });
++    else order.push({ key: RIVALS[ri].name, you: false, r: RIVALS[ri++] });
++  }
++
++  const C = 2 * Math.PI * 34;
++  return (
++    <div ref={rootRef} className="sl" data-rank={rank}>
++      <div className="sl-bar">
++        <span className="sl-dots" aria-hidden>
++          <i />
++          <i />
++          <i />
++        </span>
++        <span className="sl-q">
++          <svg viewBox="0 0 20 20" aria-hidden>
++            <circle cx="8.5" cy="8.5" r="5.5" />
++            <path d="M13 13l4 4" />
++          </svg>
++          best company near you
++        </span>
++      </div>
++
++      <div className="sl-main">
++        <div className="sl-results">
++          <p className="sl-count">About 12,400,000 results · your website is #{rank}</p>
++          <ul className="sl-list" style={{ height: ROW * 6 }}>
++            {order.map((o, i) => (
++              <li key={o.key} className="sl-row" data-you={o.you} style={{ transform: `translateY(${i * ROW}px)` }}>
++                <span className="sl-pos">{i + 1}</span>
++                <span className="sl-fav" aria-hidden>
++                  {o.you ? "W" : "C"}
++                </span>
++                <span className="sl-txt">
++                  <small>{o.you ? "we3vision.com" : o.r?.url}</small>
++                  <b>{o.you ? "Your website · the best answer for this search" : `${o.r?.name} | Services`}</b>
++                  <i>{o.you ? "Fast, helpful and trusted: this is the page people were looking for." : o.r?.text}</i>
++                </span>
++              </li>
++            ))}
++          </ul>
++        </div>
++
++        <aside className="sl-side" aria-label="What makes a website climb">
++          <div className="sl-score">
++            <svg viewBox="0 0 80 80" aria-hidden>
++              <circle className="sl-ring-bg" cx="40" cy="40" r="34" />
++              <circle className="sl-ring" cx="40" cy="40" r="34" strokeDasharray={C} strokeDashoffset={C * (1 - score / 100)} />
++            </svg>
++            <b>{score}</b>
++            <span>SEO score</span>
++          </div>
++          <div className="sl-traffic" aria-hidden>
++            {[0, 1, 2, 3, 4].map((i) => (
++              <span key={i} data-on={n > i} style={{ height: `${28 + i * 16}%` }} />
++            ))}
++          </div>
++          <ul className="sl-steps">
++            {STEPS.map((s, i) => (
++              <li key={s.name}>
++                <button
++                  type="button"
++                  data-on={done[i]}
++                  aria-pressed={done[i]}
++                  onClick={() => {
++                    setAuto(false);
++                    setDone((d) => d.map((v, k) => (k === i ? !v : v)));
++                  }}
++                >
++                  <i aria-hidden />
++                  <span>
++                    <b>{s.name}</b>
++                    <small>{s.hint}</small>
++                  </span>
++                </button>
++              </li>
++            ))}
++          </ul>
++        </aside>
++      </div>
++    </div>
++  );
++}
+diff --git a/a/src/lib/cms/content/services.ts b/b/src/lib/cms/content/services.ts
+index a794fc2..eccd858 100644
+--- a/a/src/lib/cms/content/services.ts
++++ b/b/src/lib/cms/content/services.ts
+@@ -478,7 +478,7 @@ export const UIUX_SECTIONS = build({
+     { title: "Brand\nDesign", description: "Brand identity, logo and guidelines.", href: "/brand-identity" },
+     { title: "Graphics &\nUI/UX Design", description: "Website interfaces, brand visuals and marketing graphics.", href: "/graphics" },
+   ],
+-  guide: { scene: "uiux", chip: "Meet the designer", heading: "From wireframe\nto final design", text: "Switch between the wireframe and the finished design to see how a screen grows from structure to colour and type.", tips: ["Switch between the wireframe and the final design.","First structure, then colour: that is how good design works.","We test with real users before the final handoff.","Design systems keep every screen consistent."] },
++  guide: { scene: "figma", chip: "Inside the design file", heading: "From wireframe\nto final design", text: "A small Figma, made to be played with: pick a layer, drag it, change its colour and switch from the grey wireframe to the finished design.", tips: ["Switch from the wireframe to the final design."] },
+   cta: { heading: "Ready To Design\nSomething Great?", text: "Tell us about your product and we will suggest the best design approach, timeline and cost.", button: "Get a free quote" },
+ });
+ 
+@@ -819,7 +819,7 @@ export const GRAPHICS_SECTIONS = build({
+     { title: "2D/3D\nAnimation", description: "Animation and 3D visualization.", href: "/animation" },
+     { title: "Web\nDevelopment", description: "Bring your designs to life on the web.", href: "/webdev" },
+   ],
+-  guide: { scene: "graphics", chip: "Meet the designer", heading: "Pick a colour,\nchange the brand", text: "Pick a colour and watch the logo, and the guide's shirt, change with it. One consistent look is what good branding is about.", tips: ["Pick a colour: the logo and my shirt change with it.","One consistent look across logo, website and ads.","Logo, brand guidelines, pitch decks and social graphics: we design them all."] },
++  guide: { scene: "brandboard", chip: "Build a brand", heading: "Pick a colour,\nchange the brand", text: "Write a name, pick a colour, a shape and a font: the logo, the business card, the post and the app icon change together. One consistent look is what good branding is about.", tips: ["Pick a colour and watch the whole brand change."] },
+   cta: { heading: "Have A\nDesign Project?", text: "Whether you need a website interface redesign, brand identity design or other graphic design, We3vision can help. Let's talk about your project and requirements.", button: "Start your design project" },
+ });
+ 
+@@ -904,6 +904,6 @@ export const SEO_SECTIONS = build({
+     { title: "Brand\nDesign", description: "A clear brand that people remember and search for.", href: "/brand-identity" },
+     { title: "AI\nDevelopment", description: "Chatbots and automation for the leads SEO brings.", href: "/ai" },
+   ],
+-  guide: { scene: "seo", chip: "Meet the SEO guide", heading: "Climb to\nnumber one", text: "Press the button to optimise the site and watch it climb the search results, one step at a time.", tips: ["Press Optimise and watch the website climb the results.","Good SEO means better content and a faster, cleaner site.","We use white hat SEO only: no shady tricks.","Results usually start in 2–3 months and grow over 6–12."] },
++  guide: { scene: "serp", chip: "Watch a website climb", heading: "Climb to\nnumber one", text: "Switch on the improvements one by one and watch the website move up the search results, with the score and the traffic growing.", tips: ["Switch on the improvements and watch the website climb."] },
+   cta: { heading: "Want To Rank\nHigher On Google?", text: "Let's audit your site and discuss the best way to bring you more organic traffic, leads and visibility.", button: "Get a free quote" },
+ });
+diff --git a/a/src/lib/cms/sections.ts b/b/src/lib/cms/sections.ts
+index 53e5675..7105a61 100644
+--- a/a/src/lib/cms/sections.ts
++++ b/b/src/lib/cms/sections.ts
+@@ -481,7 +481,7 @@ export const SECTIONS = {
+       chip(),
+       headingField(),
+       { kind: "textarea", key: "text", label: "Text", max: 360 },
+-      { kind: "text", key: "scene", label: "Scene", max: 20, hint: "office (full screen), web, mobile, metaverse, uiux, crm, animation, aftereffects, modeling, graphics, seo, ai, brand or hello" },
++      { kind: "text", key: "scene", label: "Scene", max: 20, hint: "office (full screen), web, mobile, metaverse, uiux, crm, animation, aftereffects, figma (full screen), serp, brandboard, modeling, graphics, seo, ai, brand or hello" },
+       { kind: "textarea", key: "tips", label: "Things the guide says (one per line, it says them one after the other)", max: 900 },
+       { kind: "text", key: "buttonLabel", label: "Button text (optional)", max: 30 },
+       { kind: "url", key: "buttonHref", label: "Button link" },

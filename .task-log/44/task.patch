@@ -1,0 +1,1190 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index a9ef495..9fe4489 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17673,42 +17673,6 @@ a.md-rel-card:hover .md-rel-go {
+   text-transform: uppercase;
+ }
+ 
+-/* ---------------------------------------------------------------------------------------------------------------------------------
+-   "Why We3vision" as wide as the screen: the list on the left and the reasons on the right use the whole width (a gutter at both sides), and the
+-   words and the numbers grow with the screen, so that a big monitor is not left with an empty space round a narrow block. */
+-@media (min-width: 1024px) {
+-  .rs {
+-    max-width: none;
+-    padding-inline: clamp(1.5rem, 5vw, 7rem);
+-    grid-template-columns: clamp(23rem, 24vw, 36rem) minmax(0, 1fr);
+-    gap: clamp(3rem, 5vw, 8rem);
+-  }
+-  .rs-title {
+-    font-size: clamp(3rem, 4.4vw, 5.6rem);
+-  }
+-  .rs-card h3 {
+-    font-size: clamp(2rem, 3vw, 3.8rem);
+-  }
+-  .rs-card p {
+-    max-width: min(46rem, 90%);
+-    font-size: clamp(1.125rem, 1.25vw, 1.6rem);
+-  }
+-  .rs-no {
+-    font-size: clamp(11rem, 12vw, 20rem);
+-  }
+-}
+-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+-  .rs {
+-    padding-inline: 0;
+-  }
+-  .rs-pin {
+-    max-width: none;
+-    grid-template-columns: clamp(23rem, 24vw, 36rem) minmax(0, 1fr);
+-    gap: clamp(3rem, 5vw, 8rem);
+-    padding-inline: clamp(1.5rem, 5vw, 7rem);
+-  }
+-}
+-
+ /* the global reach section has no box any more: a big soft light behind the globe blends it into the background */
+ .rp-glow {
+   position: absolute;
+@@ -17729,3 +17693,672 @@ a.md-rel-card:hover .md-rel-go {
+     transform: translate(50%, 20%);
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   Big screens: "Why We3vision" keeps the size it has on a laptop (a block of at most 1440 px, in the middle, with small gutters), it does not
++   grow with a wide monitor. On a laptop it uses the whole width. */
++@media (min-width: 1024px) {
++  .rs {
++    max-width: 1440px;
++    padding-inline: clamp(1.5rem, 3vw, 3rem);
++  }
++}
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .rs {
++    max-width: none;
++    padding-inline: 0;
++  }
++  .rs-pin {
++    max-width: 1440px;
++    padding-inline: clamp(1.5rem, 3vw, 3rem);
++  }
++}
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The contact section as a short conversation (contact-flow.tsx): no box. Tiles you pick, chips, three fields and a brief that fills in. */
++.cf {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.18);
++  display: grid;
++  gap: 2.4rem;
++}
++@media (min-width: 900px) {
++  .cf {
++    grid-template-columns: minmax(0, 1fr) 17rem;
++    gap: 3.4rem;
++  }
++}
++.cf-progress {
++  display: grid;
++  grid-template-columns: repeat(3, 1fr);
++  gap: 8px;
++}
++.cf-progress span {
++  height: 4px;
++  border-radius: 4px;
++  background: var(--hair);
++  transition: background 0.5s, box-shadow 0.5s;
++}
++.cf-progress span[data-on="true"] {
++  background: linear-gradient(90deg, var(--a), hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 66%));
++  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6);
++}
++.cf-step {
++  margin: 0.9rem 0 0;
++  color: var(--a);
++  font-size: 0.9rem;
++  font-weight: 600;
++  letter-spacing: 0.1em;
++  text-transform: uppercase;
++}
++.cf-pane {
++  animation: cf-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
++}
++@keyframes cf-in {
++  from {
++    opacity: 0;
++    transform: translateX(26px);
++  }
++}
++.cf-q {
++  margin: 1.4rem 0 0;
++  color: #fff;
++  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
++  font-weight: 600;
++  letter-spacing: -0.03em;
++  line-height: 1.15;
++}
++.cf-hint {
++  margin: 0.5rem 0 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++}
++.cf-tiles {
++  display: grid;
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++  gap: 12px;
++  margin-top: 1.6rem;
++}
++@media (min-width: 640px) {
++  .cf-tiles {
++    grid-template-columns: repeat(4, minmax(0, 1fr));
++  }
++}
++.cf-tile {
++  --rx: 0deg;
++  --ry: 0deg;
++  position: relative;
++  display: grid;
++  gap: 12px;
++  justify-items: start;
++  padding: 1.1rem 1rem 1.15rem;
++  border: 1px solid var(--hair);
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.55);
++  color: #fff;
++  font: inherit;
++  font-size: 1.0625rem;
++  font-weight: 500;
++  text-align: left;
++  cursor: pointer;
++  transform: perspective(700px) rotateX(var(--rx)) rotateY(var(--ry));
++  transition:
++    transform 0.25s ease-out,
++    border-color 0.3s,
++    background 0.3s,
++    box-shadow 0.3s;
++}
++.cf-tile:hover {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
++}
++.cf-ic {
++  width: 30px;
++  height: 30px;
++  fill: none;
++  stroke: var(--a);
++  stroke-width: 1.7;
++  stroke-linecap: round;
++  stroke-linejoin: round;
++  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.cf-tile:hover .cf-ic {
++  transform: translateY(-3px) scale(1.08);
++}
++.cf-tick {
++  position: absolute;
++  top: 12px;
++  right: 12px;
++  width: 20px;
++  height: 20px;
++  border: 1.5px solid var(--hair);
++  border-radius: 50%;
++  transition: background 0.3s, border-color 0.3s, transform 0.3s;
++}
++.cf-tile[aria-pressed="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.85);
++  background: linear-gradient(160deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.34), hsl(calc(var(--th) + 340) calc(70% * var(--ts)) 40% / 0.26));
++  box-shadow: 0 0 28px -4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55);
++}
++.cf-tile[aria-pressed="true"] .cf-tick {
++  border-color: #fff;
++  background: #fff;
++  transform: scale(1.1);
++}
++.cf-tile[aria-pressed="true"] .cf-tick::after {
++  content: "";
++  position: absolute;
++  top: 3px;
++  left: 6px;
++  width: 5px;
++  height: 9px;
++  border: solid hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 14%);
++  border-width: 0 2px 2px 0;
++  transform: rotate(40deg);
++}
++.cf-chips {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 12px;
++  margin-top: 1.6rem;
++}
++.cf-chip {
++  padding: 0.85rem 1.4rem;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.55);
++  color: #fff;
++  font: inherit;
++  font-size: 1.0625rem;
++  cursor: pointer;
++  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s;
++}
++.cf-chip:hover {
++  transform: translateY(-2px);
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
++}
++.cf-chip[aria-pressed="true"] {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.85);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.3);
++  box-shadow: 0 0 24px -4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55);
++}
++.cf-fields {
++  display: grid;
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++  gap: 12px;
++  margin-top: 1.6rem;
++}
++.cf-wide {
++  grid-column: 1 / -1;
++}
++@media (max-width: 639px) {
++  .cf-fields {
++    grid-template-columns: 1fr;
++  }
++}
++.cf-in {
++  width: 100%;
++  padding: 0.95rem 1.1rem;
++  border: 1px solid var(--hair);
++  border-radius: 14px;
++  background: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 10% / 0.7);
++  color: #fff;
++  font: inherit;
++  font-size: 1.0625rem;
++  outline: none;
++  resize: vertical;
++  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
++}
++.cf-in::placeholder {
++  color: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 78% / 0.7);
++}
++.cf-in:focus {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.7);
++  box-shadow: 0 0 22px -6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6);
++}
++.cf-nav {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 16px;
++  margin-top: 1.8rem;
++}
++.cf-back {
++  padding: 0.6rem 0.2rem;
++  border: 0;
++  background: none;
++  color: var(--soft);
++  font: inherit;
++  font-size: 1.0625rem;
++  cursor: pointer;
++}
++.cf-back:hover {
++  color: #fff;
++}
++.cf-err {
++  margin: 1rem 0 0;
++  color: hsl(350 90% 80%);
++  font-size: 1rem;
++}
++.cf .rp-cta[disabled] {
++  opacity: 0.6;
++  cursor: wait;
++}
++/* the brief on the side */
++.cf-brief {
++  align-self: start;
++  padding: 1.4rem 1.3rem;
++  border-left: 1px solid var(--hair);
++  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06), transparent);
++}
++@media (max-width: 899px) {
++  .cf-brief {
++    border-top: 1px solid var(--hair);
++    border-left: 0;
++    padding: 1.2rem 0 0;
++    background: none;
++  }
++}
++.cf-brief-t {
++  margin: 0;
++  color: var(--a);
++  font-size: 0.9rem;
++  font-weight: 700;
++  letter-spacing: 0.12em;
++  text-transform: uppercase;
++}
++.cf-brief-row {
++  margin-top: 1.1rem;
++}
++.cf-brief-row > span {
++  display: block;
++  color: var(--soft);
++  font-size: 0.9375rem;
++}
++.cf-brief-row > div {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 8px;
++  margin-top: 0.5rem;
++}
++.cf-brief-row em {
++  color: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 78% / 0.6);
++  font-size: 1rem;
++}
++.cf-pill {
++  padding: 4px 12px;
++  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
++  border-radius: 999px;
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
++  color: #fff;
++  font-size: 0.9375rem;
++  font-weight: 500;
++  animation: cf-pop 0.4s cubic-bezier(0.22, 1.4, 0.36, 1) both;
++}
++@keyframes cf-pop {
++  from {
++    opacity: 0;
++    transform: scale(0.7);
++  }
++}
++.cf-brief-note {
++  margin: 1.4rem 0 0;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  line-height: 1.55;
++}
++/* sent */
++.cf-done {
++  display: grid;
++  justify-items: center;
++  gap: 0.6rem;
++  max-width: 560px;
++  margin: 0 auto;
++  padding: 2rem 1rem;
++  text-align: center;
++}
++.cf-check {
++  width: 84px;
++  height: 84px;
++  fill: none;
++  stroke: var(--a, #fff);
++  stroke-width: 2.6;
++  stroke-linecap: round;
++  stroke-linejoin: round;
++}
++.cf-check circle {
++  stroke-dasharray: 150;
++  stroke-dashoffset: 150;
++  animation: cf-draw 0.9s ease-out 0.1s forwards;
++}
++.cf-check path {
++  stroke-dasharray: 40;
++  stroke-dashoffset: 40;
++  animation: cf-draw 0.5s ease-out 0.8s forwards;
++}
++@keyframes cf-draw {
++  to {
++    stroke-dashoffset: 0;
++  }
++}
++.cf-done-t {
++  margin: 0.8rem 0 0;
++  color: #fff;
++  font-size: 2.2rem;
++  font-weight: 600;
++  letter-spacing: -0.03em;
++}
++.cf-done-p {
++  margin: 0;
++  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90%);
++  font-size: 1.125rem;
++}
++@media (prefers-reduced-motion: reduce) {
++  .cf-pane,
++  .cf-pill,
++  .cf-check circle,
++  .cf-check path {
++    animation: none;
++    stroke-dashoffset: 0;
++  }
++  .cf-tile {
++    transform: none;
++  }
++}
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The footer (footer.tsx, footer-word.tsx): a big sentence with a button, the offices as cards, numbered link columns whose links slide on
++   hover, and the big name that lights up where the mouse is. At most the width of a laptop (1440 px), in the middle. */
++.ft {
++  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
++  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.82);
++  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
++  position: relative;
++  padding: 6rem 0 7rem;
++  overflow: hidden;
++}
++.ft-in {
++  width: 100%;
++  max-width: 1440px;
++  margin: 0 auto;
++  padding-inline: clamp(1.25rem, 3vw, 3rem);
++}
++.ft-top-row {
++  display: flex;
++  flex-wrap: wrap;
++  align-items: flex-end;
++  justify-content: space-between;
++  gap: 2rem;
++  padding-bottom: 3.5rem;
++  border-bottom: 1px solid var(--hair);
++}
++.ft-kicker {
++  margin: 0;
++  color: var(--a);
++  font-size: 0.9375rem;
++  font-weight: 600;
++  letter-spacing: 0.14em;
++  text-transform: uppercase;
++}
++.ft-big {
++  margin: 1rem 0 0;
++  color: #fff;
++  font-size: clamp(2.6rem, 6.4vw, 5.6rem);
++  font-weight: 600;
++  letter-spacing: -0.045em;
++  line-height: 1.02;
++}
++.ft-big span {
++  background: linear-gradient(90deg, var(--a), hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 68%));
++  -webkit-background-clip: text;
++  background-clip: text;
++  color: transparent;
++}
++.ft-cards {
++  display: grid;
++  gap: 14px;
++  margin-top: 3rem;
++}
++@media (min-width: 768px) {
++  .ft-cards {
++    grid-template-columns: repeat(3, minmax(0, 1fr));
++  }
++}
++.ft-card {
++  padding: 1.4rem 1.5rem;
++  border: 1px solid var(--hair);
++  border-radius: 20px;
++  background: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.4);
++  color: var(--soft);
++  font-size: 1rem;
++  font-style: normal;
++  line-height: 1.6;
++  transition: border-color 0.3s, background 0.3s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.ft-card:hover {
++  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.45);
++  background: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 13% / 0.6);
++  transform: translateY(-3px);
++}
++.ft-card p {
++  margin: 0;
++}
++.ft-card-t {
++  margin-bottom: 0.5rem !important;
++  color: #fff;
++  font-size: 1.1875rem;
++  font-weight: 600;
++  letter-spacing: -0.01em;
++}
++.ft-card a {
++  color: inherit;
++  text-decoration: none;
++  transition: color 0.2s;
++}
++.ft-card a:hover {
++  color: #fff;
++}
++.ft-grid {
++  display: grid;
++  gap: 2.6rem;
++  margin-top: 4rem;
++}
++@media (min-width: 900px) {
++  .ft-grid {
++    grid-template-columns: 1.3fr 1fr 1.2fr 0.9fr;
++    gap: 3rem;
++  }
++}
++.ft-brand-n {
++  margin: 1rem 0 0;
++  color: #fff;
++  font-size: 1.4rem;
++  font-weight: 600;
++  letter-spacing: -0.02em;
++}
++.ft-brand-t {
++  margin: 0.7rem 0 0;
++  max-width: 24rem;
++  color: var(--soft);
++  font-size: 1rem;
++  line-height: 1.65;
++}
++.ft-socs {
++  display: flex;
++  gap: 10px;
++  margin-top: 1.4rem;
++}
++.ft-soc {
++  display: grid;
++  width: 42px;
++  height: 42px;
++  place-items: center;
++  border: 1px solid var(--hair);
++  border-radius: 50%;
++  color: var(--soft);
++  transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
++}
++.ft-soc:hover {
++  border-color: var(--a);
++  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
++  color: #fff;
++  transform: translateY(-3px);
++}
++.ft-col-t {
++  display: flex;
++  align-items: baseline;
++  gap: 0.6rem;
++  margin: 0 0 1.2rem;
++  color: #fff;
++  font-size: 0.9375rem;
++  font-weight: 700;
++  letter-spacing: 0.12em;
++  text-transform: uppercase;
++}
++.ft-col-t i {
++  color: var(--a);
++  font-size: 0.8125rem;
++  font-style: normal;
++}
++.ft-col ul {
++  display: grid;
++  gap: 0.2rem;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++.ft-link {
++  position: relative;
++  display: block;
++  padding: 0.38rem 0;
++  color: var(--soft);
++  font-size: 1.0625rem;
++  line-height: 1.35;
++  text-decoration: none;
++  transition: color 0.25s, padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.ft-link::before {
++  content: "";
++  position: absolute;
++  top: 50%;
++  left: 0;
++  width: 0;
++  height: 1px;
++  background: var(--a);
++  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.ft-link:hover {
++  padding-left: 1.6rem;
++  color: #fff;
++}
++.ft-link:hover::before {
++  width: 1.1rem;
++}
++.ft-note {
++  margin: 1.2rem 0 0;
++  max-width: 17rem;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  line-height: 1.6;
++  opacity: 0.8;
++}
++/* the big name: an outline, filled with light where the mouse is */
++.ft-word {
++  --mx: 50%;
++  --my: 50%;
++  position: relative;
++  margin-top: 4.5rem;
++  overflow: hidden;
++  font-size: clamp(3.4rem, 15.5vw, 15rem);
++  font-weight: 700;
++  letter-spacing: -0.06em;
++  line-height: 0.92;
++  text-align: center;
++  user-select: none;
++}
++.ft-word-o,
++.ft-word-f {
++  display: block;
++  padding-bottom: 0.05em;
++  white-space: nowrap;
++}
++.ft-word-o {
++  color: transparent;
++  -webkit-text-stroke: 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
++}
++.ft-word-f {
++  position: absolute;
++  inset: 0;
++  background: linear-gradient(180deg, #fff 10%, var(--a) 70%, hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 55%));
++  -webkit-background-clip: text;
++  background-clip: text;
++  color: transparent;
++  -webkit-mask-image: radial-gradient(circle 22vw at var(--mx) var(--my), #000 0, transparent 100%);
++  mask-image: radial-gradient(circle 22vw at var(--mx) var(--my), #000 0, transparent 100%);
++  opacity: 0;
++  transition: opacity 0.5s;
++}
++.ft-word[data-live="true"] .ft-word-f {
++  opacity: 1;
++}
++/* without a mouse a light goes along the word by itself */
++@media (hover: none) {
++  .ft-word-f {
++    opacity: 1;
++    animation: ft-sweep 7s ease-in-out infinite alternate;
++  }
++}
++@keyframes ft-sweep {
++  from {
++    --mx: 10%;
++  }
++  to {
++    --mx: 90%;
++  }
++}
++.ft-bottom {
++  display: flex;
++  flex-wrap: wrap;
++  align-items: center;
++  justify-content: space-between;
++  gap: 1rem;
++  margin-top: 2.2rem;
++  padding-top: 1.4rem;
++  border-top: 1px solid var(--hair);
++}
++.ft-bottom p {
++  margin: 0;
++  color: var(--soft);
++  font-size: 0.9375rem;
++  opacity: 0.8;
++}
++.ft-top {
++  display: inline-flex;
++  align-items: center;
++  gap: 10px;
++  padding: 0.6rem 1.1rem;
++  border: 1px solid var(--hair);
++  border-radius: 999px;
++  background: none;
++  color: var(--soft);
++  font: inherit;
++  font-size: 0.9375rem;
++  cursor: pointer;
++  transition: border-color 0.3s, color 0.3s, transform 0.3s;
++}
++.ft-top:hover {
++  border-color: var(--a);
++  color: #fff;
++  transform: translateY(-2px);
++}
++@media (prefers-reduced-motion: reduce) {
++  .ft-word-f {
++    animation: none;
++  }
++}
++
++@property --mx {
++  syntax: "<length-percentage>";
++  inherits: true;
++  initial-value: 50%;
++}
+diff --git a/b/src/components/site/contact-flow.tsx b/b/src/components/site/contact-flow.tsx
+new file mode 100644
+index 0000000..f6bfb51
+--- /dev/null
++++ b/b/src/components/site/contact-flow.tsx
+@@ -0,0 +1,200 @@
++"use client";
++
++import { useActionState, useEffect, useState } from "react";
++import { submitLead, type LeadState } from "@/actions/leads";
++
++// The contact section as a short conversation instead of a plain form: 1. what do you want to make (tiles you can pick), 2. when would you like to
++// start (chips), 3. how can we reach you. A "brief" card on the side fills in while you choose, so the visitor sees something happen. At the end
++// it is sent like before (submitLead): what was picked goes at the start of the message. Nothing is required but the name, the e-mail and, in
++// the end, a message that is not empty (the choices count as a message).
++
++const NEEDS: { id: string; label: string; icon: string }[] = [
++  { id: "A website", label: "Website", icon: "M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01" },
++  { id: "A mobile app", label: "Mobile app", icon: "M8 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM11 18h2" },
++  { id: "AI / chatbot", label: "AI / chatbot", icon: "M12 3v3M12 18v3M3 12h3M18 12h3M7.5 7.5l2 2M14.5 14.5l2 2M16.5 7.5l-2 2M9.5 14.5l-2 2M9 9h6v6H9z" },
++  { id: "VR / metaverse", label: "VR / metaverse", icon: "M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-3.5l-1.5-2h-4l-1.5 2H5a2 2 0 0 1-2-2z" },
++  { id: "Brand design", label: "Brand design", icon: "M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z" },
++  { id: "UI/UX design", label: "UI/UX design", icon: "M4 20l4-1 11-11a2.1 2.1 0 0 0-3-3L5 16zM14 6l3 3" },
++  { id: "CRM / software", label: "CRM / software", icon: "M4 6h16M4 12h16M4 18h10" },
++  { id: "Something else", label: "Something else", icon: "M12 5v14M5 12h14" },
++];
++const WHEN = ["As soon as possible", "In 1 to 3 months", "I am just exploring"];
++
++type Props = { buttonLabel: string };
++
++export function ContactFlow({ buttonLabel }: Props) {
++  const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, { status: "idle" });
++  const [step, setStep] = useState(0);
++  const [needs, setNeeds] = useState<string[]>([]);
++  const [when, setWhen] = useState("");
++  const [text, setText] = useState("");
++
++  // the sketch canvas can put a first message into the form ("Send to our artist")
++  useEffect(() => {
++    const onPrefill = (e: Event) => {
++      const t = (e as CustomEvent<{ message?: string }>).detail?.message;
++      if (t) {
++        setText((old) => old || t);
++        setStep(2);
++      }
++    };
++    window.addEventListener("w3v-prefill", onPrefill);
++    return () => window.removeEventListener("w3v-prefill", onPrefill);
++  }, []);
++
++  const toggle = (id: string) => setNeeds((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
++  const tilt = (e: React.PointerEvent<HTMLButtonElement>) => {
++    if (e.pointerType !== "mouse") return;
++    const r = e.currentTarget.getBoundingClientRect();
++    e.currentTarget.style.setProperty("--ry", `${(((e.clientX - r.left) / r.width - 0.5) * 12).toFixed(1)}deg`);
++    e.currentTarget.style.setProperty("--rx", `${(-((e.clientY - r.top) / r.height - 0.5) * 12).toFixed(1)}deg`);
++  };
++  const untilt = (e: React.PointerEvent<HTMLButtonElement>) => {
++    e.currentTarget.style.setProperty("--ry", "0deg");
++    e.currentTarget.style.setProperty("--rx", "0deg");
++  };
++
++  // what is sent: the choices first, then what the visitor wrote
++  const intro = [needs.length ? `Interested in: ${needs.join(", ")}.` : "", when ? `Start: ${when}.` : ""].filter(Boolean).join("\n");
++  const message = [intro, text.trim()].filter(Boolean).join("\n\n") || "I would like to talk about a project.";
++
++  if (state.status === "success") {
++    return (
++      <div role="status" className="cf-done">
++        <svg viewBox="0 0 52 52" aria-hidden className="cf-check">
++          <circle cx="26" cy="26" r="23" />
++          <path d="M15 27l8 8 14-16" />
++        </svg>
++        <p className="cf-done-t">Message sent</p>
++        <p className="cf-done-p">{state.message}</p>
++      </div>
++    );
++  }
++
++  return (
++    <div className="cf">
++      <div className="cf-main">
++        <div className="cf-progress" aria-hidden>
++          {[0, 1, 2].map((i) => (
++            <span key={i} data-on={i <= step} />
++          ))}
++        </div>
++        <p className="cf-step">Step {step + 1} of 3</p>
++
++        {step === 0 && (
++          <div key="s0" className="cf-pane">
++            <h3 className="cf-q">What would you like to make?</h3>
++            <p className="cf-hint">Pick as many as you like.</p>
++            <div className="cf-tiles">
++              {NEEDS.map((n) => (
++                <button
++                  key={n.id}
++                  type="button"
++                  className="cf-tile"
++                  aria-pressed={needs.includes(n.id)}
++                  onClick={() => toggle(n.id)}
++                  onPointerMove={tilt}
++                  onPointerLeave={untilt}
++                >
++                  <svg viewBox="0 0 24 24" aria-hidden className="cf-ic">
++                    <path d={n.icon} />
++                  </svg>
++                  <span>{n.label}</span>
++                  <i aria-hidden className="cf-tick" />
++                </button>
++              ))}
++            </div>
++          </div>
++        )}
++
++        {step === 1 && (
++          <div key="s1" className="cf-pane">
++            <h3 className="cf-q">When would you like to start?</h3>
++            <p className="cf-hint">There is no wrong answer.</p>
++            <div className="cf-chips">
++              {WHEN.map((w) => (
++                <button key={w} type="button" className="cf-chip" aria-pressed={when === w} onClick={() => setWhen(when === w ? "" : w)}>
++                  {w}
++                </button>
++              ))}
++            </div>
++          </div>
++        )}
++
++        {step === 2 && (
++          <form key="s2" action={action} className="cf-pane">
++            <h3 className="cf-q">How can we reach you?</h3>
++            <p className="cf-hint">We answer ourselves, usually the same day.</p>
++            <div className="cf-fields">
++              <input name="name" required minLength={2} maxLength={100} autoComplete="name" aria-label="Full name" className="cf-in" placeholder="Your name" />
++              <input name="email" type="email" required maxLength={200} autoComplete="email" aria-label="Email" className="cf-in" placeholder="Your email" />
++              <input name="phone" type="tel" maxLength={30} autoComplete="tel" aria-label="Phone (optional)" className="cf-in cf-wide" placeholder="Phone (optional)" />
++              <textarea value={text} onChange={(e) => setText(e.target.value)} maxLength={1700} rows={4} aria-label="Message (optional)" className="cf-in cf-wide" placeholder="Tell us a little about the project (optional)" />
++            </div>
++            <input type="hidden" name="message" value={message} />
++            {/* Honeypot: hidden from people, bots fill it in. */}
++            <input name="website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" />
++            {state.status === "error" && (
++              <p role="alert" className="cf-err">
++                {state.message}
++              </p>
++            )}
++            <div className="cf-nav">
++              <button type="button" className="cf-back" onClick={() => setStep(1)}>
++                ← Back
++              </button>
++              <button type="submit" className="rp-cta" disabled={pending}>
++                <span>{pending ? "Sending…" : buttonLabel}</span>
++                <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
++                  <path d="M5 12h14M13 6l6 6-6 6" />
++                </svg>
++              </button>
++            </div>
++          </form>
++        )}
++
++        {step < 2 && (
++          <div className="cf-nav">
++            {step > 0 ? (
++              <button type="button" className="cf-back" onClick={() => setStep(step - 1)}>
++                ← Back
++              </button>
++            ) : (
++              <span />
++            )}
++            <button type="button" className="rp-cta" onClick={() => setStep(step + 1)}>
++              <span>{step === 0 && needs.length === 0 ? "Skip" : "Next"}</span>
++              <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
++                <path d="M5 12h14M13 6l6 6-6 6" />
++              </svg>
++            </button>
++          </div>
++        )}
++      </div>
++
++      {/* the brief: it fills in while you choose */}
++      <aside className="cf-brief" aria-label="Your brief">
++        <p className="cf-brief-t">Your brief</p>
++        <div className="cf-brief-row">
++          <span>You want</span>
++          <div>
++            {needs.length === 0 ? (
++              <em>Pick on the left</em>
++            ) : (
++              needs.map((n) => (
++                <b key={n} className="cf-pill">
++                  {n}
++                </b>
++              ))
++            )}
++          </div>
++        </div>
++        <div className="cf-brief-row">
++          <span>Start</span>
++          <div>{when ? <b className="cf-pill">{when}</b> : <em>Not chosen yet</em>}</div>
++        </div>
++        <p className="cf-brief-note">We read it before we call you, so we are ready.</p>
++      </aside>
++    </div>
++  );
++}
+diff --git a/b/src/components/site/footer-word.tsx b/b/src/components/site/footer-word.tsx
+new file mode 100644
+index 0000000..6b239cb
+--- /dev/null
++++ b/b/src/components/site/footer-word.tsx
+@@ -0,0 +1,48 @@
++"use client";
++
++import { useRef } from "react";
++
++// The big name at the bottom of the footer. It is drawn as an outline; where the mouse is, the letters are filled with light (a round window
++// that follows the pointer). Without a mouse (a phone) a window of light slowly goes along the word by itself (CSS). Only two custom properties
++// change while the pointer moves.
++export function FooterWord({ text }: { text: string }) {
++  const ref = useRef<HTMLDivElement>(null);
++  const move = (e: React.PointerEvent<HTMLDivElement>) => {
++    if (e.pointerType !== "mouse") return;
++    const el = ref.current;
++    if (!el) return;
++    const r = el.getBoundingClientRect();
++    el.style.setProperty("--mx", `${(e.clientX - r.left).toFixed(0)}px`);
++    el.style.setProperty("--my", `${(e.clientY - r.top).toFixed(0)}px`);
++    el.dataset.live = "true";
++  };
++  const leave = () => {
++    if (ref.current) ref.current.dataset.live = "false";
++  };
++  return (
++    <div ref={ref} className="ft-word" data-live="false" onPointerMove={move} onPointerLeave={leave} aria-hidden>
++      <span className="ft-word-o">{text}</span>
++      <span className="ft-word-f">{text}</span>
++    </div>
++  );
++}
++
++/** A round button that takes you back to the top of the page. */
++export function ToTop() {
++  return (
++    <button
++      type="button"
++      className="ft-top"
++      onClick={() => {
++        const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
++        if (lenis) lenis.scrollTo(0, { duration: 1.4 });
++        else window.scrollTo({ top: 0, behavior: "smooth" });
++      }}
++    >
++      <span>Back to top</span>
++      <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
++        <path d="M12 19V5M5 12l7-7 7 7" />
++      </svg>
++    </button>
++  );
++}
+diff --git a/a/src/components/site/footer.tsx b/b/src/components/site/footer.tsx
+index c507271..73a2902 100644
+--- a/a/src/components/site/footer.tsx
++++ b/b/src/components/site/footer.tsx
+@@ -1,17 +1,22 @@
+ import type { SiteSettings } from "@/lib/cms/settings";
+ import { BrandTile } from "./brand-mark";
++import { FooterWord, ToTop } from "./footer-word";
+ import { SmartLink } from "./smart-link";
+ 
++const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
++const PHONE = /^\+?\d[\d\s().-]{6,}$/;
++
++function Line({ text }: { text: string }) {
++  const v = text.trim();
++  if (EMAIL.test(v)) return <a href={`mailto:${v}`}>{v}</a>;
++  if (PHONE.test(v)) return <a href={`tel:${v.replace(/[^\d+]/g, "")}`}>{v}</a>;
++  return <>{v}</>;
++}
++
+ function SocialIcon({ label, href }: { label: string; href: string }) {
+   const name = label.toLowerCase();
+   return (
+-    <a
+-      href={href}
+-      target="_blank"
+-      rel="noopener noreferrer"
+-      aria-label={label}
+-      className="grid size-10 place-items-center rounded-full border border-violet/15 bg-violet/[0.05] text-orchid transition hover:border-violet/40 hover:text-violet"
+-    >
++    <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="ft-soc">
+       {name.includes("linkedin") ? (
+         <svg viewBox="0 0 24 24" className="size-4 fill-current" aria-hidden>
+           <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.75 9.75h3.8v1.6h.06c.53-1 1.82-2.05 3.75-2.05 4 0 4.74 2.63 4.74 6.05V21h-4v-5.05c0-1.2-.02-2.75-1.67-2.75-1.68 0-1.94 1.31-1.94 2.66V21h-4z" />
+@@ -29,41 +34,91 @@ function SocialIcon({ label, href }: { label: string; href: string }) {
+   );
+ }
+ 
++/**
++ * The footer, not a row of small links: first a big sentence with a button, then the contact cards of the offices, then the link columns
++ * (numbered, every link slides on hover) and, at the very bottom, the big name of the company that lights up where the mouse is.
++ */
+ export function Footer({ site }: { site: SiteSettings }) {
+   return (
+-    <footer className="relative px-4 pb-32 pt-24">
+-      <div className="mx-auto flex max-w-[960px] flex-col items-center text-center">
+-        <BrandTile className="size-14" />
+-        <p className="mt-4 text-xl font-semibold tracking-tight text-violet">{site.name}</p>
+-        <p className="mt-3 max-w-md text-base leading-relaxed text-orchid">{site.tagline}</p>
++    <footer className="ft">
++      <div className="ft-in">
++        {/* 1. the sentence and the button */}
++        <div className="ft-top-row">
++          <div>
++            <p className="ft-kicker">Let&apos;s work together</p>
++            <p className="ft-big">
++              Have an idea?
++              <br />
++              <span>Let&apos;s build it.</span>
++            </p>
++          </div>
++          <SmartLink href="/contact" className="rp-cta">
++            <span>Start a project</span>
++            <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
++              <path d="M5 12h14M13 6l6 6-6 6" />
++            </svg>
++          </SmartLink>
++        </div>
+ 
+-        {site.social.length > 0 && (
+-          <div className="mt-7 flex gap-3">
+-            {site.social.map((s) => (
+-              <SocialIcon key={s.label + s.href} label={s.label} href={s.href} />
++        {/* 2. the offices */}
++        {site.contactCards.length > 0 && (
++          <div className="ft-cards">
++            {site.contactCards.map((card) => (
++              <address key={card.title} className="ft-card">
++                <p className="ft-card-t">{card.title}</p>
++                {card.lines
++                  .split("\n")
++                  .filter((l) => l.trim())
++                  .map((line, n) => (
++                    <p key={n}>
++                      <Line text={line} />
++                    </p>
++                  ))}
++              </address>
+             ))}
+           </div>
+         )}
+ 
+-        <div className="mt-14 grid w-full gap-10 border-t border-violet/10 pt-12 text-left sm:grid-cols-3">
++        {/* 3. the brand and the link columns */}
++        <div className="ft-grid">
++          <div className="ft-brand">
++            <BrandTile className="size-14" />
++            <p className="ft-brand-n">{site.name}</p>
++            <p className="ft-brand-t">{site.tagline}</p>
++            {site.social.length > 0 && (
++              <div className="ft-socs">
++                {site.social.map((s) => (
++                  <SocialIcon key={s.label + s.href} label={s.label} href={s.href} />
++                ))}
++              </div>
++            )}
++          </div>
+           {site.menus.map((menu, index) => (
+-            <nav key={menu.label} aria-label={menu.label}>
+-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-violet">{menu.label}</p>
+-              <ul className="space-y-2.5">
++            <nav key={menu.label} aria-label={menu.label} className="ft-col">
++              <p className="ft-col-t">
++                <i>{String(index + 1).padStart(2, "0")}</i> {menu.label}
++              </p>
++              <ul>
+                 {menu.items.map((item) => (
+                   <li key={item.label + item.href}>
+-                    <SmartLink href={item.href} className="text-[0.95rem] text-orchid transition hover:text-violet">
+-                      {item.label}
++                    <SmartLink href={item.href} className="ft-link">
++                      <span>{item.label}</span>
+                     </SmartLink>
+                   </li>
+                 ))}
+               </ul>
+-              {index === site.menus.length - 1 && site.menuNote && <p className="mt-5 text-[0.95rem] leading-relaxed text-orchid/80">{site.menuNote}</p>}
++              {index === site.menus.length - 1 && site.menuNote && <p className="ft-note">{site.menuNote}</p>}
+             </nav>
+           ))}
+         </div>
++      </div>
++
++      {/* 4. the big name */}
++      <FooterWord text={site.name} />
+ 
+-        <p className="mt-14 text-sm text-orchid/70">{site.copyright}</p>
++      <div className="ft-in ft-bottom">
++        <p>{site.copyright}</p>
++        <ToTop />
+       </div>
+     </footer>
+   );
+diff --git a/a/src/components/site/sections/contact.tsx b/b/src/components/site/sections/contact.tsx
+index cddac5c..175af63 100644
+--- a/a/src/components/site/sections/contact.tsx
++++ b/b/src/components/site/sections/contact.tsx
+@@ -1,8 +1,7 @@
+ import { GlowEdge } from "../glow-edge";
+-import { ContactForm } from "../contact-form";
+-import { NeonReveal } from "../modern/neon-reveal";
++import { ContactFlow } from "../contact-flow";
+ import { Reveal } from "../reveal";
+-import { Frame, SectionHead, Wide } from "../ui";
++import { SectionHead, Wide } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+@@ -16,25 +15,13 @@ function Line({ text }: { text: string }) {
+   return <>{value}</>;
+ }
+ 
+-export const Contact: SectionComponent<"contact"> = ({ data, site, skin }) => (
++export const Contact: SectionComponent<"contact"> = ({ data, site }) => (
+   <section id="contact" className="py-24 sm:py-32">
+     <Wide>
+       <SectionHead chip={data.chip} heading={data.heading} intro={data.text} />
+-      <Reveal className="mt-12">
+-        {skin === "modern" ? (
+-          <NeonReveal className="mx-auto w-full max-w-[600px]">
+-            <div className="bglow card-glass rounded-[19px] border border-violet/[0.12] p-6 sm:p-9">
+-              <GlowEdge />
+-              <ContactForm buttonLabel={data.buttonLabel} />
+-            </div>
+-          </NeonReveal>
+-        ) : (
+-          <Frame width="max-w-[560px]" className="px-0">
+-            <div className="px-4 py-10 sm:px-8">
+-              <ContactForm buttonLabel={data.buttonLabel} />
+-            </div>
+-          </Frame>
+-        )}
++      {/* a short conversation (what, when, who) with a brief that fills in on the side; no box: it is part of the page */}
++      <Reveal className="mx-auto mt-14 max-w-[1040px]">
++        <ContactFlow buttonLabel={data.buttonLabel} />
+       </Reveal>
+ 
+       {site.contactCards.length > 0 && (
+diff --git a/a/src/components/site/sections/reach.tsx b/b/src/components/site/sections/reach.tsx
+index c64a5ce..c5d86b9 100644
+--- a/a/src/components/site/sections/reach.tsx
++++ b/b/src/components/site/sections/reach.tsx
+@@ -7,7 +7,7 @@ import { Chip } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+ /**
+- * Global reach: a card as wide as the screen. On the left what we say (we work with clients in many countries), a clear button and the
++ * Global reach: no box, as wide as a laptop screen (it does not grow on a bigger monitor). On the left what we say (we work with clients in many countries), a clear button and the
+  * names of the countries (the first place is the head office); on the right the globe with a line from the head office to every country.
+  */
+ export const Reach: SectionComponent<"reach"> = ({ data, page }) => {
+@@ -17,7 +17,7 @@ export const Reach: SectionComponent<"reach"> = ({ data, page }) => {
+ 
+   return (
+     <section id="reach" className="py-16 sm:py-24">
+-      <div className="mx-auto w-full px-4 sm:px-8 lg:px-14 xl:px-20">
++      <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-8 lg:px-12">
+         <Reveal>
+           <div className="relative md:grid md:grid-cols-[1.05fr_1fr] md:items-center md:gap-10 lg:gap-16">
+             {/* no box: the section is part of the page; a soft light behind the globe joins it to the background */}

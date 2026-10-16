@@ -1,0 +1,12 @@
+diff --git a/a/src/lib/cms/content/services.ts b/b/src/lib/cms/content/services.ts
+index eccd858..98ae077 100644
+--- a/a/src/lib/cms/content/services.ts
++++ b/b/src/lib/cms/content/services.ts
+@@ -731,7 +731,6 @@ export const MODELING_SECTIONS = build({
+     { title: "Web\nDevelopment", description: "Show your 3D models on a fast, responsive website.", href: "/webdev" },
+     { title: "Graphics &\nUI/UX Design", description: "Brand visuals and interfaces.", href: "/graphics" },
+   ],
+-  guide: { scene: "modeling", chip: "Meet the 3D artist", heading: "Turn the model\naround", text: "Drag the cube to look at it from every side, or switch the turntable on. This is how we show 3D products.", tips: ["Drag the cube to look at it from every side.","3D models work for products, games, AR and VR.","PBR materials and lighting make assets look real.","We optimize models for the platform they run on."] },
+   cta: { heading: "Bring Your 3D\nConcept To Life", text: "Do you have a product, character, environment or creative idea that you want to see in 3D? Tell us about your project and discuss the right approach.", button: "Start your 3D project" },
+ });
+ 

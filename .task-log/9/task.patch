@@ -1,0 +1,320 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 8e1db47..da41f9b 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -16798,3 +16798,57 @@ a.md-rel-card:hover .md-rel-go {
+     transform: none;
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   Split headings (modern/split-heading.tsx) and the magnet buttons (modern/magnet.tsx). */
++.sh {
++  --sh-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%);
++  white-space: normal;
++}
++.sh-center {
++  text-align: center;
++}
++.sh-line {
++  display: block;
++}
++.sh-word {
++  display: inline-block;
++  margin-right: 0.26em;
++  background: linear-gradient(180deg, #fff 8%, color-mix(in srgb, #fff 45%, var(--sh-a)));
++  -webkit-background-clip: text;
++  background-clip: text;
++  color: transparent;
++}
++.sh-line[data-l="b"] .sh-word {
++  background-image: linear-gradient(180deg, color-mix(in srgb, #fff 40%, var(--sh-a)), var(--sh-a));
++}
++.sh[data-sh="wait"] .sh-word {
++  opacity: 0;
++  transform: translateY(0.55em) rotate(2.5deg);
++  filter: blur(8px);
++}
++.sh[data-sh="in"] .sh-word {
++  opacity: 1;
++  transform: none;
++  filter: blur(0);
++  transition:
++    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
++    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
++    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
++  transition-delay: calc(var(--i) * 70ms);
++}
++.mg {
++  display: inline-block;
++  transition: translate 0.25s cubic-bezier(0.22, 1, 0.36, 1);
++}
++@media (prefers-reduced-motion: reduce) {
++  .sh[data-sh] .sh-word {
++    opacity: 1;
++    transform: none;
++    filter: none;
++    transition: none;
++  }
++  .mg {
++    transition: none;
++  }
++}
+diff --git a/a/src/components/site/modern/faq-split.tsx b/b/src/components/site/modern/faq-split.tsx
+index 7f6be98..38be8d5 100644
+--- a/a/src/components/site/modern/faq-split.tsx
++++ b/b/src/components/site/modern/faq-split.tsx
+@@ -2,6 +2,7 @@
+ 
+ import { useState } from "react";
+ import { GlowEdge } from "../glow-edge";
++import { SplitHeading } from "./split-heading";
+ 
+ type Q = { question: string; answer: string };
+ 
+@@ -21,7 +22,7 @@ export function FaqSplit({ chip, heading, intro, items }: { chip: string; headin
+       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json).replace(/</g, "\\u003c") }} />
+       <aside className="md-faq-side">
+         <span className="md-chip">{chip}</span>
+-        <h2 className="text-vfade md-h2">{heading}</h2>
++        <SplitHeading text={heading} className="md-h2" />
+         {intro && <p className="md-intro">{intro}</p>}
+         <div className="md-faq-help bglow">
+           <GlowEdge />
+diff --git a/b/src/components/site/modern/magnet.tsx b/b/src/components/site/modern/magnet.tsx
+new file mode 100644
+index 0000000..20fe3c5
+--- /dev/null
++++ b/b/src/components/site/modern/magnet.tsx
+@@ -0,0 +1,26 @@
++"use client";
++
++import { useRef } from "react";
++
++// A button that leans towards the mouse a little when it comes near (the idea is the Magnet of React Bits, built here without a library).
++// Only a transform on one element, only while a mouse is over it; touch screens and visitors who prefer less motion see a plain button.
++
++export function Magnet({ children, strength = 0.28 }: { children: React.ReactNode; strength?: number }) {
++  const ref = useRef<HTMLDivElement>(null);
++  const move = (e: React.PointerEvent<HTMLDivElement>) => {
++    const el = ref.current;
++    if (!el || e.pointerType !== "mouse") return;
++    const r = el.getBoundingClientRect();
++    const x = (e.clientX - (r.left + r.width / 2)) * strength;
++    const y = (e.clientY - (r.top + r.height / 2)) * strength;
++    el.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
++  };
++  const leave = () => {
++    if (ref.current) ref.current.style.translate = "";
++  };
++  return (
++    <div ref={ref} className="mg" onPointerMove={move} onPointerLeave={leave}>
++      {children}
++    </div>
++  );
++}
+diff --git a/a/src/components/site/modern/process-rail.tsx b/b/src/components/site/modern/process-rail.tsx
+index bf714cd..3ea73ca 100644
+--- a/a/src/components/site/modern/process-rail.tsx
++++ b/b/src/components/site/modern/process-rail.tsx
+@@ -2,6 +2,7 @@
+ 
+ import { useEffect, useRef, useState } from "react";
+ import { GlowEdge } from "../glow-edge";
++import { SplitHeading } from "./split-heading";
+ 
+ type Step = { title: string; text: string; points?: string };
+ 
+@@ -54,7 +55,7 @@ export function ProcessRail({ chip, heading, intro, items }: { chip: string; hea
+     <div className="md md-pr">
+       <aside className="md-pr-side">
+         <span className="md-chip">{chip}</span>
+-        <h2 className="text-vfade md-h2">{heading}</h2>
++        <SplitHeading text={heading} className="md-h2" />
+         {intro && <p className="md-intro">{intro}</p>}
+         <div className="md-pr-count" aria-hidden>
+           <b key={active}>{two(active + 1)}</b>
+diff --git a/b/src/components/site/modern/split-heading.tsx b/b/src/components/site/modern/split-heading.tsx
+new file mode 100644
+index 0000000..201e458
+--- /dev/null
++++ b/b/src/components/site/modern/split-heading.tsx
+@@ -0,0 +1,56 @@
++"use client";
++
++import { useEffect, useRef } from "react";
++
++// A heading whose words come in one after the other (the idea is the Split Text of React Bits, built here without a library): every word
++// rises out of a blur when the heading scrolls into view, the next one a moment later. The words are real text in the page (nothing is
++// hidden from Google or from screen readers) and nothing is hidden at all when JavaScript does not run or the visitor prefers less motion.
++// The look is in globals.css (.sh-*).
++
++export function SplitHeading({ text, className = "", as: Tag = "h2" }: { text: string; className?: string; as?: "h1" | "h2" | "h3" }) {
++  const ref = useRef<HTMLHeadingElement>(null);
++  useEffect(() => {
++    const el = ref.current;
++    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
++    el.dataset.sh = "wait";
++    const show = () => {
++      el.dataset.sh = "in";
++      io.disconnect();
++      window.removeEventListener("scroll", past);
++    };
++    // a jump (an anchor link) can take the visitor past the heading without it ever being seen: then it is shown at once
++    const past = () => {
++      if (el.getBoundingClientRect().bottom < 0) show();
++    };
++    const io = new IntersectionObserver(
++      ([e]) => {
++        if (e.isIntersecting) show();
++      },
++      { threshold: 0.3 },
++    );
++    io.observe(el);
++    window.addEventListener("scroll", past, { passive: true });
++    return () => {
++      io.disconnect();
++      window.removeEventListener("scroll", past);
++    };
++  }, []);
++  const lines = text.split("\n");
++  let k = 0;
++  return (
++    <Tag ref={ref} className={`sh ${className}`}>
++      {lines.map((line, li) => (
++        <span key={li} className="sh-line" data-l={li === 0 ? "a" : "b"}>
++          {line
++            .split(" ")
++            .filter(Boolean)
++            .map((w, wi) => (
++              <span key={wi} className="sh-word" style={{ "--i": k++ } as React.CSSProperties}>
++                {w}
++              </span>
++            ))}
++        </span>
++      ))}
++    </Tag>
++  );
++}
+diff --git a/a/src/components/site/sections/advantages.tsx b/b/src/components/site/sections/advantages.tsx
+index f24d2fb..1da07a0 100644
+--- a/a/src/components/site/sections/advantages.tsx
++++ b/b/src/components/site/sections/advantages.tsx
+@@ -8,7 +8,7 @@ export const Advantages: SectionComponent<"advantages"> = ({ data, skin }) =>
+   skin === "modern" ? (
+     <section id="advantages" className="py-24 sm:py-32">
+       <div className="mx-auto w-full max-w-[1120px] px-4">
+-        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} />
++        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split />
+         <div className="mt-14">
+           <WhyBento items={data.items} />
+         </div>
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index c1be893..b21e9ac 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -12,7 +12,7 @@ import type { SectionComponent } from "./shared";
+ export const Industries: SectionComponent<"industries"> = ({ data, skin, page }) => (
+   <section id="industries" className="py-24 sm:py-32">
+     <div className="mx-auto w-full max-w-[1120px] px-4">
+-      <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} />
++      <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split={skin === "modern"} />
+     </div>
+     <div className="mt-16">
+       {skin === "modern" ? <IndustriesMap items={data.items} variant={(page && VARIANTS[page]) || DEFAULT_VARIANT} /> : <IndustriesCity items={data.items} />}
+diff --git a/a/src/components/site/sections/page-hero.tsx b/b/src/components/site/sections/page-hero.tsx
+index 91badce..c1fcccf 100644
+--- a/a/src/components/site/sections/page-hero.tsx
++++ b/b/src/components/site/sections/page-hero.tsx
+@@ -1,4 +1,5 @@
+ import { DappledLight } from "../modern/dappled-light";
++import { Magnet } from "../modern/magnet";
+ import { Chip, ButtonLink } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+@@ -29,10 +30,25 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin }) => (
+         </p>
+       )}
+       <div className="animate-rise mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5" style={rise(650)}>
+-        <ButtonLink href={data.primaryHref}>{data.primaryLabel}</ButtonLink>
+-        <ButtonLink href={data.secondaryHref} variant="ghost">
+-          {data.secondaryLabel}
+-        </ButtonLink>
++        {skin === "modern" ? (
++          <>
++            <Magnet>
++              <ButtonLink href={data.primaryHref}>{data.primaryLabel}</ButtonLink>
++            </Magnet>
++            <Magnet>
++              <ButtonLink href={data.secondaryHref} variant="ghost">
++                {data.secondaryLabel}
++              </ButtonLink>
++            </Magnet>
++          </>
++        ) : (
++          <>
++            <ButtonLink href={data.primaryHref}>{data.primaryLabel}</ButtonLink>
++            <ButtonLink href={data.secondaryHref} variant="ghost">
++              {data.secondaryLabel}
++            </ButtonLink>
++          </>
++        )}
+       </div>
+     </div>
+   </section>
+diff --git a/a/src/components/site/sections/services.tsx b/b/src/components/site/sections/services.tsx
+index 50e952f..d8b143c 100644
+--- a/a/src/components/site/sections/services.tsx
++++ b/b/src/components/site/sections/services.tsx
+@@ -9,7 +9,7 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin }
+   skin === "modern" && sectionId === "related-services" ? (
+     <section id="related-services" className="py-24 sm:py-32">
+       <Wide>
+-        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} />
++        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split />
+         <div className="mt-14">
+           <RelatedLinks cards={data.cards} />
+         </div>
+@@ -18,7 +18,7 @@ export const Services: SectionComponent<"services"> = ({ data, sectionId, skin }
+   ) : skin === "modern" ? (
+     <section id="services" className="py-24 sm:py-32">
+       <Wide>
+-        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro}>
++        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split>
+           <ButtonLink href={data.buttonHref} variant="ghost">
+             {data.buttonLabel}
+           </ButtonLink>
+diff --git a/a/src/components/site/ui.tsx b/b/src/components/site/ui.tsx
+index b0bb515..f4d38cd 100644
+--- a/a/src/components/site/ui.tsx
++++ b/b/src/components/site/ui.tsx
+@@ -1,3 +1,4 @@
++import { SplitHeading } from "./modern/split-heading";
+ import { Reveal } from "./reveal";
+ import { SmartLink } from "./smart-link";
+ 
+@@ -46,15 +47,18 @@ export function Chip({ children, lines = false }: { children: React.ReactNode; l
+ }
+ 
+ /** Centered section heading: chip, two-tone gradient title and intro. */
+-export function SectionHead({ chip, heading, intro, children }: { chip?: string; heading?: string; intro?: string; children?: React.ReactNode }) {
++export function SectionHead({ chip, heading, intro, children, split = false }: { chip?: string; heading?: string; intro?: string; children?: React.ReactNode; split?: boolean }) {
+   return (
+     <Reveal className="text-center">
+       {chip && <Chip>{chip}</Chip>}
+-      {heading && (
+-        <h2 className="text-vfade mx-auto mt-6 max-w-[900px] whitespace-pre-line pb-1 text-[2.5rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl md:text-[64px]">
+-          {heading}
+-        </h2>
+-      )}
++      {heading &&
++        (split ? (
++          <SplitHeading text={heading} className="sh-center mx-auto mt-6 max-w-[900px] pb-1 text-[2.5rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl md:text-[64px]" />
++        ) : (
++          <h2 className="text-vfade mx-auto mt-6 max-w-[900px] whitespace-pre-line pb-1 text-[2.5rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl md:text-[64px]">
++            {heading}
++          </h2>
++        ))}
+       {intro && <p className="mx-auto mt-6 max-w-[560px] text-base leading-relaxed text-orchid">{intro}</p>}
+       {children && <div className="mt-8 flex justify-center">{children}</div>}
+     </Reveal>

@@ -1,0 +1,26 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 1581ccb..d8f3f89 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -16994,3 +16994,21 @@ a.md-rel-card:hover .md-rel-go {
+     transition: none;
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   PANDA chat bar: a short bar by default (the panda, "Ask PANDA…" and the send button); when it is pointed at (or tapped, or the field has
++   the focus) it widens to the full width, from the middle to both sides, while the chat window opens above it. */
++.pd {
++  --wc: clamp(230px, 19vw, 290px); /* closed */
++  --wo: clamp(320px, 61vw, 1216px); /* open */
++  width: var(--wc);
++  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
++}
++.pd[data-open="true"] {
++  width: var(--wo);
++}
++@media (prefers-reduced-motion: reduce) {
++  .pd {
++    transition: none;
++  }
++}

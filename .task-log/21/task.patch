@@ -1,0 +1,66 @@
+diff --git a/a/src/components/site/industries-road.tsx b/b/src/components/site/industries-road.tsx
+index a9c54f0..4339c1e 100644
+--- a/a/src/components/site/industries-road.tsx
++++ b/b/src/components/site/industries-road.tsx
+@@ -29,7 +29,7 @@ const bend = (road: Road, u: number) => {
+   return 0;
+ };
+ 
+-export function IndustriesRoad({ items, road, ang }: { items: Item[]; road: Road; ang: number }) {
++export function IndustriesRoad({ items, road, ang, zoom = 1.1 }: { items: Item[]; road: Road; ang: number; zoom?: number }) {
+   const n = items.length;
+   const uid = useId();
+   const [active, setActive] = useState(0);
+@@ -113,7 +113,7 @@ export function IndustriesRoad({ items, road, ang }: { items: Item[]; road: Road
+       const q = path.getPointAtLength(Math.min(geo.total, Math.max(0, dd) + 3));
+       const a = (Math.atan2(q.y - p.y, q.x - p.x) * 180) / Math.PI;
+       car.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) rotate(${a.toFixed(1)}deg)`;
+-      world.style.transform = `scale(1.1) rotateX(${RX}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-p.y).toFixed(1)}px)`;
++      world.style.transform = `scale(${zoom}) rotateX(${RX}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-p.y).toFixed(1)}px)`;
+       if (barRef.current) barRef.current.style.transform = `scaleY(${n > 1 ? (f / (n - 1)).toFixed(4) : 0})`;
+       const idx = Math.round(f);
+       if (idx !== last) {
+@@ -155,7 +155,7 @@ export function IndustriesRoad({ items, road, ang }: { items: Item[]; road: Road
+       window.removeEventListener("resize", onScroll);
+       if (raf) cancelAnimationFrame(raf);
+     };
+-  }, [geo, n, ang]);
++  }, [geo, n, ang, zoom]);
+ 
+   // new signs (a district that gets drawn in full) are turned at once
+   useLayoutEffect(() => {
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index 72e4ad1..c514997 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -5,9 +5,10 @@ import { SectionHead } from "../ui";
+ import type { SectionComponent } from "./shared";
+ 
+ /**
+- * The industries as a small 3D city, every industry with its own district. Home and the other classic pages: the city with a ring road. Service
++ * The industries as a small 3D city, every industry with its own district. Service
+  * pages ("modern" skin): the same city, but the car drives straight ahead on a road of its own (straight, a soft wave or a stepped road, seen
+- * from a different side on every page); it never turns back.
++ * from a different side on every page); it never turns back. The home page has the straight one, a fifth smaller. Other classic pages (Brand
++ * Design): the ring-road city as it was.
+  */
+ export const Industries: SectionComponent<"industries"> = ({ data, skin, page }) => {
+   const v = (page && VARIANTS[page]) || DEFAULT_VARIANT;
+@@ -16,7 +17,16 @@ export const Industries: SectionComponent<"industries"> = ({ data, skin, page })
+       <div className="mx-auto w-full max-w-[1120px] px-4">
+         <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split={skin === "modern" || page === "home"} />
+       </div>
+-      <div className="mt-16">{skin === "modern" ? <IndustriesRoad items={data.items} road={v.road} ang={v.ang} /> : <IndustriesCity items={data.items} />}</div>
++      <div className="mt-16">
++        {skin === "modern" ? (
++          <IndustriesRoad items={data.items} road={v.road} ang={v.ang} />
++        ) : page === "home" ? (
++          // home: the same city, but the car drives straight along one road (no turn back), 20% smaller than before (1.1 -> 0.88)
++          <IndustriesRoad items={data.items} road="straight" ang={-34} zoom={0.88} />
++        ) : (
++          <IndustriesCity items={data.items} />
++        )}
++      </div>
+     </section>
+   );
+ };

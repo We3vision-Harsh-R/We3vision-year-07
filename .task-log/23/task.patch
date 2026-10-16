@@ -1,0 +1,209 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 6c4c1c5..2876d23 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17142,23 +17142,23 @@ a.md-rel-card:hover .md-rel-go {
+ }
+ .cm-dof i:nth-child(1) {
+   --b: 1.2px;
+-  --s: 30%;
+-  --e: 56%;
++  --s: 18%;
++  --e: 42%;
+ }
+ .cm-dof i:nth-child(2) {
+   --b: 2.6px;
+-  --s: 20%;
+-  --e: 40%;
++  --s: 12%;
++  --e: 30%;
+ }
+ .cm-dof i:nth-child(3) {
+   --b: 5px;
+-  --s: 10%;
+-  --e: 27%;
++  --s: 6%;
++  --e: 19%;
+ }
+ .cm-dof i:nth-child(4) {
+-  --b: 9px;
+-  --s: 3%;
+-  --e: 16%;
++  --b: 8px;
++  --s: 2%;
++  --e: 11%;
+ }
+ .cm-dof::after {
+   content: "";
+@@ -17168,25 +17168,43 @@ a.md-rel-card:hover .md-rel-go {
+   background: linear-gradient(to bottom, hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.92), hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.45) 45%, transparent);
+ }
+ 
+-/* the bird's-eye version (home): the road runs up the middle of the screen so that the districts on both sides can be seen; the list of the
+-   industries stays on the left and the reading panel moves down to the middle of the bottom (where the picture fades out anyway) */
++/* the cinematic version (home): the road runs up the middle of the screen (seen a little from the side) so that the districts on both sides
++   can be seen; the list of the industries is on the left and the reading panel on the right, as in the other versions; the title of the
++   section stays on the screen while the city is pinned, above the blur (so that you always see which section this is). */
++.cm-head {
++  position: relative;
++  z-index: 6;
++  padding-bottom: 2.5rem;
++}
+ @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-head {
++    position: sticky;
++    top: 3.4rem;
++    height: 0;
++    padding: 0;
++    overflow: visible;
++    pointer-events: none;
++  }
++  .cm-bird .cm-head > * {
++    pointer-events: auto;
++  }
+   .cm-bird .cm-world {
+-    left: 50%;
+-    top: 37%; /* the car stands above the reading panel */
++    left: 46%;
++    top: 62%;
+   }
+-  .cm-bird .cm-ui {
+-    grid-template-columns: 17.5rem minmax(0, 1fr) 17.5rem;
+-    align-items: end;
+-    padding-bottom: clamp(1rem, 4.5vh, 2.6rem);
++}
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  /* while the city is pinned the title is compact (the intro text is only for the page: it stays in the HTML), and the list and the
++     panel stand lower so that they do not cover it */
++  .cm-bird .cm-head p {
++    display: none;
+   }
+-  .cm-bird .cm-rail {
+-    align-self: center;
++  .cm-bird .cm-head .sh {
++    margin-top: 1rem;
++    font-size: clamp(2.2rem, 3.6vw, 3.3rem) !important;
+   }
+-  .cm-bird .cm-panel {
+-    grid-column: 2;
+-    justify-self: center;
+-    width: min(100%, 36rem);
+-    padding: 1.2rem 1.6rem 1rem;
++  .cm-bird .cm-ui {
++    align-items: end;
++    padding-bottom: clamp(1.4rem, 7vh, 3.6rem);
+   }
+ }
+diff --git a/a/src/components/site/industries-road.tsx b/b/src/components/site/industries-road.tsx
+index 0ca4f3f..df96f01 100644
+--- a/a/src/components/site/industries-road.tsx
++++ b/b/src/components/site/industries-road.tsx
+@@ -4,6 +4,7 @@ import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "re
+ import { IndustryIcon } from "./icons";
+ import { Box, LANE_BOT, LANE_TOP, PH, PW, Piece, Vehicle, district, kindOf } from "./city-scene";
+ import type { Road } from "./modern/map-variants";
++import type { ReactNode } from "react";
+ 
+ // The industries city of the service pages. It is the same city as the one on the home page (industries-city.tsx, the districts and the
+ // buildings come from city-scene.tsx, the look from the .cm-* styles) but the car does not drive round a ring road: it drives straight
+@@ -30,7 +31,29 @@ const bend = (road: Road, u: number) => {
+   return 0;
+ };
+ 
+-export function IndustriesRoad({ items, road, ang, zoom = 1.1, rx = RX, infinite = false, dof = false }: { items: Item[]; road: Road; ang: number; zoom?: number; rx?: number; infinite?: boolean; dof?: boolean }) {
++export function IndustriesRoad({
++  items,
++  road,
++  ang,
++  zoom = 1.1,
++  rx = RX,
++  infinite = false,
++  dof = false,
++  breathe = 0,
++  head,
++}: {
++  items: Item[];
++  road: Road;
++  ang: number;
++  zoom?: number;
++  rx?: number;
++  infinite?: boolean;
++  dof?: boolean;
++  /** the camera breathes: it pulls back by this much while the car drives from one district to the next and comes in again when it stops */
++  breathe?: number;
++  /** the title of the section: it stays on the screen while the city is pinned (see .cm-head) */
++  head?: ReactNode;
++}) {
+   const n = items.length;
+   const uid = useId();
+   const [active, setActive] = useState(0);
+@@ -119,7 +142,9 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1, rx = RX, infinite
+       const q = path.getPointAtLength(Math.min(geo.total, Math.max(0, dd) + 3));
+       const a = (Math.atan2(q.y - p.y, q.x - p.x) * 180) / Math.PI;
+       car.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) rotate(${a.toFixed(1)}deg)`;
+-      world.style.transform = `scale(${zoom}) rotateX(${rx}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-p.y).toFixed(1)}px)`;
++      // the zoom: nearest at a district, furthest half way between two districts (a soft dolly, only a scale)
++      const z = zoom + breathe * (0.35 - Math.sin(Math.PI * (f - Math.floor(f))));
++      world.style.transform = `scale(${z.toFixed(3)}) rotateX(${rx}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-p.y).toFixed(1)}px)`;
+       if (barRef.current) barRef.current.style.transform = `scaleY(${n > 1 ? (f / (n - 1)).toFixed(4) : 0})`;
+       const idx = Math.round(f);
+       if (idx !== last) {
+@@ -161,7 +186,7 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1, rx = RX, infinite
+       window.removeEventListener("resize", onScroll);
+       if (raf) cancelAnimationFrame(raf);
+     };
+-  }, [geo, n, ang, zoom, rx]);
++  }, [geo, n, ang, zoom, rx, breathe]);
+ 
+   // new signs (a district that gets drawn in full) are turned at once
+   useLayoutEffect(() => {
+@@ -197,6 +222,7 @@ export function IndustriesRoad({ items, road, ang, zoom = 1.1, rx = RX, infinite
+ 
+   return (
+     <div ref={trackRef} className={dof ? "cm-track cm-bird" : "cm-track"} data-pin={n > 1} style={{ "--n": n } as React.CSSProperties}>
++      {head && <div className="cm-head">{head}</div>}
+       {/* the real content: a list (the only thing shown on a tablet and a phone) */}
+       <ol className="cm-list">
+         {items.map((it, i) => (
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index e90cfe6..ade8217 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -14,16 +14,33 @@ export const Industries: SectionComponent<"industries"> = ({ data, skin, page })
+   const v = (page && VARIANTS[page]) || DEFAULT_VARIANT;
+   return (
+     <section id="industries" className="py-24 sm:py-32">
+-      <div className="mx-auto w-full max-w-[1120px] px-4">
+-        <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split={skin === "modern" || page === "home"} />
+-      </div>
++      {/* home: the title is part of the city (it stays on the screen while the city is pinned); other pages: above it as always */}
++      {!(skin !== "modern" && page === "home") && (
++        <div className="mx-auto w-full max-w-[1120px] px-4">
++          <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split={skin === "modern"} />
++        </div>
++      )}
+       <div className="mt-16">
+         {skin === "modern" ? (
+           <IndustriesRoad items={data.items} road={v.road} ang={v.ang} />
+         ) : page === "home" ? (
+           // home: the same city, but the car drives straight along one road that never ends (no turn back), seen from a bird's-eye camera right
+           // above the road (so that the districts on both sides can be seen), the distance out of focus; 20% smaller than before (1.1 -> 0.88)
+-          <IndustriesRoad items={data.items} road="straight" ang={-90} rx={44} zoom={0.88} infinite dof />
++          <IndustriesRoad
++            items={data.items}
++            road="straight"
++            ang={-78}
++            rx={54}
++            zoom={0.8}
++            breathe={0.1}
++            infinite
++            dof
++            head={
++              <div className="mx-auto w-full max-w-[1120px] px-4">
++                <SectionHead chip={data.chip} heading={data.heading} intro={data.intro} split />
++              </div>
++            }
++          />
+         ) : (
+           <IndustriesCity items={data.items} />
+         )}

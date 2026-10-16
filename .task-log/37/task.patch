@@ -1,0 +1,46 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index df5ee36..c069c78 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17509,3 +17509,29 @@ a.md-rel-card:hover .md-rel-go {
+     height: 72px;
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   PANDA chat, smoother: no ring of light round the bar any more; the window above the bar and the blur behind it have the size of the OPEN chat
++   all the time (they only fade and grow in), so only the bar itself changes its width while it widens: nothing else has to be laid out
++   again in every frame. */
++.pd-ring {
++  display: none;
++}
++.pd[data-open="true"] .pd-ring {
++  animation: none;
++}
++.pd-panel {
++  right: auto;
++  left: 50%;
++  width: min(var(--wo), calc(100vw - 24px));
++  translate: -50% 0;
++}
++.pd-blur {
++  right: auto;
++  left: 50%;
++  width: min(calc(var(--wo) + 2 * (var(--ax) + var(--fx))), 100vw);
++  translate: -50% 0;
++}
++.pd {
++  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
++}
+diff --git a/a/src/components/site/ai-chat.tsx b/b/src/components/site/ai-chat.tsx
+index 5b93aad..ac2232a 100644
+--- a/a/src/components/site/ai-chat.tsx
++++ b/b/src/components/site/ai-chat.tsx
+@@ -113,7 +113,6 @@ export function AiChat() {
+         </div>
+       </section>
+ 
+-      <span className="pd-ring" aria-hidden />
+       <form className="pd-bar" role="search" onSubmit={onSubmit}>
+         <span className="pd-icon">
+           <PandaMini paws={false} />

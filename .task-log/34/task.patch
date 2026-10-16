@@ -1,0 +1,70 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 57a4bd3..be9fa69 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17385,3 +17385,39 @@ a.md-rel-card:hover .md-rel-go {
+     grid-template-columns: 15.5rem minmax(0, 1fr) 22rem;
+   }
+ }
++
++/* the list and the info card are not faded with the bottom of the picture: they are clear, so that you can read which industry it is
++   (only the city itself fades out at the top and the bottom) */
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-stage {
++    -webkit-mask-image: none;
++    mask-image: none;
++  }
++  .cm-bird .cm-scene {
++    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 10%, #000 88%, transparent 100%);
++    mask-image: linear-gradient(to bottom, transparent 0, #000 10%, #000 88%, transparent 100%);
++  }
++  .cm-bird .cm-fade {
++    display: none;
++  }
++  .cm-bird .cm-rail ol {
++    padding: 0.5rem;
++    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
++    border-radius: 18px;
++    background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 9% / 0.82);
++    backdrop-filter: blur(10px);
++    -webkit-backdrop-filter: blur(10px);
++  }
++  .cm-bird .cm-rail {
++    padding-left: 0;
++  }
++  .cm-bird .cm-rail-bar {
++    display: none;
++  }
++  .cm-bird .cm-rail button {
++    color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 86%);
++  }
++  .cm-bird .cm-panel {
++    background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 9% / 0.88);
++  }
++}
+diff --git a/a/src/components/site/industries-road.tsx b/b/src/components/site/industries-road.tsx
+index bddf250..be19893 100644
+--- a/a/src/components/site/industries-road.tsx
++++ b/b/src/components/site/industries-road.tsx
+@@ -208,7 +208,7 @@ export function IndustriesRoad({
+       // the zoom: nearest at a district, furthest half way between two districts (a soft dolly, only a scale)
+       const z = zoom + breathe * (0.35 - Math.sin(Math.PI * (f - Math.floor(f))));
+       if (signs > 0) world.style.setProperty("--zs", (signs / z).toFixed(3));
+-      world.style.transform = `scale(${z.toFixed(3)}) rotateX(${rx}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-p.y).toFixed(1)}px)`;
++      world.style.transform = `scale(${z.toFixed(3)}) rotateX(${rx}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-(p.y - OUT)).toFixed(1)}px)`;
+       if (barRef.current) barRef.current.style.transform = `scaleY(${n > 1 ? (f / (n - 1)).toFixed(4) : 0})`;
+       const idx = Math.round(f);
+       if (idx !== last) {
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index 5ad9170..6b5692f 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -33,7 +33,7 @@ export const Industries: SectionComponent<"industries"> = ({ data, skin, page })
+             rx={75}
+             zoom={2.1}
+             lens={2050}
+-            x={49}
++            x={50}
+             y={53}
+             blur={0.95}
+             breathe={0}

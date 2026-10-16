@@ -1,0 +1,148 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index 2876d23..366a3e5 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -17141,24 +17141,22 @@ a.md-rel-card:hover .md-rel-go {
+   mask-image: linear-gradient(to bottom, #000 0, #000 var(--s), transparent var(--e));
+ }
+ .cm-dof i:nth-child(1) {
+-  --b: 1.2px;
+-  --s: 18%;
+-  --e: 42%;
++  --b: 1.6px;
++  --s: 14%;
++  --e: 38%;
+ }
+ .cm-dof i:nth-child(2) {
+-  --b: 2.6px;
+-  --s: 12%;
+-  --e: 30%;
++  --b: 3.6px;
++  --s: 8%;
++  --e: 25%;
+ }
+ .cm-dof i:nth-child(3) {
+-  --b: 5px;
+-  --s: 6%;
+-  --e: 19%;
++  --b: 7px;
++  --s: 3%;
++  --e: 15%;
+ }
+ .cm-dof i:nth-child(4) {
+-  --b: 8px;
+-  --s: 2%;
+-  --e: 11%;
++  display: none;
+ }
+ .cm-dof::after {
+   content: "";
+@@ -17208,3 +17206,41 @@ a.md-rel-card:hover .md-rel-go {
+     padding-bottom: clamp(1.4rem, 7vh, 3.6rem);
+   }
+ }
++
++/* ---------------------------------------------------------------------------------------------------------------------------------
++   The layout of the cinematic city as it was drawn: the title at the top (a soft blur behind it), the list of the industries at the left
++   in the middle, the info of the industry at the right in the middle, and the map between them as a road that runs straight up the
++   middle and narrows towards the horizon (strong perspective). The camera looks at the floor from 45 degrees. */
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-scene {
++    perspective: 1000px;
++    perspective-origin: 50% 60%;
++  }
++  .cm-bird .cm-world {
++    left: 50%;
++    top: 62%;
++  }
++  .cm-bird .cm-ui {
++    grid-template-columns: 17rem minmax(0, 1fr) 23rem;
++    align-items: center;
++    padding-right: calc(clamp(1.5rem, 4vw, 4.5rem) + 9vw);
++    padding-bottom: 5vh;
++    padding-left: calc(clamp(1.5rem, 4vw, 4.5rem) + 7vw);
++  }
++  .cm-bird .cm-rail {
++    align-self: center;
++  }
++  .cm-bird .cm-panel {
++    grid-column: 3;
++    justify-self: stretch;
++    width: auto;
++    padding: 1.4rem 1.5rem 1.1rem;
++  }
++}
++
++/* the big names of the districts are a little smaller on the small map (the small signs keep their size, they are the ones to read) */
++@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
++  .cm-bird .cm-name span {
++    scale: 0.7;
++  }
++}
+diff --git a/a/src/components/site/industries-road.tsx b/b/src/components/site/industries-road.tsx
+index df96f01..b5d001e 100644
+--- a/a/src/components/site/industries-road.tsx
++++ b/b/src/components/site/industries-road.tsx
+@@ -40,6 +40,7 @@ export function IndustriesRoad({
+   infinite = false,
+   dof = false,
+   breathe = 0,
++  signs = 0,
+   head,
+ }: {
+   items: Item[];
+@@ -51,6 +52,8 @@ export function IndustriesRoad({
+   dof?: boolean;
+   /** the camera breathes: it pulls back by this much while the car drives from one district to the next and comes in again when it stops */
+   breathe?: number;
++  /** the names of the districts keep this size on the screen whatever the zoom (0 = they zoom with the city) */
++  signs?: number;
+   /** the title of the section: it stays on the screen while the city is pinned (see .cm-head) */
+   head?: ReactNode;
+ }) {
+@@ -129,7 +132,7 @@ export function IndustriesRoad({
+     let last = -1;
+     // the signs turn back, so that they always face the screen
+     const applySigns = () => {
+-      const t = `rotateZ(${(-ang).toFixed(2)}deg) rotateX(${-rx}deg) translate(-50%, -100%)`;
++      const t = `rotateZ(${(-ang).toFixed(2)}deg) rotateX(${-rx}deg) translate(-50%, -100%) scale(var(--zs, 1))`;
+       world.querySelectorAll<HTMLElement>(".cm-sign span").forEach((sp) => (sp.style.transform = t));
+     };
+     applyRef.current = applySigns;
+@@ -144,6 +147,7 @@ export function IndustriesRoad({
+       car.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) rotate(${a.toFixed(1)}deg)`;
+       // the zoom: nearest at a district, furthest half way between two districts (a soft dolly, only a scale)
+       const z = zoom + breathe * (0.35 - Math.sin(Math.PI * (f - Math.floor(f))));
++      if (signs > 0) world.style.setProperty("--zs", (signs / z).toFixed(3));
+       world.style.transform = `scale(${z.toFixed(3)}) rotateX(${rx}deg) rotateZ(${ang}deg) translate(${(-p.x).toFixed(1)}px, ${(-p.y).toFixed(1)}px)`;
+       if (barRef.current) barRef.current.style.transform = `scaleY(${n > 1 ? (f / (n - 1)).toFixed(4) : 0})`;
+       const idx = Math.round(f);
+@@ -186,7 +190,7 @@ export function IndustriesRoad({
+       window.removeEventListener("resize", onScroll);
+       if (raf) cancelAnimationFrame(raf);
+     };
+-  }, [geo, n, ang, zoom, rx, breathe]);
++  }, [geo, n, ang, zoom, rx, breathe, signs]);
+ 
+   // new signs (a district that gets drawn in full) are turned at once
+   useLayoutEffect(() => {
+diff --git a/a/src/components/site/sections/industries.tsx b/b/src/components/site/sections/industries.tsx
+index ade8217..382216d 100644
+--- a/a/src/components/site/sections/industries.tsx
++++ b/b/src/components/site/sections/industries.tsx
+@@ -29,10 +29,11 @@ export const Industries: SectionComponent<"industries"> = ({ data, skin, page })
+           <IndustriesRoad
+             items={data.items}
+             road="straight"
+-            ang={-78}
+-            rx={54}
+-            zoom={0.8}
+-            breathe={0.1}
++            ang={-90}
++            rx={45}
++            zoom={0.44}
++            breathe={0.07}
++            signs={0.8}
+             infinite
+             dof
+             head={

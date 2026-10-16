@@ -1,0 +1,237 @@
+diff --git a/a/src/app/globals.css b/b/src/app/globals.css
+index be54274..f489852 100644
+--- a/a/src/app/globals.css
++++ b/b/src/app/globals.css
+@@ -23011,3 +23011,12 @@ a.md-rel-card:hover .md-rel-go {
+   background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 50%), hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 36%));
+   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+ }
++
++.to2-pods {
++  display: contents;
++}
++.to2-n {
++  font-style: normal;
++  font-weight: 500;
++  opacity: 0.8;
++}
+diff --git a/a/src/components/admin/team-manager.tsx b/b/src/components/admin/team-manager.tsx
+index 00e25b3..6788fe1 100644
+--- a/a/src/components/admin/team-manager.tsx
++++ b/b/src/components/admin/team-manager.tsx
+@@ -116,7 +116,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
+               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 bg-zinc-50 px-3 py-2">
+                 <p className="text-sm font-semibold">
+                   {g.name} <span className="font-normal text-zinc-400">· {g.people.length}</span>
+-                  {g.people.length > CORNER_CAPACITY && <span className="ml-2 text-xs font-normal text-amber-700">more than {CORNER_CAPACITY}: gets a second corner</span>}
++                  {g.people.length > CORNER_CAPACITY && <span className="ml-2 text-xs font-normal text-amber-700">more than {CORNER_CAPACITY}: a wider corner</span>}
+                 </p>
+                 <div className="flex gap-1">
+                   <button type="button" className={btnIcon} aria-label={`Move ${g.name} up`} disabled={gi === 0} onClick={() => moveDept(g.name, -1)}>
+diff --git a/a/src/components/site/modern/team-office.tsx b/b/src/components/site/modern/team-office.tsx
+index c4fe6fd..b4821b6 100644
+--- a/a/src/components/site/modern/team-office.tsx
++++ b/b/src/components/site/modern/team-office.tsx
+@@ -10,7 +10,8 @@ import { BOARDS } from "../timeline-boards";
+ // laptops, chairs, colleagues who walk about), with the real people of the company in it, arranged as the company is built:
+ //   top      the leaders (the department "Leadership"), at a long desk in the middle of the office, with their title under them
+ //   middle   the managers (the department "Managers") at a long table (the chair at the end of the table stays empty)
+-//   bottom   the teams (every other department), a corner each, hanging from a line that comes down from the managers
++//   bottom   the teams (every other department), a corner each, hanging from a line that comes down from the managers; a big team gets a
++//            wider corner (one more table island for every 9 people), so the biggest team is also the widest corner of the office
+ // Everything is on one screen: there is no camera and no zoom. Point at a person (tap, or tab to the person) and a card opens next to them:
+ // photo, name, role, a few words and a link. The people come from the admin panel (Team). The same component draws the preview there
+ // (`preview`, with the person that is being edited marked). The look is the .of-* rules of the About office and the .to2-* rules in globals.css.
+@@ -52,6 +53,7 @@ const TEAM_SEATS: Seat[] = [
+ const MZW = 340;
+ const MZH = 176;
+ const MGR_CAP = 6;
++const MAX_PODS = 6; // islands of tables in one row of the teams
+ const MGR_SEATS: Seat[] = [
+   { kind: "s", i: 0, x: 80, y: 50, rot: 0 },
+   { kind: "s", i: 1, x: 80, y: 126, rot: 180 },
+@@ -92,6 +94,9 @@ type Block = {
+   people: TeamPerson[];
+   tone: number;
+   board: number;
++  /** a team corner is made of islands of 9 people side by side (a big team has several) */
++  pods?: TeamPerson[][];
++  boards?: number[];
+   cw: number; // canvas size
+   ch: number;
+   s: number; // scale
+@@ -107,21 +112,43 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+   const mgrPeople = groups.filter((g) => tierOf(g.name) === "mgr").flatMap((g) => g.people);
+   const teamGroups = groups.filter((g) => tierOf(g.name) === "team");
+ 
+-  // the teams: a department with more than 9 people gets a second corner
++  // the teams: one corner per department, one island of tables for every 9 people (a big team is a wide corner)
+   const used = new Set<number>();
++  const nextBoard = () => [0, 1, 2, 3, 4, 5, 6].find((x) => !used.has(x)) ?? used.size % 7;
+   const teams: Block[] = [];
+   teamGroups.forEach((g, gi) => {
+-    chunk(g.people, CORNER_CAPACITY).forEach((part, c) => {
+-      let board = BOARD_RULES.find(([re]) => re.test(g.name))?.[1] ?? -1;
+-      if (board < 0 || used.has(board)) board = [0, 1, 2, 3, 4, 5, 6].find((b) => !used.has(b)) ?? teams.length % 7;
+-      used.add(board);
+-      teams.push({ key: `${g.name}-${c}`, tier: "team", name: g.name, people: part, tone: HUES[(gi + 2) % HUES.length], board, cw: TZW, ch: TZH, s: 1, x: 0, y: 0 });
++    // a team of more than MAX_PODS islands continues in a second corner of the same name
++    chunk(g.people, CORNER_CAPACITY * MAX_PODS).forEach((part, c) => {
++      const pods = chunk(part, CORNER_CAPACITY);
++      const first = BOARD_RULES.find(([re]) => re.test(g.name))?.[1] ?? -1;
++      const boards = pods.map((_, k) => {
++        const want = k === 0 ? first : -1;
++        const board = want >= 0 && !used.has(want) ? want : nextBoard();
++        used.add(board);
++        return board;
++      });
++      teams.push({ key: `${g.name}-${c}`, tier: "team", name: g.name, people: part, pods, boards, tone: HUES[(gi + 2) % HUES.length], board: boards[0], cw: pods.length * TZW, ch: TZH, s: 1, x: 0, y: 0 });
+     });
+   });
+ 
+-  const rowsCount = Math.max(1, Math.ceil(teams.length / 5));
+-  const perRow = Math.max(1, Math.ceil(teams.length / rowsCount));
+-  const sT = clamp((0.92 * W) / (perRow * (TZW + 40)), 0.42, 1.2);
++  // the rows of the teams: as few rows as possible, not more than MAX_PODS islands in a row
++  const totalPods = teams.reduce((n, t) => n + (t.pods?.length ?? 1), 0);
++  const rowsCount = Math.max(1, Math.ceil(totalPods / MAX_PODS));
++  const perRowPods = Math.max(1, Math.ceil(totalPods / rowsCount));
++  const rows: Block[][] = [];
++  let curPods = 0;
++  teams.forEach((t) => {
++    const n = t.pods?.length ?? 1;
++    if (rows.length === 0 || (curPods + n > perRowPods && curPods > 0 && rows.length < rowsCount)) {
++      rows.push([]);
++      curPods = 0;
++    }
++    rows[rows.length - 1].push(t);
++    curPods += n;
++  });
++  // one scale for all teams: the widest row decides
++  const widest = Math.max(1, ...rows.map((r) => r.reduce((n, t) => n + t.cw, 0) + r.length * 40));
++  const sT = clamp((0.92 * W) / widest, 0.42, 1.2);
+   const sM = Math.min(sT * 1.12, (0.6 * W) / MZW);
+   const sC = Math.min(sT * 1.22, (0.7 * W) / (CXO_CAP * CSEAT));
+ 
+@@ -156,19 +183,28 @@ function layout(people: TeamPerson[], W: number, headH: number, minH: number): L
+ 
+   // the teams, row by row; a line comes down from the tier above to a bus, and from the bus to every team
+   const parentBottom = hasMgr ? mgrBottom : hasCxo ? cxoLineFrom : 0;
+-  for (let r = 0; r < rowsCount; r++) {
+-    const row = teams.slice(r * perRow, (r + 1) * perRow);
++  let prevBus = 0;
++  for (let r = 0; r < rows.length; r++) {
++    const row = rows[r];
+     if (row.length === 0) continue;
+     const busY = y + 24;
+     const topY = busY + 34 + LABEL;
+-    const slot = (0.92 * W) / row.length;
+-    row.forEach((b, i) => {
++    // the corners share the width of the row in proportion to their size
++    const totalW = row.reduce((n, t) => n + t.cw * sT, 0);
++    const gap = Math.max(12, Math.min(60, (0.92 * W - totalW) / Math.max(1, row.length - 1)));
++    const used0 = totalW + gap * (row.length - 1);
++    let x = (W - used0) / 2;
++    row.forEach((b) => {
+       b.s = sT;
+-      b.x = 0.04 * W + slot * i + (slot - b.cw * sT) / 2;
++      b.x = x;
+       b.y = topY;
++      x += b.cw * sT + gap;
+       blocks.push(b);
+     });
++    // the line comes down from the tier above (for the next rows: from the bus of the row above)
+     if (r === 0 && parentBottom > 0) lines.push({ x: W / 2 - 1, y: parentBottom, w: 2, h: busY - parentBottom });
++    if (r > 0) lines.push({ x: W / 2 - 1, y: prevBus, w: 2, h: busY - prevBus });
++    prevBus = busY;
+     const xs = row.map((b) => b.x + (b.cw * b.s) / 2);
+     const x0 = Math.min(...xs, W / 2);
+     const x1 = Math.max(...xs, W / 2);
+@@ -394,39 +430,47 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+         </div>
+       );
+     }
+-    const seated = b.people.map((p, i) => ({ p, seat: TEAM_SEATS[i] }));
+-    const workTaken = new Set(seated.filter((s) => s.seat.kind === "w").map((s) => s.seat.i));
+-    const meetCount = seated.filter((s) => s.seat.kind === "m").length;
+-    const Board = BOARDS[b.board % BOARDS.length];
++    const pods = b.pods ?? [b.people];
+     return (
+-      <div key={b.key} className="of-zone to2-zone" style={zoneStyle(b, z)}>
+-        <span className="of-carpet" />
+-        <span className="of-board">
+-          <Board />
+-        </span>
+-        {WORK.map((w, i) => (
+-          <i key={"wc" + i} className="of-chair" style={{ left: w.x, top: w.y + (w.rot ? -2 : 2) }} />
+-        ))}
+-        <span className="of-wt">
+-          {WORK.map((w, i) => (workTaken.has(i) ? <i key={i} className="of-lap" style={{ left: w.lx, top: w.ly }} /> : null))}
+-          <i className="of-mug" style={{ left: 66, top: 16 }} />
+-        </span>
+-        {MEET.map((m, i) => (
+-          <i key={"mc" + i} className="of-chair" style={{ left: m.x, top: m.y }} />
+-        ))}
+-        <span className="of-mt">
+-          <i className="of-paper" />
+-          <i className="of-paper of-paper-b" />
+-        </span>
+-        {meetCount > 1 && (
+-          <span className="of-say" aria-hidden>
+-            <i />
+-            <i />
+-            <i />
+-          </span>
+-        )}
+-        <span className="of-zplant" aria-hidden />
+-        {seated.map(({ p, seat }, i) => person(b, p, seat, z * 9 + i))}
++      <div key={b.key} className="to2-pods">
++        {pods.map((podPeople, k) => {
++          const seated = podPeople.map((p, i) => ({ p, seat: TEAM_SEATS[i] }));
++          const workTaken = new Set(seated.filter((s) => s.seat.kind === "w").map((s) => s.seat.i));
++          const meetCount = seated.filter((s) => s.seat.kind === "m").length;
++          const Board = BOARDS[(b.boards?.[k] ?? b.board) % BOARDS.length];
++          const style = { ...zoneStyle(b, z), left: b.x + k * TZW * b.s, width: TZW } as React.CSSProperties;
++          return (
++            <div key={k} className="of-zone to2-zone" style={style}>
++              <span className="of-carpet" />
++              <span className="of-board">
++                <Board />
++              </span>
++              {WORK.map((w, i) => (
++                <i key={"wc" + i} className="of-chair" style={{ left: w.x, top: w.y + (w.rot ? -2 : 2) }} />
++              ))}
++              <span className="of-wt">
++                {WORK.map((w, i) => (workTaken.has(i) ? <i key={i} className="of-lap" style={{ left: w.lx, top: w.ly }} /> : null))}
++                <i className="of-mug" style={{ left: 66, top: 16 }} />
++              </span>
++              {MEET.map((m, i) => (
++                <i key={"mc" + i} className="of-chair" style={{ left: m.x, top: m.y }} />
++              ))}
++              <span className="of-mt">
++                <i className="of-paper" />
++                <i className="of-paper of-paper-b" />
++              </span>
++              {meetCount > 1 && (
++                <span className="of-say" aria-hidden>
++                  <i />
++                  <i />
++                  <i />
++                </span>
++              )}
++              <span className="of-zplant" aria-hidden />
++              {seated.map(({ p, seat }, i) => person(b, p, seat, z * 9 + k * 31 + i))}
++            </div>
++          );
++        })}
+       </div>
+     );
+   };
+@@ -473,6 +517,7 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
+           ) : (
+             <span key={"l" + b.key} className="to2-name" style={{ left: b.x + 6, top: b.y - 24, "--zt": b.tone } as React.CSSProperties}>
+               {b.name}
++              {b.tier === "team" && <i className="to2-n"> · {b.people.length}</i>}
+             </span>
+           ),
+         )}
