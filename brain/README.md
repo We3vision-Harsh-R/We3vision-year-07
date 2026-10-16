@@ -24,6 +24,7 @@ what is still open.
 | 10 | [10-seo-indexing.md](10-seo-indexing.md) | before any new page / release | Search engine autopilot, owner checklist, how to audit indexing |
 | 11 | [11-optimization.md](11-optimization.md) | **any speed / optimization / "advanced level" task** | Plan, scoreboard (baseline numbers), guardrails vs the Home lock, `tools/perf-audit.mjs` |
 | 12 | [12-skills-and-speed-plan.md](12-skills-and-speed-plan.md) | **before any speed work** | Skills to use per job, 1000 ms budget, plan A–E (route CSS, lazy on scroll/click, smoothness), what the owner gets |
+| 13 | [13-optimization-handbook.md](13-optimization-handbook.md) | **any speed work, any new page** | Method, what was used, checklist for new pages, ledger of what was optimized on which page, phase approval status |
 | 10 | [10-starter-prompt.md](10-starter-prompt.md) | when you open a new AI tool | Copy-paste prompt that makes any AI use this folder |
 
 Related files outside this folder: `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `.github/copilot-instructions.md` / `.cursor/rules/` (they
