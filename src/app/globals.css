@@ -169,6 +169,7 @@ section[id] {
 
 
 
+
   [data-reveal] {
     transition: none;
   }
@@ -184,6 +185,7 @@ section[id] {
   .animate-twinkle {
     animation: none;
   }}
+
 
 
 
@@ -251,9 +253,11 @@ html.theme-anim {
 @media (max-height: 800px) and (min-width: 700px) {
 
 
+
   .ai-wrap {
     bottom: 108px;
   }}
+
 
 
 
@@ -322,9 +326,11 @@ html.theme-anim {
 
 
 
+
   .ai-wrap {
     bottom: 92px;
   }}
+
 
 
 
@@ -562,6 +568,7 @@ html.theme-anim {
 
 
 
+
   .orb-node {
     width: 46px;
     height: 46px;
@@ -574,6 +581,7 @@ html.theme-anim {
     text-align: center;
     white-space: normal;
   }}
+
 
 
 
@@ -684,6 +692,7 @@ html.theme-anim {
 
 
 
+
   .orb-sweep,
   .orb-dot {
     animation: none;
@@ -691,7 +700,9 @@ html.theme-anim {
 
 
 
+
 @media (max-width: 899px) {
+
 
 
 
@@ -703,6 +714,7 @@ html.theme-anim {
     max-width: 380px;
     margin: 0 auto;
   }}
+
 
 
 
@@ -871,24 +883,6 @@ html.theme-anim {
   top: 35px;
   transition-delay: calc(var(--base) + 500ms + var(--i) * 60ms);
 }
-.pulse {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-.w-v .pulse,
-.w-c .pulse {
-  top: 0;
-  left: -0.5px;
-  width: 2px;
-  height: 18px;
-  background: linear-gradient(180deg, transparent, var(--glow));
-}
-.w-h .pulse {
-  top: -0.5px;
-  width: 70px;
-  height: 2px;
-}
 .flow-core {
   position: relative;
   display: flex;
@@ -935,133 +929,10 @@ html.theme-anim {
 
 @media (prefers-reduced-motion: no-preference) {
 
-
-
-  .flow:not([data-live="false"]) .pulse {
-    animation-duration: 2.8s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-  }
   .flow:not([data-live="false"]) .flow-core {
     animation: flow-breathe 3.2s ease-in-out 2.2s infinite;
-  }
-  /* data flows down the top wires to the core */
-  .is-in .w-v .pulse {
-    animation-name: flow-down;
-    animation-delay: calc(var(--base) + 1500ms + var(--i) * 350ms);
-  }
-  .is-in .pulse-l {
-    left: 0;
-    background: linear-gradient(90deg, transparent, var(--glow));
-    animation-name: flow-in-l;
-    animation-delay: calc(var(--base) + 2400ms);
-  }
-  .is-in .pulse-r {
-    right: 0;
-    background: linear-gradient(270deg, transparent, var(--glow));
-    animation-name: flow-in-r;
-    animation-delay: calc(var(--base) + 2400ms);
-  }
-  .is-in .w-c .pulse {
-    animation-name: flow-down;
-    animation-delay: calc(var(--base) + 3300ms);
-  }
-  /* the actions leave through the bottom wires */
-  .is-out .w-c .pulse {
-    animation-name: flow-down;
-    animation-delay: calc(var(--base) + 1500ms);
-  }
-  .is-out .pulse-l {
-    left: 0;
-    background: linear-gradient(270deg, transparent, var(--glow));
-    animation-name: flow-out-l;
-    animation-delay: calc(var(--base) + 2400ms);
-  }
-  .is-out .pulse-r {
-    right: 0;
-    background: linear-gradient(90deg, transparent, var(--glow));
-    animation-name: flow-out-r;
-    animation-delay: calc(var(--base) + 2400ms);
-  }
-  .is-out .w-v .pulse {
-    animation-name: flow-down;
-    animation-delay: calc(var(--base) + 3300ms + var(--i) * 350ms);
   }}
 
-
-
-@keyframes flow-down {
-  0% {
-    opacity: 0;
-    transform: translateY(-18px);
-  }
-  15% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(35px);
-  }
-}
-@keyframes flow-in-l {
-  0% {
-    opacity: 0;
-    left: -70px;
-  }
-  15%,
-  85% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    left: calc(50% - 70px);
-  }
-}
-@keyframes flow-in-r {
-  0% {
-    opacity: 0;
-    right: -70px;
-  }
-  15%,
-  85% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    right: calc(50% - 70px);
-  }
-}
-@keyframes flow-out-l {
-  0% {
-    opacity: 0;
-    left: calc(50% - 70px);
-  }
-  15%,
-  85% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    left: -70px;
-  }
-}
-@keyframes flow-out-r {
-  0% {
-    opacity: 0;
-    right: calc(50% - 70px);
-  }
-  15%,
-  85% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    right: -70px;
-  }
-}
 @keyframes flow-breathe {
   0%,
   100% {
@@ -1072,6 +943,7 @@ html.theme-anim {
   }
 }
 @media (max-width: 899px) {
+
 
 
 
@@ -1093,6 +965,7 @@ html.theme-anim {
     top: 0;
     height: 36px;
   }}
+
 
 
 
@@ -1982,6 +1855,7 @@ html.theme-anim {
 
 
 
+
   .of-pp .ch-head,
   .tl-p .ch-head,
   .of-walker .ch-head,
@@ -1998,6 +1872,7 @@ html.theme-anim {
   .of-say i {
     animation: none !important;
   }}
+
 
 
 
@@ -2048,230 +1923,12 @@ html.theme-anim {
 
 
 
+
   .flow-line,
   .shimmer-line {
     animation: none;
   }}
 
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   "At a glance" (components/site/highlights-scenes.tsx): a little cartoon scene above every number. */
-.gl {
-  --gl-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
-  --gl-b: hsl(calc(var(--th) + 344) calc(74% * var(--ts)) 58%);
-  --gl-d: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 17%);
-  --gl-e: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 10%);
-  --gl-w: hsl(calc(var(--th) + 76) calc(70% * var(--ts)) 86%);
-  --gl-g: hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 44%);
-}
-.gl-svg {
-  display: block;
-  width: min(100%, 440px);
-  height: auto;
-  margin: 0 auto 4px;
-  overflow: visible;
-}
-.gl-star {
-  opacity: 0.45;
-}
-.gl[data-in="true"] .gl-star {
-  animation: gl-tw 3.2s ease-in-out infinite var(--d);
-}
-@keyframes gl-tw {
-  50% {
-    opacity: 1;
-  }
-}
-/* things that grow / drop in when the card comes into view */
-.gl-rise,
-.gl-pop,
-.gl-candle,
-.gl-pin,
-.gl-flagpole,
-.gl-plane {
-  opacity: 0;
-}
-.gl-rise,
-.gl-pop {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-}
-.gl-rise {
-  transform: scaleY(0.04);
-}
-.gl-pop {
-  transform: scale(0.2);
-}
-.gl-candle,
-.gl-pin {
-  transform: translateY(-8px);
-}
-.gl-flagpole {
-  transform: translateY(28px);
-}
-.gl[data-in="true"] .gl-rise {
-  opacity: 1;
-  transform: none;
-  transition:
-    transform 1s cubic-bezier(0.2, 0.9, 0.3, 1.12) var(--d, 0s),
-    opacity 0.3s ease-out var(--d, 0s);
-}
-.gl[data-in="true"] .gl-pop {
-  opacity: 1;
-  transform: none;
-  transition:
-    transform 0.55s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s),
-    opacity 0.25s ease-out var(--d, 0s);
-}
-.gl[data-in="true"] .gl-candle,
-.gl[data-in="true"] .gl-pin,
-.gl[data-in="true"] .gl-flagpole {
-  opacity: 1;
-  transform: none;
-  transition:
-    transform 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) var(--d, 0s),
-    opacity 0.3s ease-out var(--d, 0s);
-}
-.gl[data-in="true"] .gl-plane {
-  opacity: 1;
-  transition: opacity 0.4s ease-out 1.2s;
-}
-.gl-win {
-  opacity: 0.18;
-}
-.gl[data-in="true"] .gl-win {
-  animation: gl-on 0.5s ease-out forwards var(--d, 0s);
-}
-@keyframes gl-on {
-  to {
-    opacity: 1;
-  }
-}
-.gl-flag {
-  transform-box: fill-box;
-  transform-origin: 0 50%;
-}
-.gl[data-in="true"] .gl-flag {
-  animation: gl-flag 1.4s ease-in-out infinite alternate;
-}
-@keyframes gl-flag {
-  from {
-    transform: scaleX(1) skewY(-5deg);
-  }
-  to {
-    transform: scaleX(0.84) skewY(5deg);
-  }
-}
-.gl-flame {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-}
-.gl[data-in="true"] .gl-flame {
-  animation: gl-flame 0.45s ease-in-out infinite alternate var(--d, 0s);
-}
-@keyframes gl-flame {
-  from {
-    transform: scale(0.85, 0.95);
-    opacity: 0.85;
-  }
-  to {
-    transform: scale(1.1, 1.18);
-    opacity: 1;
-  }
-}
-.gl-conf {
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: 50% 50%;
-}
-.gl[data-in="true"] .gl-conf {
-  animation: gl-fall 3.4s linear infinite var(--d, 0s);
-}
-@keyframes gl-fall {
-  0% {
-    transform: translateY(-10px) rotate(0);
-    opacity: 0;
-  }
-  12%,
-  85% {
-    opacity: 0.95;
-  }
-  100% {
-    transform: translateY(176px) rotate(var(--r, 90deg));
-    opacity: 0;
-  }
-}
-.gl[data-in="true"] .gl-arc {
-  animation: gl-dash 1.2s linear infinite;
-}
-@keyframes gl-dash {
-  to {
-    stroke-dashoffset: -20;
-  }
-}
-/* the little guide: a hop, a wiggle (waving) and a breath */
-.gl-hop {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-}
-.gl[data-in="true"] .gl-kid[data-m="idle"] .gl-hop {
-  animation: gl-breathe 2.4s ease-in-out infinite alternate var(--d, 0s);
-}
-.gl[data-in="true"] .gl-kid[data-m="wave"] .gl-hop {
-  animation: gl-wiggle 0.7s ease-in-out infinite alternate var(--d, 0s);
-}
-.gl[data-in="true"] .gl-kid[data-m="up"] .gl-hop {
-  animation: gl-hop 0.62s ease-in-out infinite alternate var(--d, 0s);
-}
-.gl:hover .gl-kid .gl-hop {
-  animation: gl-hop 0.32s ease-in-out infinite alternate;
-}
-@keyframes gl-breathe {
-  to {
-    transform: scaleY(1.02);
-  }
-}
-@keyframes gl-wiggle {
-  from {
-    transform: rotate(-2.5deg);
-  }
-  to {
-    transform: rotate(2.5deg) translateY(-1px);
-  }
-}
-@keyframes gl-hop {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-6px) rotate(1.5deg);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-
-
-
-  .gl * {
-    animation: none !important;
-    transition: none !important;
-  }
-  .gl-rise,
-  .gl-pop,
-  .gl-candle,
-  .gl-pin,
-  .gl-flagpole,
-  .gl-plane {
-    opacity: 1;
-    transform: none;
-  }
-  .gl-win {
-    opacity: 1;
-  }
-  .gl-conf {
-    display: none;
-  }}
 
 
 
@@ -2555,15 +2212,6 @@ html.theme-anim {
 .ch-front .ch-head { animation: ch-head-idle 3.4s ease-in-out infinite alternate; }
 @keyframes ch-breathe { to { transform: scaleY(1.016); } }
 @keyframes ch-head-idle { from { transform: rotate(-1.4deg); } to { transform: rotate(1.4deg) translateY(0.4px); } }
-.gl[data-in="true"] .gl-kid[data-m="wave"] .ch-arm-r { animation: ch-wave 0.75s ease-in-out infinite alternate var(--d, 0s); }
-.gl[data-in="true"] .gl-kid[data-m="wave"] .ch-arm-r .ch-fore { animation: ch-wave-fore 0.38s ease-in-out infinite alternate var(--d, 0s); }
-.gl[data-in="true"] .gl-kid[data-m="wave"] .ch-head { animation: ch-head-wave 1.5s ease-in-out infinite alternate var(--d, 0s); }
-.gl[data-in="true"] .gl-kid[data-m="up"] .ch-arm-l { animation: ch-cheer-l 0.62s ease-in-out infinite alternate var(--d, 0s); }
-.gl[data-in="true"] .gl-kid[data-m="up"] .ch-arm-r { animation: ch-cheer-r 0.62s ease-in-out infinite alternate var(--d, 0s); }
-.gl[data-in="true"] .gl-kid[data-m="up"] .ch-arm-l .ch-fore { animation: ch-cheer-fore-l 0.31s ease-in-out infinite alternate var(--d, 0s); }
-.gl[data-in="true"] .gl-kid[data-m="up"] .ch-arm-r .ch-fore { animation: ch-cheer-fore-r 0.31s ease-in-out infinite alternate var(--d, 0s); }
-.gl[data-in="true"] .gl-kid[data-m="up"] .ch-head { animation: ch-head-cheer 0.62s ease-in-out infinite alternate var(--d, 0s); }
-.gl[data-in="true"] .gl-kid[data-m="up"] .ch-leg { animation: ch-leg-hop 0.62s ease-in-out infinite alternate var(--d, 0s); }
 @keyframes ch-wave { from { transform: rotate(-132deg); } to { transform: rotate(-152deg); } }
 @keyframes ch-wave-fore { from { transform: rotate(-18deg); } to { transform: rotate(22deg); } }
 @keyframes ch-head-wave { from { transform: rotate(-2deg); } to { transform: rotate(4deg); } }
@@ -2571,8 +2219,6 @@ html.theme-anim {
 @keyframes ch-cheer-r { from { transform: rotate(-138deg); } to { transform: rotate(-160deg); } }
 @keyframes ch-cheer-fore-l { from { transform: rotate(10deg); } to { transform: rotate(-16deg); } }
 @keyframes ch-cheer-fore-r { from { transform: rotate(-10deg); } to { transform: rotate(16deg); } }
-@keyframes ch-head-cheer { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(3deg) translateY(-1px); } }
-@keyframes ch-leg-hop { from { transform: translateY(0); } to { transform: translateY(0.6px); } }
 
 /* ---- the side view: the walk ---- */
 .ch-side .ch-leg-f { animation: ch-thigh 0.9s ease-in-out infinite; }
@@ -2713,11 +2359,13 @@ html.theme-anim {
 
 
 
+
   .ch *,
   .ch {
     animation: none !important;
     transition: none !important;
   }}
+
 
 
 
@@ -2736,16 +2384,6 @@ html.theme-anim {
 .ch-visor-shine { fill: none; stroke: rgba(255, 255, 255, 0.45); stroke-width: 1.6; stroke-linecap: round; }
 .ch-visor-led { fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%); }
 .ch-strap { fill: none; stroke: #241a30; stroke-width: 3.6; stroke-linecap: round; }
-@keyframes gs-blink {
-  0%,
-  93%,
-  100% {
-    transform: scaleY(1);
-  }
-  96% {
-    transform: scaleY(0.08);
-  }
-}
 @keyframes gs-hop {
   30% {
     transform: translateY(-16px) scale(1.02, 0.98);
@@ -2863,101 +2501,6 @@ html.theme-anim {
 .tk-prop { color: #94e2d5; }
 .tk-pun { color: #9399b2; }
 .tk-txt { color: #d9d3f0; }
-
-
-/* ---- the office v2: the real character, one monitor that casts to the big screen, glass controls ---- */
-.rg {
-  transform-box: view-box;
-}
-.rg-body {
-  transform-origin: 500px 790px;
-  animation: rg-breathe 3.4s ease-in-out infinite alternate;
-}
-@keyframes rg-breathe {
-  to {
-    transform: scale(1.006, 1.014);
-  }
-}
-.rg-shirt {
-  filter: hue-rotate(calc((var(--th) - 284) * 1deg)) saturate(var(--ts));
-}
-.rg-head {
-  transform-origin: 500px 458px;
-  transform: translate(calc(var(--lx) * 12px), calc(var(--ly) * 7px)) rotate(calc(var(--lx) * 5deg));
-  transition: transform 0.28s ease-out;
-}
-.rg-lid {
-  fill: #fec09d;
-  transform-box: fill-box;
-  transform-origin: 50% 0;
-  transform: scaleY(0);
-  animation: rg-blink 5.4s ease-in-out infinite;
-}
-.rg-lid:nth-of-type(2) {
-  animation-delay: 0.02s;
-}
-@keyframes rg-blink {
-  0%,
-  94%,
-  100% {
-    transform: scaleY(0);
-  }
-  97% {
-    transform: scaleY(1);
-  }
-}
-.rg-hop {
-  animation: rg-hop 0.6s cubic-bezier(0.3, 1.4, 0.5, 1);
-}
-@keyframes rg-hop {
-  30% {
-    translate: 0 -26px;
-  }
-  62% {
-    translate: 0 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-
-
-  .rg-body,
-  .rg-lid,
-  .rg-hop {
-    animation: none !important;
-  }}
-
-
-/* the guide: it breathes, types and looks at the screen */
-.dg-body {
-  transform-origin: 160px 424px;
-  animation: dg-breathe 3.6s ease-in-out infinite alternate;
-}
-@keyframes dg-breathe {
-  to {
-    transform: scale(1.004, 1.012);
-  }
-}
-.dg-head {
-  transform-origin: 168px 226px;
-  transform: rotate(calc(var(--lx) * 3deg + 2deg)) translate(calc(var(--lx) * 3px), calc(var(--ly) * 2px));
-  transition: transform 0.3s ease-out;
-}
-.dg-arm {
-  transform-origin: 150px 252px;
-}
-.dg-fore {
-  transform-origin: 140px 340px;
-}
-.dg-eye {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: gs-blink 5.2s ease-in-out infinite;
-}
-.dg-hop {
-  animation: rg-hop 0.6s cubic-bezier(0.3, 1.4, 0.5, 1);
-}
 .pb {
   transition: transform 0.2s;
 }
@@ -3019,6 +2562,7 @@ html.theme-anim {
 
 
 
+
   .pb-body,
   .pb-head,
   .pb-elbow,
@@ -3027,6 +2571,7 @@ html.theme-anim {
   .pb-hop {
     animation: none !important;
   }}
+
 
 
 @property --ob-a {
@@ -3207,6 +2752,7 @@ html.theme-anim {
 
 
 
+
   .ss-p {
     flex: 1 1 0;
     height: 28rem;
@@ -3262,7 +2808,9 @@ html.theme-anim {
 
 
 
+
 @media (min-width: 1100px) {
+
 
 
 
@@ -3276,7 +2824,9 @@ html.theme-anim {
 
 
 
+
 @media (min-width: 1280px) {
+
 
 
 
@@ -3291,8 +2841,10 @@ html.theme-anim {
 
 
 
+
 /* tablet and phone: one swipeable row of full cards (the next card peeks in) */
 @media (max-width: 1023.98px) {
+
 
 
 
@@ -3326,7 +2878,9 @@ html.theme-anim {
 
 
 
+
 @media (prefers-reduced-motion: reduce) {
+
 
 
 
@@ -3342,6 +2896,7 @@ html.theme-anim {
 
 
 
+
 /* ---- the strip is driven by the page scroll (desktop): pinned while the panels open one after the other ---- */
 .ss-track {
   margin-top: 3rem;
@@ -3353,6 +2908,7 @@ html.theme-anim {
   display: none;
 }
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -3398,6 +2954,7 @@ html.theme-anim {
     text-align: right;
     opacity: 0.7;
   }}
+
 
 
 
@@ -3463,10 +3020,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .sb-thumb,
   .sb-track {
     transition: none;
   }}
+
 
 
 
@@ -3535,6 +3094,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-info {
     display: grid;
     gap: 1.1rem;
@@ -3552,8 +3112,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* desktop */
 @media (min-width: 1024px) {
+
 
 
 
@@ -3623,6 +3185,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @keyframes ss-in {
   from {
     opacity: 0;
@@ -3635,6 +3198,7 @@ html.has-sb::-webkit-scrollbar {
   }
 }
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -3659,7 +3223,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+
 
 
 
@@ -3669,7 +3235,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (prefers-reduced-motion: reduce) {
+
 
 
 
@@ -3687,8 +3255,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* ---- the strip, wider: every point of the detail card sits on ONE line (about 57 characters at most), the strip uses the width of the screen ---- */
 @media (min-width: 1024px) {
+
 
 
 
@@ -3723,7 +3293,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1340px) {
+
 
 
 
@@ -3740,7 +3312,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1440px) {
+
 
 
 
@@ -3754,8 +3328,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* short screens: the slim panels keep their vertical title inside the panel */
 @media (min-width: 1024px) {
+
 
 
 
@@ -3771,8 +3347,10 @@ html.has-sb::-webkit-scrollbar {
   }}
 
 
+
 /* the 3D stage (desktop) */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
   @keyframes pf-ring {
     from {
@@ -3784,6 +3362,7 @@ html.has-sb::-webkit-scrollbar {
       transform: scale(1.35);
     }
   }}
+
 
 
 
@@ -4400,6 +3979,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ts {
     min-height: 0;
     padding: 4rem 0 3.5rem;
@@ -4471,7 +4051,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (max-width: 520px) {
+
 
 
 
@@ -4481,7 +4063,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (max-width: 640px) {
+
 
 
 
@@ -4497,7 +4081,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (prefers-reduced-motion: reduce) {
+
 
 
 
@@ -4511,6 +4097,7 @@ html.has-sb::-webkit-scrollbar {
     animation: none !important;
     transition: none !important;
   }}
+
 
 
 
@@ -4572,6 +4159,7 @@ html.has-sb::-webkit-scrollbar {
 
 /* the city (desktop) */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -5202,8 +4790,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* the list of the districts gets its own glass, so it can be read over the map */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -5224,7 +4814,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -5243,7 +4835,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -5262,6 +4856,7 @@ html.has-sb::-webkit-scrollbar {
       background-color: hsl(38 90% 28%);
     }
   }}
+
 
 
 
@@ -5446,11 +5041,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .bglow::before,
   .bglow::after,
   .bglow > .bglow-edge {
     display: none;
   }}
+
 
 
 
@@ -5585,6 +5182,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .vr {
     height: calc(100svh * 6.2);
   }
@@ -5594,7 +5192,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (prefers-reduced-motion: reduce) {
+
 
 
 
@@ -5602,111 +5202,6 @@ html.has-sb::-webkit-scrollbar {
     animation: none;
   }}
 
-
-
-
-/* ---- At a glance: a small dashboard of glass tiles with little pictures that draw themselves ---- */
-.gl {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-.gl-title {
-  margin: 0 0 3rem;
-  padding-bottom: 0.1em;
-  text-align: center;
-  font-size: clamp(2.4rem, 5vw, 4rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.08;
-}
-.gl-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: minmax(15rem, auto);
-}
-.gl-tile {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.6rem 1.6rem 1.4rem;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16);
-  border-radius: 28px;
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
-}
-.gl-t0 {
-  grid-column: 1 / 3;
-  grid-row: 1 / 3;
-  margin-top: 2.2rem;
-}
-.gl-t1 {
-  grid-column: 3;
-}
-.gl-t2 {
-  grid-column: 4;
-}
-.gl-t3 {
-  grid-column: 3 / 5;
-}
-.gl-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.gl-no {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  opacity: 0.8;
-}
-.gl-value {
-  margin-top: 0.4rem;
-  background: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-size: clamp(2.8rem, 5.2vw, 4.4rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-.gl-t0 .gl-value {
-  font-size: clamp(3.6rem, 8vw, 7rem);
-}
-.gl-label {
-  margin-top: 0.5rem;
-  color: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 88%);
-  font-size: 1.125rem;
-  font-weight: 500;
-}
-.gl-pic {
-  display: flex;
-  align-items: flex-end;
-  min-height: 3.2rem;
-}
-.gl-viz {
-  display: block;
-  width: 100%;
-  max-height: 9rem;
-}
-.gl-ring {
-  width: 7rem;
-}
-.gl-t0 .gl-viz {
-  max-height: 11rem;
-}
-.gl-panda {
-  position: absolute;
-  top: -3.6rem;
-  right: 2rem;
-  width: 8.2rem;
-  pointer-events: none;
-  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.5));
-}
 .pm-eye {
   transform-box: fill-box;
   transform-origin: center;
@@ -5716,133 +5211,6 @@ html.has-sb::-webkit-scrollbar {
   0%, 92%, 100% { transform: scaleY(1); }
   95% { transform: scaleY(0.1); }
 }
-/* the pictures draw themselves when the tile is in view */
-.gl-draw {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-.gl-viz[data-on="true"] .gl-draw {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.gl-arc {
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
-}
-.gl-viz[data-on="true"] .gl-arc {
-  stroke-dasharray: 0.03 0.03;
-}
-.gl-area {
-  opacity: 0;
-}
-.gl-viz[data-on="true"] .gl-area {
-  opacity: 1;
-  transition: opacity 1.4s 0.6s;
-}
-.gl-dot,
-.gl-core,
-.gl-pt {
-  fill: currentColor;
-}
-.gl-dot {
-  opacity: 0;
-}
-.gl-viz[data-on="true"] .gl-dot {
-  opacity: 1;
-  transition: opacity 0.4s calc(0.2s + var(--i) * 0.2s);
-}
-.gl-t {
-  fill: currentColor;
-  font-size: 11px;
-  opacity: 0.8;
-}
-.gl-seg {
-  fill: currentColor;
-  opacity: 0.18;
-}
-.gl-ring[data-on="true"] .gl-seg {
-  opacity: 1;
-  transition: opacity 0.4s calc(0.15s + var(--i) * 0.2s);
-}
-.gl-core {
-  opacity: 0.2;
-}
-.gl-crowd {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 7px;
-  width: 100%;
-}
-.gl-crowd i {
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.12;
-  transform: scale(0.6);
-}
-.gl-crowd[data-on="true"] i {
-  opacity: 0.2;
-  transform: none;
-  transition: opacity 0.4s calc(var(--i) * 0.025s), transform 0.4s calc(var(--i) * 0.025s);
-}
-.gl-crowd[data-on="true"] i[data-core="true"] {
-  opacity: 1;
-  box-shadow: 0 0 10px currentColor;
-}
-.gl-md {
-  fill: currentColor;
-  opacity: 0.22;
-}
-.gl-halo {
-  fill: currentColor;
-  opacity: 0.2;
-}
-.gl-pin {
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.gl-map[data-on="true"] .gl-pin {
-  opacity: 1;
-  transition: opacity 0.5s calc(0.3s + var(--i) * 0.6s);
-}
-@media (max-width: 899px) {
-
-
-
-  .gl-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .gl-t0 {
-    grid-column: 1 / 3;
-    grid-row: auto;
-  }
-  .gl-t1,
-  .gl-t2 {
-    grid-column: auto;
-  }
-  .gl-t3 {
-    grid-column: 1 / 3;
-  }}
-
-
-
-@media (max-width: 559px) {
-
-
-
-  .gl-grid {
-    grid-template-columns: 1fr;
-  }
-  .gl-t1,
-  .gl-t2,
-  .gl-t3 {
-    grid-column: 1;
-  }
-  .gl-panda {
-    width: 6.4rem;
-    top: -2.8rem;
-    right: 1.4rem;
-  }}
 
 
 
@@ -5850,14 +5218,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .pm-eye {
     animation: none;
-  }
-  .gl-draw,
-  .gl-viz[data-on] .gl-draw {
-    stroke-dashoffset: 0;
-    transition: none;
   }}
+
 
 @keyframes pd-ring {
   0% {
@@ -5923,6 +5288,7 @@ html.has-sb::-webkit-scrollbar {
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
 
 
+
   @keyframes mp-ring {
     from {
       opacity: 0.8;
@@ -5933,6 +5299,7 @@ html.has-sb::-webkit-scrollbar {
       transform: scale(1.4);
     }
   }}
+
 
 
 
@@ -6052,11 +5419,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .nr-tube,
   .nr-spill,
   .nr-body {
     animation: none !important;
   }}
+
 
 @keyframes sx-fill {
   from {
@@ -6187,9 +5556,11 @@ html.has-sb::-webkit-scrollbar {
 }
 @media (prefers-reduced-motion: reduce) {
 
+
 .ah-bg i {
     animation: none;
   }}
+
 
 
 
@@ -6236,12 +5607,14 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .sh[data-sh] .sh-word {
     opacity: 1;
     transform: none;
     filter: none;
     transition: none;
   }}
+
 
 
 
@@ -6486,6 +5859,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .pw-breathe,
   .pw-wave,
   .pw-leg,
@@ -6493,6 +5867,7 @@ html.has-sb::-webkit-scrollbar {
   .pw-head {
     animation: none;
   }}
+
 
 
 @keyframes st-bulb {
@@ -6543,9 +5918,11 @@ html.has-sb::-webkit-scrollbar {
 
 @media (prefers-reduced-motion: reduce) {
 
+
 .pw-tail {
     animation: none;
   }}
+
 
 
 
@@ -6606,6 +5983,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cm-bird .cm-head {
     position: sticky;
     top: 3.4rem;
@@ -6624,7 +6002,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -6645,11 +6025,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* ---------------------------------------------------------------------------------------------------------------------------------
    The layout of the cinematic city as it was drawn: the title at the top (a soft blur behind it), the list of the industries at the left
    in the middle, the info of the industry at the right in the middle, and the map between them as a road that runs straight up the
    middle and narrows towards the horizon (strong perspective). The camera looks at the floor from 45 degrees. */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -6681,14 +6063,17 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* the big names of the districts are a little smaller on the small map (the small signs keep their size, they are the ones to read) */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
   .cm-bird .cm-name span {
     scale: 0.7;
   }}
+
 
 
 
@@ -6800,6 +6185,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cm-bird .cm-ui {
     align-items: end;
     padding-bottom: clamp(0.8rem, 2.5vh, 1.6rem);
@@ -6807,6 +6193,7 @@ html.has-sb::-webkit-scrollbar {
   .cm-bird .cm-rail {
     align-self: end;
   }}
+
 
 
 
@@ -6821,9 +6208,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .bp-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }}
+
 
 
 
@@ -6840,6 +6229,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cm-bird .cm-ui {
     max-width: 1180px;
     margin-inline: auto;
@@ -6849,9 +6239,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* the list and the info card are not faded with the bottom of the picture: they are clear, so that you can read which industry it is
    (only the city itself fades out at the top and the bottom) */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -6890,10 +6282,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* ---------------------------------------------------------------------------------------------------------------------------------
    Home industries: the list and the info card must be seen and read at once, over the busy picture: a solid dark glass, a bright edge, bright
    words, and the industry you are at is lit (a bright pill in the list, the card in the colour of the brand with a glow). */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -6960,10 +6354,12 @@ html.has-sb::-webkit-scrollbar {
   }}
 
 
+
 /* ---------------------------------------------------------------------------------------------------------------------------------
    Home industries: the list is ONE clean card (the earlier look had a card inside a card): a small title, rows of the same height with the icon
    in a little tile, and the industry you are at as a bright pill with an arrow. */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -7040,6 +6436,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* the button of the global reach card: a clear, bright call to action with an arrow that moves on hover */
 .rp-cta {
   display: inline-flex;
@@ -7102,6 +6499,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .rp-glow {
     top: auto;
     right: 50%;
@@ -7109,6 +6507,7 @@ html.has-sb::-webkit-scrollbar {
     width: 120vw;
     transform: translate(50%, 20%);
   }}
+
 
 
 
@@ -7126,10 +6525,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf {
     grid-template-columns: minmax(0, 1fr) 17rem;
     gap: 3.4rem;
   }}
+
 
 
 
@@ -7188,9 +6589,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-tiles {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }}
+
 
 
 
@@ -7304,9 +6707,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-fields {
     grid-template-columns: 1fr;
   }}
+
 
 
 
@@ -7369,12 +6774,14 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-brief {
     border-top: 1px solid var(--hair);
     border-left: 0;
     padding: 1.2rem 0 0;
     background: none;
   }}
+
 
 
 
@@ -7476,6 +6883,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-pane,
   .cf-pill,
   .cf-check circle,
@@ -7486,6 +6894,7 @@ html.has-sb::-webkit-scrollbar {
   .cf-tile {
     transform: none;
   }}
+
 
 
 
@@ -7547,9 +6956,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ft-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }}
+
 
 
 
@@ -7596,10 +7007,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ft-grid {
     grid-template-columns: 1.3fr 1fr 1.2fr 0.9fr;
     gap: 3rem;
   }}
+
 
 
 
@@ -7740,10 +7153,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ft-word-f {
     opacity: 1;
     animation: ft-sweep 7s ease-in-out infinite alternate;
   }}
+
 
 
 
@@ -7794,9 +7209,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ft-word-f {
     animation: none;
   }}
+
 
 
 
@@ -7826,10 +7243,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-size {
     grid-template-columns: 12rem minmax(0, 1fr);
     gap: 2.4rem;
   }}
+
 
 
 
@@ -7977,6 +7396,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-brief {
     padding: 1.3rem 1.4rem 1.2rem;
     border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.26);
@@ -7984,6 +7404,7 @@ html.has-sb::-webkit-scrollbar {
       radial-gradient(120% 70% at 100% 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16), transparent 60%),
       hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 9% / 0.7);
   }}
+
 
 
 
@@ -8159,6 +7580,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-launch {
     display: none;
   }
@@ -8177,10 +7599,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* ---------------------------------------------------------------------------------------------------------------------------------
    Tech space: the whole section (heading, hint and the planets) fits in the height of the screen, the orbit lines are white, and the orbit of
    the planet you hover (or whose pop-up is open) lights up while the other orbits go quiet. */
 @media (min-width: 901px) {
+
 
 
 
@@ -8214,6 +7638,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 .ts-orbit {
   border-color: rgba(255, 255, 255, 0.2);
   box-shadow:
@@ -8240,6 +7665,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cm-bird .cm-head {
     filter: blur(calc(var(--out, 0) * 18px));
     opacity: calc(1 - var(--out, 0) * 0.85);
@@ -8248,9 +7674,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* ---------------------------------------------------------------------------------------------------------------------------------
    Tech space: its title is part of the section (it is NOT fixed at the top): it goes up with the section and the planets. Desktop only. */
 @media (min-width: 901px) {
+
 
 
 
@@ -8267,14 +7695,17 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* the brief with many choices: smaller pills, two or three in a row, the rest as "+3 more"; a little wider so that they fit */
 @media (min-width: 900px) {
+
 
 
 
   .cf {
     grid-template-columns: minmax(0, 1fr) 19.5rem;
   }}
+
 
 
 
@@ -8314,10 +7745,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .go-stage {
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     gap: clamp(2.6rem, 4.5vw, 4.4rem);
   }}
+
 
 
 
@@ -8329,6 +7762,7 @@ html.has-sb::-webkit-scrollbar {
   list-style: none;
 }
 @media (max-width: 899px) {
+
 
 
 
@@ -8346,7 +7780,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (max-width: 520px) {
+
 
 
 
@@ -8356,7 +7792,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 900px) {
+
 
 
 
@@ -8366,6 +7804,7 @@ html.has-sb::-webkit-scrollbar {
   .go-side[data-side="r"] {
     justify-items: start;
   }}
+
 
 
 
@@ -8509,10 +7948,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .go-card {
     --dir: 0;
     width: 100%;
   }}
+
 
 
 
@@ -8556,6 +7997,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .go-line {
     display: block;
     position: absolute;
@@ -8576,6 +8018,7 @@ html.has-sb::-webkit-scrollbar {
   .go-card {
     overflow: visible;
   }}
+
 
 
 
@@ -8656,10 +8099,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .go-comet,
   .go-dash {
     animation: none;
   }}
+
 
 
 
@@ -8774,11 +8219,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   /* on a phone the logo is in the middle: the badges stay small on both sides of it */
   .hb img {
     height: 1.6rem;
     max-width: 4.6rem;
   }}
+
 
 
 
@@ -8910,13 +8357,16 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cm-bird .cm-head {
     top: 5.6rem;
   }}
 
 
 
+
 @media (min-width: 901px) {
+
 
 
 
@@ -8927,10 +8377,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* ---------------------------------------------------------------------------------------------------------------------------------
    The contact flow, wider and lower: on a laptop / desktop the block is wider (1280 px), the tiles lie flat (the icon beside the words, not above them)
    so that the two rows of tiles are about half as high, and the question fits in one line. */
 @media (min-width: 900px) {
+
 
 
 
@@ -8962,7 +8414,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 900px) {
+
 
 
 
@@ -8973,8 +8427,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* the brief (the ticket) a little more compact, so that the whole block is not as high as before */
 @media (min-width: 900px) {
+
 
 
 
@@ -9001,6 +8457,7 @@ html.has-sb::-webkit-scrollbar {
     margin-top: 0.7rem;
     font-size: 1rem;
   }}
+
 
 
 
@@ -9038,6 +8495,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-track[data-head="true"] {
     margin-top: 0;
   }
@@ -9060,13 +8518,16 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1024px) and (max-height: 860px) {
+
 
 
 
   .ss-head p {
     display: none;
   }}
+
 
 
 
@@ -9110,9 +8571,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-h-p {
     display: none;
   }}
+
 
 
 
@@ -9134,9 +8597,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-h-p {
     display: block;
   }}
+
 
 
 
@@ -9144,9 +8609,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-h-p {
     display: none;
   }}
+
 
 
 
@@ -9227,10 +8694,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ab-l,
   .ab-sweep {
     animation: none;
   }}
+
 
 
 @keyframes fa-run {
@@ -9272,9 +8741,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .sy-duo[data-n="2"] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }}
+
 
 
 
@@ -9341,9 +8812,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .sy-cols {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }}
+
 
 
 
@@ -9363,10 +8836,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .sy-row {
     grid-template-columns: 17rem minmax(0, 1fr);
     align-items: start;
   }}
+
 
 
 
@@ -9504,9 +8979,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .au-l {
     transition: none;
   }}
+
 
 
 
@@ -9551,6 +9028,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-track[data-head="true"][data-detail="true"] .ss-sticky {
     padding-top: 5.4rem;
     padding-bottom: 1.2rem;
@@ -9571,6 +9049,7 @@ html.has-sb::-webkit-scrollbar {
   .ss-track[data-head="true"][data-detail="true"] .ss-prog {
     margin-top: 1rem;
   }}
+
 .card-glass,
 .go-card,
 .sy-card {
@@ -9604,13 +9083,14 @@ html.has-sb::-webkit-scrollbar {
      screen; elsewhere the glass is the same see-through tint without the blur (the sky behind is soft anyway).
    - The small uppercase labels of the panels were 11 to 12 px: 14 px is the smallest text of the site. */
 @media (max-width: 1023px), (hover: none) {
+
 .card-glass,
 .go-card,
 .sy-card {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-  }
-}
+  }}
+
 
 .ss-d-label,
 .ss-info b,
@@ -9637,10 +9117,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cm-bird .cm-scene {
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 20%, rgba(0, 0, 0, 0.35) 34%, #000 52%, #000 88%, transparent 100%);
     mask-image: linear-gradient(to bottom, transparent 0, transparent 20%, rgba(0, 0, 0, 0.35) 34%, #000 52%, #000 88%, transparent 100%);
   }}
+
 
 
 
@@ -9658,6 +9140,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ts-head {
     padding-top: 4.6rem;
     padding-bottom: 0.4rem;
@@ -9669,6 +9152,7 @@ html.has-sb::-webkit-scrollbar {
   .ts-hint {
     margin-top: 0.3rem;
   }}
+
 
 
 
@@ -9696,11 +9180,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ts-sun {
     width: 98px;
     height: 98px;
     margin: -49px 0 0 -49px;
   }}
+
 
 
 
@@ -9736,10 +9222,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-brief {
     -webkit-backdrop-filter: blur(14px) saturate(1.15);
     backdrop-filter: blur(14px) saturate(1.15);
   }}
+
 
 
 
@@ -9766,9 +9254,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cf-progress {
     margin-bottom: -2.6rem;
   }}
+
 
 
 /* Industries (home): the depth-of-field layers and the haze of the far end of the road started at full strength at the very top edge of the pinned picture,
@@ -9810,6 +9300,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .cm-bird .cm-stage {
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
     mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
@@ -9818,10 +9309,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* Industries (home): the colours of the city meet the colours of the sky. The ground of the city and the haze at its far end were almost black next to the
    violet sky of the page above (a different colour, not only a darker one). They are now the same dark violet as the page background with the lights in it,
    a little lighter, so the picture grows out of the sky without a change of tone. */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -9838,6 +9331,7 @@ html.has-sb::-webkit-scrollbar {
       transparent
     );
   }}
+
 
 
 
@@ -9951,6 +9445,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .tm-grid {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: 88px;
@@ -9960,6 +9455,7 @@ html.has-sb::-webkit-scrollbar {
     top: 120px;
     align-self: start;
   }}
+
 
 
 
@@ -10282,10 +9778,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .hg::before,
   .hg > i {
     animation: none;
   }}
+
 
 
 
@@ -10347,11 +9845,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .vy-quote {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     gap: 3.4rem;
     align-items: start;
   }}
+
 
 
 
@@ -10509,8 +10009,10 @@ html.has-sb::-webkit-scrollbar {
 @media (prefers-reduced-motion: reduce) {
 
 
+
 .tgb-none,
 :is(.hl, .woo, .sha, .wpp) > section::before { animation: none !important; }}
+
 
 
 
@@ -10577,7 +10079,9 @@ html.has-sb::-webkit-scrollbar {
 @media (prefers-reduced-motion: reduce) {
 
 
+
 .tw-panel * { animation: none !important; }}
+
 
 
 

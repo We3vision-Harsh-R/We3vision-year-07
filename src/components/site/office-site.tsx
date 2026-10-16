@@ -3,6 +3,7 @@
 import "@/styles/office.css";
 
 
+
 import { useEffect, useState, type CSSProperties } from "react";
 
 // The website that the guide builds on the big screen of the office (office-builder.tsx): always the same design with ten sections (a header

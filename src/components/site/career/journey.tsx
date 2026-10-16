@@ -3,6 +3,7 @@
 import "@/styles/careers.css";
 
 
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { bookSeat, completeTicket } from "@/actions/careers";
 import { setCareer } from "@/lib/career-store";

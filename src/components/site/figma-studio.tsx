@@ -4,6 +4,7 @@ import "@/styles/careers.css";
 import "@/styles/ui-ux.css";
 
 
+
 import { useRef, useState } from "react";
 
 // The "Meet the designer" section of the UI/UX page (the "guide" section with the scene "figma"): a small Figma on a whole screen. There is a

@@ -2,6 +2,7 @@
 
 import "@/styles/modern-base.css";
 
+
 import { useEffect, useRef, useState } from "react";
 import { SplitHeading } from "./split-heading";
 

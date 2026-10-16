@@ -2,6 +2,7 @@
 
 import "@/styles/process-floor.css";
 
+
 import { useEffect, useId, useRef, useState } from "react";
 
 type Step = { title: string; text: string; points?: string };
