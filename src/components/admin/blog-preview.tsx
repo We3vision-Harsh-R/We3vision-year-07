@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/admin.css";
+
 import { useState } from "react";
 import { BlogMasonry, type MasonryItem } from "@/components/site/modern/blog-masonry";
 

@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/theme-picker.css";
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   BASE_HUE,

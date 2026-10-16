@@ -2,6 +2,7 @@
 
 import "@/styles/team.css";
 
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { byDepartment, tierOf, type TeamPerson } from "@/lib/team-shared";
 import {

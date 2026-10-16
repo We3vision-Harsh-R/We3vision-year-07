@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/admin.css";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";

@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/seo-lab.css";
+
 import { useEffect, useRef, useState } from "react";
 
 // The box of the SEO page (the "guide" section with the scene "serp"): a search results page with your website at the bottom of the list. Five

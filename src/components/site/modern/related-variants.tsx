@@ -1,3 +1,5 @@
+import "@/styles/modern-base.css";
+import "@/styles/modern-related.css";
 import { GlowEdge } from "../glow-edge";
 import { IconTile } from "../icons";
 import { SmartLink } from "../smart-link";

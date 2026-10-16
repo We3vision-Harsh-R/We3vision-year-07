@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/admin.css";
+
 import Image from "next/image";
 import { useActionState, useState } from "react";
 import { login, type LoginState } from "@/actions/auth";

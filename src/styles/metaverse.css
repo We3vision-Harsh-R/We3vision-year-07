@@ -1898,3 +1898,326 @@
     animation: none;
   }
 }
+
+.vs {
+  position: relative;
+  height: calc(100svh * (2.4 + var(--n) * 1.4));
+  background: #000;
+}
+.vs[data-pin="false"] {
+  height: auto;
+}
+.vs-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #000;
+}
+.vs[data-pin="false"] .vs-stage {
+  position: relative;
+  height: auto;
+  padding: 5rem 1rem 6rem;
+}
+.vs-bg {
+  position: absolute;
+  inset: -6%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.vs[data-pin="false"] .vs-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+}
+.vs-bg-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(3.5px) saturate(1.2) brightness(0.92);
+}
+.vs-haze {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 48%, transparent 38%, rgba(2, 1, 8, 0.6) 100%),
+    linear-gradient(180deg, rgba(2, 1, 8, 0.25), transparent 30%, transparent 70%, rgba(2, 1, 8, 0.35));
+}
+.vs-fade {
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  height: 24%;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+}
+.vs-fade-t {
+  top: 0;
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent);
+  mask-image: linear-gradient(180deg, #000, transparent);
+}
+.vs-fade-b {
+  bottom: 0;
+  -webkit-mask-image: linear-gradient(0deg, #000, transparent);
+  mask-image: linear-gradient(0deg, #000, transparent);
+}
+.vs-wins {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  perspective: 1500px;
+  perspective-origin: 50% 46%;
+}
+.vs[data-pin="false"] .vs-wins {
+  position: relative;
+  z-index: 2;
+  perspective: none;
+}
+.vs-win {
+  --sa1: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --sa2: hsl(calc(var(--th) + 400) calc(92% * var(--ts)) 72%);
+  --sa3: hsl(calc(var(--th) + 310) calc(90% * var(--ts)) 70%);
+  --sa-d1: hsl(calc(var(--th) + 347) calc(62% * var(--ts)) 8%);
+  --sa-d2: hsl(calc(var(--th) + 362) calc(60% * var(--ts)) 20%);
+  --sa-glass: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
+  --sa-t: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 34%);
+  --sa-l: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 22%);
+  --sa-r: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 14%);
+  --sa-t2: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 46%);
+  --sa-l2: hsl(calc(var(--th) + 354) calc(66% * var(--ts)) 30%);
+  --sa-r2: hsl(calc(var(--th) + 354) calc(66% * var(--ts)) 20%);
+  --sa-crowd: hsl(calc(var(--th) + 347) calc(62% * var(--ts)) 5%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(940px, 84vw);
+  padding: 14px;
+  border-radius: 38px;
+  color: #fff;
+  opacity: 0;
+  will-change: transform, opacity;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.07) 38%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12)),
+    rgba(20, 12, 36, 0.28);
+  -webkit-backdrop-filter: blur(36px) saturate(1.7) brightness(1.08);
+  backdrop-filter: blur(36px) saturate(1.7) brightness(1.08);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.65),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 0 40px rgba(255, 255, 255, 0.06),
+    0 50px 120px rgba(2, 1, 8, 0.55),
+    0 6px 20px rgba(0, 0, 0, 0.3);
+}
+.vs[data-pin="false"] .vs-win {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: min(940px, 92vw);
+  margin: 0 auto 3.2rem;
+  opacity: 1;
+}
+.vs-hero {
+  position: relative;
+  aspect-ratio: 940 / 392;
+  overflow: hidden;
+  border-radius: 26px;
+  background: #0b0716;
+}
+.vs-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vs-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(5, 2, 12, 0.82) 0%, rgba(5, 2, 12, 0.4) 44%, rgba(5, 2, 12, 0) 72%);
+}
+.vs-hero-text {
+  position: absolute;
+  top: 50%;
+  left: clamp(18px, 3.4vw, 40px);
+  max-width: min(50%, 430px);
+  transform: translateY(-50%);
+}
+.vs-hero-text > * {
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.vs-hero-text > :nth-child(2) { transition-delay: 0.08s; }
+.vs-hero-text > :nth-child(3) { transition-delay: 0.16s; }
+.vs-win[data-on="false"] .vs-hero-text > * {
+  opacity: 0.25;
+  transform: translateY(12px);
+}
+.vs-eyebrow {
+  display: block;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.vs-hero-text h2 {
+  margin: 0.5rem 0 0;
+  font-size: clamp(1.6rem, 2.7vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+.vs-hero-text p {
+  margin: 0.8rem 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.vs-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vs-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.04));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.vs-ic {
+  display: grid;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, hsl(calc(var(--th) + 76) calc(81% * var(--ts)) 87%), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%) 60%, hsl(calc(var(--th) + 316) calc(66% * var(--ts)) 70%));
+  box-shadow: 0 6px 16px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.35);
+}
+.vs-ic svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 16%);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+.vs-card h3 {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.vs-card p {
+  margin: 0.25rem 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+.vs-grab {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  width: 96px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.55);
+  transform: translateX(-50%);
+}
+.vs[data-pin="false"] .vs-grab {
+  display: none;
+}
+.vs-dots {
+  position: absolute;
+  right: 0;
+  bottom: 104px;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.vs[data-pin="false"] .vs-dots {
+  display: none;
+}
+.vs-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.32);
+  transition: width 0.4s, background 0.4s;
+}
+.vs-dots i[data-on="true"] {
+  width: 28px;
+  background: #fff;
+}
+.vs-black {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: #000;
+  pointer-events: none;
+}
+.vs[data-pin="false"] .vs-black {
+  display: none;
+}
+@media (max-width: 759px) {
+.vs-win {
+    width: 88vw;
+    padding: 10px;
+    border-radius: 30px;
+  }
+.vs-hero {
+    aspect-ratio: 5 / 4.7;
+    border-radius: 22px;
+  }
+.vs-shade {
+    background: linear-gradient(0deg, rgba(5, 2, 12, 0.88) 0%, rgba(5, 2, 12, 0.5) 52%, rgba(5, 2, 12, 0) 85%);
+  }
+.vs-hero-text {
+    top: auto;
+    right: 16px;
+    bottom: 14px;
+    left: 16px;
+    max-width: none;
+    transform: none;
+  }
+.vs-hero-text h2 {
+    font-size: 1.45rem;
+  }
+.vs-hero-text p {
+    margin-top: 0.4rem;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+.vs-cards {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+.vs-card {
+    padding: 10px 12px;
+    border-radius: 20px;
+  }
+.vs-card p {
+    margin-top: 0.1rem;
+  }
+.vs-dots {
+    bottom: 94px;
+  }
+}

@@ -2,6 +2,7 @@
 
 import "@/styles/metaverse.css";
 
+
 import { useEffect, useRef, useState } from "react";
 import { PersonTop } from "../timeline-art";
 

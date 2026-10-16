@@ -2,6 +2,7 @@
 
 import "@/styles/careers.css";
 
+
 import Link from "next/link";
 import { useState } from "react";
 import { applyForJob } from "@/actions/jobs";

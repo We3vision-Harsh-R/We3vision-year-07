@@ -1,6 +1,9 @@
 "use client";
 
 import "@/styles/about.css";
+import "@/styles/panda-chat.css";
+import "@/styles/modern-base.css";
+
 
 import { useEffect, useRef, useState } from "react";
 import { AiChat } from "../ai-chat";

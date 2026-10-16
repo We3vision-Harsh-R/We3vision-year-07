@@ -344,7 +344,9 @@ export function BrushTown({ kinds, layer, className, onReady }: { kinds: Kind[];
     let disposed = false;
     let inst: any = null;
     let off: (() => void) | null = null;
-    (async () => {
+    let watch: IntersectionObserver | null = null;
+    // p5 + p5.brush are about 350 KB: they are downloaded when the painted town is within about one screen of the visitor, not with the page
+    const start = async () => {
       try {
         const [p5mod, brush] = await Promise.all([import("p5"), import("p5.brush")]);
         if (disposed || !host.current) return;
@@ -375,9 +377,23 @@ export function BrushTown({ kinds, layer, className, onReady }: { kinds: Kind[];
       } catch {
         if (!disposed) setState("fail");
       }
-    })();
+    };
+    if (host.current && typeof IntersectionObserver !== "undefined") {
+      watch = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          watch?.disconnect();
+          void start();
+        },
+        { rootMargin: "900px 0px" },
+      );
+      watch.observe(host.current);
+    } else {
+      void start();
+    }
     return () => {
       disposed = true;
+      watch?.disconnect();
       off?.();
       inst?.remove();
     };

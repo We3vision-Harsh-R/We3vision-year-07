@@ -1,3 +1,4 @@
+import "@/styles/modern-base.css";
 import { GlowEdge } from "../glow-edge";
 import { SmartLink } from "../smart-link";
 
