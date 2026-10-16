@@ -1,0 +1,87 @@
+/* /mobile app screen ("mp-ap-"): an App Store. Product-page hero, description, Today cards, version history, icon row, categories, picks. Kit tokens only. */
+
+.ma-root .mp-ap-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); transition: transform 0.3s var(--ma-ease); }
+.ma-root .mp-ap-ic { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 22.37%; font-size: 24px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o, 0) + 10) calc(90% * var(--ts)) 64%), hsl(calc(var(--ma-h) + var(--o, 0) - 12) calc(85% * var(--ts)) 42%)); box-shadow: 0 1px 2px hsl(0 0% 0% / 0.3), 0 6px 14px hsl(0 0% 0% / 0.3), inset 0 0.5px 0 hsl(0 0% 100% / 0.55); }
+.ma-root .mp-ap-lab { margin-top: 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ma-tint); }
+
+/* ---- hero: the product page ---- */
+.ma-root .mp-ap-page { margin-top: 6px; padding: 20px 18px 22px; border-radius: 28px; background: var(--ma-card); border: 1px solid var(--ma-rim); box-shadow: 0 18px 44px hsl(0 0% 0% / 0.34), inset 0 1px 0 hsl(0 0% 100% / 0.12); animation: mp-ap-in 0.55s var(--ma-ease) backwards; }
+.ma-root .mp-ap-head { display: flex; align-items: flex-start; gap: 16px; }
+.ma-root .mp-ap-icon { flex: none; display: grid; place-items: center; width: 92px; height: 92px; border-radius: 22.37%; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 12) calc(92% * var(--ts)) 66%), hsl(calc(var(--ma-h) - 14) calc(86% * var(--ts)) 42%)); box-shadow: 0 1px 2px hsl(0 0% 0% / 0.3), 0 10px 22px hsl(var(--ma-h) calc(60% * var(--ts)) 10% / 0.5), inset 0 0.5px 0 hsl(0 0% 100% / 0.6); }
+.ma-root .mp-ap-icon svg { width: 52px; height: 52px; }
+.ma-root .mp-ap-name { flex: 1; min-width: 0; padding-top: 2px; }
+.ma-root .mp-ap-h { margin: 0; font-size: 24px; line-height: 1.18; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+.ma-root .mp-ap-h span + span { display: block; color: var(--ma-text2); font-weight: 600; }
+.ma-root .mp-ap-sub { margin-top: 6px; font-size: 15px; font-weight: 500; color: var(--ma-text3); }
+.ma-root .mp-ap-btns { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.ma-root .mp-ap-get { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 24px; border-radius: 999px; font-size: 16px; font-weight: 700; text-align: center; color: #fff; background: var(--ma-tint-bg); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); transition: transform 0.25s var(--ma-spring); }
+.ma-root .mp-ap-more { display: inline-flex; align-items: center; min-height: 44px; font-size: 16px; font-weight: 600; color: var(--ma-tint); }
+.ma-root .mp-ap-get:active { transform: scale(0.94); }
+.ma-root .mp-ap-desc { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--ma-line); font-size: 17px; line-height: 1.62; color: var(--ma-text2); }
+@keyframes mp-ap-in { from { opacity: 0; transform: translate3d(0, 20px, 0) scale(0.98); } }
+
+/* ---- story: the description ---- */
+.ma-root .mp-ap-about { padding: 18px; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); border-top: 3px solid var(--ma-tint-bg); }
+.ma-root .mp-ap-about p { font-size: 17px; line-height: 1.68; color: var(--ma-text2); }
+.ma-root .mp-ap-about p + p { margin-top: 14px; }
+.ma-root .mp-ap-about em { font-weight: 600; }
+
+/* ---- services: Today cards ---- */
+.ma-root .mp-ap-today { display: grid; gap: 16px; }
+.ma-root .mp-ap-tc { overflow: hidden; border-radius: 28px; background: var(--ma-card); border: 1px solid var(--ma-line); box-shadow: 0 16px 34px hsl(0 0% 0% / 0.34); }
+.ma-root .mp-ap-tc-top { padding: 28px 20px 22px; background: radial-gradient(120% 90% at 100% 0%, hsl(calc(var(--ma-h) + var(--o, 0) + 24) calc(90% * var(--ts)) 60% / 0.55), transparent 70%), linear-gradient(160deg, hsl(calc(var(--ma-h) + var(--o, 0)) calc(70% * var(--ts)) 34%), hsl(calc(var(--ma-h) + var(--o, 0) - 30) calc(70% * var(--ts)) 20%)); }
+.ma-root .mp-ap-tc-top h3 { margin: 0; font-size: 28px; line-height: 1.12; font-weight: 700; letter-spacing: -0.022em; }
+.ma-root .mp-ap-tc-top h3 span + span::before { content: " "; }
+.ma-root .mp-ap-tc-top p { margin-top: 10px; font-size: 16px; line-height: 1.55; color: hsl(0 0% 100% / 0.86); }
+.ma-root .mp-ap-tc-body { padding: 4px 20px 20px; }
+.ma-root .mp-ap-tc-body > p:not(.mp-ap-lab) { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+
+/* ---- related: you might also like ---- */
+.ma-root .mp-ap-also, .ma-root .mp-ap-cats { display: grid; margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-ap-also li + li, .ma-root .mp-ap-cats li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ap-also-a { display: flex; align-items: center; gap: 14px; min-height: 72px; padding: 14px 16px; }
+.ma-root .mp-ap-also-a:active { background: var(--ma-fill); }
+.ma-root .mp-ap-ab { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.ma-root .mp-ap-ab b { font-size: 17px; line-height: 1.3; font-weight: 600; }
+.ma-root .mp-ap-ab b span + span::before { content: " "; }
+.ma-root .mp-ap-ab > span { font-size: 15px; line-height: 1.5; color: var(--ma-text2); }
+
+/* ---- process: version history ---- */
+.ma-root .mp-ap-hist { display: grid; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ap-hist > li { display: grid; grid-template-columns: 46px 1fr; gap: 6px; padding: 18px 0; border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ap-hist > li:first-child { border-top: 0; padding-top: 4px; }
+.ma-root .mp-ap-ver { font-size: 40px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; color: var(--ma-tint); }
+.ma-root .mp-ap-hist h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
+.ma-root .mp-ap-hist p { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+
+/* ---- tags: a row of app icons ---- */
+.ma-root .mp-ap-icons { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, auto); grid-auto-columns: 86px; gap: 16px 6px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 8px; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.ma-root .mp-ap-icons::-webkit-scrollbar { display: none; }
+.ma-root .mp-ap-icons li { display: grid; justify-items: center; align-content: start; gap: 8px; text-align: center; }
+.ma-root .mp-ap-il { max-width: 86px; font-size: 14px; line-height: 1.3; color: var(--ma-text2); overflow-wrap: anywhere; }
+
+/* ---- industries: categories ---- */
+.ma-root .mp-ap-cats li { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; }
+.ma-root .mp-ap-cats .mp-ap-ic { width: 44px; height: 44px; font-size: 19px; }
+.ma-root .mp-ap-cats b { font-size: 17px; line-height: 1.35; font-weight: 600; }
+.ma-root .mp-ap-cats p { margin-top: 2px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+
+/* ---- advantages: picks ---- */
+.ma-root .mp-ap-picks { display: grid; grid-auto-flow: column; grid-auto-columns: 76%; gap: 12px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 10px; list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--ma-gut); scrollbar-width: none; }
+.ma-root .mp-ap-picks::-webkit-scrollbar { display: none; }
+.ma-root .mp-ap-picks li { scroll-snap-align: start; padding: 20px 18px; border-radius: 26px; background: linear-gradient(165deg, hsl(calc(var(--ma-h) + var(--o, 0)) calc(60% * var(--ts)) 28%), var(--ma-card) 80%); border: 1px solid var(--ma-line); }
+.ma-root .mp-ap-star { display: block; width: 28px; height: 28px; margin-bottom: 14px; background: var(--ma-tint); clip-path: polygon(50% 0, 62% 35%, 98% 36%, 69% 57%, 80% 92%, 50% 71%, 20% 92%, 31% 57%, 2% 36%, 38% 35%); }
+.ma-root .mp-ap-picks b { display: block; font-size: 19px; line-height: 1.3; font-weight: 600; }
+.ma-root .mp-ap-picks p { margin-top: 8px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+
+/* ---- faq: information rows ---- */
+.ma-root .mp-ap-info { border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-ap-info details + details { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ap-info summary { list-style: none; display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 12px 16px; cursor: pointer; font-size: 17px; font-weight: 600; line-height: 1.4; }
+.ma-root .mp-ap-info summary::-webkit-details-marker { display: none; }
+.ma-root .mp-ap-info summary > span { flex: 1; min-width: 0; }
+.ma-root .mp-ap-info details[open] .mp-ap-chev { transform: rotate(90deg); }
+.ma-root .mp-ap-info details > p { padding: 0 16px 16px; font-size: 16px; line-height: 1.65; color: var(--ma-text2); }
+.ma-root .mp-ap-info details[open] > p { animation: ma-open 0.35s var(--ma-ease) backwards; }
+
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-ap-page { animation: none; } .ma-root .mp-ap-info details[open] > p { animation: none; } }
