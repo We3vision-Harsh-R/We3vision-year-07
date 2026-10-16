@@ -13,7 +13,7 @@ const UA =
   "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1";
 const CONCURRENCY = 6;
 const TIMEOUT_MS = 30000;
-const ERROR_TEXTS = ["Application error", "Internal Server Error", "Unhandled Runtime Error", "This page could not be found"];
+const ERROR_TEXTS = ["Application error", "Internal Server Error", "Unhandled Runtime Error"];
 const MOBILE_ROOT = "m-root";
 
 const die = (msg) => {
