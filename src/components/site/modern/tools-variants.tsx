@@ -1,5 +1,9 @@
 "use client";
 
+import "@/styles/modern-base.css";
+import "@/styles/modern-tools.css";
+
+
 import { useMemo, useState } from "react";
 import { techDetail } from "@/lib/cms/content/tech-details";
 import { GlowEdge } from "../glow-edge";

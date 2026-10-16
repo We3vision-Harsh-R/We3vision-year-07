@@ -1,5 +1,8 @@
 "use client";
 
+import "@/styles/panda-chat.css";
+
+
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, getChatServices, type ChatMessage, type ChatService } from "@/lib/ai-chat";
 import { oneLine, type TechData } from "./data";

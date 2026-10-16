@@ -1,5 +1,8 @@
 "use client";
 
+import "@/styles/reasons-stack.css";
+
+
 import { useEffect, useRef, useState } from "react";
 import { GlowEdge } from "./glow-edge";
 import { IconTile } from "./icons";

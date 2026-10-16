@@ -1,0 +1,339 @@
+/* Loaded only by: src/components/site/reasons-stack.tsx (see tools/css-split.config.mjs). Add new "rs-" rules HERE, not in globals.css. */
+.rs {
+  display: grid;
+  max-width: 1240px;
+  gap: 2.4rem;
+  margin: 0 auto;
+  padding-inline: 1rem;
+}
+.rs-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 1rem;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
+  box-shadow: 0 0 24px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.15);
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.rs-title {
+  margin: 1.2rem 0 0;
+  padding-bottom: 0.1em;
+  font-size: clamp(2.4rem, 4.4vw, 3.9rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+  white-space: pre-line;
+}
+.rs-intro {
+  margin: 1.1rem 0 0;
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 78%);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+.rs-count {
+  margin: 1.4rem 0 0;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+.rs-count b {
+  margin-right: 0.2rem;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.rs-list {
+  position: relative;
+  display: none;
+  margin: 1.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.rs-line {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 0.8rem;
+  width: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.rs-line i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 60%), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%));
+  box-shadow: 0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
+  transform-origin: top;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.rs-list li {
+  position: relative;
+}
+.rs-list button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.65rem 0;
+  border: 0;
+  background: none;
+  color: hsl(calc(var(--th) + 354) calc(25% * var(--ts)) 62%);
+  font-size: 1rem;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.4s;
+}
+.rs-list button:hover {
+  color: #fff;
+}
+.rs-list li[data-done="true"] button {
+  color: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 84%);
+}
+.rs-list li[data-on="true"] button {
+  color: #fff;
+  font-weight: 600;
+}
+.rs-tick {
+  position: relative;
+  width: 1.65rem;
+  height: 1.65rem;
+  flex: none;
+  fill: hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 8%);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+.rs-tick circle {
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
+  transition: fill 0.4s, stroke 0.4s;
+}
+.rs-tick path {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  transition: stroke-dashoffset 0.5s 0.15s ease;
+}
+.rs-list li[data-done="true"] .rs-tick circle {
+  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88%);
+}
+.rs-list li[data-done="true"] .rs-tick path {
+  stroke-dashoffset: 0;
+}
+.rs-list li[data-on="true"] .rs-tick {
+  filter: drop-shadow(0 0 8px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.9));
+}
+.rs-cards {
+  display: grid;
+  gap: 1rem;
+}
+.rs-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1.8rem 1.6rem 2rem;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.22);
+  border-radius: 28px;
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.13), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 9% / 0.9) 62%);
+}
+.rs-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.rs-label {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.85);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+.rs-card h3 {
+  margin: 1.5rem 0 0;
+  color: #fff;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.rs-card p {
+  max-width: 34rem;
+  margin: 1rem 0 0;
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 86%);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+.rs-no {
+  position: absolute;
+  right: 1.4rem;
+  bottom: -0.4rem;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.07);
+  font-size: 8rem;
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  pointer-events: none;
+}
+@media (min-width: 1024px) {
+.rs {
+    grid-template-columns: 23rem minmax(0, 1fr);
+    gap: 4.5rem;
+    align-items: start;
+  }
+.rs-side {
+    position: sticky;
+    top: max(5.5rem, calc(50svh - 18rem));
+  }
+.rs-list {
+    display: block;
+  }
+.rs-cards {
+    gap: 24svh;
+    padding: 10svh 0 18svh;
+  }
+.rs-card {
+    display: flex;
+    min-height: 23rem;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.6rem 2.8rem 2.8rem;
+    opacity: 0.35;
+    transform: translateY(14px) scale(0.985);
+    transition:
+      opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.6s;
+  }
+.rs-card[data-on="true"] {
+    opacity: 1;
+    transform: none;
+    box-shadow:
+      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84% / 0.4),
+      0 40px 90px -34px rgba(0, 0, 0, 0.8),
+      0 0 80px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.18);
+  }
+.rs-no {
+    font-size: 11rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+.rs-card,
+.rs-line i,
+.rs-tick path,
+.rs-tick circle {
+    transition: none !important;
+  }
+}
+.rs-pin,
+.rs-view {
+  display: contents;
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+.rs {
+    --pitch: 36rem;
+    display: block;
+    max-width: none;
+    height: calc(100svh + (var(--n) - 1) * 95svh);
+    margin: 0;
+    padding: 0;
+  }
+.rs-pin {
+    position: sticky;
+    top: 0;
+    display: grid;
+    height: 100svh;
+    max-width: 1240px;
+    grid-template-columns: 23rem minmax(0, 1fr);
+    gap: 4.5rem;
+    margin: 0 auto;
+    padding-inline: 1rem;
+    align-items: center;
+  }
+.rs-side {
+    position: static;
+  }
+.rs-view {
+    position: relative;
+    display: block;
+    height: 100svh;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 91%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 91%, transparent 100%);
+  }
+.rs-cards {
+    position: absolute;
+    inset: 0;
+    display: block;
+    padding: 0;
+    transform: translateY(calc(var(--f, 0) * var(--pitch)));
+    will-change: transform;
+  }
+.rs-card {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: calc(50% - 12.5rem - var(--i) * var(--pitch));
+    height: 25rem;
+    min-height: 0;
+    overflow: hidden;
+    opacity: 1;
+    transition: none;
+    transform: none;
+    will-change: opacity, transform;
+  }
+.rs-card[data-on="true"] {
+    transform: none;
+  }
+}
+@media (min-width: 1024px) {
+.rs {
+    max-width: 1440px;
+    padding-inline: clamp(1.5rem, 3vw, 3rem);
+  }
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+.rs {
+    max-width: none;
+    padding-inline: 0;
+  }
+.rs-pin {
+    max-width: 1440px;
+    padding-inline: clamp(1.5rem, 3vw, 3rem);
+  }
+.rs-view {
+    margin-inline: -4.5rem -1rem;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 91%, transparent 100%), linear-gradient(to right, transparent 0, #000 4.5rem, #000 calc(100% - 1rem), transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 91%, transparent 100%), linear-gradient(to right, transparent 0, #000 4.5rem, #000 calc(100% - 1rem), transparent 100%);
+    mask-composite: intersect;
+  }
+.rs-cards {
+    inset: 0 1rem 0 4.5rem;
+  }
+}
+.rs-card {
+  background:
+    radial-gradient(130% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.24), transparent 62%),
+    radial-gradient(120% 100% at 100% 100%, hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 56% / 0.2), transparent 64%),
+    linear-gradient(160deg, hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.9), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 8% / 0.92));
+}
+.rs-card {
+  background:
+    linear-gradient(155deg, hsl(0 0% 100% / 0.075) 0%, hsl(0 0% 100% / 0.025) 42%, hsl(0 0% 100% / 0.01) 100%),
+    hsl(calc(var(--th) + 347) calc(38% * var(--ts)) 9% / 0.52);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  box-shadow:
+    inset 0 1px 0 hsl(0 0% 100% / 0.11),
+    inset 0 0 0 1px hsl(0 0% 100% / 0.035);
+}
+@media (max-width: 1023px), (hover: none) {
+.rs-card {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

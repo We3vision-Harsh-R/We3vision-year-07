@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
   // development only: lets other computers on the same Wi-Fi open the dev server (http://<this PC's IP>:1010)
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*"],
   // `ANALYZE_STATS=1 npm run build` writes .next/stats-client.json (what is inside every browser chunk); read it with node tools/chunk-report.mjs
+  // the webpack hook below is only used by the production build (`next build --webpack`); this empty block tells the Turbopack dev server that this is fine
+  turbopack: {},
   webpack(config, { isServer }) {
     if (process.env.ANALYZE_STATS && !isServer) {
       config.plugins.push({

@@ -1,5 +1,8 @@
 "use client";
 
+import "@/styles/metaverse.css";
+
+
 import { useEffect, useId, useRef } from "react";
 
 // Artwork of the "inside the headset" scene, all drawn with code (no image files): a random space for the background and three small

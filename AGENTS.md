@@ -19,6 +19,7 @@ design system, history, open items) is in the **`brain/`** folder. Before any ed
 
 Non-negotiable rules (details and reasons in `brain/02-rules-and-preferences.md`):
 - Work in the main repo folder; commit and push every finished task to `main` only (no side branches; typecheck + eslint + `npm run build` first, a push deploys); never print secrets.
+  EXCEPTION (owner, 2026-10-16): speed/optimization work goes to the branch `optimize`, never straight to `main`; read `brain/15-optimization-handbook.md` first, and ASK the owner before starting each optimization phase.
 - Change only what the task names. Home page `/` is LOCKED. Locked sections need permission (service strip, TechSpace pop-up, Industries city).
 - Desktop/laptop only (no mobile/responsive code). Poppins font. Paragraphs ≥ 16px, labels ≥ 14px.
 - Never hard-code violet/pink: use `hsl(calc(var(--th) + N) calc(S% * var(--ts)) L%)` or the Tailwind tokens. New CSS = new unique

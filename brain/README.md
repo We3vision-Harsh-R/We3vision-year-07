@@ -27,6 +27,7 @@ what is still open.
 | 12 | [12-skills-and-speed-plan.md](12-skills-and-speed-plan.md) | **before any speed work** | Skills to use per job, 1000 ms budget, plan A–E (route CSS, lazy on scroll/click, smoothness), what the owner gets |
 | 13 | [13-mobile-app-plan.md](13-mobile-app-plan.md) | **mobile app sprint** | Plan: every page as an iOS-style app screen |
 | 14 | [14-mobile-skills-map.md](14-mobile-skills-map.md) | before mobile work | Mobile skills map |
+| 15 | [15-optimization-handbook.md](15-optimization-handbook.md) | **any speed work, any new page** | Method, what was used, checklist for new pages, ledger of what was optimized on which page, phase approval status |
 | 10 | [10-starter-prompt.md](10-starter-prompt.md) | when you open a new AI tool | Copy-paste prompt that makes any AI use this folder |
 
 Related files outside this folder: `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `.github/copilot-instructions.md` / `.cursor/rules/` (they

@@ -1,0 +1,488 @@
+/* Loaded only by: src/components/admin/login-screen.tsx, src/components/admin/blog-form.tsx, src/components/admin/blog-preview.tsx (see tools/css-split.config.mjs). Add new "al-, adb-" rules HERE, not in globals.css. */
+.adb-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.adb-tile {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 4px;
+  padding: 12px 10px;
+  border: 1.5px solid rgb(228 228 231);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+}
+.adb-tile:hover {
+  border-color: rgb(161 161 170);
+}
+.adb-tile[data-on="true"] {
+  border-color: var(--color-brand, #7c3aed);
+  background: rgb(250 245 255);
+  box-shadow: 0 0 0 3px rgb(124 58 237 / 0.15);
+}
+.adb-tile-shape {
+  display: block;
+  width: 56px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgb(196 181 253), rgb(124 58 237));
+}
+.adb-tile b {
+  font-size: 0.875rem;
+  color: rgb(39 39 42);
+}
+.adb-tile small {
+  font-size: 0.75rem;
+  color: rgb(113 113 122);
+}
+.adb-views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.adb-views button {
+  display: grid;
+  gap: 1px;
+  padding: 8px 14px;
+  border: 1px solid rgb(228 228 231);
+  border-radius: 10px;
+  background: #fff;
+  color: rgb(63 63 70);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.adb-views button span {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgb(113 113 122);
+}
+.adb-views button[data-on="true"] {
+  border-color: var(--color-brand, #7c3aed);
+  background: rgb(250 245 255);
+  color: rgb(76 29 149);
+}
+.adb-frame {
+  overflow: hidden;
+  padding: 10px;
+  border-radius: 14px;
+  background: hsl(285 45% 8%);
+}
+.adb-empty {
+  margin: 0;
+  padding: 2rem;
+  text-align: center;
+  color: rgb(161 161 170);
+  font-size: 0.875rem;
+}
+.al {
+  --al-line: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.18);
+  --al-soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90% / 0.78);
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9%); /* the glow and stars of the site come from <Background /> */
+  color: #fff;
+  font-family: var(--font-sans);
+  overflow: auto;
+}
+.al-side {
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+.al-form {
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+.al-icon {
+  display: inline-grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid var(--al-line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 346.97) calc(58% * var(--ts)) 13%), hsl(calc(var(--th) + 347.43) calc(61% * var(--ts)) 9%));
+  box-shadow:
+    inset 0 1px 0 hsl(0 0% 100% / 0.1),
+    0 10px 30px -12px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.55);
+}
+.al-icon img {
+  width: auto;
+  height: 26px;
+}
+.al h1 {
+  margin: 24px 0 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.al-sub {
+  margin: 10px 0 0;
+  color: var(--al-soft);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.al form {
+  margin-top: 32px;
+  text-align: left;
+}
+.al-field {
+  display: block;
+  margin-bottom: 20px;
+}
+.al-field > span:first-child {
+  display: block;
+  margin-bottom: 6px;
+  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 94% / 0.92);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.al-pass {
+  position: relative;
+  display: block;
+}
+.al input[type="email"],
+.al input[type="password"],
+.al input[type="text"] {
+  display: block;
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+}
+.al-pass input {
+  padding-right: 50px;
+}
+.al-eye {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  width: 50px;
+  height: 52px;
+  place-items: center;
+  border: 0;
+  background: none;
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 78% / 0.75);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.al-eye:hover,
+.al-eye:focus-visible {
+  color: #fff;
+  outline: none;
+}
+.al-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.al-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--al-soft);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.al-check input {
+  appearance: none;
+  display: grid;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  place-content: center;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
+  border-radius: 5px;
+  background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 9%);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+.al-check input::after {
+  content: "";
+  width: 9px;
+  height: 5px;
+  margin-top: -2px;
+  border-bottom: 2px solid hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 8%);
+  border-left: 2px solid hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 8%);
+  opacity: 0;
+  transform: rotate(-45deg) scale(0.6);
+  transition:
+    opacity 0.15s,
+    transform 0.2s;
+}
+.al-check input:checked {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+}
+.al-check input:checked::after {
+  opacity: 1;
+  transform: rotate(-45deg) scale(1);
+}
+.al-check input:focus-visible {
+  box-shadow: 0 0 0 4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.25);
+  outline: none;
+}
+.al-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.al-link:hover,
+.al-link:focus-visible {
+  color: #fff;
+  outline: none;
+}
+.al-note,
+.al-error {
+  margin: -8px 0 20px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.al-note {
+  border: 1px solid var(--al-line);
+  background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 10%);
+  color: var(--al-soft);
+}
+.al-error {
+  margin-top: 0;
+  border: 1px solid hsl(350 90% 70% / 0.4);
+  background: hsl(350 70% 20% / 0.5);
+  color: hsl(350 100% 90%);
+}
+.al-submit {
+  display: block;
+  width: 100%;
+  height: 46px;
+  border: 0;
+  border-radius: 10px;
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    filter 0.2s,
+    opacity 0.2s;
+}
+.al-submit:hover {
+  filter: brightness(1.06);
+}
+.al-submit:active {
+  transform: translateY(1px);
+}
+.al-submit:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+.al-submit:focus-visible {
+  box-shadow: 0 0 0 4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.3);
+  outline: none;
+}
+.al-foot {
+  margin: 32px 0 0;
+  color: var(--al-soft);
+  font-size: 0.875rem;
+}
+.al-art {
+  position: relative;
+  margin: 24px 24px 24px 0;
+  min-height: 480px;
+  overflow: hidden;
+  border: 1px solid var(--al-line);
+  border-radius: 24px;
+  background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 8%);
+}
+.al-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+.al-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 6% / 0.1) 0%, transparent 38%);
+  pointer-events: none;
+}
+.al-quote {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  padding: 32px 32px 30px;
+  border-top: 1px solid hsl(0 0% 100% / 0.14);
+  background: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 6% / 0.55);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3);
+  backdrop-filter: blur(22px) saturate(1.3);
+}
+.al-quote blockquote {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  animation: al-swap 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.al-who {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 28px;
+}
+.al-who > div:first-child {
+  display: grid;
+  gap: 2px;
+  animation: al-swap 0.5s 0.06s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.al-who strong {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.al-who span,
+.al-who small {
+  color: hsl(0 0% 100% / 0.86);
+  font-size: 1rem;
+  font-weight: 500;
+}
+.al-who small {
+  color: hsl(0 0% 100% / 0.7);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.al-nav {
+  display: grid;
+  justify-items: end;
+  gap: 14px;
+}
+.al-count {
+  color: hsl(0 0% 100% / 0.8);
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+}
+.al-nav > div {
+  display: flex;
+  gap: 16px;
+}
+.al-nav button {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid hsl(0 0% 100% / 0.45);
+  border-radius: 999px;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+}
+.al-nav button:hover,
+.al-nav button:focus-visible {
+  border-color: #fff;
+  background: hsl(0 0% 100% / 0.14);
+  outline: none;
+}
+.al-nav button:active {
+  transform: scale(0.94);
+}
+@keyframes al-swap {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+.al-quote blockquote,
+.al-who > div:first-child {
+    animation: none;
+  }
+}
+.al input[type="email"],
+.al input[type="password"],
+.al input[type="text"] {
+  --ios-fill: hsl(calc(var(--th) + 350) calc(26% * var(--ts)) 82% / 0.13);
+  --ios-fill-solid: hsl(calc(var(--th) + 349) calc(20% * var(--ts)) 17%);
+  --ios-tint: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  border: 0;
+  border-radius: 12px;
+  background: var(--ios-fill);
+  box-shadow: none;
+  color: #fff;
+  caret-color: var(--ios-tint);
+  font: inherit;
+  font-size: 1.0625rem;
+  letter-spacing: 0;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    background-color 0.2s,
+    box-shadow 0.2s;
+}
+.al input::placeholder {
+  color: hsl(calc(var(--th) + 352) calc(14% * var(--ts)) 92% / 0.52);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  letter-spacing: 0;
+  opacity: 1;
+}
+.al input:focus {
+  border: 0;
+  background: hsl(calc(var(--th) + 350) calc(26% * var(--ts)) 82% / 0.18);
+  box-shadow: 0 0 0 2px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+}
+.al input:focus-visible {
+  border: 0;
+  box-shadow: 0 0 0 2px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+}
+.al input:-webkit-autofill {
+  -webkit-text-fill-color: #fff;
+  caret-color: var(--ios-tint);
+  box-shadow: 0 0 0 100px var(--ios-fill-solid) inset;
+  transition: background-color 9999s ease-out;
+}
+.al input[type="password"]:not(:placeholder-shown) {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+}

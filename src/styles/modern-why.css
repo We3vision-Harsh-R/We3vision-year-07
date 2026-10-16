@@ -1,0 +1,397 @@
+/* Loaded only by: src/components/site/modern/why-variants.tsx (see tools/css-split.config.mjs). Add new "vw-" rules HERE, not in globals.css. */
+.vw {
+  display: grid;
+  gap: 44px;
+}
+.vw h3 {
+  margin: 0;
+}
+.vw-gd-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vw-gd-list li {
+  display: flex;
+}
+.vw-gd-card {
+  position: relative;
+  width: 100%;
+  padding: 26px 26px 28px;
+  border: 1px solid var(--hair);
+  border-radius: 24px;
+  background: var(--card);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
+}
+.vw-gd-card:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.45);
+  transform: translateY(-6px);
+}
+.vw-gd-card h3 {
+  margin-top: 18px;
+  font-size: 1.3125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.vw-gd-card p {
+  margin: 8px 0 0;
+  color: var(--soft);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.vw-list {
+  gap: 36px;
+}
+@media (min-width: 1024px) {
+.vw-list {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.5fr);
+    gap: 64px;
+  }
+.vw-ls-head {
+    position: sticky;
+    top: 110px;
+    align-self: start;
+  }
+}
+.vw-ls-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+}
+.vw-ls-rows li {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 24px;
+  align-items: baseline;
+  padding: 24px 12px;
+  border-bottom: 1px solid var(--hair);
+  transition: background 0.3s, padding 0.3s;
+}
+.vw-ls-rows li:hover {
+  padding-left: 22px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.07);
+}
+.vw-ls-no {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.vw-ls-rows h3 {
+  font-size: 1.3125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.vw-ls-rows p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.vw-cr-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.vw-cr-ar {
+  display: flex;
+  gap: 10px;
+}
+.vw-cr-ar button {
+  width: 52px;
+  height: 52px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
+  border-radius: 50%;
+  background: none;
+  color: var(--a);
+  font-size: 1.375rem;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.vw-cr-ar button:hover {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
+}
+.vw-cr-row {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  padding: 4px 4px 14px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.vw-cr-row::-webkit-scrollbar {
+  display: none;
+}
+.vw-cr-row li {
+  flex: none;
+  width: 360px;
+  scroll-snap-align: start;
+}
+.vw-cr-card {
+  display: grid;
+  gap: 10px;
+  height: 100%;
+  min-height: 260px;
+  align-content: start;
+  padding: 26px;
+  border: 1px solid var(--hair);
+  border-radius: 24px;
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.14), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9% / 0.8) 60%);
+}
+.vw-cr-card span {
+  color: var(--a);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.vw-cr-card h3 {
+  font-size: 1.3125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.vw-cr-card p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.vw-chk {
+  gap: 32px;
+}
+@media (min-width: 1024px) {
+.vw-chk {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr);
+    gap: 72px;
+  }
+.vw-chk aside {
+    position: sticky;
+    top: 110px;
+    align-self: start;
+  }
+}
+.vw-ck-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vw-ck-row {
+  display: flex;
+  gap: 18px;
+  padding: 20px 22px;
+  border: 1px solid var(--hair);
+  border-radius: 20px;
+  background: var(--card);
+}
+.vw-ck-tick {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--a);
+}
+.vw-ck-tick::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 11px;
+  width: 7px;
+  height: 13px;
+  border-right: 3px solid hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  border-bottom: 3px solid hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  transform: rotate(45deg);
+}
+.vw-ck-row h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.vw-ck-row p {
+  margin: 6px 0 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.vw-tl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vw-tl-grid li[data-big="true"] {
+  grid-column: span 2;
+}
+.vw-tl-grid li {
+  display: flex;
+}
+.vw-tl {
+  position: relative;
+  display: grid;
+  width: 100%;
+  min-height: 210px;
+  align-content: end;
+  gap: 8px;
+  padding: 26px;
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  border-radius: 26px;
+  background: radial-gradient(120% 120% at 100% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.2), transparent 60%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10% / 0.9);
+}
+.vw-tl-no {
+  position: absolute;
+  top: -10px;
+  right: 14px;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.09);
+  font-size: 6rem;
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+.vw-tl h3 {
+  position: relative;
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.vw-tl p {
+  position: relative;
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.vw-mq-rows {
+  display: grid;
+  gap: 16px;
+  margin: 0 -16px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.vw-mq-row {
+  overflow: hidden;
+}
+.vw-mq-track {
+  display: flex;
+  width: max-content;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: vw-run 70s linear infinite;
+}
+.vw-mq-row[data-rev="true"] .vw-mq-track {
+  animation-direction: reverse;
+}
+.vw-mq-row:hover .vw-mq-track {
+  animation-play-state: paused;
+}
+.vw-mq-card {
+  width: 340px;
+  height: 100%;
+  padding: 22px 24px;
+  border: 1px solid var(--hair);
+  border-radius: 22px;
+  background: var(--card);
+}
+.vw-mq-card h3 {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.vw-mq-card p {
+  margin: 8px 0 0;
+  color: var(--soft);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.vw-sp-grid {
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 1024px) {
+.vw-sp-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
+    gap: 40px;
+  }
+}
+.vw-sp-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vw-sp-list button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: none;
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.65);
+  font: inherit;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+.vw-sp-list button span {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45);
+  font-size: 0.9375rem;
+}
+.vw-sp-list button[data-on="true"] {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.14);
+  color: #fff;
+}
+.vw-sp-panel {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 14px;
+  min-height: 320px;
+  padding: 36px 38px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+  border-radius: 30px;
+  background: radial-gradient(120% 120% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.2), transparent 62%), hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 9% / 0.95);
+  animation: vq-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.vw-sp-panel h3 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.vw-sp-panel p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+@media (prefers-reduced-motion: reduce) {
+.vw-mq-track {
+    animation: none;
+  }
+}

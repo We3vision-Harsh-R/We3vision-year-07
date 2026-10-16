@@ -1,0 +1,5 @@
+{
+  "note": "KB gzip, first load of any page; written by tools/perf-budget.mjs --update",
+  "maxJsGz": 244,
+  "maxCssGz": 108
+}

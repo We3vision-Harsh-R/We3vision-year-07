@@ -1,3 +1,4 @@
+import "@/styles/panda-chat.css";
 import { AfterEffects } from "../after-effects";
 import { AiBuddy } from "../lazy";
 import { BrandBoard } from "../brand-board";

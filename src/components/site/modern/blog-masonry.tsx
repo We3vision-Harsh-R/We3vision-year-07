@@ -2,6 +2,8 @@
 
 import "@/styles/blog.css";
 
+
+
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { tileRatio } from "@/lib/blog-shared";

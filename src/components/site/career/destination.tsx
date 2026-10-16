@@ -2,6 +2,8 @@
 
 import "@/styles/careers.css";
 
+
+
 import Link from "next/link";
 import { useCareer } from "@/lib/career-store";
 import type { JobView } from "@/lib/careers-shared";

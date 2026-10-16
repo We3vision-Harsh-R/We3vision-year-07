@@ -1,5 +1,9 @@
 "use client";
 
+import "@/styles/panda-chat.css";
+import "@/styles/mega-menu.css";
+
+
 import { useEffect, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";

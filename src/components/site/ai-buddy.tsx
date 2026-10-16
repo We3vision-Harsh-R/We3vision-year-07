@@ -2,6 +2,8 @@
 
 import "@/styles/ai.css";
 
+
+
 import { useEffect, useRef, useState } from "react";
 
 // "Ask the robot buddy" (the guide section of the AI page): a small chat window with a robot that shows what an AI agent can do. The visitor picks a

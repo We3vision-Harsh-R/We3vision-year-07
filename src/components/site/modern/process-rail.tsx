@@ -1,5 +1,8 @@
 "use client";
 
+import "@/styles/modern-base.css";
+
+
 import { useEffect, useRef, useState } from "react";
 import { GlowEdge } from "../glow-edge";
 import { SplitHeading } from "./split-heading";

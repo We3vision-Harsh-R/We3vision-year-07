@@ -1,3 +1,4 @@
+import "@/styles/careers.css";
 import Link from "next/link";
 import type { CareerQuestionView, JobView } from "@/lib/careers-shared";
 import { JobApply } from "../lazy";
