@@ -1,0 +1,63 @@
+import type { CSSProperties, ReactNode } from "react";
+import { Glyph } from "../glyph";
+import "./app.css";
+import { ScreenChrome } from "./chrome";
+import { CtaBar } from "./cta-bar";
+import type { ContactInfo } from "./contact";
+
+/**
+ * One screen of the "app" that a launcher icon opens: the status-bar space, the navigation bar (Back to the launcher, small title that
+ * appears on scroll), the large title with the app's icon, the content and the sticky Call / WhatsApp / Message bar.
+ * Server component; only <ScreenChrome> (the bar) is client code.
+ */
+export function AppScreen({
+  title,
+  subtitle,
+  glyph,
+  hue = 0,
+  titleIsH1 = true,
+  contact,
+  messageHref = "/contact",
+  cta = true,
+  children,
+}: {
+  /** the short name of the page (as in the admin panel's page list), shown as the large title */
+  title: string;
+  subtitle?: string;
+  /** the launcher glyph of this page's icon (see glyph.tsx), shown beside the large title */
+  glyph?: string;
+  /** the hue offset of the launcher icon of this page */
+  hue?: number;
+  /** false when the first section has the real h1 (the hero heading), so the page keeps one h1 */
+  titleIsH1?: boolean;
+  contact: ContactInfo | null;
+  /** where the "Message" button goes: "#contact" when the page has a contact form, otherwise the contact page */
+  messageHref?: string;
+  /** false hides the bottom bar (e.g. on the contact page itself) */
+  cta?: boolean;
+  children: ReactNode;
+}) {
+  const Title = titleIsH1 ? "h1" : "p";
+  return (
+    <div className="ma-root">
+      <ScreenChrome title={title} />
+      <main className="ma-screen">
+        <div className="ma-wrap">
+          <header className="ma-large">
+            {glyph && (
+              <span className="ma-appic" style={{ "--off": hue } as CSSProperties} aria-hidden="true">
+                <Glyph name={glyph} />
+              </span>
+            )}
+            <div>
+              <Title className="ma-title">{title}</Title>
+              {subtitle && <p className="ma-sub">{subtitle}</p>}
+            </div>
+          </header>
+          {children}
+        </div>
+      </main>
+      {cta && <CtaBar contact={contact} messageHref={messageHref} />}
+    </div>
+  );
+}
