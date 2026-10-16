@@ -52,7 +52,7 @@ function ClockWidget({ now }: { now: Date | null }) {
   );
 }
 
-function Launcher() {
+export function Launcher() {
   const router = useRouter();
   const [page, setPage] = useState(0);
   const [now, setNow] = useState<Date | null>(null);
