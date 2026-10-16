@@ -1,0 +1,238 @@
+/* =====================================================================================================================
+   MobileApp kit ("ma-"): the iOS 26 look of every page on a phone or tablet. ONE stylesheet for the design system.
+   Imported once by app-screen.tsx (so only the pages that are app screens load it). Loaded by the (m) root layout only: the laptop
+   site never sees it. Tokens live on .ma-root; every colour follows the visitor's theme (--th hue, --ts saturation).
+   Rules: transform/opacity transitions only, backdrop-filter only on the nav bar, the CTA bar and the hero, 44px touch targets,
+   16px body text, prefers-reduced-motion respected. A page that needs its own CSS keeps it next to its page with its own prefix.
+   ===================================================================================================================== */
+
+.ma-root {
+  --ma-h: calc(var(--th) + 354);                                   /* the same base hue as the launcher */
+  --ma-bg: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9%);   /* = the body colour the launcher icon melts into */
+  --ma-card: hsl(calc(var(--th) + 347.58) calc(48% * var(--ts)) 9.5%);
+  --ma-card2: hsl(calc(var(--th) + 347.58) calc(44% * var(--ts)) 13%);
+  --ma-fill: hsl(0 0% 100% / 0.07);
+  --ma-fill2: hsl(0 0% 100% / 0.12);
+  --ma-line: hsl(0 0% 100% / 0.1);
+  --ma-rim: hsl(0 0% 100% / 0.2);
+  --ma-text: #fff;
+  --ma-text2: hsl(0 0% 100% / 0.76);
+  --ma-text3: hsl(0 0% 100% / 0.62);
+  --ma-tint: hsl(var(--ma-h) calc(100% * var(--ts)) 80%);           /* accent text */
+  --ma-tint-bg: hsl(var(--ma-h) calc(80% * var(--ts)) 46%);         /* accent button (white text on it >= 4.5) */
+  --ma-tint-bg2: hsl(calc(var(--ma-h) - 28) calc(80% * var(--ts)) 38%);
+  --ma-wash: hsl(var(--ma-h) calc(90% * var(--ts)) 60% / 0.16);     /* tinted fill */
+  --ma-glass: hsl(calc(var(--th) + 347.58) calc(60% * var(--ts)) 12% / 0.8);
+  --ma-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --ma-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --ma-gut: max(20px, env(safe-area-inset-left, 0px));
+  --ma-nav: 52px;
+  position: relative; min-height: 100dvh; color: var(--ma-text); background: var(--ma-bg);
+  font-family: var(--font-poppins), Poppins, system-ui, sans-serif; font-size: 16px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; overflow-x: clip;
+}
+/* the ambient light behind the screen: cheap gradients (no blur filter), fixed so they do not repaint on scroll */
+.ma-root::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(80% 42% at 12% -6%, hsl(var(--ma-h) calc(90% * var(--ts)) 50% / 0.34), transparent 70%),
+    radial-gradient(70% 38% at 100% 22%, hsl(calc(var(--ma-h) + 50) calc(85% * var(--ts)) 46% / 0.2), transparent 70%),
+    radial-gradient(90% 40% at 0% 100%, hsl(calc(var(--ma-h) - 44) calc(80% * var(--ts)) 40% / 0.22), transparent 70%);
+}
+.ma-root a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.ma-root p { margin: 0; }
+.ma-root :focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; }
+.ma-root em { font-style: normal; color: var(--ma-tint); }
+
+/* ---- the screen: status-bar space, a page-enter transition, a content width that suits a phone and a tablet ---- */
+.ma-screen { position: relative; z-index: 1; padding-top: calc(env(safe-area-inset-top, 0px) + var(--ma-nav) + 4px); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 112px); animation: ma-in 0.55s var(--ma-ease) backwards; }
+.ma-wrap { width: 100%; max-width: 720px; margin: 0 auto; padding-inline: var(--ma-gut); }
+@keyframes ma-in { from { opacity: 0; transform: translate3d(0, 22px, 0) scale(0.985); } }
+.ma-root.is-leaving .ma-screen { opacity: 0; transform: translate3d(0, 26px, 0) scale(0.96); transition: transform 0.3s var(--ma-ease), opacity 0.25s ease; }
+
+/* ---- the navigation bar: a Back control, a small title that appears when the large title has scrolled away ---- */
+.ma-bar { position: fixed; z-index: 30; top: 0; left: 0; right: 0; height: calc(env(safe-area-inset-top, 0px) + var(--ma-nav)); padding: env(safe-area-inset-top, 0px) var(--ma-gut) 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+.ma-bar::before { content: ""; position: absolute; inset: 0; background: var(--ma-glass); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); border-bottom: 1px solid var(--ma-line); opacity: 0; transition: opacity 0.25s ease; }
+.ma-root[data-scrolled] .ma-bar::before { opacity: 1; }
+.ma-bar-title { position: relative; max-width: 52vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 17px; font-weight: 600; opacity: 0; transform: translate3d(0, 6px, 0); transition: opacity 0.25s ease, transform 0.3s var(--ma-ease); }
+.ma-root[data-scrolled] .ma-bar-title { opacity: 1; transform: none; }
+.ma-back { position: relative; justify-self: start; display: inline-flex; align-items: center; gap: 2px; min-height: 44px; min-width: 44px; padding: 0 16px 0 10px; border-radius: 999px; font-size: 17px; font-weight: 500; color: var(--ma-text); background: var(--ma-fill2); border: 1px solid var(--ma-line); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); transition: transform 0.25s var(--ma-spring), opacity 0.2s; cursor: pointer; }
+.ma-back:active { transform: scale(0.94); opacity: 0.8; }
+.ma-back svg { width: 22px; height: 22px; }
+
+/* ---- the large title (iOS "Large Title") with the page's app icon ---- */
+.ma-large { padding-top: 10px; padding-bottom: 18px; display: flex; align-items: center; gap: 14px; transition: opacity 0.2s ease; }
+.ma-appic { --hue: calc(var(--ma-h) + var(--off, 0)); --gf: #fff; --gc: hsl(var(--hue) 88% 52%); flex: none; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 22.37%; background: linear-gradient(180deg, hsl(calc(var(--hue) + 8) calc(92% * var(--ts)) 67%), hsl(calc(var(--hue) - 10) calc(88% * var(--ts)) 47%)); box-shadow: 0 1px 2px hsl(0 0% 0% / 0.3), 0 8px 18px hsl(var(--hue) 60% 8% / 0.4), inset 0 0.5px 0 hsl(0 0% 100% / 0.6), inset 0 -0.5px 0 hsl(0 0% 0% / 0.16); }
+.ma-appic .lnc-glyph { width: 62%; height: 62%; overflow: visible; }
+.ma-title { font-size: 34px; line-height: 1.12; font-weight: 700; letter-spacing: -0.022em; text-wrap: balance; margin: 0; }
+.ma-sub { margin-top: 2px; font-size: 16px; color: var(--ma-text2); }
+
+/* ---- a section: a small label, a title, an intro, then the content ---- */
+.ma-sec { padding-top: 34px; scroll-margin-top: calc(var(--ma-nav) + 12px); }
+.ma-sec-head { margin-bottom: 16px; }
+.ma-chip { display: inline-flex; align-items: center; min-height: 28px; padding: 2px 12px; border-radius: 999px; background: var(--ma-wash); border: 1px solid hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.25); color: var(--ma-tint); font-size: 13px; font-weight: 600; letter-spacing: 0.02em; }
+.ma-h2 { margin: 10px 0 0; font-size: 28px; line-height: 1.16; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+.ma-h2 span + span { color: var(--ma-tint); }
+.ma-intro { margin-top: 10px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-stack { display: grid; gap: 12px; }
+.ma-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ma-row-t, .ma-row-s { display: block; }
+.ma-nowrap { white-space: nowrap; }
+.ma-gap { margin-top: 14px; }
+
+/* ---- a card: a flat, quiet surface with a hairline and a light top edge (no backdrop blur: many cards scroll) ---- */
+.ma-card { position: relative; display: block; padding: 18px; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07), 0 10px 28px hsl(0 0% 0% / 0.25); transition: transform 0.3s var(--ma-spring); }
+a.ma-card:active { transform: scale(0.975); }
+.ma-card-tint { background: linear-gradient(155deg, hsl(var(--ma-h) calc(70% * var(--ts)) 26% / 0.85), var(--ma-card) 70%); border-color: hsl(var(--ma-h) calc(80% * var(--ts)) 70% / 0.22); }
+.ma-card h3 { margin: 0; font-size: 19px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; }
+.ma-card p + p, .ma-card h3 + p { margin-top: 8px; }
+.ma-card p { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-quote { font-size: 20px; line-height: 1.45; font-weight: 500; letter-spacing: -0.01em; }
+.ma-cap { margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--ma-tint); }
+.ma-prose p { font-size: 17px; line-height: 1.68; color: var(--ma-text2); }
+.ma-prose p + p { margin-top: 14px; }
+.ma-kicker { font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ma-tint); }
+
+/* ---- the hero: the first card of a page (the one place with a blur, because it is one big surface) ---- */
+.ma-hero { position: relative; overflow: hidden; margin-top: 6px; padding: 26px 22px 24px; border-radius: 30px; background: linear-gradient(160deg, hsl(0 0% 100% / 0.16), hsl(0 0% 100% / 0.05) 45%, hsl(var(--ma-h) 80% 60% / 0.1)); border: 1px solid var(--ma-rim); -webkit-backdrop-filter: blur(26px) saturate(1.7); backdrop-filter: blur(26px) saturate(1.7); box-shadow: inset 0 1.5px 1px hsl(0 0% 100% / 0.4), 0 22px 56px hsl(0 0% 0% / 0.35); }
+.ma-hero .ma-title2 { margin: 12px 0 0; font-size: 31px; line-height: 1.14; font-weight: 700; letter-spacing: -0.024em; text-wrap: balance; }
+.ma-hero .ma-title2 span + span { color: var(--ma-tint); }
+.ma-hero .ma-intro { font-size: 17px; }
+.ma-actions { display: grid; gap: 10px; margin-top: 20px; }
+
+/* ---- buttons: capsules, 50px high ---- */
+.ma-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 24px; border: 0; border-radius: 999px; font: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.005em; color: #fff; cursor: pointer; transition: transform 0.25s var(--ma-spring), opacity 0.2s; }
+.ma-btn:active { transform: scale(0.96); opacity: 0.88; }
+.ma-btn svg { width: 20px; height: 20px; flex: none; }
+.ma-btn-fill { background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4), 0 8px 22px hsl(var(--ma-h) calc(80% * var(--ts)) 30% / 0.5); }
+.ma-btn-tinted { background: var(--ma-wash); color: var(--ma-tint); border: 1px solid hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.28); }
+.ma-btn-glass { background: var(--ma-fill2); border: 1px solid var(--ma-rim); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.25); }
+.ma-btn-plain { min-height: 44px; padding: 0 8px; background: none; color: var(--ma-tint); }
+.ma-btn-block { width: 100%; }
+button.ma-btn:disabled { opacity: 0.55; }
+
+/* ---- grouped list (Settings style): rows inside one rounded surface, inset hairlines ---- */
+.ma-gh { margin: 0 0 8px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ma-text3); }
+.ma-gf { margin: 8px 16px 0; font-size: 14px; color: var(--ma-text3); }
+.ma-group { border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.06); }
+.ma-group + .ma-gh, .ma-group + .ma-group { margin-top: 18px; }
+.ma-row { position: relative; display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 12px 16px; transition: background-color 0.2s; }
+.ma-row + .ma-row::before, details.ma-acc + details.ma-acc::before, .ma-row + details.ma-acc::before, details.ma-acc + .ma-row::before { content: ""; position: absolute; left: 16px; right: 0; top: 0; height: 1px; background: var(--ma-line); }
+details.ma-acc { position: relative; }
+a.ma-row:active { background: var(--ma-fill); }
+.ma-row-ic { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--ma-wash); color: var(--ma-tint); font-size: 14px; font-weight: 700; }
+.ma-row-ic svg { width: 20px; height: 20px; }
+.ma-row-body { flex: 1; min-width: 0; }
+.ma-row-t { font-size: 17px; line-height: 1.35; font-weight: 600; letter-spacing: -0.01em; }
+.ma-row-s { margin-top: 2px; font-size: 15px; line-height: 1.5; color: var(--ma-text2); }
+.ma-row-d { flex: none; font-size: 15px; color: var(--ma-text3); }
+.ma-row-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); }
+
+/* ---- accordion (FAQ and any "open to read" list): native <details>, no script ---- */
+details.ma-acc > summary { list-style: none; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 14px 16px; cursor: pointer; font-size: 17px; font-weight: 600; line-height: 1.4; letter-spacing: -0.01em; -webkit-user-select: none; user-select: none; }
+details.ma-acc > summary::-webkit-details-marker { display: none; }
+details.ma-acc > summary > span { flex: 1; min-width: 0; }
+details.ma-acc > summary svg { flex: none; width: 18px; height: 18px; color: var(--ma-text3); transition: transform 0.3s var(--ma-ease); }
+details.ma-acc[open] > summary svg { transform: rotate(90deg); }
+details.ma-acc > summary:active { background: var(--ma-fill); }
+.ma-acc-body { padding: 0 16px 16px; font-size: 16px; line-height: 1.65; color: var(--ma-text2); }
+.ma-acc-body > * + * { margin-top: 10px; }
+details.ma-acc[open] .ma-acc-body { animation: ma-open 0.35s var(--ma-ease) backwards; }
+@keyframes ma-open { from { opacity: 0; transform: translate3d(0, -6px, 0); } }
+
+/* ---- bullet lists inside cards ---- */
+.ma-pts { display: grid; gap: 8px; margin-top: 12px; }
+.ma-pts li { position: relative; padding-left: 26px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+.ma-pts li::before { content: ""; position: absolute; left: 3px; top: 0.5em; width: 12px; height: 7px; border-left: 2px solid var(--ma-tint); border-bottom: 2px solid var(--ma-tint); transform: rotate(-45deg); }
+.ma-sublabel { margin: 14px 0 0; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ma-text3); }
+
+/* ---- stepper / timeline ---- */
+.ma-steps { display: grid; }
+.ma-step { position: relative; display: grid; grid-template-columns: 38px 1fr; gap: 14px; padding-bottom: 22px; }
+.ma-step:last-child { padding-bottom: 0; }
+.ma-step::before { content: ""; position: absolute; left: 18px; top: 40px; bottom: 2px; width: 2px; border-radius: 2px; background: linear-gradient(180deg, hsl(var(--ma-h) calc(80% * var(--ts)) 65% / 0.55), hsl(var(--ma-h) calc(80% * var(--ts)) 65% / 0.08)); }
+.ma-step:last-child::before { display: none; }
+.ma-step-n { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; font-size: 14px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); }
+.ma-step-n.is-year { width: auto; min-width: 38px; padding: 0 10px; border-radius: 999px; }
+.ma-step-b { min-width: 0; padding-top: 5px; }
+.ma-step-b h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
+.ma-step-b p { margin-top: 6px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-steps-grid { grid-template-columns: 1fr; }
+
+/* ---- stats ---- */
+.ma-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ma-stat { padding: 18px 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.06); }
+.ma-stat b { display: block; font-size: 34px; line-height: 1.1; font-weight: 700; letter-spacing: -0.03em; background: linear-gradient(180deg, #fff, var(--ma-tint)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ma-stat span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.4; color: var(--ma-text2); }
+
+/* ---- chips cloud ---- */
+.ma-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.ma-pill { display: inline-flex; align-items: center; min-height: 36px; padding: 4px 14px; border-radius: 999px; background: var(--ma-fill); border: 1px solid var(--ma-line); font-size: 15px; font-weight: 500; color: var(--ma-text); }
+
+/* ---- gallery: horizontal snap, edge to edge ---- */
+.ma-gal { display: flex; gap: 12px; margin-inline: calc(var(--ma-gut) * -1); padding: 4px var(--ma-gut) 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--ma-gut); overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.ma-gal::-webkit-scrollbar { display: none; }
+.ma-gal > * { flex: 0 0 78%; max-width: 340px; scroll-snap-align: start; }
+.ma-pic { position: relative; overflow: hidden; border-radius: 18px; background: var(--ma-card2); aspect-ratio: var(--r, 4 / 3); }
+.ma-pic img { width: 100%; height: 100%; object-fit: cover; }
+.ma-pic-ph { display: grid; place-items: center; color: var(--ma-text3); font-size: 28px; font-weight: 700; background: linear-gradient(150deg, hsl(var(--ma-h) calc(60% * var(--ts)) 22%), var(--ma-card2)); }
+.ma-tile { padding: 0; overflow: hidden; }
+.ma-tile .ma-pic { border-radius: 0; }
+.ma-tile-b { padding: 14px 16px 18px; }
+.ma-tile-b .ma-kicker { margin-bottom: 4px; }
+
+/* ---- tabs (segmented, scrolls sideways) ---- */
+.ma-tabbar { display: flex; gap: 8px; margin-inline: calc(var(--ma-gut) * -1); padding: 2px var(--ma-gut) 12px; overflow-x: auto; scrollbar-width: none; scroll-padding-inline: var(--ma-gut); }
+.ma-tabbar::-webkit-scrollbar { display: none; }
+.ma-tab { flex: none; min-height: 44px; padding: 0 18px; border: 1px solid var(--ma-line); border-radius: 999px; background: var(--ma-fill); font: inherit; font-size: 16px; font-weight: 500; color: var(--ma-text2); cursor: pointer; transition: background-color 0.25s, color 0.25s, transform 0.25s var(--ma-spring); }
+.ma-tab:active { transform: scale(0.95); }
+.ma-tab[aria-selected="true"] { background: var(--ma-tint-bg); border-color: transparent; color: #fff; font-weight: 600; }
+.ma-tabpanel[hidden] { display: none; }
+.ma-tabpanel:not([hidden]) { animation: ma-open 0.35s var(--ma-ease) backwards; }
+
+/* ---- the form (contact / help desk) ---- */
+.ma-form { display: grid; gap: 12px; }
+.ma-field { display: grid; gap: 6px; }
+.ma-field > span { margin-left: 4px; font-size: 14px; font-weight: 600; color: var(--ma-text2); }
+.ma-input { width: 100%; min-height: 50px; padding: 12px 16px; border-radius: 16px; border: 1px solid var(--ma-line); background: var(--ma-fill); color: var(--ma-text); font: inherit; font-size: 16px; -webkit-appearance: none; appearance: none; }
+textarea.ma-input { min-height: 120px; resize: vertical; line-height: 1.5; }
+.ma-input::placeholder { color: var(--ma-text3); }
+.ma-input:focus { outline: 2px solid var(--ma-tint); outline-offset: 0; background: var(--ma-fill2); }
+.ma-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.ma-note { padding: 12px 16px; border-radius: 16px; font-size: 15px; line-height: 1.5; }
+.ma-note-ok { background: hsl(150 60% 40% / 0.2); border: 1px solid hsl(150 60% 60% / 0.35); }
+.ma-note-er { background: hsl(8 80% 50% / 0.2); border: 1px solid hsl(8 80% 70% / 0.35); }
+
+/* ---- the CTA bar: a floating capsule of liquid glass at the bottom (Call / WhatsApp / Message) ---- */
+.ma-cta { position: fixed; z-index: 40; left: 50%; bottom: max(12px, env(safe-area-inset-bottom, 0px)); display: flex; gap: 4px; width: min(calc(100% - 24px), 480px); padding: 6px; transform: translate3d(-50%, 0, 0); border-radius: 999px; background: var(--ma-glass); border: 1px solid var(--ma-rim); -webkit-backdrop-filter: blur(28px) saturate(1.9); backdrop-filter: blur(28px) saturate(1.9); box-shadow: inset 0 1.5px 1px hsl(0 0% 100% / 0.4), 0 16px 40px hsl(0 0% 0% / 0.45); animation: ma-cta-in 0.6s 0.25s var(--ma-spring) backwards; }
+@keyframes ma-cta-in { from { opacity: 0; transform: translate3d(-50%, 30px, 0); } }
+.ma-cta a { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 48px; border-radius: 999px; font-size: 15px; font-weight: 600; color: var(--ma-text); transition: transform 0.25s var(--ma-spring), background-color 0.2s; }
+.ma-cta a:active { transform: scale(0.94); background: var(--ma-fill2); }
+.ma-cta a.is-main { background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); }
+.ma-cta svg { width: 20px; height: 20px; flex: none; }
+
+/* ---- a scroll-driven fade-up where the browser supports it (Chrome, Safari 26); nothing is hidden where it does not ---- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .ma-sec-head, .ma-card, .ma-group, .ma-stats, .ma-steps, .ma-hero { animation: ma-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 32%; }
+    @keyframes ma-rise { from { opacity: 0; transform: translate3d(0, 28px, 0); } }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ma-screen, .ma-cta, details.ma-acc[open] .ma-acc-body, .ma-tabpanel:not([hidden]) { animation: none; }
+  .ma-root * { transition-duration: 0.01ms !important; }
+}
+
+/* ---- a tablet gets two columns where it helps ---- */
+@media (min-width: 700px) {
+  .ma-wrap { max-width: 780px; --ma-gut: 28px; }
+  .ma-root { --ma-gut: 28px; }
+  .ma-title { font-size: 40px; }
+  .ma-h2 { font-size: 32px; }
+  .ma-hero { padding: 36px 32px 32px; }
+  .ma-hero .ma-title2 { font-size: 38px; }
+  .ma-actions { grid-auto-flow: column; grid-auto-columns: 1fr; }
+  .ma-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .ma-stats { grid-template-columns: repeat(3, 1fr); }
+  .ma-gal > * { flex-basis: 44%; }
+}
