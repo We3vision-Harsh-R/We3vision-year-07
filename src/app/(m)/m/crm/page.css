@@ -1,0 +1,87 @@
+/* /crm app screen ("mp-crm-"): Reminders and Numbers. A list hero, notes, lists with open/ticked circles, progress rings, #tags, My Lists. Kit tokens only. */
+
+.ma-root .mp-crm-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); }
+.ma-root .mp-crm-ring { flex: none; position: relative; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--ma-text3); }
+.ma-root .mp-crm-ring.is-on { border-color: var(--ma-tint-bg); background: var(--ma-tint-bg); }
+.ma-root .mp-crm-ring.is-on::after { content: ""; position: absolute; left: 5px; top: 6px; width: 10px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
+.ma-root .mp-crm-dot { flex: none; width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o, 0) + 10) calc(90% * var(--ts)) 64%), hsl(calc(var(--ma-h) + var(--o, 0) - 10) calc(85% * var(--ts)) 44%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.45); }
+.ma-root .mp-crm-lab { margin-top: 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ma-text3); }
+
+/* ---- hero: a list ---- */
+.ma-root .mp-crm-list { margin-top: 6px; padding: 22px 18px 12px; border-radius: 28px; background: var(--ma-card); border: 1px solid var(--ma-rim); box-shadow: 0 18px 40px hsl(0 0% 0% / 0.32), inset 0 1px 0 hsl(0 0% 100% / 0.12); animation: mp-crm-in 0.55s var(--ma-ease) backwards; }
+.ma-root .mp-crm-tag { font-size: 15px; font-weight: 600; color: var(--ma-tint); }
+.ma-root .mp-crm-h { margin: 8px 0 0; font-size: 32px; line-height: 1.12; font-weight: 700; letter-spacing: -0.025em; color: var(--ma-tint); text-wrap: balance; }
+.ma-root .mp-crm-h span + span { color: var(--ma-text); }
+.ma-root .mp-crm-t { margin-top: 12px; font-size: 17px; line-height: 1.62; color: var(--ma-text2); }
+.ma-root .mp-crm-todo { margin: 14px -6px 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-todo li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-item { display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 8px 6px; font-size: 17px; font-weight: 500; }
+.ma-root .mp-crm-item > span:nth-child(2) { flex: 1; min-width: 0; }
+.ma-root .mp-crm-item.is-main { font-weight: 600; }
+.ma-root .mp-crm-item.is-main .mp-crm-ring { border-color: var(--ma-tint-bg); }
+.ma-root .mp-crm-item:active .mp-crm-ring { background: var(--ma-wash); }
+@keyframes mp-crm-in { from { opacity: 0; transform: translate3d(0, 20px, 0); } }
+
+/* ---- story: notes ---- */
+.ma-root .mp-crm-notes { display: grid; gap: 12px; }
+.ma-root .mp-crm-notes article { padding: 18px 18px 18px 20px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); border-left: 5px solid hsl(calc(var(--ma-h) + var(--o, 0)) calc(85% * var(--ts)) 60%); }
+.ma-root .mp-crm-notes p { font-size: 17px; line-height: 1.68; color: var(--ma-text2); }
+.ma-root .mp-crm-notes em { font-weight: 600; }
+
+/* ---- services: lists ---- */
+.ma-root .mp-crm-lists { display: grid; gap: 14px; }
+.ma-root .mp-crm-card { padding: 18px 16px 18px; border-radius: 26px; background: var(--ma-card); border: 1px solid var(--ma-line); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07), 0 10px 26px hsl(0 0% 0% / 0.22); }
+.ma-root .mp-crm-card header { display: flex; align-items: center; gap: 12px; }
+.ma-root .mp-crm-card h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 700; letter-spacing: -0.015em; color: hsl(calc(var(--ma-h) + var(--o, 0)) calc(100% * var(--ts)) 80%); }
+.ma-root .mp-crm-card h3 span + span::before { content: " "; }
+.ma-root .mp-crm-d { margin-top: 12px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-root .mp-crm-fit { margin-top: 12px; padding: 12px 14px; border-radius: 16px; background: var(--ma-fill); font-size: 16px; line-height: 1.55; color: var(--ma-text); }
+.ma-root .mp-crm-fit b { display: block; margin-bottom: 2px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ma-text3); }
+.ma-root .mp-crm-chk { display: grid; margin: 6px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-chk li { display: flex; align-items: flex-start; gap: 14px; padding: 10px 0; font-size: 16px; line-height: 1.5; }
+.ma-root .mp-crm-chk li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-chk .mp-crm-ring { margin-top: 0; }
+.ma-root .mp-crm-chk.is-done li { color: var(--ma-text2); }
+
+/* ---- related: tiles ---- */
+.ma-root .mp-crm-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-tile { display: grid; gap: 8px; align-content: start; height: 100%; min-height: 128px; padding: 14px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); transition: transform 0.25s var(--ma-spring); }
+.ma-root .mp-crm-tile:active { transform: scale(0.97); }
+.ma-root .mp-crm-tile b { font-size: 17px; line-height: 1.25; font-weight: 600; }
+.ma-root .mp-crm-tile b span + span::before { content: " "; }
+.ma-root .mp-crm-tile > span:last-child { font-size: 15px; line-height: 1.45; color: var(--ma-text2); }
+
+/* ---- process: progress rings ---- */
+.ma-root .mp-crm-prog { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-crm-prog > li { display: flex; gap: 14px; padding: 16px; }
+.ma-root .mp-crm-prog > li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-pie { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: conic-gradient(var(--ma-tint-bg) calc(var(--p) * 1%), var(--ma-fill2) 0); }
+.ma-root .mp-crm-pie b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ma-card); font-size: 15px; font-weight: 700; }
+.ma-root .mp-crm-prog h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
+.ma-root .mp-crm-prog p { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-root .mp-crm-sub { display: grid; gap: 4px; margin: 8px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-sub li { font-size: 15px; line-height: 1.5; color: var(--ma-text3); }
+.ma-root .mp-crm-sub li::before { content: "\2022\00A0\00A0"; color: var(--ma-tint); }
+
+/* ---- tags ---- */
+.ma-root .mp-crm-hash { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-hash li { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; font-size: 16px; font-weight: 600; color: hsl(calc(var(--ma-h) + var(--o, 0)) calc(100% * var(--ts)) 82%); background: hsl(calc(var(--ma-h) + var(--o, 0)) calc(80% * var(--ts)) 55% / 0.16); }
+.ma-root .mp-crm-hash li::before { content: "#"; margin-right: 2px; opacity: 0.7; }
+
+/* ---- my lists ---- */
+.ma-root .mp-crm-mylists, .ma-root .mp-crm-done { display: grid; margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-crm-mylists li, .ma-root .mp-crm-done li { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; }
+.ma-root .mp-crm-mylists li + li, .ma-root .mp-crm-done li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-ic { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; font-size: 17px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o, 0) + 10) calc(90% * var(--ts)) 62%), hsl(calc(var(--ma-h) + var(--o, 0) - 10) calc(85% * var(--ts)) 42%)); }
+.ma-root .mp-crm-mylists b, .ma-root .mp-crm-done b { font-size: 17px; line-height: 1.35; font-weight: 600; }
+.ma-root .mp-crm-mylists p, .ma-root .mp-crm-done p { margin-top: 2px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+.ma-root .mp-crm-done .mp-crm-ring { margin-top: 1px; }
+
+/* ---- faq: contact-card fields ---- */
+.ma-root .mp-crm-card-faq { display: grid; margin: 0; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.ma-root .mp-crm-card-faq > div { padding: 14px 16px 16px; }
+.ma-root .mp-crm-card-faq > div + div { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-card-faq dt { font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--ma-tint); }
+.ma-root .mp-crm-card-faq dd { margin: 6px 0 0; font-size: 16px; line-height: 1.65; color: var(--ma-text); }
+
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-crm-list { animation: none; } }
