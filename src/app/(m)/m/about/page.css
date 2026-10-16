@@ -1,0 +1,66 @@
+/* /about app screen ("mp-about-"): story cards, Pando chat, service icons, roadmap rail, fact tiles, leader avatars. Kit tokens only (--ma-*). */
+
+/* ---- story cards that swipe sideways ---- */
+.mp-about-stories { display: grid; grid-auto-flow: column; grid-auto-columns: 84%; gap: 12px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 6px; list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--ma-gut); scrollbar-width: none; }
+.mp-about-stories::-webkit-scrollbar { display: none; }
+.mp-about-story { scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px; min-height: 260px; padding: 18px 20px 22px; border-radius: 26px; border: 1px solid var(--ma-rim); background: linear-gradient(165deg, hsl(var(--ma-h) calc(70% * var(--ts)) 30% / 0.9), var(--ma-card) 72%); box-shadow: 0 14px 34px hsl(0 0% 0% / 0.3); }
+.mp-about-bars { display: flex; gap: 4px; }
+.mp-about-bars i { flex: 1; height: 3px; border-radius: 2px; background: var(--ma-fill2); }
+.mp-about-bars i.is-on { background: var(--ma-text); }
+.mp-about-no { font-size: 14px; font-weight: 600; color: var(--ma-tint); }
+.mp-about-story h3 { margin: auto 0 0; font-size: 24px; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
+.mp-about-story p { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+
+/* ---- Pando in chat bubbles ---- */
+.mp-about-who { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; }
+.mp-about-note { margin-top: 12px !important; }
+.mp-about-bubbles { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.mp-about-bubbles li { justify-self: start; max-width: 88%; padding: 10px 14px; border-radius: 20px 20px 20px 6px; background: var(--ma-fill2); font-size: 16px; line-height: 1.45; animation: mp-about-pop 0.5s var(--ma-spring) backwards; }
+.mp-about-bubbles li:nth-child(even) { justify-self: end; border-radius: 20px 20px 6px 20px; background: var(--ma-tint-bg); color: #fff; }
+@keyframes mp-about-pop { from { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.94); } }
+
+/* ---- avatars ---- */
+.mp-about-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; font-size: 14px; font-weight: 700; color: #fff; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + 10) calc(70% * var(--ts)) 58%), hsl(calc(var(--ma-h) - 20) calc(70% * var(--ts)) 36%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); }
+.mp-about-av-lg { width: 52px; height: 52px; font-size: 17px; }
+.mp-about-av-xl { width: 76px; height: 76px; font-size: 24px; }
+
+/* ---- services as app icons ---- */
+.mp-about-apps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.mp-about-app { display: flex; flex-direction: column; gap: 8px; min-height: 44px; padding: 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); transition: transform 0.3s var(--ma-spring); }
+.mp-about-app:active { transform: scale(0.97); }
+.mp-about-ic { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 22.37%; font-size: 22px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--k) * 24 + 8) calc(88% * var(--ts)) 62%), hsl(calc(var(--ma-h) + var(--k) * 24 - 10) calc(84% * var(--ts)) 42%)); box-shadow: 0 6px 14px hsl(0 0% 0% / 0.3), inset 0 0.5px 0 hsl(0 0% 100% / 0.6); }
+.mp-about-app-t { font-size: 17px; line-height: 1.3; font-weight: 600; }
+.mp-about-app-s { font-size: 16px; line-height: 1.5; color: var(--ma-text2); }
+@media (max-width: 359px) { .mp-about-apps { grid-template-columns: 1fr; } }
+
+/* ---- the roadmap rail ---- */
+.mp-about-people { display: flex; gap: 18px; margin: 0 0 18px; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.mp-about-people li { display: grid; justify-items: center; gap: 4px; min-width: 64px; text-align: center; }
+.mp-about-people b { font-size: 15px; font-weight: 600; }
+.mp-about-people li > span:last-child:not(.mp-about-av) { font-size: 14px; color: var(--ma-text3); }
+.mp-about-rail { position: relative; margin: 0; padding: 4px 0 0; list-style: none; }
+.mp-about-rail::before { content: ""; position: absolute; left: 31px; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: linear-gradient(var(--ma-tint), var(--ma-fill2)); }
+.mp-about-rail li { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: start; padding: 10px 0; }
+.mp-about-year { position: relative; z-index: 1; justify-self: center; padding: 4px 10px; border-radius: 999px; font-size: 14px; font-weight: 700; color: #fff; background: var(--ma-tint-bg); box-shadow: 0 0 0 4px var(--ma-bg); }
+.mp-about-rail p { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.mp-about-rail li.is-goal > div { padding: 16px; border-radius: 22px; background: linear-gradient(155deg, hsl(var(--ma-h) calc(70% * var(--ts)) 26% / 0.85), var(--ma-card) 70%); border: 1px solid var(--ma-rim); }
+.mp-about-rail li.is-goal h3 { margin: 0 0 6px; font-size: 19px; font-weight: 600; }
+.mp-about-teams { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.mp-about-teams li { padding: 6px 12px; border-radius: 999px; background: var(--ma-fill2); font-size: 14px; }
+
+/* ---- fact tiles ---- */
+.mp-about-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.mp-about-fact { padding: 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.mp-about-tick { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--ma-wash); }
+.mp-about-tick::before { content: ""; width: 12px; height: 7px; border-left: 2.5px solid var(--ma-tint); border-bottom: 2.5px solid var(--ma-tint); transform: translate3d(0, -2px, 0) rotate(-45deg); }
+.mp-about-fact h3 { margin: 12px 0 6px; font-size: 17px; line-height: 1.3; font-weight: 600; }
+.mp-about-fact p { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+@media (max-width: 389px) { .mp-about-facts { grid-template-columns: 1fr; } }
+
+/* ---- leaders ---- */
+.mp-about-leaders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.mp-about-leaders li { display: grid; justify-items: center; gap: 6px; padding: 18px 8px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); text-align: center; }
+.mp-about-leaders b { font-size: 16px; line-height: 1.3; font-weight: 600; }
+.mp-about-leaders li > span:last-child { font-size: 14px; color: var(--ma-text2); }
+
+@media (prefers-reduced-motion: reduce) { .mp-about-bubbles li { animation: none; } .mp-about-app { transition: none; } }

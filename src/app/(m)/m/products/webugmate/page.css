@@ -1,0 +1,5 @@
+/* /products/webugmate ("mp-wbm-"): the App Store product page of the live product. Store pieces come from custom/products/store.css;
+   here only the touches of this page: a "live" glow on the icon and the FAQ as the store's "Information" list. Kit tokens only. */
+.mp-store-head.is-row .mp-store-ic { box-shadow: 0 0 0 3px var(--ma-bg), 0 0 0 5px var(--ma-tint), 0 14px 34px hsl(var(--ma-h) calc(80% * var(--ts)) 30% / 0.6); }
+.mp-store-head.is-row .mp-store-get { padding: 0 26px; letter-spacing: 0.01em; }
+.mp-store-about.is-row + .ma-sec .ma-group { background: var(--ma-card2); }

@@ -1,0 +1,57 @@
+/* App Store-like pieces of the product app screens ("mp-store-"), used by /m/products and /m/products/*. Kit tokens only (--ma-*). */
+
+.mp-store-ic { --o: 0; flex: none; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 22.37%; font-size: 28px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o) + 10) calc(88% * var(--ts)) 64%), hsl(calc(var(--ma-h) + var(--o) - 12) calc(84% * var(--ts)) 42%)); box-shadow: 0 1px 2px hsl(0 0% 0% / 0.3), 0 8px 18px hsl(0 0% 0% / 0.32), inset 0 0.5px 0 hsl(0 0% 100% / 0.6); }
+.mp-store-ic.is-lg { width: 112px; height: 112px; font-size: 52px; }
+
+/* ---- product header ---- */
+.mp-store-head { margin-top: 4px; }
+.mp-store-id { display: flex; align-items: center; gap: 16px; }
+.mp-store-nm { min-width: 0; display: grid; justify-items: start; gap: 8px; }
+.mp-store-h { margin: 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; }
+.mp-store-sub { display: block; margin-top: 4px; font-size: 16px; line-height: 1.4; font-weight: 500; letter-spacing: 0; color: var(--ma-text2); }
+.mp-store-badge { padding: 4px 10px; border-radius: 999px; background: var(--ma-wash); color: var(--ma-tint); font-size: 14px; font-weight: 600; }
+.mp-store-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; }
+.mp-store-get { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border-radius: 999px; background: var(--ma-tint-bg); color: #fff; font-size: 16px; font-weight: 700; box-shadow: 0 6px 16px hsl(0 0% 0% / 0.3); transition: transform 0.25s var(--ma-spring); }
+.mp-store-alt { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--ma-fill2); color: var(--ma-tint); font-size: 16px; font-weight: 600; transition: transform 0.25s var(--ma-spring); }
+.mp-store-get:active, .mp-store-alt:active { transform: scale(0.95); }
+.mp-store-t { margin-top: 18px !important; padding-top: 16px; border-top: 1px solid var(--ma-line); font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+
+/* centred header (a big icon with a soft glow) */
+.mp-store-head.is-center { text-align: center; }
+.mp-store-head.is-center .mp-store-id { flex-direction: column; }
+.mp-store-head.is-center .mp-store-nm { justify-items: center; }
+.mp-store-head.is-center .mp-store-acts { justify-content: center; }
+.mp-store-head.is-center .mp-store-ic { box-shadow: 0 0 0 10px var(--ma-wash), 0 18px 50px hsl(var(--ma-h) calc(80% * var(--ts)) 40% / 0.5); }
+
+/* a header that starts with a 16:9 "slide" */
+.mp-store-slide { position: relative; display: grid; align-content: center; gap: 10px; aspect-ratio: 16 / 9; margin-bottom: 18px; padding: 0 24px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, hsl(var(--ma-h) calc(80% * var(--ts)) 44%), hsl(calc(var(--ma-h) + 40) calc(70% * var(--ts)) 26%)); border: 1px solid var(--ma-rim); box-shadow: 0 18px 44px hsl(0 0% 0% / 0.38); }
+.mp-store-slide span { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; color: #fff; }
+.mp-store-slide i { display: block; height: 8px; width: 62%; border-radius: 4px; background: hsl(0 0% 100% / 0.35); }
+.mp-store-slide i + i { width: 40%; opacity: 0.7; }
+
+/* ---- description ---- */
+.mp-store-desc { padding: 18px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.mp-store-desc p { font-size: 17px; line-height: 1.65; color: var(--ma-text2); }
+.mp-store-desc p + p { margin-top: 12px; }
+
+/* ---- product list ---- */
+.mp-store-list { margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+.mp-store-list li { position: relative; }
+.mp-store-list li + li::before { content: ""; position: absolute; left: 90px; right: 0; top: 0; height: 1px; background: var(--ma-line); }
+.mp-store-row { display: flex; align-items: center; gap: 14px; min-height: 84px; padding: 12px 16px; transition: background-color 0.2s; }
+.mp-store-row:active { background: var(--ma-fill); }
+.mp-store-lb { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.mp-store-lb b { font-size: 17px; font-weight: 600; }
+.mp-store-lb span { font-size: 15px; line-height: 1.45; color: var(--ma-text2); }
+.mp-store-pill { flex: none; display: grid; place-items: center; width: 44px; height: 32px; border-radius: 999px; background: var(--ma-fill2); color: var(--ma-tint); }
+.mp-store-pill svg { width: 18px; height: 18px; }
+
+@media (prefers-reduced-motion: reduce) { .mp-store-get, .mp-store-alt { transition: none; } }
+
+/* "note" look: the header icon sits on a lined page, the description is written on lined paper (like Notes) */
+.mp-store-head.is-note .mp-store-ic { border-radius: 18px; transform: rotate(-4deg); }
+.mp-store-about.is-note .mp-store-desc { padding: 6px 18px 18px; background: repeating-linear-gradient(transparent 0 27px, var(--ma-line) 27px 28px), var(--ma-card2); background-position: 0 6px; border-left: 4px solid var(--ma-tint); }
+.mp-store-about.is-note .mp-store-desc p { line-height: 28px; font-size: 17px; }
+.mp-store-about.is-note .mp-store-desc p + p { margin-top: 28px; }
+.mp-store-about.is-center .mp-store-desc { text-align: center; background: linear-gradient(180deg, var(--ma-wash), var(--ma-card) 70%); }
+.mp-store-about.is-slide .mp-store-desc { border-radius: 14px; border-top: 3px solid var(--ma-tint); }

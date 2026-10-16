@@ -1,0 +1,7 @@
+/* /products/wepresent ("mp-wep-"): touches of this page on top of custom/products/store.css: the slide enters like a Keynote build. Kit tokens only. */
+.mp-store-head.is-slide .mp-store-slide { animation: mp-wep-build 0.7s var(--ma-ease) backwards; }
+.mp-store-head.is-slide .mp-store-slide i { transform-origin: left center; animation: mp-wep-line 0.6s var(--ma-ease) 0.35s backwards; }
+.mp-store-head.is-slide .mp-store-slide i + i { animation-delay: 0.5s; }
+@keyframes mp-wep-build { from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.94); } }
+@keyframes mp-wep-line { from { opacity: 0; transform: scaleX(0.2); } }
+@media (prefers-reduced-motion: reduce) { .mp-store-head.is-slide .mp-store-slide, .mp-store-head.is-slide .mp-store-slide i { animation: none; } }
