@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/about.css";
+
 import { useEffect, useRef, useState } from "react";
 import { AiChat } from "../ai-chat";
 import { GlowEdge } from "../glow-edge";

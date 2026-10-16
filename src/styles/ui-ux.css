@@ -1,0 +1,543 @@
+/* Loaded only by: src/components/site/figma-studio.tsx (see tools/css-split.config.mjs). Add new "fg-" rules HERE, not in globals.css. */
+.fg-section {
+  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
+  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+  display: flex;
+  min-height: 100svh;
+  align-items: center;
+  padding: 76px 0 56px;
+}
+.fg-in {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.fg-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  align-items: end;
+  gap: 8px 48px;
+  margin-bottom: 22px;
+}
+.fg-head .cj-chip {
+  justify-self: start;
+  grid-column: 1;
+}
+.fg-head h2 {
+  grid-column: 1;
+  margin: 10px 0 0;
+  background-image: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 352.8) calc(100% * var(--ts)) 85.29%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+}
+.fg-head p {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.fg-win {
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+  border-radius: 20px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
+  box-shadow:
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.14),
+    0 40px 100px -50px rgba(0, 0, 0, 0.9);
+  color: #fff;
+}
+.fg-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--hair);
+  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 11%);
+}
+.fg-menu {
+  display: grid;
+  gap: 3px;
+}
+.fg-menu i {
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.7);
+}
+.fg-file {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.fg-file small {
+  color: var(--soft);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.fg-seg {
+  display: inline-flex;
+  margin: 0 auto;
+  padding: 3px;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7%);
+}
+.fg-seg button {
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.85);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.fg-seg button[data-on="true"] {
+  background: var(--a);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+}
+.fg-who {
+  display: inline-flex;
+}
+.fg-who i {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-left: -6px;
+  border: 2px solid hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 11%);
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70%);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 700;
+}
+.fg-who i:nth-child(2) {
+  background: hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 70%);
+}
+.fg-share {
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--a);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.fg-body {
+  display: grid;
+  grid-template-columns: 196px minmax(0, 1fr) 236px;
+  height: clamp(420px, 60svh, 600px);
+}
+.fg-layers,
+.fg-props {
+  overflow: auto;
+  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 10%);
+  scrollbar-width: thin;
+}
+.fg-layers {
+  border-right: 1px solid var(--hair);
+}
+.fg-props {
+  border-left: 1px solid var(--hair);
+}
+.fg-p-h {
+  margin: 0;
+  padding: 12px 14px 6px;
+  color: var(--soft);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.fg-layers ul {
+  margin: 0;
+  padding: 0 6px 10px;
+  list-style: none;
+}
+.fg-layers li {
+  position: relative;
+}
+.fg-layer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 34px 7px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.9);
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+}
+.fg-layer:hover {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
+}
+.fg-layer[data-on="true"] {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.22);
+  color: #fff;
+}
+.fg-ic {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.8);
+  border-radius: 3px;
+}
+.fg-ic[data-k="title"],
+.fg-ic[data-k="text"] {
+  border: 0;
+  border-top: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.8);
+  border-bottom: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.8);
+  border-radius: 0;
+}
+.fg-ic[data-k="button"] {
+  border-radius: 7px;
+}
+.fg-ic[data-k="logo"] {
+  border-radius: 50%;
+}
+.fg-eye {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 14px;
+  height: 9px;
+  border: 1.5px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.7);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.fg-eye[data-off="true"] {
+  opacity: 0.35;
+}
+.fg-eye[data-off="true"]::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: -2px;
+  width: 16px;
+  border-top: 1.5px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.9);
+  transform: rotate(-35deg);
+}
+.fg-canvas {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 36px 20px 54px;
+  background:
+    radial-gradient(circle, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16) 1px, transparent 1.6px) 0 0 / 22px 22px,
+    hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 6%);
+}
+.fg-frame-name {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  margin: 0;
+  color: var(--soft);
+  font-size: 0.875rem;
+  transform: translateX(-50%);
+}
+.fg-frame {
+  display: block;
+  width: min(100%, 700px);
+  height: auto;
+  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.8);
+  touch-action: none;
+}
+.fg-frame-bg {
+  fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9%);
+}
+.fg-win[data-final="false"] .fg-frame-bg {
+  fill: hsl(calc(var(--th) + 347) calc(30% * var(--ts)) 14%);
+}
+.fg-el {
+  cursor: grab;
+}
+.fg-el[data-hide="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+.fg-hit {
+  fill: transparent;
+}
+.fg-w-box {
+  fill: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 85% / 0.05);
+  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.4);
+  stroke-width: 1.2;
+}
+.fg-w-line {
+  fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.3);
+}
+.fg-w-x {
+  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.35);
+  stroke-width: 1.2;
+}
+.fg-bar-f {
+  fill: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 14%);
+  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.18);
+}
+.fg-card-f {
+  fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 15%);
+  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.2);
+}
+.fg-t {
+  fill: #fff;
+  font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
+  pointer-events: none;
+}
+.fg-t-logo {
+  font-size: 12px;
+  font-weight: 600;
+}
+.fg-t-h {
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.fg-t-p {
+  fill: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 92% / 0.75);
+  font-size: 11px;
+}
+.fg-t-b {
+  fill: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 12px;
+  font-weight: 700;
+}
+.fg-t-c {
+  font-size: 12px;
+  font-weight: 600;
+}
+.fg-sel {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  stroke-width: 1.5;
+}
+.fg-handle {
+  fill: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8%);
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  stroke-width: 1.4;
+}
+.fg-dim {
+  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70%);
+}
+.fg-dim-t {
+  fill: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 10px;
+  font-weight: 700;
+}
+.fg-flow path {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+.fg-flow circle {
+  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+}
+.fg-flow .fg-flow-head {
+  stroke-dasharray: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fg-tools {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 11% / 0.96);
+  transform: translateX(-50%);
+}
+.fg-tools button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.85);
+  cursor: pointer;
+}
+.fg-tools button[data-on="true"] {
+  background: var(--a);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+}
+.fg-tools svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fg-canvas[data-tool="hand"] .fg-el {
+  cursor: grab;
+}
+.fg-cur {
+  position: absolute;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 12px solid var(--a);
+  transform: rotate(-24deg);
+}
+.fg-cur b {
+  position: absolute;
+  top: 10px;
+  left: -2px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--a);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transform: rotate(24deg);
+}
+.fg-cur-a {
+  top: 30%;
+  left: 20%;
+  animation: fg-a 16s ease-in-out infinite alternate;
+}
+.fg-cur-b {
+  top: 60%;
+  left: 74%;
+  border-left-color: hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 70%);
+  animation: fg-b 19s ease-in-out infinite alternate;
+}
+.fg-cur-b b {
+  background: hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 70%);
+}
+@keyframes fg-a {
+  0% {
+    transform: translate(0, 0) rotate(-24deg);
+  }
+  50% {
+    transform: translate(180px, 70px) rotate(-24deg);
+  }
+  100% {
+    transform: translate(60px, 190px) rotate(-24deg);
+  }
+}
+@keyframes fg-b {
+  0% {
+    transform: translate(0, 0) rotate(-24deg);
+  }
+  50% {
+    transform: translate(-150px, -90px) rotate(-24deg);
+  }
+  100% {
+    transform: translate(-60px, 60px) rotate(-24deg);
+  }
+}
+.fg-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--hair);
+}
+.fg-tabs button {
+  flex: 1;
+  padding: 11px 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--soft);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fg-tabs button[data-on="true"] {
+  border-bottom-color: var(--a);
+  color: #fff;
+}
+.fg-pbody {
+  padding: 4px 0 14px;
+}
+.fg-p-name {
+  margin: 0;
+  padding: 12px 14px 4px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.fg-p-t {
+  margin: 0;
+  padding: 0 14px;
+  color: var(--soft);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.fg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 8px 14px 4px;
+}
+.fg-grid div {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 9px;
+  border-radius: 7px;
+  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 14%);
+  font-size: 0.875rem;
+}
+.fg-grid dt {
+  color: var(--soft);
+}
+.fg-grid dd {
+  margin: 0;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.fg-sw {
+  display: flex;
+  gap: 8px;
+  padding: 2px 14px 8px;
+}
+.fg-sw button {
+  width: 26px;
+  height: 26px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.fg-sw button[data-on="true"] {
+  border-color: #fff;
+}
+.fg-hint {
+  margin: 14px 0 0;
+  color: var(--soft);
+  font-size: 0.9375rem;
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+.fg-cur {
+    animation: none;
+    transition: none;
+  }
+}

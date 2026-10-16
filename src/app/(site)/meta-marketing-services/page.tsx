@@ -1,3 +1,5 @@
+import "@/styles/seo-marketing.css";
+import "@/styles/meta-marketing.css";
 import { pageMetadata, renderPage } from "@/lib/cms/page-route";
 
 // Meta Marketing page. Served from cache; Publish in the admin panel refreshes it instantly.

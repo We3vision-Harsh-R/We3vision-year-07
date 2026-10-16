@@ -1,10 +1,11 @@
+import "@/styles/careers.css";
 import Link from "next/link";
 import { getCareerSetup, getOpenJobs } from "@/lib/careers";
 import { GlowEdge } from "../glow-edge";
-import { ContactFlow } from "../contact-flow";
-import { CareerRailway } from "../career/railway";
+import { ContactFlow } from "../lazy";
+import { CareerRailway } from "../lazy";
 import { CareerDestination } from "../career/destination";
-import { CareerJourney } from "../career/journey";
+import { CareerJourney } from "../lazy";
 import { Reveal } from "../reveal";
 import { SectionHead, Wide } from "../ui";
 import type { SectionComponent } from "./shared";

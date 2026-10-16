@@ -1,3 +1,4 @@
+import "@/styles/brand-identity.css";
 import { Fragment, type CSSProperties } from "react";
 import { coverOf } from "@/lib/projects";
 import { Img } from "../img";

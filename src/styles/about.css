@@ -1,0 +1,320 @@
+/* Loaded only by: src/components/site/about/about-chapters.tsx (see tools/css-split.config.mjs). Add new "ac-" rules HERE, not in globals.css. */
+.ac {
+  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --ad: hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 12%);
+  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
+  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+  --card: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.7);
+}
+.ac-grid {
+  display: grid;
+  gap: 40px;
+}
+@media (min-width: 1024px) {
+.ac-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr);
+    gap: 80px;
+  }
+.ac-head {
+    position: sticky;
+    top: 110px;
+    align-self: start;
+  }
+}
+.ac-list {
+  --p: 0;
+  position: relative;
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: 0 0 0 40px;
+  list-style: none;
+}
+.ac-list::before,
+.ac-list::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 11px;
+  width: 2px;
+  border-radius: 2px;
+}
+.ac-list::before {
+  background: var(--hair);
+}
+.ac-list::after {
+  background: var(--a);
+  transform: scaleY(var(--p));
+  transform-origin: 50% 0;
+}
+.ac-item {
+  position: relative;
+  padding: 24px 26px 26px;
+  border: 1px solid var(--hair);
+  border-radius: 22px;
+  background: var(--card);
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ac-item[data-in="true"] {
+  opacity: 1;
+  transform: none;
+}
+.ac-dot {
+  position: absolute;
+  top: 30px;
+  left: -37px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--a);
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 6%);
+}
+.ac-item[data-in="true"] .ac-dot {
+  background: var(--a);
+}
+.ac-no {
+  color: var(--a);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.ac-item h3 {
+  margin: 8px 0 0;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.ac-item p {
+  margin: 10px 0 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.ac-meet {
+  position: relative;
+  display: grid;
+  gap: 26px;
+  align-items: center;
+  margin-top: 56px;
+  padding: 28px;
+  border: 1px solid var(--hair);
+  border-radius: 26px;
+  background: var(--card);
+}
+@media (min-width: 768px) {
+.ac-meet {
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: 40px;
+    padding: 36px 40px;
+  }
+}
+.ac-panda {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+.ac-panda .pm {
+  width: 9.5rem;
+  height: auto;
+}
+.ac-bubble {
+  position: relative;
+  min-height: 3.4em;
+  margin: 0;
+  padding: 10px 16px;
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.9);
+  color: #fff;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  text-align: center;
+  animation: vq-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.ac-meet-h {
+  margin: 14px 0 0;
+  color: #fff;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  white-space: pre-line;
+}
+.ac-meet-p {
+  margin: 12px 0 0;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+@media (prefers-reduced-motion: reduce) {
+.ac-bubble {
+    animation: none;
+  }
+.ac-item {
+    opacity: 1;
+    transform: none;
+  }
+}
+.ac-meet-chat {
+  margin-top: 1.4rem;
+}
+.ac-meet-chat .pd {
+  --ph: min(34vh, 250px);
+  width: 100%;
+  max-width: 36rem;
+}
+.ac-meet-chat .pd-panel {
+  width: 100%;
+}
+.ac-meet-chat .pd-blur {
+  width: calc(100% + 2 * (var(--ax) + var(--fx)));
+}
+.ac-now {
+  display: none;
+}
+@media (min-width: 1024px) {
+.ac-now {
+    display: block;
+    margin-top: 3.2rem;
+  }
+}
+.ac-big {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.9rem;
+}
+.ac-big-n {
+  display: block;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.05) 88%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.85);
+  color: transparent;
+  font-size: clamp(6rem, 10vw, 9rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+  font-variant-numeric: tabular-nums;
+  animation: ac-num 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes ac-num {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+    filter: blur(8px);
+  }
+}
+.ac-big-of {
+  padding-bottom: 0.5rem;
+  color: var(--soft);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.ac-big-t {
+  max-width: 17rem;
+  margin: 1.1rem 0 0;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  animation: ac-num 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+.ac-pips {
+  display: flex;
+  gap: 8px;
+  margin-top: 1.4rem;
+}
+.ac-pips i {
+  width: 26px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--hair);
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s, box-shadow 0.4s;
+}
+.ac-pips i[data-on="true"] {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
+}
+.ac-pips i[data-cur="true"] {
+  width: 52px;
+  background: var(--a);
+  box-shadow: 0 0 12px var(--a);
+}
+.ac-item {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.5s,
+    box-shadow 0.6s,
+    background 0.5s;
+}
+.ac-item[data-in="true"][data-active="false"] {
+  opacity: 0.62;
+}
+.ac-item[data-active="true"] {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12), var(--card) 65%);
+  box-shadow: 0 24px 60px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.65);
+}
+.ac-item[data-active="true"] .ac-dot {
+  background: var(--a);
+  box-shadow: 0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.22), 0 0 16px var(--a);
+}
+.ac-dot {
+  transition: background 0.4s, box-shadow 0.5s;
+}
+@media (prefers-reduced-motion: reduce) {
+.ac-big-n,
+.ac-big-t {
+    animation: none;
+  }
+}
+.ac {
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+.ac-meet {
+  margin-top: clamp(4.5rem, 8vw, 7rem);
+  padding: 2rem 1.6rem;
+}
+@media (min-width: 768px) {
+.ac-meet {
+    gap: 3.2rem;
+    padding: 2.4rem 2.8rem;
+  }
+}
+.ac-meet-chat {
+  margin-top: 1.7rem;
+}
+.ac-item,
+.ac-meet {
+  background-image:
+    radial-gradient(130% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.22), transparent 62%),
+    radial-gradient(120% 100% at 100% 100%, hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 56% / 0.18), transparent 64%);
+}
+.ac-item,
+.ac-meet {
+  background:
+    linear-gradient(155deg, hsl(0 0% 100% / 0.075) 0%, hsl(0 0% 100% / 0.025) 42%, hsl(0 0% 100% / 0.01) 100%),
+    hsl(calc(var(--th) + 347) calc(38% * var(--ts)) 9% / 0.52);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  box-shadow:
+    inset 0 1px 0 hsl(0 0% 100% / 0.11),
+    inset 0 0 0 1px hsl(0 0% 100% / 0.035);
+}
+@media (max-width: 1023px), (hover: none) {
+.ac-item,
+.ac-meet {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

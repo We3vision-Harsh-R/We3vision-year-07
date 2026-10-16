@@ -1,3 +1,4 @@
+import "@/styles/graphics.css";
 import { pageMetadata, renderPage } from "@/lib/cms/page-route";
 
 // Graphics & UI/UX Design page. Served from cache; Publish in the admin panel refreshes it instantly.

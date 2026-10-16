@@ -1,4 +1,4 @@
-import { VrFloor } from "../metaverse/vr-floor";
+import { VrFloor } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The office of the metaverse team seen from above: Rutvi sits down, the four teams work in the corners (see metaverse/vr-floor.tsx). */

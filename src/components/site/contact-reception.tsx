@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/contact.css";
+
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ReceptionAvatar } from "./reception-avatar";

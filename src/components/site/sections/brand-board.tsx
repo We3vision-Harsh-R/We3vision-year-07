@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/brand-identity.css";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GuideTop } from "../avatar";
 import { BrandTile } from "../brand-mark";

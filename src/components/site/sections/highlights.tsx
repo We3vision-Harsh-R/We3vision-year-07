@@ -1,4 +1,4 @@
-import { GlanceOrbit } from "../glance-orbit";
+import { GlanceOrbit } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /**

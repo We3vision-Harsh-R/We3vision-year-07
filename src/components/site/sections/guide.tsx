@@ -1,10 +1,10 @@
 import { AfterEffects } from "../after-effects";
-import { AiBuddy } from "../ai-buddy";
+import { AiBuddy } from "../lazy";
 import { BrandBoard } from "../brand-board";
-import { FigmaStudio } from "../figma-studio";
+import { FigmaStudio } from "../lazy";
 import { SeoLab } from "../seo-lab";
-import { GuideScene } from "../guide-scene";
-import { OfficeBuilder } from "../office-builder";
+import { GuideScene } from "../lazy";
+import { OfficeBuilder } from "../lazy";
 import { Reveal } from "../reveal";
 import { ButtonLink, Chip } from "../ui";
 import type { SectionComponent } from "./shared";

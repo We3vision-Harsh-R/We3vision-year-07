@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CareerQuestionView, JobView } from "@/lib/careers-shared";
-import { JobApply } from "./job-apply";
+import { JobApply } from "../lazy";
 
 // The page of one job (/careers/<address>): what the job is, what the person will do, what is asked, what they get, and the form to apply.
 // Everything comes from the admin panel (Careers > Jobs). The look is in globals.css (.jb-*).

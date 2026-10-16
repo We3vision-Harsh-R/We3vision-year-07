@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/animation.css";
+
 import { useEffect, useRef, useState } from "react";
 
 // The box of the Animation page (the "guide" section with the scene "aftereffects"): a small After Effects: the composition with a bouncing ball

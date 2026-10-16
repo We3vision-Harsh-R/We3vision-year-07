@@ -3,19 +3,19 @@ import type { PageSection } from "@/lib/cms/pages";
 import type { SiteSettings } from "@/lib/cms/settings";
 import { Contact } from "../sections/contact";
 import { techData, type TechData } from "./data";
-import { BrandDevPage } from "../brand/brand-dev";
-import { E2EPage } from "../brand/end-to-end";
-import { SeoAeoPage } from "../marketing/seo-aeo";
-import { MetaPage } from "../marketing/meta";
-import { PhysicalPage } from "../marketing/physical";
-import { GraphicsPage } from "../graphics/graphics";
-import { HeadlessPage } from "./headless";
+import { BrandDevPage } from "../lazy";
+import { E2EPage } from "../lazy";
+import { SeoAeoPage } from "../lazy";
+import { MetaPage } from "../lazy";
+import { PhysicalPage } from "../lazy";
+import { GraphicsPage } from "../lazy";
+import { HeadlessPage } from "../lazy";
 import { TechScrollAreas } from "./scroll-areas";
-import { PluginPage } from "./plugin";
-import { ShopappPage } from "./shopapp";
-import { ShopifyPage } from "./shopify";
-import { WoocommercePage } from "./woocommerce";
-import { WordpressPage } from "./wordpress";
+import { PluginPage } from "../lazy";
+import { ShopappPage } from "../lazy";
+import { ShopifyPage } from "../lazy";
+import { WoocommercePage } from "../lazy";
+import { WordpressPage } from "../lazy";
 
 // The six technology pages. Each one has its own design and its own interactive showpiece; they share only the text (data.ts) and the contact form.
 const PAGES: Record<string, ComponentType<{ d: TechData }>> = {

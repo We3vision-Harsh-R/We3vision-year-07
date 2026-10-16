@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/careers.css";
+
 import { useEffect, useRef, useState } from "react";
 import { getCareer, setCareer, useCareer } from "@/lib/career-store";
 import { PersonTop } from "../timeline-art";

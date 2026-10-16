@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 // A small panel to set the camera of the industries city by hand (it appears when "?cam" is added to the address of the page, e.g.
-// http://localhost:3000/?cam). Every slider moves the camera at once, and the values are kept in this browser (localStorage), so the camera
+// http://localhost:1010/?cam). Every slider moves the camera at once, and the values are kept in this browser (localStorage), so the camera
 // stays where it was put. "Copy values" puts the numbers on the clipboard, to send them to be fixed in the code for all visitors.
 // Nothing here is shown to visitors.
 

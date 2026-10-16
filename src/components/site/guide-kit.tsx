@@ -1,3 +1,4 @@
+import "@/styles/office.css";
 import type { CSSProperties } from "react";
 import { GuideFrontG } from "./avatar";
 

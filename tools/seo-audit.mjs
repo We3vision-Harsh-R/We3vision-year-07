@@ -1,11 +1,11 @@
 // SEO AUDIT: finds the pages that Google might NOT index and tells you why.
 //   node tools/seo-audit.mjs https://www.we3vision.com      (the live site)
-//   node tools/seo-audit.mjs http://localhost:3000          (the dev server)
+//   node tools/seo-audit.mjs http://localhost:1010          (the dev server)
 // It reads /sitemap.xml and checks every page: the HTTP status, noindex (meta tag or header), the canonical address, the title, the description,
 // exactly one <h1>, structured data and internal links. A page that fails a rule marked "BLOCKS" will not be indexed; "WARN" only lowers quality.
 // It also lists the pages that the site links to but that are missing in the sitemap. The exit code is 1 when a page BLOCKS indexing.
 
-const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/+$/, "");
+const base = (process.argv[2] ?? "http://localhost:1010").replace(/\/+$/, "");
 const ua = { "User-Agent": "We3vision-SEO-Audit/1.0" };
 
 const get = async (url) => {

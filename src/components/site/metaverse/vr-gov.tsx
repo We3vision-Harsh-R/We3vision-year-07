@@ -1,3 +1,4 @@
+import "@/styles/metaverse.css";
 import type { GovProject } from "@/lib/cms/content/gov-projects";
 import { GlowEdge } from "../glow-edge";
 

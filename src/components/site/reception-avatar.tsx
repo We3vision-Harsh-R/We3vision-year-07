@@ -1,3 +1,4 @@
+import "@/styles/contact.css";
 // The receptionist of the Contact page: a hand-drawn 2D character made of layers (hair behind, neck, blazer, head with ears, face, eyes with
 // their own iris, eyebrows, mouth, fringe, headset, the raised hand). Every layer can move on its own, so the character is alive:
 //   - the eyes and the head follow the pointer (--ex/--ey and --hx/--hy are set by the section; -1..1)

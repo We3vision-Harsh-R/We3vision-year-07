@@ -1,3 +1,4 @@
+import "@/styles/office.css";
 import type { Token } from "./office-code";
 import { SECTION_NAMES } from "./office-site";
 

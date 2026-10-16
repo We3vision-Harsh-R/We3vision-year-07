@@ -1,0 +1,344 @@
+/* Loaded only by: src/components/site/after-effects.tsx (see tools/css-split.config.mjs). Add new "ae-" rules HERE, not in globals.css. */
+.ae {
+  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
+  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+  border-radius: 20px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
+  box-shadow:
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.14),
+    0 40px 90px -50px rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-size: 0.875rem;
+}
+.ae-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--hair);
+  background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 11%);
+}
+.ae-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+.ae-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 60% / 0.35);
+}
+.ae-logo {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 16%);
+  box-shadow: inset 0 0 0 1.5px var(--a);
+  color: var(--a);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.ae-file {
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.ae-fps {
+  margin-left: auto;
+  color: var(--soft);
+  font-size: 0.875rem;
+}
+.ae-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 158px;
+}
+.ae-view {
+  min-width: 0;
+  padding: 12px 12px 10px;
+  border-right: 1px solid var(--hair);
+}
+.ae-view-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: var(--soft);
+  font-size: 0.875rem;
+}
+.ae-comp {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+  background: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8%);
+}
+.ae-s-bg1 {
+  stop-color: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 12%);
+}
+.ae-s-bg2 {
+  stop-color: hsl(calc(var(--th) + 347) calc(56% * var(--ts)) 7%);
+}
+.ae-s-b1 {
+  stop-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
+}
+.ae-s-b2 {
+  stop-color: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 64%);
+}
+.ae-s-b3 {
+  stop-color: hsl(calc(var(--th) + 348) calc(80% * var(--ts)) 40%);
+}
+.ae-safe {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+  stroke-dasharray: 3 4;
+}
+.ae-ground {
+  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.3);
+  stroke-width: 1;
+}
+.ae-path {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.55);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 5;
+}
+.ae-kf {
+  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+}
+.ae-sel {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.9);
+  stroke-width: 1;
+}
+.ae-handle {
+  fill: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 8%);
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
+  stroke-width: 1;
+}
+.ae-layers {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 10%);
+  list-style: none;
+}
+.ae-layers-head {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--hair);
+  color: var(--soft);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.ae-layer {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.9);
+}
+.ae-layer[data-on="true"] {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.2);
+  color: #fff;
+}
+.ae-layer b {
+  min-width: 14px;
+  color: var(--soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.ae-layer span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ae-eye {
+  width: 12px;
+  height: 8px;
+  border: 1.5px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.7);
+  border-radius: 50%;
+}
+.ae-label {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70%);
+}
+.ae-label[data-k="camera"] {
+  background: hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 70%);
+}
+.ae-label[data-k="solid"] {
+  background: hsl(calc(var(--th) + 322) calc(80% * var(--ts)) 66%);
+}
+.ae-time {
+  border-top: 1px solid var(--hair);
+  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 9%);
+}
+.ae-time-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--hair);
+}
+.ae-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+  border-radius: 8px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
+  color: var(--a);
+  cursor: pointer;
+}
+.ae-btn:hover {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2);
+}
+.ae-btn-play {
+  border-color: transparent;
+  background: var(--a);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+}
+.ae-i-play {
+  width: 0;
+  height: 0;
+  margin-left: 3px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 10px solid currentColor;
+}
+.ae-i-pause {
+  width: 10px;
+  height: 12px;
+  border-right: 3.5px solid currentColor;
+  border-left: 3.5px solid currentColor;
+}
+.ae-i-first {
+  width: 10px;
+  height: 11px;
+  border-left: 2.5px solid currentColor;
+  background: linear-gradient(135deg, transparent 50%, currentColor 50%) 3px 0 / 7px 11px no-repeat;
+}
+.ae-code {
+  min-width: 112px;
+  color: var(--a);
+  font-size: 1.0625rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.ae-hint {
+  margin-left: auto;
+  color: var(--soft);
+  font-size: 0.875rem;
+}
+.ae-tl {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+}
+.ae-tl-names {
+  display: grid;
+  border-right: 1px solid var(--hair);
+}
+.ae-tl-sp {
+  height: 26px;
+}
+.ae-tl-name {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-top: 1px solid var(--hair);
+  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 94% / 0.9);
+}
+.ae-tl-track {
+  position: relative;
+  min-width: 0;
+  margin: 0 14px 0 0;
+  outline: none;
+  cursor: ew-resize;
+  touch-action: none;
+}
+.ae-tl-track:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--a);
+}
+.ae-ruler {
+  position: relative;
+  height: 26px;
+  color: var(--soft);
+  font-size: 0.8125rem;
+}
+.ae-ruler span {
+  position: absolute;
+  bottom: 4px;
+  padding-left: 4px;
+  border-left: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.3);
+  line-height: 1.2;
+}
+.ae-ruler span:last-child {
+  transform: translateX(-100%);
+  padding: 0 4px 0 0;
+  border-right: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.3);
+  border-left: 0;
+}
+.ae-row {
+  position: relative;
+  height: 30px;
+  border-top: 1px solid var(--hair);
+}
+.ae-bar-l {
+  position: absolute;
+  top: 8px;
+  height: 14px;
+  border-radius: 4px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.28);
+}
+.ae-bar-l[data-k="camera"] {
+  background: hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 70% / 0.26);
+}
+.ae-bar-l[data-k="solid"] {
+  background: hsl(calc(var(--th) + 322) calc(80% * var(--ts)) 66% / 0.26);
+}
+.ae-key {
+  position: absolute;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  transform: rotate(45deg);
+  transition: transform 0.15s;
+}
+.ae-key[data-hit="true"] {
+  background: #fff;
+  transform: rotate(45deg) scale(1.35);
+}
+.ae-head {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--a);
+  box-shadow: 0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
+  pointer-events: none;
+}
+.ae-head::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px 3px 7px 7px;
+  background: var(--a);
+  transform: translateX(-50%);
+}

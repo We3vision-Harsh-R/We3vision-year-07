@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { MegaMenu, type MegaData } from "./mega-menu";
+import type { MegaData } from "./mega-menu";
 import { SmartLink } from "./smart-link";
 
 type Item = { label: string; href: string };
@@ -36,8 +36,15 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
   const [sticky, setSticky] = useState(false);
   const hoverExpanded = useRef(false); // the round button was opened into the pill by the mouse: it folds back when the mouse leaves
   const closeTimer = useRef(0);
+  // The big menu (with the AI chat inside) is a separate chunk: it is downloaded when the visitor shows interest in the menu (the mouse comes onto
+  // it, a touch, the keyboard, or an open call), not with every page. It is mounted closed, so it opens with its normal animation.
+  const [Mega, setMega] = useState<typeof import("./mega-menu").MegaMenu | null>(null);
+  const loadMega = () => {
+    void import("./mega-menu").then((m) => setMega(() => m.MegaMenu));
+  };
   const armed = useRef(true); // the mouse opens the menu again only after it has left the pill once (not right after a click closed it)
   const openMenu = () => {
+    loadMega();
     window.clearTimeout(closeTimer.current);
     setMenuOpen(true);
   };
@@ -171,6 +178,9 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
   return (
     <div
       ref={rootRef}
+      onPointerEnter={loadMega}
+      onFocusCapture={loadMega}
+      onTouchStart={loadMega}
       data-page={pathname === "/" ? "home" : "inner"}
       className={`fn-root fixed inset-x-0 bottom-6 z-50 flex justify-center px-4 transition-[opacity,transform,filter] duration-700 sm:bottom-12 ${SPRING} ${
         !ready ? "translate-y-28 opacity-0" : away ? "pointer-events-none translate-y-4 opacity-0 blur-[10px]" : "translate-y-0 opacity-100"
@@ -232,7 +242,7 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
           <Hamburger />
         </button>
       </div>
-      <MegaMenu open={menuOpen} sticky={sticky} onClose={closeMenu} onEnter={openMenu} onLeave={leaveMenu} data={mega} />
+      {Mega && <Mega open={menuOpen} sticky={sticky} onClose={closeMenu} onEnter={openMenu} onLeave={leaveMenu} data={mega} />}
     </div>
   );
 }

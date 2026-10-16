@@ -88,3 +88,9 @@ Two interlocking 7s backdrop · 7W monogram backdrop (later removed) · horizont
 PNG/real-photo avatar office · zoom/cabin tour on Metaverse floor · glass cards "device wall" on Metaverse · 3D layers tech stack ·
 constellation tech stack · cover-flow/anti-gravity/falling-panel "why" sections · scattered hero cards with callout wires (v3–v8) ·
 leaf-pattern hero backgrounds · human guide on About · panda on Home services walk (task 36 restored the cartoon).
+
+## Optimization setup (2026-10-16, no task number — no src/ change)
+- Owner: "aa chat ma akhi website ne optimize ane advance level nu kam karishu". Added `brain/11-optimization.md` (plan, scoreboard with baseline, guardrails vs Home lock), `tools/perf-audit.mjs` (+ `npm run perf:audit`). Work done in a worktree without node_modules: nothing built or run against the live app. Optimization tasks start from file 11; each gets a task number and a scoreboard row.
+
+## CSS split + Phase A (2026-10-16, no task number)
+- 13 page-only designs moved to `src/styles/*.css` (12 files); globals.css 1160 -> 850 KB. Proven on 19 pages with `tools/style-diff.mjs diff`. New page-only CSS goes into its bundle file. Phase A numbers (JS 449 KB gz, CSS 120 KB gz) are in brain/11. Work is in the worktree `website-optimization-setup-55d9fc` (branch claude/website-optimization-setup-55d9fc), NOT merged to main yet; main has uncommitted task-95 work in globals.css, so after merging run `node tools/css-split.mjs apply` again instead of copying files.

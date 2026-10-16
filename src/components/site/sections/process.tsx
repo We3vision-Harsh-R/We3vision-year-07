@@ -1,6 +1,6 @@
 import { ProcessFloor } from "../process-floor";
 import { ProcessRail } from "../modern/process-rail";
-import { ProcessVariant } from "../modern/process-variants";
+import { ProcessVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
 import { SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";

@@ -1,4 +1,4 @@
-import { AboutWorld } from "../about/about-world";
+import { AboutWorld } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The 3D story of the About page (see about/about-world.tsx). */

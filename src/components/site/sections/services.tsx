@@ -1,9 +1,9 @@
 import { RelatedLinks } from "../modern/related-links";
 import { RelatedVariant } from "../modern/related-variants";
 import { variantOf } from "../modern/variant-table";
-import { ServiceStage } from "../modern/service-stage";
+import { ServiceStage } from "../lazy";
 import { Reveal } from "../reveal";
-import { ServiceStrip } from "../service-strip";
+import { ServiceStrip } from "../lazy";
 import { ButtonLink, SectionHead, Wide } from "../ui";
 import type { SectionComponent } from "./shared";
 

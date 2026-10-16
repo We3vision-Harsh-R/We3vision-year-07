@@ -47,4 +47,4 @@ Then, in Search Console → Pages ("Page indexing"), the reasons are listed per 
 1. Register it in `lib/cms/pages.ts` (title, path, SEO title ≤ 60–70 characters, description 70–160 characters, unique).
 2. One `<h1>`; real text (not only images/canvas); at least one link TO it (menu, `lib/site-menu.ts`, related blocks, `/sitemap`).
 3. Add it to `lib/site-menu.ts` if it is a service/product page, so it is in the menu and in the HTML sitemap.
-4. Run `node tools/seo-audit.mjs http://localhost:3000` before the release.
+4. Run `node tools/seo-audit.mjs http://localhost:1010` before the release.

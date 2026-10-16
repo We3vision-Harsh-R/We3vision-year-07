@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/careers.css";
+
 import { useEffect, useRef, useState } from "react";
 
 // The fields of the ticket office (career/journey.tsx), drawn by us instead of the ones of the browser, so that they have the look of the page

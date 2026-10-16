@@ -1,5 +1,5 @@
 import { HeroBadges } from "../hero-badges";
-import { HeroScene } from "../hero-scene";
+import { HeroScene } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 // The hero has no visible headline on purpose. It is a pinned scene: a glowing ball with a character inside; scrolling

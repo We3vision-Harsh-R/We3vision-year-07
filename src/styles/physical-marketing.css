@@ -1,0 +1,107 @@
+/* Loaded only by: physical-marketing-services (see tools/css-split.config.mjs). Add new "phy-" rules HERE, not in globals.css. */
+.phy-canvas { padding: 18px 20px 14px; border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.3); border-radius: 26px; background-image: var(--m-glass), var(--m-card); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14), 0 0 40px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.12); }
+.phy-stage { display: grid; place-items: center; height: 36vh; max-height: 300px; border-radius: 18px; background: radial-gradient(70% 90% at 50% 40%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.14), transparent 70%), var(--m-dk); overflow: hidden; }
+.phy-piece { width: 78%; animation: phy-pop 0.55s cubic-bezier(0.34, 1.4, 0.64, 1); }
+.phy-piece svg,
+.phy-col-art svg,
+.phy-jr-art svg { display: block; width: 100%; height: auto; max-height: 100%; }
+@keyframes phy-pop { from { opacity: 0; transform: translateY(16px) scale(0.9); } to { opacity: 1; transform: none; } }
+.phy-bg { fill: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 92%); }
+.phy-p1 { fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70%); }
+.phy-p2 { fill: hsl(calc(var(--th) + 335) calc(55% * var(--ts)) 30%); }
+.phy-p3 { fill: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 72%); }
+.phy-w { fill: #fff; }
+.phy-d { fill: hsl(calc(var(--th) + 340) calc(20% * var(--ts)) 26%); }
+.phy-ln { fill: none; stroke: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 70%); stroke-width: 5; stroke-linecap: round; }
+.phy-cap { min-height: 100px; padding: 12px 4px 0; }
+.phy-cap b { font-size: 1.1rem; color: var(--m-a); }
+.phy-cap p { margin: 2px 0 4px; font-size: 1rem; line-height: 1.5; }
+.phy-cap small { font-size: 0.875rem; color: var(--m-mute); }
+.phy-pick { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 10px; border-top: 1px solid var(--m-line); }
+.phy-pick button,
+.phy-seg button { padding: 6px 14px; border: 1px solid var(--m-line); border-radius: 999px; background: none; color: var(--m-mute); font-size: 0.875rem; cursor: pointer; transition: all 0.3s; }
+.phy-pick button:hover,
+.phy-seg button:hover { color: var(--m-ink); border-color: var(--m-a); }
+.phy-pick button.is-on,
+.phy-seg button.is-on { background: var(--m-a); border-color: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font-weight: 600; }
+.phy-seg button { padding: 10px 20px; font-size: 1rem; }
+.phy-seg { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.phy-illus { margin: 8px 0 0; font-size: 0.875rem; color: var(--m-mute); }
+.phy-media { display: grid; grid-template-columns: 330px 1fr; gap: 28px; }
+.phy-what { font-size: 1.1rem !important; margin: 0 0 4px; }
+.phy-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 28px; }
+.phy-path { display: flex; align-items: flex-start; margin: 0 0 26px; padding: 0; list-style: none; position: relative; }
+.phy-path::before { content: ""; position: absolute; left: 6%; right: 6%; top: 21px; height: 2px; background: var(--m-line); }
+.phy-path li { position: relative; flex: 1; text-align: center; }
+.phy-path button { display: grid; justify-items: center; gap: 10px; width: 100%; padding: 0 6px; border: 0; background: none; color: var(--m-mute); font-size: 0.95rem; line-height: 1.3; cursor: pointer; }
+.phy-path b { z-index: 1; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--m-line); background: var(--m-dk); font-size: 1rem; transition: all 0.4s; }
+.phy-path li.is-done b,
+.phy-path li.is-on b { background: var(--m-a); border-color: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); }
+.phy-path li.is-on b { box-shadow: 0 0 20px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.6); transform: scale(1.12); }
+.phy-path li.is-on button { color: #fff; font-weight: 600; }
+.phy-jr-b,
+.phy-col-b { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 34px; align-items: center; padding: 28px 36px; border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.3); border-radius: 26px; background-image: var(--m-glass), var(--m-card); animation: mkt-in 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.phy-jr-art,
+.phy-col-art { padding: 14px; border-radius: 18px; background: radial-gradient(70% 90% at 50% 40%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.14), transparent 70%), var(--m-dk); animation: phy-pop 0.55s cubic-bezier(0.34, 1.4, 0.64, 1); }
+.phy-jr-t p:not(.mkt-label):not(.mkt-panel-k),
+.phy-col-t p:not(.mkt-note-s) { margin: 0; font-size: 1rem; line-height: 1.6; }
+.phy-jr-t h3,
+.phy-col-t h3 { margin: 0 0 10px; font-size: 1.6rem; font-weight: 600; }
+.phy-col-t p { font-size: 1.05rem !important; }
+.phy-out { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; align-items: center; }
+.phy-sign { padding: 20px; border: 1px solid var(--m-line); border-radius: 24px; background: var(--m-dk); }
+.phy-sign svg { display: block; width: 100%; height: auto; filter: blur(calc(var(--b) * 1px)); transition: filter 0.5s; }
+.phy-sign .phy-small { fill: #fff; font-size: 18px; font-family: var(--font-poppins), Poppins, sans-serif; }
+.phy-hl { fill: #fff; font-size: 34px; font-weight: 700; font-family: var(--font-poppins), Poppins, sans-serif; }
+.phy-sign .phy-small { transition: opacity 0.5s; }
+.phy-sign[style*="--b: 4.8"] .phy-small { opacity: 0.55; }
+.phy-out-g { margin: 14px 0 18px; padding: 14px 18px; border-left: 3px solid var(--m-a); font-size: 1.05rem; line-height: 1.6; background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.07); border-radius: 0 12px 12px 0; }
+.phy-out-l { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.phy-out-l li { position: relative; padding: 4px 0 4px 20px; font-size: 1rem; color: var(--m-mute); }
+.phy-out-l li::before { content: "✓"; position: absolute; left: 0; color: var(--m-a); font-weight: 700; }
+.phy-evt { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center; }
+.phy-map { width: 100%; height: auto; }
+.phy-hall { fill: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 10%); stroke: var(--m-line); stroke-width: 2; }
+.phy-walk { stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.4); stroke-width: 3; stroke-dasharray: 8 10; fill: none; }
+.phy-zone { cursor: pointer; outline: none; }
+.phy-zone rect { fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.06); stroke: var(--m-line); stroke-width: 1.5; transition: all 0.3s; }
+.phy-zone text { fill: var(--m-ink); font-size: 18px; font-weight: 700; font-family: var(--font-poppins), Poppins, sans-serif; }
+.phy-zone .phy-zt { font-size: 14px; font-weight: 500; fill: var(--m-mute); }
+.phy-dot { fill: var(--m-a); }
+.phy-zone:hover rect { stroke: var(--m-a); }
+.phy-zone.is-on rect,
+.phy-zone:focus-visible rect { fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.25); stroke: var(--m-a); stroke-width: 2.5; }
+.phy-zone.is-on .phy-zt { fill: #fff; }
+.phy-chain { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin: 22px 0 0; padding: 0; list-style: none; }
+.phy-chain li { position: relative; padding: 20px 18px 22px; margin-right: 14px; border: 1px solid var(--m-line); border-radius: 18px; background: var(--m-card); animation: phy-pop 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both; animation-delay: calc(var(--i) * 70ms); }
+.phy-chain li:not(:last-child)::after { content: "→"; position: absolute; right: -24px; top: 50%; margin-top: -14px; font-size: 1.4rem; color: var(--m-a); z-index: 1; }
+.phy-chain small { display: grid; place-items: center; width: 28px; height: 28px; margin-bottom: 10px; border-radius: 50%; background: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font-size: 0.875rem; font-weight: 700; }
+.phy-chain b { display: block; margin-bottom: 6px; font-size: 1rem; }
+.phy-chain span { font-size: 1rem; line-height: 1.5; color: var(--m-mute); }
+.phy-utm { margin-top: 20px; padding: 14px 20px; border: 1px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.4); border-radius: 14px; }
+.phy-utm .mkt-label { margin-top: 0; }
+.phy-utm code { display: block; font-family: var(--font-poppins), Poppins, sans-serif; font-size: 1rem; color: var(--m-l); word-break: break-all; }
+.phy-flow { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; max-width: 1000px; }
+.phy-flow li { border: 1px solid var(--m-line); border-radius: 16px; background: var(--m-card); transition: border-color 0.3s; }
+.phy-flow li.is-on { border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.45); }
+.phy-flow li > button { display: flex; align-items: center; gap: 18px; width: 100%; padding: 14px 22px; border: 0; background: none; color: var(--m-ink); font-size: 1.1rem; text-align: left; cursor: pointer; }
+.phy-flow li > button b { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 50%; border: 2px solid var(--m-a); color: var(--m-a); font-size: 0.95rem; }
+.phy-flow li > button span { flex: 1; }
+.phy-flow li > button em { font-style: normal; padding: 4px 14px; border-radius: 999px; background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.14); font-size: 0.875rem; color: var(--m-a); }
+.phy-flow li.is-ext > button em { background: none; border: 1px dashed var(--m-a); }
+.phy-flow-b { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.phy-flow-b > div { overflow: hidden; padding: 0 22px 0 74px; }
+.phy-flow li.is-on .phy-flow-b { grid-template-rows: 1fr; }
+.phy-flow-b p { margin: 0 0 16px; font-size: 1.05rem; line-height: 1.65; color: var(--m-mute); }
+.phy-del { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0; padding: 0; list-style: none; }
+.phy-del li { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border: 1px solid var(--m-line); border-radius: 16px; background: var(--m-card); font-size: 1.05rem; }
+.phy-del b { font-size: 1.5rem; font-weight: 700; color: transparent; -webkit-text-stroke: 1.2px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.6); }
+.phy-ev { max-width: 980px; padding: 34px 40px; border: 1px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.4); border-radius: 24px; }
+.phy-ev > p { margin: 0 0 18px; font-size: 1.1rem; line-height: 1.7; color: var(--m-mute); }
+@media (prefers-reduced-motion: reduce) {
+.phy-piece { animation: none; opacity: 1; }
+}
+@media (max-height: 800px) {
+.phy-flow li > button { padding: 8px 20px; }
+.phy-flow-b p { margin-bottom: 8px; }
+}

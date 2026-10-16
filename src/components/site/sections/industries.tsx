@@ -1,5 +1,5 @@
-import { IndustriesCity } from "../industries-city";
-import { IndustriesRoad } from "../industries-road";
+import { IndustriesCity } from "../lazy";
+import { IndustriesRoad } from "../lazy";
 import { DEFAULT_VARIANT, VARIANTS } from "../modern/map-variants";
 import { SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";

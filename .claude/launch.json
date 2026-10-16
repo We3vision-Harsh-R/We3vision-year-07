@@ -7,9 +7,11 @@
       "runtimeArgs": [
         "D:\\zz Loom\\We3vision Private Limited\\We3vision Website - 2026\\We3vision-year-07\\node_modules\\next\\dist\\bin\\next",
         "dev",
+        "-p",
+        "1010",
         "D:\\zz Loom\\We3vision Private Limited\\We3vision Website - 2026\\We3vision-year-07"
       ],
-      "port": 3000
+      "port": 1010
     }
   ]
 }

@@ -1,4 +1,5 @@
-import { VrSpace, type SpaceWindow } from "../metaverse/vr-space";
+import { type SpaceWindow } from "../metaverse/vr-space";
+import { VrSpace } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The view inside the headset: space + three glass windows (see metaverse/vr-space.tsx). */
