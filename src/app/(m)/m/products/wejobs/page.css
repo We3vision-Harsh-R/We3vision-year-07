@@ -1,0 +1,6 @@
+/* /products/wejobs ("mp-wej-"): touches of this page on top of custom/products/store.css: a slow "on the way" pulse around the icon. Kit tokens only. */
+.mp-store-head.is-center { padding: 18px 0 4px; }
+.mp-store-head.is-center .mp-store-ic { animation: mp-wej-pulse 2.8s var(--ma-ease) infinite; }
+.mp-store-head.is-center .mp-store-badge { background: var(--ma-tint-bg); color: #fff; }
+@keyframes mp-wej-pulse { 50% { transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .mp-store-head.is-center .mp-store-ic { animation: none; } }

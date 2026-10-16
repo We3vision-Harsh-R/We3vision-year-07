@@ -1,0 +1,6 @@
+/* /products/wethink ("mp-wet-"): touches of this page on top of custom/products/store.css: a thought-bubble trail beside the icon. Kit tokens only. */
+.mp-store-head.is-note .mp-store-id { position: relative; padding: 8px 0 8px 4px; }
+.mp-store-head.is-note .mp-store-id::before,
+.mp-store-head.is-note .mp-store-id::after { content: ""; position: absolute; border-radius: 50%; background: var(--ma-wash); border: 1px solid var(--ma-line); }
+.mp-store-head.is-note .mp-store-id::before { left: 112px; top: 0; width: 14px; height: 14px; }
+.mp-store-head.is-note .mp-store-id::after { left: 126px; top: -12px; width: 9px; height: 9px; }

@@ -1,0 +1,15 @@
+/* /products app screen ("mp-prod-"): the App Store "Today" story card. The store rows come from custom/products/store.css. Kit tokens only. */
+
+.mp-prod-today { margin-top: 6px; overflow: hidden; border-radius: 28px; background: var(--ma-card); border: 1px solid var(--ma-rim); box-shadow: 0 24px 56px hsl(0 0% 0% / 0.4); animation: mp-prod-rise 0.6s var(--ma-ease) backwards; }
+.mp-prod-art { position: relative; display: grid; align-content: end; min-height: 300px; padding: 22px; background:
+  radial-gradient(80% 60% at 85% 10%, hsl(calc(var(--ma-h) + 60) calc(80% * var(--ts)) 60% / 0.55), transparent 60%),
+  radial-gradient(90% 70% at 0% 100%, hsl(calc(var(--ma-h) - 30) calc(80% * var(--ts)) 40% / 0.7), transparent 70%),
+  linear-gradient(160deg, hsl(var(--ma-h) calc(80% * var(--ts)) 42%), hsl(calc(var(--ma-h) - 20) calc(70% * var(--ts)) 18%)); }
+.mp-prod-lbl { font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: hsl(0 0% 100% / 0.8); }
+.mp-prod-h { margin: 6px 0 0; font-size: 32px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; color: #fff; text-wrap: balance; }
+.mp-prod-h span + span { color: hsl(var(--ma-h) calc(100% * var(--ts)) 90%); }
+.mp-prod-body { padding: 18px 22px 22px; }
+.mp-prod-body p { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.mp-prod-acts { display: grid; gap: 10px; margin-top: 18px; }
+@keyframes mp-prod-rise { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.97); } }
+@media (prefers-reduced-motion: reduce) { .mp-prod-today { animation: none; } }
