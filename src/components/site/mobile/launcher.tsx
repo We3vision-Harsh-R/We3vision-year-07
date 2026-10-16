@@ -1,159 +1,186 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as RMouseEvent, type PointerEvent as RPointerEvent } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { APPS, DOCK, GROUPS, HOME_APPS, type App, type Group } from "./launcher-data";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as RMouseEvent, type PointerEvent as RPointerEvent } from "react";
+import { useRouter } from "next/navigation";
+import { MOBILE_READY } from "@/lib/device";
+import { APPS, DOCK, GROUP, GROUPS, type App, type Group, type WidgetKind } from "./launcher-data";
+import { MAX_PAGES, added, defaultSaved, fit, loadSaved, pack, persist, prune, same, without, type Icons, type Item, type Page, type Saved, type Slot, type Wall } from "./launcher-state";
 import { Glyph } from "./glyph";
+import { WIDGET_CLASS, WidgetInner, widgetLink, type Contact } from "./launcher-widgets";
+import { Ic, hue } from "./launcher-ic";
+import { Customize, Sheet, WallLayer, tintOf, type SheetTab } from "./launcher-sheet";
 
 // THE LAUNCHER ("lnc-"): the home page of the website on a phone or a tablet, built like the iOS 26 home screen ("liquid glass").
-// Page 1 = the home screen: two widgets, eight apps in a 4-column grid, the Search pill, the page dots and a dock of four. It does not scroll.
-// Swipe left = page 2, the App Library: Suggestions, Recently Added and the groups of pages; a group opens as a folder. Tapping an app grows its icon to the
-// full screen, then the page opens. The desktop version is not touched: this is hidden from 1024px up (CSS).
+// Screen 1 = Home: widgets and the company pages. Screen 2 = Services: one folder card for every group of services.
+// Screen 3 = the App Library: every page of the website, in groups, searchable. More screens appear when the visitor needs them.
+// Press and hold an app: a menu (open, share, edit, remove) appears. Hold on, drag, or choose "Edit Home Screen": the apps wiggle and can be dragged
+// anywhere, onto another screen too; "+" adds widgets and changes the wallpaper. All of it is kept in the browser (launcher-state.ts).
+// Tapping an app grows its icon to the full screen and turns into the colour of the website, then the page opens.
+// The laptop site is not touched: this is a separate "app" (src/app/(m)) that a phone is sent to by src/proxy.ts.
 
-const hue = (n: number) => ({ "--off": n }) as CSSProperties;
+const buzz = () => { try { navigator.vibrate?.(9); } catch { /* not every phone can */ } };
+const hash = (s: string) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
 
-function Ic({ app, mini }: { app: App; mini?: boolean }) {
-  return <span className={`lnc-ic ${app.solid ? "is-c" : "is-w"} ${mini ? "lnc-mini" : ""}`} style={hue(app.off)}><Glyph name={app.glyph} /></span>;
+type Ctx = "home" | "lib" | "dock";
+type Menu = { item: Item; ctx: Ctx; r: DOMRect };
+type Launch = { href: string; glyph: string; off: number; solid: boolean; r: DOMRect };
+type Metrics = { u: number; cols: number; side: number; W: number; gx: number; cellW: number; pitch: number; ic: number; vw: number; vh: number };
+type Press = { item: Item; ctx: Ctx; sx: number; sy: number; el: HTMLElement; timer: number; long: boolean; moved: boolean; canDrag: boolean; act: boolean };
+type Drag = { item: Item; draft: Page[]; w: number; h: number; x: number; y: number };
+type DragRef = { ox: number; oy: number; cx: number; cy: number; edge: number; flip: number; ghost: { p: number; i: number } };
+
+function measure(): Metrics {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const wide = vw >= 700;
+  const u = wide ? 1.62 : Math.min(vw / 393, 1.12);
+  const cols = wide ? 6 : 4;
+  const side = wide ? vw * 0.07 : 27 * u;
+  const W = vw - 2 * side;
+  const ic = 60 * u;
+  const gx = (W - cols * ic) / (cols - 1);
+  return { u, cols, side, W, gx, cellW: ic + gx, pitch: (vh <= 700 ? 88 : 97) * u, ic, vw, vh };
 }
 
-/** a clock value that updates on its own, every `ms` milliseconds (only the component that uses it re-renders) */
-function useNow(ms: number) {
-  const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => {
-    const t0 = window.setTimeout(() => setNow(new Date()), 0);
-    const t = window.setInterval(() => setNow(new Date()), ms);
-    return () => { window.clearTimeout(t0); window.clearInterval(t); };
-  }, [ms]);
-  return now;
+const IconPaths = {
+  open: "M7 17L17 7 M9 7h8v8",
+  share: "M12 15V4 M8 8l4-4 4 4 M5 12v7h14v-7",
+  edit: "M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M17 14v6 M14 17h6",
+  minus: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M8 12h8",
+  plus: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M8 12h8 M12 8v8",
+};
+function Mi({ d }: { d: keyof typeof IconPaths }) {
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d={IconPaths[d]} /></svg>;
 }
 
-/** the analog clock widget: the hands move on every frame (the second hand sweeps), without re-rendering anything */
-function ClockWidget() {
-  const now = useNow(30000);
-  const hr = useRef<SVGGElement>(null);
-  const mn = useRef<SVGGElement>(null);
-  const sc = useRef<SVGGElement>(null);
-  useEffect(() => {
-    let raf = 0;
-    const loop = () => {
-      const d = new Date();
-      const s = d.getSeconds() + d.getMilliseconds() / 1000;
-      const m = d.getMinutes() + s / 60;
-      const h = (d.getHours() % 12) + m / 60;
-      if (hr.current) hr.current.style.transform = `rotate(${h * 30}deg)`;
-      if (mn.current) mn.current.style.transform = `rotate(${m * 6}deg)`;
-      if (sc.current) sc.current.style.transform = `rotate(${s * 6}deg)`;
-      raf = requestAnimationFrame(loop);
-    };
-    loop();
-    return () => cancelAnimationFrame(raf);
-  }, []);
-  const day = now ? now.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase() : "THU";
-  const num = now ? now.getDate() : 15;
-  return (
-    <div className="lnc-wid lnc-clock" aria-label="Clock">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        {Array.from({ length: 12 }).map((_, i) => <rect key={i} x="49" y="5" width={i % 3 === 0 ? 2.4 : 1.4} height={i % 3 === 0 ? 7 : 4.5} rx="0.8" transform={`rotate(${i * 30} 50 50)`} className="lnc-tick" />)}
-        <g ref={hr} className="lnc-hand"><rect x="48.200" y="26" width="3.600" height="26" rx="1.800" /></g>
-        <g ref={mn} className="lnc-hand"><rect x="48.800" y="14" width="2.400" height="38" rx="1.200" /></g>
-        <g ref={sc} className="lnc-hand lnc-s"><rect x="49.500" y="12" width="1" height="42" rx="0.500" /></g>
-        <circle cx="50" cy="50" r="3.200" className="lnc-pin" />
-      </svg>
-      <span className="lnc-clock-d"><small>{day}</small><b>{num}</b></span>
-    </div>
-  );
-}
-
-export function Launcher() {
+export function Launcher({ contact = null }: { contact?: Contact | null }) {
   const router = useRouter();
+  const [ready, setReady] = useState(false);
+  const [saved, setSaved] = useState<Saved>({ ...defaultSaved(), pages: [] });
+  const [cust, setCust] = useState(false);
+  const [m, setM] = useState<Metrics | null>(null);
+  const [rows, setRows] = useState(0);
   const [page, setPage] = useState(0);
+  const [edit, setEdit] = useState(false);
+  const [menu, setMenu] = useState<Menu | null>(null);
+  const [sheet, setSheet] = useState<SheetTab | null>(null);
+  const [drag, setDrag] = useState<Drag | null>(null);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState<{ g: Group; r: DOMRect } | null>(null);
   const [closing, setClosing] = useState(false);
-  const [launch, setLaunch] = useState<{ app: App; r: DOMRect } | null>(null);
+  const [launch, setLaunch] = useState<Launch | null>(null);
+  const [toast, setToast] = useState("");
+  const [dotsOn, setDotsOn] = useState(false); // like iOS 26: the Search pill turns into the page dots for a moment when the screen changes
+  const dotsTimer = useRef(0);
+
+  const root = useRef<HTMLDivElement>(null);
   const view = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const grow = useRef<HTMLDivElement>(null);
+  const dragger = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
-  const drag = useRef<{ x: number; y: number; on: boolean; w: number; id: number; down?: boolean } | null>(null);
-  const moved = useRef(false);
+  const hs = useRef<(HTMLDivElement | null)[]>([]);
+  const swipe = useRef<{ x: number; y: number; on: boolean; w: number; id: number; down?: boolean } | null>(null);
+  const press = useRef<Press | null>(null);
+  const dr = useRef<DragRef | null>(null);
+  const empty = useRef(0);
+  const swiped = useRef(false);
+  const toastTimer = useRef(0);
+  // the newest state for the window listeners (they are created once per press)
+  const live = useRef({ saved, shown: saved.pages, page, edit, m, rows, drag, menu });
+  useEffect(() => { live.current = { ...live.current, saved, shown, page, edit, m, rows, drag, menu }; });
 
-  // a phone has no scrolling page behind it: lock the page while the launcher is on screen
+  const cols = m?.cols ?? 4;
+  // what is shown: the saved arrangement fitted to this screen (a short screen pushes the last items to the next screen; a taller one brings them back). Only a change made by the visitor is kept.
+  const shown = useMemo(() => (rows ? fit(saved.pages, cols, rows) : saved.pages), [saved.pages, cols, rows]);
+  const pages = drag ? drag.draft : shown;
+  const libIndex = pages.length; // after the home screens comes the App Library
+  const nPages = pages.length + 1;
+
+  // ------------------------------------------------------------------ start up: the saved arrangement, the screen size
   useEffect(() => {
     document.documentElement.classList.add("lnc-lock");
-    return () => document.documentElement.classList.remove("lnc-lock");
+    const t = window.setTimeout(() => { setSaved(loadSaved()); setM(measure()); setReady(true); }, 0);
+    const onSize = () => setM(measure());
+    window.addEventListener("resize", onSize);
+    const onShow = (e: PageTransitionEvent) => { if (e.persisted) setLaunch(null); }; // back button: the page comes from the cache
+    window.addEventListener("pageshow", onShow);
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("resize", onSize);
+      window.removeEventListener("pageshow", onShow);
+      document.documentElement.classList.remove("lnc-lock");
+    };
   }, []);
 
-  // the swipe between the two pages
-  const onDown = (e: RPointerEvent<HTMLDivElement>) => {
-    if (open || launch) return;
-    drag.current = { x: e.clientX, y: e.clientY, on: false, w: view.current?.clientWidth ?? 1, id: e.pointerId };
-    moved.current = false;
-  };
-  const onMove = (e: RPointerEvent<HTMLDivElement>) => {
-    const d = drag.current;
-    if (!d || !track.current) return;
-    const dx = e.clientX - d.x;
-    const dy = e.clientY - d.y;
-    if (!d.on) {
-      if (page === 0 && dy > 14 && dy > Math.abs(dx) * 1.5) { d.down = true; moved.current = true; return; }
-      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-        d.on = true;
-        moved.current = true;
-        view.current?.setPointerCapture(d.id);
-        track.current.style.transition = "none";
-      } else return;
-    }
-    const base = page === 1 ? -d.w : 0;
-    let x = base + dx;
-    if (x > 0) x = x * 0.35;
-    if (x < -d.w) x = -d.w + (x + d.w) * 0.35;
-    track.current.style.transform = `translate3d(${x}px, 0, 0)`;
-  };
-  const onUp = (e: RPointerEvent<HTMLDivElement>) => {
-    const d = drag.current;
-    drag.current = null;
-    if (d && d.down && e.clientY - d.y > 80) { setPage(1); window.setTimeout(() => input.current?.focus(), 450); window.setTimeout(() => { moved.current = false; }, 60); return; }
-    if (d && d.down) { window.setTimeout(() => { moved.current = false; }, 60); return; }
-    if (!d || !d.on || !track.current) return;
-    const dx = e.clientX - d.x;
-    track.current.style.transition = "";
-    track.current.style.transform = "";
-    setPage(dx < -d.w * 0.18 ? 1 : dx > d.w * 0.18 ? 0 : page);
-    window.setTimeout(() => { moved.current = false; }, 60);
-  };
-  const stopClick = (e: RMouseEvent) => { if (moved.current) { e.preventDefault(); e.stopPropagation(); } };
+  /** a change of the arrangement: kept at once */
+  const update = useCallback((fn: (s: Saved) => Saved) => {
+    const next = fn(live.current.saved);
+    live.current.saved = next;
+    setSaved(next);
+    if (!persist(next)) say("Your changes cannot be kept in this browser");
+  }, []);
 
-  // an app opens: its icon grows to fill the screen, then the page loads
-  const go = (e: RMouseEvent<HTMLAnchorElement>, app: App) => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || moved.current) return;
-    e.preventDefault();
-    const el = (e.currentTarget.querySelector(".lnc-ic") ?? e.currentTarget) as HTMLElement;
-    setLaunch({ app, r: el.getBoundingClientRect() });
-  };
+  function say(msg: string) {
+    setToast(msg);
+    window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(""), 2200);
+  }
+
+  const firstPage = useRef(true);
+  useEffect(() => {
+    if (firstPage.current) { firstPage.current = false; return; }
+    const a = window.setTimeout(() => setDotsOn(true), 0);
+    window.clearTimeout(dotsTimer.current);
+    dotsTimer.current = window.setTimeout(() => setDotsOn(false), 1500);
+    return () => window.clearTimeout(a);
+  }, [page]);
+
+  // how many rows fit on a screen (measured), and what does not fit moves to the next screen
+  useLayoutEffect(() => {
+    const el = hs.current[0];
+    if (!ready || !el || !m) return;
+    const h = el.clientHeight;
+    const boxH = m.ic + 21 * m.u;
+    const r = Math.max(2, Math.floor((h - boxH) / m.pitch) + 1);
+    if (r !== rows) setRows(r);
+  }, [ready, m, rows, pages.length, edit]);
+
+  // ------------------------------------------------------------------ opening a page: the icon grows, then turns into the colour of the website
+  const nav = useCallback((href: string) => {
+    if (MOBILE_READY.has(href) && href !== "/") router.push(href);
+    else window.location.assign(href);
+  }, [router]);
+
+  const launchTo = useCallback((href: string, glyph: string, offset: number, solid: boolean, r: DOMRect) => {
+    setMenu(null);
+    if (href === "/") { setPage(0); setOpen(null); return; }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { nav(href); return; }
+    setLaunch({ href, glyph, off: offset, solid, r });
+  }, [nav]);
+
   useLayoutEffect(() => {
     if (!launch) return;
-    const el = grow.current;
-    if (!el) return;
+    const g = grow.current;
+    if (!g) return;
     const r = launch.r;
-    const a = el.animate(
+    const ease = "cubic-bezier(0.32, 0.72, 0, 1)";
+    g.animate(
       [
-        { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px`, borderRadius: `${r.width * 0.23}px` },
+        { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px`, borderRadius: `${r.width * 0.26}px` },
         { left: "0px", top: "0px", width: "100vw", height: "100dvh", borderRadius: "0px" },
       ],
-      { duration: 440, easing: "cubic-bezier(0.32, 0.72, 0, 1)", fill: "forwards" },
+      { duration: 460, easing: ease, fill: "forwards" },
     );
-    router.prefetch(launch.app.href);
-    const t = window.setTimeout(() => router.push(launch.app.href), 380);
-    a.onfinish = () => undefined;
+    g.querySelector(".lnc-grow-ic")?.animate([{ opacity: 1, transform: "scale(1)" }, { opacity: 0, transform: "scale(1.9)" }], { duration: 380, easing: "ease-in", fill: "forwards" });
+    g.querySelector(".lnc-grow-bg")?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: 90, easing: "ease-out", fill: "forwards" });
+    const t = window.setTimeout(() => nav(launch.href), 420);
     return () => window.clearTimeout(t);
-  }, [launch, router]);
+  }, [launch, nav]);
 
-  // a group opens as a folder: it grows out of its tile
-  const openGroup = (g: Group, el: HTMLElement) => { setClosing(false); setOpen({ g, r: el.getBoundingClientRect() }); };
+  // ------------------------------------------------------------------ folders (a group of pages opens from its card or its Library tile)
+  const openGroup = (g: Group, el: HTMLElement) => { setClosing(false); setMenu(null); setOpen({ g, r: el.getBoundingClientRect() }); };
   useLayoutEffect(() => {
     if (!open || closing) return;
     const p = panel.current;
@@ -161,7 +188,7 @@ export function Launcher() {
     const b = p.getBoundingClientRect();
     const dx = open.r.left + open.r.width / 2 - (b.left + b.width / 2);
     const dy = open.r.top + open.r.height / 2 - (b.top + b.height / 2);
-    p.animate([{ transform: `translate(${dx}px, ${dy}px) scale(${open.r.width / b.width}, ${open.r.height / b.height})`, opacity: 0.2 }, { transform: "none", opacity: 1 }], { duration: 560, easing: "cubic-bezier(0.32, 0.72, 0, 1)" });
+    p.animate([{ transform: `translate(${dx}px, ${dy}px) scale(${open.r.width / b.width}, ${open.r.height / b.height})`, opacity: 0.2 }, { transform: "none", opacity: 1 }], { duration: 520, easing: "cubic-bezier(0.32, 0.72, 0, 1)" });
   }, [open, closing]);
   const closeGroup = () => {
     const p = panel.current;
@@ -170,14 +197,319 @@ export function Launcher() {
     const b = p.getBoundingClientRect();
     const dx = open.r.left + open.r.width / 2 - (b.left + b.width / 2);
     const dy = open.r.top + open.r.height / 2 - (b.top + b.height / 2);
-    const a = p.animate([{ transform: "none", opacity: 1 }, { transform: `translate(${dx}px, ${dy}px) scale(${open.r.width / b.width}, ${open.r.height / b.height})`, opacity: 0 }], { duration: 400, easing: "cubic-bezier(0.5, 0, 0.75, 0)", fill: "forwards" });
+    const a = p.animate([{ transform: "none", opacity: 1 }, { transform: `translate(${dx}px, ${dy}px) scale(${open.r.width / b.width}, ${open.r.height / b.height})`, opacity: 0 }], { duration: 360, easing: "cubic-bezier(0.5, 0, 0.75, 0)", fill: "forwards" });
     a.onfinish = () => { setOpen(null); setClosing(false); };
   };
 
+  // ------------------------------------------------------------------ what a tap does
+  const tap = (p: Press) => {
+    const it = p.item;
+    if (it.k === "app") {
+      const app = APPS[it.id];
+      const ic = (p.el.querySelector(".lnc-ic") ?? p.el) as HTMLElement;
+      launchTo(app.href, app.glyph, app.off, !!app.solid, ic.getBoundingClientRect());
+    } else if (it.k === "folder") {
+      openGroup(GROUP[it.id], (p.el.querySelector(".lnc-fcard") ?? p.el) as HTMLElement);
+    } else if (it.k === "widget") {
+      const l = widgetLink(it.id as WidgetKind, contact);
+      if (l && l.ext) window.open(l.href, "_blank", "noopener,noreferrer");
+      else if (l) launchTo(l.href, l.glyph, 0, true, p.el.getBoundingClientRect());
+    }
+  };
+  /** a keyboard "click" on a link (a finger or a mouse is handled by the press, see below) */
+  const onLink = (e: RMouseEvent, it: Item, el: HTMLElement) => {
+    if ((e.target as Element).closest("[data-act]") && !live.current.edit) return;
+    e.preventDefault();
+    if (e.detail === 0 && !live.current.edit) tap({ item: it, ctx: "home", sx: 0, sy: 0, el, timer: 0, long: false, moved: false, canDrag: false, act: false });
+  };
+
+  // ------------------------------------------------------------------ the menu that opens on a long press
+  const shareApp = async (app: App) => {
+    const url = `${window.location.origin}${app.href}`;
+    try {
+      if (navigator.share) await navigator.share({ title: `${app.label} · We3vision`, url });
+      else { await navigator.clipboard.writeText(url); say("Link copied"); }
+    } catch { /* the visitor closed the share sheet */ }
+  };
+  const startEdit = () => { setMenu(null); setOpen(null); setEdit(true); if (live.current.page >= homeCount()) setPage(0); };
+  const homeCount = () => live.current.shown.length;
+  const libIndexOf = () => live.current.shown.length;
+  const endEdit = () => {
+    setEdit(false);
+    setCust(false);
+    update((s) => ({ ...s, pages: prune(s.pages) }));
+    setPage((p) => Math.min(p, live.current.shown.length));
+  };
+  const remove = (it: Item) => { update((s) => ({ ...s, pages: without(s.pages, it) })); setMenu(null); };
+  const addHome = (it: Item) => {
+    const L = live.current;
+    update((s) => ({ ...s, pages: added(s.pages, it, L.m?.cols ?? 4, L.rows || 5) }));
+    setMenu(null);
+    setOpen(null);
+    say("Added to Home Screen");
+  };
+  const addWidget = (k: WidgetKind) => {
+    const L = live.current;
+    const it: Item = { k: "widget", id: k };
+    const next = added(L.saved.pages, it, L.m?.cols ?? 4, L.rows || 5);
+    update((s) => ({ ...s, pages: next }));
+    setPage(Math.max(0, next.findIndex((p) => p.items.some((x) => same(x, it)))));
+    setSheet(null);
+    say("Widget added");
+  };
+  const toggleApp = (id: string) => {
+    const it: Item = { k: "app", id };
+    if (onHomeNow(it)) update((s) => ({ ...s, pages: without(s.pages, it) }));
+    else { const L = live.current; update((s) => ({ ...s, pages: added(s.pages, it, L.m?.cols ?? 4, L.rows || 5) })); }
+  };
+  const setWall = (w: Wall) => update((s) => ({ ...s, wall: w }));
+  const setIcons = (i: Icons) => update((s) => ({ ...s, icons: i }));
+
+  const actions = (mn: Menu) => {
+    const it = mn.item;
+    const out: { label: string; icon: keyof typeof IconPaths; run: () => void; danger?: boolean }[] = [];
+    const el = () => document.querySelector<HTMLElement>(".lnc-lift") ?? document.body;
+    const home = onHomeNow(it);
+    if (it.k === "app") {
+      const app = APPS[it.id];
+      out.push({ label: "Open", icon: "open", run: () => launchTo(app.href, app.glyph, app.off, !!app.solid, (el().querySelector(".lnc-ic") ?? el()).getBoundingClientRect()) });
+      out.push({ label: "Share", icon: "share", run: () => { setMenu(null); void shareApp(app); } });
+      if (mn.ctx === "home") out.push({ label: "Edit Home Screen", icon: "edit", run: startEdit });
+      if (mn.ctx !== "dock") out.push(home ? { label: "Remove from Home Screen", icon: "minus", danger: true, run: () => remove(it) } : { label: "Add to Home Screen", icon: "plus", run: () => addHome(it) });
+    } else if (it.k === "folder") {
+      out.push({ label: "Open", icon: "open", run: () => openGroup(GROUP[it.id], el()) });
+      out.push({ label: "Edit Home Screen", icon: "edit", run: startEdit });
+      out.push({ label: "Remove from Home Screen", icon: "minus", danger: true, run: () => remove(it) });
+    } else {
+      out.push({ label: "Edit Home Screen", icon: "edit", run: startEdit });
+      out.push({ label: "Remove Widget", icon: "minus", danger: true, run: () => remove(it) });
+    }
+    return out;
+  };
+  const onHomeNow = (it: Item) => live.current.saved.pages.some((p) => p.items.some((x) => same(x, it)));
+
+  // ------------------------------------------------------------------ dragging an item (edit mode)
+  const putDrag = (d: Drag | null) => { live.current.drag = d; setDrag(d); };
+  const ghostOf = (it: Item): Item => ({ k: "ghost", id: it.id, of: it.k as "app" | "folder" | "widget" });
+  const withGhost = (pg: Page[], at: number, idx: number, it: Item): Page[] => {
+    const clean = pg.map((p) => ({ ...p, items: p.items.filter((x) => x.k !== "ghost") }));
+    const target = clean[at];
+    if (!target) return clean;
+    const items = [...target.items];
+    items.splice(Math.min(idx, items.length), 0, ghostOf(it));
+    clean[at] = { ...target, items };
+    return clean;
+  };
+
+  const startDrag = (p: Press, e: PointerEvent) => {
+    const L = live.current;
+    const r = p.el.getBoundingClientRect();
+    const draft = L.shown.map((pg) => ({ ...pg, items: pg.items.map((x) => (same(x, p.item) ? ghostOf(p.item) : x)) }));
+    let at = 0;
+    let idx = 0;
+    draft.forEach((pg, i) => pg.items.forEach((x, j) => { if (x.k === "ghost") { at = i; idx = j; } }));
+    dr.current = { ox: e.clientX - r.left, oy: e.clientY - r.top, cx: r.left, cy: r.top, edge: 0, flip: 0, ghost: { p: at, i: idx } };
+    p.moved = true;
+    window.clearTimeout(p.timer);
+    buzz();
+    try { view.current?.setPointerCapture(e.pointerId); } catch { /* the finger is already gone */ }
+    setMenu(null);
+    live.current.edit = true;
+    setEdit(true);
+    putDrag({ item: p.item, draft, w: r.width, h: r.height, x: r.left, y: r.top });
+  };
+
+  const retarget = (x: number, y: number) => {
+    const L = live.current;
+    const d = L.drag;
+    const g = dr.current;
+    const mt = L.m;
+    if (!d || !g || !mt) return;
+    const at = L.page;
+    const el = hs.current[at];
+    if (!el || at >= d.draft.length) return;
+    const rect = el.getBoundingClientRect();
+    const items = d.draft[at].items.filter((i) => i.k !== "ghost");
+    const slots = pack(items, mt.cols);
+    const cx = (x - rect.left) / mt.cellW;
+    const ry = Math.floor((y - rect.top) / mt.pitch);
+    let idx = 0;
+    for (const s of slots) if (s.y < ry || (s.y === ry && s.x + s.w / 2 <= cx)) idx++;
+    if (g.ghost.p === at && g.ghost.i === idx) return;
+    g.ghost = { p: at, i: idx };
+    putDrag({ ...d, draft: withGhost(d.draft, at, idx, d.item) });
+  };
+
+  const flip = (dir: number) => {
+    const L = live.current;
+    const d = L.drag;
+    const g = dr.current;
+    if (!d || !g) return;
+    let draft = d.draft;
+    let np = L.page + dir;
+    if (np < 0) return;
+    if (np >= draft.length) {
+      if (dir < 0 || draft.length >= MAX_PAGES) return;
+      draft = [...draft, { items: [] }];
+      np = draft.length - 1;
+    }
+    g.edge = 0;
+    g.ghost = { p: np, i: draft[np].items.length };
+    setPage(np);
+    live.current.page = np;
+    putDrag({ ...d, draft: withGhost(draft, np, draft[np].items.length, d.item) });
+  };
+
+  const moveDrag = (e: PointerEvent) => {
+    const g = dr.current;
+    const el = dragger.current;
+    const mt = live.current.m;
+    if (!g || !el || !mt) return;
+    g.cx = e.clientX - g.ox;
+    g.cy = e.clientY - g.oy;
+    el.style.transform = `translate3d(${g.cx}px, ${g.cy}px, 0) scale(1.08)`;
+    const edge = e.clientX < 28 ? -1 : e.clientX > mt.vw - 28 ? 1 : 0;
+    if (edge !== g.edge) {
+      g.edge = edge;
+      window.clearTimeout(g.flip);
+      if (edge) g.flip = window.setTimeout(() => flip(edge), 560);
+    }
+    retarget(e.clientX, e.clientY);
+  };
+
+  const dropDrag = () => {
+    const g = dr.current;
+    const d = live.current.drag;
+    const el = dragger.current;
+    if (!g || !d) return;
+    window.clearTimeout(g.flip);
+    const done = () => {
+      const L = live.current;
+      const real = d.draft.map((pg) => ({ ...pg, items: pg.items.map((x) => (x.k === "ghost" ? d.item : x)) }));
+      const next = fit(real, L.m?.cols ?? 4, L.rows || 5);
+      update((s) => ({ ...s, pages: next }));
+      putDrag(null);
+      dr.current = null;
+    };
+    const gh = root.current?.querySelector<HTMLElement>(".lnc-t.is-ghost");
+    if (el && gh) {
+      const r = gh.getBoundingClientRect();
+      const a = el.animate([{ transform: `translate3d(${g.cx}px, ${g.cy}px, 0) scale(1.08)` }, { transform: `translate3d(${r.left}px, ${r.top}px, 0) scale(1)` }], { duration: 200, easing: "cubic-bezier(0.32, 0.72, 0, 1)", fill: "forwards" });
+      let over = false;
+      const finish = () => { if (!over) { over = true; done(); } };
+      a.onfinish = finish;
+      window.setTimeout(finish, 340); // the animation may not run in a hidden tab
+    } else done();
+  };
+
+  // ------------------------------------------------------------------ one press on an app, a card or a widget: tap, hold (menu) or drag
+  const pmove = useRef<(e: PointerEvent) => void>(() => undefined);
+  const pup = useRef<(e: PointerEvent) => void>(() => undefined);
+  useEffect(() => {
+    pmove.current = (e) => {
+      const p = press.current;
+      if (!p) return;
+      if (live.current.drag) { moveDrag(e); return; }
+      const dist = Math.hypot(e.clientX - p.sx, e.clientY - p.sy);
+      if (p.moved) return;
+      if (dist > (live.current.edit ? 6 : 10)) {
+        if (p.canDrag && (live.current.edit || p.long)) startDrag(p, e);
+        else { p.moved = true; window.clearTimeout(p.timer); }
+      }
+    };
+    pup.current = (e) => {
+      const p = press.current;
+      press.current = null;
+      window.removeEventListener("pointermove", onMoveWin);
+      window.removeEventListener("pointerup", onUpWin);
+      window.removeEventListener("pointercancel", onUpWin);
+      if (!p) return;
+      window.clearTimeout(p.timer);
+      if (live.current.drag) { dropDrag(); return; }
+      if (p.long || p.moved || live.current.edit || p.act || e.type === "pointercancel") return;
+      tap(p);
+    };
+  });
+  const onMoveWin = useCallback((e: PointerEvent) => pmove.current(e), []);
+  const onUpWin = useCallback((e: PointerEvent) => pup.current(e), []);
+
+  const tileDown = (e: RPointerEvent<HTMLElement>, item: Item, ctx: Ctx, canDrag: boolean) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    if ((e.target as Element).closest(".lnc-rm")) return;
+    if (!live.current.edit && (e.target as Element).closest("[data-act]")) return; // a call, a link or a field inside a widget works by itself
+    const el = e.currentTarget;
+    const p: Press = { item, ctx, sx: e.clientX, sy: e.clientY, el, timer: 0, long: false, moved: false, canDrag, act: !!(e.target as Element).closest("[data-act]") };
+    press.current = p;
+    if (!live.current.edit) {
+      p.timer = window.setTimeout(() => {
+        if (press.current !== p || p.moved) return;
+        p.long = true;
+        buzz();
+        setMenu({ item, ctx, r: el.getBoundingClientRect() });
+      }, 420);
+    }
+    window.addEventListener("pointermove", onMoveWin);
+    window.addEventListener("pointerup", onUpWin);
+    window.addEventListener("pointercancel", onUpWin);
+  };
+
+  // ------------------------------------------------------------------ the swipe between the screens
+  const onDown = (e: RPointerEvent<HTMLDivElement>) => {
+    if (open || launch || sheet || drag || menu) return;
+    const t = e.target as Element;
+    if (live.current.edit && t.closest(".lnc-t")) return;
+    swipe.current = { x: e.clientX, y: e.clientY, on: false, w: view.current?.clientWidth ?? 1, id: e.pointerId };
+    swiped.current = false;
+    // a long press on the empty part of a home screen starts the edit mode
+    if (!live.current.edit && live.current.page < homeCount() && !t.closest(".lnc-t, button, a, input")) {
+      window.clearTimeout(empty.current);
+      empty.current = window.setTimeout(() => { if (swipe.current && !swipe.current.on && !swiped.current) { buzz(); startEdit(); } }, 520);
+    }
+  };
+  const onMove = (e: RPointerEvent<HTMLDivElement>) => {
+    const d = swipe.current;
+    if (!d || !track.current || live.current.drag) return;
+    const dx = e.clientX - d.x;
+    const dy = e.clientY - d.y;
+    if (!d.on) {
+      if (Math.hypot(dx, dy) > 10) window.clearTimeout(empty.current);
+      if (live.current.page === 0 && !live.current.edit && dy > 14 && dy > Math.abs(dx) * 1.5) { d.down = true; swiped.current = true; return; }
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        d.on = true;
+        swiped.current = true;
+        window.clearTimeout(press.current?.timer);
+        try { view.current?.setPointerCapture(d.id); } catch { /* the finger is already gone */ }
+        track.current.style.transition = "none";
+      } else return;
+    }
+    const n = live.current.shown.length + 1;
+    const base = -live.current.page * d.w;
+    const min = -(n - 1) * d.w;
+    let x = base + dx;
+    if (x > 0) x = x * 0.35;
+    if (x < min) x = min + (x - min) * 0.35;
+    track.current.style.transform = `translate3d(${x}px, 0, 0)`;
+  };
+  const onUp = (e: RPointerEvent<HTMLDivElement>) => {
+    window.clearTimeout(empty.current);
+    const d = swipe.current;
+    swipe.current = null;
+    if (d && d.down && e.clientY - d.y > 80) { setPage(libIndexOf()); window.setTimeout(() => input.current?.focus(), 450); return; }
+    if (!d || !d.on || !track.current) return;
+    const n = live.current.shown.length + 1;
+    const dx = e.clientX - d.x;
+    const np = Math.max(0, Math.min(n - 1, live.current.page + (dx < -d.w * 0.18 ? 1 : dx > d.w * 0.18 ? -1 : 0)));
+    track.current.style.transition = "";
+    track.current.style.transform = `translate3d(${(-np * 100) / n}%, 0, 0)`;
+    setPage(np);
+  };
+  const stopClick = (e: RMouseEvent) => { if (swiped.current) { e.preventDefault(); e.stopPropagation(); swiped.current = false; } };
+
+  // ------------------------------------------------------------------ the pieces
   const groupOf = useMemo(() => {
-    const m: Record<string, string> = {};
-    for (const g of GROUPS) for (const id of g.apps) if (!m[id] && g.id !== "sug" && g.id !== "new") m[id] = g.label;
-    return m;
+    const o: Record<string, string> = {};
+    for (const g of GROUPS) for (const id of g.apps) if (!o[id] && g.id !== "sug" && g.id !== "new") o[id] = g.label;
+    return o;
   }, []);
   const found = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -185,107 +517,223 @@ export function Launcher() {
     return Object.values(APPS).filter((a) => a.label.toLowerCase().includes(s) || a.href.toLowerCase().includes(s)).sort((a, b) => a.label.localeCompare(b.label));
   }, [q]);
 
-  const AppLink = ({ app }: { app: App }) => (
-    <Link href={app.href} className="lnc-app" style={hue(app.off)} onClick={(e) => go(e, app)}>
-      <Ic app={app} /><span className="lnc-lb">{app.label}</span>
-    </Link>
-  );
+  /** what a tile shows (also used for the lifted copy in the menu and the copy that follows the finger) */
+  const tileBody = (it: Item, link: boolean) => {
+    if (it.k === "app") {
+      const app = APPS[it.id];
+      return link ? (
+        <a className="lnc-app" href={app.href} draggable={false}><Ic app={app} /><span className="lnc-lb">{app.label}</span></a>
+      ) : (
+        <span className="lnc-app"><Ic app={app} /><span className="lnc-lb">{app.label}</span></span>
+      );
+    }
+    if (it.k === "folder") {
+      const g = GROUP[it.id];
+      return (
+        <span className="lnc-fcard" style={hue(g.off)}>
+          <span className="lnc-ic is-c lnc-fic"><Glyph name={g.glyph} /></span>
+          <span className="lnc-fprev" aria-hidden="true">{g.apps.slice(0, 4).map((id) => <span key={id} className={`lnc-ic lnc-micro ${APPS[id].solid ? "is-c" : "is-w"}`} style={hue(APPS[id].off)} />)}</span>
+          <span className="lnc-fc-t"><b>{g.label}</b><small>{g.apps.length} pages</small></span>
+        </span>
+      );
+    }
+    const k = it.id as WidgetKind;
+    return <div className={`lnc-wid ${WIDGET_CLASS[k]} ${widgetLink(k, contact) ? "" : "lnc-nolink"}`}><WidgetInner kind={k} contact={contact} /></div>;
+  };
+
+  const box = (s: Slot, mt: Metrics) => {
+    const app = s.item.k === "app" || (s.item.k === "ghost" && s.item.of === "app");
+    const wide = s.w * mt.cellW - mt.gx;
+    return {
+      x: app ? s.x * mt.cellW : s.x * mt.cellW + mt.gx / 2,
+      y: s.y * mt.pitch,
+      w: app ? mt.cellW : wide,
+      h: s.h === 2 ? 2 * mt.cellW - mt.gx : mt.ic + 21 * mt.u,
+    };
+  };
+
+  const renderTile = (s: Slot, mt: Metrics) => {
+    const it = s.item;
+    const b = box(s, mt);
+    const style = { width: b.w, height: b.h, transform: `translate3d(${b.x}px, ${b.y}px, 0)`, "--jd": `${-(hash(it.id) % 26) / 100}s` } as CSSProperties;
+    if (it.k === "ghost") return <div key={`${it.of}:${it.id}`} className="lnc-t is-ghost" style={style} />;
+    return (
+      <div
+        key={`${it.k}:${it.id}`}
+        className={`lnc-t lnc-t-${it.k}`}
+        style={style}
+        onPointerDown={(e) => tileDown(e, it, "home", true)}
+        onClick={(e) => onLink(e, it, e.currentTarget)}
+      >
+        {tileBody(it, true)}
+        {edit && <button type="button" className="lnc-rm" onClick={(e) => { e.stopPropagation(); remove(it); }} aria-label="Remove"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 12h10" /></svg></button>}
+      </div>
+    );
+  };
+
+  const slotsOf = (pg: Page) => (m ? pack(pg.items, m.cols) : []);
+  const vars = m ? ({ "--u": `${m.u}px`, "--cols": m.cols, "--side": `${m.side}px`, "--pitch": `${m.pitch}px` } as CSSProperties) : undefined;
+
+  const menuPos = (mn: Menu) => {
+    const mt = m ?? measure();
+    const w = 262 * mt.u;
+    const h = 52 * mt.u * actions(mn).length;
+    const below = mn.r.bottom + 12 + h < mt.vh - 16;
+    return { left: Math.max(14, Math.min(mt.vw - w - 14, mn.r.left)), top: below ? mn.r.bottom + 12 : Math.max(14, mn.r.top - 12 - h), width: w };
+  };
 
   return (
-    <div className="lnc" role="application" aria-label="We3vision home screen">
-      <div className="lnc-wall" aria-hidden="true"><i /><i /><i /></div>
+    <div ref={root} className={`lnc ics-${saved.icons.style} fnt-${saved.font} ${edit ? "is-edit" : ""} ${ready ? "is-ready" : ""} ${drag ? "is-dragging" : ""}`} style={{ ...vars, "--tint": tintOf(saved.icons.hue) } as CSSProperties} role="application" aria-label="We3vision home screen">
+      <WallLayer wall={saved.wall} />
 
-      <div ref={view} className={`lnc-view ${launch ? "is-leaving" : ""}`} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onClickCapture={stopClick}>
-        <div ref={track} className="lnc-track" data-page={page}>
-          {/* ------------------------------------------------ page 1: the home screen */}
-          <section className="lnc-page lnc-home" aria-label="Home screen">
-            <div className="lnc-widgets">
-              <ClockWidget />
-              <Link href="/contact" className="lnc-wid lnc-pitch" onClick={(e) => go(e, APPS.contact)}>
-                <Image src="/brand/logo-white.webp" alt="" width={600} height={468} unoptimized />
-                <b>Have an idea?<br />Let&apos;s build it.</b>
-                <span>Start a project</span>
-              </Link>
-              <div className="lnc-wid lnc-quick" aria-label="Popular services">
-                <small>Popular</small>
-                <div>{["web", "app", "ai", "seo"].map((id) => <Link key={id} href={APPS[id].href} className="lnc-q" style={hue(APPS[id].off)} onClick={(e) => go(e, APPS[id])}><Ic app={APPS[id]} mini /></Link>)}</div>
-              </div>
+      {ready && m && (
+        <div className="lnc-ui">
+          <div ref={view} className={`lnc-view ${launch ? "is-leaving" : ""}`} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onClickCapture={stopClick}>
+            <div ref={track} className="lnc-track" style={{ width: `${nPages * 100}%`, transform: `translate3d(${(-page * 100) / nPages}%, 0, 0)` }}>
+              {pages.map((pg, pi) => (
+                <section key={pi} className="lnc-page lnc-home" style={{ flex: `0 0 ${100 / nPages}%`, width: `${100 / nPages}%` }} aria-label={pg.title ?? (pi === 0 ? "Home screen" : `Screen ${pi + 1}`)}>
+                  {pg.title && <h2 className="lnc-ptitle">{pg.title}</h2>}
+                  <div ref={(el) => { hs.current[pi] = el; }} className="lnc-hs" style={{ marginLeft: -m.gx / 2, width: m.W + m.gx }}>
+                    {slotsOf(pg).map((s) => renderTile(s, m))}
+                  </div>
+                </section>
+              ))}
+
+              {/* ---------------------------------------------- the last screen: the App Library */}
+              <section className="lnc-page lnc-lib" style={{ flex: `0 0 ${100 / nPages}%`, width: `${100 / nPages}%` }} aria-label="App Library">
+                <label className="lnc-search">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.500" /><path d="M16 16l4.500 4.500" /></svg>
+                  <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} placeholder="App Library" aria-label="Search the App Library" />
+                  {q && <button type="button" onClick={() => setQ("")} aria-label="Clear">×</button>}
+                </label>
+                <div className="lnc-lib-scroll">
+                  {q.trim() ? (
+                    <ul className="lnc-list">
+                      {found.length ? found.map((a) => {
+                        const it: Item = { k: "app", id: a.id };
+                        return (
+                          <li key={a.id}>
+                            <a href={a.href} style={hue(a.off)} draggable={false} onPointerDown={(e) => tileDown(e, it, "lib", false)} onClick={(e) => onLink(e, it, e.currentTarget)}><Ic app={a} /><span>{a.label}</span><small>{groupOf[a.id] ?? ""}</small></a>
+                          </li>
+                        );
+                      }) : <li className="lnc-none">No page found</li>}
+                    </ul>
+                  ) : (
+                    <div className="lnc-groups">
+                      {GROUPS.map((g) => (
+                        <div key={g.id} className="lnc-group">
+                          <button type="button" className="lnc-tile" onClick={(e) => openGroup(g, e.currentTarget)} aria-label={`Open ${g.label}`}>
+                            {g.apps.slice(0, 3).map((id) => <Ic key={id} app={APPS[id]} mini />)}
+                            {g.apps.length > 4 ? (
+                              <span className="lnc-cluster">{g.apps.slice(3, 7).map((id) => <span key={id} className={`lnc-ic lnc-micro ${APPS[id].solid ? "is-c" : "is-w"}`} style={hue(APPS[id].off)} />)}</span>
+                            ) : g.apps[3] ? <Ic app={APPS[g.apps[3]]} mini /> : <span />}
+                          </button>
+                          <span className="lnc-gl">{g.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </section>
             </div>
-            <div className="lnc-grid">{HOME_APPS.map((id) => <AppLink key={id} app={APPS[id]} />)}</div>
-            <div className="lnc-fill" />
-            <button type="button" className="lnc-find" onClick={() => { setPage(1); window.setTimeout(() => input.current?.focus(), 450); }}>
+          </div>
+
+          {/* ---------------------------------------------- search, the dots and the dock (the dock stays on every home screen) */}
+          <div className={`lnc-bar ${page === libIndex ? "is-lib" : ""}`}>
+            <div className={`lnc-ind ${dotsOn || edit || page === libIndex ? "is-dots" : ""}`}>
+            <button type="button" className="lnc-find" onClick={() => { setPage(libIndex); window.setTimeout(() => input.current?.focus(), 450); }}>
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.500" /><path d="M16 16l4.500 4.500" /></svg>Search
             </button>
             <div className="lnc-dots" role="tablist" aria-label="Screens">
-              <button type="button" role="tab" aria-selected={page === 0} className={page === 0 ? "is-on" : ""} onClick={() => setPage(0)} aria-label="Home screen" />
-              <button type="button" role="tab" aria-selected={page === 1} className={page === 1 ? "is-on" : ""} onClick={() => setPage(1)} aria-label="App Library" />
+              {Array.from({ length: nPages }).map((_, i) => (
+                <button key={i} type="button" role="tab" aria-selected={page === i} className={page === i ? "is-on" : ""} onClick={() => setPage(i)} aria-label={i === libIndex ? "App Library" : i === 0 ? "Home screen" : `Screen ${i + 1}`} />
+              ))}
+            </div>
             </div>
             <nav className="lnc-dock" aria-label="Main pages">
-              {DOCK.map((id) => id === "services" ? (
-                <button key={id} type="button" className="lnc-app" style={hue(0)} onClick={() => setPage(1)}>
-                  <span className="lnc-ic is-c" style={hue(300)}><Glyph name="services" /></span><span className="lnc-lb">Services</span>
-                </button>
-              ) : <AppLink key={id} app={APPS[id]} />)}
+              {DOCK.map((id) => (
+                <div key={id} className="lnc-dk" onPointerDown={(e) => tileDown(e, { k: "app", id }, "dock", false)} onClick={(e) => onLink(e, { k: "app", id }, e.currentTarget)}>{tileBody({ k: "app", id }, true)}</div>
+              ))}
             </nav>
-          </section>
+          </div>
 
-          {/* ------------------------------------------------ page 2: the App Library */}
-          <section className="lnc-page lnc-lib" aria-label="App Library">
-            <label className="lnc-search">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.500" /><path d="M16 16l4.500 4.500" /></svg>
-              <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} placeholder="App Library" aria-label="Search the App Library" />
-              {q && <button type="button" onClick={() => setQ("")} aria-label="Clear">×</button>}
-            </label>
-            <div className="lnc-lib-scroll">
-              {q.trim() ? (
-                <ul className="lnc-list">
-                  {found.length ? found.map((a) => (
-                    <li key={a.id}><Link href={a.href} style={hue(a.off)} onClick={(e) => go(e, a)}><Ic app={a} /><span>{a.label}</span><small>{groupOf[a.id] ?? ""}</small></Link></li>
-                  )) : <li className="lnc-none">No page found</li>}
-                </ul>
-              ) : (
-                <div className="lnc-groups">
-                  {GROUPS.map((g) => (
-                    <div key={g.id} className="lnc-group">
-                      <button type="button" className="lnc-tile" onClick={(e) => openGroup(g, e.currentTarget)} aria-label={`Open ${g.label}`}>
-                        {g.apps.slice(0, 3).map((id) => <Ic key={id} app={APPS[id]} mini />)}
-                        {g.apps.length > 4 ? (
-                          <span className="lnc-cluster">{g.apps.slice(3, 7).map((id) => <span key={id} className={`lnc-ic lnc-micro ${APPS[id].solid ? "is-c" : "is-w"}`} style={hue(APPS[id].off)} />)}</span>
-                        ) : g.apps[3] ? <Ic app={APPS[g.apps[3]]} mini /> : <span />}
-                      </button>
-                      <span className="lnc-gl">{g.label}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+          <i className="lnc-hi" aria-hidden="true" />
+
+          {/* ---------------------------------------------- the edit mode: add (widgets, wallpaper) and Done */}
+          {edit && (
+            <div className="lnc-etop">
+              <button type="button" className="lnc-pill" onClick={() => setSheet("widgets")} aria-label="Add a widget or change the wallpaper"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14 M5 12h14" /></svg></button>
+              <button type="button" className="lnc-pill" onClick={() => setCust((c) => !c)}>Customize</button>
+              <button type="button" className="lnc-pill is-done" onClick={endEdit}>Done</button>
             </div>
-          </section>
+          )}
         </div>
-      </div>
+      )}
 
-      {/* the folder */}
+      {/* the item that follows the finger */}
+      {drag && (
+        <div ref={dragger} className="lnc-dragger" style={{ width: drag.w, height: drag.h, transform: `translate3d(${drag.x}px, ${drag.y}px, 0) scale(1.08)` }}>
+          {tileBody(drag.item, false)}
+        </div>
+      )}
+
+      {/* the long-press menu */}
+      {menu && (() => {
+        const pos = menuPos(menu);
+        return (
+          <div className="lnc-menu" onPointerDown={() => setMenu(null)}>
+            <div className="lnc-lift" style={{ left: menu.r.left, top: menu.r.top, width: menu.r.width, height: menu.r.height }}>{tileBody(menu.item, false)}</div>
+            <ul className="lnc-mn" style={pos} onPointerDown={(e) => e.stopPropagation()}>
+              {actions(menu).map((a) => (
+                <li key={a.label}><button type="button" className={a.danger ? "is-danger" : ""} onClick={a.run}><span>{a.label}</span><Mi d={a.icon} /></button></li>
+              ))}
+            </ul>
+          </div>
+        );
+      })()}
+
+      {/* a group of pages, opened as a folder */}
       {open && (
         <div className={`lnc-fold ${closing ? "is-closing" : ""}`} onClick={closeGroup}>
           <p className="lnc-fold-t">{open.g.label}</p>
           <div ref={panel} className="lnc-fold-panel" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={open.g.label}>
-            <div className="lnc-fold-grid">{open.g.apps.map((id) => <AppLink key={id} app={APPS[id]} />)}</div>
+            <div className="lnc-fold-grid">
+              {open.g.apps.map((id) => {
+                const it: Item = { k: "app", id };
+                return <div key={id} className="lnc-dk" onPointerDown={(e) => tileDown(e, it, "lib", false)} onClick={(e) => onLink(e, it, e.currentTarget)}>{tileBody(it, true)}</div>;
+              })}
+            </div>
           </div>
         </div>
       )}
 
-      {/* the app that is opening */}
+      {sheet && (
+        <Sheet
+          tab={sheet}
+          setTab={setSheet}
+          onClose={() => setSheet(null)}
+          have={new Set(pages.flatMap((p) => p.items).filter((i) => i.k === "widget").map((i) => i.id))}
+          onAdd={addWidget}
+          haveApps={new Set(pages.flatMap((p) => p.items).filter((i) => i.k === "app").map((i) => i.id))}
+          onToggleApp={toggleApp}
+          wall={saved.wall}
+          onWall={setWall}
+          contact={contact}
+          say={say}
+        />
+      )}
+
+      {cust && <Customize icons={saved.icons} onChange={setIcons} font={saved.font} onFont={(f) => update((s) => ({ ...s, font: f }))} onClose={() => setCust(false)} />}
+
+      {toast && <div className="lnc-toast" role="status">{toast}</div>}
+
+      {/* the app that is opening: its icon grows to the full screen and turns into the colour of the website */}
       {launch && (
-        <div ref={grow} className="lnc-grow" style={{ ...hue(launch.app.off), left: launch.r.left, top: launch.r.top, width: launch.r.width, height: launch.r.height }} aria-hidden="true">
-          <Glyph name={launch.app.glyph} />
+        <div ref={grow} className="lnc-grow" style={{ left: launch.r.left, top: launch.r.top, width: launch.r.width, height: launch.r.height }} aria-hidden="true">
+          <span className={`lnc-ic lnc-grow-ic ${launch.solid ? "is-c" : "is-w"}`} style={hue(launch.off)}><Glyph name={launch.glyph} /></span>
+          <span className="lnc-grow-bg" />
         </div>
       )}
     </div>
   );
-}
-
-/** the launcher shows only on the home page (and only on a phone or a tablet: the CSS hides it from 1024px up) */
-export function MobileLauncher() {
-  const path = usePathname();
-  if (path !== "/") return null;
-  return <Launcher />;
 }

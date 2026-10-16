@@ -1,72 +1,124 @@
-// The launcher (mobile and tablet home): every page of the website is an "app". One icon design for all; the colour only changes with the group.
-// Home screen: a widget, eight main apps and a dock of four. Swipe left: the App Library, with the pages in groups.
+// The launcher (phone and tablet home): every page of the website is an "app". One icon design for all; every app has its own colour.
+// Three screens: 1) Home (widgets + the company pages), 2) Services (one folder card per group), 3) the App Library (every page, grouped, searchable).
+// What the visitor puts on screens 1-2 is kept in the browser (see launcher-state.ts); the Library always lists every page.
 
 export type App = { id: string; label: string; href: string; glyph: string; off: number; solid?: boolean };
 
-const A = (id: string, label: string, href: string, glyph: string, off: number): App => ({ id, label, href, glyph, off });
-
-// colour offsets (degrees on the theme hue) per group
-const DEV = 0, CRE = 22, ECO = -22, BRA = 44, MAR = -44, PRO = 66, COM = -66;
+const A = (id: string, label: string, href: string, glyph: string): App => ({ id, label, href, glyph, off: 0 });
 
 export const APPS: Record<string, App> = {
-  ai: A("ai", "AI / ML", "/ai", "ai", DEV),
-  metaverse: A("metaverse", "Metaverse", "/metaverse", "vr", DEV),
-  software: A("software", "Software", "/software-development-services", "code", DEV),
-  web: A("web", "Web Dev", "/webdev", "globe", DEV),
-  app: A("app", "App Dev", "/mobile", "phone", DEV),
-  crm: A("crm", "CRM", "/crm", "chart", DEV),
-  headless: A("headless", "Headless CMS", "/headless-CMS-devlopment-services", "layers", DEV),
-  branddesign: A("branddesign", "Brand Design", "/brand-identity", "pen", CRE),
-  uiux: A("uiux", "UI / UX", "/ui-ux-design", "layout", CRE),
-  graphics: A("graphics", "Graphic Design", "/graphics", "image", CRE),
-  model: A("model", "2D / 3D", "/3d-modeling", "cube", CRE),
-  animation: A("animation", "Animation", "/animation", "play", CRE),
-  shopify: A("shopify", "Shopify", "/shopify-development-services", "bag", ECO),
-  shopplugin: A("shopplugin", "Shopify Plugin", "/shopify-plugin-development-services", "puzzle", ECO),
-  shopapp: A("shopapp", "Shopify App", "/shopify-app-development-services", "grid", ECO),
-  wordpress: A("wordpress", "WordPress", "/custom-wordpress-devlopment-services", "wp", ECO),
-  woo: A("woo", "WooCommerce", "/custom-woocommerce-devlopment", "cart", ECO),
-  wpplugin: A("wpplugin", "WP Plugin", "/wordpress-plugin-development-company", "plug", ECO),
-  branddev: A("branddev", "Brand Dev", "/brand-development-services", "flag", BRA),
-  brandkit: A("brandkit", "Brand Kit", "/brand-kit-design", "toolbox", BRA),
-  brandvideo: A("brandvideo", "Brand Video", "/brand-video-production", "video", BRA),
-  e2e: A("e2e", "End-to-End", "/zero-to-n-brand-development", "route", BRA),
-  seo: A("seo", "SEO", "/seo", "search", MAR),
-  meta: A("meta", "Meta Ads", "/meta-marketing-services", "mega", MAR),
-  physical: A("physical", "Physical", "/physical-marketing-services", "sign", MAR),
-  webugmate: A("webugmate", "WeBugMate", "/products/webugmate", "bug", PRO),
-  wejobs: A("wejobs", "WeJobs", "/products/wejobs", "badge", PRO),
-  wethink: A("wethink", "WeThink", "/products/wethink", "bulb", PRO),
-  wepresent: A("wepresent", "WePresent", "/products/wepresent", "slides", PRO),
-  home: A("home", "Home", "/", "home", COM),
-  about: A("about", "About", "/about", "about", COM),
-  portfolio: A("portfolio", "Portfolio", "/portfolio", "folder", COM),
-  products: A("products", "Products", "/products", "box", COM),
-  blog: A("blog", "Blogs", "/blog", "doc", COM),
-  team: A("team", "Team", "/team", "team", COM),
-  contact: A("contact", "Contact", "/contact", "mail", COM),
-  careers: A("careers", "Careers", "/careers", "briefcase", COM),
-  sitemap: A("sitemap", "Sitemap", "/sitemap", "sitemap", COM),
+  ai: A("ai", "AI / ML", "/ai", "ai"),
+  metaverse: A("metaverse", "Metaverse", "/metaverse", "vr"),
+  software: A("software", "Software", "/software-development-services", "code"),
+  web: A("web", "Web Dev", "/webdev", "globe"),
+  app: A("app", "App Dev", "/mobile", "phone"),
+  crm: A("crm", "CRM", "/crm", "chart"),
+  headless: A("headless", "Headless", "/headless-CMS-devlopment-services", "layers"),
+  branddesign: A("branddesign", "Identity", "/brand-identity", "pen"),
+  uiux: A("uiux", "UI / UX", "/ui-ux-design", "layout"),
+  graphics: A("graphics", "Graphics", "/graphics", "image"),
+  model: A("model", "2D / 3D", "/3d-modeling", "cube"),
+  animation: A("animation", "Animation", "/animation", "play"),
+  shopify: A("shopify", "Shopify", "/shopify-development-services", "bag"),
+  shopplugin: A("shopplugin", "Shop Plugin", "/shopify-plugin-development-services", "puzzle"),
+  shopapp: A("shopapp", "Shop App", "/shopify-app-development-services", "grid"),
+  wordpress: A("wordpress", "WordPress", "/custom-wordpress-devlopment-services", "wp"),
+  woo: A("woo", "Woo", "/custom-woocommerce-devlopment", "cart"),
+  wpplugin: A("wpplugin", "WP Plugin", "/wordpress-plugin-development-company", "plug"),
+  branddev: A("branddev", "Brand Dev", "/brand-development-services", "flag"),
+  brandkit: A("brandkit", "Brand Kit", "/brand-kit-design", "droplet"),
+  brandvideo: A("brandvideo", "Brand Video", "/brand-video-production", "video"),
+  e2e: A("e2e", "End-to-End", "/zero-to-n-brand-development", "route"),
+  seo: A("seo", "SEO", "/seo", "search"),
+  meta: A("meta", "Meta Ads", "/meta-marketing-services", "mega"),
+  physical: A("physical", "Physical", "/physical-marketing-services", "sign"),
+  webugmate: A("webugmate", "WeBugMate", "/products/webugmate", "bug"),
+  wejobs: A("wejobs", "WeJobs", "/products/wejobs", "badge"),
+  wethink: A("wethink", "WeThink", "/products/wethink", "bulb"),
+  wepresent: A("wepresent", "WePresent", "/products/wepresent", "slides"),
+  home: A("home", "Home", "/", "home"),
+  about: A("about", "About", "/about", "about"),
+  portfolio: A("portfolio", "Portfolio", "/portfolio", "folder"),
+  products: A("products", "Products", "/products", "rocket"),
+  blog: A("blog", "Blogs", "/blog", "doc"),
+  team: A("team", "Team", "/team", "team"),
+  contact: A("contact", "Contact", "/contact", "mail"),
+  careers: A("careers", "Careers", "/careers", "briefcase"),
+  sitemap: A("sitemap", "Sitemap", "/sitemap", "sitemap"),
 };
 
-// one colour per app: the hue steps by the golden angle, so neighbours never look alike
+// one colour per app: the hue steps by the golden angle, so neighbours never look alike; the tile style (full colour / light glass) alternates
 Object.values(APPS).forEach((a, i) => { a.off = Math.round((i * 137.508) % 360); a.solid = i % 2 === 0; });
 
-export type Group = { id: string; label: string; apps: string[]; off: number };
+/** a group of pages: its own picture and colour (used on the Services folder cards, the folder and the Library) */
+export type Group = { id: string; label: string; apps: string[]; glyph: string; off: number };
 
-// the App Library
 export const GROUPS: Group[] = [
-  { id: "sug", label: "Suggestions", off: 0, apps: ["contact", "portfolio", "web", "about"] },
-  { id: "new", label: "Recently Added", off: 0, apps: ["e2e", "seo", "meta", "physical"] },
-  { id: "dev", label: "Development", off: DEV, apps: ["ai", "metaverse", "software", "web", "app", "crm", "headless"] },
-  { id: "cre", label: "Creatives", off: CRE, apps: ["branddesign", "uiux", "graphics", "model", "animation"] },
-  { id: "eco", label: "E-commerce", off: ECO, apps: ["shopify", "shopplugin", "shopapp", "wordpress", "woo", "wpplugin"] },
-  { id: "bra", label: "Branding", off: BRA, apps: ["branddesign", "branddev", "brandkit", "brandvideo", "e2e"] },
-  { id: "mar", label: "Marketing", off: MAR, apps: ["seo", "meta", "physical"] },
-  { id: "pro", label: "Our Products", off: PRO, apps: ["webugmate", "wejobs", "wethink", "wepresent"] },
-  { id: "com", label: "Company", off: COM, apps: ["home", "about", "portfolio", "products", "blog", "team", "contact", "careers", "sitemap"] },
+  { id: "sug", label: "Suggestions", glyph: "compass", off: 20, apps: ["contact", "portfolio", "web", "about"] },
+  { id: "new", label: "Recently Added", glyph: "clock", off: 240, apps: ["e2e", "seo", "meta", "physical"] },
+  { id: "dev", label: "Development", glyph: "chip", off: 0, apps: ["ai", "metaverse", "software", "web", "app", "crm", "headless"] },
+  { id: "cre", label: "Creatives", glyph: "palette", off: 60, apps: ["uiux", "graphics", "model", "animation"] },
+  { id: "eco", label: "E-commerce", glyph: "store", off: 140, apps: ["shopify", "shopplugin", "shopapp", "wordpress", "woo", "wpplugin"] },
+  { id: "bra", label: "Branding", glyph: "star", off: 200, apps: ["branddesign", "branddev", "brandkit", "brandvideo", "e2e"] },
+  { id: "mar", label: "Marketing", glyph: "trend", off: 280, apps: ["seo", "meta", "physical"] },
+  { id: "pro", label: "Our Products", glyph: "trophy", off: 330, apps: ["webugmate", "wejobs", "wethink", "wepresent"] },
+  { id: "com", label: "Company", glyph: "building", off: 100, apps: ["home", "about", "portfolio", "products", "blog", "team", "contact", "careers", "sitemap"] },
+];
+export const GROUP: Record<string, Group> = Object.fromEntries(GROUPS.map((g) => [g.id, g]));
+
+/** the sections of the "All Apps" screen: every page of the website, group by group (a page that is in no group goes to "More") */
+export const SECTIONS: { id: string; label: string; apps: string[] }[] = (() => {
+  const order = ["dev", "cre", "eco", "bra", "mar", "pro", "com"];
+  const out = order.map((id) => ({ id, label: GROUP[id].label, apps: GROUP[id].apps }));
+  const used = new Set(out.flatMap((o) => o.apps));
+  const rest = Object.keys(APPS).filter((id) => !used.has(id));
+  return rest.length ? [...out, { id: "more", label: "More", apps: rest }] : out;
+})();
+/** the dock: four apps that stay on every home screen (as the Phone, Safari, Messages and Music of an iPhone) */
+export const DOCK = ["portfolio", "about", "contact", "blog"] as const;
+/** every other page is installed on the home screens, like the apps of a new iPhone: screen 1 (with two widgets), screen 2 (a wide widget), screen 3 */
+export const SCREEN_APPS: string[][] = [
+  ["web", "app", "ai", "seo", "uiux", "shopify", "branddev", "metaverse"],
+  ["software", "crm", "headless", "graphics", "branddesign", "model", "animation", "wordpress", "woo", "shopapp", "shopplugin", "wpplugin", "brandkit", "brandvideo", "e2e", "meta"],
+  ["physical", "webugmate", "wejobs", "wethink", "wepresent", "products", "team", "careers", "home", "sitemap"],
 ];
 
-// the home screen: eight main apps and the dock of four
-export const HOME_APPS = ["products", "blog", "team", "careers", "seo", "web", "app", "ai", "uiux", "shopify", "branddev", "metaverse"];
-export const DOCK = ["portfolio", "about", "contact", "services"] as const;
+// ---- widgets (all of them help a visitor to reach We3vision: call, WhatsApp, write, visit, follow) ----
+export type WidgetKind = "clock" | "pitch" | "date" | "contact" | "years" | "whatsapp" | "visit" | "social" | "quick" | "message";
+export const WIDGETS: { id: WidgetKind; label: string; hint: string; wide?: boolean }[] = [
+  { id: "message", label: "Send a message", hint: "Write to us right here: it reaches our team", wide: true },
+  { id: "pitch", label: "Start a project", hint: "A shortcut to the contact page" },
+  { id: "contact", label: "Talk to us", hint: "Call or mail We3vision" },
+  { id: "whatsapp", label: "WhatsApp", hint: "Chat with us on WhatsApp" },
+  { id: "visit", label: "Visit us", hint: "Our office on the map" },
+  { id: "social", label: "Follow us", hint: "LinkedIn and Instagram" },
+  { id: "quick", label: "Our services", hint: "Four popular services" },
+  { id: "years", label: "7 years", hint: "Our story" },
+  { id: "clock", label: "Clock", hint: "Analog clock with the date" },
+  { id: "date", label: "Calendar", hint: "Today and the week" },
+];
+
+// ---- fonts: one font for the whole launcher (like the font picker of Instagram). Only the one that is chosen is downloaded. ----
+export type FontId = "poppins" | "soft" | "serif" | "poster" | "mono" | "script" | "hand";
+export const FONTS: { id: FontId; label: string; css: string }[] = [
+  { id: "poppins", label: "Modern", css: "var(--font-poppins)" },
+  { id: "soft", label: "Soft", css: "var(--f-soft)" },
+  { id: "serif", label: "Classic", css: "var(--f-serif)" },
+  { id: "poster", label: "Poster", css: "var(--f-poster)" },
+  { id: "mono", label: "Typewriter", css: "var(--f-mono)" },
+  { id: "script", label: "Script", css: "var(--f-script)" },
+  { id: "hand", label: "Handwriting", css: "var(--f-hand)" },
+];
+
+// ---- wallpapers: three soft lights on the dark site colour. The hues are offsets on the theme colour, so every wallpaper follows the theme picker ----
+export type Preset = { id: string; label: string; o: [number, number, number]; s: number; plain?: boolean; base?: string; bg?: string };
+export const PRESETS: Preset[] = [
+  { id: "aurora", label: "Aurora", o: [0, 50, -44], s: 1 },
+  { id: "wave", label: "Wave", o: [0, 0, 0], s: 1, plain: true, bg: "radial-gradient(70% 16% at 62% 24%, hsl(0 0% 100% / 0.2), transparent 70%), radial-gradient(60% 14% at 30% 44%, hsl(0 0% 100% / 0.14), transparent 70%), radial-gradient(130% 55% at 0% 0%, hsl(168 78% 52% / 0.95), transparent 58%), radial-gradient(90% 50% at 100% 10%, hsl(214 88% 56% / 0.9), transparent 62%), radial-gradient(130% 60% at 15% 58%, hsl(205 86% 46% / 0.85), transparent 64%), radial-gradient(120% 60% at 100% 100%, hsl(252 70% 34%), transparent 62%), linear-gradient(180deg, hsl(200 82% 42%), hsl(224 72% 17%))" },
+  { id: "dusk", label: "Dusk", o: [100, 50, 0], s: 1 },
+  { id: "lagoon", label: "Lagoon", o: [-98, -72, -48], s: 1 },
+  { id: "ember", label: "Ember", o: [82, 104, 62], s: 1 },
+  { id: "mint", label: "Mint", o: [-138, -114, -160], s: 1 },
+  { id: "graphite", label: "Graphite", o: [0, 0, 0], s: 0.06, base: "0 0% 6%" },
+  { id: "midnight", label: "Midnight", o: [0, 0, 0], s: 1, plain: true },
+];

@@ -26,9 +26,9 @@ export const baseMetadata: Metadata = {
 // (The admin panel keeps its own colours: it is skipped.)
 const THEME_BOOT = `(function(){try{if(location.pathname.indexOf("/admin")===0)return;var t=JSON.parse(localStorage.getItem("we3.theme")||"null");if(t&&typeof t.h==="number"){var r=document.documentElement.style;r.setProperty("--th",String(t.h));r.setProperty("--ts",String(t.s||1));}}catch(e){}})();`;
 
-export function RootShell({ children }: { children: React.ReactNode }) {
+export function RootShell({ children, htmlClass = "" }: { children: React.ReactNode; htmlClass?: string }) {
   return (
-    <html lang="en" className={poppins.variable} suppressHydrationWarning>
+    <html lang="en" className={`${poppins.variable} ${htmlClass}`.trim()} suppressHydrationWarning>
       <body>
         {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document -- rendered by every root layout, as it was in app/layout.tsx */}
         <Script id="theme-boot" strategy="beforeInteractive">

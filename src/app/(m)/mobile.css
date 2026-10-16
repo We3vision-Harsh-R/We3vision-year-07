@@ -342,3 +342,371 @@
   .lnc-ic.is-w .g-body { stroke: hsl(var(--hue) 92% 44% / 0.95); }
   .lnc-ic.is-w .g-back { stroke: hsl(calc(var(--hue) + 30) 95% 60%); opacity: 0.5; }
 }
+
+
+/* ===================================================================================================================================
+   LAUNCHER v5: three screens (Home, Services, App Library), widgets, the long-press menu, the edit mode (wiggle, drag anywhere, remove),
+   the "+" sheet (widgets and wallpapers), and the opening animation that ends in the colour of the website.
+   Items sit at positions the code calculates (launcher.tsx: pack), so they can move smoothly: only transforms are animated.
+   =================================================================================================================================== */
+@media (max-width: 99999px) {
+  .lnc-ui { position: absolute; inset: 0; animation: lnc-in 0.45s ease both; }
+  @keyframes lnc-in { from { opacity: 0; } }
+  @keyframes lnc-pop { from { opacity: 0; transform: scale(0.9); } }
+
+  /* ---- the wallpaper: three lights (theme colour + an offset per wallpaper), a plain colour, or the visitor's picture ---- */
+  .lnc-wall { background: hsl(var(--wb, calc(var(--th) + 347.58) calc(76% * var(--ts)) 5%)); }
+  .lnc-wall i:nth-child(1) { background: radial-gradient(circle, hsl(calc(var(--lh) + var(--w1, 0)) calc(95% * var(--ts) * var(--ws, 1)) 50% / 0.8), transparent 62%); }
+  .lnc-wall i:nth-child(2) { background: radial-gradient(circle, hsl(calc(var(--lh) + var(--w2, 50)) calc(90% * var(--ts) * var(--ws, 1)) 46% / 0.62), transparent 62%); }
+  .lnc-wall i:nth-child(3) { background: radial-gradient(circle, hsl(calc(var(--lh) + var(--w3, -44)) calc(85% * var(--ts) * var(--ws, 1)) 44% / 0.7), transparent 62%); }
+  .lnc-wall.is-plain i { display: none; }
+  .lnc-wall.is-photo { background-size: cover; background-position: center; }
+  .lnc-wall.is-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, hsl(0 0% 0% / 0.3), hsl(0 0% 0% / 0.06) 40%, hsl(0 0% 0% / 0.45)); }
+  .lnc-wall.is-mini i { width: 150%; height: 80%; filter: none; animation: none; }
+  .lnc-wall.is-mini i:nth-child(1) { left: -40%; top: -25%; } .lnc-wall.is-mini i:nth-child(2) { right: -60%; top: 25%; } .lnc-wall.is-mini i:nth-child(3) { left: -30%; bottom: -35%; }
+
+  /* ---- the screens ---- */
+  .lnc-view { touch-action: none; }
+  .lnc-lib-scroll, .lnc-sheet-b { touch-action: pan-y; }
+  .lnc-home { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 184 * var(--u)); }
+  .lnc-lib { padding-bottom: 0; }
+  .lnc-ptitle { margin: 0 0 calc(8 * var(--u)); font-size: calc(30 * var(--u)); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35); }
+  .lnc-hs { position: relative; flex: 1; min-height: 0; }
+  .lnc-t { position: absolute; left: 0; top: 0; transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1); will-change: transform; touch-action: none; -webkit-touch-callout: none; }
+  .lnc-t.is-ghost { pointer-events: none; }
+  .lnc-t .lnc-app, .lnc-lift .lnc-app, .lnc-dragger .lnc-app { width: 100%; }
+  .lnc-t a, .lnc-dk a { -webkit-user-drag: none; user-select: none; }
+  .lnc-t .lnc-wid, .lnc-t .lnc-fcard, .lnc-lift .lnc-wid, .lnc-lift .lnc-fcard, .lnc-dragger .lnc-wid, .lnc-dragger .lnc-fcard { grid-column: auto; aspect-ratio: auto; width: 100%; height: 100%; }
+
+  /* ---- more widgets ---- */
+  .lnc-wid.lnc-cal, .lnc-wid.lnc-ctc, .lnc-wid.lnc-yrs { display: grid; align-content: space-between; justify-items: start; gap: calc(6 * var(--u)); }
+  .lnc-cal-d { font-size: calc(12 * var(--u)); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: hsl(calc(var(--lh) + 8) calc(100% * var(--ts)) 72%); }
+  .lnc-cal-n { font-size: calc(46 * var(--u)); font-weight: 600; line-height: 0.95; letter-spacing: -0.03em; }
+  .lnc-cal-m { font-size: calc(12 * var(--u)); font-weight: 500; opacity: 0.8; }
+  .lnc-cal-w { display: flex; justify-content: space-between; width: 100%; }
+  .lnc-cal-w i { display: grid; place-items: center; width: calc(17 * var(--u)); height: calc(17 * var(--u)); border-radius: 50%; font-size: calc(10 * var(--u)); font-style: normal; font-weight: 600; opacity: 0.7; }
+  .lnc-cal-w i.is-today { opacity: 1; background: hsl(calc(var(--lh) + 8) calc(100% * var(--ts)) 62%); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); }
+  .lnc-ctc small, .lnc-yrs small { font-size: calc(11 * var(--u)); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75; }
+  .lnc-ctc-r { display: flex; align-items: center; gap: calc(7 * var(--u)); width: 100%; min-width: 0; padding: calc(7 * var(--u)) calc(9 * var(--u)); border-radius: calc(14 * var(--u)); background: hsl(0 0% 100% / 0.14); color: #fff; text-decoration: none; font-size: calc(11.5 * var(--u)); font-weight: 500; }
+  .lnc-ctc-r svg { flex: none; width: calc(15 * var(--u)); height: calc(15 * var(--u)); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .lnc-ctc-r span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lnc-yrs-n { font-size: calc(74 * var(--u)); font-weight: 700; line-height: 0.9; letter-spacing: -0.04em; background: linear-gradient(170deg, hsl(calc(var(--lh) + 14) calc(100% * var(--ts)) 84%), hsl(calc(var(--lh) - 10) calc(95% * var(--ts)) 60%)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lnc-yrs-t { font-size: calc(15 * var(--u)); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+
+  /* ---- a folder card (Services screen): the group's own picture, its name, how many pages ---- */
+  .lnc-fcard { position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; align-items: start; padding: calc(14 * var(--u)); border-radius: calc(26 * var(--u)); color: #fff; background-color: var(--glass); background-image: linear-gradient(150deg, hsl(0 0% 100% / 0.22), hsl(0 0% 100% / 0.04) 40%, hsl(0 0% 100% / 0.1)); border: 1px solid var(--rim); -webkit-backdrop-filter: blur(20px) saturate(1.7); backdrop-filter: blur(20px) saturate(1.7); box-shadow: inset 0 1.5px 1px hsl(0 0% 100% / 0.45), inset 0 -1px 0 hsl(0 0% 100% / 0.06), 0 12px 30px rgba(0, 0, 0, 0.26); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .lnc-t:active .lnc-fcard { transform: scale(0.96); }
+  .lnc-fic { --ic: calc(50 * var(--u)); grid-column: 1; justify-self: start; }
+  .lnc-fprev { grid-column: 2; display: grid; grid-template-columns: 1fr 1fr; gap: calc(4 * var(--u)); width: calc(50 * var(--u)); height: calc(50 * var(--u)); padding: calc(4 * var(--u)); border-radius: calc(14 * var(--u)); background: hsl(0 0% 0% / 0.2); }
+  .lnc-fprev .lnc-micro { --ic: 100%; width: 100%; height: 100%; }
+  .lnc-fc-t { grid-column: 1 / -1; align-self: end; display: grid; gap: 1px; min-width: 0; }
+  .lnc-fc-t b { font-size: calc(15.5 * var(--u)); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lnc-fc-t small { font-size: calc(12 * var(--u)); opacity: 0.7; }
+  .lnc-fcard::after { content: ""; position: absolute; inset: 0; padding: 1.2px; border-radius: inherit; pointer-events: none; background: conic-gradient(from 200deg, hsl(0 0% 100% / 0.9), hsl(190 90% 80% / 0.15) 20%, hsl(0 0% 100% / 0.28) 45%, hsl(320 90% 80% / 0.2) 72%, hsl(0 0% 100% / 0.9)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+
+  /* ---- search, dots and the dock: one bar at the bottom of every home screen ---- */
+  .lnc-bar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 8; display: flex; flex-direction: column; padding: 0 var(--side) calc(env(safe-area-inset-bottom, 0px) + 12 * var(--u)); pointer-events: none; }
+  .lnc-bar > * { pointer-events: auto; }
+  .lnc-bar .lnc-find, .lnc-bar .lnc-dock { transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1); }
+  .lnc-bar.is-lib .lnc-find, .lnc-bar.is-lib .lnc-dock { opacity: 0; transform: translateY(calc(24 * var(--u))); pointer-events: none; }
+  .lnc.is-edit .lnc-find { display: none; }
+  .lnc-dk { display: grid; justify-items: center; align-content: start; min-width: 0; }
+  .lnc-dk > .lnc-app { width: 100%; }
+  .lnc-dock .lnc-dk .lnc-lb { display: none; }
+
+  /* ---- the edit mode ---- */
+  @keyframes lnc-jig { from { transform: rotate(-1.5deg); } to { transform: rotate(1.5deg) translateY(0.4px); } }
+  .lnc.is-edit .lnc-t:not(.is-ghost) > :first-child { animation: lnc-jig 0.27s ease-in-out infinite alternate; animation-delay: var(--jd, 0s); transform-origin: 50% 60%; }
+  .lnc.is-edit .lnc-t .lnc-app, .lnc.is-edit .lnc-t .lnc-wid { pointer-events: none; }
+  .lnc-rm { position: absolute; z-index: 3; left: calc(-6 * var(--u)); top: calc(-6 * var(--u)); display: grid; place-items: center; width: calc(26 * var(--u)); height: calc(26 * var(--u)); padding: 0; border: 0; border-radius: 50%; background: hsl(0 0% 78% / 0.92); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 hsl(0 0% 100% / 0.7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .lnc-rm svg { width: 60%; height: 60%; fill: none; stroke: hsl(0 0% 12%); stroke-width: 3; stroke-linecap: round; }
+  .lnc-t-app .lnc-rm { left: calc(50% - var(--ic) / 2 - 8 * var(--u)); top: calc(-6 * var(--u)); }
+  .lnc-etop { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top, 0px) + 4 * var(--u)); z-index: 12; display: flex; justify-content: space-between; padding: 0 calc(16 * var(--u)); pointer-events: none; animation: lnc-in 0.3s ease both; }
+  .lnc-etop > * { pointer-events: auto; }
+  .lnc-pill { display: grid; place-items: center; height: calc(32 * var(--u)); min-width: calc(32 * var(--u)); padding: 0 calc(14 * var(--u)); border: 1px solid var(--rim); border-radius: 999px; background: hsl(0 0% 100% / 0.18); color: #fff; font: inherit; font-size: calc(14 * var(--u)); font-weight: 600; -webkit-backdrop-filter: blur(20px) saturate(1.7); backdrop-filter: blur(20px) saturate(1.7); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); }
+  .lnc-pill svg { width: calc(16 * var(--u)); height: calc(16 * var(--u)); fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; }
+  .lnc-pill.is-done { background: hsl(0 0% 100% / 0.92); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); }
+  .lnc-dragger { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; will-change: transform; filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.42)); }
+  .lnc.is-dragging .lnc-t { transition-duration: 0.34s; }
+
+  /* ---- the long-press menu ---- */
+  .lnc-menu { position: absolute; inset: 0; z-index: 30; background: hsl(calc(var(--th) + 347.58) calc(70% * var(--ts)) 4% / 0.5); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); animation: lnc-fade 0.25s ease both; }
+  .lnc-lift { position: absolute; pointer-events: none; transform: scale(1.07); animation: lnc-lift 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  @keyframes lnc-lift { from { transform: scale(1); } to { transform: scale(1.07); } }
+  .lnc-mn { position: absolute; margin: 0; padding: calc(5 * var(--u)); list-style: none; border-radius: calc(24 * var(--u)); background-color: hsl(calc(var(--th) + 347.58) calc(40% * var(--ts)) 16% / 0.78); border: 1px solid var(--rim); -webkit-backdrop-filter: blur(30px) saturate(1.8); backdrop-filter: blur(30px) saturate(1.8); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 24px 60px rgba(0, 0, 0, 0.5); animation: lnc-pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: 30% 0; }
+  .lnc-mn li + li { border-top: 1px solid hsl(0 0% 100% / 0.1); }
+  .lnc-mn button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; padding: calc(13 * var(--u)) calc(14 * var(--u)); border: 0; border-radius: calc(18 * var(--u)); background: none; color: #fff; font: inherit; font-size: calc(16.5 * var(--u)); font-weight: 500; text-align: left; }
+  .lnc-mn button:active { background: hsl(0 0% 100% / 0.14); }
+  .lnc-mn button.is-danger { color: hsl(2 100% 74%); }
+  .lnc-mn svg { flex: none; width: calc(21 * var(--u)); height: calc(21 * var(--u)); fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---- the "+" sheet: widgets and wallpapers ---- */
+  .lnc-sheet-bg { position: absolute; inset: 0; z-index: 35; background: hsl(calc(var(--th) + 347.58) calc(70% * var(--ts)) 4% / 0.5); animation: lnc-fade 0.3s ease both; }
+  .lnc-sheet { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; max-height: 80%; padding-bottom: env(safe-area-inset-bottom, 0px); border: 1px solid var(--rim); border-bottom: 0; border-radius: calc(32 * var(--u)) calc(32 * var(--u)) 0 0; background-color: hsl(calc(var(--th) + 347.58) calc(45% * var(--ts)) 9% / 0.9); -webkit-backdrop-filter: blur(34px) saturate(1.7); backdrop-filter: blur(34px) saturate(1.7); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3); animation: lnc-up 0.45s cubic-bezier(0.32, 0.72, 0, 1) both; }
+  @keyframes lnc-up { from { transform: translateY(100%); } }
+  .lnc-sheet-h { display: flex; align-items: center; justify-content: space-between; padding: calc(16 * var(--u)) calc(16 * var(--u)) calc(10 * var(--u)); }
+  .lnc-seg { display: inline-flex; padding: 3px; border-radius: 999px; background: hsl(0 0% 100% / 0.1); }
+  .lnc-seg button { padding: calc(7 * var(--u)) calc(16 * var(--u)); border: 0; border-radius: 999px; background: none; color: #fff; font: inherit; font-size: calc(14 * var(--u)); font-weight: 600; opacity: 0.7; transition: background 0.25s, opacity 0.25s; }
+  .lnc-seg button.is-on { background: hsl(0 0% 100% / 0.2); opacity: 1; }
+  .lnc-x { width: calc(32 * var(--u)); height: calc(32 * var(--u)); padding: 0; border: 0; border-radius: 50%; background: hsl(0 0% 100% / 0.14); color: #fff; font-size: calc(22 * var(--u)); line-height: 1; }
+  .lnc-sheet-b { overflow-y: auto; padding: calc(6 * var(--u)) calc(16 * var(--u)) calc(20 * var(--u)); scrollbar-width: none; } .lnc-sheet-b::-webkit-scrollbar { display: none; }
+  .lnc-gal { display: grid; grid-template-columns: 1fr 1fr; gap: calc(20 * var(--u)) calc(16 * var(--u)); }
+  .lnc-gal-i { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: calc(4 * var(--u)); text-align: center; }
+  .lnc-gal-i .lnc-wid { grid-column: auto; width: 100%; max-width: calc(153 * var(--u)); aspect-ratio: 1; margin-bottom: calc(6 * var(--u)); pointer-events: none; }
+  .lnc-gal-i b { font-size: calc(14 * var(--u)); font-weight: 600; }
+  .lnc-gal-i small { font-size: calc(12 * var(--u)); opacity: 0.68; }
+  .lnc-add { margin-top: calc(4 * var(--u)); padding: calc(7 * var(--u)) calc(16 * var(--u)); border: 0; border-radius: 999px; background: hsl(0 0% 100% / 0.92); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font: inherit; font-size: calc(13 * var(--u)); font-weight: 600; }
+  .lnc-add:disabled { opacity: 0.45; }
+  .lnc-walls { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(14 * var(--u)); }
+  .lnc-ws { position: relative; aspect-ratio: 9 / 16; padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: calc(18 * var(--u)); background: none; color: #fff; }
+  .lnc-ws.is-on { border-color: #fff; }
+  .lnc-ws .lnc-wall { position: absolute; inset: 0; }
+  .lnc-ws > span { position: absolute; left: 0; right: 0; bottom: calc(9 * var(--u)); text-align: center; font-size: calc(12 * var(--u)); font-weight: 600; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7); }
+  .lnc-ws-add { display: grid; place-items: center; align-content: center; gap: calc(8 * var(--u)); border: 2px dashed hsl(0 0% 100% / 0.35); background: hsl(0 0% 100% / 0.08); }
+  .lnc-ws-add svg { width: calc(30 * var(--u)); height: calc(30 * var(--u)); fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .lnc-ws-add > span { position: static; }
+  .lnc-toast { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 132 * var(--u)); z-index: 50; transform: translateX(-50%); padding: calc(10 * var(--u)) calc(18 * var(--u)); border-radius: 999px; background: hsl(0 0% 100% / 0.94); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font-size: calc(14 * var(--u)); font-weight: 600; white-space: nowrap; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); animation: lnc-toast 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  @keyframes lnc-toast { from { opacity: 0; transform: translate(-50%, 10px) scale(0.92); } }
+
+  /* ---- the app that opens: the icon grows, its colour melts into the colour of the website, the page opens on it ---- */
+  .lnc-grow { display: block; background: none; color: #fff; overflow: hidden; }
+  .lnc-grow .lnc-grow-ic { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; box-shadow: none; }
+  .lnc-grow .lnc-grow-ic .lnc-glyph { width: 30%; height: 30%; animation: none; }
+  .lnc-grow-bg { position: absolute; inset: 0; background: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9%); opacity: 0; }
+}
+@media (max-width: 99999px) and (max-height: 700px) {
+  .lnc-home { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 134 * var(--u)); }
+}
+@media (min-width: 700px) and (max-width: 99999px) {
+  /* on a tablet everything scales with the same unit (the older fixed pixel sizes above are cancelled) */
+  .lnc-wid { padding: calc(16 * var(--u)); border-radius: calc(26 * var(--u)); }
+  .lnc-pitch img { width: calc(46 * var(--u)); } .lnc-pitch b { font-size: calc(17 * var(--u)); } .lnc-pitch span { padding: calc(6 * var(--u)) calc(14 * var(--u)); font-size: calc(12 * var(--u)); }
+  .lnc-clock-d b { font-size: calc(20 * var(--u)); } .lnc-clock-d small { font-size: calc(10 * var(--u)); }
+  .lnc-gal { grid-template-columns: repeat(3, 1fr); } .lnc-walls { grid-template-columns: repeat(5, 1fr); }
+  .lnc-sheet { left: 50%; right: auto; width: min(100%, 640px); transform: translateX(-50%); animation: none; }
+  .lnc-bar { padding-left: 0; padding-right: 0; align-items: center; } .lnc-bar .lnc-dock { width: min(100%, calc(430 * var(--u))); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lnc.is-edit .lnc-t > :first-child { animation: none; }
+  .lnc-t, .lnc-sheet, .lnc-menu, .lnc-mn, .lnc-ui { animation: none; transition: none; }
+}
+
+
+/* ===================================================================================================================================
+   LAUNCHER v6: the icon looks, as on the iPhone ("Customize"): Default (the colourful glass icons), Dark, Clear (see-through glass) and Tinted (one
+   colour for all, any hue). The root has the class ics-<look>; the Customize panel shows the same classes on its small previews.
+   =================================================================================================================================== */
+@media (max-width: 99999px) {
+  /* ---- Dark: a dark glass tile, a glowing coloured picture ---- */
+  .ics-dark .lnc-ic.is-c, .ics-dark .lnc-ic.is-w {
+    background: radial-gradient(80% 60% at 50% 125%, hsl(var(--hue) 70% 30% / 0.85), transparent 72%), linear-gradient(170deg, hsl(var(--hue) 26% 18%), hsl(var(--hue) 32% 8%));
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5), inset 0 1.5px 1px hsl(0 0% 100% / 0.2), inset 0 -3px 8px hsl(var(--hue) 80% 50% / 0.18), inset 0 0 0 0.5px hsl(0 0% 100% / 0.12);
+  }
+  .ics-dark .lnc-ic .g-body { stroke: hsl(var(--hue) 95% 76%); }
+  .ics-dark .lnc-ic .g-back { stroke: hsl(var(--hue) 95% 58%); opacity: 0.5; }
+  .ics-dark .lnc-ic .g-edge { stroke: hsl(0 0% 100% / 0.85); }
+  .ics-dark .lnc-ic .lnc-glyph { filter: drop-shadow(0 0 4px hsl(var(--hue) 95% 60% / 0.55)); }
+  .ics-dark .lnc-ic::before { background: linear-gradient(180deg, hsl(0 0% 100% / 0.16), hsl(0 0% 100% / 0)); opacity: 1; }
+  .ics-dark .lnc-ic::after { background: conic-gradient(from 210deg, hsl(0 0% 100% / 0.5), hsl(0 0% 100% / 0.06) 25%, hsl(0 0% 100% / 0.22) 52%, hsl(0 0% 100% / 0.05) 75%, hsl(0 0% 100% / 0.5)); }
+
+  /* ---- Clear: see-through glass with a white picture ---- */
+  .ics-clear .lnc-ic.is-c, .ics-clear .lnc-ic.is-w {
+    background: linear-gradient(160deg, hsl(0 0% 100% / 0.34), hsl(0 0% 100% / 0.1) 60%, hsl(0 0% 100% / 0.2));
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.26), inset 0 1.5px 1px hsl(0 0% 100% / 0.7), inset 0 -3px 8px hsl(0 0% 100% / 0.18), inset 0 0 0 0.5px hsl(0 0% 100% / 0.4);
+  }
+  .ics-clear .lnc-ic .g-body { stroke: hsl(0 0% 100% / 0.96); }
+  .ics-clear .lnc-ic .g-back { stroke: hsl(0 0% 100% / 0.7); opacity: 0.45; }
+  .ics-clear .lnc-ic .g-edge { stroke: #fff; }
+  .ics-clear .lnc-ic .lnc-glyph { filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35)); }
+  .ics-clear .lnc-ic::before { background: linear-gradient(180deg, hsl(0 0% 100% / 0.4), hsl(0 0% 100% / 0)); opacity: 1; }
+  .ics-clear .lnc-ic::after { background: conic-gradient(from 210deg, hsl(0 0% 100% / 0.95), hsl(0 0% 100% / 0.12) 25%, hsl(0 0% 100% / 0.5) 52%, hsl(0 0% 100% / 0.1) 75%, hsl(0 0% 100% / 0.95)); }
+
+  /* ---- Tinted: every icon in one colour (the theme colour moved by the slider) ---- */
+  .ics-tint .lnc-ic.is-c, .ics-tint .lnc-ic.is-w {
+    background: radial-gradient(85% 60% at 50% 118%, hsl(var(--tint) 85% 55% / 0.55), transparent 72%), linear-gradient(172deg, hsl(var(--tint) 60% 36%), hsl(var(--tint) 70% 17%));
+    box-shadow: 0 8px 18px hsl(var(--tint) 70% 8% / 0.5), inset 0 1.5px 1px hsl(0 0% 100% / 0.4), inset 0 -3px 8px hsl(var(--tint) 90% 70% / 0.22), inset 0 0 0 0.5px hsl(0 0% 100% / 0.18);
+  }
+  .ics-tint .lnc-ic .g-body { stroke: hsl(var(--tint) 100% 93%); }
+  .ics-tint .lnc-ic .g-back { stroke: hsl(var(--tint) 90% 68%); opacity: 0.5; }
+  .ics-tint .lnc-ic .g-edge { stroke: #fff; }
+  .ics-tint .lnc-ic .lnc-glyph { filter: drop-shadow(0 1.5px 2px hsl(var(--tint) 80% 8% / 0.5)); }
+  .ics-tint .lnc-ic::before { background: linear-gradient(180deg, hsl(0 0% 100% / 0.22), hsl(0 0% 100% / 0)); opacity: 1; }
+  .ics-tint .lnc-ic::after { background: conic-gradient(from 210deg, hsl(0 0% 100% / 0.6), hsl(0 0% 100% / 0.06) 25%, hsl(0 0% 100% / 0.26) 52%, hsl(0 0% 100% / 0.06) 75%, hsl(0 0% 100% / 0.6)); }
+
+  /* ---- the Customize panel: it sits at the bottom and leaves the screen visible, so the new look can be seen at once ---- */
+  .lnc-cust-bg { position: absolute; inset: 0; z-index: 36; }
+  .lnc-cust { position: absolute; left: calc(14 * var(--u)); right: calc(14 * var(--u)); bottom: calc(env(safe-area-inset-bottom, 0px) + 14 * var(--u)); padding: calc(14 * var(--u)) calc(14 * var(--u)) calc(16 * var(--u)); border: 1px solid var(--rim); border-radius: calc(30 * var(--u)); background-color: hsl(calc(var(--th) + 347.58) calc(45% * var(--ts)) 10% / 0.82); -webkit-backdrop-filter: blur(30px) saturate(1.7); backdrop-filter: blur(30px) saturate(1.7); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 24px 60px rgba(0, 0, 0, 0.5); animation: lnc-up 0.45s cubic-bezier(0.32, 0.72, 0, 1) both; }
+  .lnc-cust-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: calc(12 * var(--u)); padding-left: calc(4 * var(--u)); font-size: calc(16 * var(--u)); }
+  .lnc-cust-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: calc(8 * var(--u)); }
+  .lnc-cs { display: grid; justify-items: center; gap: calc(7 * var(--u)); padding: calc(10 * var(--u)) 0 calc(8 * var(--u)); border: 1.5px solid transparent; border-radius: calc(20 * var(--u)); background: hsl(0 0% 100% / 0.07); color: #fff; font: inherit; transition: background 0.25s, border-color 0.25s, transform 0.25s; }
+  .lnc-cs:active { transform: scale(0.96); }
+  .lnc-cs.is-on { border-color: #fff; background: hsl(0 0% 100% / 0.16); }
+  .lnc-cs-p { display: grid; place-items: center; padding: calc(8 * var(--u)); border-radius: calc(18 * var(--u)); background: linear-gradient(150deg, hsl(calc(var(--lh) + 20) 55% 30%), hsl(calc(var(--lh) - 40) 60% 16%)); }
+  /* the small pictures of the four looks (their own rules, so the look of the screen behind does not change them) */
+  .lnc-pv { --hue: calc(var(--lh) + 24); position: relative; display: grid; place-items: center; width: calc(46 * var(--u)); height: calc(46 * var(--u)); border-radius: 22.4%; }
+  .lnc-pv .lnc-glyph { width: 62%; height: 62%; overflow: visible; filter: drop-shadow(0 1px 1px hsl(0 0% 0% / 0.2)); }
+  .pv-default { background: radial-gradient(85% 60% at 50% 112%, hsl(calc(var(--hue) + 14) 100% 72% / 0.8), transparent 70%), linear-gradient(172deg, hsl(calc(var(--hue) + 6) 92% 64%), hsl(calc(var(--hue) - 12) 88% 44%)); box-shadow: 0 6px 12px hsl(var(--hue) 60% 10% / 0.45), inset 0 1.5px 1px hsl(0 0% 100% / 0.7); }
+  .pv-default { --gf: #fff; --gc: hsl(var(--hue) 88% 52%); }
+  .pv-dark { background: radial-gradient(80% 60% at 50% 125%, hsl(var(--hue) 70% 30% / 0.85), transparent 72%), linear-gradient(170deg, hsl(var(--hue) 26% 18%), hsl(var(--hue) 32% 8%)); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), inset 0 1.5px 1px hsl(0 0% 100% / 0.2); }
+  .pv-dark { --gf: hsl(var(--hue) 95% 76%); --gc: hsl(var(--hue) 34% 11%); }
+  .pv-clear { background: linear-gradient(160deg, hsl(0 0% 100% / 0.34), hsl(0 0% 100% / 0.1) 60%, hsl(0 0% 100% / 0.2)); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.26), inset 0 1.5px 1px hsl(0 0% 100% / 0.7), inset 0 0 0 0.5px hsl(0 0% 100% / 0.4); }
+  .pv-clear { --gf: hsl(0 0% 100% / 0.97); --gc: hsl(0 0% 12% / 0.5); }
+  .pv-tint { background: radial-gradient(85% 60% at 50% 118%, hsl(var(--tint) 85% 55% / 0.55), transparent 72%), linear-gradient(172deg, hsl(var(--tint) 60% 36%), hsl(var(--tint) 70% 17%)); box-shadow: 0 6px 12px hsl(var(--tint) 70% 8% / 0.5), inset 0 1.5px 1px hsl(0 0% 100% / 0.4); }
+  .pv-tint { --gf: hsl(var(--tint) 100% 93%); --gc: hsl(var(--tint) 62% 27%); }
+  .lnc-cs small { font-size: calc(13 * var(--u)); font-weight: 600; }
+  .lnc-hue { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: calc(12 * var(--u)); margin-top: calc(14 * var(--u)); padding: 0 calc(6 * var(--u)); font-size: calc(14 * var(--u)); font-weight: 600; }
+  .lnc-hue input { width: 100%; height: calc(14 * var(--u)); border-radius: 999px; outline: none; -webkit-appearance: none; appearance: none; background: linear-gradient(90deg, hsl(calc(var(--lh) - 180) 85% 55%), hsl(calc(var(--lh) - 120) 85% 55%), hsl(calc(var(--lh) - 60) 85% 55%), hsl(var(--lh) 85% 55%), hsl(calc(var(--lh) + 60) 85% 55%), hsl(calc(var(--lh) + 120) 85% 55%), hsl(calc(var(--lh) + 180) 85% 55%)); }
+  .lnc-hue input::-webkit-slider-thumb { -webkit-appearance: none; width: calc(26 * var(--u)); height: calc(26 * var(--u)); border-radius: 50%; border: 3px solid #fff; background: hsl(var(--tint) 85% 55%); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45); }
+  .lnc-hue input::-moz-range-thumb { width: calc(20 * var(--u)); height: calc(20 * var(--u)); border-radius: 50%; border: 3px solid #fff; background: hsl(var(--tint) 85% 55%); }
+}
+@media (min-width: 700px) and (max-width: 99999px) {
+  .lnc-cust { left: 50%; right: auto; width: min(100% - 28px, 520px); transform: translateX(-50%); animation: none; }
+}
+
+
+/* ===================================================================================================================================
+   LAUNCHER v7: the icons in the style of the Apple icons. A clean tile (a smooth light-to-deep colour, a hairline of light on the rim, a soft shadow; no blobs of
+   gloss), and a bold solid picture with a few thin cut-outs (glyph.tsx: .g-f the shape, .g-c the cut-outs, .g-s lines). --gf is the colour of the picture,
+   --gc the colour of the cut-outs: on a colour tile white / tile colour, on a white tile colour / white. The four looks only change these two colours and the tile.
+   =================================================================================================================================== */
+@media (max-width: 99999px) {
+  .lnc .lnc-glyph { width: 62%; height: 62%; overflow: visible; filter: drop-shadow(0 1px 1px hsl(0 0% 0% / 0.2)); }
+  .lnc-glyph .g-f { fill: var(--gf, #fff); stroke: none; }
+  .lnc-glyph .g-s { fill: none; stroke: var(--gf, #fff); stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+  .lnc-glyph .g-c { fill: none; stroke: var(--gc, hsl(0 0% 40%)); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---- Default ---- */
+  .ics-default .lnc-ic.is-c {
+    --gf: #fff; --gc: hsl(var(--hue) 88% 52%);
+    background: linear-gradient(180deg, hsl(calc(var(--hue) + 8) 92% 67%), hsl(calc(var(--hue) - 10) 88% 47%));
+    box-shadow: 0 1px 2px hsl(0 0% 0% / 0.3), 0 7px 14px hsl(var(--hue) 60% 8% / 0.36), inset 0 0.5px 0 hsl(0 0% 100% / 0.6), inset 0 -0.5px 0 hsl(0 0% 0% / 0.16);
+  }
+  .ics-default .lnc-ic.is-w {
+    --gf: hsl(var(--hue) 86% 52%); --gc: #fff;
+    background: linear-gradient(180deg, #fff, hsl(220 16% 92%));
+    box-shadow: 0 1px 2px hsl(0 0% 0% / 0.28), 0 7px 14px hsl(222 30% 8% / 0.34), inset 0 0.5px 0 #fff, inset 0 -0.5px 0 hsl(220 20% 70% / 0.5);
+  }
+  .ics-default .lnc-ic::before { inset: 0; height: auto; border-radius: inherit; background: linear-gradient(180deg, hsl(0 0% 100% / 0.2), hsl(0 0% 100% / 0) 52%); opacity: 1; }
+  .ics-default .lnc-ic.is-w::before { display: none; }
+  .ics-default .lnc-ic::after, .ics-default .lnc-ic.is-w::after { padding: 0.75px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.6), hsl(0 0% 100% / 0.06) 45%, hsl(0 0% 100% / 0.22)); }
+  .ics-default .lnc-ic.is-w::after { background: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 20% 80% / 0.5)); }
+
+  /* ---- the other looks: the colours of the picture and of its cut-outs ---- */
+  .ics-dark .lnc-ic.is-c, .ics-dark .lnc-ic.is-w { --gf: hsl(var(--hue) 95% 76%); --gc: hsl(var(--hue) 34% 11%); }
+  .ics-clear .lnc-ic.is-c, .ics-clear .lnc-ic.is-w { --gf: hsl(0 0% 100% / 0.97); --gc: hsl(0 0% 12% / 0.5); }
+  .ics-tint .lnc-ic.is-c, .ics-tint .lnc-ic.is-w { --gf: hsl(var(--tint) 100% 93%); --gc: hsl(var(--tint) 62% 27%); }
+}
+
+
+/* ===================================================================================================================================
+   LAUNCHER v8: the All Apps screen (every page as an icon), the "+" sheet with an Apps tab (put any service or page on the Home screen), the new widgets
+   that help a visitor to reach us (WhatsApp, Visit, Follow, Our services, Send a message), and the font of the whole launcher (Customize > Font).
+   =================================================================================================================================== */
+@media (max-width: 99999px) {
+  /* ---- the font: the class fnt-<id> on the root; every text of the launcher inherits it ---- */
+  .lnc.fnt-soft { font-family: var(--f-soft), var(--font-poppins), system-ui, sans-serif; }
+  .lnc.fnt-serif { font-family: var(--f-serif), var(--font-poppins), Georgia, serif; }
+  .lnc.fnt-poster { font-family: var(--f-poster), var(--font-poppins), Impact, sans-serif; letter-spacing: 0.02em; }
+  .lnc.fnt-mono { font-family: var(--f-mono), var(--font-poppins), ui-monospace, monospace; }
+  .lnc.fnt-script { font-family: var(--f-script), var(--font-poppins), cursive; }
+  .lnc.fnt-hand { font-family: var(--f-hand), var(--font-poppins), cursive; }
+  .lnc.fnt-poster .lnc-lb, .lnc.fnt-poster .lnc-ptitle { letter-spacing: 0.04em; }
+  .lnc.fnt-script .lnc-lb { font-size: calc(11 * var(--u)); }
+  .lnc.fnt-hand .lnc-lb { font-size: calc(14 * var(--u)); }
+  .lnc.fnt-hand .lnc-ptitle, .lnc.fnt-script .lnc-ptitle { font-weight: 400; }
+
+  /* ---- the home indicator, the thin bar at the bottom of an iPhone ---- */
+  .lnc-hi { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 6 * var(--u)); z-index: 9; width: calc(134 * var(--u)); height: calc(5 * var(--u)); margin-left: calc(-67 * var(--u)); border-radius: 99px; background: hsl(0 0% 100% / 0.85); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); pointer-events: none; }
+
+  /* ---- the "+" sheet: the Apps tab ---- */
+  .lnc-search-s { margin: 0 0 calc(10 * var(--u)); height: calc(42 * var(--u)); }
+  .lnc-apps-h { margin: 0 0 calc(6 * var(--u)); font-size: calc(12.5 * var(--u)); opacity: 0.7; }
+  .lnc-apps-g h4 { margin: calc(14 * var(--u)) 0 calc(8 * var(--u)); font-size: calc(13 * var(--u)); font-weight: 600; opacity: 0.8; }
+  .lnc-apps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: calc(12 * var(--u)) calc(8 * var(--u)); }
+  .lnc-pk { position: relative; display: grid; justify-items: center; align-content: start; gap: calc(6 * var(--u)); padding: 0; border: 0; background: none; color: #fff; font: inherit; }
+  .lnc-pk .lnc-ic { --ic: calc(54 * var(--u)); }
+  .lnc-pk .lnc-lb { max-width: 100%; font-size: calc(11 * var(--u)); }
+  .lnc-pk i { position: absolute; top: calc(-5 * var(--u)); right: calc(2 * var(--u)); display: grid; place-items: center; width: calc(22 * var(--u)); height: calc(22 * var(--u)); border-radius: 50%; background: hsl(0 0% 100% / 0.92); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font-size: calc(15 * var(--u)); font-style: normal; font-weight: 700; line-height: 1; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); }
+  .lnc-pk.is-on i { background: hsl(142 70% 50%); color: #fff; }
+  .lnc-pk:active { transform: scale(0.94); }
+  .lnc-gal-i.is-wide { grid-column: 1 / -1; }
+  .lnc-gal-i.is-wide .lnc-wid { max-width: 100%; aspect-ratio: auto; height: calc(153 * var(--u)); }
+  @media (min-width: 700px) { .lnc-apps-grid { grid-template-columns: repeat(6, 1fr); } }
+
+  /* ---- the new widgets ---- */
+  .lnc-wid.lnc-wa, .lnc-wid.lnc-vs { display: grid; align-content: space-between; justify-items: start; gap: calc(6 * var(--u)); }
+  .lnc-wa { background-image: radial-gradient(120% 90% at 100% 0%, hsl(142 75% 50% / 0.5), transparent 62%), linear-gradient(150deg, hsl(0 0% 100% / 0.2), hsl(0 0% 100% / 0.04) 40%, hsl(0 0% 100% / 0.1)); }
+  .lnc-wa-i, .lnc-vs-i { display: grid; place-items: center; width: calc(42 * var(--u)); height: calc(42 * var(--u)); border-radius: 50%; background: hsl(142 70% 45%); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.5), 0 6px 14px hsl(142 70% 15% / 0.4); }
+  .lnc-vs-i { background: hsl(calc(var(--lh) + 8) calc(85% * var(--ts)) 58%); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.5), 0 6px 14px hsl(calc(var(--lh) + 8) 60% 14% / 0.4); }
+  .lnc-wa-i svg, .lnc-vs-i svg { width: 56%; height: 56%; fill: none; stroke: #fff; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+  .lnc-wa b, .lnc-vs b { font-size: calc(16 * var(--u)); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+  .lnc-wa small, .lnc-vs small { max-width: 100%; font-size: calc(11.5 * var(--u)); opacity: 0.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; }
+  .lnc-soc .lnc-ctc-r span { text-transform: none; }
+  .lnc-quick2 { align-content: space-between; }
+  .lnc-qk { display: grid; grid-template-columns: 1fr 1fr; gap: calc(8 * var(--u)); justify-items: center; width: 100%; }
+  .lnc-qk a { display: grid; place-items: center; }
+  .lnc-qk .lnc-mini { --ic: calc(46 * var(--u)); }
+
+  /* ---- the message widget: a real form (it uses the same lead action as the contact page) ---- */
+  .lnc-wid.lnc-mw { padding: calc(14 * var(--u)); }
+  .lnc-msg { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; gap: calc(8 * var(--u)); height: 100%; align-content: space-between; }
+  .lnc-msg small { grid-column: 1 / -1; font-size: calc(11 * var(--u)); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75; }
+  .lnc-msg input { min-width: 0; height: calc(36 * var(--u)); padding: 0 calc(12 * var(--u)); border: 0; outline: 0; border-radius: calc(12 * var(--u)); background: hsl(0 0% 100% / 0.16); color: #fff; font: inherit; font-size: max(16px, calc(14 * var(--u))); }
+  .lnc-msg input::placeholder { color: hsl(0 0% 100% / 0.65); }
+  .lnc-msg input:focus { background: hsl(0 0% 100% / 0.26); }
+  .lnc-msg .lnc-msg-t { grid-column: 1 / -1; grid-row: 3; padding-right: calc(78 * var(--u)); }
+  .lnc-msg button { grid-column: 1 / -1; grid-row: 3; justify-self: end; width: calc(68 * var(--u)); margin: calc(3 * var(--u)); height: calc(30 * var(--u)); border: 0; border-radius: calc(12 * var(--u)); background: hsl(0 0% 100% / 0.94); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); font: inherit; font-size: calc(14 * var(--u)); font-weight: 600; }
+  .lnc-msg button:disabled { opacity: 0.6; }
+  .lnc-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .lnc-msg-ok { grid-column: 1 / -1; align-self: center; margin: 0; font-size: calc(15 * var(--u)); font-weight: 600; line-height: 1.35; }
+  .lnc-msg-er { grid-column: 1 / -1; font-size: calc(11.5 * var(--u)); color: hsl(2 100% 78%); }
+
+  /* ---- Customize: the font row ---- */
+  .lnc-cust-l { margin: calc(14 * var(--u)) 0 calc(8 * var(--u)) calc(4 * var(--u)); font-size: calc(13 * var(--u)); font-weight: 600; opacity: 0.75; }
+  .lnc-fonts { display: flex; gap: calc(8 * var(--u)); overflow-x: auto; margin: 0 calc(-14 * var(--u)); padding: 0 calc(14 * var(--u)) calc(2 * var(--u)); scrollbar-width: none; touch-action: pan-x; }
+  .lnc-fonts::-webkit-scrollbar { display: none; }
+  .lnc-fn { flex: none; display: grid; justify-items: center; gap: calc(2 * var(--u)); min-width: calc(76 * var(--u)); padding: calc(9 * var(--u)) calc(10 * var(--u)) calc(7 * var(--u)); border: 1.5px solid transparent; border-radius: calc(16 * var(--u)); background: hsl(0 0% 100% / 0.07); color: #fff; }
+  .lnc-fn b { font-size: calc(26 * var(--u)); font-weight: 600; line-height: 1.1; }
+  .lnc-fn small { font-family: var(--font-poppins), sans-serif; font-size: calc(11.5 * var(--u)); font-weight: 500; opacity: 0.8; }
+  .lnc-fn.is-on { border-color: #fff; background: hsl(0 0% 100% / 0.16); }
+}
+
+
+/* ===================================================================================================================================
+   LAUNCHER v9: the bottom of the iPhone as in iOS 26. The dock is one wide pane of liquid glass (a faint fill, a hairline rim that is bright at the top, no
+   heavy shadow). The Search pill is a small glass capsule; when the screen changes it turns into the page dots for a moment and then comes back.
+   The Customize panel is the same glass. The Clear look has see-through tiles that blur what is behind them.
+   =================================================================================================================================== */
+@media (max-width: 99999px) {
+  /* ---- the Search pill and the page dots share one place ---- */
+  .lnc-ind { position: relative; display: grid; place-items: center; height: calc(30 * var(--u)); margin-bottom: calc(12 * var(--u)); }
+  .lnc-ind > * { grid-area: 1 / 1; transition: opacity 0.32s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1); }
+  .lnc-find, .lnc.is-edit .lnc-find { display: inline-flex; align-items: center; justify-self: center; gap: calc(6 * var(--u)); height: calc(30 * var(--u)); margin: 0; padding: 0 calc(16 * var(--u)); border: 0; border-radius: 999px; background-color: hsl(0 0% 100% / 0.13); background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.02)); color: hsl(0 0% 100% / 0.92); font: inherit; font-size: calc(13 * var(--u)); font-weight: 500; letter-spacing: 0; -webkit-backdrop-filter: blur(22px) saturate(1.5); backdrop-filter: blur(22px) saturate(1.5); box-shadow: inset 0 0 0 0.75px hsl(0 0% 100% / 0.26), inset 0 1px 0 hsl(0 0% 100% / 0.22); }
+  .lnc-find::after { display: none; }
+  .lnc-find svg { width: calc(12 * var(--u)); height: calc(12 * var(--u)); fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; opacity: 0.9; }
+  .lnc-dots { align-self: center; justify-self: center; margin: 0; opacity: 0; transform: scale(0.7); pointer-events: none; }
+  .lnc-ind.is-dots .lnc-dots { opacity: 1; transform: none; pointer-events: auto; }
+  .lnc-ind.is-dots .lnc-find { opacity: 0; transform: scale(0.7); pointer-events: none; }
+  .lnc-dots button { background: hsl(0 0% 100% / 0.38); }
+
+  /* ---- the dock: one pane of glass ---- */
+  .lnc-dock { margin: 0 calc(-17 * var(--u)); padding: calc(11 * var(--u)) calc(14 * var(--u)); border: 0; border-radius: calc(37 * var(--u)); background-color: hsl(0 0% 100% / 0.1); background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.13), hsl(0 0% 100% / 0.03)); -webkit-backdrop-filter: blur(30px) saturate(1.6); backdrop-filter: blur(30px) saturate(1.6); box-shadow: inset 0 0 0 0.75px hsl(0 0% 100% / 0.2), inset 0 1.5px 1px hsl(0 0% 100% / 0.22), 0 8px 24px rgba(0, 0, 0, 0.16); }
+  .lnc-dock::after { padding: 0.75px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.5), hsl(0 0% 100% / 0.04) 42%, hsl(0 0% 100% / 0.16)); }
+  .lnc-hi { bottom: calc(env(safe-area-inset-bottom, 0px) + 5 * var(--u)); background: hsl(0 0% 100% / 0.9); }
+
+  /* ---- the Clear look: the tiles are glass that blurs the wallpaper behind them ---- */
+  .ics-clear .lnc-ic { -webkit-backdrop-filter: blur(10px) saturate(1.4); backdrop-filter: blur(10px) saturate(1.4); }
+  .ics-clear .lnc-ic.is-c, .ics-clear .lnc-ic.is-w { background: linear-gradient(155deg, hsl(0 0% 100% / 0.4), hsl(0 0% 100% / 0.12) 55%, hsl(0 0% 100% / 0.22)); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset 0 1.5px 1px hsl(0 0% 100% / 0.65), inset 0 -2px 6px hsl(0 0% 100% / 0.14), inset 0 0 0 0.5px hsl(0 0% 100% / 0.45); }
+
+  /* ---- the Customize panel: the same glass ---- */
+  .lnc-cust { border: 0; border-radius: calc(36 * var(--u)); background-color: hsl(0 0% 100% / 0.1); background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.03)); -webkit-backdrop-filter: blur(40px) saturate(1.7); backdrop-filter: blur(40px) saturate(1.7); box-shadow: inset 0 0 0 0.75px hsl(0 0% 100% / 0.24), inset 0 1.5px 1px hsl(0 0% 100% / 0.22), 0 24px 60px rgba(0, 0, 0, 0.4); }
+  .lnc-cust-h b { font-size: calc(17 * var(--u)); font-weight: 600; }
+  .lnc-cs { padding: calc(8 * var(--u)) 0 calc(7 * var(--u)); border: 0; border-radius: calc(22 * var(--u)); background: none; }
+  .lnc-cs.is-on { background: hsl(0 0% 100% / 0.17); box-shadow: inset 0 0 0 0.75px hsl(0 0% 100% / 0.3); }
+  .lnc-cs-p { padding: 0; background: none; }
+  .lnc-pv { width: calc(56 * var(--u)); height: calc(56 * var(--u)); }
+  .lnc-fn { border: 0; border-radius: calc(20 * var(--u)); }
+  .lnc-fn.is-on { box-shadow: inset 0 0 0 0.75px hsl(0 0% 100% / 0.3); }
+  .lnc-cust .lnc-x { background: hsl(0 0% 100% / 0.16); }
+  .lnc-ws.is-on { border-color: hsl(0 0% 100% / 0.95); }
+}
