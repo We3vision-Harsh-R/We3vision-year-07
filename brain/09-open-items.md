@@ -8,7 +8,12 @@
   ("Project 01..30", own SVG art) are in `public/images/showcase`.
 - **PANDA chatbot**: backend URL must be set in `NEXT_PUBLIC_CHATBOT_API_URL` (local `.env` and Hostinger). Ask Jenish before
   changing `ai-chat.tsx` / `lib/ai-chat.ts`.
-- **Mobile/tablet versions**: the owner will do them separately — do not start.
+- **Mobile app** (2026-10-16): sprint in progress (10 agents) — plan in [13](13-mobile-app-plan.md), architecture in [11](11-mobile-architecture.md).
+- **Launcher real-phone test**: only checked in the browser so far; test on a real iPhone/Android.
+- **Launcher drag-to-create-folder**: not built yet.
+- **Community plugins offered** (Mobile App Design (iOS), A11y Enforcer): waiting for the owner's yes/no.
+- **2 leftover worktree folders** were still in use and not removed; clean them up when free.
+- **Dev server**: the main folder runs on port 1010 (`.claude/launch.json`).
 - **Gov-project logos** (NRIDA, MOC) on Metaverse: monogram badges until logos are supplied (`gov-projects.ts` has a `logo` field).
 - **Leader photos** on About/Team: initials avatars until the owner approves downloading/supplying photos.
 
