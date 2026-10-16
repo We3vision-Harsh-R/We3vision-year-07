@@ -69,7 +69,7 @@ which holds the Poppins font, the saved-colour boot script and `baseMetadata`):
 ## Launcher v8 (only the launcher changes; no web page is edited)
 - **Screens (a copy of the iPhone home screen, v9)**: every page is an icon installed on the home screens, no list, no section titles: screen 1 (2 widgets + 8 apps + 2 widgets),
   screen 2 (the "Send a message" widget + 16 apps), screen 3 (10 apps), then the App Library. The dock holds 4 apps (Portfolio, About, Contact, Blogs; `DOCK`, `SCREEN_APPS` in `launcher-data.ts`).
-  Everything is editable (drag, remove, add with "+"). More home screens appear when one is full. A thin home indicator bar sits at the bottom. Labels are short so they fit under an icon.
+  Everything is editable (drag, remove, add with "+"). More home screens appear when one is full. (No home indicator bar: the owner removed it, 2026-10-16.) Labels are short so they fit under an icon.
 - **"+" sheet** has three tabs: **Widgets**, **Apps** (tap any service or page to put it on the Home screen, tap again to take it off) and **Wallpaper**.
 - **Widgets that help a visitor reach We3vision** (real data from Admin > Settings, passed by `(m)/m/page.tsx`): *Send a message* (4x2, a real form that uses the existing `submitLead` action,
   so it lands in Admin > Leads; honeypot + rate limit as on the contact page), *Talk to us* (call / mail), *WhatsApp* (wa.me link), *Visit us* (Google Maps link of the head office),

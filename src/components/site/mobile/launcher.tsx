@@ -657,8 +657,6 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
             </nav>
           </div>
 
-          <i className="lnc-hi" aria-hidden="true" />
-
           {/* ---------------------------------------------- the edit mode: add (widgets, wallpaper) and Done */}
           {edit && (
             <div className="lnc-etop">
