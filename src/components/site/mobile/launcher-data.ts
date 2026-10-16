@@ -1,7 +1,7 @@
 // The launcher (mobile and tablet home): every page of the website is an "app". One icon design for all; the colour only changes with the group.
 // Home screen: a widget, eight main apps and a dock of four. Swipe left: the App Library, with the pages in groups.
 
-export type App = { id: string; label: string; href: string; glyph: string; off: number };
+export type App = { id: string; label: string; href: string; glyph: string; off: number; solid?: boolean };
 
 const A = (id: string, label: string, href: string, glyph: string, off: number): App => ({ id, label, href, glyph, off });
 
@@ -48,6 +48,9 @@ export const APPS: Record<string, App> = {
   careers: A("careers", "Careers", "/careers", "briefcase", COM),
   sitemap: A("sitemap", "Sitemap", "/sitemap", "sitemap", COM),
 };
+
+// one colour per app: the hue steps by the golden angle, so neighbours never look alike
+Object.values(APPS).forEach((a, i) => { a.off = Math.round((i * 137.508) % 360); a.solid = i % 2 === 0; });
 
 export type Group = { id: string; label: string; apps: string[]; off: number };
 

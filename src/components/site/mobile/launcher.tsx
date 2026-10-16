@@ -15,36 +15,50 @@ import { Glyph } from "./glyph";
 const hue = (n: number) => ({ "--off": n }) as CSSProperties;
 
 function Ic({ app, mini }: { app: App; mini?: boolean }) {
-  return <span className={`lnc-ic ${mini ? "lnc-mini" : ""}`} style={hue(app.off)}><Glyph name={app.glyph} /></span>;
+  return <span className={`lnc-ic ${app.solid ? "is-c" : "is-w"} ${mini ? "lnc-mini" : ""}`} style={hue(app.off)}><Glyph name={app.glyph} /></span>;
 }
 
-function StatusBar({ time }: { time: string }) {
-  return (
-    <div className="lnc-status" aria-hidden="true">
-      <b>{time}</b>
-      <span className="lnc-status-r">
-        <svg viewBox="0 0 18 12" width="18" height="12"><rect x="0" y="8" width="3" height="4" rx="1" /><rect x="5" y="5.500" width="3" height="6.500" rx="1" /><rect x="10" y="3" width="3" height="9" rx="1" /><rect x="15" y="0" width="3" height="12" rx="1" /></svg>
-        <svg viewBox="0 0 17 12" width="17" height="12"><path d="M8.500 2.500c2.300 0 4.400.9 6 2.400l1.100-1.200A10.500 10.500 0 0 0 8.500.8 10.500 10.500 0 0 0 1.400 3.700l1.100 1.200a8.800 8.800 0 0 1 6-2.400z M8.500 6c1.300 0 2.500.5 3.400 1.300l1.100-1.200a7.200 7.200 0 0 0-9 0l1.100 1.200c.9-.8 2.100-1.300 3.400-1.300z" /><circle cx="8.500" cy="10" r="1.600" /></svg>
-        <svg viewBox="0 0 27 12" width="27" height="12"><rect x=".5" y=".5" width="22" height="11" rx="3.500" fill="none" stroke="currentColor" opacity=".45" /><rect x="2" y="2" width="17" height="8" rx="2" /><rect x="24" y="4" width="2" height="4" rx="1" opacity=".45" /></svg>
-      </span>
-    </div>
-  );
+/** a clock value that updates on its own, every `ms` milliseconds (only the component that uses it re-renders) */
+function useNow(ms: number) {
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    const t0 = window.setTimeout(() => setNow(new Date()), 0);
+    const t = window.setInterval(() => setNow(new Date()), ms);
+    return () => { window.clearTimeout(t0); window.clearInterval(t); };
+  }, [ms]);
+  return now;
 }
 
-/** the analog clock widget: it shows the real time */
-function ClockWidget({ now }: { now: Date | null }) {
-  const h = now ? now.getHours() % 12 : 10;
-  const m = now ? now.getMinutes() : 9;
-  const s = now ? now.getSeconds() : 30;
+/** the analog clock widget: the hands move on every frame (the second hand sweeps), without re-rendering anything */
+function ClockWidget() {
+  const now = useNow(30000);
+  const hr = useRef<SVGGElement>(null);
+  const mn = useRef<SVGGElement>(null);
+  const sc = useRef<SVGGElement>(null);
+  useEffect(() => {
+    let raf = 0;
+    const loop = () => {
+      const d = new Date();
+      const s = d.getSeconds() + d.getMilliseconds() / 1000;
+      const m = d.getMinutes() + s / 60;
+      const h = (d.getHours() % 12) + m / 60;
+      if (hr.current) hr.current.style.transform = `rotate(${h * 30}deg)`;
+      if (mn.current) mn.current.style.transform = `rotate(${m * 6}deg)`;
+      if (sc.current) sc.current.style.transform = `rotate(${s * 6}deg)`;
+      raf = requestAnimationFrame(loop);
+    };
+    loop();
+    return () => cancelAnimationFrame(raf);
+  }, []);
   const day = now ? now.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase() : "THU";
   const num = now ? now.getDate() : 15;
   return (
     <div className="lnc-wid lnc-clock" aria-label="Clock">
       <svg viewBox="0 0 100 100" aria-hidden="true">
         {Array.from({ length: 12 }).map((_, i) => <rect key={i} x="49" y="5" width={i % 3 === 0 ? 2.4 : 1.4} height={i % 3 === 0 ? 7 : 4.5} rx="0.8" transform={`rotate(${i * 30} 50 50)`} className="lnc-tick" />)}
-        <g className="lnc-hand lnc-h" style={{ transform: `rotate(${h * 30 + m / 2}deg)` }}><rect x="48.200" y="26" width="3.600" height="26" rx="1.800" /></g>
-        <g className="lnc-hand lnc-m" style={{ transform: `rotate(${m * 6 + s / 10}deg)` }}><rect x="48.800" y="14" width="2.400" height="38" rx="1.200" /></g>
-        <g className="lnc-hand lnc-s" style={{ transform: `rotate(${s * 6}deg)` }}><rect x="49.500" y="12" width="1" height="42" rx="0.500" /></g>
+        <g ref={hr} className="lnc-hand"><rect x="48.200" y="26" width="3.600" height="26" rx="1.800" /></g>
+        <g ref={mn} className="lnc-hand"><rect x="48.800" y="14" width="2.400" height="38" rx="1.200" /></g>
+        <g ref={sc} className="lnc-hand lnc-s"><rect x="49.500" y="12" width="1" height="42" rx="0.500" /></g>
         <circle cx="50" cy="50" r="3.200" className="lnc-pin" />
       </svg>
       <span className="lnc-clock-d"><small>{day}</small><b>{num}</b></span>
@@ -55,7 +69,6 @@ function ClockWidget({ now }: { now: Date | null }) {
 function Launcher() {
   const router = useRouter();
   const [page, setPage] = useState(0);
-  const [now, setNow] = useState<Date | null>(null);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState<{ g: Group; r: DOMRect } | null>(null);
   const [closing, setClosing] = useState(false);
@@ -65,20 +78,13 @@ function Launcher() {
   const panel = useRef<HTMLDivElement>(null);
   const grow = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
-  const drag = useRef<{ x: number; y: number; on: boolean; w: number; id: number } | null>(null);
+  const drag = useRef<{ x: number; y: number; on: boolean; w: number; id: number; down?: boolean } | null>(null);
   const moved = useRef(false);
-
-  const time = now ? now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: false }).replace(/^24/, "0") : "9:41";
 
   // a phone has no scrolling page behind it: lock the page while the launcher is on screen
   useEffect(() => {
     document.documentElement.classList.add("lnc-lock");
     return () => document.documentElement.classList.remove("lnc-lock");
-  }, []);
-  useEffect(() => {
-    const t0 = window.setTimeout(() => setNow(new Date()), 0);
-    const t = setInterval(() => setNow(new Date()), 1000);
-    return () => { window.clearTimeout(t0); clearInterval(t); };
   }, []);
 
   // the swipe between the two pages
@@ -93,6 +99,7 @@ function Launcher() {
     const dx = e.clientX - d.x;
     const dy = e.clientY - d.y;
     if (!d.on) {
+      if (page === 0 && dy > 14 && dy > Math.abs(dx) * 1.5) { d.down = true; moved.current = true; return; }
       if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.2) {
         d.on = true;
         moved.current = true;
@@ -109,6 +116,8 @@ function Launcher() {
   const onUp = (e: RPointerEvent<HTMLDivElement>) => {
     const d = drag.current;
     drag.current = null;
+    if (d && d.down && e.clientY - d.y > 80) { setPage(1); window.setTimeout(() => input.current?.focus(), 450); window.setTimeout(() => { moved.current = false; }, 60); return; }
+    if (d && d.down) { window.setTimeout(() => { moved.current = false; }, 60); return; }
     if (!d || !d.on || !track.current) return;
     const dx = e.clientX - d.x;
     track.current.style.transition = "";
@@ -185,14 +194,13 @@ function Launcher() {
   return (
     <div className="lnc" role="application" aria-label="We3vision home screen">
       <div className="lnc-wall" aria-hidden="true"><i /><i /><i /></div>
-      <StatusBar time={time} />
 
       <div ref={view} className={`lnc-view ${launch ? "is-leaving" : ""}`} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onClickCapture={stopClick}>
         <div ref={track} className="lnc-track" data-page={page}>
           {/* ------------------------------------------------ page 1: the home screen */}
           <section className="lnc-page lnc-home" aria-label="Home screen">
             <div className="lnc-widgets">
-              <ClockWidget now={now} />
+              <ClockWidget />
               <Link href="/contact" className="lnc-wid lnc-pitch" onClick={(e) => go(e, APPS.contact)}>
                 <Image src="/brand/logo-white.webp" alt="" width={600} height={468} unoptimized />
                 <b>Have an idea?<br />Let&apos;s build it.</b>
@@ -215,7 +223,7 @@ function Launcher() {
             <nav className="lnc-dock" aria-label="Main pages">
               {DOCK.map((id) => id === "services" ? (
                 <button key={id} type="button" className="lnc-app" style={hue(0)} onClick={() => setPage(1)}>
-                  <span className="lnc-ic"><Glyph name="services" /></span><span className="lnc-lb">Services</span>
+                  <span className="lnc-ic is-c" style={hue(300)}><Glyph name="services" /></span><span className="lnc-lb">Services</span>
                 </button>
               ) : <AppLink key={id} app={APPS[id]} />)}
             </nav>
@@ -242,7 +250,7 @@ function Launcher() {
                       <button type="button" className="lnc-tile" onClick={(e) => openGroup(g, e.currentTarget)} aria-label={`Open ${g.label}`}>
                         {g.apps.slice(0, 3).map((id) => <Ic key={id} app={APPS[id]} mini />)}
                         {g.apps.length > 4 ? (
-                          <span className="lnc-cluster">{g.apps.slice(3, 7).map((id) => <span key={id} className="lnc-ic lnc-micro" style={hue(APPS[id].off)} />)}</span>
+                          <span className="lnc-cluster">{g.apps.slice(3, 7).map((id) => <span key={id} className={`lnc-ic lnc-micro ${APPS[id].solid ? "is-c" : "is-w"}`} style={hue(APPS[id].off)} />)}</span>
                         ) : g.apps[3] ? <Ic app={APPS[g.apps[3]]} mini /> : <span />}
                       </button>
                       <span className="lnc-gl">{g.label}</span>

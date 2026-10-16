@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   // build on small hosts: use worker threads (no extra processes) and few workers
   experimental: { workerThreads: true, cpus: 2 },
   // development only: lets other computers on the same Wi-Fi open the dev server (http://<this PC's IP>:3000)
-  allowedDevOrigins: ["192.168.*.*", "10.*.*.*"],
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*"],
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
