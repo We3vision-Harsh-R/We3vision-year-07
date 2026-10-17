@@ -89,6 +89,12 @@ export function AppNav({ tabs, outline, contact, messageHref, currentHref, title
     }, 190);
   }, []);
 
+  useEffect(() => {
+    const on = (e: Event) => go((e as CustomEvent<string>).detail, -1);
+    window.addEventListener("ma:jump", on);
+    return () => window.removeEventListener("ma:jump", on);
+  }, [go]);
+
   const jumpFromSheet = (id: string) => {
     setSheet("");
     window.setTimeout(() => go(id), 230);

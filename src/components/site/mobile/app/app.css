@@ -418,3 +418,100 @@ textarea.ma-input { min-height: 92px; }
 .ma-dg[open] > summary svg { transform: rotate(90deg); }
 .ma-dg > .ma-group, .ma-dg > div { margin: 0 8px 8px; }
 .ma-dg[open] > div { animation: ma-open 0.35s var(--ma-ease) backwards; }
+
+/* =====================================================================================================================
+   AIR (2026-10-17): more room between the pieces of every screen and a calmer surface. Comes last, so it wins over the older spacing.
+   Rhythm: 52 between sections, 22 under a section title, 18 between cards, 20 inside a card, 60 high rows.
+   ===================================================================================================================== */
+.ma-root { --ma-gut: max(22px, env(safe-area-inset-left, 0px)); }
+.ma-sec { padding-top: 52px; }
+.ma-sec-head { margin-bottom: 22px; }
+.ma-h2 { margin-top: 14px; line-height: 1.2; }
+.ma-intro { margin-top: 14px; line-height: 1.68; }
+.ma-large { padding-bottom: 26px; }
+.ma-stack { gap: 18px; }
+.ma-gap { margin-top: 22px; }
+.ma-actions { gap: 12px; margin-top: 24px; }
+
+/* cards: a little more padding, a softer shadow, more air between the lines */
+.ma-card { padding: 22px 20px; box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 8px 22px hsl(0 0% 0% / 0.16); }
+.ma-card h3 { line-height: 1.32; }
+.ma-card h3 + p { margin-top: 10px; }
+.ma-card p + p { margin-top: 12px; }
+.ma-card p { line-height: 1.66; }
+.ma-prose p { line-height: 1.74; }
+.ma-prose p + p { margin-top: 18px; }
+.ma-pts { gap: 10px; margin-top: 14px; }
+.ma-sublabel { margin-top: 18px; }
+
+/* the hero card */
+.ma-hero { padding: 30px 24px 28px; }
+.ma-hero .ma-title2 { margin-top: 16px; }
+.ma-hero .ma-intro { margin-top: 18px; }
+
+/* lists */
+.ma-group + .ma-gh, .ma-group + .ma-group { margin-top: 22px; }
+.ma-row { min-height: 60px; padding: 15px 18px; gap: 16px; }
+.ma-row-s { margin-top: 4px; }
+details.ma-acc > summary { min-height: 60px; padding: 16px 18px; }
+.ma-acc-body { padding-left: 18px; padding-right: 18px; padding-bottom: 20px; }
+.ma-fold { margin-top: 16px; }
+.ma-group, .ma-dg { box-shadow: none; }
+
+/* swipe rows, forms, pills */
+.ma-car-track { gap: 14px; }
+.ma-car-dots { margin-top: 16px; }
+.ma-form { gap: 14px; }
+.ma-field { gap: 8px; }
+.ma-cloud { gap: 10px; }
+.ma-stats { gap: 14px; }
+.ma-more { margin-top: 2px; }
+.ma-collapse > .ma-more { margin-top: 10px; }
+.ma-tags { gap: 10px; margin-top: 18px; }
+
+/* the section help text under big headings in the pages that have their own header styles */
+.ma-root .mp-wd-hero { padding: 28px 22px 24px; }
+.ma-root .mp-wd-row { padding: 18px 18px; gap: 16px; }
+.ma-root .mp-wd-story { padding: 26px 22px; gap: 18px; }
+.ma-root .mp-wd-fb { padding: 0 18px 22px 78px; }
+.ma-root .mp-wd-chipbox { padding: 20px 18px; }
+
+@media (min-width: 700px) {
+  .ma-sec { padding-top: 60px; }
+  .ma-car-track { gap: 18px; }
+  .ma-stack { gap: 20px; }
+}
+
+/* =====================================================================================================================
+   MOTION (2026-10-17, see motion.tsx): reveal on scroll, a progress line, pictures that fade in, tap feedback. Only active when the script runs
+   (.ma-js on the root); with "reduce motion" nothing moves.
+   ===================================================================================================================== */
+.ma-js .ma-sec-head, .ma-js .ma-card, .ma-js .ma-group, .ma-js .ma-stats, .ma-js .ma-steps, .ma-js .ma-hero { animation: none; }
+.ma-rv { opacity: 0; translate: 0 28px; transition: opacity 0.7s var(--ma-ease), translate 0.8s var(--ma-ease); transition-delay: var(--rv-d, 0ms); will-change: opacity, translate; }
+.ma-rv.is-in { opacity: 1; translate: 0 0; will-change: auto; }
+.ma-js .ma-pic img, .ma-js .ma-sheet img { opacity: 0; transition: opacity 0.55s ease; }
+.ma-js .ma-pic img.is-ld, .ma-js .ma-sheet img.is-ld { opacity: 1; }
+
+.ma-prog { position: fixed; z-index: 29; top: calc(env(safe-area-inset-top, 0px) + var(--ma-nav)); left: 0; right: 0; height: 2px; pointer-events: none; transform-origin: 0 50%; transform: scaleX(var(--prog, 0)); opacity: 0; transition: opacity 0.3s ease; background: linear-gradient(90deg, hsl(calc(var(--ma-h) + 30) calc(90% * var(--ts)) 62%), hsl(var(--ma-h) calc(95% * var(--ts)) 72%)); box-shadow: 0 0 8px hsl(var(--ma-h) calc(90% * var(--ts)) 60% / 0.7); }
+.ma-root[data-scrolled] .ma-prog { opacity: 1; }
+
+/* touch feedback: everything you can tap gives a little under the finger */
+.ma-card[href]:active, a.ma-row:active, .ma-btn:active, .ma-pill:active, details > summary:active { transition-duration: 0.08s; }
+details.ma-acc > summary, .ma-fold > summary, .ma-dg > summary, .mp-wd-fold > summary { -webkit-tap-highlight-color: transparent; transition: background-color 0.2s ease; }
+details.ma-acc > summary:active, .mp-wd-fold > summary:active, .ma-dg > summary:active { background: var(--ma-fill); }
+
+/* the tab bar steps aside while you type */
+.ma-root:has(.ma-input:focus) .ma-tabs { transform: translate3d(-50%, 150%, 0); transition: transform 0.35s var(--ma-ease); }
+.ma-tabs { transition: transform 0.35s var(--ma-ease); }
+
+/* a sent form pops in */
+.ma-note-ok { animation: ma-pop 0.55s cubic-bezier(0.34, 1.4, 0.64, 1) both; }
+@keyframes ma-pop { from { opacity: 0; transform: scale(0.92) translate3d(0, 10px, 0); } }
+.ma-btn[disabled] { position: relative; }
+.ma-btn[disabled]::after { content: ""; width: 16px; height: 16px; margin-left: 10px; border-radius: 50%; border: 2px solid hsl(0 0% 100% / 0.35); border-top-color: #fff; animation: m-spin 0.7s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-rv { opacity: 1; translate: none; transition: none; }
+  .ma-js .ma-pic img { opacity: 1; transition: none; }
+  .ma-prog { transition: none; }
+}

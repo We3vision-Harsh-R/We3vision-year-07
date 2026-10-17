@@ -3,6 +3,7 @@ import { Glyph } from "../glyph";
 import "./app.css";
 import { ScreenChrome } from "./chrome";
 import { AppNav } from "./app-nav";
+import { Motion } from "./motion";
 import { CtaBar } from "./cta-bar";
 import type { ContactInfo } from "./contact";
 import type { NavTab, OutlineItem } from "./nav-types";
@@ -46,6 +47,8 @@ export function AppScreen({
   return (
     <div className="ma-root">
       <ScreenChrome title={title} />
+      <Motion />
+      <div className="ma-prog" aria-hidden="true" />
       <main className="ma-screen">
         <div className="ma-wrap">
           <header className={`ma-large${title.length > 24 ? " is-long" : ""}`}>
