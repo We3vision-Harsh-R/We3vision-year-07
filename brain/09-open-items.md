@@ -120,3 +120,4 @@
 - Still baseline-kit screens (good, but not bespoke): ui-ux, animation, 3d-modeling, the 7 technology pages, graphics, brand identity/kit/video/development, end-to-end, seo, meta, physical, sitemap.
 - NOT mobile yet (they still open the laptop page on a phone): detail pages blog/[slug], portfolio/[slug], careers/[slug] (+ job apply). Needs dynamic mobile routes and a prefix rule in `src/lib/device.ts`.
 - Not tested on a real phone; tablet only measured in a desktop browser.
+- Tab bar + Apps sheet + Contact sheet are in the kit and show on ALL 37 screens (2026-10-17). Only /webdev has its sections redesigned to the one-panel pattern; other bespoke pages may still look different from each other. Owner to say which page next.

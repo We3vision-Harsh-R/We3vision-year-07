@@ -27,7 +27,7 @@ export async function renderMobileSitemap() {
   ];
   const app = APPS.about;
   return (
-    <AppScreen title="Sitemap" glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="/contact">
+    <AppScreen title="Sitemap" glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="/contact" nav={{ tabs: [{ id: null, label: "Sitemap", icon: "overview" }], outline: [], currentHref: "/sitemap" }}>
       <Section chip="Sitemap" title={"Every Page Of\nWe3vision"} intro="Find a service, a product or any other page quickly.">
         <div className="ma-stack">
           {groups.map((g) => (

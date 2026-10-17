@@ -80,3 +80,12 @@ which holds the Poppins font, the saved-colour boot script and `baseMetadata`):
 - **iOS 26 bottom (launcher v9)**: the dock is one pane of liquid glass (faint fill, hairline rim bright at the top); the **Search pill** is a small glass capsule and turns into the **page dots**
   for 1.5 s when the screen changes (always dots in edit mode and on the Library); the Customize panel uses the same glass; the **Clear** look blurs the wallpaper behind the tiles; the **Wave** wallpaper
   (teal → blue → navy) is the iOS 26 look. CSS block "LAUNCHER v9" in `mobile.css`.
+
+## App navigation: tab bar, Apps sheet, blur jump (2026-10-17, owner's order for /webdev, built in the kit so every page has it)
+- **Tab bar** (`ma-tabs`, `app/app-nav.tsx`): an iOS tab bar of liquid glass at the bottom, replaces the old Call / WhatsApp / Message bar (`CtaBar` is only used when a screen passes no `nav`). Tabs = "Intro" (top) + up to 3 main topics + "Apps".
+  Worked out per page by `pages/nav.ts` `tabsFor(sections)`: priority services, process, tags (Tech), projects (Work), advantages/strengths (Why us), industries, faq, ... shown in page order. `/webdev` = Intro, Services, Process, Tech, Apps.
+- **Blur jump**: a tab tap adds `is-blurring` to `.ma-root` (screen blurs + dims, 190 ms), jumps (scrollTo, instant) while blurred, removes it (clears in 340 ms). Reduced motion = plain jump. The active tab follows the scroll (section top above 38 % of the screen).
+- **Apps sheet** (`apps-sheet.tsx`) = the replacement of the desktop mega menu: blurred dimmed backdrop + glass panel with search, "On this page" (every titled section) and every page of the website as an app row (`APPS`/`SECTIONS` of `launcher-data.ts`, current page marked). Scroll is contained (`overscroll-behavior: contain`, page behind locked), closes with Done / backdrop / Escape / pull down on the grabber (`use-sheet.ts`).
+- **Contact button** (round phone button, top right) opens the **Contact sheet** (`contact-sheet.tsx`): Call, WhatsApp, E-mail (real data from Admin > Settings) and "Send a message" (jumps to the page's form, or opens /contact).
+- **/webdev sections** now share one pattern (`pages/custom/webdev/sections.tsx`, CSS `(m)/m/webdev/page.css`): header (label, title, intro) + ONE grouped panel of rows (tile + title + text, opens when there is more). No more mixed Safari metaphors.
+- Add a topic to the tab bar: add its section type to `TOPICS` in `pages/nav.ts`; a new icon goes in `app/tab-icons.tsx` (+ `TabIconName` in `nav-types.ts`).

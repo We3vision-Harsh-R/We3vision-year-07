@@ -1,58 +1,79 @@
+import type { ReactNode } from "react";
 import type { MobileSection } from "../../types";
-import { Accordion, AppLink, Button, Points, Section } from "../../../app";
+import { AppLink, Button, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import { SiteBuilder } from "./builder";
 
-// /webdev as a Safari-like app: the hero is a browser window, the story a Reader page, the services open tabs, the tools a Favourites grid,
-// the related services Top Hits. Same CMS words as the laptop. Styles: (m)/m/webdev/page.css.
+// /webdev as one app: every section is the same kind of screen. A section header (label, title, intro) and then ONE grouped panel of rows;
+// a row is a tile + a title + a line of text, and it opens when there is more to read. Same CMS words as the laptop.
+// The bottom tab bar (Overview / Services / Process / Tech / Apps) is added by renderMobilePage. Styles: (m)/m/webdev/page.css ("mp-wd-").
 
-/** the top: a browser window; the chip is the tab, the two buttons of the laptop sit in the toolbar */
+const svg = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true } as const;
+const IcBuilding = () => (<svg {...svg}><path d="M4 20V7.5L12 4l8 3.5V20M4 20h16M9 20v-5h6v5" /></svg>);
+const IcCheck = () => (<svg {...svg}><path d="M12 3.5 19 6v5.5c0 4.2-2.9 7.2-7 9-4.1-1.8-7-4.8-7-9V6zM8.8 12l2.3 2.3 4.2-4.6" /></svg>);
+const IcAsk = () => (<svg {...svg}><circle cx="12" cy="12" r="9" /><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5M12 16.7h.01" /></svg>);
+const IcGlobe = () => (<svg {...svg}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z" /></svg>);
+
+const Tile = ({ children }: { children: ReactNode }) => (
+  <span className="mp-wd-tile" aria-hidden="true">
+    {children}
+  </span>
+);
+
+/** a row of a panel: tile, title, one line of text, and (when `open` content is given) a chevron */
+function Fold({ tile, title, text, open, children }: { tile: ReactNode; title: ReactNode; text?: string; open?: boolean; children?: ReactNode }) {
+  const head = (
+    <>
+      <Tile>{tile}</Tile>
+      <span className="mp-wd-body">
+        <b>{title}</b>
+        {text && <span>{text}</span>}
+      </span>
+    </>
+  );
+  if (!children) return <div className="mp-wd-row">{head}</div>;
+  return (
+    <details className="mp-wd-fold" open={open}>
+      <summary className="mp-wd-row">
+        {head}
+        <IcChevron className="mp-wd-chev" />
+      </summary>
+      <div className="mp-wd-fb">{children}</div>
+    </details>
+  );
+}
+
+/** the top: the hero card of the app */
 export const WebHero: MobileSection<"pageHero"> = ({ data, index }) => {
   const H = index === 0 ? "h1" : "h2";
   return (
-    <section className="mp-wd-win">
-      <div className="mp-wd-bar">
-        <span className="mp-wd-dots" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-        </span>
-        <span className="mp-wd-tab">
-          <span className="mp-wd-lock" aria-hidden="true" />
-          {data.chip}
-        </span>
-      </div>
-      <div className="mp-wd-view">
-        <H className="mp-wd-h">
-          <Lines text={data.heading} />
-        </H>
-        {data.text && <p className="mp-wd-t">{data.text}</p>}
-      </div>
-      <div className="mp-wd-tool">
+    <section className="mp-wd-hero">
+      {data.chip && <span className="ma-chip">{data.chip}</span>}
+      <H className="mp-wd-h">
+        <Lines text={data.heading} />
+      </H>
+      {data.text && <p className="mp-wd-t">{data.text}</p>}
+      <div className="ma-actions">
         {data.primaryLabel && data.primaryHref && (
-          <AppLink href={data.primaryHref} className="mp-wd-go">
+          <Button href={data.primaryHref} block>
             {data.primaryLabel}
-          </AppLink>
+          </Button>
         )}
         {data.secondaryLabel && data.secondaryHref && (
-          <AppLink href={data.secondaryHref} className="mp-wd-alt">
+          <Button href={data.secondaryHref} variant="tinted" block>
             {data.secondaryLabel}
-          </AppLink>
+          </Button>
         )}
       </div>
     </section>
   );
 };
 
-/** the story in Reader view: an "Aa" bar and an article */
+/** the story: the paragraphs in one panel */
 export const WebStory: MobileSection<"story"> = ({ data, id }) => (
   <section id={id} className="ma-sec">
-    <article className="mp-wd-reader">
-      <div className="mp-wd-rbar" aria-hidden="true">
-        <span>Aa</span>
-        <i />
-      </div>
+    <article className="mp-wd-panel mp-wd-story">
       {paragraphs(data.body).map((p, i) => (
         <p key={i}>
           <Rich text={p} />
@@ -62,18 +83,18 @@ export const WebStory: MobileSection<"story"> = ({ data, id }) => (
   </section>
 );
 
-/** "Type a name, watch it get built": a field and a small page that takes the name; the tips as notes */
+/** "Type a name, watch it get built": a field and a small page that takes the name; the tips as rows */
 export const WebGuide: MobileSection<"guide"> = ({ data, id }) => {
   const tips = lines(data.tips);
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.text}>
       <SiteBuilder label={tips[0] ?? oneLine(data.heading)} />
       {tips.length > 0 && (
-        <ul className="mp-wd-notes">
+        <div className="mp-wd-panel mp-wd-gap">
           {tips.map((t, i) => (
-            <li key={i}>{t}</li>
+            <Fold key={i} tile={i + 1} title={t} />
           ))}
-        </ul>
+        </div>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
@@ -86,18 +107,20 @@ export const WebGuide: MobileSection<"guide"> = ({ data, id }) => {
   );
 };
 
-/** "More from We3vision" = Top Hits: link cards; "What we build" = open tabs, each opens to its details */
+/** "What we build": rows that open to their details · "More from We3vision": rows that open another app */
 export const WebServices: MobileSection<"services"> = ({ data, id }) => {
   const related = id === "related-services";
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-      {related ? (
-        <ul className="mp-wd-hits">
-          {data.cards.map((c, i) => (
-            <li key={i}>
-              <AppLink href={c.href || "#contact"} className="mp-wd-hit">
-                <span className="mp-wd-glob" aria-hidden="true" />
-                <span className="mp-wd-hb">
+      <div className="mp-wd-panel">
+        {data.cards.map((c, i) => {
+          if (related) {
+            return (
+              <AppLink key={i} href={c.href || "#contact"} className="mp-wd-row mp-wd-link">
+                <Tile>
+                  <IcGlobe />
+                </Tile>
+                <span className="mp-wd-body">
                   <b>
                     <Lines text={c.title} />
                   </b>
@@ -105,65 +128,52 @@ export const WebServices: MobileSection<"services"> = ({ data, id }) => {
                 </span>
                 <IcChevron className="mp-wd-chev" />
               </AppLink>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="mp-wd-tabs">
-          {data.cards.map((c, i) => {
-            const problems = lines(c.problems);
-            const outcomes = lines(c.outcomes);
-            const more = c.fit || problems.length > 0 || outcomes.length > 0;
-            return (
-              <details key={i} className="mp-wd-card" open={i === 0}>
-                <summary>
-                  <span className="mp-wd-cbar" aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
-                  </span>
-                  <span className="mp-wd-ct">
-                    <b>
-                      <Lines text={c.title} />
-                    </b>
-                    <span>{c.description}</span>
-                  </span>
-                  {more && <IcChevron className="mp-wd-chev" />}
-                </summary>
-                {more && (
-                  <div className="mp-wd-cb">
-                    {c.fit && (
-                      <>
-                        <p className="mp-wd-lab">Right for you when</p>
-                        <p>{c.fit}</p>
-                      </>
-                    )}
-                    {problems.length > 0 && (
-                      <>
-                        <p className="mp-wd-lab">Problems it solves</p>
-                        <Points items={problems} />
-                      </>
-                    )}
-                    {outcomes.length > 0 && (
-                      <>
-                        <p className="mp-wd-lab">What you get</p>
-                        <Points items={outcomes} />
-                      </>
-                    )}
-                    {c.href && (
-                      <div className="ma-actions">
-                        <Button href={c.href} variant="tinted" block>
-                          Learn more
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </details>
             );
-          })}
-        </div>
-      )}
+          }
+          const problems = lines(c.problems);
+          const outcomes = lines(c.outcomes);
+          const more = c.fit || problems.length > 0 || outcomes.length > 0 || c.href;
+          return (
+            <Fold
+              key={i}
+              tile={i + 1}
+              title={<Lines text={c.title} />}
+              text={c.description}
+              open={i === 0}
+            >
+              {more ? (
+                <>
+                  {c.fit && (
+                    <>
+                      <p className="mp-wd-lab">Right for you when</p>
+                      <p>{c.fit}</p>
+                    </>
+                  )}
+                  {problems.length > 0 && (
+                    <>
+                      <p className="mp-wd-lab">Problems it solves</p>
+                      <Points items={problems} />
+                    </>
+                  )}
+                  {outcomes.length > 0 && (
+                    <>
+                      <p className="mp-wd-lab">What you get</p>
+                      <Points items={outcomes} />
+                    </>
+                  )}
+                  {c.href && (
+                    <div className="ma-actions">
+                      <Button href={c.href} variant="tinted" block>
+                        Learn more
+                      </Button>
+                    </div>
+                  )}
+                </>
+              ) : undefined}
+            </Fold>
+          );
+        })}
+      </div>
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
           <Button href={data.buttonHref} block>
@@ -175,92 +185,63 @@ export const WebServices: MobileSection<"services"> = ({ data, id }) => {
   );
 };
 
-/** the build process as a reading list: one row per stage, open to read the points */
+/** the build process: one row per stage, numbered, open to read the points */
 export const WebProcess: MobileSection<"process"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <Accordion
-      openFirst
-      items={data.items.map((x, i) => ({
-        title: (
-          <span className="mp-wd-rl">
-            <span className="mp-wd-rn">{i + 1}</span>
-            {oneLine(x.title)}
-          </span>
-        ),
-        body: (
-          <>
-            <p>{x.text}</p>
-            {lines(x.points).length > 0 && <Points items={lines(x.points)} />}
-          </>
-        ),
-      }))}
-    />
-  </Section>
-);
-
-/** the technologies as the Favourites grid of a start page */
-export const WebTags: MobileSection<"tags"> = ({ data, id }) => (
-  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-wd-favs">
-      {lines(data.items).map((t, i) => (
-        <li key={i}>
-          <span className="mp-wd-fi" aria-hidden="true">
-            {t.replace(/[^A-Za-z0-9]/g, "").slice(0, 2)}
-          </span>
-          <span className="mp-wd-fl">{t}</span>
-        </li>
-      ))}
-    </ul>
-  </Section>
-);
-
-/** industries as bookmark folders */
-export const WebIndustries: MobileSection<"industries"> = ({ data, id }) => (
-  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-wd-marks">
+    <div className="mp-wd-panel">
       {data.items.map((x, i) => (
-        <li key={i}>
-          <span className="mp-wd-folder" aria-hidden="true" />
-          <div>
-            <b>{x.name}</b>
-            <p>{x.description}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
-  </Section>
-);
-
-/** the advantages as a privacy report: a shield row per point */
-export const WebAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
-  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-wd-shield">
-      {data.items.map((x, i) => (
-        <li key={i}>
-          <span aria-hidden="true" />
-          <div>
-            <b>{x.title}</b>
-            <p>{x.description}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
-  </Section>
-);
-
-/** the FAQ as page-find results: the question is the found text, the answer opens under it */
-export const WebFaq: MobileSection<"faq"> = ({ data, id }) => (
-  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <div className="mp-wd-faq">
-      {data.items.map((x, i) => (
-        <details key={i}>
-          <summary>
-            <span>{x.question}</span>
-            <IcChevron className="mp-wd-chev" />
-          </summary>
-          <p>{x.answer}</p>
-        </details>
+        <Fold key={i} tile={i + 1} title={oneLine(x.title)} open={i === 0}>
+          <p>{x.text}</p>
+          {lines(x.points).length > 0 && <Points items={lines(x.points)} />}
+        </Fold>
       ))}
     </div>
   </Section>
 );
+
+/** the technologies as pills in one panel */
+export const WebTags: MobileSection<"tags"> = ({ data, id }) => (
+  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
+    <ul className="mp-wd-panel mp-wd-chips">
+      {lines(data.items).map((t, i) => (
+        <li key={i}>{t}</li>
+      ))}
+    </ul>
+  </Section>
+);
+
+/** industries: a row each */
+export const WebIndustries: MobileSection<"industries"> = ({ data, id }) => (
+  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
+    <div className="mp-wd-panel">
+      {data.items.map((x, i) => (
+        <Fold key={i} tile={<IcBuilding />} title={x.name} text={x.description} />
+      ))}
+    </div>
+  </Section>
+);
+
+/** the advantages: a row each */
+export const WebAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
+  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
+    <div className="mp-wd-panel">
+      {data.items.map((x, i) => (
+        <Fold key={i} tile={<IcCheck />} title={x.title} text={x.description} />
+      ))}
+    </div>
+  </Section>
+);
+
+/** the FAQ: the question is the row, the answer opens under it */
+export const WebFaq: MobileSection<"faq"> = ({ data, id }) => (
+  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
+    <div className="mp-wd-panel">
+      {data.items.map((x, i) => (
+        <Fold key={i} tile={<IcAsk />} title={x.question}>
+          <p>{x.answer}</p>
+        </Fold>
+      ))}
+    </div>
+  </Section>
+);
+

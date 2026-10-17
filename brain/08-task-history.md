@@ -99,3 +99,6 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 
 ## CSS split + Phase A (2026-10-16, no task number)
 - 13 page-only designs moved to `src/styles/*.css` (12 files); globals.css 1160 -> 850 KB. Proven on 19 pages with `tools/style-diff.mjs diff`. New page-only CSS goes into its bundle file. Phase A numbers (JS 449 KB gz, CSS 120 KB gz) are in brain/11. Work is in the worktree `website-optimization-setup-55d9fc` (branch claude/website-optimization-setup-55d9fc), NOT merged to main yet; main has uncommitted task-95 work in globals.css, so after merging run `node tools/css-split.mjs apply` again instead of copying files.
+
+## Mobile app navigation (2026-10-17, no task number)
+- /webdev redesigned as one consistent app; kit got a bottom tab bar (blur jump between topics), an iOS-style Apps sheet (replaces the mega menu) and a Contact sheet. Details in `brain/11-mobile-architecture.md`. Laptop untouched. Gates: tsc, eslint, webpack build, mobile-smoke 38/38.

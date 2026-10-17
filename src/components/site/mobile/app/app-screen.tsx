@@ -2,8 +2,10 @@ import type { CSSProperties, ReactNode } from "react";
 import { Glyph } from "../glyph";
 import "./app.css";
 import { ScreenChrome } from "./chrome";
+import { AppNav } from "./app-nav";
 import { CtaBar } from "./cta-bar";
 import type { ContactInfo } from "./contact";
+import type { NavTab, OutlineItem } from "./nav-types";
 
 /**
  * One screen of the "app" that a launcher icon opens: the status-bar space, the navigation bar (Back to the launcher, small title that
@@ -19,6 +21,7 @@ export function AppScreen({
   contact,
   messageHref = "/contact",
   cta = true,
+  nav,
   children,
 }: {
   /** the short name of the page (as in the admin panel's page list), shown as the large title */
@@ -35,6 +38,8 @@ export function AppScreen({
   messageHref?: string;
   /** false hides the bottom bar (e.g. on the contact page itself) */
   cta?: boolean;
+  /** the bottom tab bar (one tab per main topic + Apps), the Apps sheet and the contact button; when given it replaces the Call / WhatsApp / Message bar */
+  nav?: { tabs: NavTab[]; outline: OutlineItem[]; currentHref: string };
   children: ReactNode;
 }) {
   const Title = titleIsH1 ? "h1" : "p";
@@ -57,7 +62,8 @@ export function AppScreen({
           {children}
         </div>
       </main>
-      {cta && <CtaBar contact={contact} messageHref={messageHref} />}
+      {nav && <AppNav tabs={nav.tabs} outline={nav.outline} currentHref={nav.currentHref} title={title} contact={contact} messageHref={messageHref} />}
+      {cta && !nav && <CtaBar contact={contact} messageHref={messageHref} />}
     </div>
   );
 }

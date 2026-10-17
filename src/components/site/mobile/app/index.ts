@@ -8,3 +8,4 @@ export { Accordion, Button, Card, Chip, Cloud, Gallery, GroupedList, Hero, ListR
 export { contactFrom, type ContactInfo } from "./contact";
 export { IcArrow, IcChat, IcChevron, IcChevronLeft, IcMail, IcPhone, IcPin, IcWhatsApp } from "./icons";
 export { Lines, Rich, isExternal, lines, oneLine, pairs, paragraphs } from "./text";
+export type { NavTab, OutlineItem, TabIconName } from "./nav-types";
