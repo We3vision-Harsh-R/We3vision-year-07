@@ -5,7 +5,7 @@ import { APPS, GROUP, SCREEN_APPS, PRESETS, WIDGETS, FONTS, type FontId } from "
 
 export type Kind = "app" | "folder" | "widget" | "ghost";
 /** one thing on a screen. A "ghost" is the empty place that opens while something is being dragged (`of` = the size it keeps free). */
-export type Item = { k: Kind; id: string; of?: Exclude<Kind, "ghost"> };
+export type Item = { k: Kind; id: string; of?: Exclude<Kind, "ghost">; /** the cell the visitor put it on (free placement); without it the item flows into the first free place */ x?: number; y?: number };
 export type Page = { title?: string; items: Item[] };
 export type Wall = { kind: "preset"; id: string } | { kind: "photo"; src: string };
 /** how the icons look (like iOS: Default, Dark, Clear, Tinted); `hue` = the tint, in degrees away from the theme colour */
@@ -25,7 +25,7 @@ export const sizeOf = (it: Item): { w: number; h: number } => {
 export const same = (a: Item, b: Item) => a.k === b.k && a.id === b.id;
 
 export const MAX_PAGES = 4;
-const KEY = "we3.launcher.v3";
+const KEY = "we3.launcher.v4";
 
 export function defaultSaved(): Saved {
   return {
@@ -65,7 +65,7 @@ export function loadSaved(): Saved {
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
-      }).map((it): Item => ({ k: it.k, id: it.id }));
+      }).map((it): Item => (Number.isInteger(it.x) && Number.isInteger(it.y) && (it.x as number) >= 0 && (it.y as number) >= 0 && (it.x as number) < 12 && (it.y as number) < 40 ? { k: it.k, id: it.id, x: it.x, y: it.y } : { k: it.k, id: it.id }));
       pages.push({ title: typeof p?.title === "string" ? p.title.slice(0, 24) : undefined, items });
     }
     if (!pages.length) return base;
@@ -101,27 +101,63 @@ export function resetSaved(): Saved {
 // ---------------------------------------------------------------- the grid
 export type Slot = { x: number; y: number; w: number; h: number; item: Item };
 
-/** puts the items on a grid of `cols` columns, in order, each in the first free place (like the iPhone home screen) */
+/**
+ * puts the items on a grid of `cols` columns. An item that has its own cell (x, y: the visitor put it there) stands exactly there when the cell is
+ * free; every other item goes, in order, into the first free place. Two items never share a cell. The slots come back in the order of `items`.
+ */
 export function pack(items: Item[], cols: number): Slot[] {
   const used = new Set<number>();
   const at = (x: number, y: number) => y * 16 + x;
-  const out: Slot[] = [];
-  for (const item of items) {
+  const free = (x: number, y: number, w: number, h: number) => {
+    if (x < 0 || y < 0 || x + w > cols) return false;
+    for (let dy = 0; dy < h; dy++) for (let dx = 0; dx < w; dx++) if (used.has(at(x + dx, y + dy))) return false;
+    return true;
+  };
+  const mark = (x: number, y: number, w: number, h: number) => { for (let dy = 0; dy < h; dy++) for (let dx = 0; dx < w; dx++) used.add(at(x + dx, y + dy)); };
+  const out: (Slot | undefined)[] = items.map(() => undefined);
+  // 1) the items that stand on their own cell
+  items.forEach((item, i) => {
+    if (item.x === undefined || item.y === undefined) return;
     const { w, h } = sizeOf(item);
-    let placed = false;
-    for (let y = 0; !placed && y < 60; y++) {
-      for (let x = 0; x + w <= cols && !placed; x++) {
-        let free = true;
-        for (let dy = 0; dy < h && free; dy++) for (let dx = 0; dx < w && free; dx++) if (used.has(at(x + dx, y + dy))) free = false;
-        if (!free) continue;
-        for (let dy = 0; dy < h; dy++) for (let dx = 0; dx < w; dx++) used.add(at(x + dx, y + dy));
-        out.push({ x, y, w, h, item });
-        placed = true;
+    if (!free(item.x, item.y, w, h)) return;
+    mark(item.x, item.y, w, h);
+    out[i] = { x: item.x, y: item.y, w, h, item };
+  });
+  // 2) the others flow into the first free place
+  items.forEach((item, i) => {
+    if (out[i]) return;
+    const { w, h } = sizeOf(item);
+    for (let y = 0; y < 60; y++) {
+      for (let x = 0; x + w <= cols; x++) {
+        if (!free(x, y, w, h)) continue;
+        mark(x, y, w, h);
+        out[i] = { x, y, w, h, item };
+        return;
       }
     }
-  }
-  return out;
+  });
+  return out.filter((s): s is Slot => !!s);
 }
+
+/** the free cell nearest to (tx, ty) where an item of w x h cells fits on a screen of `rows` rows (null when the screen is full) */
+export function freeNear(slots: Slot[], cols: number, rows: number, w: number, h: number, tx: number, ty: number): { x: number; y: number } | null {
+  const used = new Set<number>();
+  for (const s of slots) for (let dy = 0; dy < s.h; dy++) for (let dx = 0; dx < s.w; dx++) used.add((s.y + dy) * 16 + s.x + dx);
+  let best: { x: number; y: number; d: number } | null = null;
+  for (let y = 0; y + h <= rows; y++) {
+    for (let x = 0; x + w <= cols; x++) {
+      let ok = true;
+      for (let dy = 0; dy < h && ok; dy++) for (let dx = 0; dx < w && ok; dx++) if (used.has((y + dy) * 16 + x + dx)) ok = false;
+      if (!ok) continue;
+      const d = (x - tx) ** 2 + (y - ty) ** 2;
+      if (!best || d < best.d) best = { x, y, d };
+    }
+  }
+  return best ? { x: best.x, y: best.y } : null;
+}
+
+/** gives every item of a screen its own cell, as it stands now (so that moving one item moves no other) */
+export const freeze = (items: Item[], cols: number): Item[] => pack(items, cols).map((s) => ({ ...s.item, x: s.x, y: s.y }));
 const rowsUsed = (slots: Slot[]) => slots.reduce((m, s) => Math.max(m, s.y + s.h), 0);
 
 /** a screen holds only `rows` rows: what does not fit moves to the front of the next screen (a new one is made when needed) */
@@ -134,7 +170,7 @@ export function fit(pages: Page[], cols: number, rows: number): Page[] {
     carry = [];
     const keep: Item[] = [];
     for (let j = 0; j < queue.length; j++) {
-      if (keep.length && rowsUsed(pack([...keep, queue[j]], cols)) > rows) { carry = queue.slice(j); break; }
+      if (keep.length && rowsUsed(pack([...keep, queue[j]], cols)) > rows) { carry = queue.slice(j).map((it) => ({ k: it.k, id: it.id, ...(it.of ? { of: it.of } : {}) })); break; }
       keep.push(queue[j]);
     }
     out.push({ title: src?.title, items: keep });

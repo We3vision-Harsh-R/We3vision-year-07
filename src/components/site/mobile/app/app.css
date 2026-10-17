@@ -97,7 +97,7 @@ a.ma-card:active { transform: scale(0.975); }
 .ma-hero { position: relative; overflow: hidden; margin-top: 6px; padding: 26px 22px 24px; border-radius: 30px; background: linear-gradient(160deg, hsl(0 0% 100% / 0.16), hsl(0 0% 100% / 0.05) 45%, hsl(var(--ma-h) 80% 60% / 0.1)); border: 1px solid var(--ma-rim); -webkit-backdrop-filter: blur(26px) saturate(1.7); backdrop-filter: blur(26px) saturate(1.7); box-shadow: inset 0 1.5px 1px hsl(0 0% 100% / 0.4), 0 22px 56px hsl(0 0% 0% / 0.35); }
 .ma-hero .ma-title2 { margin: 12px 0 0; font-size: 31px; line-height: 1.14; font-weight: 700; letter-spacing: -0.024em; text-wrap: balance; }
 .ma-hero .ma-title2 span + span { color: var(--ma-tint); }
-.ma-hero .ma-intro { font-size: 17px; }
+.ma-hero .ma-intro { margin-top: 16px; font-size: 17px; }
 .ma-actions { display: grid; gap: 10px; margin-top: 20px; }
 
 /* ---- buttons: capsules, 50px high ---- */
@@ -314,3 +314,47 @@ textarea.ma-input { min-height: 120px; resize: vertical; line-height: 1.5; }
   .ma-tabs { width: 520px; }
   .ma-sheet-panel { width: 520px; }
 }
+
+/* ---- the dropdown: the pop-up menu of iOS 26 (a button with the up-down arrows, a glass menu under it, the page behind blurs a little) ---- */
+.ma-dd { position: relative; display: grid; gap: 8px; }
+.ma-dd-label { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ma-text3); }
+.ma-dd-btn { position: relative; z-index: 36; display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; min-height: 52px; padding: 0 16px; border-radius: 16px; border: 1px solid var(--ma-line); background: var(--ma-card2); color: var(--ma-text); font: inherit; font-size: 17px; font-weight: 600; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.25s var(--ma-spring), background-color 0.2s; }
+.ma-dd-btn:active { transform: scale(0.985); background: var(--ma-fill2); }
+.ma-dd-val { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ma-dd-btn svg { flex: none; width: 20px; height: 20px; color: var(--ma-tint); transition: transform 0.3s var(--ma-spring); }
+.ma-dd.is-open .ma-dd-btn svg { transform: scale(1.12); }
+.ma-dd-back { position: fixed; inset: 0; z-index: 34; width: 100%; padding: 0; border: 0; cursor: default; background: hsl(calc(var(--th) + 347.58) calc(60% * var(--ts)) 4% / 0.38); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); animation: ma-dd-fade 0.22s ease both; -webkit-tap-highlight-color: transparent; }
+.ma-dd-back.is-out { animation: ma-dd-fade 0.18s ease reverse both; }
+@keyframes ma-dd-fade { from { opacity: 0; } }
+.ma-dd-menu { position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 36; max-height: min(52dvh, calc(100dvh - 300px), 420px); margin: 0; padding: 6px; list-style: none; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; border-radius: 22px; transform-origin: 50% 0; background: hsl(calc(var(--th) + 347.58) calc(42% * var(--ts)) 15% / 0.82); border: 1px solid var(--ma-rim); -webkit-backdrop-filter: blur(36px) saturate(1.8); backdrop-filter: blur(36px) saturate(1.8); box-shadow: inset 0 1.5px 1px hsl(0 0% 100% / 0.28), 0 24px 60px hsl(0 0% 0% / 0.5); animation: ma-dd-in 0.34s var(--ma-spring) both; }
+.ma-dd-menu::-webkit-scrollbar { display: none; }
+.ma-dd-menu.is-out { animation: ma-dd-out 0.18s ease-in both; }
+@keyframes ma-dd-in { from { opacity: 0; transform: translate3d(0, -8px, 0) scale(0.94); } }
+@keyframes ma-dd-out { to { opacity: 0; transform: translate3d(0, -6px, 0) scale(0.96); } }
+.ma-dd-menu li + li .ma-dd-opt { border-top: 1px solid var(--ma-line); border-radius: 0; }
+.ma-dd-opt { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 50px; padding: 8px 14px; border: 0; background: none; color: var(--ma-text); font: inherit; font-size: 17px; font-weight: 500; text-align: left; cursor: pointer; border-radius: 14px; -webkit-tap-highlight-color: transparent; transition: background-color 0.15s; }
+.ma-dd-opt:active, .ma-dd-opt:focus-visible { background: var(--ma-fill2); outline: none; border-radius: 14px; }
+.ma-dd-opt.is-on { font-weight: 700; color: var(--ma-tint); }
+.ma-dd-opt svg { flex: none; width: 20px; height: 20px; }
+.ma-dd-panel { margin-top: 14px; }
+@media (prefers-reduced-motion: reduce) { .ma-dd-menu, .ma-dd-back { animation: none !important; } }
+
+/* ---- article / job pages: the lead text, the facts, a file field ---- */
+.ma-lead { font-size: 19px; line-height: 1.6; font-weight: 500; color: var(--ma-text); }
+.ma-sec > .ma-pic, .ma-sec > .ma-lead + .ma-pic { margin-top: 16px; }
+.ma-article { margin-top: 20px; }
+.ma-article h2 { margin: 28px 0 10px; }
+.ma-article .ma-pts { margin: 12px 0; }
+.ma-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.ma-tags li { display: inline-flex; align-items: center; min-height: 34px; padding: 0 14px; border-radius: 999px; background: var(--ma-wash); border: 1px solid hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.25); font-size: 14px; font-weight: 600; color: var(--ma-text2); }
+.ma-meta { margin-top: 12px; font-size: 15px; color: var(--ma-text3); }
+.ma-dd-val.is-empty { color: var(--ma-text3); font-weight: 500; }
+.ma-file { position: relative; display: block; }
+.ma-file input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.ma-file-b { display: flex; align-items: center; min-height: 50px; padding: 0 16px; border-radius: 16px; border: 1px dashed var(--ma-rim); background: var(--ma-fill); color: var(--ma-tint); font-size: 16px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ma-link { align-self: start; min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--ma-tint); font: inherit; font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; }
+.ma-form.ma-card { padding: 18px 16px; }
+
+/* a long title (an article, a job) goes under the app icon, so it can use the whole width */
+.ma-large.is-long { flex-direction: column; align-items: flex-start; gap: 14px; }
+.ma-large.is-long .ma-title { font-size: 30px; line-height: 1.16; }

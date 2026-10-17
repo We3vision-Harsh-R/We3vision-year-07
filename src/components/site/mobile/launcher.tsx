@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as RMouseEvent, type PointerEvent as RPointerEvent } from "react";
 import { useRouter } from "next/navigation";
-import { MOBILE_READY } from "@/lib/device";
-import { APPS, DOCK, GROUP, GROUPS, type App, type Group, type WidgetKind } from "./launcher-data";
-import { MAX_PAGES, added, defaultSaved, fit, loadSaved, pack, persist, prune, same, without, type Icons, type Item, type Page, type Saved, type Slot, type Wall } from "./launcher-state";
+import { isMobileApp } from "@/lib/device";
+import { APPS, DOCK, GROUP, GROUPS, SERVICES, WIDGETS, type App, type DockId, type Group, type WidgetKind } from "./launcher-data";
+import { MAX_PAGES, added, defaultSaved, fit, freeNear, freeze, loadSaved, pack, persist, prune, same, sizeOf, without, type Icons, type Item, type Page, type Saved, type Slot, type Wall } from "./launcher-state";
 import { Glyph } from "./glyph";
+import { haptic, type Haptic } from "./haptics";
 import { WIDGET_CLASS, WidgetInner, widgetLink, type Contact } from "./launcher-widgets";
 import { Ic, hue } from "./launcher-ic";
 import { Customize, Sheet, WallLayer, tintOf, type SheetTab } from "./launcher-sheet";
@@ -18,7 +19,7 @@ import { Customize, Sheet, WallLayer, tintOf, type SheetTab } from "./launcher-s
 // Tapping an app grows its icon to the full screen and turns into the colour of the website, then the page opens.
 // The laptop site is not touched: this is a separate "app" (src/app/(m)) that a phone is sent to by src/proxy.ts.
 
-const buzz = () => { try { navigator.vibrate?.(9); } catch { /* not every phone can */ } };
+const buzz = (kind: Haptic = "light") => haptic(kind);
 const hash = (s: string) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
 
 type Ctx = "home" | "lib" | "dock";
@@ -27,13 +28,13 @@ type Launch = { href: string; glyph: string; off: number; solid: boolean; r: DOM
 type Metrics = { u: number; cols: number; side: number; W: number; gx: number; cellW: number; pitch: number; ic: number; vw: number; vh: number };
 type Press = { item: Item; ctx: Ctx; sx: number; sy: number; el: HTMLElement; timer: number; long: boolean; moved: boolean; canDrag: boolean; act: boolean };
 type Drag = { item: Item; draft: Page[]; w: number; h: number; x: number; y: number };
-type DragRef = { ox: number; oy: number; cx: number; cy: number; edge: number; flip: number; ghost: { p: number; i: number } };
+type DragRef = { ox: number; oy: number; cx: number; cy: number; edge: number; flip: number; ghost: { p: number; x: number; y: number } };
 
 function measure(): Metrics {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   const wide = vw >= 700;
-  const u = wide ? 1.62 : Math.min(vw / 393, 1.12);
+  const u = wide ? 1.62 : Math.min(vw / 402, 1.12); // drawn for the iPhone 17 (402 x 874 pt): icons 60 pt, side 27 pt
   const cols = wide ? 6 : 4;
   const side = wide ? vw * 0.07 : 27 * u;
   const W = vw - 2 * side;
@@ -48,6 +49,9 @@ const IconPaths = {
   edit: "M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M17 14v6 M14 17h6",
   minus: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M8 12h8",
   plus: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M8 12h8 M12 8v8",
+  widget: "M4 4h7v7H4z M13 4h7v7h-7z M4 13h7v7H4z M16.500 13v7 M13 16.500h7",
+  wall: "M4 5h16v14H4z M4 16l5-5 4 4 3-3 4 4",
+  page: "M7 3.500h10a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z M12 9v6 M9 12h6",
 };
 function Mi({ d }: { d: keyof typeof IconPaths }) {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d={IconPaths[d]} /></svg>;
@@ -70,6 +74,8 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
   const [closing, setClosing] = useState(false);
   const [launch, setLaunch] = useState<Launch | null>(null);
   const [toast, setToast] = useState("");
+  const [emenu, setEmenu] = useState<{ x: number; y: number } | null>(null);
+  const [searching, setSearching] = useState(false);
   const [dotsOn, setDotsOn] = useState(false); // like iOS 26: the Search pill turns into the page dots for a moment when the screen changes
   const dotsTimer = useRef(0);
 
@@ -131,6 +137,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
   const firstPage = useRef(true);
   useEffect(() => {
     if (firstPage.current) { firstPage.current = false; return; }
+    buzz("select");
     const a = window.setTimeout(() => setDotsOn(true), 0);
     window.clearTimeout(dotsTimer.current);
     dotsTimer.current = window.setTimeout(() => setDotsOn(false), 1500);
@@ -147,18 +154,36 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
     if (r !== rows) setRows(r);
   }, [ready, m, rows, pages.length, edit]);
 
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const on = () => {
+      const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+      root.current?.style.setProperty("--kb", `${kb}px`);
+      if (vv.offsetTop > 0 || vv.pageTop > 0) window.scrollTo(0, 0);
+    };
+    vv.addEventListener("resize", on);
+    vv.addEventListener("scroll", on);
+    return () => { vv.removeEventListener("resize", on); vv.removeEventListener("scroll", on); };
+  }, []);
+
   // ------------------------------------------------------------------ opening a page: the icon grows, then turns into the colour of the website
+  const warm = useCallback((href: string) => {
+    if (href !== "/" && isMobileApp(href)) router.prefetch(href);
+  }, [router]);
   const nav = useCallback((href: string) => {
-    if (MOBILE_READY.has(href) && href !== "/") router.push(href);
+    if (isMobileApp(href) && href !== "/") router.push(href);
     else window.location.assign(href);
   }, [router]);
 
   const launchTo = useCallback((href: string, glyph: string, offset: number, solid: boolean, r: DOMRect) => {
     setMenu(null);
     if (href === "/") { setPage(0); setOpen(null); return; }
+    warm(href);
+    buzz("light");
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { nav(href); return; }
     setLaunch({ href, glyph, off: offset, solid, r });
-  }, [nav]);
+  }, [nav, warm]);
 
   useLayoutEffect(() => {
     if (!launch) return;
@@ -240,6 +265,12 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
     update((s) => ({ ...s, pages: prune(s.pages) }));
     setPage((p) => Math.min(p, live.current.shown.length));
   };
+  const addPage = () => {
+    const L = live.current;
+    if (L.saved.pages.length >= MAX_PAGES) { say("You can have up to " + MAX_PAGES + " home screens"); return; }
+    update((s) => ({ ...s, pages: [...s.pages, { items: [] }] }));
+    setPage(L.saved.pages.length);
+  };
   const remove = (it: Item) => { update((s) => ({ ...s, pages: without(s.pages, it) })); setMenu(null); };
   const addHome = (it: Item) => {
     const L = live.current;
@@ -290,25 +321,28 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
 
   // ------------------------------------------------------------------ dragging an item (edit mode)
   const putDrag = (d: Drag | null) => { live.current.drag = d; setDrag(d); };
-  const ghostOf = (it: Item): Item => ({ k: "ghost", id: it.id, of: it.k as "app" | "folder" | "widget" });
-  const withGhost = (pg: Page[], at: number, idx: number, it: Item): Page[] => {
-    const clean = pg.map((p) => ({ ...p, items: p.items.filter((x) => x.k !== "ghost") }));
+  const ghostOf = (it: Item): Item => ({ k: "ghost", id: it.id, of: it.k as "app" | "folder" | "widget", x: it.x, y: it.y });
+  /** the empty place (the ghost) stands on cell (x, y) of screen `at`; it is taken away from every other screen */
+  const withGhost = (pg: Page[], at: number, x: number, y: number, it: Item): Page[] => {
+    const clean = pg.map((p) => ({ ...p, items: p.items.filter((i) => i.k !== "ghost") }));
     const target = clean[at];
     if (!target) return clean;
-    const items = [...target.items];
-    items.splice(Math.min(idx, items.length), 0, ghostOf(it));
-    clean[at] = { ...target, items };
+    clean[at] = { ...target, items: [...target.items, { ...ghostOf(it), x, y }] };
     return clean;
   };
 
   const startDrag = (p: Press, e: PointerEvent) => {
     const L = live.current;
     const r = p.el.getBoundingClientRect();
-    const draft = L.shown.map((pg) => ({ ...pg, items: pg.items.map((x) => (same(x, p.item) ? ghostOf(p.item) : x)) }));
+    // every item keeps its own cell from now on, so lifting one never moves another
+    const cols = L.m?.cols ?? 4;
+    const draft = L.shown.map((pg) => ({ ...pg, items: freeze(pg.items, cols).map((x) => (same(x, p.item) ? ghostOf(x) : x)) }));
     let at = 0;
-    let idx = 0;
-    draft.forEach((pg, i) => pg.items.forEach((x, j) => { if (x.k === "ghost") { at = i; idx = j; } }));
-    dr.current = { ox: e.clientX - r.left, oy: e.clientY - r.top, cx: r.left, cy: r.top, edge: 0, flip: 0, ghost: { p: at, i: idx } };
+    let gx = 0;
+    let gy = 0;
+    draft.forEach((pg, i) => pg.items.forEach((x) => { if (x.k === "ghost") { at = i; gx = x.x ?? 0; gy = x.y ?? 0; } }));
+    buzz("medium");
+    dr.current = { ox: e.clientX - r.left, oy: e.clientY - r.top, cx: r.left, cy: r.top, edge: 0, flip: 0, ghost: { p: at, x: gx, y: gy } };
     p.moved = true;
     window.clearTimeout(p.timer);
     buzz();
@@ -329,15 +363,25 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
     const el = hs.current[at];
     if (!el || at >= d.draft.length) return;
     const rect = el.getBoundingClientRect();
-    const items = d.draft[at].items.filter((i) => i.k !== "ghost");
-    const slots = pack(items, mt.cols);
-    const cx = (x - rect.left) / mt.cellW;
-    const ry = Math.floor((y - rect.top) / mt.pitch);
-    let idx = 0;
-    for (const s of slots) if (s.y < ry || (s.y === ry && s.x + s.w / 2 <= cx)) idx++;
-    if (g.ghost.p === at && g.ghost.i === idx) return;
-    g.ghost = { p: at, i: idx };
-    putDrag({ ...d, draft: withGhost(d.draft, at, idx, d.item) });
+    const slots = pack(d.draft[at].items.filter((i) => i.k !== "ghost"), mt.cols);
+    const { w, h } = sizeOf(d.item);
+    // the cell under the finger (the middle of a big item is under the finger), then the nearest free cell: items never overlap
+    const rows = L.rows || 5;
+    const tx = Math.max(0, Math.min(mt.cols - w, Math.round((x - rect.left) / mt.cellW - w / 2)));
+    const ty = Math.max(0, Math.min(Math.max(0, rows - h), Math.round((y - rect.top) / mt.pitch - 0.5 - (h - 1) / 2 + 0.0)));
+    // a small icon over another small icon: they swap places (the other icon goes to the place that was just left)
+    const over = slots.find((s) => tx >= s.x && tx < s.x + s.w && ty >= s.y && ty < s.y + s.h);
+    const from = g.ghost.p === at ? { x: g.ghost.x, y: g.ghost.y } : null;
+    if (over && from && w === 1 && h === 1 && over.w === 1 && over.h === 1 && over.item.k === "app") {
+      const swapped = d.draft.map((pg, i) => (i === at ? { ...pg, items: pg.items.map((it) => (same(it, over.item) ? { ...it, x: from.x, y: from.y } : it.k === "ghost" ? { ...it, x: over.x, y: over.y } : it)) } : pg));
+      g.ghost = { p: at, x: over.x, y: over.y };
+      putDrag({ ...d, draft: swapped });
+      return;
+    }
+    const spot = freeNear(slots, mt.cols, rows, w, h, tx, ty);
+    if (!spot || (g.ghost.p === at && g.ghost.x === spot.x && g.ghost.y === spot.y)) return;
+    g.ghost = { p: at, x: spot.x, y: spot.y };
+    putDrag({ ...d, draft: withGhost(d.draft, at, spot.x, spot.y, d.item) });
   };
 
   const flip = (dir: number) => {
@@ -354,10 +398,13 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
       np = draft.length - 1;
     }
     g.edge = 0;
-    g.ghost = { p: np, i: draft[np].items.length };
+    const mt = L.m;
+    const { w, h } = sizeOf(d.item);
+    const spot = freeNear(pack(draft[np].items.filter((i) => i.k !== "ghost"), mt?.cols ?? 4), mt?.cols ?? 4, L.rows || 5, w, h, dir > 0 ? 0 : (mt?.cols ?? 4) - w, 0) ?? { x: 0, y: 0 };
+    g.ghost = { p: np, x: spot.x, y: spot.y };
     setPage(np);
     live.current.page = np;
-    putDrag({ ...d, draft: withGhost(draft, np, draft[np].items.length, d.item) });
+    putDrag({ ...d, draft: withGhost(draft, np, spot.x, spot.y, d.item) });
   };
 
   const moveDrag = (e: PointerEvent) => {
@@ -384,8 +431,9 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
     if (!g || !d) return;
     window.clearTimeout(g.flip);
     const done = () => {
+      buzz("light");
       const L = live.current;
-      const real = d.draft.map((pg) => ({ ...pg, items: pg.items.map((x) => (x.k === "ghost" ? d.item : x)) }));
+      const real = d.draft.map((pg) => ({ ...pg, items: pg.items.map((x) => (x.k === "ghost" ? { k: d.item.k, id: d.item.id, x: x.x, y: x.y } : x)) }));
       const next = fit(real, L.m?.cols ?? 4, L.rows || 5);
       update((s) => ({ ...s, pages: next }));
       putDrag(null);
@@ -439,6 +487,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
     if (!live.current.edit && (e.target as Element).closest("[data-act]")) return; // a call, a link or a field inside a widget works by itself
     const el = e.currentTarget;
     const p: Press = { item, ctx, sx: e.clientX, sy: e.clientY, el, timer: 0, long: false, moved: false, canDrag, act: !!(e.target as Element).closest("[data-act]") };
+    if (item.k === "app") warm(APPS[item.id].href); // start loading the page the moment the finger touches the icon
     press.current = p;
     if (!live.current.edit) {
       p.timer = window.setTimeout(() => {
@@ -463,7 +512,9 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
     // a long press on the empty part of a home screen starts the edit mode
     if (!live.current.edit && live.current.page < homeCount() && !t.closest(".lnc-t, button, a, input")) {
       window.clearTimeout(empty.current);
-      empty.current = window.setTimeout(() => { if (swipe.current && !swipe.current.on && !swiped.current) { buzz(); startEdit(); } }, 520);
+      const px = e.clientX;
+      const py = e.clientY;
+      empty.current = window.setTimeout(() => { if (swipe.current && !swipe.current.on && !swiped.current) { buzz("medium"); startEdit(); setEmenu({ x: px, y: py }); } }, 520);
     }
   };
   const onMove = (e: RPointerEvent<HTMLDivElement>) => {
@@ -494,7 +545,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
     window.clearTimeout(empty.current);
     const d = swipe.current;
     swipe.current = null;
-    if (d && d.down && e.clientY - d.y > 80) { setPage(libIndexOf()); window.setTimeout(() => input.current?.focus(), 450); return; }
+    if (d && d.down && e.clientY - d.y > 80) { buzz("light"); input.current?.focus({ preventScroll: true }); setPage(libIndexOf()); return; }
     if (!d || !d.on || !track.current) return;
     const n = live.current.shown.length + 1;
     const dx = e.clientX - d.x;
@@ -538,7 +589,39 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
       );
     }
     const k = it.id as WidgetKind;
-    return <div className={`lnc-wid ${WIDGET_CLASS[k]} ${widgetLink(k, contact) ? "" : "lnc-nolink"}`}><WidgetInner kind={k} contact={contact} /></div>;
+    return (
+      <span className="lnc-ww">
+        <div className={`lnc-wid ${WIDGET_CLASS[k]} ${widgetLink(k, contact) ? "" : "lnc-nolink"}`}><WidgetInner kind={k} contact={contact} /></div>
+        <span className="lnc-wl">{WIDGETS.find((w) => w.id === k)?.label}</span>
+      </span>
+    );
+  };
+
+  /** the four dock icons, as on an iPhone: Phone (call us), Messages (write to us), Services (a folder of every service), Library (the App Library) */
+  const dockTap = (id: DockId, el: HTMLElement) => {
+    const r = (el.querySelector(".lnc-ic") ?? el).getBoundingClientRect();
+    if (live.current.edit) return;
+    if (id === "msg") warm("/contact");
+    if (id === "lib") { setPage(libIndexOf()); return; }
+    if (id === "svc") { openGroup(SERVICES, el.querySelector(".lnc-ic") as HTMLElement ?? el); return; }
+    if (id === "phone" && contact?.phoneHref) { window.location.href = `tel:${contact.phoneHref}`; return; }
+    launchTo("/contact", id === "phone" ? "call" : "chat", id === "phone" ? -150 : -75, true, r);
+  };
+  const dockButton = (id: DockId) => {
+    const label = id === "phone" ? "Phone" : id === "msg" ? "Messages" : id === "svc" ? "Services" : "App Library";
+    const icon =
+      id === "phone" ? <span className="lnc-ic is-c" style={hue(-150)}><Glyph name="call" /></span>
+      : id === "msg" ? <span className="lnc-ic is-c" style={hue(-75)}><Glyph name="chat" /></span>
+      : id === "svc" ? (
+        <span className="lnc-ic is-glass"><span className="lnc-mg is-9">{SERVICES.apps.slice(0, 9).map((a) => <i key={a} className="lnc-mi" style={hue(APPS[a].off)} />)}</span></span>
+      ) : (
+        <span className="lnc-ic is-glass"><span className="lnc-mg is-4">{["dev", "cre", "eco", "bra"].map((g) => <i key={g} className="lnc-mi" style={hue(GROUP[g].off)} />)}</span></span>
+      );
+    return (
+      <button key={id} type="button" className="lnc-dk" aria-label={label} onClick={(e) => dockTap(id, e.currentTarget)}>
+        {icon}
+      </button>
+    );
   };
 
   const box = (s: Slot, mt: Metrics) => {
@@ -572,7 +655,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
   };
 
   const slotsOf = (pg: Page) => (m ? pack(pg.items, m.cols) : []);
-  const vars = m ? ({ "--u": `${m.u}px`, "--cols": m.cols, "--side": `${m.side}px`, "--pitch": `${m.pitch}px` } as CSSProperties) : undefined;
+  const vars = m ? ({ "--u": `${m.u}px`, "--wu": `${(2 * m.ic + m.gx) / 158}px`, "--cols": m.cols, "--side": `${m.side}px`, "--pitch": `${m.pitch}px` } as CSSProperties) : undefined;
 
   const menuPos = (mn: Menu) => {
     const mt = m ?? measure();
@@ -601,11 +684,14 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
 
               {/* ---------------------------------------------- the last screen: the App Library */}
               <section className="lnc-page lnc-lib" style={{ flex: `0 0 ${100 / nPages}%`, width: `${100 / nPages}%` }} aria-label="App Library">
-                <label className="lnc-search">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.500" /><path d="M16 16l4.500 4.500" /></svg>
-                  <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} placeholder="App Library" aria-label="Search the App Library" />
-                  {q && <button type="button" onClick={() => setQ("")} aria-label="Clear">×</button>}
-                </label>
+                <div className="lnc-sbar">
+                  <label className="lnc-search">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.500" /><path d="M16 16l4.500 4.500" /></svg>
+                    <input ref={input} type="search" inputMode="search" enterKeyHint="search" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} value={q} onChange={(e) => setQ(e.target.value)} onFocus={() => setSearching(true)} onBlur={() => setSearching(false)} placeholder="App Library" aria-label="Search the App Library" />
+                    {q && <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => setQ("")} aria-label="Clear">×</button>}
+                  </label>
+                  {(searching || q) && <button type="button" className="lnc-cancel" onMouseDown={(e) => e.preventDefault()} onClick={() => { setQ(""); input.current?.blur(); }}>Cancel</button>}
+                </div>
                 <div className="lnc-lib-scroll">
                   {q.trim() ? (
                     <ul className="lnc-list">
@@ -641,7 +727,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
           {/* ---------------------------------------------- search, the dots and the dock (the dock stays on every home screen) */}
           <div className={`lnc-bar ${page === libIndex ? "is-lib" : ""}`}>
             <div className={`lnc-ind ${dotsOn || edit || page === libIndex ? "is-dots" : ""}`}>
-            <button type="button" className="lnc-find" onClick={() => { setPage(libIndex); window.setTimeout(() => input.current?.focus(), 450); }}>
+            <button type="button" className="lnc-find" onClick={() => { buzz("light"); input.current?.focus({ preventScroll: true }); setPage(libIndex); }}>
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.500" /><path d="M16 16l4.500 4.500" /></svg>Search
             </button>
             <div className="lnc-dots" role="tablist" aria-label="Screens">
@@ -650,10 +736,8 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
               ))}
             </div>
             </div>
-            <nav className="lnc-dock" aria-label="Main pages">
-              {DOCK.map((id) => (
-                <div key={id} className="lnc-dk" onPointerDown={(e) => tileDown(e, { k: "app", id }, "dock", false)} onClick={(e) => onLink(e, { k: "app", id }, e.currentTarget)}>{tileBody({ k: "app", id }, true)}</div>
-              ))}
+            <nav className="lnc-dock" aria-label="Main">
+              {DOCK.map((id) => dockButton(id))}
             </nav>
           </div>
 
@@ -672,6 +756,22 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
       {drag && (
         <div ref={dragger} className="lnc-dragger" style={{ width: drag.w, height: drag.h, transform: `translate3d(${drag.x}px, ${drag.y}px, 0) scale(1.08)` }}>
           {tileBody(drag.item, false)}
+        </div>
+      )}
+
+      {/* the pop-up menu of the edit mode (long press on the wallpaper) */}
+      {emenu && (
+        <div className="lnc-menu" onPointerDown={() => setEmenu(null)}>
+          <ul className="lnc-mn lnc-emn" style={{ left: Math.max(14, Math.min((m?.vw ?? 402) - 262 * (m?.u ?? 1) - 14, emenu.x - 40)), top: Math.max(14, Math.min((m?.vh ?? 800) - 4 * 52 * (m?.u ?? 1) - 14, emenu.y - 20)), width: 262 * (m?.u ?? 1) }} onPointerDown={(e) => e.stopPropagation()}>
+            {([
+              ["Add Widget", "widget", () => { setEmenu(null); setSheet("widgets"); }],
+              ["Customise", "edit", () => { setEmenu(null); setCust(true); }],
+              ["Edit Wallpaper", "wall", () => { setEmenu(null); setSheet("wall"); }],
+              ["Add Page", "page", () => { setEmenu(null); addPage(); }],
+            ] as [string, keyof typeof IconPaths, () => void][]).map(([label, icon, run]) => (
+              <li key={label}><button type="button" onClick={() => { buzz("select"); run(); }}><span>{label}</span><Mi d={icon} /></button></li>
+            ))}
+          </ul>
         </div>
       )}
 

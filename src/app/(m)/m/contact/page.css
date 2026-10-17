@@ -7,7 +7,7 @@
 .mp-con-h span + span { color: var(--ma-tint); }
 .mp-con-t { margin-top: 8px !important; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
 .mp-con-acts { display: grid; grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); gap: 8px; width: 100%; margin-top: 20px; }
-.mp-con-act { display: grid; justify-items: center; gap: 4px; min-height: 64px; padding: 10px 4px; border-radius: 16px; background: var(--ma-fill2); border: 1px solid var(--ma-line); font-size: 14px; font-weight: 600; color: var(--ma-tint); transition: transform 0.25s var(--ma-spring); }
+.mp-con-act { display: grid; justify-items: center; gap: 4px; min-height: 64px; padding: 10px 2px; letter-spacing: -0.01em; border-radius: 16px; background: var(--ma-fill2); border: 1px solid var(--ma-line); font-size: 13px; font-weight: 600; color: var(--ma-tint); transition: transform 0.25s var(--ma-spring); }
 .mp-con-act:active { transform: scale(0.94); }
 .mp-con-act span { display: grid; }
 .mp-con-act svg { width: 24px; height: 24px; }

@@ -102,3 +102,6 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 
 ## Mobile app navigation (2026-10-17, no task number)
 - /webdev redesigned as one consistent app; kit got a bottom tab bar (blur jump between topics), an iOS-style Apps sheet (replaces the mega menu) and a Contact sheet. Details in `brain/11-mobile-architecture.md`. Laptop untouched. Gates: tsc, eslint, webpack build, mobile-smoke 38/38.
+
+## Launcher v10 and the app pass (2026-10-17, no task number)
+- Dock (Phone, Messages, Services folder, Library), free grid placement, iOS 26 wallpapers, haptics, glass dropdowns, mobile detail pages, sitemap auto-links, smoother page launch. Checked: tsc, eslint, webpack build, mobile-smoke 38/38, page audit at 390/820 (0 issues), launcher check at 9 sizes (0 issues). Details: brain/11.

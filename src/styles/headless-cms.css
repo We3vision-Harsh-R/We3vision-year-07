@@ -243,3 +243,7 @@
 .hl-ai * { animation: none !important; }
 }
 @keyframes tan-dot { 0%, 100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(-5px); opacity: 1; } }
+
+/* the service menu of the chat is the glass dropdown (glass-select.css) */
+.hl-ai-lab { font-size: 0.95rem; color: var(--hl-mute); flex: none; }
+.hl-ai-scope .hl-ai-sel { flex: 1; min-width: 0; }

@@ -3,7 +3,7 @@ import { getBlogEntries } from "@/lib/blog";
 import { getOpenJobs } from "@/lib/careers";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { getProjects } from "@/lib/projects";
-import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS } from "@/lib/site-menu";
+import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, unlistedPages } from "@/lib/site-menu";
 import { AppScreen, Card, GroupedList, ListRow, Section, contactFrom } from "../app";
 import { APPS } from "../launcher-data";
 
@@ -21,6 +21,7 @@ export async function renderMobileSitemap() {
     ...SERVICE_GROUPS.map((g) => ({ title: g.label, items: g.items })),
     { title: "Our Products", items: PRODUCT_LINKS },
     { title: "Explore", items: EXPLORE_LINKS },
+    ...(unlistedPages().length ? [{ title: "More Pages", items: unlistedPages() }] : []),
     ...(projects.length ? [{ title: "Portfolio", items: projects.map((p) => ({ label: p.title, href: "/portfolio/" + p.slug })) }] : []),
     ...(posts.length ? [{ title: "Blog", items: posts.map((p) => ({ label: p.title, href: "/blog/" + p.slug })) }] : []),
     ...(jobs.length ? [{ title: "Open Positions", items: jobs.map((j) => ({ label: j.title, href: "/careers/" + j.slug })) }] : []),

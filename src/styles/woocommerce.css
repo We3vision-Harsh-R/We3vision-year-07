@@ -152,3 +152,7 @@
 .woo .tw-nav button.is-on { background: var(--wo-a); color: #fff; }
 .woo-hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
 .woo .woo-co { padding: 18px 20px 20px; }
+
+/* the sort menu is the glass dropdown (glass-select.css) */
+.woo-bar .woo-sort { margin-left: auto; }
+.woo-bar .woo-sort .gsel-btn { min-height: 42px; border-radius: 999px; }

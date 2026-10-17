@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { MOBILE_READY } from "@/lib/device";
+import { isMobileApp } from "@/lib/device";
 import { isExternal } from "./text";
 
 /**
@@ -29,7 +29,7 @@ export function AppLink({ href, className, children, label }: { href: string; cl
   }
   const path = href.split(/[?#]/)[0] || "/";
   const target = path === "/" ? "/" : path.replace(/\/+$/, "");
-  if (MOBILE_READY.has(target)) {
+  if (isMobileApp(target)) {
     return (
       <Link href={target === "/" ? "/" : href} prefetch={false} className={className} aria-label={label}>
         {children}

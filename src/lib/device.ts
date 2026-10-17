@@ -23,9 +23,19 @@ export function wantsMobile(headers: Headers, view?: string): boolean {
   return MOBILE_UA.test(headers.get("user-agent") ?? "");
 }
 
+/** the sections that have one mobile page for each item: /blog/<address>, /portfolio/<address>, /careers/<address> (items are added in the admin panel) */
+const DETAIL_PREFIXES = ["/blog/", "/portfolio/", "/careers/"] as const;
+const isDetail = (clean: string) => DETAIL_PREFIXES.some((p) => clean.startsWith(p) && clean.length > p.length && !clean.slice(p.length).includes("/"));
+
+/** true when this public address is a screen of the mobile app (a page of the launcher, or one article / project / job) */
+export const isMobileApp = (pathname: string): boolean => {
+  const clean = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
+  return MOBILE_READY.has(clean) || isDetail(clean);
+};
+
 /** the internal address of the mobile version of a public page, or null when that page has no mobile version yet */
 export function mobilePathFor(pathname: string): string | null {
   const clean = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
-  if (!MOBILE_READY.has(clean)) return null;
+  if (!MOBILE_READY.has(clean) && !isDetail(clean)) return null;
   return clean === "/" ? "/m" : `/m${clean}`;
 }

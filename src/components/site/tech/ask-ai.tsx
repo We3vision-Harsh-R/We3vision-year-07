@@ -5,6 +5,7 @@ import "@/styles/panda-chat.css";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, getChatServices, type ChatMessage, type ChatService } from "@/lib/ai-chat";
+import { GlassSelect } from "../glass-select";
 import { oneLine, type TechData } from "./data";
 
 // The AI box of a technology page. It is PANDA's own setup (src/lib/ai-chat.ts): the same backend, the same service list, the same session, the
@@ -74,13 +75,15 @@ export function AskAi({ d }: { d: TechData }) {
       </header>
 
       <div className="hl-ai-scope">
-        <label htmlFor="hl-ai-service">Service</label>
-        <select id="hl-ai-service" value={serviceId} onChange={(e) => setServiceId(e.target.value)} disabled={loading || services.length === 0 || busy}>
-          <option value="">{loading ? "Loading services…" : "All services"}</option>
-          {groups.map((g) => (
-            <optgroup key={g} label={g}>{services.filter((s) => s.category === g).map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}</optgroup>
-          ))}
-        </select>
+        <span className="hl-ai-lab">Service</span>
+        <GlassSelect
+          className="hl-ai-sel"
+          label="Service"
+          value={serviceId}
+          disabled={loading || services.length === 0 || busy}
+          options={[{ value: "", label: loading ? "Loading services…" : "All services" }, ...groups.flatMap((g) => services.filter((s) => s.category === g).map((s) => ({ value: s.id, label: s.title, group: g })))]}
+          onChange={setServiceId}
+        />
       </div>
 
       <div className="hl-ai-body" ref={body} role="log" aria-live="polite" aria-label="Conversation" data-lenis-prevent>

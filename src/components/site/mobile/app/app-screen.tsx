@@ -48,7 +48,7 @@ export function AppScreen({
       <ScreenChrome title={title} />
       <main className="ma-screen">
         <div className="ma-wrap">
-          <header className="ma-large">
+          <header className={`ma-large${title.length > 24 ? " is-long" : ""}`}>
             {glyph && (
               <span className="ma-appic" style={{ "--off": hue } as CSSProperties} aria-hidden="true">
                 <Glyph name={glyph} />

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getBlogEntries } from "@/lib/blog";
 import { getOpenJobs } from "@/lib/careers";
 import { getProjects } from "@/lib/projects";
-import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, type MenuLink } from "@/lib/site-menu";
+import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, unlistedPages, type MenuLink } from "@/lib/site-menu";
 import { SmartLink } from "@/components/site/smart-link";
 
 // The sitemap of the website for people (the XML one for search engines is /sitemap.xml). It lists every service, product and page, and the
@@ -24,6 +24,7 @@ export default async function SitemapPage() {
     ...SERVICE_GROUPS.map((g) => ({ title: g.label, items: g.items })),
     { title: "Our Products", items: PRODUCT_LINKS },
     { title: "Explore", items: EXPLORE_LINKS },
+    ...(unlistedPages().length ? [{ title: "More Pages", items: unlistedPages() }] : []),
     ...(projects.length ? [{ title: "Portfolio", items: projects.map((p) => ({ label: p.title, href: `/portfolio/${p.slug}` })) }] : []),
     ...(posts.length ? [{ title: "Blog", items: posts.map((p) => ({ label: p.title, href: `/blog/${p.slug}` })) }] : []),
     ...(jobs.length ? [{ title: "Open Positions", items: jobs.map((j) => ({ label: j.title, href: `/careers/${j.slug}` })) }] : []),

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { GlassSelect } from "../glass-select";
 import { SmartLink } from "../smart-link";
 import { oneLine, storyParts, type TechData } from "./data";
 import { AppWindow, useStage } from "./stage";
@@ -94,7 +95,7 @@ function Shop({ d }: { d: TechData }) {
     <>
       <div className="woo-bar">
         <p>Showing all {cards.length} results</p>
-        <select value={sort} onChange={(e) => setSort(e.target.value as "default" | "az")} aria-label="Sort"><option value="default">Default sorting</option><option value="az">Sort by name: A to Z</option></select>
+        <GlassSelect className="woo-sort" label="Sort" value={sort} options={[{ value: "default", label: "Default sorting" }, { value: "az", label: "Sort by name: A to Z" }]} onChange={(v) => setSort(v as "default" | "az")} />
         <button type="button" className="woo-basketbtn" onClick={() => setOpen((o) => !o)}>Quote basket <b>{basket.length}</b></button>
       </div>
       {open && (

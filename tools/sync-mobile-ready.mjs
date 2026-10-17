@@ -11,7 +11,7 @@ const base = path.join(root, "src/app/(m)/m");
 const found = [];
 const walk = (dir, rel) => {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (!e.isDirectory() || e.name.startsWith("_") || e.name.startsWith("(")) continue;
+    if (!e.isDirectory() || e.name.startsWith("_") || e.name.startsWith("(") || e.name.startsWith("[")) continue; // dynamic folders ([slug]) are matched by the prefix rule in src/lib/device.ts
     const r = `${rel}/${e.name}`;
     if (fs.existsSync(path.join(dir, e.name, "page.tsx"))) found.push(r);
     walk(path.join(dir, e.name), r);

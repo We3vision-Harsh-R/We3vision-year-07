@@ -48,7 +48,7 @@ export const APPS: Record<string, App> = {
 };
 
 // one colour per app: the hue steps by the golden angle, so neighbours never look alike; the tile style (full colour / light glass) alternates
-Object.values(APPS).forEach((a, i) => { a.off = Math.round((i * 137.508) % 360); a.solid = i % 2 === 0; });
+Object.values(APPS).forEach((a, i) => { a.off = ((i * 53) % 141) - 70; a.solid = true; });
 
 /** a group of pages: its own picture and colour (used on the Services folder cards, the folder and the Library) */
 export type Group = { id: string; label: string; apps: string[]; glyph: string; off: number };
@@ -74,13 +74,19 @@ export const SECTIONS: { id: string; label: string; apps: string[] }[] = (() => 
   const rest = Object.keys(APPS).filter((id) => !used.has(id));
   return rest.length ? [...out, { id: "more", label: "More", apps: rest }] : out;
 })();
-/** the dock: four apps that stay on every home screen (as the Phone, Safari, Messages and Music of an iPhone) */
-export const DOCK = ["portfolio", "about", "contact", "blog"] as const;
+/** the dock, like the four apps of an iPhone dock: Phone (call us), Messages (write to us), a folder with every service, and the App Library */
+export type DockId = "phone" | "msg" | "svc" | "lib";
+export const DOCK: readonly DockId[] = ["phone", "msg", "svc", "lib"];
+/** the folder of the dock: every service page (development, creatives, e-commerce, branding, marketing) in one place */
+export const SERVICES: Group = (() => {
+  const ids = ["dev", "cre", "eco", "bra", "mar"].flatMap((g) => GROUP[g].apps);
+  return { id: "svc", label: "Services", glyph: "services", off: 210, apps: [...new Set(ids)] };
+})();
 /** every other page is installed on the home screens, like the apps of a new iPhone: screen 1 (with two widgets), screen 2 (a wide widget), screen 3 */
 export const SCREEN_APPS: string[][] = [
   ["web", "app", "ai", "seo", "uiux", "shopify", "branddev", "metaverse"],
   ["software", "crm", "headless", "graphics", "branddesign", "model", "animation", "wordpress", "woo", "shopapp", "shopplugin", "wpplugin", "brandkit", "brandvideo", "e2e", "meta"],
-  ["physical", "webugmate", "wejobs", "wethink", "wepresent", "products", "team", "careers", "home", "sitemap"],
+  ["physical", "webugmate", "wejobs", "wethink", "wepresent", "products", "team", "careers", "portfolio", "about", "contact", "blog", "home", "sitemap"],
 ];
 
 // ---- widgets (all of them help a visitor to reach We3vision: call, WhatsApp, write, visit, follow) ----
@@ -110,15 +116,35 @@ export const FONTS: { id: FontId; label: string; css: string }[] = [
   { id: "hand", label: "Handwriting", css: "var(--f-hand)" },
 ];
 
-// ---- wallpapers: three soft lights on the dark site colour. The hues are offsets on the theme colour, so every wallpaper follows the theme picker ----
+// ---- wallpapers: smooth iOS-style gradients (a mesh of soft colour fields on a deep base), all built from the THEME colour, so every wallpaper follows the theme picker ----
 export type Preset = { id: string; label: string; o: [number, number, number]; s: number; plain?: boolean; base?: string; bg?: string };
+
+/** four colour fields (hue steps from the theme colour) on a base that fades from the first colour to the last; `deep` = how dark the bottom is */
+const mesh = (a: number, b: number, c: number, d: number, deep = 12, sat = 1): string => {
+  const h = (n: number, l: number, al = 1) => `hsl(calc(var(--lh) + ${n}) calc(${Math.round(92 * sat)}% * var(--ts)) ${l}% / ${al})`;
+  return [
+    `radial-gradient(95% 52% at 10% 4%, ${h(a, 62, 0.95)}, transparent 64%)`,
+    `radial-gradient(85% 48% at 100% 26%, ${h(b, 56, 0.9)}, transparent 66%)`,
+    `radial-gradient(120% 58% at 0% 84%, ${h(c, 46, 0.92)}, transparent 68%)`,
+    `radial-gradient(80% 40% at 86% 100%, ${h(d, 40, 0.85)}, transparent 72%)`,
+    `linear-gradient(176deg, ${h(a, 33)}, ${h(c, deep)})`,
+  ].join(", ");
+};
+/** a sweeping wave like the iOS 26 wallpapers: the curve of a big circle that is partly outside the screen, with a bright thin edge and a soft glow */
+const wave = (x: number, y: number, r: number, hue: number, strength = 1, sat = 1): string => {
+  const edge = `hsl(calc(var(--lh) + ${hue}) calc(${Math.round(100 * sat)}% * var(--ts)) 88% / ${0.85 * strength})`;
+  const glow = `hsl(calc(var(--lh) + ${hue - 14}) calc(${Math.round(95 * sat)}% * var(--ts)) 64% / ${0.42 * strength})`;
+  const shade = `hsl(calc(var(--lh) + ${hue + 20}) calc(${Math.round(80 * sat)}% * var(--ts)) 16% / ${0.5 * strength})`;
+  return `radial-gradient(circle at ${x}% ${y}%, transparent 0 ${r - 3}%, ${shade} ${r - 1.2}%, ${edge} ${r}%, ${glow} ${r + 2.4}%, transparent ${r + 14}%)`;
+};
+const iosWall = (a: number, b: number, c: number, d: number, deep = 12, sat = 1): string => [wave(112, 24, 62, a + 36, 1, sat), wave(-12, 96, 58, c - 30, 0.8, sat), mesh(a, b, c, d, deep, sat)].join(", ");
 export const PRESETS: Preset[] = [
-  { id: "aurora", label: "Aurora", o: [0, 50, -44], s: 1 },
-  { id: "wave", label: "Wave", o: [0, 0, 0], s: 1, plain: true, bg: "radial-gradient(70% 16% at 62% 24%, hsl(0 0% 100% / 0.2), transparent 70%), radial-gradient(60% 14% at 30% 44%, hsl(0 0% 100% / 0.14), transparent 70%), radial-gradient(130% 55% at 0% 0%, hsl(168 78% 52% / 0.95), transparent 58%), radial-gradient(90% 50% at 100% 10%, hsl(214 88% 56% / 0.9), transparent 62%), radial-gradient(130% 60% at 15% 58%, hsl(205 86% 46% / 0.85), transparent 64%), radial-gradient(120% 60% at 100% 100%, hsl(252 70% 34%), transparent 62%), linear-gradient(180deg, hsl(200 82% 42%), hsl(224 72% 17%))" },
-  { id: "dusk", label: "Dusk", o: [100, 50, 0], s: 1 },
-  { id: "lagoon", label: "Lagoon", o: [-98, -72, -48], s: 1 },
-  { id: "ember", label: "Ember", o: [82, 104, 62], s: 1 },
-  { id: "mint", label: "Mint", o: [-138, -114, -160], s: 1 },
-  { id: "graphite", label: "Graphite", o: [0, 0, 0], s: 0.06, base: "0 0% 6%" },
-  { id: "midnight", label: "Midnight", o: [0, 0, 0], s: 1, plain: true },
+  { id: "aurora", label: "Aurora", o: [0, 50, -44], s: 1, plain: true, bg: iosWall(18, 64, -34, -62) },
+  { id: "sunrise", label: "Sunrise", o: [0, 0, 0], s: 1, plain: true, bg: iosWall(92, 128, 54, 16, 14) },
+  { id: "ocean", label: "Ocean", o: [0, 0, 0], s: 1, plain: true, bg: iosWall(-96, -138, -64, -178, 12) },
+  { id: "bloom", label: "Bloom", o: [0, 0, 0], s: 1, plain: true, bg: iosWall(40, -28, 96, -72, 16) },
+  { id: "dusk", label: "Dusk", o: [0, 0, 0], s: 1, plain: true, bg: iosWall(112, 52, 8, -40, 10) },
+  { id: "mint", label: "Mint", o: [0, 0, 0], s: 1, plain: true, bg: iosWall(-150, -118, -176, -92, 12) },
+  { id: "graphite", label: "Graphite", o: [0, 0, 0], s: 0.06, plain: true, bg: iosWall(0, 0, 0, 0, 5, 0.06) },
+  { id: "midnight", label: "Midnight", o: [0, 0, 0], s: 1, plain: true, bg: `radial-gradient(90% 40% at 50% 0%, hsl(calc(var(--lh) + 10) calc(80% * var(--ts)) 30% / 0.9), transparent 70%), linear-gradient(180deg, hsl(calc(var(--lh) - 10) calc(70% * var(--ts)) 12%), hsl(calc(var(--lh) - 20) calc(70% * var(--ts)) 4%))` },
 ];

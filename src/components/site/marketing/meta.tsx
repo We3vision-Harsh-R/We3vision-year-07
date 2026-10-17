@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, type ReactNode } from "react";
+import { GlassSelect } from "../glass-select";
 import type { TechData } from "../tech/data";
 import { Btn, EndCta, Faq, Note, Sec, useMkt, v } from "./kit";
 import { MTA_BUCKETS, MTA_BUDGET_OBJ, MTA_DIRS, MTA_FAQ, MTA_FLOW, MTA_LEVELS, MTA_METRICS, MTA_OBJ, MTA_OBJ_NOTE, MTA_PREFS, MTA_SERVICES, MTA_STAGES, MTA_STAGE_NOTE, MTA_WE, MTA_WHERE } from "./meta-data";
@@ -230,7 +231,7 @@ export function MetaPage({ d }: { d: TechData }) {
           <div className="mtb-bud">
             <div className="mtb-form">
               <label className="mta-field"><span>Monthly budget (illustrative)</span><b>{inr(budget)}</b><input type="range" min={10000} max={500000} step={5000} value={budget} onChange={(e) => setBudget(Number(e.target.value))} aria-label="Monthly budget" /></label>
-              <label className="mta-field"><span>Objective</span><select value={bObj} onChange={(e) => setBObj(Number(e.target.value))}>{MTA_BUDGET_OBJ.map((x, i) => <option key={x.k} value={i}>{x.k}</option>)}</select></label>
+              <div className="mta-field"><span>Objective</span><GlassSelect label="Objective" value={String(bObj)} options={MTA_BUDGET_OBJ.map((x, i) => ({ value: String(i), label: x.k }))} onChange={(v) => setBObj(Number(v))} /></div>
               <label className="mta-field"><span>Duration</span><b>{months} {months === 1 ? "month" : "months"}</b><input type="range" min={1} max={6} step={1} value={months} onChange={(e) => setMonths(Number(e.target.value))} aria-label="Duration in months" /></label>
               <div className="mta-field"><span>Preference</span><div role="group" aria-label="Allocation preference" className="mta-prefs">{MTA_PREFS.map((x, i) => <button key={x} type="button" aria-pressed={pref === i} className={pref === i ? "is-on" : ""} onClick={() => setPref(i)}>{x}</button>)}</div></div>
             </div>

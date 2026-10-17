@@ -1,5 +1,7 @@
 // The links of the big menu (the round button of the floating menu): Services in five groups, Our Products and Explore.
 // The pages themselves are in lib/cms/pages.ts; this file only decides where they appear in the menu.
+import { PAGES } from "@/lib/cms/pages";
+
 export type MenuLink = { label: string; href: string };
 export type MenuGroup = { label: string; items: MenuLink[] };
 
@@ -75,3 +77,14 @@ export const EXPLORE_LINKS: MenuLink[] = [
   { label: "Contact Us", href: "/contact" },
   { label: "Careers", href: "/careers" },
 ];
+
+/**
+ * Every page of the website that is not in the lists above. The sitemaps show them as "More Pages", so a page that is added to lib/cms/pages.ts
+ * appears there at once, without anybody editing this file (projects, articles and jobs from the admin panel are added by the sitemap pages).
+ */
+export function unlistedPages(): MenuLink[] {
+  const listed = new Set<string>(["/", "/sitemap", ...SERVICE_GROUPS.flatMap((g) => g.items), ...PRODUCT_LINKS, ...EXPLORE_LINKS].map((l) => (typeof l === "string" ? l : l.href.split("#")[0] || "/")));
+  return Object.values(PAGES)
+    .filter((p) => !listed.has(p.path))
+    .map((p) => ({ label: p.title, href: p.path }));
+}
