@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- image links are editable in the admin panel and can point anywhere (the laptop <Img> does the same) */
 import type { CSSProperties, ReactNode } from "react";
+import { Clamp } from "./clamp";
 import { IcChevron } from "./icons";
 import { AppLink } from "./link";
 import { Lines } from "./text";
@@ -26,7 +27,7 @@ export function Section({ id, chip, title, intro, children, as: H = "h2" }: { id
               <Lines text={title} />
             </H>
           )}
-          {intro && <p className="ma-intro">{intro}</p>}
+          {intro && (intro.length > 170 ? <Clamp lines={3}><p className="ma-intro">{intro}</p></Clamp> : <p className="ma-intro">{intro}</p>)}
         </header>
       )}
       {children}
@@ -70,7 +71,7 @@ export function Hero({ chip, title, text, actions, children, h1 }: { chip?: stri
           <Lines text={title} />
         </H>
       )}
-      {text && <p className="ma-intro">{text}</p>}
+      {text && (text.length > 210 ? <Clamp lines={4}><p className="ma-intro">{text}</p></Clamp> : <p className="ma-intro">{text}</p>)}
       {children}
       {acts.length > 0 && (
         <div className="ma-actions">

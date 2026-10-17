@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Points, Section } from "../../../app";
+import { AppLink, Button, Carousel, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import { WireToDesign } from "./toggle";
@@ -100,12 +100,12 @@ export const UxServices: MobileSection<"services"> = ({ data, id }) => {
           ))}
         </ul>
       ) : (
-        <div className="mp-ux-frames ma-grid2">
+        <Carousel>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
             return (
-              <details key={i} className="mp-ux-fr" open={i === 0} style={hue(i)}>
+              <details key={i} className="mp-ux-fr" style={hue(i)}>
                 <summary>
                   <span className="mp-ux-ftab">{String(i + 1).padStart(2, "0")}</span>
                   <span className="mp-ux-fh">
@@ -146,7 +146,7 @@ export const UxServices: MobileSection<"services"> = ({ data, id }) => {
               </details>
             );
           })}
-        </div>
+        </Carousel>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">

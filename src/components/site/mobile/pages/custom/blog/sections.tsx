@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- article pictures are links from the admin panel (Blog), like the kit's <Pic> */
 import type { MobileSection } from "../../types";
-import { AppLink, Section } from "../../../app";
+import { AppLink, Clamp, Section } from "../../../app";
 import { Lines } from "../../../app/text";
 
 // /blog as a "News" app: a masthead, the newest article as the top story, the others as headline rows with a picture on the right.
@@ -57,6 +57,7 @@ export const BlogFeed: MobileSection<"blogs"> = ({ data, id, extra }) => {
         </AppLink>
       )}
       {rest.length > 0 && (
+        <Clamp max="700px" slack={120} fade="110px" more={`Show all ${stories.length} articles`} less="Show fewer" className="ma-collapse">
         <ul className="mp-blog-list">
           {rest.map((s) => (
             <li key={s.key}>
@@ -71,6 +72,7 @@ export const BlogFeed: MobileSection<"blogs"> = ({ data, id, extra }) => {
             </li>
           ))}
         </ul>
+        </Clamp>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">

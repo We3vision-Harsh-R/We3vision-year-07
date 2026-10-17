@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Accordion, Button, Card, GroupedList, Hero, ListRow, Points, Section, Stepper } from "../app";
+import { Accordion, Button, Card, Carousel, GroupedList, Hero, ListRow, Points, Section } from "../app";
 import { Lines, Rich, lines, oneLine } from "../app/text";
 
 // Building blocks the section files share, so that each section type is a few lines: it only says WHICH words go into WHICH kit component.
@@ -10,16 +10,16 @@ type Head = { id?: string; chip?: string; heading?: string; intro?: string };
 export function CardList({ id, chip, heading, intro, items, tone }: Head & { items: { title?: string; text?: string; points?: string[]; foot?: ReactNode; href?: string }[]; tone?: "tint" }) {
   return (
     <Section id={id} chip={chip} title={heading} intro={intro}>
-      <div className="ma-stack ma-grid2">
+      <Carousel label={heading ? oneLine(heading) : undefined}>
         {items.map((it, i) => (
-          <Card key={i} tone={tone} href={it.href}>
+          <Card key={i} tone={tone} href={it.href} className="ma-fill">
             {it.title && <h3><Lines text={it.title} /></h3>}
             {it.text && <p>{it.text}</p>}
             {it.points && it.points.length > 0 && <Points items={it.points} />}
             {it.foot}
           </Card>
         ))}
-      </div>
+      </Carousel>
     </Section>
   );
 }
@@ -28,11 +28,15 @@ export function CardList({ id, chip, heading, intro, items, tone }: Head & { ite
 export function RowList({ id, chip, heading, intro, items }: Head & { items: { title: string; text?: string; href?: string; icon?: ReactNode; detail?: string }[] }) {
   return (
     <Section id={id} chip={chip} title={heading} intro={intro}>
-      <GroupedList>
-        {items.map((it, i) => (
-          <ListRow key={i} title={oneLine(it.title)} text={it.text} href={it.href} icon={it.icon} detail={it.detail} />
-        ))}
-      </GroupedList>
+      {items.some((it) => it.href) ? (
+        <GroupedList>
+          {items.map((it, i) => (
+            <ListRow key={i} title={oneLine(it.title)} text={it.text} href={it.href} icon={it.icon} detail={it.detail} />
+          ))}
+        </GroupedList>
+      ) : (
+        <Accordion items={items.map((it, i) => ({ title: <><span className="ma-an">{i + 1}</span>{oneLine(it.title)}</>, body: <p>{it.text}</p> }))} />
+      )}
     </Section>
   );
 }
@@ -41,9 +45,12 @@ export function RowList({ id, chip, heading, intro, items }: Head & { items: { t
 export function StepList({ id, chip, heading, intro, steps }: Head & { steps: { label?: string; kicker?: string; title?: string; text?: string; points?: string[] }[] }) {
   return (
     <Section id={id} chip={chip} title={heading} intro={intro}>
-      <Card>
-        <Stepper steps={steps.map((s) => ({ ...s, title: s.title ? oneLine(s.title) : undefined }))} />
-      </Card>
+      <Accordion
+        items={steps.map((s, i) => ({
+          title: <><span className="ma-an">{s.label ?? i + 1}</span>{s.title ? oneLine(s.title) : s.kicker ?? ""}</>,
+          body: <>{s.text && <p>{s.text}</p>}{s.points && s.points.length > 0 && <Points items={s.points} />}</>,
+        }))}
+      />
     </Section>
   );
 }

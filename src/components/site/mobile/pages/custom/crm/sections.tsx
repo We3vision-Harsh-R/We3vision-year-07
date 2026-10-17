@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Section } from "../../../app";
+import { AppLink, Button, Carousel, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 
@@ -79,7 +79,7 @@ export const CrmServices: MobileSection<"services"> = ({ data, id }) => {
           ))}
         </ul>
       ) : (
-        <div className="mp-crm-lists ma-grid2">
+        <Carousel>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
@@ -92,6 +92,12 @@ export const CrmServices: MobileSection<"services"> = ({ data, id }) => {
                   </h3>
                 </header>
                 {c.description && <p className="mp-crm-d">{c.description}</p>}
+                <details className="ma-fold">
+                  <summary>
+                    Details
+                    <IcChevron />
+                  </summary>
+                  <div>
                 {c.fit && (
                   <p className="mp-crm-fit">
                     <b>Right for you when</b>
@@ -124,6 +130,8 @@ export const CrmServices: MobileSection<"services"> = ({ data, id }) => {
                     </ul>
                   </>
                 )}
+                  </div>
+                </details>
                 {c.href && (
                   <div className="ma-actions">
                     <Button href={c.href} variant="tinted" block>
@@ -134,7 +142,7 @@ export const CrmServices: MobileSection<"services"> = ({ data, id }) => {
               </article>
             );
           })}
-        </div>
+        </Carousel>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">

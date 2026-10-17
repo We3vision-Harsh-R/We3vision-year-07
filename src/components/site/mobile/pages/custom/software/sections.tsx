@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Points, Section } from "../../../app";
+import { AppLink, Button, Carousel, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 
@@ -91,7 +91,7 @@ export const SwServices: MobileSection<"services"> = ({ data, id }) => {
           ))}
         </ul>
       ) : (
-        <div className="mp-sw-folders ma-grid2">
+        <Carousel>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
@@ -140,7 +140,7 @@ export const SwServices: MobileSection<"services"> = ({ data, id }) => {
               </details>
             );
           })}
-        </div>
+        </Carousel>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">

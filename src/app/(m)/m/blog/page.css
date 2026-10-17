@@ -31,3 +31,9 @@
 .mp-blog-th img { width: 100%; height: 100%; object-fit: cover; }
 
 @media (prefers-reduced-motion: reduce) { .mp-blog-top { transition: none; } }
+
+/* compact rows */
+.mp-blog-row { min-height: 84px; padding: 10px 14px; gap: 12px; }
+.mp-blog-th { width: 64px; height: 64px; border-radius: 12px; }
+.mp-blog-rb b { font-size: 16px; -webkit-line-clamp: 2; }
+.mp-blog-sum { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }

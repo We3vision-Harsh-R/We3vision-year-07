@@ -1,5 +1,6 @@
 import type { MobileSection } from "../types";
 import { Card, GroupedList, LeadForm, ListRow, Section } from "../../app";
+import { IcChevron } from "../../app/icons";
 import type { SiteSettings } from "@/lib/cms/settings";
 import { lines } from "../../app/text";
 
@@ -11,15 +12,18 @@ export function ContactBlock({ chip, heading, text, buttonLabel, site }: { chip:
   return (
     <Section id="contact" chip={chip} title={heading} intro={text}>
       <Card><LeadForm buttonLabel={buttonLabel || undefined} /></Card>
-      <div className="ma-gap ma-stack">
-        {site.contactCards.map((card, i) => (
-          <GroupedList key={i} header={card.title}>
-            {lines(card.lines).map((l, n) => (
-              <ListRow key={n} title={l} href={EMAIL.test(l) ? "mailto:" + l : PHONE.test(l) ? "tel:" + l.replace(/[^\d+]/g, "") : undefined} />
-            ))}
-          </GroupedList>
-        ))}
-      </div>
+      <details className="ma-fold ma-gap">
+        <summary>Phone, e-mail and offices<IcChevron /></summary>
+        <div className="ma-stack ma-gap">
+          {site.contactCards.map((card, i) => (
+            <GroupedList key={i} header={card.title}>
+              {lines(card.lines).map((l, n) => (
+                <ListRow key={n} title={l} href={EMAIL.test(l) ? "mailto:" + l : PHONE.test(l) ? "tel:" + l.replace(/[^\d+]/g, "") : undefined} />
+              ))}
+            </GroupedList>
+          ))}
+        </div>
+      </details>
     </Section>
   );
 }

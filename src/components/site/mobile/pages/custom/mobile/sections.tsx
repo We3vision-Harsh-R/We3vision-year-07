@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Points, Section } from "../../../app";
+import { AppLink, Button, Carousel, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 
@@ -92,7 +92,7 @@ export const AppServices: MobileSection<"services"> = ({ data, id }) => {
           ))}
         </ul>
       ) : (
-        <div className="mp-ap-today ma-grid2">
+        <Carousel>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
@@ -105,6 +105,11 @@ export const AppServices: MobileSection<"services"> = ({ data, id }) => {
                   <p>{c.description}</p>
                 </div>
                 {(c.fit || problems.length > 0 || outcomes.length > 0 || c.href) && (
+                  <details className="ma-fold">
+                    <summary>
+                      Details
+                      <IcChevron />
+                    </summary>
                   <div className="mp-ap-tc-body">
                     {c.fit && (
                       <>
@@ -132,11 +137,12 @@ export const AppServices: MobileSection<"services"> = ({ data, id }) => {
                       </div>
                     )}
                   </div>
+                  </details>
                 )}
               </article>
             );
           })}
-        </div>
+        </Carousel>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">

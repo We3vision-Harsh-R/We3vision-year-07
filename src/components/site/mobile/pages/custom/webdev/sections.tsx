@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Points, Section } from "../../../app";
+import { AppLink, Button, Clamp, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import { SiteBuilder } from "./builder";
@@ -53,7 +53,7 @@ export const WebHero: MobileSection<"pageHero"> = ({ data, index }) => {
       <H className="mp-wd-h">
         <Lines text={data.heading} />
       </H>
-      {data.text && <p className="mp-wd-t">{data.text}</p>}
+      {data.text && (data.text.length > 210 ? <Clamp lines={4}><p className="mp-wd-t">{data.text}</p></Clamp> : <p className="mp-wd-t">{data.text}</p>)}
       <div className="ma-actions">
         {data.primaryLabel && data.primaryHref && (
           <Button href={data.primaryHref} block>
@@ -74,11 +74,13 @@ export const WebHero: MobileSection<"pageHero"> = ({ data, index }) => {
 export const WebStory: MobileSection<"story"> = ({ data, id }) => (
   <section id={id} className="ma-sec">
     <article className="mp-wd-panel mp-wd-story">
-      {paragraphs(data.body).map((p, i) => (
-        <p key={i}>
-          <Rich text={p} />
-        </p>
-      ))}
+      <Clamp lines={6}>
+        {paragraphs(data.body).map((p, i) => (
+          <p key={i}>
+            <Rich text={p} />
+          </p>
+        ))}
+      </Clamp>
     </article>
   </section>
 );
@@ -139,7 +141,6 @@ export const WebServices: MobileSection<"services"> = ({ data, id }) => {
               tile={i + 1}
               title={<Lines text={c.title} />}
               text={c.description}
-              open={i === 0}
             >
               {more ? (
                 <>
@@ -190,7 +191,7 @@ export const WebProcess: MobileSection<"process"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
     <div className="mp-wd-panel">
       {data.items.map((x, i) => (
-        <Fold key={i} tile={i + 1} title={oneLine(x.title)} open={i === 0}>
+        <Fold key={i} tile={i + 1} title={oneLine(x.title)}>
           <p>{x.text}</p>
           {lines(x.points).length > 0 && <Points items={lines(x.points)} />}
         </Fold>
@@ -202,11 +203,15 @@ export const WebProcess: MobileSection<"process"> = ({ data, id }) => (
 /** the technologies as pills in one panel */
 export const WebTags: MobileSection<"tags"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-wd-panel mp-wd-chips">
-      {lines(data.items).map((t, i) => (
-        <li key={i}>{t}</li>
-      ))}
-    </ul>
+    <div className="mp-wd-panel mp-wd-chipbox">
+      <Clamp max="108px" more="Show all" less="Show fewer">
+        <ul className="mp-wd-chips">
+          {lines(data.items).map((t, i) => (
+            <li key={i}>{t}</li>
+          ))}
+        </ul>
+      </Clamp>
+    </div>
   </Section>
 );
 
@@ -215,7 +220,9 @@ export const WebIndustries: MobileSection<"industries"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
     <div className="mp-wd-panel">
       {data.items.map((x, i) => (
-        <Fold key={i} tile={<IcBuilding />} title={x.name} text={x.description} />
+        <Fold key={i} tile={<IcBuilding />} title={x.name}>
+          <p>{x.description}</p>
+        </Fold>
       ))}
     </div>
   </Section>
@@ -226,7 +233,9 @@ export const WebAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
     <div className="mp-wd-panel">
       {data.items.map((x, i) => (
-        <Fold key={i} tile={<IcCheck />} title={x.title} text={x.description} />
+        <Fold key={i} tile={<IcCheck />} title={x.title}>
+          <p>{x.description}</p>
+        </Fold>
       ))}
     </div>
   </Section>

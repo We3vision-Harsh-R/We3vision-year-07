@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Points, Section } from "../../../app";
+import { AppLink, Button, Carousel, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import { BallTimeline } from "./timeline";
@@ -103,13 +103,13 @@ export const AnServices: MobileSection<"services"> = ({ data, id }) => {
           ))}
         </ul>
       ) : (
-        <div className="mp-an-eps ma-grid2">
+        <Carousel>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
             const more = c.fit || problems.length > 0 || outcomes.length > 0 || c.href;
             return (
-              <details key={i} className="mp-an-ep" open={i === 0} style={hue(i)}>
+              <details key={i} className="mp-an-ep" style={hue(i)}>
                 <summary>
                   <span className="mp-an-th" aria-hidden="true">
                     <span className="mp-an-tri" />
@@ -154,7 +154,7 @@ export const AnServices: MobileSection<"services"> = ({ data, id }) => {
               </details>
             );
           })}
-        </div>
+        </Carousel>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">

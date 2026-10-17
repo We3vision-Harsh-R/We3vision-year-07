@@ -64,3 +64,9 @@
 .ma-root .mp-wd-blocks em.is-on:nth-child(3) { transition-delay: 0.16s; }
 
 @media (prefers-reduced-motion: reduce) { .ma-root .mp-wd-hero { animation: none; } .ma-root .mp-wd-fold[open] .mp-wd-fb { animation: none; } .ma-root .mp-wd-heroline span, .ma-root .mp-wd-blocks em { transition: none; } }
+
+/* compact: the description in a closed row is two lines, the pills are in a box */
+.ma-root .mp-wd-fold:not([open]) .mp-wd-body > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ma-root .mp-wd-chipbox { padding: 16px; }
+.ma-root .mp-wd-chipbox .mp-wd-chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.ma-root .mp-wd-chipbox .ma-clampw { gap: 8px; }

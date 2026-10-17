@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Cloud, Points, Section } from "../../../app";
+import { AppLink, Button, Carousel, Cloud, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 
@@ -166,7 +166,7 @@ export const AiAutomate: MobileSection<"automate"> = ({ data, id }) => (
 /** "What we build": agent cards; the details open under each card */
 export const AiServices: MobileSection<"services"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <div className="mp-ai-agents ma-grid2">
+    <Carousel>
       {data.cards.map((c, i) => {
         const problems = lines(c.problems);
         const outcomes = lines(c.outcomes);
@@ -217,7 +217,7 @@ export const AiServices: MobileSection<"services"> = ({ data, id }) => (
           </details>
         );
       })}
-    </div>
+    </Carousel>
     {data.buttonLabel && data.buttonHref && (
       <div className="ma-actions">
         <Button href={data.buttonHref} block>

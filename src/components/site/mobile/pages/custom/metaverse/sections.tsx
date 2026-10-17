@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Cloud, Points, Section } from "../../../app";
+import { AppLink, Button, Carousel, Cloud, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, lines, oneLine, pairs } from "../../../app/text";
 import { CabinPicker, DeviceRow, RealityQuiz } from "./interactive";
@@ -123,12 +123,12 @@ export const VrServices: MobileSection<"services"> = ({ data, id }) => {
           ))}
         </ul>
       ) : (
-        <div className="mp-vr-wins ma-grid2">
+        <Carousel>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
             return (
-              <details key={i} className="mp-vr-glass mp-vr-svc" open={i === 0} style={hue(i * 2)}>
+              <details key={i} className="mp-vr-glass mp-vr-svc" style={hue(i * 2)}>
                 <summary>
                   <span className="mp-vr-sb">
                     <b>
@@ -168,7 +168,7 @@ export const VrServices: MobileSection<"services"> = ({ data, id }) => {
               </details>
             );
           })}
-        </div>
+        </Carousel>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">

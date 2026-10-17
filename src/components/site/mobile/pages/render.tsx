@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import { PageJsonLd } from "@/components/site/page-jsonld";
 import { getBlogEntries } from "@/lib/blog";
@@ -6,7 +7,7 @@ import { PAGES, type PageSlug } from "@/lib/cms/pages";
 import { getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
 import type { SectionType } from "@/lib/cms/sections";
 import { getProjects } from "@/lib/projects";
-import { AppScreen, contactFrom } from "../app";
+import { AppScreen, Collapse, contactFrom } from "../app";
 import { APPS } from "../launcher-data";
 import { outlineFor, tabsFor } from "./nav";
 import { HERO_LIKE, MOBILE_SECTIONS, type AnyMobileSection } from "./sections";
@@ -37,6 +38,9 @@ export type RenderOptions = {
   overrides?: { [T in SectionType]?: MobileSection<T> };
 };
 
+/** the sections that are never collapsed: forms and the first card of a page */
+const KEEP_OPEN: ReadonlySet<SectionType> = new Set<SectionType>(["contact", "careerHelpDesk", "pageHero", "wordHero", "aboutHero", "aboutWorld", "vrEntry"]);
+
 /** the launcher icon (glyph + colour) of a page: the page is the app that this icon opens */
 const appOf = (slug: PageSlug) => Object.values(APPS).find((a) => a.href === PAGES[slug].path);
 
@@ -59,7 +63,9 @@ export async function renderMobilePage(slug: PageSlug, opts: RenderOptions = {})
       >
         {sections.map((s, i) => {
           const Section = (opts.overrides?.[s.type] ?? MOBILE_SECTIONS[s.type]) as unknown as AnyMobileSection;
-          return <Section key={s.id} data={s.data as never} site={site} contact={contact} id={s.id} index={i} page={slug} extra={extra} />;
+          const node = <Section data={s.data as never} site={site} contact={contact} id={s.id} index={i} page={slug} extra={extra} />;
+          // the first section (the hero) and the forms are shown whole; every other tall section opens with "Show more"
+          return i === 0 || KEEP_OPEN.has(s.type) ? <Fragment key={s.id}>{node}</Fragment> : <Collapse key={s.id}>{node}</Collapse>;
         })}
       </AppScreen>
     </>

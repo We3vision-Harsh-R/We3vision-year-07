@@ -5,6 +5,7 @@ import { getSiteSettings } from "@/lib/cms/queries";
 import { getProjects } from "@/lib/projects";
 import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, unlistedPages } from "@/lib/site-menu";
 import { AppScreen, Card, GroupedList, ListRow, Section, contactFrom } from "../app";
+import { IcChevron } from "../app/icons";
 import { APPS } from "../launcher-data";
 
 // The mobile twin of the Sitemap page (src/app/(site)/sitemap/page.tsx): the same groups of links, as grouped lists.
@@ -31,12 +32,19 @@ export async function renderMobileSitemap() {
     <AppScreen title="Sitemap" glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="/contact" nav={{ tabs: [{ id: null, label: "Sitemap", icon: "overview" }], outline: [], currentHref: "/sitemap" }}>
       <Section chip="Sitemap" title={"Every Page Of\nWe3vision"} intro="Find a service, a product or any other page quickly.">
         <div className="ma-stack">
-          {groups.map((g) => (
-            <GroupedList key={g.title} header={g.title}>
-              {g.items.map((l) => (
-                <ListRow key={g.title + l.href + l.label} title={l.label} href={l.href} />
-              ))}
-            </GroupedList>
+          {groups.map((g, i) => (
+            <details key={g.title} className="ma-dg" open={i === 0}>
+              <summary>
+                <span>{g.title}</span>
+                <small>{g.items.length}</small>
+                <IcChevron />
+              </summary>
+              <GroupedList>
+                {g.items.map((l) => (
+                  <ListRow key={g.title + l.href + l.label} title={l.label} href={l.href} />
+                ))}
+              </GroupedList>
+            </details>
           ))}
         </div>
         <div className="ma-gap">

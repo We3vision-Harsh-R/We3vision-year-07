@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- project pictures are uploads / links from the admin panel (Projects), like the kit's <Pic> */
 import type { MobileSection } from "../../types";
-import { AppLink, Section } from "../../../app";
+import { AppLink, Clamp, Section } from "../../../app";
 import { Lines } from "../../../app/text";
 import { coverOf, type ProjectView } from "@/lib/projects";
 
@@ -81,6 +81,7 @@ export const PortfolioGrid: MobileSection<"projects"> = ({ data, id, extra }) =>
               })}
             </ul>
           )}
+          <Clamp max="780px" slack={140} fade="110px" more={`Show all ${list.length} projects`} less="Show fewer" className="ma-collapse">
           {named.length > 1 ? (
             albums.map((a) => (
               <div key={a.name || "other"} id={albumId(a.name)} className="mp-pf-grp">
@@ -99,6 +100,7 @@ export const PortfolioGrid: MobileSection<"projects"> = ({ data, id, extra }) =>
               ))}
             </div>
           )}
+          </Clamp>
         </>
       )}
     </Section>
