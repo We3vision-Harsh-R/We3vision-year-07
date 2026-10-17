@@ -1,5 +1,5 @@
 // CPU PROFILE (read-only): which scripts and functions use the main thread while a page loads and idles.
-//   node tools/cpu-profile.mjs http://localhost:3000 /path [--cpu=4] [--seconds=8]
+//   node tools/cpu-profile.mjs http://localhost:3000 /path [--cpu=4] [--seconds=8] [--device=desktop|phone|tablet]
 // Run it on `next dev --webpack` (not on a production build): the dev build keeps file names and function names, a production build is minified.
 // Numbers are for finding the heavy code, not for comparing with production times. Prints the biggest scripts and functions by SELF time (ms,
 // at the CPU slowdown given). Needs Chrome (CHROME_PATH or the default Windows install) and Node 22+.
@@ -27,7 +27,10 @@ let id = 1; const waiting = new Map(); const listeners = [];
 ws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id && waiting.has(m.id)) { waiting.get(m.id)(m); waiting.delete(m.id); } else listeners.forEach((l) => l(m)); };
 const send = (method, params = {}) => new Promise((res) => { const i = id++; waiting.set(i, res); ws.send(JSON.stringify({ id: i, method, params })); });
 await send("Page.enable");
-await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+const deviceName = (args.find((a) => a.startsWith("--device=")) ?? "--device=desktop").split("=")[1];
+const D = { desktop: [1440, 900, 1, false, ""], phone: [390, 844, 3, true, "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"], tablet: [820, 1180, 2, true, "Mozilla/5.0 (iPad; CPU OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"] }[deviceName];
+await send("Emulation.setDeviceMetricsOverride", { width: D[0], height: D[1], deviceScaleFactor: D[2], mobile: D[3] });
+if (D[3]) { await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 }); await send("Network.setUserAgentOverride", { userAgent: D[4] }); }
 await send("Emulation.setCPUThrottlingRate", { rate: cpu });
 // warm the page once (dev server compiles on the first visit), then profile a fresh load
 const load = async () => { const done = new Promise((r) => { const l = (m) => { if (m.method === "Page.loadEventFired") r(); }; listeners.push(l); setTimeout(r, 240000); }); await send("Page.navigate", { url: base + path }); await done; };

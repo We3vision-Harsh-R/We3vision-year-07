@@ -1,7 +1,9 @@
 // PERF RUN: real loading numbers of pages in a headless Chrome (read-only). Use it against `next start` (a production build), not `next dev`.
-//   node tools/perf-run.mjs http://localhost:1010 [/path ...] [--profile=desktop|4g|slow4g] [--json]
+//   node tools/perf-run.mjs http://localhost:1010 [/path ...] [--profile=desktop|4g|slow4g] [--device=desktop|phone|tablet] [--json]
 // Per page it prints: FCP and LCP (ms), CLS, blocking time (sum of long tasks over 50 ms), number of requests, and the bytes that were really
 // transferred (compressed) split into JS / CSS / images / fonts / HTML. Cache is off, every page is loaded cold, 3 runs, the median is shown.
+// Devices (--device=desktop|phone|tablet): phone = 390x844 at 3x, tablet = 820x1180 at 2x, both with a touch screen and an iPhone/iPad user agent, so the
+// server (src/proxy.ts) sends the phone/tablet pages (/m/...) for the normal addresses.
 // Profiles: desktop = no throttling; 4g = 9 Mbit/s, 170 ms round trip, CPU 2x slower; slow4g = 1.6 Mbit/s, 150 ms, CPU 4x slower (Lighthouse "mobile").
 // With no /path a set of key pages is used. Needs Chrome (CHROME_PATH or the default Windows install) and Node 22+.
 import { spawn } from "node:child_process";
@@ -15,12 +17,20 @@ const asJson = args.includes("--json");
 const profileName = flag("profile", "desktop");
 const positional = args.filter((a) => !a.startsWith("--"));
 const base = (positional[0] ?? "http://localhost:1010").replace(/\/+$/, "");
-const paths = positional.slice(1).length ? positional.slice(1) : ["/", "/about", "/blog", "/contact", "/careers", "/webdev", "/seo", "/graphics", "/metaverse", "/brand-development-services", "/headless-CMS-devlopment-services"];
+const paths = positional.slice(1).length ? positional.slice(1) : flag("device", "desktop") !== "desktop" ? ["/", "/about", "/blog", "/contact", "/careers", "/webdev", "/seo", "/portfolio"] : ["/", "/about", "/blog", "/contact", "/careers", "/webdev", "/seo", "/graphics", "/metaverse", "/brand-development-services", "/headless-CMS-devlopment-services"];
 const PROFILES = {
   desktop: { down: 0, up: 0, rtt: 0, cpu: 1 },
   "4g": { down: (9 * 1024 * 1024) / 8, up: (9 * 1024 * 1024) / 8, rtt: 170, cpu: 2 },
   slow4g: { down: (1.6 * 1024 * 1024) / 8, up: (750 * 1024) / 8, rtt: 150, cpu: 4 },
 };
+const deviceName = flag("device", "desktop");
+const DEVICES = {
+  desktop: { w: 1440, h: 900, dpr: 1, mobile: false, ua: "" },
+  phone: { w: 390, h: 844, dpr: 3, mobile: true, ua: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1" },
+  tablet: { w: 820, h: 1180, dpr: 2, mobile: true, ua: "Mozilla/5.0 (iPad; CPU OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1" },
+};
+const device = DEVICES[deviceName];
+if (!device) { console.error("device must be desktop, phone or tablet"); process.exit(2); }
 const profile = PROFILES[profileName];
 if (!profile) { console.error("profile must be desktop, 4g or slow4g"); process.exit(2); }
 const chromePath = process.env.CHROME_PATH ?? ["C:/Program Files/Google/Chrome/Application/chrome.exe", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"].find(existsSync);
@@ -47,7 +57,11 @@ const send = (method, params = {}) => new Promise((res) => { const id = nextId++
 await send("Page.enable");
 await send("Network.enable");
 await send("Network.setCacheDisabled", { cacheDisabled: true });
-await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+await send("Emulation.setDeviceMetricsOverride", { width: device.w, height: device.h, deviceScaleFactor: device.dpr, mobile: device.mobile });
+if (device.mobile) {
+  await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 });
+  await send("Network.setUserAgentOverride", { userAgent: device.ua });
+}
 await send("Network.emulateNetworkConditions", { offline: false, latency: profile.rtt, downloadThroughput: profile.down || -1, uploadThroughput: profile.up || -1 });
 await send("Emulation.setCPUThrottlingRate", { rate: profile.cpu });
 await send("Page.addScriptToEvaluateOnNewDocument", {
@@ -94,7 +108,7 @@ for (const path of paths) {
 }
 stop();
 if (asJson) { console.log(JSON.stringify({ profile: profileName, rows }, null, 2)); process.exit(0); }
-console.log(`profile: ${profileName}   (median of 3 cold loads, cache off; KB = compressed bytes on the wire)`);
+console.log(`device: ${deviceName}   profile: ${profileName}   (median of 3 cold loads, cache off; KB = compressed bytes on the wire)`);
 console.log("path".padEnd(40) + "FCP ms  LCP ms   CLS   TBT ms  req   JS   CSS  img  font  html");
 for (const r of rows) console.log(r.path.padEnd(40) + `${String(r.fcp).padStart(6)}  ${String(r.lcp).padStart(6)}  ${String(r.cls).padStart(5)}  ${String(r.tbt).padStart(6)}  ${String(r.requests).padStart(3)}  ${String(r.js).padStart(4)} ${String(r.css).padStart(4)} ${String(r.img).padStart(4)} ${String(r.font).padStart(4)} ${String(r.html).padStart(5)}`);
 console.log("\nGoal of the owner: first screen usable in about 1000 ms. LCP is the number to watch (good: <= 2500 ms on slow4g, <= 1000 ms on desktop/4g).");
