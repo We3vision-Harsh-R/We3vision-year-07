@@ -149,3 +149,8 @@
 - If the blog page is already published in the DB, the new top story is not on the live page until it is added in Admin > Pages > Blog (+ Add section) and published.
 - The phone preview exists only for the blog page (lib/cms/preview.ts); other pages need their mobile options there to get one.
 - Live preview reloads the frame after each save (about 1 s); a longer page scrolls back to the same place, inner scroll areas start at the top.
+
+## Phone app Apple round (2026-10-18)
+- Old CSS of the replaced pieces (mp-about-apps, mp-about-rail, mp-about-facts ...) is still in the page CSS files (unused, harmless; can be cleaned).
+- Job rows open a sheet, so the phone page has no direct <a> to every job any more (the laptop page, the canonical one, keeps them).
+- Not tested on a real iPhone/Android (pull-down to close, swipes).

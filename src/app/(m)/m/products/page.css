@@ -26,3 +26,9 @@
 @keyframes mp-prod-rise { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.97); } }
 @keyframes mp-prod-pop { from { opacity: 0; transform: scale(0.6); } }
 @media (prefers-reduced-motion: reduce) { .ma-root .mp-prod-today, .ma-root .mp-prod-icons i { animation: none; } .ma-root .mp-prod-acts .ma-btn { transition: none; } }
+
+/* ---- iOS 27 apps round (2026-10-18): the App Store Today tab ---- */
+.ma-root .mp-prod-today { display: grid; gap: 14px; margin-top: 4px; padding-top: 8px; overflow: visible; border-radius: 0; box-shadow: none; }
+.ma-root .mp-prod-tt .mp-prod-lbl { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ma-text3); }
+.ma-root .mp-prod-sub { margin: 0; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); }
+.ma-root .ma-ap-story .mp-prod-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }

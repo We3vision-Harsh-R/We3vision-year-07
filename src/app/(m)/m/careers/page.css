@@ -87,3 +87,34 @@
   .ma-root .mp-car-hero > *, .ma-root .mp-car-board { animation: none; }
   .ma-root .mp-car-loc, .ma-root .mp-car-seg button, .ma-root .mp-car-apply, .ma-root .mp-car-team, .ma-root .mp-car-job { transition: none; }
 }
+
+/* ---- iOS 27 apps round (2026-10-18): the top as a Wallet pass, values as Tips cards, the station as a Maps card, jobs open a sheet ---- */
+.ma-root .mp-car-pass { position: relative; overflow: hidden; display: grid; gap: 14px; padding: 20px 20px 22px; border-radius: 22px; color: #fff; background: radial-gradient(120% 90% at 0% 0%, hsl(calc(var(--ma-h) + 18) calc(85% * var(--ts)) 56%), transparent 60%), linear-gradient(160deg, hsl(var(--ma-h) calc(70% * var(--ts)) 40%), hsl(calc(var(--ma-h) - 40) calc(70% * var(--ts)) 22%)); box-shadow: 0 24px 56px hsl(0 0% 0% / 0.45), inset 0 1px 0 hsl(0 0% 100% / 0.3); }
+.ma-root .mp-car-pass-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ma-root .mp-car-pass-k { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: hsl(0 0% 100% / 0.85); }
+.ma-root .mp-car-pass-logo { width: 34px; height: auto; opacity: 0.95; }
+.ma-root .mp-car-pass .mp-car-h { margin: 0; }
+.ma-root .mp-car-perf { height: 0; margin: 2px -20px; border-top: 2px dashed hsl(0 0% 100% / 0.32); position: relative; }
+.ma-root .mp-car-perf::before, .ma-root .mp-car-perf::after { content: ""; position: absolute; top: -10px; width: 18px; height: 18px; border-radius: 50%; background: var(--ma-bg); }
+.ma-root .mp-car-perf::before { left: -9px; }
+.ma-root .mp-car-perf::after { right: -9px; }
+.ma-root .mp-car-pass .mp-car-t { margin: 0; color: hsl(0 0% 100% / 0.86); }
+.ma-root .mp-car-pass .mp-car-loc { background: hsl(0 0% 100% / 0.16); }
+.ma-root .mp-car-vcard { display: grid; gap: 10px; }
+.ma-root .ma-ap-card:has(.mp-car-vcard) { background: linear-gradient(160deg, hsl(calc(var(--ma-h) + var(--k, 0) * 26) calc(60% * var(--ts)) 24%), var(--ma-card)); }
+.ma-root .mp-car-map { overflow: hidden; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
+.ma-root .mp-car-map-art { position: relative; height: 150px; background: linear-gradient(0deg, hsl(0 0% 100% / 0.05) 1px, transparent 1px) 0 0 / 28px 28px, linear-gradient(90deg, hsl(0 0% 100% / 0.05) 1px, transparent 1px) 0 0 / 28px 28px, radial-gradient(70% 90% at 30% 40%, hsl(calc(var(--ma-h) - 60) calc(50% * var(--ts)) 30% / 0.7), transparent 70%), var(--ma-card2); }
+.ma-root .mp-car-road { position: absolute; left: -10%; right: -10%; top: 58%; height: 12px; border-radius: 6px; background: hsl(0 0% 100% / 0.16); transform: rotate(-12deg); }
+.ma-root .mp-car-road.is-b { top: 20%; left: 40%; right: auto; width: 12px; height: 140%; transform: rotate(18deg); }
+.ma-root .mp-car-pin { position: absolute; left: 50%; top: 46%; display: grid; place-items: center; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50% 50% 50% 4px; transform: rotate(-45deg); color: #fff; background: var(--ma-tint-bg); box-shadow: 0 10px 24px hsl(0 0% 0% / 0.4); }
+.ma-root .mp-car-pin svg { width: 20px; height: 20px; transform: rotate(45deg); }
+.ma-root .mp-car-pin::after { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 2px solid var(--ma-tint); opacity: 0; animation: mp-car-ping 2.4s ease-out infinite; }
+@keyframes mp-car-ping { 0% { opacity: 0.7; transform: scale(0.6); } 100% { opacity: 0; transform: scale(1.6); } }
+.ma-root .mp-car-map-b { display: flex; align-items: center; gap: 14px; padding: 14px 16px 16px; }
+.ma-root .mp-car-map-b > div { flex: 1; min-width: 0; }
+.ma-root .mp-car-dir { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: #fff; background: var(--ma-tint-bg); }
+.ma-root .mp-car-dir svg { width: 20px; height: 20px; }
+.ma-root button.mp-car-job { width: 100%; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ma-root button.mp-car-job:active { opacity: 0.6; }
+.ma-root .mp-car-applyb { margin-top: 16px; }
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-car-pin::after { animation: none; } }

@@ -84,3 +84,11 @@
   .ma-root .mp-store-head > *, .ma-root .mp-store-slide i, .ma-root .mp-store-more[open] p, .ma-root .mp-store-qa details p { animation: none; }
   .ma-root .mp-store-get, .ma-root .mp-store-alt, .ma-root .mp-store-pill { transition: none; }
 }
+
+/* ---- App Store "Top Apps" (2026-10-18): rank, a row that opens the product sheet ---- */
+.ma-root .mp-store-top { counter-reset: none; }
+.ma-root button.mp-store-row { width: 100%; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ma-root button.mp-store-row:active { opacity: 0.6; }
+.ma-root .mp-store-rank { flex: none; width: 18px; font-size: 17px; font-weight: 700; letter-spacing: -0.43px; color: var(--ma-text2); text-align: center; font-variant-numeric: tabular-nums; }
+.ma-root .mp-store-sheet { display: grid; justify-items: center; gap: 10px; padding: 6px 0 16px; text-align: center; }
+.ma-root .mp-store-sheet b { font-size: 24px; line-height: 1.2; font-weight: 700; letter-spacing: 0.07px; }

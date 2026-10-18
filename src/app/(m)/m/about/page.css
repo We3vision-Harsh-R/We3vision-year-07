@@ -112,3 +112,11 @@ a.mp-about-app:active { transform: scale(0.98); opacity: 0.8; }
   .mp-about-hop, .mp-about-slide { animation: none; }
   .mp-about-bars i::after, .mp-about-pp i, .mp-about-rb, .mp-about-dots button::before, .mp-about-app { transition: none; }
 }
+
+/* ---- iOS 27 apps round (2026-10-18): founders as favourites, the goal as a Today card, the Messages chat ---- */
+.ma-root .mp-about-founders { margin-bottom: 20px; }
+.ma-root .mp-about-goalw { margin-top: 20px; }
+.ma-root .mp-about-goalart { display: grid; place-items: center; }
+.ma-root .mp-about-goalyear { font-size: 96px; line-height: 1; font-weight: 800; letter-spacing: -0.04em; color: hsl(0 0% 100% / 0.92); text-shadow: 0 10px 40px hsl(0 0% 0% / 0.25); font-variant-numeric: tabular-nums; }
+.ma-root .ma-ap-story .mp-about-teams { margin-top: 8px; }
+.ma-root .mp-about-note { margin: 0 0 14px; }

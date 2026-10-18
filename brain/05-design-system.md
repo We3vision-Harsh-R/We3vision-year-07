@@ -72,6 +72,7 @@ Keyframes you can reuse: `vq-in` (rise-in), `sx-fill`, `rise`, `fade-in`, `bob`.
 | `mm`, `fn`, `ft` | mega menu, floating nav, footer | | `tp` | theme picker |
 | `bm`, `bp`, `adb` | blog masonry, blog post, admin blog preview | | `sk` | sketch canvas |
 | `bx` | blog sections on a laptop (src/styles/blog-sections.css) | | `mbx` | blog sections on a phone (mobile/app/blog-sections.css) |
+| `ma-ap` | Apple app interactions of the phone kit (mobile/app/apple.css) | | | |
 | `lg` | liquid-glass pill | | `nr` | neon reveal |
 Tech pages (task 75): `hl` headless, `wpa` WordPress admin, `shp` Shopify admin, `woo` WooCommerce, `sha` Shopify app, `wpp` WP plugin.
 `vs-` already belongs to the metaverse; `rw-` is the Brand hero; `rl-` is the railway. When a new section needs a prefix, pick 2–3

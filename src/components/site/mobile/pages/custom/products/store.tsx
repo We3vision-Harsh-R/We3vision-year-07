@@ -2,7 +2,8 @@ import type { CSSProperties } from "react";
 import type { MobileSectionProps } from "../../types";
 import { AppLink, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
-import { Rich, lines, oneLine, paragraphs } from "../../../app/text";
+import { TapSheet } from "../../../app/apple";
+import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import "./store.css";
 
 // iOS 27 App Store pieces for the product pages (/products and /products/*): a product header (glass squircle icon, name, subtitle,
@@ -92,40 +93,52 @@ export function StoreAbout({ data, id, look = "row" }: MobileSectionProps<"story
   );
 }
 
-/** the products of /products as App Store rows: icon, name, line, a glass capsule to open it */
+/** the products of /products as App Store "Top Apps": rank, icon, name, line and a View capsule; a row opens the product's App Store sheet */
 export function StoreList({ data, id }: MobileSectionProps<"services">) {
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-      <ul className="mp-store-list">
+      <ol className="mp-store-list mp-store-top">
         {data.cards.map((c, i) => {
           const name = oneLine(c.title);
-          const inner = (
-            <>
-              <StoreIcon name={name} hue={i * 70} />
-              <span className="mp-store-lb">
-                <b>{name}</b>
-                {c.description && <span>{c.description}</span>}
-              </span>
-              {c.href ? (
-                <span className="mp-store-pill" aria-hidden="true">
-                  <IcChevron />
-                </span>
-              ) : null}
-            </>
-          );
           return (
             <li key={i} className="ma-rvx" style={{ "--rv-d": `${i * 60}ms` } as CSSProperties}>
-              {c.href ? (
-                <AppLink href={c.href} className="mp-store-row">
-                  {inner}
-                </AppLink>
-              ) : (
-                <div className="mp-store-row">{inner}</div>
-              )}
+              <TapSheet
+                triggerClass="mp-store-row"
+                label={name}
+                title={name}
+                trigger={
+                  <>
+                    <span className="mp-store-rank" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <StoreIcon name={name} hue={i * 70} />
+                    <span className="mp-store-lb">
+                      <b>{name}</b>
+                      {c.description && <span>{c.description}</span>}
+                    </span>
+                    <span className="mp-store-pill" aria-hidden="true">
+                      <IcChevron />
+                    </span>
+                  </>
+                }
+              >
+                <div className="mp-store-sheet">
+                  <StoreIcon name={name} hue={i * 70} size="lg" />
+                  <b>
+                    <Lines text={c.title} />
+                  </b>
+                </div>
+                {c.description && <p>{c.description}</p>}
+                {c.href && (
+                  <AppLink href={c.href} className="ma-btn ma-btn-fill ma-btn-block">
+                    {name}
+                  </AppLink>
+                )}
+              </TapSheet>
             </li>
           );
         })}
-      </ul>
+      </ol>
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
           <AppLink href={data.buttonHref} className="ma-btn ma-btn-fill ma-btn-block">

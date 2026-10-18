@@ -5,7 +5,7 @@ const seen = new Set<string>();
 
 function report(message: string, source: string, stack: string) {
   try {
-    if (seen.size >= 5 || !message || /ResizeObserver loop|Script error\.?$|Non-Error promise rejection|AbortError/i.test(message)) return;
+    if (seen.size >= 5 || !message || /ResizeObserver loop|Script error\.?$|Non-Error promise rejection|AbortError|ChunkLoadError|Loading chunk|dynamically imported module/i.test(message)) return; // an old script gone after a deploy: Next.js reloads by itself
     if (source && !source.startsWith(location.origin)) return;
     const key = message.slice(0, 120);
     if (seen.has(key)) return;

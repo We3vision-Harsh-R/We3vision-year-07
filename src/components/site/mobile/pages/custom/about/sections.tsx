@@ -1,12 +1,15 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink, Section } from "../../../app";
+import { TapSheet, TodayCard, Typing, YearPicker } from "../../../app/apple";
+import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine } from "../../../app/text";
 import { Pando, StoryPlayer } from "./client";
 
-// /about in iOS 27: the story as a story player with Pando (client.tsx), Pando's words as Messages bubbles, services as an open list of
-// app icons, the roadmap as a hairline rail, the facts as an open bento and the leaders as Contacts favourites. Same CMS words as the
-// laptop page; styles in (m)/m/about/page.css ("mp-about-").
+// /about like Apple's own apps (iOS 27): the story as a story player, Pando in Messages (the bubbles arrive one by one), the services as a
+// Settings list whose rows open a sheet, the journey as Photos "Years" (pick or swipe a year) with the goal as an App Store Today card, the
+// facts as home-screen widgets (tap for the whole text) and the leaders as Contacts favourites (tap for the card).
+// Same CMS words as the laptop page; kit pieces in app/apple.tsx (ma-ap-), page styles in (m)/m/about/page.css (mp-about-).
 
 const initials = (name: string) =>
   name
@@ -16,7 +19,7 @@ const initials = (name: string) =>
     .map((w) => w.charAt(0).toUpperCase())
     .join("");
 
-/** "Our Story": a story player (tap / swipe / arrows), then Pando says hello in Messages bubbles */
+/** "Our Story": a story player, then Pando says hello in Messages */
 export const AboutChapters: MobileSection<"aboutChapters"> = ({ data, id }) => {
   const tips = lines(data.meet.tips);
   return (
@@ -26,64 +29,68 @@ export const AboutChapters: MobileSection<"aboutChapters"> = ({ data, id }) => {
       </Section>
       {(data.meet.heading || tips.length > 0) && (
         <Section chip={data.meet.chip} title={data.meet.heading}>
-          <div className="mp-about-chat">
-            <div className="mp-about-who">
-              <Pando size="sm" />
-              <span>Pando</span>
-            </div>
-            {data.meet.text && (
-              <p className="mp-about-note">
-                <Rich text={data.meet.text} />
-              </p>
-            )}
-            {tips.length > 0 && (
-              <ul className="mp-about-bubbles">
-                {tips.map((t, i) => (
-                  <li key={i} className="ma-rvx" style={{ "--rv-d": `${80 * i}ms` } as CSSProperties}>
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          {data.meet.text && (
+            <p className="mp-about-note">
+              <Rich text={data.meet.text} />
+            </p>
+          )}
+          {tips.length > 0 && (
+            <Typing
+              items={tips}
+              who={
+                <div className="mp-about-who">
+                  <Pando size="sm" />
+                  <span>Pando</span>
+                </div>
+              }
+            />
+          )}
         </Section>
       )}
     </>
   );
 };
 
-/** "Services We Offer": an open list of app icons with hairlines; each row opens its service app */
+/** "Services We Offer": a Settings list (coloured icon, name, one line); a row opens a sheet with the whole text and the service app */
 export const AboutServices: MobileSection<"services"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-about-apps">
+    <ul className="ma-ap-group">
       {data.cards.map((c, i) => {
-        const body = (
-          <>
-            <span className="mp-about-ic" style={{ "--k": i } as CSSProperties} aria-hidden="true">
-              {oneLine(c.title).charAt(0)}
-            </span>
-            <span className="mp-about-app-b">
-              <span className="mp-about-app-t">
-                <Lines text={c.title} />
-              </span>
-              {c.description && <span className="mp-about-app-s">{c.description}</span>}
-            </span>
-            {c.href && (
-              <svg className="mp-about-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            )}
-          </>
-        );
+        const name = oneLine(c.title);
         return (
-          <li key={i}>
-            {c.href ? (
-              <AppLink href={c.href} className="mp-about-app">
-                {body}
-              </AppLink>
-            ) : (
-              <div className="mp-about-app">{body}</div>
-            )}
+          <li key={i} style={{ "--k": i } as CSSProperties}>
+            <TapSheet
+              triggerClass="ma-ap-row"
+              label={name}
+              title={name}
+              trigger={
+                <>
+                  <span className="ma-ap-ic" aria-hidden="true">
+                    {name.charAt(0)}
+                  </span>
+                  <span className="ma-ap-rt">
+                    <b>{name}</b>
+                    {c.description && <small>{c.description}</small>}
+                  </span>
+                  <IcChevron className="ma-ap-chev" />
+                </>
+              }
+            >
+              <div className="ma-ap-hd" style={{ "--k": i } as CSSProperties}>
+                <span className="ma-ap-ic" aria-hidden="true">
+                  {name.charAt(0)}
+                </span>
+                <b>
+                  <Lines text={c.title} />
+                </b>
+              </div>
+              {c.description && <p>{c.description}</p>}
+              {c.href && (
+                <AppLink href={c.href} className="ma-btn ma-btn-fill ma-btn-block">
+                  {name}
+                </AppLink>
+              )}
+            </TapSheet>
           </li>
         );
       })}
@@ -91,7 +98,7 @@ export const AboutServices: MobileSection<"services"> = ({ data, id }) => (
   </Section>
 );
 
-/** "Our Journey": the people who started it, the years on a hairline rail, then the goal on one glass card */
+/** "Our Journey": the founders as Contacts favourites, the years as Photos "Years", the goal as a Today card that opens full screen */
 export const AboutTimeline: MobileSection<"timeline"> = ({ data, id }) => {
   const names = lines(data.names);
   const teams = lines(data.teams);
@@ -99,76 +106,111 @@ export const AboutTimeline: MobileSection<"timeline"> = ({ data, id }) => {
   return (
     <Section id={id} chip={data.chip} title={data.heading}>
       {people.length > 0 && (
-        <ul className="mp-about-people" aria-label="People">
+        <ul className="ma-ap-favs mp-about-founders" aria-label="People">
           {people.map((p, i) => (
-            <li key={i}>
-              <span className="mp-about-av mp-about-av-lg" aria-hidden="true">
+            <li key={i} className="ma-ap-fav" style={{ "--k": i } as CSSProperties}>
+              <span className="ma-ap-av" aria-hidden="true">
                 {initials(p.n)}
               </span>
-              <span className="mp-about-pn-t">{p.n}</span>
-              {p.d && <span className="mp-about-pn-s">{p.d}</span>}
+              <b>{p.n}</b>
+              {p.d && <small>{p.d}</small>}
             </li>
           ))}
         </ul>
       )}
-      <ol className="mp-about-rail">
-        {data.items.map((x, i) => (
-          <li key={i} className="ma-rvx" style={{ "--rv-d": `${50 * i}ms` } as CSSProperties}>
-            <span className="mp-about-year">{x.year}</span>
-            <p>{x.text}</p>
-          </li>
-        ))}
-      </ol>
+      {data.items.length > 0 && <YearPicker label={oneLine(data.heading) || "Years"} years={data.items.map((x) => ({ year: x.year, content: <p>{x.text}</p> }))} />}
       {data.finalYear && (
-        <div className="mp-about-goal">
-          <span className="mp-about-goal-y">{data.finalYear}</span>
-          {data.goalTitle && <h3>{data.goalTitle}</h3>}
-          {data.goalText && (
-            <p>
-              <Rich text={data.goalText} />
-            </p>
-          )}
-          {teams.length > 0 && (
-            <ul className="mp-about-teams">
-              {teams.map((t, n) => (
-                <li key={n}>{t}</li>
-              ))}
-            </ul>
-          )}
+        <div className="mp-about-goalw">
+          <TodayCard
+            label={data.goalTitle || data.finalYear}
+            kicker={data.finalYear}
+            title={data.goalTitle || data.finalYear}
+            art={
+              <span className="ma-ap-glow mp-about-goalart">
+                <span className="mp-about-goalyear" aria-hidden="true">
+                  {data.finalYear}
+                </span>
+              </span>
+            }
+            body={
+              <>
+                {data.goalText && (
+                  <p>
+                    <Rich text={data.goalText} />
+                  </p>
+                )}
+                {teams.length > 0 && (
+                  <ul className="mp-about-teams">
+                    {teams.map((t, n) => (
+                      <li key={n}>{t}</li>
+                    ))}
+                  </ul>
+                )}
+              </>
+            }
+          />
         </div>
       )}
     </Section>
   );
 };
 
-/** "Why Choose We3vision": an open bento at a glance, hairlines instead of boxes */
+/** "Why Choose We3vision": home-screen widgets; a tap opens the whole text in a sheet */
 export const AboutAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-about-facts">
+    <ul className="ma-ap-widgets">
       {data.items.map((x, i) => (
-        <li key={i} className="mp-about-fact ma-rvx" style={{ "--rv-d": `${60 * i}ms` } as CSSProperties}>
-          <span className="mp-about-tick" aria-hidden="true" />
-          <h3>{x.title}</h3>
-          <p>{x.description}</p>
+        <li key={i} className="ma-rvx" style={{ "--k": i, "--rv-d": `${60 * i}ms` } as CSSProperties}>
+          <TapSheet
+            triggerClass="ma-ap-widget"
+            label={x.title}
+            title={x.title}
+            trigger={
+              <>
+                <i aria-hidden="true">{String(i + 1)}</i>
+                <b>{x.title}</b>
+              </>
+            }
+          >
+            <p>{x.description}</p>
+          </TapSheet>
         </li>
       ))}
     </ul>
   </Section>
 );
 
-/** "Our Leaders": round avatars like the favourites row of Contacts, no boxes */
+/** "Our Leaders": Contacts favourites; a tap opens the contact card */
 export const AboutLeaders: MobileSection<"team"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading}>
-    <ul className="mp-about-leaders">
+    <ul className="ma-ap-favs">
       {data.members.map((m, i) => (
-        <li key={i}>
-          <span className="mp-about-av mp-about-av-xl" aria-hidden="true">
-            {initials(m.name)}
-          </span>
-          <span className="mp-about-pn-t">{m.name}</span>
-          <span className="mp-about-pn-s">{m.role}</span>
+        <li key={i} style={{ "--k": i } as CSSProperties}>
+          <TapSheet
+            triggerClass="ma-ap-fav"
+            label={`${m.name}, ${m.role}`}
+            title={m.name}
+            trigger={
+              <>
+                <span className="ma-ap-av is-xl" aria-hidden="true">
+                  {initials(m.name)}
+                </span>
+                <b>{m.name}</b>
+                <small>{m.role}</small>
+              </>
+            }
+          >
+            <div className="ma-ap-contact">
+              <span className="ma-ap-av is-xl" aria-hidden="true">
+                {initials(m.name)}
+              </span>
+              <b>{m.name}</b>
+              <small>{m.role}</small>
+            </div>
+          </TapSheet>
         </li>
       ))}
     </ul>
   </Section>
 );
+

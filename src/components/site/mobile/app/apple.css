@@ -1,0 +1,149 @@
+/* Apple app interactions of the phone pages (src/components/site/mobile/app/apple.tsx). Prefix "ma-ap-". iOS 27 type scale and the kit tokens
+   (--ma-*); colours only from the theme. Everything moves with transform / opacity / clip-path; prefers-reduced-motion turns it off. */
+
+.ma-ap-vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.ma-ap-bubbles { position: relative; }
+
+/* above the tab bar and the floating buttons of the screen */
+.ma-sheet.ma-ap-over, .ma-ap-story, .ma-ap-viewer { z-index: 90 !important; }
+
+/* ---- sheet body (TapSheet) ---- */
+.ma-ap-sheet { max-height: min(78dvh, 720px); }
+.ma-ap-sheet-b { padding: 4px 20px 24px; }
+.ma-ap-sheet-b p { margin: 0 0 12px; font-size: 17px; line-height: 1.47; letter-spacing: -0.43px; color: var(--ma-text2); }
+.ma-ap-sheet-b .ma-btn { margin-top: 8px; }
+.ma-ap-hd { display: flex; align-items: center; gap: 14px; margin: 4px 0 18px; }
+.ma-ap-hd b { display: block; font-size: 22px; line-height: 1.25; font-weight: 700; letter-spacing: 0.35px; color: var(--ma-text); }
+.ma-ap-hd small { display: block; margin-top: 2px; font-size: 15px; letter-spacing: -0.24px; color: var(--ma-text3); }
+.ma-ap-av { flex: none; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; font-size: 24px; font-weight: 600; color: #fff; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + var(--k, 0) * 24) calc(70% * var(--ts)) 58%), hsl(calc(var(--ma-h) + var(--k, 0) * 24 - 30) calc(70% * var(--ts)) 38%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); }
+.ma-ap-av.is-xl { width: 96px; height: 96px; font-size: 36px; }
+.ma-ap-contact { display: grid; justify-items: center; gap: 6px; padding: 8px 0 18px; text-align: center; }
+.ma-ap-contact b { margin-top: 8px; font-size: 28px; line-height: 1.2; font-weight: 700; letter-spacing: 0.36px; }
+.ma-ap-contact small { font-size: 17px; letter-spacing: -0.43px; color: var(--ma-text2); }
+.ma-ap-fields { margin: 12px 0 0; padding: 0; list-style: none; border-radius: 16px; background: var(--ma-fill); overflow: hidden; }
+.ma-ap-fields li { display: grid; gap: 2px; padding: 12px 16px; }
+.ma-ap-fields li + li { border-top: 1px solid var(--ma-line); }
+.ma-ap-fields small { font-size: 13px; letter-spacing: -0.08px; color: var(--ma-text3); }
+.ma-ap-fields span { font-size: 17px; letter-spacing: -0.43px; color: var(--ma-text); }
+
+/* ---- segmented control ---- */
+.ma-ap-seg { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); margin: 0 0 18px; padding: 2px; border-radius: 10px; background: var(--ma-fill2); }
+.ma-ap-thumb { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc((100% - 4px) / var(--n)); border-radius: 8px; background: hsl(0 0% 100% / 0.22); box-shadow: 0 3px 8px hsl(0 0% 0% / 0.18), inset 0 0.5px 0 hsl(0 0% 100% / 0.3); transform: translate3d(calc(var(--i) * 100%), 0, 0); transition: transform 0.4s var(--ma-spring); }
+.ma-ap-seg button { position: relative; min-height: 32px; padding: 0 6px; border: 0; border-radius: 8px; background: none; color: var(--ma-text); font: inherit; font-size: 14px; font-weight: 500; letter-spacing: -0.08px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ma-ap-seg button[aria-selected="true"] { font-weight: 600; }
+.ma-ap-segp { animation: ma-ap-fade 0.4s var(--ma-ease) both; }
+@keyframes ma-ap-fade { from { opacity: 0; transform: translate3d(0, 6px, 0); } }
+
+/* ---- App Store Today card + full-screen story ---- */
+.ma-ap-today { position: relative; display: block; width: 100%; padding: 0; overflow: hidden; border: 0; border-radius: 26px; color: #fff; text-align: left; font: inherit; cursor: pointer; background: var(--ma-card); box-shadow: 0 18px 44px hsl(0 0% 0% / 0.38); transition: transform 0.35s var(--ma-spring); -webkit-tap-highlight-color: transparent; }
+.ma-ap-today:active { transform: scale(0.97); }
+.ma-ap-today-art { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; }
+.ma-ap-today-cap { position: absolute; inset: auto 0 0; display: grid; gap: 4px; padding: 64px 20px 20px; background: linear-gradient(180deg, transparent, hsl(calc(var(--th) + 347.58) calc(60% * var(--ts)) 5% / 0.82)); }
+.ma-ap-today-k { margin: 0; font-size: 13px; line-height: 1.3; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: hsl(0 0% 100% / 0.72); }
+.ma-ap-today-t { font-size: 28px; line-height: 1.14; font-weight: 700; letter-spacing: 0.36px; text-wrap: balance; }
+.ma-ap-story { position: fixed; inset: 0; z-index: 60; background: var(--ma-bg); clip-path: inset(0 round 0); animation: ma-ap-open 0.52s var(--ma-ease) both; transition: transform 0.2s ease-out; }
+.ma-ap-story.is-closing { animation: ma-ap-close 0.42s var(--ma-ease) both; }
+@keyframes ma-ap-open { from { clip-path: var(--from); } }
+@keyframes ma-ap-close { to { clip-path: var(--from); } }
+.ma-ap-story-s { height: 100%; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.ma-ap-story-art { position: relative; aspect-ratio: 4 / 5; max-height: 72dvh; overflow: hidden; }
+.ma-ap-story-b { padding: 24px var(--ma-gut) calc(48px + env(safe-area-inset-bottom, 0px)); animation: ma-ap-fade 0.5s 0.18s var(--ma-ease) both; }
+.ma-ap-story-b > p:not(.ma-ap-today-k) { margin: 0 0 16px; font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text2); }
+.ma-ap-story-t { margin: 6px 0 16px; font-size: 34px; line-height: 1.12; font-weight: 700; letter-spacing: 0.37px; }
+.ma-ap-story-x, .ma-ap-vx { position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); right: 14px; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; background: hsl(0 0% 0% / 0.42); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: inset 0 0.5px 0 hsl(0 0% 100% / 0.3); }
+.ma-ap-story-x i, .ma-ap-vx i { position: absolute; inset: 0; }
+.ma-ap-story-x i::before, .ma-ap-story-x i::after, .ma-ap-vx i::before, .ma-ap-vx i::after { content: ""; position: absolute; left: 11px; top: 17px; width: 14px; height: 2px; border-radius: 2px; background: #fff; transform: rotate(45deg); }
+.ma-ap-story-x i::after, .ma-ap-vx i::after { transform: rotate(-45deg); }
+
+/* the art of a Today card: soft theme light and floating glass squircles */
+.ma-ap-glow { position: absolute; inset: 0; background: radial-gradient(90% 70% at 20% 15%, hsl(calc(var(--ma-h) + 20) calc(90% * var(--ts)) 62% / 0.9), transparent 60%), radial-gradient(80% 70% at 85% 80%, hsl(calc(var(--ma-h) - 40) calc(90% * var(--ts)) 50% / 0.85), transparent 65%), var(--ma-card2); }
+.ma-ap-glass { position: absolute; width: 30%; aspect-ratio: 1; border-radius: 26%; background: linear-gradient(150deg, hsl(0 0% 100% / 0.42), hsl(0 0% 100% / 0.08)); border: 1px solid hsl(0 0% 100% / 0.35); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 18px 40px hsl(0 0% 0% / 0.28); animation: ma-ap-float 7s ease-in-out infinite alternate; }
+.ma-ap-glass:nth-child(1) { left: 12%; top: 14%; }
+.ma-ap-glass:nth-child(2) { right: 12%; top: 26%; width: 24%; animation-delay: -2s; }
+.ma-ap-glass:nth-child(3) { left: 34%; top: 42%; width: 36%; animation-delay: -4s; }
+.ma-ap-glass:nth-child(4) { right: 18%; top: 6%; width: 16%; animation-delay: -1s; }
+@keyframes ma-ap-float { to { transform: translate3d(0, -10px, 0) rotate(-6deg); } }
+
+/* ---- Photos viewer ---- */
+.ma-ap-viewer { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; background: #000; animation: ma-ap-in 0.32s var(--ma-ease) both; }
+@keyframes ma-ap-in { from { opacity: 0; transform: scale(0.96); } }
+.ma-ap-vbar { position: relative; flex: none; display: flex; align-items: center; justify-content: center; height: calc(64px + env(safe-area-inset-top, 0px)); padding-top: env(safe-area-inset-top, 0px); }
+.ma-ap-vbar .ma-ap-vx { left: 14px; right: auto; top: calc(14px + env(safe-area-inset-top, 0px)); background: hsl(0 0% 100% / 0.14); }
+.ma-ap-vcount { font-size: 15px; font-weight: 600; letter-spacing: -0.24px; color: hsl(0 0% 100% / 0.86); font-variant-numeric: tabular-nums; }
+.ma-ap-strip { flex: 1; min-height: 0; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior: contain; scrollbar-width: none; }
+.ma-ap-strip::-webkit-scrollbar { display: none; }
+.ma-ap-frame { flex: 0 0 100%; display: grid; place-items: center; margin: 0; scroll-snap-align: center; scroll-snap-stop: always; }
+.ma-ap-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.ma-ap-noimg { display: grid; place-items: center; width: 60%; aspect-ratio: 1; border-radius: 30px; font-size: 64px; font-weight: 700; background: var(--ma-card2); color: var(--ma-text2); }
+.ma-ap-vinfo { flex: none; display: flex; align-items: center; gap: 14px; padding: 14px var(--ma-gut) calc(18px + env(safe-area-inset-bottom, 0px)); }
+.ma-ap-vinfo > span { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.ma-ap-vinfo small { font-size: 13px; letter-spacing: -0.08px; color: hsl(0 0% 100% / 0.62); }
+.ma-ap-vinfo b { overflow: hidden; font-size: 17px; font-weight: 600; letter-spacing: -0.43px; white-space: nowrap; text-overflow: ellipsis; color: #fff; }
+.ma-ap-vopen { flex: none; padding: 9px 18px; border-radius: 999px; font-size: 15px; font-weight: 600; letter-spacing: -0.24px; color: #fff; text-decoration: none; background: var(--ma-tint-bg); }
+
+/* ---- Messages ---- */
+.ma-ap-chat { display: grid; gap: 12px; }
+.ma-ap-bubbles { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ma-ap-bubbles li { justify-self: start; max-width: 82%; padding: 9px 14px; border-radius: 20px 20px 20px 6px; font-size: 17px; line-height: 1.35; letter-spacing: -0.43px; color: var(--ma-text); background: var(--ma-fill2); opacity: 0; transform: translate3d(0, 10px, 0) scale(0.92); transform-origin: 0 100%; transition: opacity 0.35s var(--ma-ease), transform 0.45s var(--ma-spring); }
+.ma-ap-bubbles li:nth-child(even) { justify-self: end; border-radius: 20px 20px 6px 20px; color: #fff; background: var(--ma-tint-bg); transform-origin: 100% 100%; }
+.ma-ap-bubbles li.is-in { opacity: 1; transform: none; }
+.ma-ap-bubbles li:not(.is-in):not(.ma-ap-typing) { position: absolute; visibility: hidden; }
+.ma-ap-typing { display: inline-flex !important; gap: 4px; padding: 13px 14px !important; justify-self: start !important; color: inherit !important; background: var(--ma-fill2) !important; border-radius: 20px 20px 20px 6px !important; }
+.ma-ap-typing i { width: 8px; height: 8px; border-radius: 50%; background: var(--ma-text3); animation: ma-ap-dot 1s ease-in-out infinite; }
+.ma-ap-typing i:nth-child(2) { animation-delay: 0.15s; }
+.ma-ap-typing i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes ma-ap-dot { 0%, 60%, 100% { opacity: 0.4; transform: none; } 30% { opacity: 1; transform: translate3d(0, -3px, 0); } }
+
+/* ---- swipe deck + page dots ---- */
+.ma-ap-deck { display: grid; grid-auto-flow: column; grid-auto-columns: 84%; gap: 12px; margin: 0 calc(-1 * var(--ma-gut)); padding: 4px var(--ma-gut) 8px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--ma-gut); scrollbar-width: none; overscroll-behavior-x: contain; }
+.ma-ap-deck::-webkit-scrollbar { display: none; }
+.ma-ap-card { scroll-snap-align: start; display: grid; align-content: start; gap: 10px; min-height: 220px; padding: 22px 20px; border-radius: 24px; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + var(--k, 0) * 26) calc(60% * var(--ts)) 24%), var(--ma-card)); border: 1px solid var(--ma-line); }
+.ma-ap-card h3 { margin: 0; font-size: 22px; line-height: 1.25; font-weight: 700; letter-spacing: 0.35px; }
+.ma-ap-card p { margin: 0; font-size: 16px; line-height: 1.45; letter-spacing: -0.31px; color: var(--ma-text2); }
+.ma-ap-num { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--ma-tint); font-variant-numeric: tabular-nums; }
+.ma-ap-dots { display: flex; justify-content: center; gap: 2px; margin-top: 10px; }
+.ma-ap-dots button { position: relative; width: 22px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; }
+.ma-ap-dots button::after { content: ""; position: absolute; left: 7px; top: 7px; width: 8px; height: 8px; border-radius: 50%; background: hsl(0 0% 100% / 0.28); transition: background-color 0.3s, transform 0.3s var(--ma-spring); }
+.ma-ap-dots button.is-on::after { background: var(--ma-text); transform: scale(1.1); }
+
+/* ---- Photos "Years" ---- */
+.ma-ap-yrow { display: flex; gap: 8px; margin: 0 calc(-1 * var(--ma-gut)) 14px; padding: 2px var(--ma-gut); overflow-x: auto; scrollbar-width: none; }
+.ma-ap-yrow::-webkit-scrollbar { display: none; }
+.ma-ap-yrow button { flex: none; min-height: 36px; padding: 0 16px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 600; letter-spacing: -0.24px; color: var(--ma-text); background: var(--ma-fill2); cursor: pointer; font-variant-numeric: tabular-nums; transition: background-color 0.25s, color 0.25s; }
+.ma-ap-yrow button.is-on { color: #000; background: #fff; }
+.ma-ap-ycard { position: relative; overflow: hidden; min-height: 200px; padding: 22px 20px 44px; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); touch-action: pan-y; animation: ma-ap-slide 0.45s var(--ma-ease) both; }
+@keyframes ma-ap-slide { from { opacity: 0; transform: translate3d(calc(var(--dir, 1) * 32px), 0, 0); } }
+.ma-ap-ybig { position: absolute; right: -6px; bottom: -22px; font-size: 104px; line-height: 1; font-weight: 800; letter-spacing: -0.04em; color: hsl(0 0% 100% / 0.06); pointer-events: none; font-variant-numeric: tabular-nums; }
+.ma-ap-ycard p { position: relative; margin: 0; font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text); }
+.ma-ap-ystep { position: absolute; left: 20px; bottom: 16px; font-size: 13px; color: var(--ma-text3); font-variant-numeric: tabular-nums; }
+
+/* ---- iOS widgets (2 columns) ---- */
+.ma-ap-widgets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.ma-ap-widget { display: grid; align-content: space-between; gap: 14px; width: 100%; aspect-ratio: 1; padding: 16px; border: 0; border-radius: 22px; text-align: left; font: inherit; color: var(--ma-text); cursor: pointer; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + var(--k, 0) * 30) calc(55% * var(--ts)) 22%), var(--ma-card)); box-shadow: inset 0 0.5px 0 hsl(0 0% 100% / 0.22); transition: transform 0.3s var(--ma-spring); -webkit-tap-highlight-color: transparent; }
+.ma-ap-widget:active { transform: scale(0.96); }
+.ma-ap-widget i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; font-style: normal; font-size: 17px; font-weight: 700; color: #fff; background: hsl(calc(var(--ma-h) + var(--k, 0) * 30) calc(80% * var(--ts)) 50%); }
+.ma-ap-widget b { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; font-size: 17px; line-height: 1.25; font-weight: 600; letter-spacing: -0.43px; }
+
+/* ---- Settings-style grouped list with coloured icons (rows open a sheet) ---- */
+.ma-ap-group { margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-fill); overflow: hidden; }
+.ma-ap-row { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 60px; padding: 10px 14px; border: 0; background: none; color: var(--ma-text); font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 0.2s; }
+.ma-ap-row:active { background: var(--ma-fill2); }
+.ma-ap-group > li + li .ma-ap-row { border-top: 1px solid var(--ma-line); }
+.ma-ap-ic { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; font-size: 17px; font-weight: 700; color: #fff; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + var(--k, 0) * 34) calc(80% * var(--ts)) 56%), hsl(calc(var(--ma-h) + var(--k, 0) * 34 - 24) calc(80% * var(--ts)) 40%)); box-shadow: inset 0 0.5px 0 hsl(0 0% 100% / 0.35); }
+.ma-ap-rt { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.ma-ap-rt b { font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-ap-rt small { overflow: hidden; font-size: 14px; line-height: 1.35; letter-spacing: -0.15px; white-space: nowrap; text-overflow: ellipsis; color: var(--ma-text3); }
+.ma-ap-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); }
+
+/* ---- Contacts favourites row ---- */
+.ma-ap-favs { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 16px 8px; margin: 0; padding: 0; list-style: none; }
+.ma-ap-fav { display: grid; justify-items: center; gap: 6px; width: 100%; padding: 4px 0; border: 0; background: none; color: var(--ma-text); font: inherit; text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ma-ap-fav:active .ma-ap-av { transform: scale(0.93); }
+.ma-ap-fav .ma-ap-av { transition: transform 0.25s var(--ma-spring); }
+.ma-ap-fav b { font-size: 15px; font-weight: 600; letter-spacing: -0.24px; }
+.ma-ap-fav small { font-size: 13px; line-height: 1.3; letter-spacing: -0.08px; color: var(--ma-text3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-ap-story, .ma-ap-story.is-closing, .ma-ap-story-b, .ma-ap-viewer, .ma-ap-segp, .ma-ap-ycard, .ma-ap-glass, .ma-ap-typing i { animation: none; }
+  .ma-ap-thumb, .ma-ap-bubbles li, .ma-ap-today, .ma-ap-widget { transition: none; }
+}
