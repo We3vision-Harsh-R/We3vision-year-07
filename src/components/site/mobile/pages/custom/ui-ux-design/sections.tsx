@@ -1,36 +1,40 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Carousel, Points, Section } from "../../../app";
+import { AppLink, Button, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import { WireToDesign } from "./toggle";
 
-// /ui-ux-design as a Freeform board: a dotted canvas, sticky notes with a slight tilt, frames with a label tab, a flow chart with connectors,
-// comment pins for the questions. The wireframe-to-design switch of the laptop is a real switch. Same CMS words. Styles: (m)/m/ui-ux-design/page.css.
+// /ui-ux-design in iOS 27, a quiet Freeform: open space, hairlines, regular type (500 only for row titles, 600 for headings).
+// The hero title sits as a selected object on the canvas (thin outline, four handles); the one tool is the wireframe-to-design switch
+// on a glass board. Colour swatches stand in for the frames. Same CMS words as the laptop. Styles: (m)/m/ui-ux-design/page.css ("mp-ux-").
 
-const hue = (i: number) => ({ "--o": i * 44, "--t": (i % 2 ? 1 : -1) * (0.6 + (i % 3) * 0.5) + "deg" }) as CSSProperties;
+const rv = (i: number, step = 60) => ({ "--rv-d": `${i * step}ms`, "--o": i * 44 }) as CSSProperties;
 
-/** the top: the title sits on the canvas as a selected object (handles on its corners); the buttons are two shapes */
+/** the top: a frame label, the title as a selected object, the text, two buttons side by side */
 export const UxHero: MobileSection<"pageHero"> = ({ data, index }) => {
   const H = index === 0 ? "h1" : "h2";
   return (
-    <section className="mp-ux-canvas">
-      <span className="mp-ux-label">{data.chip}</span>
+    <section className="mp-ux-hero">
+      <p className="mp-ux-frame-l">
+        <i aria-hidden="true" />
+        {data.chip}
+      </p>
       <div className="mp-ux-sel">
-        <i /> <i /> <i /> <i />
+        <i aria-hidden="true" /> <i aria-hidden="true" /> <i aria-hidden="true" /> <i aria-hidden="true" />
         <H className="mp-ux-h">
           <Lines text={data.heading} />
         </H>
       </div>
       {data.text && <p className="mp-ux-t">{data.text}</p>}
-      <div className="mp-ux-shapes">
+      <div className="mp-ux-btns">
         {data.primaryLabel && data.primaryHref && (
-          <AppLink href={data.primaryHref} className="mp-ux-shape is-rect">
+          <AppLink href={data.primaryHref} className="ma-btn ma-btn-fill">
             {data.primaryLabel}
           </AppLink>
         )}
         {data.secondaryLabel && data.secondaryHref && (
-          <AppLink href={data.secondaryHref} className="mp-ux-shape is-pill">
+          <AppLink href={data.secondaryHref} className="ma-btn">
             {data.secondaryLabel}
           </AppLink>
         )}
@@ -39,33 +43,32 @@ export const UxHero: MobileSection<"pageHero"> = ({ data, index }) => {
   );
 };
 
-/** the story on sticky notes */
+/** the story: plain open text */
 export const UxStory: MobileSection<"story"> = ({ data, id }) => (
   <section id={id} className="ma-sec">
-    <div className="mp-ux-stickies">
+    <div className="mp-ux-story">
       {paragraphs(data.body).map((p, i) => (
-        <article key={i} style={hue(i)}>
-          <span className="mp-ux-tape" aria-hidden="true" />
-          <p>
-            <Rich text={p} />
-          </p>
-        </article>
+        <p key={i}>
+          <Rich text={p} />
+        </p>
       ))}
     </div>
   </section>
 );
 
-/** "From wireframe to final design": one frame and a switch */
+/** "From wireframe to final design": one glass board and one switch */
 export const UxGuide: MobileSection<"guide"> = ({ data, id }) => {
   const tips = lines(data.tips);
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.text}>
       <WireToDesign label={tips[0] ?? oneLine(data.heading)} />
-      {tips.slice(1).map((t, i) => (
-        <p key={i} className="mp-ux-tip">
-          {t}
-        </p>
-      ))}
+      {tips.length > 1 && (
+        <ul className="mp-ux-tips">
+          {tips.slice(1).map((t, i) => (
+            <li key={i}>{t}</li>
+          ))}
+        </ul>
+      )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
           <Button href={data.buttonHref} block>
@@ -77,76 +80,77 @@ export const UxGuide: MobileSection<"guide"> = ({ data, id }) => {
   );
 };
 
-/** "What we design" = frames with a label tab; "More from We3vision" = cards joined to the board by a connector dot */
+/** "What we design" = an open list: a colour swatch, the name, one line, open for the details; "More from We3vision" = quiet links */
 export const UxServices: MobileSection<"services"> = ({ data, id }) => {
   const related = id === "related-services";
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
       {related ? (
-        <ul className="mp-ux-rel">
+        <ul className="mp-ux-links">
           {data.cards.map((c, i) => (
-            <li key={i} style={hue(i)}>
-              <AppLink href={c.href || "#contact"} className="mp-ux-relc">
-                <i aria-hidden="true" />
+            <li key={i} className="ma-rvx" style={rv(i, 50)}>
+              <AppLink href={c.href || "#contact"}>
                 <span>
                   <b>
                     <Lines text={c.title} />
                   </b>
-                  <span>{c.description}</span>
+                  <small>{c.description}</small>
                 </span>
-                <IcChevron className="mp-ux-chev" />
+                <IcChevron />
               </AppLink>
             </li>
           ))}
         </ul>
       ) : (
-        <Carousel>
+        <ul className="mp-ux-list" data-exclusive>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
             return (
-              <details key={i} className="mp-ux-fr" style={hue(i)}>
-                <summary>
-                  <span className="mp-ux-ftab">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="mp-ux-fh">
-                    <b>
-                      <Lines text={c.title} />
-                    </b>
-                    <span>{c.description}</span>
-                  </span>
-                  <IcChevron className="mp-ux-chev" />
-                </summary>
-                <div className="mp-ux-fbody">
-                  {c.fit && (
-                    <p className="mp-ux-note">
-                      <b>Right for you when</b>
-                      {c.fit}
-                    </p>
-                  )}
-                  {problems.length > 0 && (
-                    <>
-                      <p className="mp-ux-lab">Problems it solves</p>
-                      <Points items={problems} />
-                    </>
-                  )}
-                  {outcomes.length > 0 && (
-                    <>
-                      <p className="mp-ux-lab">What you get</p>
-                      <Points items={outcomes} />
-                    </>
-                  )}
-                  {c.href && (
-                    <div className="ma-actions">
-                      <Button href={c.href} variant="tinted" block>
-                        Learn more
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </details>
+              <li key={i} className="ma-rvx" style={rv(i, 50)}>
+                <details>
+                  <summary>
+                    <span className="mp-ux-sw-dot" aria-hidden="true" />
+                    <span className="mp-ux-row">
+                      <b>
+                        <Lines text={c.title} />
+                      </b>
+                      <small>{c.description}</small>
+                    </span>
+                    <i className="mp-ux-pm" aria-hidden="true" />
+                  </summary>
+                  <div className="mp-ux-more">
+                    {c.fit && (
+                      <>
+                        <p className="mp-ux-lab">Right for you when</p>
+                        <p>{c.fit}</p>
+                      </>
+                    )}
+                    {problems.length > 0 && (
+                      <>
+                        <p className="mp-ux-lab">Problems it solves</p>
+                        <Points items={problems} />
+                      </>
+                    )}
+                    {outcomes.length > 0 && (
+                      <>
+                        <p className="mp-ux-lab">What you get</p>
+                        <Points items={outcomes} />
+                      </>
+                    )}
+                    {c.href && (
+                      <div className="ma-actions">
+                        <Button href={c.href} variant="tinted" block>
+                          Learn more
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </details>
+              </li>
             );
           })}
-        </Carousel>
+        </ul>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
@@ -159,17 +163,19 @@ export const UxServices: MobileSection<"services"> = ({ data, id }) => {
   );
 };
 
-/** the process as a flow chart: boxes joined by arrows */
+/** the process as a flow: a small node and a connector line between steps */
 export const UxProcess: MobileSection<"process"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
     <ol className="mp-ux-flow">
       {data.items.map((x, i) => (
-        <li key={i} style={hue(i)}>
-          <div className="mp-ux-box">
-            <span className="mp-ux-n">{i + 1}</span>
+        <li key={i} className="ma-rvx" style={rv(i)}>
+          <span className="mp-ux-node" aria-hidden="true">
+            {i + 1}
+          </span>
+          <div>
             <h3>{oneLine(x.title)}</h3>
             <p>{x.text}</p>
-            {lines(x.points).length > 0 && <Points items={lines(x.points)} />}
+            {lines(x.points).length > 0 && <p className="mp-ux-pts">{lines(x.points).join("  ·  ")}</p>}
           </div>
         </li>
       ))}
@@ -177,63 +183,63 @@ export const UxProcess: MobileSection<"process"> = ({ data, id }) => (
   </Section>
 );
 
-/** the tool stack as stickers */
+/** the tool stack as one line of text */
 export const UxTags: MobileSection<"tags"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-ux-stickers">
+    <p className="mp-ux-stack">
       {lines(data.items).map((t, i) => (
-        <li key={i} style={hue(i)}>
-          {t}
-        </li>
+        <span key={i}>{t}</span>
       ))}
-    </ul>
+    </p>
   </Section>
 );
 
-/** the industries on a sideways row of sticky notes */
+/** the industries as an open list, each with its own swatch */
 export const UxIndustries: MobileSection<"industries"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-ux-row">
+    <ul className="mp-ux-ind">
       {data.items.map((x, i) => (
-        <li key={i} style={hue(i)}>
-          <b>{x.name}</b>
-          <p>{x.description}</p>
+        <li key={i} className="ma-rvx" style={rv(i, 50)}>
+          <span className="mp-ux-sw-dot" aria-hidden="true" />
+          <div>
+            <b>{x.name}</b>
+            <p>{x.description}</p>
+          </div>
         </li>
       ))}
     </ul>
   </Section>
 );
 
-/** the advantages with a highlighter under each title */
+/** the advantages: a short title and one line, open on the page */
 export const UxAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-ux-marks">
+    <div className="mp-ux-why">
       {data.items.map((x, i) => (
-        <li key={i} style={hue(i)}>
-          <b>
-            <span>{x.title}</span>
-          </b>
+        <section key={i} className="ma-rvx" style={rv(i, 50)}>
+          <h3>{x.title}</h3>
           <p>{x.description}</p>
-        </li>
+        </section>
       ))}
-    </ul>
+    </div>
   </Section>
 );
 
-/** the FAQ as comments on the board: a numbered pin, the question, the answer opens under it */
+/** FAQ: an open list; a regular question, a + that turns into −, the answer under it */
 export const UxFaq: MobileSection<"faq"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <div className="mp-ux-comments">
+    <ul className="mp-ux-qa" data-exclusive>
       {data.items.map((x, i) => (
-        <details key={i} style={hue(i)}>
-          <summary>
-            <span className="mp-ux-pin">{i + 1}</span>
-            <span className="mp-ux-q">{x.question}</span>
-            <IcChevron className="mp-ux-chev" />
-          </summary>
-          <p>{x.answer}</p>
-        </details>
+        <li key={i}>
+          <details>
+            <summary>
+              <span>{x.question}</span>
+              <i className="mp-ux-pm" aria-hidden="true" />
+            </summary>
+            <p>{x.answer}</p>
+          </details>
+        </li>
       ))}
-    </div>
+    </ul>
   </Section>
 );

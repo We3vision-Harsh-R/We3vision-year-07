@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element -- team photos are links set in the admin panel (Team) and can point anywhere, like the kit's <Pic> */
 import type { TeamPerson } from "@/lib/team-shared";
 import type { MobileSection, MobileSectionProps } from "../../types";
-import { Card, Section } from "../../../app";
+import { Section } from "../../../app";
+import { RelayScrubber } from "./client";
 import { Rich, oneLine, paragraphs } from "../../../app/text";
 
 // /team as a "Contacts" app: the office's people (Admin > Team, the same list the laptop office shows) as favourites + a list per
@@ -104,18 +105,16 @@ export function TeamOffice({ data, id, people }: MobileSectionProps<"teamOffice"
   );
 }
 
-/** "Behind every screen": the words as a note with the quote on top */
+/** "Behind every screen": open prose (first paragraph larger) and the quote with a tint rule, no boxes */
 export const TeamManifesto: MobileSection<"teamManifesto"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading}>
-    <Card>
-      <div className="ma-prose">
+    <div className="mp-team-prose">
         {paragraphs(data.body).map((p, i) => (
           <p key={i}>
             <Rich text={p} />
           </p>
         ))}
       </div>
-    </Card>
     {data.quote && (
       <figure className="mp-team-quote">
         <blockquote>{data.quote}</blockquote>
@@ -125,20 +124,9 @@ export const TeamManifesto: MobileSection<"teamManifesto"> = ({ data, id }) => (
   </Section>
 );
 
-/** "How a project moves through the team": a relay of hand-offs */
+/** "How a project moves through the team": a scrubber of hand-offs (client.tsx) */
 export const TeamJourney: MobileSection<"teamJourney"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ol className="mp-team-relay">
-      {data.steps.map((s, i) => (
-        <li key={i}>
-          <span className="mp-team-n">{String(i + 1).padStart(2, "0")}</span>
-          <div>
-            <h3>{oneLine(s.stage)}</h3>
-            {s.who && <p className="mp-team-by">{s.who}</p>}
-            {s.text && <p>{s.text}</p>}
-          </div>
-        </li>
-      ))}
-    </ol>
+    <RelayScrubber label={oneLine(data.heading) || "Steps"} steps={data.steps.map((s) => ({ stage: oneLine(s.stage), who: s.who, text: s.text }))} />
   </Section>
 );

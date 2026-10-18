@@ -10,7 +10,7 @@ export function WireToDesign({ label }: { label: string }) {
   const [final, setFinal] = useState(false);
   const uid = useId();
   return (
-    <div className={"mp-ux-frame" + (final ? " is-final" : "")}>
+    <div className={"mp-ux-frame mp-ux-glass" + (final ? " is-final" : "")}>
       <div className="mp-ux-art" aria-hidden="true">
         <span className="mp-ux-bar" />
         <span className="mp-ux-img" />

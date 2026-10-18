@@ -1,19 +1,35 @@
 import type { MobileSection } from "../types";
-import { Button, Card, GroupedList, ListRow, Section } from "../../app";
+import { AppLink, Section } from "../../app";
 import { Rich, pairs } from "../../app/text";
 
-export const BrandBoardSection: MobileSection<"brandBoard"> = ({ data, id }) => (
-  <Section id={id} chip={data.chip} title={data.lead}>
-    {data.body && <Card><div className="ma-prose"><p><Rich text={data.body} /></p></div></Card>}
-    {pairs(data.points).length > 0 && (
-      <div className="ma-gap">
-        <GroupedList header={data.listIntro} footer={data.note}>
-          {pairs(data.points).map((p, i) => <ListRow key={i} title={p.name} text={p.text} />)}
-        </GroupedList>
-      </div>
-    )}
-    {data.ctaLabel && (
-      <div className="ma-actions"><Button href={data.ctaHref || "#contact"} block>{data.ctaLabel}</Button></div>
-    )}
-  </Section>
-);
+// The large sentence is the section title, the paragraph open text, the list an open numbered list with hairlines (no boxes).
+export const BrandBoardSection: MobileSection<"brandBoard"> = ({ data, id }) => {
+  const pts = pairs(data.points);
+  return (
+    <Section id={id} chip={data.chip} title={data.lead}>
+      {data.body && <p className="ma-ia-body"><Rich text={data.body} /></p>}
+      {pts.length > 0 && (
+        <>
+          {data.listIntro && <p className="ma-ia-lab">{data.listIntro}</p>}
+          <ol className="ma-ia-num">
+            {pts.map((p, i) => (
+              <li key={i} className="ma-rvx">
+                <span className="ma-ia-n" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <span>
+                  <b>{p.name}</b>
+                  {p.text && <small>{p.text}</small>}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
+      {data.ctaLabel && (
+        <div className="ma-ia-btns">
+          <AppLink href={data.ctaHref || "#contact"} className="ma-btn ma-btn-fill">{data.ctaLabel}</AppLink>
+        </div>
+      )}
+      {data.note && <p className="ma-ia-foot">{data.note}</p>}
+    </Section>
+  );
+};

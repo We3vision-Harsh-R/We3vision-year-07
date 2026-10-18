@@ -1,5 +1,5 @@
 import { mobileMetadata, renderMobilePage } from "@/components/site/mobile/pages/render";
-import { WebAdvantages, WebFaq, WebGuide, WebHero, WebIndustries, WebProcess, WebServices, WebStory, WebTags } from "@/components/site/mobile/pages/custom/webdev/sections";
+import { WebAdvantages, WebContact, WebFaq, WebGuide, WebHero, WebIndustries, WebProcess, WebServices, WebStory, WebTags } from "@/components/site/mobile/pages/custom/webdev/sections";
 import "./page.css";
 
 // /webdev as a Safari-like app screen: the same CMS page as the laptop route; a browser window, Reader page, open tabs, Favourites and Top Hits.
@@ -9,7 +9,7 @@ export const generateMetadata = () => mobileMetadata("webdev");
 
 export default function Page() {
   return renderMobilePage("webdev", {
-    overrides: {
+    keepOpen: ["services", "process", "industries"], overrides: {
       pageHero: WebHero,
       story: WebStory,
       guide: WebGuide,
@@ -19,6 +19,7 @@ export default function Page() {
       industries: WebIndustries,
       advantages: WebAdvantages,
       faq: WebFaq,
+      contact: WebContact,
     },
   });
 }

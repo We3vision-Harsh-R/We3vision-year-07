@@ -1,53 +1,79 @@
-/* /team app screen ("mp-team-"): favourites row, department index, contact rows that open, the quote and the relay of steps. Kit tokens only. */
+/* /team app screen in iOS 27 ("mp-team-"): open favourites, glass department index, grouped contact lists, open prose + quote, a glass scrubber for the relay.
+   Kit tokens only (--ma-*); regular 400 text, 500 row titles, 600 headings. */
 
-.mp-team-av { flex: none; position: relative; overflow: hidden; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + 14) calc(52% * var(--ts)) 56%), hsl(calc(var(--ma-h) - 16) calc(56% * var(--ts)) 34%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3); }
+.mp-team-av { flex: none; position: relative; overflow: hidden; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; font-size: 15px; font-weight: 500; color: #fff; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + 14) calc(52% * var(--ts)) 56%), hsl(calc(var(--ma-h) - 16) calc(56% * var(--ts)) 34%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3); }
 .mp-team-av img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.mp-team-av-lg { width: 72px; height: 72px; font-size: 23px; }
+.mp-team-av-lg { width: 72px; height: 72px; font-size: 24px; }
 
-/* ---- favourites (the first department, the leaders) ---- */
-.mp-team-favs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
-.mp-team-favs li { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 16px 6px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); text-align: center; }
-.mp-team-favs b { font-size: 15px; line-height: 1.3; font-weight: 600; }
-.mp-team-favs li > span:last-child { font-size: 15px; line-height: 1.3; color: var(--ma-tint); }
+/* ---- favourites (the first department): open, no boxes ---- */
+.mp-team-favs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 12px; margin: 0; padding: 0; list-style: none; }
+.mp-team-favs li { display: grid; justify-items: center; align-content: start; gap: 4px; min-width: 0; text-align: center; }
+.mp-team-favs .mp-team-av-lg { margin-bottom: 4px; }
+.mp-team-favs b { font-size: 15px; line-height: 1.3; font-weight: 500; letter-spacing: -0.24px; overflow-wrap: anywhere; }
+.mp-team-favs li > span:last-child { font-size: 13px; line-height: 1.35; letter-spacing: -0.08px; color: var(--ma-text2); overflow-wrap: anywhere; }
+@media (min-width: 700px) { .mp-team-favs { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
-/* ---- department index (like the A-Z bar of Contacts, sideways) ---- */
-.mp-team-index { position: sticky; z-index: 5; top: calc(env(safe-area-inset-top, 0px) + var(--ma-nav)); display: flex; gap: 8px; margin: 18px calc(-1 * var(--ma-gut)) 0; padding: 8px var(--ma-gut); overflow-x: auto; scrollbar-width: none; background: linear-gradient(var(--ma-bg) 70%, transparent); }
+/* ---- department index: a glass pill of segments that sticks under the bar ---- */
+.mp-team-index { position: sticky; z-index: 5; top: calc(env(safe-area-inset-top, 0px) + var(--ma-nav) + 6px); display: flex; gap: 2px; width: max-content; max-width: 100%; margin: 28px 0 0; padding: 4px; overflow-x: auto; scrollbar-width: none; border-radius: 999px;
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8);
+  box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22); }
 .mp-team-index::-webkit-scrollbar { display: none; }
-.mp-team-index a { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; font-size: 15px; font-weight: 600; background: var(--ma-fill2); border: 1px solid var(--ma-line); transition: transform 0.25s var(--ma-spring); }
-.mp-team-index a:active { transform: scale(0.95); }
+.mp-team-index a { flex: none; display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; font-size: 15px; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text); transition: transform 0.25s var(--ma-spring), background-color 0.2s; }
+.mp-team-index a:active { transform: scale(0.96); background: hsl(240 6% 50% / 0.24); }
 
-/* ---- a department: header + rows ---- */
-.mp-team-dept { margin-top: 18px; scroll-margin-top: calc(var(--ma-nav) + 76px); }
-.mp-team-dh { display: flex; justify-content: space-between; padding: 0 16px 6px; font-size: 14px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ma-text3); }
-.mp-team-list { margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
+/* ---- a department: footnote header + one grouped list ---- */
+.mp-team-dept { margin-top: 28px; scroll-margin-top: calc(var(--ma-nav) + 76px); }
+.mp-team-dh { display: flex; justify-content: space-between; gap: 12px; padding: 0 16px 8px; font-size: 13px; line-height: 1.35; font-weight: 400; letter-spacing: -0.08px; color: var(--ma-text3); }
+.mp-team-list { margin: 0; padding: 0; list-style: none; border-radius: 26px; background: hsl(240 6% 50% / 0.12); overflow: hidden; }
 .mp-team-list > li { position: relative; }
 .mp-team-list > li + li::before { content: ""; position: absolute; left: 70px; right: 0; top: 0; height: 1px; background: var(--ma-line); }
 .mp-team-row { display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 10px 16px; list-style: none; cursor: default; }
-summary.mp-team-row { cursor: pointer; }
+summary.mp-team-row { cursor: pointer; transition: background-color 0.2s; }
+summary.mp-team-row:active { background: hsl(240 6% 50% / 0.16); }
 summary.mp-team-row::-webkit-details-marker { display: none; }
-.mp-team-who { flex: 1; min-width: 0; display: grid; }
-.mp-team-who b { font-size: 17px; line-height: 1.3; font-weight: 600; }
-.mp-team-who span { font-size: 15px; line-height: 1.4; color: var(--ma-text2); }
-.mp-team-i { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ma-tint); color: var(--ma-tint); font-size: 14px; font-weight: 700; font-style: italic; transition: transform 0.3s var(--ma-spring); }
+.mp-team-who { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.mp-team-who b { font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; overflow-wrap: anywhere; }
+.mp-team-who span { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); overflow-wrap: anywhere; }
+.mp-team-i { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--ma-tint); color: var(--ma-tint); font-size: 14px; font-weight: 500; font-style: italic; transition: transform 0.3s var(--ma-spring); }
 .mp-team-card[open] .mp-team-i { transform: rotate(180deg) scale(1.08); }
 .mp-team-more { padding: 0 16px 16px 70px; animation: mp-team-open 0.35s var(--ma-ease) backwards; }
-.mp-team-more p { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.mp-team-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 6px; font-size: 16px; font-weight: 600; color: var(--ma-tint); }
-@keyframes mp-team-open { from { opacity: 0; transform: translate3d(0, -6px, 0); } }
+.mp-team-more p { font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+.mp-team-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; font-size: 17px; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-tint); }
+@keyframes mp-team-open { from { opacity: 0; filter: blur(4px); transform: translate3d(0, -6px, 0); } }
 
-/* ---- manifesto quote ---- */
-.mp-team-quote { margin: 14px 0 0; padding: 20px 20px 18px 24px; border-radius: 24px; background: linear-gradient(155deg, hsl(var(--ma-h) calc(70% * var(--ts)) 28% / 0.9), var(--ma-card) 75%); border: 1px solid var(--ma-rim); }
-.mp-team-quote blockquote { margin: 0; font-size: 19px; line-height: 1.45; font-weight: 600; letter-spacing: -0.01em; }
-.mp-team-quote blockquote::before { content: "\201C"; display: block; height: 28px; font-size: 48px; line-height: 1; color: var(--ma-tint); }
-.mp-team-quote figcaption { margin-top: 10px; font-size: 14px; font-weight: 600; color: var(--ma-tint); }
+/* ---- manifesto: open prose, first paragraph larger; the quote with a tint rule ---- */
+.mp-team-prose { display: grid; gap: 14px; }
+.mp-team-prose p { font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.mp-team-prose p:first-child { font-size: 20px; line-height: 1.4; letter-spacing: 0.38px; color: var(--ma-text); }
+.mp-team-quote { margin: 32px 0 0; padding: 4px 0 4px 18px; border-left: 2px solid var(--ma-tint); }
+.mp-team-quote blockquote { margin: 0; font-size: 22px; line-height: 1.35; font-weight: 400; letter-spacing: 0.35px; text-wrap: balance; }
+.mp-team-quote figcaption { margin-top: 10px; font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); }
 
-/* ---- relay of steps: cards connected by a line ---- */
-.mp-team-relay { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: none; }
-.mp-team-relay li { position: relative; display: flex; gap: 14px; padding: 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
-.mp-team-relay li + li::after { content: ""; position: absolute; left: 37px; top: -11px; width: 2px; height: 12px; background: var(--ma-tint); opacity: 0.6; }
-.mp-team-n { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: var(--ma-wash); color: var(--ma-tint); font-size: 15px; font-weight: 700; }
-.mp-team-relay h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
-.mp-team-by { margin-top: 2px !important; font-size: 14px !important; font-weight: 600; color: var(--ma-tint) !important; }
-.mp-team-relay p { margin-top: 6px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+/* ---- the relay as an iOS slider you scrub ---- */
+.mp-team-scrub { display: grid; gap: 6px; }
+.mp-team-track { position: relative; height: 44px; display: flex; align-items: center; }
+.mp-team-track::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px; border-radius: 3px; background: linear-gradient(90deg, var(--ma-tint) var(--p), hsl(240 6% 50% / 0.24) var(--p)); transition: background 0.3s; }
+.mp-team-track input { position: relative; z-index: 1; width: 100%; height: 44px; margin: 0; background: none; -webkit-appearance: none; appearance: none; cursor: pointer; touch-action: pan-y; }
+.mp-team-track input:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; border-radius: 22px; }
+.mp-team-track input::-webkit-slider-runnable-track { height: 44px; background: none; }
+.mp-team-track input::-moz-range-track { height: 44px; background: none; }
+.mp-team-track input::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 30px; margin-top: 7px; border: 0; border-radius: 999px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100% / 0.7)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.4), 0 4px 12px hsl(0 0% 0% / 0.3); transition: transform 0.3s var(--ma-spring); }
+.mp-team-track input:active::-webkit-slider-thumb { transform: scale(1.12); }
+.mp-team-track input::-moz-range-thumb { width: 44px; height: 30px; border: 0; border-radius: 999px; background: hsl(0 0% 100% / 0.85); box-shadow: 0 4px 12px hsl(0 0% 0% / 0.3); }
+.mp-team-ticks { display: grid; margin: 0 -2px; }
+.mp-team-ticks button { min-height: 32px; padding: 0; border: 0; background: none; font: inherit; font-size: 13px; letter-spacing: -0.08px; color: var(--ma-text3); font-variant-numeric: tabular-nums; cursor: pointer; text-align: center; transition: color 0.2s; }
+.mp-team-ticks button:first-child { text-align: left; }
+.mp-team-ticks button:last-child { text-align: right; }
+.mp-team-ticks button.is-past { color: var(--ma-text2); }
+.mp-team-ticks button.is-on { color: var(--ma-tint); font-weight: 500; }
+.mp-team-step { display: grid; gap: 4px; min-height: 150px; margin-top: 14px; padding-top: 18px; border-top: 1px solid var(--ma-line); animation: mp-team-swap 0.4s var(--ma-ease); }
+.mp-team-step h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; overflow-wrap: anywhere; }
+.mp-team-by { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-tint); }
+.mp-team-tx { margin-top: 6px; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+@keyframes mp-team-swap { from { opacity: 0; filter: blur(6px); transform: translate3d(0, 6px, 0); } }
 
-@media (prefers-reduced-motion: reduce) { .mp-team-more { animation: none; } .mp-team-i, .mp-team-index a { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .mp-team-more, .mp-team-step { animation: none; }
+  .mp-team-i, .mp-team-index a, .mp-team-track::before, .mp-team-ticks button, summary.mp-team-row { transition: none; }
+  .mp-team-track input::-webkit-slider-thumb { transition: none; }
+}

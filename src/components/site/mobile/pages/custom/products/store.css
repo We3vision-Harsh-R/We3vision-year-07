@@ -1,57 +1,86 @@
-/* App Store-like pieces of the product app screens ("mp-store-"), used by /m/products and /m/products/*. Kit tokens only (--ma-*). */
+/* iOS 27 App Store pieces of the product screens ("mp-store-"), used by /m/products and /m/products/*. Regular type (600 only for names
+   and headings), open lists with hairlines, glass on the icon edge and the second button. Kit tokens only (--ma-*). */
 
-.mp-store-ic { --o: 0; flex: none; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 22.37%; font-size: 28px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o) + 10) calc(88% * var(--ts)) 64%), hsl(calc(var(--ma-h) + var(--o) - 12) calc(84% * var(--ts)) 42%)); box-shadow: 0 1px 2px hsl(0 0% 0% / 0.3), 0 8px 18px hsl(0 0% 0% / 0.32), inset 0 0.5px 0 hsl(0 0% 100% / 0.6); }
-.mp-store-ic.is-lg { width: 112px; height: 112px; font-size: 52px; }
+.ma-root .mp-store-ic { --o: 0; flex: none; position: relative; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 22.37%; font-size: 28px; font-weight: 600; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o) + 10) calc(88% * var(--ts)) 64%), hsl(calc(var(--ma-h) + var(--o) - 12) calc(84% * var(--ts)) 42%)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.45), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 8px 20px hsl(0 0% 0% / 0.28); }
+.ma-root .mp-store-ic.is-lg { width: 112px; height: 112px; font-size: 50px; }
 
 /* ---- product header ---- */
-.mp-store-head { margin-top: 4px; }
-.mp-store-id { display: flex; align-items: center; gap: 16px; }
-.mp-store-nm { min-width: 0; display: grid; justify-items: start; gap: 8px; }
-.mp-store-h { margin: 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; }
-.mp-store-sub { display: block; margin-top: 4px; font-size: 16px; line-height: 1.4; font-weight: 500; letter-spacing: 0; color: var(--ma-text2); }
-.mp-store-badge { padding: 4px 10px; border-radius: 999px; background: var(--ma-wash); color: var(--ma-tint); font-size: 14px; font-weight: 600; }
-.mp-store-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; }
-.mp-store-get { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border-radius: 999px; background: var(--ma-tint-bg); color: #fff; font-size: 16px; font-weight: 700; box-shadow: 0 6px 16px hsl(0 0% 0% / 0.3); transition: transform 0.25s var(--ma-spring); }
-.mp-store-alt { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--ma-fill2); color: var(--ma-tint); font-size: 16px; font-weight: 600; transition: transform 0.25s var(--ma-spring); }
-.mp-store-get:active, .mp-store-alt:active { transform: scale(0.95); }
-.mp-store-t { margin-top: 18px !important; padding-top: 16px; border-top: 1px solid var(--ma-line); font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+.ma-root .mp-store-head { padding: 18px 0 4px; }
+.ma-root .mp-store-head > * { animation: mp-store-in 0.65s var(--ma-ease) backwards; }
+.ma-root .mp-store-head > :nth-child(2) { animation-delay: 0.06s; }
+.ma-root .mp-store-head > :nth-child(3) { animation-delay: 0.12s; }
+.ma-root .mp-store-head > :nth-child(4) { animation-delay: 0.18s; }
+.ma-root .mp-store-id { display: flex; align-items: center; gap: 16px; }
+.ma-root .mp-store-nm { min-width: 0; display: grid; justify-items: start; gap: 8px; }
+.ma-root .mp-store-h { margin: 0; font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; overflow-wrap: anywhere; }
+.ma-root .mp-store-sub { display: block; margin-top: 4px; font-size: 15px; line-height: 1.4; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text2); }
+.ma-root .mp-store-badge { font-size: 13px; font-weight: 500; letter-spacing: -0.08px; color: var(--ma-tint); }
+.ma-root .mp-store-acts { display: flex; gap: 10px; margin-top: 24px; }
+.ma-root .mp-store-get, .ma-root .mp-store-alt { flex: 1 1 0; min-width: 0; display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 12px 14px; border-radius: 999px; font-size: 16px; font-weight: 500; letter-spacing: -0.32px; text-align: center; transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-store-get { color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 54%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35), 0 8px 22px hsl(var(--ma-h) calc(80% * var(--ts)) 30% / 0.45); }
+.ma-root .mp-store-alt { color: var(--ma-text); background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; }
+.ma-root .mp-store-get:active, .ma-root .mp-store-alt:active { transform: scale(0.96); }
+.ma-root .mp-store-t { margin: 24px 0 0; padding-top: 18px; border-top: 1px solid var(--ma-line); font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+@keyframes mp-store-in { from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); } }
 
-/* centred header (a big icon with a soft glow) */
-.mp-store-head.is-center { text-align: center; }
-.mp-store-head.is-center .mp-store-id { flex-direction: column; }
-.mp-store-head.is-center .mp-store-nm { justify-items: center; }
-.mp-store-head.is-center .mp-store-acts { justify-content: center; }
-.mp-store-head.is-center .mp-store-ic { box-shadow: 0 0 0 10px var(--ma-wash), 0 18px 50px hsl(var(--ma-h) calc(80% * var(--ts)) 40% / 0.5); }
+/* centred header (coming soon): a big icon with a soft halo */
+.ma-root .mp-store-head.is-center { text-align: center; }
+.ma-root .mp-store-head.is-center .mp-store-id { flex-direction: column; gap: 20px; }
+.ma-root .mp-store-head.is-center .mp-store-nm { justify-items: center; }
+.ma-root .mp-store-head.is-center .mp-store-ic { box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.45), 0 0 0 12px var(--ma-wash), 0 20px 50px hsl(calc(var(--ma-h) + var(--o)) calc(80% * var(--ts)) 40% / 0.45); }
 
-/* a header that starts with a 16:9 "slide" */
-.mp-store-slide { position: relative; display: grid; align-content: center; gap: 10px; aspect-ratio: 16 / 9; margin-bottom: 18px; padding: 0 24px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, hsl(var(--ma-h) calc(80% * var(--ts)) 44%), hsl(calc(var(--ma-h) + 40) calc(70% * var(--ts)) 26%)); border: 1px solid var(--ma-rim); box-shadow: 0 18px 44px hsl(0 0% 0% / 0.38); }
-.mp-store-slide span { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; color: #fff; }
-.mp-store-slide i { display: block; height: 8px; width: 62%; border-radius: 4px; background: hsl(0 0% 100% / 0.35); }
-.mp-store-slide i + i { width: 40%; opacity: 0.7; }
+/* a header that starts with a 16:9 "slide" (glass frame, the name as its title) */
+.ma-root .mp-store-slide { position: relative; display: grid; align-content: center; gap: 10px; aspect-ratio: 16 / 9; margin-bottom: 22px; padding: 0 24px; border-radius: 24px; overflow: hidden; background: radial-gradient(90% 80% at 90% 0%, hsl(calc(var(--ma-h) + var(--o) + 40) calc(80% * var(--ts)) 60% / 0.5), transparent 60%), linear-gradient(135deg, hsl(calc(var(--ma-h) + var(--o)) calc(80% * var(--ts)) 44%), hsl(calc(var(--ma-h) + var(--o) - 30) calc(70% * var(--ts)) 22%)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), 0 18px 44px hsl(0 0% 0% / 0.32); }
+.ma-root .mp-store-slide span { font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; color: #fff; overflow-wrap: anywhere; }
+.ma-root .mp-store-slide i { display: block; height: 8px; width: 62%; border-radius: 4px; background: hsl(0 0% 100% / 0.35); transform-origin: left center; animation: mp-store-line 0.6s var(--ma-ease) 0.35s backwards; }
+.ma-root .mp-store-slide i + i { width: 40%; opacity: 0.7; animation-delay: 0.5s; }
+@keyframes mp-store-line { from { opacity: 0; transform: scaleX(0.2); } }
 
-/* ---- description ---- */
-.mp-store-desc { padding: 18px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
-.mp-store-desc p { font-size: 17px; line-height: 1.65; color: var(--ma-text2); }
-.mp-store-desc p + p { margin-top: 12px; }
+/* "note" header: a squircle with a softer, paper-like icon */
+.ma-root .mp-store-head.is-note .mp-store-ic { background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o)) calc(70% * var(--ts)) 70%), hsl(calc(var(--ma-h) + var(--o) - 10) calc(70% * var(--ts)) 50%)); }
 
-/* ---- product list ---- */
-.mp-store-list { margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
-.mp-store-list li { position: relative; }
-.mp-store-list li + li::before { content: ""; position: absolute; left: 90px; right: 0; top: 0; height: 1px; background: var(--ma-line); }
-.mp-store-row { display: flex; align-items: center; gap: 14px; min-height: 84px; padding: 12px 16px; transition: background-color 0.2s; }
-.mp-store-row:active { background: var(--ma-fill); }
-.mp-store-lb { flex: 1; min-width: 0; display: grid; gap: 2px; }
-.mp-store-lb b { font-size: 17px; font-weight: 600; }
-.mp-store-lb span { font-size: 15px; line-height: 1.45; color: var(--ma-text2); }
-.mp-store-pill { flex: none; display: grid; place-items: center; width: 44px; height: 32px; border-radius: 999px; background: var(--ma-fill2); color: var(--ma-tint); }
-.mp-store-pill svg { width: 18px; height: 18px; }
+/* ---- description, App Store style: the first paragraph, then "more" ---- */
+.ma-root .mp-store-desc p { margin: 0; font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-store-desc em { font-style: normal; font-weight: 500; color: var(--ma-text); }
+.ma-root .mp-store-more { margin-top: 4px; }
+.ma-root .mp-store-more summary { display: inline-flex; align-items: center; min-height: 44px; list-style: none; cursor: pointer; font-size: 17px; letter-spacing: -0.43px; color: var(--ma-tint); }
+.ma-root .mp-store-more summary::-webkit-details-marker { display: none; }
+.ma-root .mp-store-more[open] summary { display: none; }
+.ma-root .mp-store-more[open] p { margin-top: 16px; animation: mp-store-in 0.5s var(--ma-ease) backwards; }
 
-@media (prefers-reduced-motion: reduce) { .mp-store-get, .mp-store-alt { transition: none; } }
+/* ---- product list: open App Store rows ---- */
+.ma-root .mp-store-list { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-store-list li { position: relative; }
+.ma-root .mp-store-list li + li::before { content: ""; position: absolute; left: 76px; right: 0; top: 0; height: 1px; background: var(--ma-line); }
+.ma-root .mp-store-row { display: flex; align-items: center; gap: 16px; min-height: 84px; padding: 12px 0; color: inherit; text-decoration: none; transition: opacity 0.2s; }
+.ma-root a.mp-store-row:active { opacity: 0.6; }
+.ma-root .mp-store-lb { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.ma-root .mp-store-lb b { font-size: 17px; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-store-lb span { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); }
+.ma-root .mp-store-pill { flex: none; display: grid; place-items: center; width: 44px; height: 32px; border-radius: 999px; color: var(--ma-tint); background: hsl(240 6% 50% / 0.22); transition: transform 0.3s var(--ma-spring); }
+.ma-root a.mp-store-row:active .mp-store-pill { transform: scale(0.92); }
+.ma-root .mp-store-pill svg { width: 18px; height: 18px; }
 
-/* "note" look: the header icon sits on a lined page, the description is written on lined paper (like Notes) */
-.mp-store-head.is-note .mp-store-ic { border-radius: 18px; transform: rotate(-4deg); }
-.mp-store-about.is-note .mp-store-desc { padding: 6px 18px 18px; background: repeating-linear-gradient(transparent 0 27px, var(--ma-line) 27px 28px), var(--ma-card2); background-position: 0 6px; border-left: 4px solid var(--ma-tint); }
-.mp-store-about.is-note .mp-store-desc p { line-height: 28px; font-size: 17px; }
-.mp-store-about.is-note .mp-store-desc p + p { margin-top: 28px; }
-.mp-store-about.is-center .mp-store-desc { text-align: center; background: linear-gradient(180deg, var(--ma-wash), var(--ma-card) 70%); }
-.mp-store-about.is-slide .mp-store-desc { border-radius: 14px; border-top: 3px solid var(--ma-tint); }
+/* ---- FAQ: an open list ---- */
+.ma-root .mp-store-qa { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-store-qa li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-store-qa summary { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 56px; padding: 16px 0; list-style: none; cursor: pointer; font-size: 17px; line-height: 1.35; font-weight: 400; letter-spacing: -0.43px; }
+.ma-root .mp-store-qa summary::-webkit-details-marker { display: none; }
+.ma-root .mp-store-qa summary > span { min-width: 0; }
+.ma-root .mp-store-qa summary i { flex: none; position: relative; width: 14px; height: 14px; margin-top: 5px; color: var(--ma-text3); transition: transform 0.45s var(--ma-spring), color 0.3s; }
+.ma-root .mp-store-qa summary i::before, .ma-root .mp-store-qa summary i::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.6px; border-radius: 1px; background: currentColor; }
+.ma-root .mp-store-qa summary i::after { transform: rotate(90deg); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-store-qa details[open] summary { font-weight: 500; }
+.ma-root .mp-store-qa details[open] summary i { transform: rotate(180deg); color: var(--ma-tint); }
+.ma-root .mp-store-qa details[open] summary i::after { transform: rotate(0); }
+.ma-root .mp-store-qa details p { margin: 0 0 18px; max-width: 42ch; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); animation: mp-store-in 0.5s var(--ma-ease) backwards; }
+
+@media (min-width: 700px) {
+  .ma-root .mp-store-acts { max-width: 520px; }
+  .ma-root .mp-store-head.is-center .mp-store-acts { margin-inline: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-root .mp-store-head > *, .ma-root .mp-store-slide i, .ma-root .mp-store-more[open] p, .ma-root .mp-store-qa details p { animation: none; }
+  .ma-root .mp-store-get, .ma-root .mp-store-alt, .ma-root .mp-store-pill { transition: none; }
+}

@@ -4,11 +4,13 @@ import { getOpenJobs } from "@/lib/careers";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { getProjects } from "@/lib/projects";
 import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, unlistedPages } from "@/lib/site-menu";
-import { AppScreen, Card, GroupedList, ListRow, Section, contactFrom } from "../app";
+import { AppLink, AppScreen, Section, contactFrom } from "../app";
 import { IcChevron } from "../app/icons";
 import { APPS } from "../launcher-data";
+import "./detail.css";
 
-// The mobile twin of the Sitemap page (src/app/(site)/sitemap/page.tsx): the same groups of links, as grouped lists.
+// The mobile twin of the Sitemap page (src/app/(site)/sitemap/page.tsx): the same groups of links, as open iOS lists (hairlines, no boxes).
+// Each group folds open like a Settings section. Styles: ./detail.css ("mp-sm-").
 export const mobileSitemapMetadata: Metadata = {
   title: "Sitemap | All Pages of We3vision",
   description: "Every page of the We3vision website in one place: services, products, portfolio, blog, careers and company pages.",
@@ -29,29 +31,30 @@ export async function renderMobileSitemap() {
   ];
   const app = APPS.about;
   return (
-    <AppScreen title="Sitemap" glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="/contact" nav={{ tabs: [{ id: null, label: "Sitemap", icon: "overview" }], outline: [], currentHref: "/sitemap" }}>
+    <AppScreen page="sitemap-index" title="Sitemap" glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="/contact" nav={{ tabs: [{ id: null, label: "Sitemap", icon: "overview" }], outline: [], currentHref: "/sitemap" }}>
       <Section chip="Sitemap" title={"Every Page Of\nWe3vision"} intro="Find a service, a product or any other page quickly.">
-        <div className="ma-stack">
+        <div className="mp-sm">
           {groups.map((g, i) => (
-            <details key={g.title} className="ma-dg" open={i === 0}>
+            <details key={g.title} className="mp-sm-g" open={i === 0}>
               <summary>
                 <span>{g.title}</span>
                 <small>{g.items.length}</small>
                 <IcChevron />
               </summary>
-              <GroupedList>
+              <ul className="mp-sm-list">
                 {g.items.map((l) => (
-                  <ListRow key={g.title + l.href + l.label} title={l.label} href={l.href} />
+                  <li key={g.title + l.href + l.label}>
+                    <AppLink href={l.href} className="mp-sm-row">
+                      <span>{l.label}</span>
+                      <IcChevron />
+                    </AppLink>
+                  </li>
                 ))}
-              </GroupedList>
+              </ul>
             </details>
           ))}
         </div>
-        <div className="ma-gap">
-          <Card>
-            <p>Search engines can use the XML sitemap at /sitemap.xml.</p>
-          </Card>
-        </div>
+        <p className="mp-sm-foot">Search engines can use the XML sitemap at /sitemap.xml.</p>
       </Section>
     </AppScreen>
   );

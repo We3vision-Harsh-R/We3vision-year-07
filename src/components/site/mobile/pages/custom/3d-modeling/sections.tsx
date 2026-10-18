@@ -1,65 +1,48 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Carousel, Points, Section } from "../../../app";
+import { AppLink, Button, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
+import { Turntable } from "./client";
 
-// /3d-modeling as AR Quick Look: the hero is a camera view with an object on a placement ring and a sheet below, the services model cards with a
-// small solid (cube, sphere, pyramid, ring: CSS shapes, no 3D engine), the process a measuring tape, the advantages annotation callouts.
-// Same CMS words as the laptop. Styles: (m)/m/3d-modeling/page.css.
+// /3d-modeling in iOS 27, a quiet Reality Composer: open space, hairlines, regular type (500 for row titles, 600 for headings).
+// The one tool is the hero stage: a glass turntable with a cube you turn with a finger or the arrow keys (CSS 3D, no engine);
+// small solids (cube, sphere, pyramid, ring) mark the services and industries; the process is a flow of numbered nodes. Same CMS words.
+// Styles: (m)/m/3d-modeling/page.css ("mp-3d-").
 
-const SHAPES = ["cube", "sphere", "pyramid", "ring"] as const;
-const hue = (i: number) => ({ "--o": i * 33 }) as CSSProperties;
+const rv = (i: number, step = 60) => ({ "--rv-d": `${i * step}ms`, "--o": i * 33 }) as CSSProperties;
 
-/** a small solid; purely decorative */
-function Solid({ i, big }: { i: number; big?: boolean }) {
-  return <span className={"mp-3d-solid" + (big ? " is-big" : "")} data-shape={SHAPES[i % SHAPES.length]} style={hue(i)} aria-hidden="true" />;
-}
-
-/** the top: a camera view, the object on its placement ring, the title in the bar and the text on a sheet */
+/** the top: a glass stage with a cube you can turn (drag or arrow keys), the chip, the title, the text, two buttons */
 export const ArHero: MobileSection<"pageHero"> = ({ data, index }) => {
   const H = index === 0 ? "h1" : "h2";
   return (
-    <section className="mp-3d-cam">
-      <div className="mp-3d-view">
-        <span className="mp-3d-title">{data.chip}</span>
-        <span className="mp-3d-br is-tl" aria-hidden="true" />
-        <span className="mp-3d-br is-tr" aria-hidden="true" />
-        <span className="mp-3d-br is-bl" aria-hidden="true" />
-        <span className="mp-3d-br is-br" aria-hidden="true" />
-        <div className="mp-3d-stage">
-          <Solid i={0} big />
-          <span className="mp-3d-ring" aria-hidden="true" />
-        </div>
-      </div>
-      <div className="mp-3d-sheet">
-        <span className="mp-3d-grab" aria-hidden="true" />
-        <H className="mp-3d-h">
-          <Lines text={data.heading} />
-        </H>
-        {data.text && <p className="mp-3d-t">{data.text}</p>}
-        <div className="mp-3d-acts">
-          {data.primaryLabel && data.primaryHref && (
-            <AppLink href={data.primaryHref} className="mp-3d-done">
-              {data.primaryLabel}
-            </AppLink>
-          )}
-          {data.secondaryLabel && data.secondaryHref && (
-            <AppLink href={data.secondaryHref} className="mp-3d-alt">
-              {data.secondaryLabel}
-            </AppLink>
-          )}
-        </div>
+    <section className="mp-3d-hero">
+      <Turntable label={oneLine(data.heading)} />
+      <p className="mp-3d-chipline">{data.chip}</p>
+      <H className="mp-3d-h">
+        <Lines text={data.heading} />
+      </H>
+      {data.text && <p className="mp-3d-t">{data.text}</p>}
+      <div className="mp-3d-btns">
+        {data.primaryLabel && data.primaryHref && (
+          <AppLink href={data.primaryHref} className="ma-btn ma-btn-fill">
+            {data.primaryLabel}
+          </AppLink>
+        )}
+        {data.secondaryLabel && data.secondaryHref && (
+          <AppLink href={data.secondaryHref} className="ma-btn">
+            {data.secondaryLabel}
+          </AppLink>
+        )}
       </div>
     </section>
   );
 };
 
-/** the story on an info sheet */
+/** the story: plain open text */
 export const ArStory: MobileSection<"story"> = ({ data, id }) => (
   <section id={id} className="ma-sec">
-    <div className="mp-3d-info">
-      <span className="mp-3d-grab" aria-hidden="true" />
+    <div className="mp-3d-story">
       {paragraphs(data.body).map((p, i) => (
         <p key={i}>
           <Rich text={p} />
@@ -69,45 +52,46 @@ export const ArStory: MobileSection<"story"> = ({ data, id }) => (
   </section>
 );
 
-/** "Our 3D services" = model cards, each with its own small solid; "More from We3vision" = a grid of objects that link */
+/** The services = an open list: a small solid, the name, one line, open for the details; "More from We3vision" = quiet links */
 export const ArServices: MobileSection<"services"> = ({ data, id }) => {
   const related = id === "related-services";
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
       {related ? (
-        <ul className="mp-3d-objs">
+        <ul className="mp-3d-links">
           {data.cards.map((c, i) => (
-            <li key={i}>
-              <AppLink href={c.href || "#contact"} className="mp-3d-obj">
-                <Solid i={i + 1} />
-                <b>
-                  <Lines text={c.title} />
-                </b>
-                <span>{c.description}</span>
+            <li key={i} className="ma-rvx" style={rv(i, 50)}>
+              <AppLink href={c.href || "#contact"}>
+                <span>
+                  <b>
+                    <Lines text={c.title} />
+                  </b>
+                  <small>{c.description}</small>
+                </span>
+                <IcChevron />
               </AppLink>
             </li>
           ))}
         </ul>
       ) : (
-        <Carousel>
+        <ul className="mp-3d-list" data-exclusive>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
-            const more = c.fit || problems.length > 0 || outcomes.length > 0 || c.href;
             return (
-              <details key={i} className="mp-3d-model">
-                <summary>
-                  <Solid i={i} />
-                  <span className="mp-3d-mb">
-                    <b>
-                      <Lines text={c.title} />
-                    </b>
-                    <span>{c.description}</span>
-                  </span>
-                  {more && <IcChevron className="mp-3d-chev" />}
-                </summary>
-                {more && (
-                  <div className="mp-3d-mbody">
+              <li key={i} className="ma-rvx" style={rv(i, 50)}>
+                <details>
+                  <summary>
+                    <span className="mp-3d-solid" aria-hidden="true" />
+                    <span className="mp-3d-row">
+                      <b>
+                        <Lines text={c.title} />
+                      </b>
+                      <small>{c.description}</small>
+                    </span>
+                    <i className="mp-3d-pm" aria-hidden="true" />
+                  </summary>
+                  <div className="mp-3d-more">
                     {c.fit && (
                       <>
                         <p className="mp-3d-lab">Right for you when</p>
@@ -134,11 +118,11 @@ export const ArServices: MobileSection<"services"> = ({ data, id }) => {
                       </div>
                     )}
                   </div>
-                )}
-              </details>
+                </details>
+              </li>
             );
           })}
-        </Carousel>
+        </ul>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
@@ -151,17 +135,19 @@ export const ArServices: MobileSection<"services"> = ({ data, id }) => {
   );
 };
 
-/** the process as a measuring tape: ticks down the left edge, a step beside each */
+/** the process as a flow: a small node and a connector line between steps */
 export const ArProcess: MobileSection<"process"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ol className="mp-3d-tape">
+    <ol className="mp-3d-flow">
       {data.items.map((x, i) => (
-        <li key={i}>
-          <span className="mp-3d-flag">{i + 1}</span>
-          <div className="mp-3d-step">
+        <li key={i} className="ma-rvx" style={rv(i)}>
+          <span className="mp-3d-node" aria-hidden="true">
+            {i + 1}
+          </span>
+          <div>
             <h3>{oneLine(x.title)}</h3>
             <p>{x.text}</p>
-            {lines(x.points).length > 0 && <Points items={lines(x.points)} />}
+            {lines(x.points).length > 0 && <p className="mp-3d-pts">{lines(x.points).join("  ·  ")}</p>}
           </div>
         </li>
       ))}
@@ -169,46 +155,26 @@ export const ArProcess: MobileSection<"process"> = ({ data, id }) => (
   </Section>
 );
 
-/** the tools as an object library */
+/** the tool stack as one line of text */
 export const ArTags: MobileSection<"tags"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-3d-lib">
+    <p className="mp-3d-stack">
       {lines(data.items).map((t, i) => (
-        <li key={i}>
-          <Solid i={i + 2} />
-          <span>{t}</span>
-        </li>
+        <span key={i}>{t}</span>
       ))}
-    </ul>
+    </p>
   </Section>
 );
 
-/** the industries: a capsule with a solid, the text under it */
+/** the industries as an open list, each with a small solid */
 export const ArIndustries: MobileSection<"industries"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
     <ul className="mp-3d-ind">
       {data.items.map((x, i) => (
-        <li key={i}>
-          <span className="mp-3d-cap">
-            <Solid i={i + 1} />
-            <b>{x.name}</b>
-          </span>
-          <p>{x.description}</p>
-        </li>
-      ))}
-    </ul>
-  </Section>
-);
-
-/** the advantages as annotation callouts: a dot on the object, a leader line, a label */
-export const ArAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
-  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-3d-call">
-      {data.items.map((x, i) => (
-        <li key={i}>
-          <span className="mp-3d-pt" aria-hidden="true" />
+        <li key={i} className="ma-rvx" style={rv(i, 50)}>
+          <span className="mp-3d-solid" aria-hidden="true" />
           <div>
-            <b>{x.title}</b>
+            <b>{x.name}</b>
             <p>{x.description}</p>
           </div>
         </li>
@@ -217,20 +183,35 @@ export const ArAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   </Section>
 );
 
-/** the FAQ as the rows of an info sheet */
-export const ArFaq: MobileSection<"faq"> = ({ data, id }) => (
+/** the advantages: a short title and one line, open on the page */
+export const ArAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <div className="mp-3d-faq">
+    <div className="mp-3d-why">
       {data.items.map((x, i) => (
-        <details key={i}>
-          <summary>
-            <Solid i={i} />
-            <span className="mp-3d-q">{x.question}</span>
-            <IcChevron className="mp-3d-chev" />
-          </summary>
-          <p>{x.answer}</p>
-        </details>
+        <section key={i} className="ma-rvx" style={rv(i, 50)}>
+          <h3>{x.title}</h3>
+          <p>{x.description}</p>
+        </section>
       ))}
     </div>
+  </Section>
+);
+
+/** FAQ: an open list; a regular question, a + that turns into −, the answer under it */
+export const ArFaq: MobileSection<"faq"> = ({ data, id }) => (
+  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
+    <ul className="mp-3d-qa" data-exclusive>
+      {data.items.map((x, i) => (
+        <li key={i}>
+          <details>
+            <summary>
+              <span>{x.question}</span>
+              <i className="mp-3d-pm" aria-hidden="true" />
+            </summary>
+            <p>{x.answer}</p>
+          </details>
+        </li>
+      ))}
+    </ul>
   </Section>
 );

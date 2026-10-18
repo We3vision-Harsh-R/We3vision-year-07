@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AppsSheet } from "./apps-sheet";
+import { openShare } from "./share-sheet";
 import type { ContactInfo } from "./contact";
 import { ContactSheet } from "./contact-sheet";
-import { IcPhone } from "./icons";
 import type { NavTab, OutlineItem } from "./nav-types";
 import { TabIcon } from "./tab-icons";
+import { PandaMini } from "@/components/site/about/panda-mini";
 
 /**
  * The app chrome at the bottom and the top right of a screen:
@@ -102,13 +103,10 @@ export function AppNav({ tabs, outline, contact, messageHref, currentHref, title
 
   return (
     <>
-      <button type="button" className="ma-top-act" aria-label="Contact us" onClick={() => setSheet("contact")}>
-        <IcPhone />
-      </button>
-
       <nav className="ma-tabs" aria-label={`${title} sections`}>
+        <div className="ma-tabs-pill">
         {tabs.map((t, i) => (
-          <button key={t.label} type="button" className={`ma-nt${i === active && !sheet ? " is-on" : ""}`} aria-current={i === active ? "true" : undefined} onClick={() => { setSheet(""); go(t.id, i); }}>
+          <button key={t.label} type="button" className={`ma-nt${i === active && !sheet ? " is-on" : ""}`} aria-current={i === active && !sheet ? "location" : undefined} onClick={() => { setSheet(""); go(t.id, i); }}>
             <TabIcon name={t.icon} />
             <span>{t.label}</span>
           </button>
@@ -117,9 +115,13 @@ export function AppNav({ tabs, outline, contact, messageHref, currentHref, title
           <TabIcon name="apps" />
           <span>Apps</span>
         </button>
+        </div>
+        <button type="button" className={`ma-tabs-pd${sheet === "contact" ? " is-on" : ""}`} aria-label="Talk to us" aria-haspopup="dialog" onClick={() => setSheet(sheet === "contact" ? "" : "contact")}>
+          <PandaMini paws={false} />
+        </button>
       </nav>
 
-      <AppsSheet open={sheet === "apps"} onClose={() => setSheet("")} outline={outline} currentHref={currentHref} onJump={jumpFromSheet} />
+      <AppsSheet open={sheet === "apps"} onClose={() => setSheet("")} outline={outline} currentHref={currentHref} onJump={jumpFromSheet} onContact={() => setSheet("contact")} onShare={() => { setSheet(""); window.setTimeout(() => openShare({ title, subtitle: window.location.host, url: window.location.href }), 260); }} />
       <ContactSheet open={sheet === "contact"} onClose={() => setSheet("")} contact={contact} messageHref={messageHref} onJump={jumpFromSheet} />
     </>
   );

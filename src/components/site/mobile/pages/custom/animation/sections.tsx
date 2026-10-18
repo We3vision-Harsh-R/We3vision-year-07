@@ -1,55 +1,54 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Carousel, Points, Section } from "../../../app";
+import { AppLink, Button, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import { BallTimeline } from "./timeline";
 
-// /animation as Clips and Apple TV: the hero is a cinematic poster with letterbox bars and a Play button, the story a synopsis, the services episode
-// rows with a thumbnail, the process a film strip, the tools end credits, the industries a poster carousel. The timeline of the laptop is real.
-// Same CMS words. Styles: (m)/m/animation/page.css.
+// /animation in iOS 27, a quiet Final Cut / Clips: open space, hairlines, regular type (500 for row titles, 600 for headings).
+// The hero has a record light and a playhead that runs along a clip; the one tool is the bouncing-ball timeline on a glass viewer
+// (play, scrub, keyframes); the services and industries carry small clip thumbnails; the process is a track of clips. Same CMS words.
+// Styles: (m)/m/animation/page.css ("mp-an-").
 
-const hue = (i: number) => ({ "--o": i * 41 }) as CSSProperties;
+const rv = (i: number, step = 60) => ({ "--rv-d": `${i * step}ms`, "--o": i * 41 }) as CSSProperties;
 
-/** the top: a poster between two letterbox bars; the first button is Play */
+/** the top: a record light and the chip, the title, a playhead running along a clip, the text, Play and the second button */
 export const AnHero: MobileSection<"pageHero"> = ({ data, index }) => {
   const H = index === 0 ? "h1" : "h2";
   return (
-    <section className="mp-an-poster">
-      <div className="mp-an-bar">
-        <span className="mp-an-badge">{data.chip}</span>
-      </div>
-      <div className="mp-an-art">
-        <span className="mp-an-orb" aria-hidden="true" />
-        <H className="mp-an-h">
-          <Lines text={data.heading} />
-        </H>
-      </div>
-      <div className="mp-an-bar is-low">
-        {data.text && <p className="mp-an-t">{data.text}</p>}
-        <div className="mp-an-acts">
-          {data.primaryLabel && data.primaryHref && (
-            <AppLink href={data.primaryHref} className="mp-an-playbtn">
-              <span className="mp-an-tri" aria-hidden="true" />
-              {data.primaryLabel}
-            </AppLink>
-          )}
-          {data.secondaryLabel && data.secondaryHref && (
-            <AppLink href={data.secondaryHref} className="mp-an-up">
-              {data.secondaryLabel}
-            </AppLink>
-          )}
-        </div>
+    <section className="mp-an-hero">
+      <p className="mp-an-rec">
+        <i aria-hidden="true" />
+        {data.chip}
+      </p>
+      <H className="mp-an-h">
+        <Lines text={data.heading} />
+      </H>
+      <span className="mp-an-scrub" aria-hidden="true">
+        <i />
+      </span>
+      {data.text && <p className="mp-an-t">{data.text}</p>}
+      <div className="mp-an-btns">
+        {data.primaryLabel && data.primaryHref && (
+          <AppLink href={data.primaryHref} className="ma-btn ma-btn-fill">
+            <span className="mp-an-tri" aria-hidden="true" />
+            {data.primaryLabel}
+          </AppLink>
+        )}
+        {data.secondaryLabel && data.secondaryHref && (
+          <AppLink href={data.secondaryHref} className="ma-btn">
+            {data.secondaryLabel}
+          </AppLink>
+        )}
       </div>
     </section>
   );
 };
 
-/** the story as the synopsis under a progress line */
+/** the story: plain open text */
 export const AnStory: MobileSection<"story"> = ({ data, id }) => (
   <section id={id} className="ma-sec">
-    <div className="mp-an-syn">
-      <span className="mp-an-prog" aria-hidden="true" />
+    <div className="mp-an-story">
       {paragraphs(data.body).map((p, i) => (
         <p key={i}>
           <Rich text={p} />
@@ -59,17 +58,19 @@ export const AnStory: MobileSection<"story"> = ({ data, id }) => (
   </section>
 );
 
-/** "Press play, scrub the frames": a bouncing ball and its timeline */
+/** "Press play, scrub the frames": the bouncing ball on a glass viewer */
 export const AnGuide: MobileSection<"guide"> = ({ data, id }) => {
   const tips = lines(data.tips);
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.text}>
       <BallTimeline label={tips[0] ?? oneLine(data.heading)} />
-      {tips.map((t, i) => (
-        <p key={i} className="mp-an-sub">
-          {t}
-        </p>
-      ))}
+      {tips.length > 0 && (
+        <ul className="mp-an-tips">
+          {tips.map((t, i) => (
+            <li key={i}>{t}</li>
+          ))}
+        </ul>
+      )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
           <Button href={data.buttonHref} block>
@@ -81,49 +82,46 @@ export const AnGuide: MobileSection<"guide"> = ({ data, id }) => {
   );
 };
 
-/** "Our animation services" = episodes (a thumbnail, the title; open for the details); "More from We3vision" = a row of landscape thumbnails */
+/** The services = an open list: a clip thumbnail, the name, one line, open for the details; "More from We3vision" = quiet links */
 export const AnServices: MobileSection<"services"> = ({ data, id }) => {
   const related = id === "related-services";
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
       {related ? (
-        <ul className="mp-an-also">
+        <ul className="mp-an-links">
           {data.cards.map((c, i) => (
-            <li key={i} style={hue(i + 1)}>
-              <AppLink href={c.href || "#contact"} className="mp-an-thumb">
-                <span className="mp-an-th" aria-hidden="true">
-                  <span className="mp-an-tri" />
+            <li key={i} className="ma-rvx" style={rv(i, 50)}>
+              <AppLink href={c.href || "#contact"}>
+                <span>
+                  <b>
+                    <Lines text={c.title} />
+                  </b>
+                  <small>{c.description}</small>
                 </span>
-                <b>
-                  <Lines text={c.title} />
-                </b>
-                <span>{c.description}</span>
+                <IcChevron />
               </AppLink>
             </li>
           ))}
         </ul>
       ) : (
-        <Carousel>
+        <ul className="mp-an-list" data-exclusive>
           {data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
-            const more = c.fit || problems.length > 0 || outcomes.length > 0 || c.href;
             return (
-              <details key={i} className="mp-an-ep" style={hue(i)}>
-                <summary>
-                  <span className="mp-an-th" aria-hidden="true">
-                    <span className="mp-an-tri" />
-                  </span>
-                  <span className="mp-an-eb">
-                    <b>
-                      <Lines text={c.title} />
-                    </b>
-                    <span>{c.description}</span>
-                  </span>
-                  {more && <IcChevron className="mp-an-chev" />}
-                </summary>
-                {more && (
-                  <div className="mp-an-ebody">
+              <li key={i} className="ma-rvx" style={rv(i, 50)}>
+                <details>
+                  <summary>
+                    <span className="mp-an-th" aria-hidden="true" />
+                    <span className="mp-an-row">
+                      <b>
+                        <Lines text={c.title} />
+                      </b>
+                      <small>{c.description}</small>
+                    </span>
+                    <i className="mp-an-pm" aria-hidden="true" />
+                  </summary>
+                  <div className="mp-an-more">
                     {c.fit && (
                       <>
                         <p className="mp-an-lab">Right for you when</p>
@@ -150,11 +148,11 @@ export const AnServices: MobileSection<"services"> = ({ data, id }) => {
                       </div>
                     )}
                   </div>
-                )}
-              </details>
+                </details>
+              </li>
             );
           })}
-        </Carousel>
+        </ul>
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
@@ -167,17 +165,19 @@ export const AnServices: MobileSection<"services"> = ({ data, id }) => {
   );
 };
 
-/** the process as a film strip: a sprocket edge and a frame per step */
+/** the process as a track of clips: a numbered clip, a thin track line between them */
 export const AnProcess: MobileSection<"process"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ol className="mp-an-strip">
+    <ol className="mp-an-flow">
       {data.items.map((x, i) => (
-        <li key={i} style={hue(i)}>
-          <span className="mp-an-fn">{String(i + 1).padStart(2, "0")}</span>
-          <div className="mp-an-frame">
+        <li key={i} className="ma-rvx" style={rv(i)}>
+          <span className="mp-an-node" aria-hidden="true">
+            {i + 1}
+          </span>
+          <div>
             <h3>{oneLine(x.title)}</h3>
             <p>{x.text}</p>
-            {lines(x.points).length > 0 && <Points items={lines(x.points)} />}
+            {lines(x.points).length > 0 && <p className="mp-an-pts">{lines(x.points).join("  ·  ")}</p>}
           </div>
         </li>
       ))}
@@ -185,42 +185,26 @@ export const AnProcess: MobileSection<"process"> = ({ data, id }) => (
   </Section>
 );
 
-/** the tools as end credits */
+/** the tool stack as one line of text */
 export const AnTags: MobileSection<"tags"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-an-credits">
+    <p className="mp-an-stack">
       {lines(data.items).map((t, i) => (
-        <li key={i}>{t}</li>
+        <span key={i}>{t}</span>
       ))}
-    </ul>
+    </p>
   </Section>
 );
 
-/** the industries as a carousel of portrait posters */
+/** the industries as an open list, each with a small clip thumbnail */
 export const AnIndustries: MobileSection<"industries"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-an-posters">
+    <ul className="mp-an-ind">
       {data.items.map((x, i) => (
-        <li key={i} style={hue(i)}>
-          <b>{x.name}</b>
-          <p>{x.description}</p>
-        </li>
-      ))}
-    </ul>
-  </Section>
-);
-
-/** the advantages as an info sheet: a round mark, the title, the text */
-export const AnAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
-  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-an-info">
-      {data.items.map((x, i) => (
-        <li key={i}>
-          <span className="mp-an-mark" aria-hidden="true">
-            {i + 1}
-          </span>
+        <li key={i} className="ma-rvx" style={rv(i, 50)}>
+          <span className="mp-an-th" aria-hidden="true" />
           <div>
-            <b>{x.title}</b>
+            <b>{x.name}</b>
             <p>{x.description}</p>
           </div>
         </li>
@@ -229,22 +213,35 @@ export const AnAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   </Section>
 );
 
-/** the FAQ as the audio and subtitles list: a CC badge, the question, the answer opens */
-export const AnFaq: MobileSection<"faq"> = ({ data, id }) => (
+/** the advantages: a short title and one line, open on the page */
+export const AnAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <div className="mp-an-cc">
+    <div className="mp-an-why">
       {data.items.map((x, i) => (
-        <details key={i}>
-          <summary>
-            <span className="mp-an-ccb" aria-hidden="true">
-              CC
-            </span>
-            <span className="mp-an-q">{x.question}</span>
-            <IcChevron className="mp-an-chev" />
-          </summary>
-          <p>{x.answer}</p>
-        </details>
+        <section key={i} className="ma-rvx" style={rv(i, 50)}>
+          <h3>{x.title}</h3>
+          <p>{x.description}</p>
+        </section>
       ))}
     </div>
+  </Section>
+);
+
+/** FAQ: an open list; a regular question, a + that turns into −, the answer under it */
+export const AnFaq: MobileSection<"faq"> = ({ data, id }) => (
+  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
+    <ul className="mp-an-qa" data-exclusive>
+      {data.items.map((x, i) => (
+        <li key={i}>
+          <details>
+            <summary>
+              <span>{x.question}</span>
+              <i className="mp-an-pm" aria-hidden="true" />
+            </summary>
+            <p>{x.answer}</p>
+          </details>
+        </li>
+      ))}
+    </ul>
   </Section>
 );

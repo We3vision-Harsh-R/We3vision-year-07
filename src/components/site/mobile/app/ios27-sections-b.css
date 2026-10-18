@@ -1,0 +1,139 @@
+/* iOS 27 pass for the shared hero / story / flow / guide / automate / services / highlights / brand board sections (pages/sections/*). Scope every rule with .ma-root.
+   Prefix "ma-ia-". No boxes: space, hairlines, regular type (500 only for row titles, 600 only for headings), Apple type scale set in the site font,
+   Liquid Glass only on the buttons and the picker. Interactions live in pages/sections/ios27-a-client.tsx. */
+
+/* ---- shared text pieces ---- */
+.ma-root .ma-ia-body { margin: 0; font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; overflow-wrap: anywhere; }
+.ma-root .ma-ia-body em, .ma-root .ma-ia-story em { font-style: normal; font-weight: 500; color: var(--ma-text); }
+.ma-root .ma-ia-txt { margin: 0; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text); text-wrap: pretty; }
+.ma-root .ma-ia-lab { margin: 28px 0 8px; font-size: 13px; line-height: 1.35; font-weight: 400; letter-spacing: -0.08px; color: var(--ma-text3); }
+.ma-root .ma-ia-lab:first-child { margin-top: 0; }
+.ma-root .ma-ia-foot { margin: 12px 0 0; font-size: 13px; line-height: 1.35; letter-spacing: -0.08px; color: var(--ma-text3); }
+.ma-root .ma-ia-ph { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .ma-ia-ph + .ma-ia-body, .ma-root .ma-ia-ph + .ma-ia-txt { margin-top: 10px; }
+.ma-root .ma-ia-n { flex: none; min-width: 26px; font-size: 13px; line-height: 22px; font-weight: 500; letter-spacing: -0.08px; color: var(--ma-tint); font-variant-numeric: tabular-nums; }
+
+/* ---- buttons: Liquid Glass, side by side when two ---- */
+.ma-root .ma-ia-btns { display: flex; gap: 10px; margin-top: 28px; }
+.ma-root .ma-ia-btns .ma-btn { flex: 0 1 auto; min-width: 0; min-height: 50px; padding: 0 22px; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; text-align: center; }
+.ma-root .ma-ia-btns.is-two .ma-btn { flex: 1 1 0; padding: 0 12px; font-size: 16px; }
+.ma-root .ma-ia-glass { color: var(--ma-text); background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22); }
+.ma-root .ma-ia-btns .ma-btn-fill { box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.2), inset 0 1px 0 hsl(0 0% 100% / 0.32), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 26px hsl(var(--ma-h) calc(80% * var(--ts)) 30% / 0.45); }
+.ma-root .ma-ia-btns .ma-btn:focus-visible, .ma-root .ma-ia-tabs button:focus-visible, .ma-root .ma-ia-seg button:focus-visible, .ma-root .ma-ia-link:focus-visible, .ma-root .ma-ia-more:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 3px; }
+
+/* ---- page hero: open, eyebrow + Large Title + Body + two buttons ---- */
+.ma-root .ma-ia-hero { position: relative; padding: 26px 0 8px; }
+.ma-root .ma-ia-eye { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 15px; line-height: 1.4; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text2); }
+.ma-root .ma-ia-eye i { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--ma-tint); box-shadow: 0 0 0 4px var(--ma-wash); }
+.ma-root .ma-ia-title { margin: 16px 0 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .ma-ia-title > span { display: block; }
+.ma-root .ma-ia-title span + span { color: var(--ma-tint); }
+.ma-root .ma-ia-lead { margin: 18px 0 0; max-width: 38ch; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .ma-ia-hero > * { animation: ma-ia-in 0.7s var(--ma-ease) backwards; }
+.ma-root .ma-ia-hero > :nth-child(2) { animation-delay: 0.06s; }
+.ma-root .ma-ia-hero > :nth-child(3) { animation-delay: 0.12s; }
+.ma-root .ma-ia-hero > :nth-child(n + 4) { animation-delay: 0.18s; }
+@keyframes ma-ia-in { from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); } }
+
+/* word capsules (word hero, flow sources / actions): quiet tertiary fill, regular type */
+.ma-root .ma-ia-words { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+.ma-root .ma-ia-lab + .ma-ia-words { margin-top: 0; }
+.ma-root .ma-ia-words li { display: inline-flex; align-items: center; min-height: 34px; max-width: 100%; padding: 6px 14px; border-radius: 999px; font-size: 15px; line-height: 1.3; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text); background: hsl(240 6% 50% / 0.2); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.1); overflow-wrap: anywhere; }
+
+/* home-style hero cards: an open list, hairlines between */
+.ma-root .ma-ia-cards { margin: 0; padding: 0; list-style: none; }
+.ma-root .ma-ia-cards > li { padding: 24px 0; }
+.ma-root .ma-ia-cards > li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .ma-ia-cardh { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; color: inherit; text-decoration: none; }
+.ma-root .ma-ia-cardh h3, .ma-root h3.ma-ia-cardh { margin: 0; font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: 0.38px; min-width: 0; }
+.ma-root .ma-ia-cardh span + span::before { content: " "; }
+.ma-root .ma-ia-cardh svg { width: 18px; height: 18px; flex: none; color: var(--ma-text3); }
+.ma-root .ma-ia-cards .ma-ia-body { margin-top: 8px; }
+.ma-root .ma-ia-defs { display: grid; gap: 12px; margin: 16px 0 0; }
+.ma-root .ma-ia-defs dt { font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .ma-ia-defs dd { margin: 2px 0 0; font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); }
+
+/* ---- story: open text, a regular lead ---- */
+.ma-root .ma-ia-story { display: grid; gap: 16px; }
+.ma-root .ma-ia-story p { margin: 0; font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; overflow-wrap: anywhere; }
+.ma-root .ma-ia-story p:first-child { font-size: 20px; line-height: 1.4; letter-spacing: -0.2px; color: var(--ma-text); }
+.ma-root .ma-ia-story p:first-child em { color: var(--ma-tint); font-weight: 400; }
+
+/* ---- services: segmented picker (glass capsule on the chosen one) + open panel ---- */
+.ma-root .ma-ia-tabs { display: flex; gap: 8px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 6px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; overscroll-behavior-x: contain; }
+.ma-root .ma-ia-tabs::-webkit-scrollbar { display: none; }
+.ma-root .ma-ia-tabs button { flex: none; min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 400; letter-spacing: -0.24px; white-space: nowrap; color: var(--ma-text2); cursor: pointer; scroll-snap-align: center; background: hsl(240 6% 50% / 0.2); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.1); transition: background-color 0.35s var(--ma-ease), color 0.3s, transform 0.3s var(--ma-spring); }
+.ma-root .ma-ia-tabs button:active { transform: scale(0.95); }
+.ma-root .ma-ia-tabs button.is-on { color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 4) calc(88% * var(--ts)) 58%), var(--ma-tint-bg)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.2), inset 0 1px 0 hsl(0 0% 100% / 0.3), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; }
+.ma-root .ma-ia-panel { margin-top: 24px; animation: ma-ia-in 0.5s var(--ma-ease) backwards; }
+.ma-root .ma-ia-panel[hidden] { display: none; }
+.ma-root .ma-ia-panel .ma-ia-body { margin-top: 10px; }
+.ma-root .ma-ia-panel .ma-pts { margin-top: 0; }
+.ma-root .ma-ia-panel .ma-pts li { font-size: 16px; line-height: 1.45; letter-spacing: -0.32px; }
+.ma-root .ma-ia-more { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin-top: 16px; font-size: 17px; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-tint); text-decoration: none; transition: opacity 0.2s; }
+.ma-root .ma-ia-more:active { opacity: 0.55; }
+.ma-root .ma-ia-more svg { width: 16px; height: 16px; }
+
+/* links only ("More from We3vision"): open rows with hairlines and a chevron */
+.ma-root .ma-ia-links { margin: 0; padding: 0; list-style: none; }
+.ma-root .ma-ia-links li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .ma-ia-link { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 14px 0; color: inherit; text-decoration: none; transition: opacity 0.2s; }
+.ma-root .ma-ia-link:active { opacity: 0.55; }
+.ma-root .ma-ia-link > span { display: grid; gap: 2px; min-width: 0; }
+.ma-root .ma-ia-link b, .ma-root .ma-ia-num b { font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; overflow-wrap: anywhere; }
+.ma-root .ma-ia-link small, .ma-root .ma-ia-num small { display: block; font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); }
+.ma-root .ma-ia-link svg { width: 16px; height: 16px; flex: none; color: var(--ma-text3); }
+
+/* ---- guide: Messages-style bubbles ---- */
+.ma-root .ma-ia-chat { display: grid; justify-items: start; gap: 6px; margin: 24px 0 0; padding: 0; list-style: none; }
+.ma-root .ma-ia-chat li { max-width: 86%; padding: 10px 15px; border-radius: 20px; font-size: 16px; line-height: 1.4; letter-spacing: -0.32px; color: var(--ma-text); background: hsl(240 6% 50% / 0.22); overflow-wrap: anywhere; }
+.ma-root .ma-ia-chat li:last-child { border-bottom-left-radius: 6px; }
+
+/* ---- brand board / flow: open numbered lists ---- */
+.ma-root .ma-ia-num { margin: 0; padding: 0; list-style: none; }
+.ma-root .ma-ia-body + .ma-ia-num, .ma-root .ma-ia-body + .ma-ia-lab { margin-top: 28px; }
+.ma-root .ma-ia-num li { display: flex; gap: 12px; padding: 14px 0; }
+.ma-root .ma-ia-num li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .ma-ia-num li > span:last-child { display: grid; gap: 2px; min-width: 0; }
+.ma-root .ma-ia-thread { position: relative; display: grid; gap: 18px; margin: 24px 0 0; padding: 0 0 0 26px; list-style: none; counter-reset: ia; }
+.ma-root .ma-ia-thread::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; border-radius: 1px; background: linear-gradient(var(--ma-tint), var(--ma-line)); }
+.ma-root .ma-ia-thread li { position: relative; font-size: 17px; line-height: 1.4; letter-spacing: -0.43px; color: var(--ma-text); overflow-wrap: anywhere; }
+.ma-root .ma-ia-thread li::before { content: ""; position: absolute; left: -26px; top: 0.4em; width: 12px; height: 12px; border-radius: 50%; background: var(--ma-bg); box-shadow: inset 0 0 0 2px var(--ma-tint); }
+
+/* ---- automate: segmented control + swapping rows ---- */
+.ma-root .ma-ia-seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 999px; background: hsl(240 6% 50% / 0.2); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.1); }
+.ma-root .ma-ia-seg i { position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 999px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.22), hsl(0 0% 100% / 0.1)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 3px 10px hsl(0 0% 0% / 0.2); transition: transform 0.45s var(--ma-spring); }
+.ma-root .ma-ia-swap[data-on="1"] .ma-ia-seg i { transform: translateX(100%); }
+.ma-root .ma-ia-seg button { position: relative; min-height: 40px; min-width: 0; padding: 0 10px; border: 0; background: none; font: inherit; font-size: 15px; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text2); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color 0.3s; }
+.ma-root .ma-ia-seg button[aria-selected="true"] { color: var(--ma-text); font-weight: 500; }
+.ma-root .ma-ia-swapl { margin: 16px 0 0; padding: 0; list-style: none; }
+.ma-root .ma-ia-swapl li { display: flex; gap: 12px; padding: 14px 0; }
+.ma-root .ma-ia-swapl li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .ma-ia-sw { display: grid; min-width: 0; flex: 1; }
+.ma-root .ma-ia-sw > span { grid-area: 1 / 1; font-size: 17px; line-height: 1.4; letter-spacing: -0.43px; overflow-wrap: anywhere; transition: opacity 0.35s var(--ma-ease), filter 0.35s var(--ma-ease); }
+.ma-root .ma-ia-a { color: var(--ma-text2); }
+.ma-root .ma-ia-b { color: var(--ma-text); opacity: 0; filter: blur(4px); }
+.ma-root .ma-ia-swap[data-on="1"] .ma-ia-a { opacity: 0; filter: blur(4px); }
+.ma-root .ma-ia-swap[data-on="1"] .ma-ia-b { opacity: 1; filter: none; }
+
+/* ---- highlights: open figures, two per row ---- */
+.ma-root .ma-ia-figs { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; margin: 0; }
+.ma-root .ma-ia-figs > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 4px; min-width: 0; padding: 18px 0; border-top: 1px solid var(--ma-line); }
+.ma-root .ma-ia-figs dd { margin: 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; color: var(--ma-text); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.ma-root .ma-ia-figs dt { font-size: 15px; line-height: 1.4; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text2); }
+
+/* tablet: a bit more room */
+@media (min-width: 700px) {
+  .ma-root .ma-ia-title { font-size: 44px; }
+  .ma-root .ma-ia-lead { max-width: 52ch; }
+  .ma-root .ma-ia-btns.is-two { max-width: 520px; }
+  .ma-root .ma-ia-figs { grid-template-columns: repeat(4, 1fr); }
+  .ma-root .ma-ia-cards { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; }
+  .ma-root .ma-ia-cards > li:nth-child(2) { border-top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-root .ma-ia-hero > *, .ma-root .ma-ia-panel { animation: none; }
+  .ma-root .ma-ia-seg i, .ma-root .ma-ia-sw > span, .ma-root .ma-ia-tabs button { transition: none; }
+  .ma-root .ma-ia-b, .ma-root .ma-ia-swap[data-on="1"] .ma-ia-a { filter: none; }
+}

@@ -1,7 +1,8 @@
 import type { MobileSection } from "../types";
-import { PicCard, Section } from "../../app";
+import { AppLink, Pic, Section } from "../../app";
 import { coverOf } from "@/lib/projects";
 
+/** the projects: a picture and its words under it, no box around them (two columns on a tablet) */
 export const ProjectsSection: MobileSection<"projects"> = ({ data, id, extra }) => {
   const list = (extra.projects ?? []).filter((p) => !data.group || p.group === data.group);
   return (
@@ -9,8 +10,17 @@ export const ProjectsSection: MobileSection<"projects"> = ({ data, id, extra }) 
       {list.length === 0 ? (
         <p className="ma-intro">The projects will appear here soon.</p>
       ) : (
-        <div className="ma-stack ma-grid2">
-          {list.map((p) => <PicCard key={p.id} src={coverOf(p)} alt={p.title} kicker={p.category} title={p.title} text={p.summary} href={"/portfolio/" + p.slug} />)}
+        <div className="ma-s27 ma-s27-works">
+          {list.map((p) => (
+            <AppLink key={p.id} href={"/portfolio/" + p.slug} className="ma-s27-work">
+              <Pic src={coverOf(p)} alt={p.title} />
+              <span className="ma-s27-wb">
+                {p.category && <small>{p.category}</small>}
+                <b>{p.title}</b>
+                {p.summary && <span>{p.summary}</span>}
+              </span>
+            </AppLink>
+          ))}
         </div>
       )}
     </Section>

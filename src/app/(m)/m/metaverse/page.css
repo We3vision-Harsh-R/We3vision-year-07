@@ -1,129 +1,188 @@
-/* /metaverse app screen ("mp-vr-"): visionOS-style glass windows (no 3D, no blur except the hero), grabbers, round ornament buttons, floating captions. Kit tokens only. */
+/* /metaverse app screen ("mp-vr-"), iOS 27 / visionOS (brain/16-ios27-design-system.md): one spatial glass window on top, glass only where
+   it groups a tool (cabins, projects, devices, quiz), the rest open lists with hairlines. Regular type, 500 row titles, 600 headings. Kit tokens only. */
 
-.ma-root .mp-vr-glass { position: relative; padding: 20px 18px 24px; border-radius: 32px; background: linear-gradient(155deg, hsl(0 0% 100% / 0.15), hsl(0 0% 100% / 0.05) 55%, hsl(calc(var(--ma-h) + var(--o, 0)) calc(80% * var(--ts)) 60% / 0.1)); border: 1px solid hsl(0 0% 100% / 0.22); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3), inset 0 -1px 0 hsl(0 0% 0% / 0.2), 0 18px 40px hsl(0 0% 0% / 0.3); }
-.ma-root .mp-vr-grab { display: block; width: 44px; height: 5px; margin: 18px auto -6px; border-radius: 3px; background: hsl(0 0% 100% / 0.4); }
+/* ---- shared: glass recipe (blur only on the few windows that float over colour), type ---- */
+.ma-root .mp-vr-glass { position: relative; border-radius: 30px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22); }
+.ma-root .mp-vr-blur { -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); }
 .ma-root .mp-vr-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); transition: transform 0.3s var(--ma-ease); }
-.ma-root .mp-vr-code { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--ma-tint); }
-.ma-root .mp-vr-lab { margin-top: 16px; margin-bottom: 8px; font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--ma-text3); }
-.ma-root .mp-vr-p { margin-top: 8px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.ma-root .mp-vr-glass h3 { margin: 6px 0 0; font-size: 21px; line-height: 1.25; font-weight: 600; letter-spacing: -0.015em; }
-.ma-root .mp-vr-glass h3 span + span::before { content: " "; }
-.ma-root .mp-vr-glass .ma-cloud, .ma-root .mp-vr-glass .ma-pts { margin-top: 12px; }
+.ma-root .mp-vr-code { margin: 0; font-size: 14px; line-height: 1.35; font-weight: 500; letter-spacing: -0.08px; color: var(--ma-tint); }
+.ma-root .mp-vr-lab { margin: 20px 0 8px; font-size: 15px; line-height: 1.4; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text3); }
+.ma-root .mp-vr-p { margin: 8px 0 0; font-size: 16px; line-height: 1.5; font-weight: 400; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; overflow-wrap: anywhere; }
+.ma-root .mp-vr-glass h3, .ma-root .mp-vr-cabin h3 { margin: 6px 0 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; }
+.ma-root .mp-vr-cabin h3 span + span::before, .ma-root .mp-vr-sb-t span + span::before, .ma-root .mp-vr-row-t span + span::before { content: " "; }
+.ma-root .mp-vr-glass .ma-cloud, .ma-root .mp-vr-glass .ma-pts, .ma-root .mp-vr-step .ma-pts { margin-top: 14px; }
 
-/* ---- hero ---- */
-.ma-root .mp-vr-hero { margin-top: 6px; }
-.ma-root .mp-vr-window { position: relative; padding: 28px 22px 22px; border-radius: 36px; overflow: hidden; background: linear-gradient(155deg, hsl(0 0% 100% / 0.2), hsl(0 0% 100% / 0.06) 50%, hsl(calc(var(--ma-h) + 40) 90% 60% / 0.16)); border: 1px solid hsl(0 0% 100% / 0.26); -webkit-backdrop-filter: blur(26px) saturate(1.7); backdrop-filter: blur(26px) saturate(1.7); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4), 0 26px 56px hsl(0 0% 0% / 0.4); animation: mp-vr-float 0.7s var(--ma-ease) backwards; }
-.ma-root .mp-vr-h { margin: 0; font-size: 31px; line-height: 1.14; font-weight: 700; letter-spacing: -0.024em; text-wrap: balance; }
+/* ---- hero: a spatial window floating over two soft light pools ---- */
+.ma-root .mp-vr-hero { position: relative; margin-top: 8px; padding-top: 8px; isolation: isolate; }
+.ma-root .mp-vr-hero::before { content: ""; position: absolute; z-index: -1; inset: -40px -20px 0; pointer-events: none; background: radial-gradient(60% 45% at 20% 18%, hsl(calc(var(--ma-h) + 20) calc(90% * var(--ts)) 60% / 0.32), transparent 70%), radial-gradient(55% 40% at 85% 70%, hsl(calc(var(--ma-h) - 40) calc(85% * var(--ts)) 55% / 0.26), transparent 70%); }
+.ma-root .mp-vr-window { position: relative; padding: 32px 24px 28px; border-radius: 38px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.16), hsl(0 0% 100% / 0.06)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.24), inset 0 1px 0 hsl(0 0% 100% / 0.32), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 30px 60px hsl(0 0% 0% / 0.35); animation: mp-vr-float 0.8s var(--ma-ease) backwards; }
+.ma-root .mp-vr-h { margin: 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .mp-vr-h span { display: block; }
 .ma-root .mp-vr-h span + span { color: var(--ma-tint); }
-.ma-root .mp-vr-t { margin-top: 14px; font-size: 17px; line-height: 1.62; color: hsl(0 0% 100% / 0.84); }
-.ma-root .mp-vr-caps { display: grid; gap: 10px; margin: 18px 0 0; padding: 0 6px; list-style: none; }
-.ma-root .mp-vr-caps li { justify-self: start; max-width: 92%; padding: 10px 18px; border-radius: 999px; font-size: 16px; line-height: 1.4; background: hsl(0 0% 100% / 0.1); border: 1px solid hsl(0 0% 100% / 0.2); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.25); animation: mp-vr-bob 5s ease-in-out var(--d, 0s) infinite alternate; }
+.ma-root .mp-vr-t { margin: 16px 0 0; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-vr-grab { display: block; width: 64px; height: 6px; margin: 12px auto 0; border-radius: 3px; background: hsl(0 0% 100% / 0.32); }
+.ma-root .mp-vr-caps { display: grid; gap: 10px; margin: 24px 0 0; padding: 0 4px; list-style: none; }
+.ma-root .mp-vr-caps li { justify-self: start; max-width: 88%; padding: 10px 18px; border-radius: 22px; font-size: 15px; line-height: 1.4; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text); background: hsl(0 0% 100% / 0.08); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.2), inset 0 1px 0 hsl(0 0% 100% / 0.22); animation: mp-vr-bob 5s ease-in-out var(--d, 0s) infinite alternate; }
 .ma-root .mp-vr-caps li:nth-child(even) { justify-self: end; }
-@keyframes mp-vr-float { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.97); } }
+@keyframes mp-vr-float { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.96); } }
 @keyframes mp-vr-bob { to { transform: translate3d(0, -4px, 0); } }
+/* as the page scrolls on, the window recedes into space (scroll-driven, where supported) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ma-root .mp-vr-hero > .mp-vr-window { animation: mp-vr-float 0.8s var(--ma-ease) backwards, mp-vr-recede linear both; animation-timeline: auto, view(); animation-range: normal, exit 0% exit 100%; }
+  }
+}
+@keyframes mp-vr-recede { to { opacity: 0.4; transform: scale(0.94); } }
 
-/* ---- tip + cabins ---- */
-.ma-root .mp-vr-tip { margin-bottom: 16px; padding: 16px 18px; border-radius: 24px; background: var(--ma-wash); border: 1px solid hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.28); }
-.ma-root .mp-vr-tip h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
-.ma-root .mp-vr-tip p { margin-top: 6px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
-.ma-root .mp-vr-win { position: relative; padding-bottom: 36px; }
-.ma-root .mp-vr-panel { padding: 24px 20px 40px; border-radius: 32px; background: linear-gradient(155deg, hsl(0 0% 100% / 0.16), hsl(0 0% 100% / 0.05) 55%, hsl(var(--ma-h) calc(80% * var(--ts)) 60% / 0.12)); border: 1px solid hsl(0 0% 100% / 0.22); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 18px 40px hsl(0 0% 0% / 0.3); }
-.ma-root .mp-vr-cabin h3 { margin: 6px 0 0; font-size: 24px; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
-.ma-root .mp-vr-cabin h3 span + span::before { content: " "; }
-.ma-root .mp-vr-cabin[hidden] { display: none; }
-.ma-root .mp-vr-cabin:not([hidden]) { animation: ma-open 0.35s var(--ma-ease) backwards; }
-.ma-root .mp-vr-orn { position: absolute; left: 50%; bottom: 0; display: flex; gap: 6px; padding: 6px; transform: translate3d(-50%, 0, 0); border-radius: 999px; background: hsl(calc(var(--th) + 347.58) calc(60% * var(--ts)) 14% / 0.92); border: 1px solid hsl(0 0% 100% / 0.28); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 12px 26px hsl(0 0% 0% / 0.4); }
-.ma-root .mp-vr-orb { min-width: 56px; min-height: 48px; padding: 0 14px; border: 0; border-radius: 999px; font: inherit; font-size: 16px; font-weight: 700; color: var(--ma-text2); background: transparent; cursor: pointer; transition: background-color 0.25s, color 0.25s, transform 0.25s var(--ma-spring); }
+/* ---- tip: an open note, no box ---- */
+.ma-root .mp-vr-note { display: flex; gap: 14px; align-items: flex-start; margin: 0 0 28px; }
+.ma-root .mp-vr-note-dot { flex: none; width: 10px; height: 10px; margin-top: 8px; border-radius: 50%; background: var(--ma-tint); box-shadow: 0 0 14px hsl(var(--ma-h) calc(90% * var(--ts)) 65% / 0.8); }
+.ma-root .mp-vr-note > div { flex: 1; min-width: 0; }
+.ma-root .mp-vr-note h3 { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-vr-note p { margin: 4px 0 0; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+
+/* ---- cabins: a window with its ornament on the bottom edge ---- */
+.ma-root .mp-vr-win { position: relative; display: grid; }
+.ma-root .mp-vr-panel { padding: 24px 22px 52px; border-radius: 34px; }
+.ma-root .mp-vr-cabin { animation: mp-vr-swap 0.4s var(--ma-ease) backwards; }
+.ma-root .mp-vr-orn { position: relative; z-index: 1; display: flex; gap: 4px; width: max-content; max-width: 100%; margin: -28px auto 0; padding: 5px; border-radius: 999px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.18), hsl(0 0% 100% / 0.08)), hsl(calc(var(--th) + 347.58) calc(60% * var(--ts)) 12% / 0.7); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.26), inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 12px 28px hsl(0 0% 0% / 0.4); }
+.ma-root .mp-vr-orb { min-width: 56px; min-height: 44px; padding: 0 14px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 500; letter-spacing: -0.24px; color: var(--ma-text2); background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 0.25s, color 0.25s, transform 0.3s var(--ma-spring); }
 .ma-root .mp-vr-orb:active { transform: scale(0.92); }
-.ma-root .mp-vr-orb[aria-selected="true"] { color: #fff; background: var(--ma-tint-bg); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); }
-.ma-root .mp-vr-cta { display: flex; align-items: center; justify-content: center; min-height: 50px; margin-top: 20px; padding: 0 22px; border-radius: 999px; font-size: 17px; font-weight: 600; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); transition: transform 0.25s var(--ma-spring); }
+.ma-root .mp-vr-orb[aria-selected="true"] { color: #fff; background: var(--ma-tint-bg); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); }
+.ma-root .mp-vr-orb:focus-visible, .ma-root .mp-vr-segb:focus-visible, .ma-root .mp-vr-opt:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; }
+.ma-root .mp-vr-cta { display: flex; align-items: center; justify-content: center; min-height: 50px; margin-top: 24px; padding: 0 20px; border-radius: 999px; font-size: 17px; line-height: 1.1; font-weight: 500; letter-spacing: -0.43px; text-align: center; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); transition: transform 0.3s var(--ma-spring); }
 .ma-root .mp-vr-cta:active { transform: scale(0.96); }
-.ma-root .mp-vr-cta.is-plain { margin-top: 14px; background: var(--ma-wash); color: var(--ma-tint); box-shadow: none; border: 1px solid hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.28); }
+@keyframes mp-vr-swap { from { opacity: 0; filter: blur(6px); transform: translate3d(0, 6px, 0); } }
 
-/* ---- windows: government projects, services ---- */
-.ma-root .mp-vr-wins { display: grid; gap: 16px; }
+/* ---- government projects: two windows, steps and team as open lists inside ---- */
+.ma-root .mp-vr-wins { display: grid; gap: 20px; }
+.ma-root .mp-vr-gov { padding: 22px 20px 24px; }
 .ma-root .mp-vr-ph { display: flex; align-items: center; gap: 14px; }
-.ma-root .mp-vr-mark { flex: none; display: grid; place-items: center; min-width: 52px; height: 52px; padding: 0 8px; border-radius: 18px; font-size: 16px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o, 0) + 10) calc(90% * var(--ts)) 62%), hsl(calc(var(--ma-h) + var(--o, 0) - 10) calc(85% * var(--ts)) 42%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.45); }
-.ma-root .mp-vr-per { margin-top: 2px; font-size: 15px; color: var(--ma-text3); }
-.ma-root .mp-vr-stages { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
-.ma-root .mp-vr-stages li { display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 4px 14px 4px 6px; border-radius: 999px; font-size: 16px; background: hsl(0 0% 100% / 0.07); }
-.ma-root .mp-vr-stages li span { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font-size: 15px; font-weight: 700; color: #fff; background: var(--ma-tint-bg); }
-.ma-root .mp-vr-team { display: grid; gap: 8px; margin: 14px 0 0; padding: 14px 0 0; list-style: none; border-top: 1px solid hsl(0 0% 100% / 0.14); }
-.ma-root .mp-vr-team li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 15px; line-height: 1.45; }
-.ma-root .mp-vr-team b { font-weight: 600; }
-.ma-root .mp-vr-team span { color: var(--ma-text3); }
+.ma-root .mp-vr-ph > div { min-width: 0; }
+.ma-root .mp-vr-mark { flex: none; display: grid; place-items: center; min-width: 48px; height: 48px; padding: 0 8px; border-radius: 14px; font-size: 15px; font-weight: 600; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o, 0) + 10) calc(90% * var(--ts)) 62%), hsl(calc(var(--ma-h) + var(--o, 0) - 10) calc(85% * var(--ts)) 42%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.45); }
+.ma-root .mp-vr-per { margin: 2px 0 0; font-size: 14px; line-height: 1.35; color: var(--ma-text3); }
+.ma-root .mp-vr-gov h3 { margin-top: 16px; font-size: 20px; line-height: 1.25; letter-spacing: 0.38px; }
+.ma-root .mp-vr-steps { display: grid; margin: 16px 0 0; padding: 0; list-style: none; counter-reset: none; }
+.ma-root .mp-vr-steps li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; font-size: 16px; line-height: 1.45; letter-spacing: -0.32px; color: var(--ma-text); }
+.ma-root .mp-vr-steps li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-vr-steps li > span:first-child { flex: none; display: grid; place-items: center; width: 24px; height: 24px; margin-top: 0; border-radius: 50%; font-size: 13px; font-weight: 500; color: var(--ma-tint); box-shadow: inset 0 0 0 1px hsl(var(--ma-h) calc(90% * var(--ts)) 75% / 0.5); }
+.ma-root .mp-vr-steps li > span + span { flex: 1; min-width: 0; }
+.ma-root .mp-vr-team { display: grid; margin: 18px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--ma-line); }
+.ma-root .mp-vr-team li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; padding: 10px 0; font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; }
+.ma-root .mp-vr-team li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-vr-team-n { font-weight: 500; min-width: 0; }
+.ma-root .mp-vr-team-r { color: var(--ma-text3); min-width: 0; }
+
+/* ---- services: glass windows that open ---- */
 .ma-root .mp-vr-svc { padding: 0; }
-.ma-root .mp-vr-svc > summary { list-style: none; display: flex; align-items: flex-start; gap: 12px; padding: 20px 18px; cursor: pointer; }
+.ma-root .mp-vr-svc > summary { list-style: none; display: flex; align-items: flex-start; gap: 12px; padding: 22px 20px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .ma-root .mp-vr-svc > summary::-webkit-details-marker { display: none; }
-.ma-root .mp-vr-sb { flex: 1; min-width: 0; display: grid; gap: 6px; }
-.ma-root .mp-vr-sb b { font-size: 22px; line-height: 1.2; font-weight: 700; letter-spacing: -0.015em; }
-.ma-root .mp-vr-sb b span + span::before { content: " "; }
-.ma-root .mp-vr-sb > span { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
-.ma-root .mp-vr-svc > summary .mp-vr-chev { margin-top: 6px; }
-.ma-root .mp-vr-svc[open] > summary .mp-vr-chev { transform: rotate(90deg); }
-.ma-root .mp-vr-sbody { padding: 0 18px 24px; }
-.ma-root .mp-vr-svc[open] .mp-vr-sbody { animation: ma-open 0.35s var(--ma-ease) backwards; }
+.ma-root .mp-vr-sb { flex: 1; min-width: 0; display: grid; gap: 8px; }
+.ma-root .mp-vr-sb-t { font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: 0.38px; text-wrap: balance; }
+.ma-root .mp-vr-sb-d { font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-vr-svc > summary .mp-vr-chev { margin-top: 4px; transform: rotate(90deg); }
+.ma-root .mp-vr-svc[open] > summary .mp-vr-chev { transform: rotate(-90deg); }
+.ma-root .mp-vr-sbody { padding: 0 20px 24px; border-top: 1px solid var(--ma-line); margin: 0 20px; padding-inline: 0; }
+.ma-root .mp-vr-svc[open] .mp-vr-sbody { animation: mp-vr-swap 0.4s var(--ma-ease) backwards; }
 
-/* ---- related: ornament links ---- */
-.ma-root .mp-vr-links { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.ma-root .mp-vr-link { display: flex; align-items: center; gap: 12px; min-height: 68px; padding: 12px 18px; border-radius: 999px; background: hsl(0 0% 100% / 0.08); border: 1px solid hsl(0 0% 100% / 0.2); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.25); transition: transform 0.25s var(--ma-spring); }
-.ma-root .mp-vr-link:active { transform: scale(0.98); }
-.ma-root .mp-vr-link > span { flex: 1; min-width: 0; display: grid; gap: 1px; }
-.ma-root .mp-vr-link b { font-size: 17px; line-height: 1.3; font-weight: 600; }
-.ma-root .mp-vr-link b span + span::before { content: " "; }
-.ma-root .mp-vr-link > span > span { font-size: 15px; line-height: 1.4; color: var(--ma-text2); }
+/* ---- related: open rows with hairlines ---- */
+.ma-root .mp-vr-rows { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ma-line); border-bottom: 1px solid var(--ma-line); }
+.ma-root .mp-vr-rows li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-vr-row { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 14px 0; -webkit-tap-highlight-color: transparent; transition: opacity 0.2s, transform 0.3s var(--ma-spring); }
+.ma-root .mp-vr-row:active { opacity: 0.6; transform: scale(0.985); }
+.ma-root .mp-vr-row > span { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.ma-root .mp-vr-row-t { font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-vr-row-d { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); }
 
-/* ---- process: orbs on a path ---- */
-.ma-root .mp-vr-path { position: relative; display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.ma-root .mp-vr-path::before { content: ""; position: absolute; left: 21px; top: 20px; bottom: 20px; width: 2px; border-radius: 2px; background: linear-gradient(180deg, hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.6), hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.08)); }
-.ma-root .mp-vr-path > li { position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; }
-.ma-root .mp-vr-orbn { position: relative; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; font-size: 17px; font-weight: 700; color: #fff; background: radial-gradient(circle at 35% 30%, hsl(calc(var(--ma-h) + var(--o, 0) + 24) calc(95% * var(--ts)) 74%), hsl(calc(var(--ma-h) + var(--o, 0)) calc(85% * var(--ts)) 42%)); box-shadow: 0 0 0 5px hsl(calc(var(--ma-h) + var(--o, 0)) calc(90% * var(--ts)) 60% / 0.2), inset 0 1px 0 hsl(0 0% 100% / 0.5); }
-.ma-root .mp-vr-path .mp-vr-glass { padding: 16px 16px 18px; border-radius: 26px; }
-.ma-root .mp-vr-path h3 { margin: 0; font-size: 19px; }
+/* ---- process: glowing orbs on a light path, open text ---- */
+.ma-root .mp-vr-path { position: relative; display: grid; gap: 28px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-vr-path::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; border-radius: 2px; background: linear-gradient(180deg, hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.55), hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.06)); }
+.ma-root .mp-vr-path > li { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 16px; align-items: start; }
+.ma-root .mp-vr-orbn { position: relative; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; font-size: 15px; font-weight: 500; color: #fff; background: radial-gradient(circle at 35% 30%, hsl(calc(var(--ma-h) + var(--o, 0) + 24) calc(95% * var(--ts)) 74%), hsl(calc(var(--ma-h) + var(--o, 0)) calc(85% * var(--ts)) 42%)); box-shadow: 0 0 0 5px var(--ma-bg), 0 0 18px hsl(calc(var(--ma-h) + var(--o, 0)) calc(90% * var(--ts)) 60% / 0.45), inset 0 1px 0 hsl(0 0% 100% / 0.5); }
+.ma-root .mp-vr-step { min-width: 0; padding-top: 5px; }
+.ma-root .mp-vr-step h3 { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-vr-step .mp-vr-p { margin-top: 6px; }
 
-/* ---- devices ---- */
-.ma-root .mp-vr-filter { display: flex; gap: 8px; margin-bottom: 14px; }
-.ma-root .mp-vr-chip { min-width: 56px; min-height: 44px; padding: 0 16px; border: 1px solid hsl(0 0% 100% / 0.22); border-radius: 999px; font: inherit; font-size: 16px; font-weight: 700; color: var(--ma-text2); background: hsl(0 0% 100% / 0.08); cursor: pointer; transition: background-color 0.25s, transform 0.25s var(--ma-spring); }
-.ma-root .mp-vr-chip:active { transform: scale(0.94); }
-.ma-root .mp-vr-chip[aria-pressed="true"] { color: #fff; background: var(--ma-tint-bg); border-color: transparent; }
-.ma-root .mp-vr-devs { display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: 14px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 14px; list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--ma-gut); scrollbar-width: none; }
+/* ---- devices: segmented filter + a row of windows ---- */
+.ma-root .mp-vr-seg { display: flex; width: 100%; gap: 2px; margin-bottom: 18px; padding: 3px; border-radius: 999px; background: hsl(240 6% 50% / 0.22); box-shadow: inset 0 0 0 0.5px hsl(0 0% 100% / 0.12); }
+.ma-root .mp-vr-segb { flex: 1; min-width: 0; min-height: 40px; padding: 0 10px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text2); background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 0.25s, color 0.25s, transform 0.3s var(--ma-spring); }
+.ma-root .mp-vr-segb:active { transform: scale(0.95); }
+.ma-root .mp-vr-segb[aria-pressed="true"] { font-weight: 500; color: var(--ma-text); background: linear-gradient(180deg, hsl(0 0% 100% / 0.26), hsl(0 0% 100% / 0.14)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.28), inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 3px 8px hsl(0 0% 0% / 0.2); }
+.ma-root .mp-vr-devs { display: grid; grid-auto-flow: column; grid-auto-columns: 84%; gap: 14px; margin: 0 calc(-1 * var(--ma-gut)); padding: 4px var(--ma-gut) 18px; list-style: none; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--ma-gut); scrollbar-width: none; }
 .ma-root .mp-vr-devs::-webkit-scrollbar { display: none; }
-.ma-root .mp-vr-devs > li { scroll-snap-align: start; }
-.ma-root .mp-vr-tools { margin-top: 12px; padding: 18px; }
+.ma-root .mp-vr-dev { scroll-snap-align: start; padding: 22px 20px 24px; animation: mp-vr-swap 0.4s var(--ma-ease) backwards; }
+.ma-root .mp-vr-dev h3 { font-size: 20px; line-height: 1.25; letter-spacing: 0.38px; }
+.ma-root .mp-vr-tools { margin-top: 12px; padding-top: 4px; }
+.ma-root .mp-vr-tools .mp-vr-lab { margin-top: 0; }
 
-/* ---- industries, advantages, faq ---- */
-.ma-root .mp-vr-list { display: grid; margin: 0; padding: 4px 18px; list-style: none; }
-.ma-root .mp-vr-list li { padding: 14px 0; }
-.ma-root .mp-vr-list li + li { border-top: 1px solid hsl(0 0% 100% / 0.14); }
-.ma-root .mp-vr-list b { font-size: 18px; font-weight: 600; }
+/* ---- industries, advantages: open lists ---- */
+.ma-root .mp-vr-list { display: grid; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-vr-list > li { min-width: 0; padding: 16px 0; }
+.ma-root .mp-vr-list > li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-vr-list h3 { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
 .ma-root .mp-vr-list .mp-vr-p { margin-top: 4px; }
-.ma-root .mp-vr-adv { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.ma-root .mp-vr-adv li { padding: 18px 18px 20px; border-radius: 28px; }
-.ma-root .mp-vr-glow { display: block; width: 22px; height: 22px; margin-bottom: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, hsl(calc(var(--ma-h) + var(--o, 0) + 24) calc(95% * var(--ts)) 78%), hsl(calc(var(--ma-h) + var(--o, 0)) calc(85% * var(--ts)) 46%)); box-shadow: 0 0 18px hsl(calc(var(--ma-h) + var(--o, 0)) calc(90% * var(--ts)) 60% / 0.7); }
-.ma-root .mp-vr-adv b { font-size: 19px; line-height: 1.3; font-weight: 600; }
-.ma-root .mp-vr-faq { padding: 4px 18px; }
-.ma-root .mp-vr-faq details + details { border-top: 1px solid hsl(0 0% 100% / 0.14); }
-.ma-root .mp-vr-faq summary { list-style: none; display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 12px 0; cursor: pointer; font-size: 17px; font-weight: 600; line-height: 1.4; }
+.ma-root .mp-vr-adv > li { display: flex; gap: 14px; align-items: flex-start; }
+.ma-root .mp-vr-adv > li > div { flex: 1; min-width: 0; }
+.ma-root .mp-vr-glow { flex: none; width: 12px; height: 12px; margin-top: 6px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, hsl(calc(var(--ma-h) + var(--o, 0) + 24) calc(95% * var(--ts)) 80%), hsl(calc(var(--ma-h) + var(--o, 0)) calc(85% * var(--ts)) 50%)); box-shadow: 0 0 14px hsl(calc(var(--ma-h) + var(--o, 0)) calc(90% * var(--ts)) 60% / 0.75); }
+
+/* ---- FAQ: open list, + turns into − ---- */
+.ma-root .mp-vr-faq { border-top: 1px solid var(--ma-line); border-bottom: 1px solid var(--ma-line); }
+.ma-root .mp-vr-faq details + details { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-vr-faq summary { list-style: none; display: flex; align-items: center; gap: 16px; min-height: 56px; padding: 14px 0; cursor: pointer; font-size: 17px; line-height: 1.4; font-weight: 400; letter-spacing: -0.43px; -webkit-tap-highlight-color: transparent; }
 .ma-root .mp-vr-faq summary::-webkit-details-marker { display: none; }
-.ma-root .mp-vr-faq summary > span { flex: 1; min-width: 0; }
-.ma-root .mp-vr-faq details[open] .mp-vr-chev { transform: rotate(90deg); }
-.ma-root .mp-vr-faq details > p { margin: 0 0 14px; }
+.ma-root .mp-vr-faq summary > span { flex: 1; min-width: 0; text-wrap: pretty; }
+.ma-root .mp-vr-faq details[open] summary { font-weight: 500; }
+.ma-root .mp-vr-plus { position: relative; flex: none; width: 14px; height: 14px; }
+.ma-root .mp-vr-plus::before, .ma-root .mp-vr-plus::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 2px; border-radius: 1px; background: var(--ma-tint); transition: transform 0.35s var(--ma-ease); }
+.ma-root .mp-vr-plus::after { transform: rotate(90deg); }
+.ma-root .mp-vr-faq details[open] .mp-vr-plus::after { transform: rotate(0deg); }
+.ma-root .mp-vr-faq details > p { margin: 0 30px 18px 0; animation: mp-vr-swap 0.35s var(--ma-ease) backwards; }
 
-/* ---- quiz ---- */
-.ma-root .mp-vr-quiz { padding: 22px 18px 26px; border-radius: 32px; background: linear-gradient(155deg, hsl(0 0% 100% / 0.16), hsl(0 0% 100% / 0.05) 55%, hsl(var(--ma-h) calc(80% * var(--ts)) 60% / 0.12)); border: 1px solid hsl(0 0% 100% / 0.22); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 18px 40px hsl(0 0% 0% / 0.3); }
-.ma-root .mp-vr-start { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 56px; border: 0; border-radius: 999px; font: inherit; font-size: 18px; font-weight: 700; color: #fff; cursor: pointer; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); transition: transform 0.25s var(--ma-spring); }
+/* ---- quiz: the one glass window with a glow ring ---- */
+.ma-root .mp-vr-quiz { position: relative; padding: 24px 20px 26px; border-radius: 34px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 18px 40px hsl(0 0% 0% / 0.3); }
+.ma-root .mp-vr-quiz::before { content: ""; position: absolute; inset: 0; padding: 1px; border-radius: inherit; pointer-events: none; background: conic-gradient(from 140deg, hsl(calc(var(--ma-h) + 30) calc(95% * var(--ts)) 70% / 0.9), hsl(0 0% 100% / 0.1) 30%, hsl(calc(var(--ma-h) - 40) calc(90% * var(--ts)) 65% / 0.8) 60%, hsl(0 0% 100% / 0.1) 85%, hsl(calc(var(--ma-h) + 30) calc(95% * var(--ts)) 70% / 0.9)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.ma-root .mp-vr-qintro { display: grid; gap: 22px; justify-items: center; }
+.ma-root .mp-vr-qorb { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.ma-root .mp-vr-qorb i { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; font-style: normal; font-size: 15px; font-weight: 500; color: #fff; background: radial-gradient(circle at 35% 30%, hsl(calc(var(--ma-h) + 24) calc(95% * var(--ts)) 72%), hsl(var(--ma-h) calc(85% * var(--ts)) 40%)); box-shadow: 0 0 18px hsl(var(--ma-h) calc(90% * var(--ts)) 60% / 0.45), inset 0 1px 0 hsl(0 0% 100% / 0.45); animation: mp-vr-bob 4s ease-in-out infinite alternate; }
+.ma-root .mp-vr-qorb i:nth-child(2) { animation-delay: 0.7s; filter: hue-rotate(30deg); }
+.ma-root .mp-vr-qorb i:nth-child(3) { animation-delay: 1.4s; filter: hue-rotate(-30deg); }
+.ma-root .mp-vr-qorb i:nth-child(4) { animation-delay: 2.1s; filter: hue-rotate(60deg); }
+.ma-root .mp-vr-start { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 50px; padding: 0 20px; border: 0; border-radius: 999px; font: inherit; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; color: #fff; cursor: pointer; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); -webkit-tap-highlight-color: transparent; transition: transform 0.3s var(--ma-spring); }
 .ma-root .mp-vr-start:active { transform: scale(0.96); }
-.ma-root .mp-vr-q h3, .ma-root .mp-vr-res h3 { margin: 0; font-size: 22px; line-height: 1.25; font-weight: 700; letter-spacing: -0.015em; }
-.ma-root .mp-vr-q, .ma-root .mp-vr-res { animation: ma-open 0.4s var(--ma-ease) backwards; }
-.ma-root .mp-vr-dots { display: flex; gap: 6px; margin-bottom: 14px; }
-.ma-root .mp-vr-dots i { width: 28px; height: 5px; border-radius: 3px; background: hsl(0 0% 100% / 0.2); }
-.ma-root .mp-vr-dots i.is-on { background: var(--ma-tint-bg); }
-.ma-root .mp-vr-q ul { display: grid; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
-.ma-root .mp-vr-opt { display: block; width: 100%; min-height: 56px; padding: 12px 18px; border: 1px solid hsl(0 0% 100% / 0.22); border-radius: 22px; font: inherit; font-size: 16px; font-weight: 500; line-height: 1.4; text-align: left; color: var(--ma-text); background: hsl(0 0% 100% / 0.08); cursor: pointer; transition: transform 0.25s var(--ma-spring), background-color 0.2s; }
-.ma-root .mp-vr-opt:active { transform: scale(0.98); background: hsl(0 0% 100% / 0.16); }
-.ma-root .mp-vr-proj { margin-top: 12px; padding: 12px 14px; border-radius: 16px; font-size: 16px; line-height: 1.55; background: var(--ma-wash); color: var(--ma-text); }
-.ma-root .mp-vr-btns { display: grid; gap: 4px; margin-top: 6px; }
-.ma-root .mp-vr-again { min-height: 48px; border: 0; background: none; font: inherit; font-size: 16px; font-weight: 600; color: var(--ma-tint); cursor: pointer; }
+.ma-root .mp-vr-q, .ma-root .mp-vr-res { animation: mp-vr-swap 0.45s var(--ma-ease) backwards; }
+.ma-root .mp-vr-q h3, .ma-root .mp-vr-res h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; outline: none; }
+.ma-root .mp-vr-dots { display: flex; gap: 8px; margin-bottom: 16px; }
+.ma-root .mp-vr-dots i { width: 8px; height: 8px; border-radius: 4px; background: hsl(0 0% 100% / 0.3); transition: width 0.35s var(--ma-ease), background-color 0.35s; }
+.ma-root .mp-vr-dots i.is-done { background: hsl(0 0% 100% / 0.7); }
+.ma-root .mp-vr-dots i.is-on { width: 22px; background: var(--ma-tint); }
+.ma-root .mp-vr-opts { display: grid; margin: 18px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--ma-line); }
+.ma-root .mp-vr-opts li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-vr-opt { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; margin: 0; padding: 12px 4px; border: 0; border-radius: 0; font: inherit; font-size: 17px; font-weight: 400; line-height: 1.35; letter-spacing: -0.43px; text-align: left; color: var(--ma-text); background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity 0.2s, transform 0.3s var(--ma-spring); }
+.ma-root .mp-vr-opt > span { flex: 1; min-width: 0; }
+.ma-root .mp-vr-opt:active { opacity: 0.6; transform: scale(0.985); }
+.ma-root .mp-vr-tick { flex: none; position: relative; width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px hsl(0 0% 100% / 0.3); transition: background-color 0.2s, box-shadow 0.2s; }
+.ma-root .mp-vr-tick::after { content: ""; position: absolute; left: 7px; top: 5px; width: 6px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-vr-opt[aria-pressed="true"] .mp-vr-tick { background: var(--ma-tint-bg); box-shadow: none; }
+.ma-root .mp-vr-opt[aria-pressed="true"] .mp-vr-tick::after { transform: rotate(45deg) scale(1); }
+.ma-root .mp-vr-rcode { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 18px; border-radius: 50%; font-size: 20px; font-weight: 600; color: #fff; background: radial-gradient(circle at 35% 30%, hsl(calc(var(--ma-h) + 24) calc(95% * var(--ts)) 72%), hsl(var(--ma-h) calc(85% * var(--ts)) 40%)); box-shadow: 0 0 28px hsl(var(--ma-h) calc(90% * var(--ts)) 60% / 0.55), inset 0 1px 0 hsl(0 0% 100% / 0.45); }
+.ma-root .mp-vr-proj { margin: 16px 0 0; padding: 2px 0 2px 14px; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text); border-left: 2px solid var(--ma-tint); text-wrap: pretty; }
+.ma-root .mp-vr-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 24px; }
+.ma-root .mp-vr-btns .mp-vr-cta { margin-top: 0; }
+.ma-root .mp-vr-again { min-height: 50px; padding: 0 20px; border: 0; border-radius: 999px; font: inherit; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; color: var(--ma-tint); background: hsl(240 6% 50% / 0.22); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-vr-again:active { transform: scale(0.96); }
 
-@media (min-width: 700px) { .ma-root .mp-vr-devs { grid-auto-columns: 46%; } }
-@media (prefers-reduced-motion: reduce) { .ma-root .mp-vr-window, .ma-root .mp-vr-caps li, .ma-root .mp-vr-cabin:not([hidden]), .ma-root .mp-vr-svc[open] .mp-vr-sbody, .ma-root .mp-vr-q, .ma-root .mp-vr-res { animation: none; } }
+/* ---- tablet ---- */
+@media (min-width: 700px) {
+  .ma-root .mp-vr-devs { grid-auto-columns: 46%; }
+  .ma-root .mp-vr-list:not(.mp-vr-rows) { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+  .ma-root .mp-vr-list > li:nth-child(2) { border-top: 0; }
+  .ma-root .mp-vr-h { font-size: 40px; }
+  .ma-root .mp-vr-win, .ma-root .mp-vr-quiz { max-width: 620px; width: 100%; margin-inline: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-root .mp-vr-window, .ma-root .mp-vr-caps li, .ma-root .mp-vr-cabin, .ma-root .mp-vr-dev, .ma-root .mp-vr-svc[open] .mp-vr-sbody,
+  .ma-root .mp-vr-q, .ma-root .mp-vr-res, .ma-root .mp-vr-qorb i, .ma-root .mp-vr-faq details > p { animation: none; }
+  .ma-root .mp-vr-orb, .ma-root .mp-vr-segb, .ma-root .mp-vr-opt, .ma-root .mp-vr-row, .ma-root .mp-vr-cta, .ma-root .mp-vr-start, .ma-root .mp-vr-again,
+  .ma-root .mp-vr-plus::before, .ma-root .mp-vr-plus::after, .ma-root .mp-vr-tick::after, .ma-root .mp-vr-dots i, .ma-root .mp-vr-chev { transition: none; }
+}

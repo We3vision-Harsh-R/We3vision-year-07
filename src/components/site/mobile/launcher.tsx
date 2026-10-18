@@ -6,6 +6,8 @@ import { isMobileApp } from "@/lib/device";
 import { APPS, DOCK, GROUP, GROUPS, SERVICES, WIDGETS, type App, type DockId, type Group, type WidgetKind } from "./launcher-data";
 import { MAX_PAGES, added, defaultSaved, fit, freeNear, freeze, loadSaved, pack, persist, prune, same, sizeOf, without, type Icons, type Item, type Page, type Saved, type Slot, type Wall } from "./launcher-state";
 import { Glyph } from "./glyph";
+import { ShareHost, openShare } from "./app/share-sheet";
+import { CalendarHost } from "./calendar-pop";
 import { haptic, type Haptic } from "./haptics";
 import { WIDGET_CLASS, WidgetInner, widgetLink, type Contact } from "./launcher-widgets";
 import { Ic, hue } from "./launcher-ic";
@@ -29,6 +31,18 @@ type Metrics = { u: number; cols: number; side: number; W: number; gx: number; c
 type Press = { item: Item; ctx: Ctx; sx: number; sy: number; el: HTMLElement; timer: number; long: boolean; moved: boolean; canDrag: boolean; act: boolean };
 type Drag = { item: Item; draft: Page[]; w: number; h: number; x: number; y: number };
 type DragRef = { ox: number; oy: number; cx: number; cy: number; edge: number; flip: number; ghost: { p: number; x: number; y: number } };
+
+// widgets and folders: the Figma iOS 27 home screen sizes (node 544:199447). On the iPhone 17 (402 pt) a small widget is 164.67 square,
+// a wide one 349.67 x 164.33, 20.33 between them, the band 1.67 wider than the icon columns. Never taller than two rows minus room
+// for the name under it (so the name never touches the next row); a short screen gets slightly smaller widgets, centred.
+const FIG_SQ = 164.67;
+function wgeo(mt: Metrics) {
+  const n = mt.cols / 2;
+  const gap = 20.33 * mt.u;
+  const sq = Math.min((mt.W + 1.67 * mt.u - (n - 1) * gap) / n, 2 * mt.pitch - 23 * mt.u);
+  const start = (mt.W - (n * sq + (n - 1) * gap)) / 2; // from the left edge of the icon columns
+  return { n, gap, sq, start };
+}
 
 function measure(): Metrics {
   const vw = window.innerWidth;
@@ -249,13 +263,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
   };
 
   // ------------------------------------------------------------------ the menu that opens on a long press
-  const shareApp = async (app: App) => {
-    const url = `${window.location.origin}${app.href}`;
-    try {
-      if (navigator.share) await navigator.share({ title: `${app.label} · We3vision`, url });
-      else { await navigator.clipboard.writeText(url); say("Link copied"); }
-    } catch { /* the visitor closed the share sheet */ }
-  };
+  const shareApp = (app: App) => openShare({ title: app.label, subtitle: "We3vision", url: `${window.location.origin}${app.href}`, glyph: app.glyph, off: app.off });
   const startEdit = () => { setMenu(null); setOpen(null); setEdit(true); if (live.current.page >= homeCount()) setPage(0); };
   const homeCount = () => live.current.shown.length;
   const libIndexOf = () => live.current.shown.length;
@@ -304,7 +312,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
     if (it.k === "app") {
       const app = APPS[it.id];
       out.push({ label: "Open", icon: "open", run: () => launchTo(app.href, app.glyph, app.off, !!app.solid, (el().querySelector(".lnc-ic") ?? el()).getBoundingClientRect()) });
-      out.push({ label: "Share", icon: "share", run: () => { setMenu(null); void shareApp(app); } });
+      out.push({ label: "Share", icon: "share", run: () => { setMenu(null); shareApp(app); } });
       if (mn.ctx === "home") out.push({ label: "Edit Home Screen", icon: "edit", run: startEdit });
       if (mn.ctx !== "dock") out.push(home ? { label: "Remove from Home Screen", icon: "minus", danger: true, run: () => remove(it) } : { label: "Add to Home Screen", icon: "plus", run: () => addHome(it) });
     } else if (it.k === "folder") {
@@ -626,13 +634,11 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
 
   const box = (s: Slot, mt: Metrics) => {
     const app = s.item.k === "app" || (s.item.k === "ghost" && s.item.of === "app");
-    const wide = s.w * mt.cellW - mt.gx;
-    return {
-      x: app ? s.x * mt.cellW : s.x * mt.cellW + mt.gx / 2,
-      y: s.y * mt.pitch,
-      w: app ? mt.cellW : wide,
-      h: s.h === 2 ? 2 * mt.cellW - mt.gx : mt.ic + 21 * mt.u,
-    };
+    if (app || s.h !== 2) return { x: s.x * mt.cellW, y: s.y * mt.pitch, w: mt.cellW, h: mt.ic + 21 * mt.u };
+    const g = wgeo(mt);
+    const span = s.w / 2;
+    // one column = half a widget step, so a widget on an odd column sits between two places, as before
+    return { x: mt.gx / 2 + g.start + (s.x * (g.sq + g.gap)) / 2, y: s.y * mt.pitch, w: span * g.sq + (span - 1) * g.gap, h: g.sq };
   };
 
   const renderTile = (s: Slot, mt: Metrics) => {
@@ -655,14 +661,16 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
   };
 
   const slotsOf = (pg: Page) => (m ? pack(pg.items, m.cols) : []);
-  const vars = m ? ({ "--u": `${m.u}px`, "--wu": `${(2 * m.ic + m.gx) / 158}px`, "--cols": m.cols, "--side": `${m.side}px`, "--pitch": `${m.pitch}px` } as CSSProperties) : undefined;
+  const vars = m ? ({ "--u": `${m.u}px`, "--wu": `${wgeo(m).sq / FIG_SQ}px`, "--cols": m.cols, "--side": `${m.side}px`, "--pitch": `${m.pitch}px` } as CSSProperties) : undefined;
 
   const menuPos = (mn: Menu) => {
     const mt = m ?? measure();
     const w = 262 * mt.u;
     const h = 52 * mt.u * actions(mn).length;
     const below = mn.r.bottom + 12 + h < mt.vh - 16;
-    return { left: Math.max(14, Math.min(mt.vw - w - 14, mn.r.left)), top: below ? mn.r.bottom + 12 : Math.max(14, mn.r.top - 12 - h), width: w };
+    const left = Math.max(14, Math.min(mt.vw - w - 14, mn.r.left));
+    const ox = Math.max(20, Math.min(w - 20, mn.r.left + mn.r.width / 2 - left));
+    return { left, top: below ? mn.r.bottom + 12 : Math.max(14, mn.r.top - 12 - h), width: w, transformOrigin: `${ox}px ${below ? "0" : "100%"}` };
   };
 
   return (
@@ -823,6 +831,8 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
 
       {cust && <Customize icons={saved.icons} onChange={setIcons} font={saved.font} onFont={(f) => update((s) => ({ ...s, font: f }))} onClose={() => setCust(false)} />}
 
+      <ShareHost selection={false} />
+      <CalendarHost />
       {toast && <div className="lnc-toast" role="status">{toast}</div>}
 
       {/* the app that is opening: its icon grows to the full screen and turns into the colour of the website */}

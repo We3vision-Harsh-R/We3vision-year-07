@@ -1,5 +1,5 @@
 import { mobileMetadata, renderMobilePage } from "@/components/site/mobile/pages/render";
-import { AiAdvantages, AiAutomate, AiFaq, AiFlow, AiGuide, AiHero, AiIndustries, AiProcess, AiServices, AiStory, AiTags } from "@/components/site/mobile/pages/custom/ai/sections";
+import { AiAdvantages, AiAutomate, AiContact, AiFaq, AiFlow, AiGuide, AiHero, AiIndustries, AiProcess, AiServices, AiStory, AiTags } from "@/components/site/mobile/pages/custom/ai/sections";
 import "./page.css";
 
 // /ai as an assistant-app screen: the same CMS page as the laptop route; every section is a conversation (chat bubbles, agent cards, a run log).
@@ -9,6 +9,7 @@ export const generateMetadata = () => mobileMetadata("ai");
 
 export default function Page() {
   return renderMobilePage("ai", {
+    keepOpen: ["flow", "automate", "services", "industries"],
     overrides: {
       pageHero: AiHero,
       flow: AiFlow,
@@ -20,6 +21,7 @@ export default function Page() {
       tags: AiTags,
       industries: AiIndustries,
       advantages: AiAdvantages,
+      contact: AiContact,
       faq: AiFaq,
     },
   });

@@ -2,7 +2,7 @@ import type { PageSection } from "@/lib/cms/pages";
 import type { NavTab, OutlineItem, TabIconName } from "../app/nav-types";
 import { oneLine } from "../app/text";
 
-// The bottom tab bar of a page is worked out from its sections: "Intro" (the top) and up to three main topics, in the order they appear on the page.
+// The bottom tab bar of a page is worked out from its sections: "Intro" (the top) and up to two main topics, in the order they appear on the page.
 // The Apps tab is added by the bar itself. Every other section is reachable from "On this page" in the Apps sheet.
 
 const TOPICS: { type: string; label: string; icon: TabIconName }[] = [
@@ -26,7 +26,7 @@ export function tabsFor(sections: PageSection[]): NavTab[] {
   const picked: { at: number; tab: NavTab }[] = [];
   const used = new Set<string>();
   for (const t of TOPICS) {
-    if (picked.length >= 3) break;
+    if (picked.length >= 2) break;
     if (used.has(t.label)) continue;
     const at = sections.findIndex((s, i) => i > 0 && s.type === t.type && s.id);
     if (at < 0) continue;

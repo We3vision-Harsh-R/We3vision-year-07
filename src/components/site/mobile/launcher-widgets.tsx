@@ -5,6 +5,7 @@ import Image from "next/image";
 import { submitLead, type LeadState } from "@/actions/leads";
 import { APPS, type WidgetKind } from "./launcher-data";
 import { Ic } from "./launcher-ic";
+import { openCalendar } from "./calendar-pop";
 
 // The widgets of the launcher. Each one is drawn inside a glass tile (the tile itself is made by launcher.tsx).
 // Real data only: the time of the phone, the contact details from the site settings.
@@ -36,7 +37,6 @@ function useNow(ms: number) {
 
 /** the analog clock: the hands move on every frame (the second hand sweeps), without re-rendering anything */
 function ClockInner() {
-  const now = useNow(30000);
   const hr = useRef<SVGGElement>(null);
   const mn = useRef<SVGGElement>(null);
   const sc = useRef<SVGGElement>(null);
@@ -55,34 +55,39 @@ function ClockInner() {
     loop();
     return () => cancelAnimationFrame(raf);
   }, []);
-  const day = now ? now.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase() : "THU";
-  const num = now ? now.getDate() : 15;
   return (
-    <>
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        {Array.from({ length: 12 }).map((_, i) => <rect key={i} x="49" y="5" width={i % 3 === 0 ? 2.4 : 1.4} height={i % 3 === 0 ? 7 : 4.5} rx="0.8" transform={`rotate(${i * 30} 50 50)`} className="lnc-tick" />)}
-        <g ref={hr} className="lnc-hand"><rect x="48.200" y="26" width="3.600" height="26" rx="1.800" /></g>
-        <g ref={mn} className="lnc-hand"><rect x="48.800" y="14" width="2.400" height="38" rx="1.200" /></g>
-        <g ref={sc} className="lnc-hand lnc-s"><rect x="49.500" y="12" width="1" height="42" rx="0.500" /></g>
-        <circle cx="50" cy="50" r="3.200" className="lnc-pin" />
+    <div className="lnc-fc" aria-hidden="true">
+      <i className="lnc-fc-face" />
+      {/* the two rings of ticks come from the Figma file (Lock Screen Widget 2x2 Clock Big) */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="lnc-fc-ta" src="/mobile/clock-ticks-a.svg" alt="" width={140} height={140} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="lnc-fc-tb" src="/mobile/clock-ticks-b.svg" alt="" width={140} height={140} />
+      {Array.from({ length: 12 }, (_, i) => {
+        const n = i === 0 ? 12 : i;
+        const r = (i * Math.PI) / 6;
+        return <b key={n} style={{ left: `${((81 + 53 * Math.sin(r)) / 162) * 100}%`, top: `${((81.5 - 53 * Math.cos(r)) / 162) * 100}%` }}>{n}</b>;
+      })}
+      <svg viewBox="0 0 162 162">
+        <g ref={hr} className="lnc-hand"><rect x="77.8" y="45" width="6.4" height="42" rx="3.2" /></g>
+        <g ref={mn} className="lnc-hand"><rect x="78.1" y="22" width="5.8" height="65" rx="2.9" /></g>
+        <g ref={sc} className="lnc-hand lnc-s"><rect x="80.2" y="20" width="1.6" height="76" rx="0.8" /></g>
+        <circle cx="81" cy="81" r="3.6" className="lnc-pin" />
       </svg>
-      <span className="lnc-clock-d"><small>{day}</small><b>{num}</b></span>
-    </>
+    </div>
   );
 }
 
 function CalendarInner() {
   const now = useNow(60000);
   const d = now ?? new Date(2026, 9, 16);
-  const today = d.getDay();
   return (
     <>
-      <small className="lnc-cal-d">{d.toLocaleDateString("en-US", { weekday: "long" })}</small>
+      <small className="lnc-cal-d">
+        <span>{d.toLocaleDateString("en-US", { weekday: "short" })}</span> <em>{d.toLocaleDateString("en-US", { month: "short" })}</em>
+      </small>
       <b className="lnc-cal-n">{d.getDate()}</b>
-      <span className="lnc-cal-m">{d.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</span>
-      <div className="lnc-cal-w" aria-hidden="true">
-        {["S", "M", "T", "W", "T", "F", "S"].map((l, i) => <i key={i} className={i === today ? "is-today" : ""}>{l}</i>)}
-      </div>
+      <button type="button" data-act className="lnc-cal-hit" aria-label="Open the calendar" onClick={openCalendar} />
     </>
   );
 }

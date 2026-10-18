@@ -1,9 +1,12 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Glyph } from "../glyph";
 import "./app.css";
+import "./ios27-sections.css";
+import "./ios27-sections-b.css";
 import { ScreenChrome } from "./chrome";
 import { AppNav } from "./app-nav";
 import { Motion } from "./motion";
+import { ShareHost } from "./share-sheet";
 import { CtaBar } from "./cta-bar";
 import type { ContactInfo } from "./contact";
 import type { NavTab, OutlineItem } from "./nav-types";
@@ -16,6 +19,8 @@ import type { NavTab, OutlineItem } from "./nav-types";
 export function AppScreen({
   title,
   subtitle,
+  kicker,
+  page,
   glyph,
   hue = 0,
   titleIsH1 = true,
@@ -30,6 +35,10 @@ export function AppScreen({
   subtitle?: string;
   /** the launcher glyph of this page's icon (see glyph.tsx), shown beside the large title */
   glyph?: string;
+  /** a small line above the title (the group of the page: "Development", "Creatives" ...) */
+  kicker?: string;
+  /** the slug of the page: lets a page style its own screen (data-page on the root) */
+  page?: string;
   /** the hue offset of the launcher icon of this page */
   hue?: number;
   /** false when the first section has the real h1 (the hero heading), so the page keeps one h1 */
@@ -45,7 +54,7 @@ export function AppScreen({
 }) {
   const Title = titleIsH1 ? "h1" : "p";
   return (
-    <div className="ma-root">
+    <div className="ma-root" data-page={page}>
       <ScreenChrome title={title} />
       <Motion />
       <div className="ma-prog" aria-hidden="true" />
@@ -57,7 +66,8 @@ export function AppScreen({
                 <Glyph name={glyph} />
               </span>
             )}
-            <div>
+            <div className="ma-large-t">
+              {kicker && <p className="ma-kick">{kicker}</p>}
               <Title className="ma-title">{title}</Title>
               {subtitle && <p className="ma-sub">{subtitle}</p>}
             </div>
@@ -66,6 +76,7 @@ export function AppScreen({
         </div>
       </main>
       {nav && <AppNav tabs={nav.tabs} outline={nav.outline} currentHref={nav.currentHref} title={title} contact={contact} messageHref={messageHref} />}
+      <ShareHost />
       {cta && !nav && <CtaBar contact={contact} messageHref={messageHref} />}
     </div>
   );

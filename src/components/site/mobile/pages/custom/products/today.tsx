@@ -1,9 +1,10 @@
+import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink } from "../../../app";
 import { Lines } from "../../../app/text";
 
-// /products top: an App Store "Today" story card (the chip as its label, the heading big over a theme gradient, the text and buttons below).
-// Styles: (m)/m/products/page.css ("mp-prod-").
+// /products top: an iOS 27 App Store "Today" card (glass icon shapes and the chip over a theme gradient, the heading big, the text and two
+// buttons side by side on glass below). Words only from the CMS. Styles: (m)/m/products/page.css ("mp-prod-").
 export const ProductsToday: MobileSection<"pageHero"> = ({ data, index }) => {
   const H = index === 0 ? "h1" : "h2";
   const acts = [
@@ -13,6 +14,11 @@ export const ProductsToday: MobileSection<"pageHero"> = ({ data, index }) => {
   return (
     <section className="mp-prod-today">
       <div className="mp-prod-art">
+        <div className="mp-prod-icons" aria-hidden="true">
+          {[0, 1, 2, 3].map((i) => (
+            <i key={i} style={{ "--i": i } as CSSProperties} />
+          ))}
+        </div>
         {data.chip && <p className="mp-prod-lbl">{data.chip}</p>}
         <H className="mp-prod-h">
           <Lines text={data.heading} />
@@ -23,7 +29,7 @@ export const ProductsToday: MobileSection<"pageHero"> = ({ data, index }) => {
         {acts.length > 0 && (
           <div className="mp-prod-acts">
             {acts.map((a, i) => (
-              <AppLink key={i} href={a.href} className={i === 0 ? "ma-btn ma-btn-fill ma-btn-block" : "ma-btn ma-btn-glass ma-btn-block"}>
+              <AppLink key={i} href={a.href as string} className={i === 0 ? "ma-btn ma-btn-fill" : "ma-btn ma-btn-glass"}>
                 {a.label}
               </AppLink>
             ))}

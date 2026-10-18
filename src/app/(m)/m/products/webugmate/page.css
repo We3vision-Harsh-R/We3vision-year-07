@@ -1,5 +1,6 @@
-/* /products/webugmate ("mp-wbm-"): the App Store product page of the live product. Store pieces come from custom/products/store.css;
-   here only the touches of this page: a "live" glow on the icon and the FAQ as the store's "Information" list. Kit tokens only. */
-.mp-store-head.is-row .mp-store-ic { box-shadow: 0 0 0 3px var(--ma-bg), 0 0 0 5px var(--ma-tint), 0 14px 34px hsl(var(--ma-h) calc(80% * var(--ts)) 30% / 0.6); }
-.mp-store-head.is-row .mp-store-get { padding: 0 26px; letter-spacing: 0.01em; }
-.mp-store-about.is-row + .ma-sec .ma-group { background: var(--ma-card2); }
+/* /products/webugmate ("mp-wbm-"): the iOS 27 App Store page of the live product. Store pieces: custom/products/store.css. Apple type scale here. Kit tokens only. */
+.ma-root[data-page="webugmate"] .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; }
+.ma-root[data-page="webugmate"] .ma-intro { font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; font-weight: 400; color: var(--ma-text2); }
+.ma-root[data-page="webugmate"] .ma-sec { margin-top: 72px; }
+.ma-root[data-page="webugmate"] .ma-sec-head { margin-bottom: 20px; }
+.ma-root[data-page="webugmate"] .mp-store-about { margin-top: 40px; }

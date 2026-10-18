@@ -105,3 +105,8 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 
 ## Launcher v10 and the app pass (2026-10-17, no task number)
 - Dock (Phone, Messages, Services folder, Library), free grid placement, iOS 26 wallpapers, haptics, glass dropdowns, mobile detail pages, sitemap auto-links, smoother page launch. Checked: tsc, eslint, webpack build, mobile-smoke 38/38, page audit at 390/820 (0 issues), launcher check at 9 sizes (0 issues). Details: brain/11.
+
+## 2026-10-18 · iOS 27 redesign of every phone/tablet page (12 parallel agents)
+- Shared spec: brain/16-ios27-design-system.md (Figma iOS 27 kit numbers, glass recipe, Apple type scale). Skills/agents list: brain/17-skills-and-agents.md.
+- Agents (one owner per file group): webdev+mobile, ai+software, creative (ui-ux/animation/3d), crm+products, about+team, careers+contact, blog/portfolio/details/sitemap, metaverse, shared sections A (ios27-sections-b.css, ma-ia-), shared sections B (ios27-sections.css, ma-s27-), launcher (mobile.css v16), kit foundation (app.css "iOS 27 FOUNDATION" block).
+- Checks: tsc clean (only the stale .next error), eslint clean, all 41 phone URLs 200, DOM overlap/overflow check clean at 375px. Laptop /seo unchanged. Not committed.

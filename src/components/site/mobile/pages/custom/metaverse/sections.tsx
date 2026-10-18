@@ -5,29 +5,31 @@ import { IcChevron } from "../../../app/icons";
 import { Lines, lines, oneLine, pairs } from "../../../app/text";
 import { CabinPicker, DeviceRow, RealityQuiz } from "./interactive";
 
-// /metaverse as a visionOS-style screen (no 3D): glass windows with a bright rim and a grabber, round "ornament" buttons, floating captions.
+// /metaverse as a visionOS-style screen (iOS 27 kit, brain/16): one spatial glass window on top, glass only where it groups a tool
+// (cabin picker, projects, devices, quiz), everything else open lists with hairlines. Regular type; 500 row titles, 600 headings.
 // The 3D office walk of the laptop becomes the four cabins as a picker and the two government projects as windows. Same CMS words.
 // Styles: (m)/m/metaverse/page.css.
 
 const hue = (i: number) => ({ "--o": i * 36 }) as CSSProperties;
+const rv = (i: number) => ({ "--rv-d": `${Math.min(i, 6) * 60}ms` }) as CSSProperties;
 
-/** the welcome window: heading and text, the captions of the walk as floating subtitles */
+/** the welcome window: heading and text in spatial glass, the captions of the walk as floating subtitles */
 export const VrHero: MobileSection<"vrEntry"> = ({ data, index }) => {
   const H = index === 0 ? "h1" : "h2";
   const caps = lines(data.captions);
   return (
     <section className="mp-vr-hero">
-      <div className="mp-vr-window">
+      <div className="mp-vr-window mp-vr-blur">
         <H className="mp-vr-h">
           <Lines text={data.heading} />
         </H>
         {data.text && <p className="mp-vr-t">{data.text}</p>}
-        <span className="mp-vr-grab" aria-hidden="true" />
       </div>
+      <span className="mp-vr-grab" aria-hidden="true" />
       {caps.length > 0 && (
         <ul className="mp-vr-caps">
           {caps.map((c, i) => (
-            <li key={i} style={{ "--d": i * 0.9 + "s" } as CSSProperties}>
+            <li key={i} className="mp-vr-blur" style={{ "--d": i * 0.9 + "s" } as CSSProperties}>
               {c}
             </li>
           ))}
@@ -37,14 +39,17 @@ export const VrHero: MobileSection<"vrEntry"> = ({ data, index }) => {
   );
 };
 
-/** "Tech services we offer": the four cabins as a picker, then the government projects as windows */
+/** "Tech services we offer": the tip as an open note, the four cabins as a picker, then the government projects as windows */
 export const VrFloor: MobileSection<"vrFloor"> = ({ data, id }) => (
   <>
     <Section id={id} title={data.heading}>
       {(data.tipTitle || data.tipText) && (
-        <div className="mp-vr-tip">
-          {data.tipTitle && <h3>{data.tipTitle}</h3>}
-          {data.tipText && <p>{data.tipText}</p>}
+        <div className="mp-vr-note ma-rvx">
+          <span className="mp-vr-note-dot" aria-hidden="true" />
+          <div>
+            {data.tipTitle && <h3>{data.tipTitle}</h3>}
+            {data.tipText && <p>{data.tipText}</p>}
+          </div>
         </div>
       )}
       {data.cabins.length > 0 && (
@@ -58,64 +63,70 @@ export const VrFloor: MobileSection<"vrFloor"> = ({ data, id }) => (
     {data.projects.length > 0 && (
       <Section title={data.govTitle}>
         <div className="mp-vr-wins ma-grid2">
-          {data.projects.map((p, i) => (
-            <article key={i} className="mp-vr-glass mp-vr-proj-card" style={hue(i * 3)}>
-              <div className="mp-vr-ph">
-                <span className="mp-vr-mark">{p.mark}</span>
-                <div>
-                  <p className="mp-vr-code">{[p.org, p.status].filter(Boolean).join(" · ")}</p>
-                  {p.period && <p className="mp-vr-per">{p.period}</p>}
+          {data.projects.map((p, i) => {
+            const steps = lines(p.steps);
+            const tags = lines(p.tags);
+            const team = pairs(p.team);
+            return (
+              <article key={i} className="mp-vr-glass mp-vr-gov ma-rvx" style={{ ...hue(i * 3), ...rv(i) }}>
+                <div className="mp-vr-ph">
+                  <span className="mp-vr-mark" aria-hidden="true">
+                    {p.mark}
+                  </span>
+                  <div>
+                    <p className="mp-vr-code">{[p.org, p.status].filter(Boolean).join(" · ")}</p>
+                    {p.period && <p className="mp-vr-per">{p.period}</p>}
+                  </div>
                 </div>
-              </div>
-              <h3>{p.title}</h3>
-              {p.orgFull && <p className="mp-vr-p">{p.orgFull}</p>}
-              {p.by && <p className="mp-vr-p">{p.by}</p>}
-              {p.text && <p className="mp-vr-p">{p.text}</p>}
-              {lines(p.steps).length > 0 && (
-                <ol className="mp-vr-stages">
-                  {lines(p.steps).map((s, n) => (
-                    <li key={n}>
-                      <span aria-hidden="true">{n + 1}</span>
-                      {s}
-                    </li>
-                  ))}
-                </ol>
-              )}
-              {lines(p.tags).length > 0 && <Cloud items={lines(p.tags)} />}
-              {lines(p.team).length > 0 && (
-                <ul className="mp-vr-team">
-                  {pairs(p.team).map((m, n) => (
-                    <li key={n}>
-                      <b>{m.name}</b>
-                      {m.text && <span>{m.text}</span>}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <span className="mp-vr-grab" aria-hidden="true" />
-            </article>
-          ))}
+                <h3>{p.title}</h3>
+                {p.orgFull && <p className="mp-vr-p">{p.orgFull}</p>}
+                {p.by && <p className="mp-vr-p">{p.by}</p>}
+                {p.text && <p className="mp-vr-p">{p.text}</p>}
+                {steps.length > 0 && (
+                  <ol className="mp-vr-steps">
+                    {steps.map((s, n) => (
+                      <li key={n}>
+                        <span aria-hidden="true">{n + 1}</span>
+                        <span>{s}</span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+                {tags.length > 0 && <Cloud items={tags} />}
+                {team.length > 0 && (
+                  <ul className="mp-vr-team">
+                    {team.map((m, n) => (
+                      <li key={n}>
+                        <span className="mp-vr-team-n">{m.name}</span>
+                        {m.text && <span className="mp-vr-team-r">{m.text}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            );
+          })}
         </div>
       </Section>
     )}
   </>
 );
 
-/** "The metaverse tech we build" = windows (AR/VR/XR/MR) that open; "More from We3vision" = ornament links */
+/** "The metaverse tech we build" = glass windows (AR/VR/XR/MR) that open; "More from We3vision" = an open list of rows */
 export const VrServices: MobileSection<"services"> = ({ data, id }) => {
   const related = id === "related-services";
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
       {related ? (
-        <ul className="mp-vr-links">
+        <ul className="mp-vr-rows">
           {data.cards.map((c, i) => (
-            <li key={i}>
-              <AppLink href={c.href || "#contact"} className="mp-vr-link">
+            <li key={i} className="ma-rvx" style={rv(i)}>
+              <AppLink href={c.href || "#contact"} className="mp-vr-row">
                 <span>
-                  <b>
+                  <span className="mp-vr-row-t">
                     <Lines text={c.title} />
-                  </b>
-                  <span>{c.description}</span>
+                  </span>
+                  {c.description && <span className="mp-vr-row-d">{c.description}</span>}
                 </span>
                 <IcChevron className="mp-vr-chev" />
               </AppLink>
@@ -131,10 +142,10 @@ export const VrServices: MobileSection<"services"> = ({ data, id }) => {
               <details key={i} className="mp-vr-glass mp-vr-svc" style={hue(i * 2)}>
                 <summary>
                   <span className="mp-vr-sb">
-                    <b>
+                    <span className="mp-vr-sb-t">
                       <Lines text={c.title} />
-                    </b>
-                    <span>{c.description}</span>
+                    </span>
+                    {c.description && <span className="mp-vr-sb-d">{c.description}</span>}
                   </span>
                   <IcChevron className="mp-vr-chev" />
                 </summary>
@@ -181,78 +192,93 @@ export const VrServices: MobileSection<"services"> = ({ data, id }) => {
   );
 };
 
-/** the process as orbs on a path */
+/** the process as glowing orbs on a light path, open text (no boxes) */
 export const VrProcess: MobileSection<"vrProcess"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
     <ol className="mp-vr-path">
-      {data.items.map((x, i) => (
-        <li key={i} style={hue(i)}>
-          <span className="mp-vr-orbn">{i + 1}</span>
-          <div className="mp-vr-glass">
-            <h3>{oneLine(x.title)}</h3>
-            <p className="mp-vr-p">{x.text}</p>
-            {lines(x.points).length > 0 && <Points items={lines(x.points)} />}
-          </div>
-        </li>
-      ))}
+      {data.items.map((x, i) => {
+        const pts = lines(x.points);
+        return (
+          <li key={i} className="ma-rvx" style={{ ...hue(i), ...rv(i) }}>
+            <span className="mp-vr-orbn" aria-hidden="true">
+              {i + 1}
+            </span>
+            <div className="mp-vr-step">
+              <h3>{oneLine(x.title)}</h3>
+              {x.text && <p className="mp-vr-p">{x.text}</p>}
+              {pts.length > 0 && <Points items={pts} />}
+            </div>
+          </li>
+        );
+      })}
     </ol>
   </Section>
 );
 
-/** devices with the AR / VR / XR / MR filter, and the technology we work with */
+/** devices with the AR / VR / XR / MR segmented filter, one call to action, and the technology we work with as an open list */
 export const VrDevices: MobileSection<"vrDevices"> = ({ data, id }) => {
   const codes = [...new Set(data.items.flatMap((d) => d.realities.split(/\s+/).filter(Boolean)))];
+  const tools = lines(data.tools);
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-      <DeviceRow items={data.items.map((d) => ({ ...d, tags: lines(d.tags) }))} codes={codes} ctaLabel={data.ctaLabel} />
-      {lines(data.tools).length > 0 && (
-        <div className="mp-vr-glass mp-vr-tools">
-          <p className="mp-vr-lab">{data.toolsLabel}</p>
-          <Cloud items={lines(data.tools)} />
+      <DeviceRow items={data.items.map((d) => ({ ...d, tags: lines(d.tags) }))} codes={codes} />
+      {tools.length > 0 && (
+        <div className="mp-vr-tools ma-rvx">
+          {data.toolsLabel && <p className="mp-vr-lab">{data.toolsLabel}</p>}
+          <Cloud items={tools} />
+        </div>
+      )}
+      {data.ctaLabel && (
+        <div className="ma-actions">
+          <Button href="#contact" block>
+            {data.ctaLabel}
+          </Button>
         </div>
       )}
     </Section>
   );
 };
 
-/** industries as one glass list */
+/** industries as an open list with hairlines */
 export const VrIndustries: MobileSection<"industries"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-vr-list mp-vr-glass">
+    <ul className="mp-vr-list">
       {data.items.map((x, i) => (
-        <li key={i}>
-          <b>{x.name}</b>
-          <p className="mp-vr-p">{x.description}</p>
+        <li key={i} className="ma-rvx" style={rv(i)}>
+          <h3>{x.name}</h3>
+          {x.description && <p className="mp-vr-p">{x.description}</p>}
         </li>
       ))}
     </ul>
   </Section>
 );
 
-/** advantages as glass tiles with a glowing orb */
+/** advantages as an open list, each with a small glowing orb */
 export const VrAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-vr-adv">
+    <ul className="mp-vr-list mp-vr-adv">
       {data.items.map((x, i) => (
-        <li key={i} className="mp-vr-glass" style={hue(i)}>
+        <li key={i} className="ma-rvx" style={{ ...hue(i), ...rv(i) }}>
           <span className="mp-vr-glow" aria-hidden="true" />
-          <b>{x.title}</b>
-          <p className="mp-vr-p">{x.description}</p>
+          <div>
+            <h3>{x.title}</h3>
+            {x.description && <p className="mp-vr-p">{x.description}</p>}
+          </div>
         </li>
       ))}
     </ul>
   </Section>
 );
 
-/** the FAQ in glass rows that open */
+/** the FAQ as an open list: question regular 17, a + that turns into − */
 export const VrFaq: MobileSection<"faq"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <div className="mp-vr-faq mp-vr-glass">
+    <div className="mp-vr-faq">
       {data.items.map((x, i) => (
         <details key={i}>
           <summary>
             <span>{x.question}</span>
-            <IcChevron className="mp-vr-chev" />
+            <i className="mp-vr-plus" aria-hidden="true" />
           </summary>
           <p className="mp-vr-p">{x.answer}</p>
         </details>
@@ -261,7 +287,7 @@ export const VrFaq: MobileSection<"faq"> = ({ data, id }) => (
   </Section>
 );
 
-/** "Which reality fits your idea?": the interactive quiz of the laptop, in a glass window */
+/** "Which reality fits your idea?": the interactive quiz of the laptop, in one glass window with a glow ring */
 export const VrQuiz: MobileSection<"vrQuiz"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
     <RealityQuiz

@@ -1,6 +1,6 @@
-/* /products/wethink ("mp-wet-"): touches of this page on top of custom/products/store.css: a thought-bubble trail beside the icon. Kit tokens only. */
-.mp-store-head.is-note .mp-store-id { position: relative; padding: 8px 0 8px 4px; }
-.mp-store-head.is-note .mp-store-id::before,
-.mp-store-head.is-note .mp-store-id::after { content: ""; position: absolute; border-radius: 50%; background: var(--ma-wash); border: 1px solid var(--ma-line); }
-.mp-store-head.is-note .mp-store-id::before { left: 112px; top: 0; width: 14px; height: 14px; }
-.mp-store-head.is-note .mp-store-id::after { left: 126px; top: -12px; width: 9px; height: 9px; }
+/* /products/wethink ("mp-wet-"): iOS 27 App Store coming-soon page with a Notes feel: a soft icon, the description with more. Store pieces: custom/products/store.css. Kit tokens only. */
+.ma-root[data-page="wethink"] .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; }
+.ma-root[data-page="wethink"] .ma-intro { font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; font-weight: 400; color: var(--ma-text2); }
+.ma-root[data-page="wethink"] .ma-sec { margin-top: 72px; }
+.ma-root[data-page="wethink"] .ma-sec-head { margin-bottom: 20px; }
+.ma-root[data-page="wethink"] .mp-store-about { margin-top: 40px; }

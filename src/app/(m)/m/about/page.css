@@ -1,66 +1,114 @@
-/* /about app screen ("mp-about-"): story cards, Pando chat, service icons, roadmap rail, fact tiles, leader avatars. Kit tokens only (--ma-*). */
+/* /about app screen in iOS 27 ("mp-about-"): story player with Pando, Messages bubbles, open service list, hairline rail, open bento, Contacts favourites.
+   Kit tokens only (--ma-*); regular 400 text, 500 row titles, 600 headings; one glass stage + one glass goal card, everything else open with hairlines. */
 
-/* ---- story cards that swipe sideways ---- */
-.mp-about-stories { display: grid; grid-auto-flow: column; grid-auto-columns: 84%; gap: 12px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 6px; list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--ma-gut); scrollbar-width: none; }
-.mp-about-stories::-webkit-scrollbar { display: none; }
-.mp-about-story { scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px; min-height: 260px; padding: 18px 20px 22px; border-radius: 26px; border: 1px solid var(--ma-rim); background: linear-gradient(165deg, hsl(var(--ma-h) calc(70% * var(--ts)) 30% / 0.9), var(--ma-card) 72%); box-shadow: 0 14px 34px hsl(0 0% 0% / 0.3); }
-.mp-about-bars { display: flex; gap: 4px; }
-.mp-about-bars i { flex: 1; height: 3px; border-radius: 2px; background: var(--ma-fill2); }
-.mp-about-bars i.is-on { background: var(--ma-text); }
-.mp-about-no { font-size: 14px; font-weight: 600; color: var(--ma-tint); }
-.mp-about-story h3 { margin: auto 0 0; font-size: 24px; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
-.mp-about-story p { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
+/* ---- Pando, drawn with shapes ---- */
+.mp-about-pando { --s: 72px; position: relative; display: inline-block; flex: none; width: var(--s); height: calc(var(--s) * 0.9); }
+.mp-about-pando.is-sm { --s: 36px; }
+.mp-about-pando i { position: absolute; display: block; }
+.mp-about-pe { top: 0; width: 34%; height: 34%; border-radius: 50%; background: hsl(240 6% 14%); }
+.mp-about-pe.is-l { left: 4%; }
+.mp-about-pe.is-r { right: 4%; }
+.mp-about-pf { inset: 12% 0 0; border-radius: 48% 48% 46% 46%; background: linear-gradient(180deg, #fff, hsl(240 10% 90%)); box-shadow: inset 0 -3px 6px hsl(240 10% 70% / 0.5), 0 6px 16px hsl(0 0% 0% / 0.25); }
+.mp-about-pp { top: 34%; width: 26%; height: 30%; border-radius: 50% 50% 46% 54%; background: hsl(240 6% 14%); }
+.mp-about-pp.is-l { left: 18%; transform: rotate(-18deg); }
+.mp-about-pp.is-r { right: 18%; transform: rotate(18deg); }
+.mp-about-pp i { left: 34%; top: 30%; width: 34%; height: 34%; border-radius: 50%; background: #fff; transition: transform 0.4s var(--ma-spring); }
+.mp-about-pando[data-look="1"] .mp-about-pp i { transform: translate3d(40%, 0, 0); }
+.mp-about-pando[data-look="-1"] .mp-about-pp i { transform: translate3d(-40%, 0, 0); }
+.mp-about-pn { left: 50%; top: 64%; width: 14%; height: 9%; margin-left: -7%; border-radius: 50% 50% 60% 60%; background: hsl(240 6% 14%); }
 
-/* ---- Pando in chat bubbles ---- */
-.mp-about-who { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; }
-.mp-about-note { margin-top: 12px !important; }
-.mp-about-bubbles { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
-.mp-about-bubbles li { justify-self: start; max-width: 88%; padding: 10px 14px; border-radius: 20px 20px 20px 6px; background: var(--ma-fill2); font-size: 16px; line-height: 1.45; animation: mp-about-pop 0.5s var(--ma-spring) backwards; }
+/* ---- story player: one glass stage ---- */
+.mp-about-player { display: grid; gap: 14px; }
+.mp-about-bars { display: flex; gap: 4px; padding: 0 2px; }
+.mp-about-bars i { flex: 1; height: 3px; border-radius: 2px; background: var(--ma-fill2); overflow: hidden; position: relative; }
+.mp-about-bars i::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--ma-text); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ma-ease); }
+.mp-about-bars i.is-done::after, .mp-about-bars i.is-now::after { transform: scaleX(1); }
+.mp-about-stage { position: relative; display: grid; gap: 18px; min-height: 300px; padding: 24px 22px 26px; border-radius: 28px; overflow: hidden; touch-action: pan-y; cursor: pointer; -webkit-user-select: none; user-select: none; outline: none;
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)), radial-gradient(120% 80% at 50% 0%, hsl(var(--ma-h) calc(70% * var(--ts)) 50% / 0.22), transparent 70%);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8);
+  box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22); }
+.mp-about-stage:focus-visible { box-shadow: 0 0 0 2px var(--ma-tint), 0 10px 30px hsl(0 0% 0% / 0.22); }
+.mp-about-hop { justify-self: start; animation: mp-about-hop 0.6s var(--ma-spring); }
+.mp-about-slide { display: grid; gap: 8px; min-width: 0; animation: mp-about-in 0.45s var(--ma-ease); }
+.mp-about-no { font-size: 13px; line-height: 1.35; letter-spacing: -0.08px; color: var(--ma-text3); font-variant-numeric: tabular-nums; }
+.mp-about-slide h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; overflow-wrap: anywhere; }
+.mp-about-txt { font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.mp-about-ctl { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mp-about-rb { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; color: var(--ma-text); cursor: pointer;
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8);
+  box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28); transition: transform 0.3s var(--ma-spring), opacity 0.2s; }
+.mp-about-rb:active { transform: scale(0.96); }
+.mp-about-rb:disabled { opacity: 0.5; cursor: default; }
+.mp-about-dots { display: flex; align-items: center; gap: 0; padding: 0 6px; border-radius: 999px; background: hsl(0 0% 100% / 0.07); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
+.mp-about-dots button { position: relative; width: 22px; height: 44px; border: 0; padding: 0; background: none; cursor: pointer; }
+.mp-about-dots button::before { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: var(--ma-text); opacity: 0.3; transition: opacity 0.3s, transform 0.3s var(--ma-spring); }
+.mp-about-dots button.is-on::before { opacity: 1; transform: scale(1.15); }
+.mp-about-dots button:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: -8px; border-radius: 12px; }
+@keyframes mp-about-in { from { opacity: 0; filter: blur(6px); transform: translate3d(0, 6px, 0); } }
+@keyframes mp-about-hop { 0% { transform: translate3d(0, 0, 0); } 40% { transform: translate3d(0, -10px, 0) rotate(-4deg); } 100% { transform: none; } }
+
+/* ---- Pando in Messages bubbles (open, no card) ---- */
+.mp-about-chat { display: grid; gap: 14px; }
+.mp-about-who { display: flex; align-items: center; gap: 10px; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.mp-about-note { font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.mp-about-bubbles { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.mp-about-bubbles li { justify-self: start; max-width: 84%; padding: 9px 14px; border-radius: 20px 20px 20px 6px; background: var(--ma-fill2); font-size: 17px; line-height: 1.35; letter-spacing: -0.43px; overflow-wrap: anywhere; }
 .mp-about-bubbles li:nth-child(even) { justify-self: end; border-radius: 20px 20px 6px 20px; background: var(--ma-tint-bg); color: #fff; }
-@keyframes mp-about-pop { from { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.94); } }
 
 /* ---- avatars ---- */
-.mp-about-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; font-size: 14px; font-weight: 700; color: #fff; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + 10) calc(70% * var(--ts)) 58%), hsl(calc(var(--ma-h) - 20) calc(70% * var(--ts)) 36%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); }
-.mp-about-av-lg { width: 52px; height: 52px; font-size: 17px; }
-.mp-about-av-xl { width: 76px; height: 76px; font-size: 24px; }
+.mp-about-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; font-size: 15px; font-weight: 500; color: #fff; background: linear-gradient(160deg, hsl(calc(var(--ma-h) + 10) calc(60% * var(--ts)) 58%), hsl(calc(var(--ma-h) - 20) calc(60% * var(--ts)) 36%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); }
+.mp-about-av-lg { width: 56px; height: 56px; font-size: 20px; }
+.mp-about-av-xl { width: 76px; height: 76px; font-size: 26px; }
+.mp-about-pn-t { font-size: 15px; line-height: 1.3; font-weight: 500; letter-spacing: -0.24px; overflow-wrap: anywhere; }
+.mp-about-pn-s { font-size: 13px; line-height: 1.35; letter-spacing: -0.08px; color: var(--ma-text2); overflow-wrap: anywhere; }
 
-/* ---- services as app icons ---- */
-.mp-about-apps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.mp-about-app { display: flex; flex-direction: column; gap: 8px; min-height: 44px; padding: 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); transition: transform 0.3s var(--ma-spring); }
-.mp-about-app:active { transform: scale(0.97); }
-.mp-about-ic { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 22.37%; font-size: 22px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--k) * 24 + 8) calc(88% * var(--ts)) 62%), hsl(calc(var(--ma-h) + var(--k) * 24 - 10) calc(84% * var(--ts)) 42%)); box-shadow: 0 6px 14px hsl(0 0% 0% / 0.3), inset 0 0.5px 0 hsl(0 0% 100% / 0.6); }
-.mp-about-app-t { font-size: 17px; line-height: 1.3; font-weight: 600; }
-.mp-about-app-s { font-size: 16px; line-height: 1.5; color: var(--ma-text2); }
-@media (max-width: 359px) { .mp-about-apps { grid-template-columns: 1fr; } }
+/* ---- services: open list with hairlines ---- */
+.mp-about-apps { margin: 0; padding: 0; list-style: none; }
+.mp-about-apps > li + li .mp-about-app { border-top: 1px solid var(--ma-line); }
+.mp-about-app { display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 14px 0; margin-left: 0; color: inherit; transition: transform 0.3s var(--ma-spring), opacity 0.2s; }
+a.mp-about-app:active { transform: scale(0.98); opacity: 0.8; }
+.mp-about-ic { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 22.37%; font-size: 19px; font-weight: 500; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--k) * 24 + 8) calc(80% * var(--ts)) 60%), hsl(calc(var(--ma-h) + var(--k) * 24 - 10) calc(76% * var(--ts)) 42%)); box-shadow: inset 0 0.5px 0 hsl(0 0% 100% / 0.6), 0 4px 10px hsl(0 0% 0% / 0.22); }
+.mp-about-app-b { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.mp-about-app-t { font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.mp-about-app-s { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); text-wrap: pretty; }
+.mp-about-chev { flex: none; color: var(--ma-text3); }
 
-/* ---- the roadmap rail ---- */
-.mp-about-people { display: flex; gap: 18px; margin: 0 0 18px; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; }
-.mp-about-people li { display: grid; justify-items: center; gap: 4px; min-width: 64px; text-align: center; }
-.mp-about-people b { font-size: 15px; font-weight: 600; }
-.mp-about-people li > span:last-child:not(.mp-about-av) { font-size: 15px; color: var(--ma-text3); }
-.mp-about-rail { position: relative; margin: 0; padding: 4px 0 0; list-style: none; }
-.mp-about-rail::before { content: ""; position: absolute; left: 31px; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: linear-gradient(var(--ma-tint), var(--ma-fill2)); }
-.mp-about-rail li { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: start; padding: 10px 0; }
-.mp-about-year { position: relative; z-index: 1; justify-self: center; padding: 4px 10px; border-radius: 999px; font-size: 14px; font-weight: 700; color: #fff; background: var(--ma-tint-bg); box-shadow: 0 0 0 4px var(--ma-bg); }
-.mp-about-rail p { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.mp-about-rail li.is-goal > div { padding: 16px; border-radius: 22px; background: linear-gradient(155deg, hsl(var(--ma-h) calc(70% * var(--ts)) 26% / 0.85), var(--ma-card) 70%); border: 1px solid var(--ma-rim); }
-.mp-about-rail li.is-goal h3 { margin: 0 0 6px; font-size: 19px; font-weight: 600; }
-.mp-about-teams { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
-.mp-about-teams li { max-width: 100%; overflow-wrap: anywhere; padding: 6px 12px; border-radius: 999px; background: var(--ma-fill2); font-size: 15px; }
+/* ---- the roadmap: people row + hairline rail + one glass goal card ---- */
+.mp-about-people { display: flex; gap: 20px; margin: 0 calc(-1 * var(--ma-gut)) 24px; padding: 0 var(--ma-gut) 4px; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.mp-about-people::-webkit-scrollbar { display: none; }
+.mp-about-people li { flex: none; display: grid; justify-items: center; align-content: start; gap: 4px; width: 76px; text-align: center; }
+.mp-about-rail { position: relative; margin: 0; padding: 0 0 0 22px; list-style: none; }
+.mp-about-rail::before { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1.5px; border-radius: 2px; background: linear-gradient(var(--ma-tint), var(--ma-line)); }
+.mp-about-rail li { position: relative; display: grid; gap: 4px; padding: 0 0 22px; }
+.mp-about-rail li::before { content: ""; position: absolute; left: -22px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--ma-bg); box-shadow: inset 0 0 0 2px var(--ma-tint); }
+.mp-about-year { font-size: 15px; line-height: 1.4; font-weight: 500; letter-spacing: -0.24px; color: var(--ma-tint); font-variant-numeric: tabular-nums; }
+.mp-about-rail p { font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+.mp-about-goal { display: grid; gap: 8px; margin-top: 8px; padding: 22px 20px; border-radius: 28px;
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8);
+  box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22); }
+.mp-about-goal-y { font-size: 15px; line-height: 1.4; font-weight: 500; color: var(--ma-tint); }
+.mp-about-goal h3 { margin: 0; font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: 0.38px; text-wrap: balance; }
+.mp-about-goal p { font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+.mp-about-teams { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; padding: 0; list-style: none; }
+.mp-about-teams li { max-width: 100%; overflow-wrap: anywhere; padding: 6px 12px; border-radius: 999px; background: hsl(240 6% 50% / 0.2); font-size: 15px; line-height: 1.35; letter-spacing: -0.24px; }
 
-/* ---- fact tiles ---- */
-.mp-about-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.mp-about-fact { padding: 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
-.mp-about-tick { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--ma-wash); }
-.mp-about-tick::before { content: ""; width: 12px; height: 7px; border-left: 2.5px solid var(--ma-tint); border-bottom: 2.5px solid var(--ma-tint); transform: translate3d(0, -2px, 0) rotate(-45deg); }
-.mp-about-fact h3 { margin: 12px 0 6px; font-size: 17px; line-height: 1.3; font-weight: 600; }
-.mp-about-fact p { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
-@media (max-width: 389px) { .mp-about-facts { grid-template-columns: 1fr; } }
+/* ---- facts at a glance: an open bento split by hairlines ---- */
+.mp-about-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
+.mp-about-fact { min-width: 0; padding: 18px 16px 20px 0; border-top: 1px solid var(--ma-line); }
+.mp-about-fact:nth-child(even) { padding: 18px 0 20px 16px; border-left: 1px solid var(--ma-line); }
+.mp-about-tick { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ma-wash); }
+.mp-about-tick::before { content: ""; width: 11px; height: 6px; border-left: 2px solid var(--ma-tint); border-bottom: 2px solid var(--ma-tint); transform: translate3d(0, -1.5px, 0) rotate(-45deg); }
+.mp-about-fact h3 { margin: 12px 0 4px; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; overflow-wrap: anywhere; }
+.mp-about-fact p { font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+@media (max-width: 389px) { .mp-about-facts { grid-template-columns: 1fr; } .mp-about-fact, .mp-about-fact:nth-child(even) { padding: 18px 0 20px; border-left: 0; } }
 
-/* ---- leaders ---- */
-.mp-about-leaders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
-.mp-about-leaders li { display: grid; justify-items: center; gap: 6px; padding: 18px 8px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); text-align: center; }
-.mp-about-leaders b { font-size: 16px; line-height: 1.3; font-weight: 600; }
-.mp-about-leaders li > span:last-child { font-size: 15px; color: var(--ma-text2); }
+/* ---- leaders: Contacts favourites, open ---- */
+.mp-about-leaders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 12px; margin: 0; padding: 0; list-style: none; }
+.mp-about-leaders li { display: grid; justify-items: center; align-content: start; gap: 6px; min-width: 0; text-align: center; }
+.mp-about-leaders .mp-about-av-xl { margin-bottom: 4px; }
+@media (min-width: 700px) { .mp-about-leaders { grid-template-columns: repeat(4, minmax(0, 1fr)); } .mp-about-stage { min-height: 280px; padding: 32px; } .mp-about-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } .mp-about-fact:nth-child(n) { padding: 18px 16px 20px; border-left: 1px solid var(--ma-line); } .mp-about-fact:first-child { border-left: 0; padding-left: 0; } }
 
-@media (prefers-reduced-motion: reduce) { .mp-about-bubbles li { animation: none; } .mp-about-app { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .mp-about-hop, .mp-about-slide { animation: none; }
+  .mp-about-bars i::after, .mp-about-pp i, .mp-about-rb, .mp-about-dots button::before, .mp-about-app { transition: none; }
+}

@@ -107,3 +107,8 @@ Measured at 402 px wide, 37 pages: 284 101 px of scrolling before, 161 939 px af
 - **Shared sections**: services = swipe cards with "Details" fold (pure link lists are rows); strengths / values = swipe cards; process = numbered rows that open; advantages = rows that open; story = 7 lines + Read more; hero and section intros are clamped when long; the contact block has a short form and the phone / e-mail / offices open on tap; sitemap groups open one by one.
 - **Bespoke pages**: service card stacks of /crm, /mobile, /software-development-services, /ui-ux-design, /3d-modeling, /animation, /ai, /metaverse became swipe rows; /webdev rows are closed and its pills have a "Show all"; /blog and /portfolio show the first screen and "Show all N".
 - Rule for new sections: a list of more than 3 cards = `Carousel`; a list of rows with text = `Accordion`; long text = `Clamp`. `Collapse` is the safety net.
+
+## /webdev, page by page with the owner (2026-10-17)
+- Top bar: round back button, centred title, no phone button (Contact us is the first row of the Apps sheet). Large title = app icon + group name (`kicker`, from `GROUPS`) + title.
+- Hero buttons side by side. Builder ("Type a name"): types `www.we3vision.com` by itself, glowing border, hint under the bar; stops when touched. "Show more" buttons glow.
+- **What we build** = `webdev/tiles.tsx`: six app-icon tiles (name only); a tap opens the full text in an iOS bottom sheet (portal into `.ma-root`, `useSheet`). The full text is also in the page (hidden copy). Rule for the next pages: show little, open the rest in a sheet.

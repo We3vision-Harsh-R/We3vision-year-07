@@ -1,87 +1,137 @@
-/* /crm app screen ("mp-crm-"): Reminders and Numbers. A list hero, notes, lists with open/ticked circles, progress rings, #tags, My Lists. Kit tokens only. */
+/* /crm app screen ("mp-crm-") in iOS 27: open, quiet, regular type. Hairline lists instead of boxes, one picker (CRM kinds with a
+   Problems / What you get switch), one glass stage (the pipeline you tap through), FAQ as an open list. Kit tokens only (--ma-*). */
 
-.ma-root .mp-crm-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); }
-.ma-root .mp-crm-ring { flex: none; position: relative; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--ma-text3); }
-.ma-root .mp-crm-ring.is-on { border-color: var(--ma-tint-bg); background: var(--ma-tint-bg); }
-.ma-root .mp-crm-ring.is-on::after { content: ""; position: absolute; left: 5px; top: 6px; width: 10px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
-.ma-root .mp-crm-dot { flex: none; width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o, 0) + 10) calc(90% * var(--ts)) 64%), hsl(calc(var(--ma-h) + var(--o, 0) - 10) calc(85% * var(--ts)) 44%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.45); }
-.ma-root .mp-crm-lab { margin-top: 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ma-text3); }
+.ma-root[data-page="crm"] .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; }
+.ma-root[data-page="crm"] .ma-intro { font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; font-weight: 400; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root[data-page="crm"] .ma-chip { font-size: 13px; font-weight: 500; letter-spacing: -0.08px; }
+.ma-root[data-page="crm"] .ma-sec { margin-top: 72px; }
+.ma-root[data-page="crm"] .ma-sec-head { margin-bottom: 28px; }
 
-/* ---- hero: a list ---- */
-.ma-root .mp-crm-list { margin-top: 6px; padding: 22px 18px 12px; border-radius: 28px; background: var(--ma-card); border: 1px solid var(--ma-rim); box-shadow: 0 18px 40px hsl(0 0% 0% / 0.32), inset 0 1px 0 hsl(0 0% 100% / 0.12); animation: mp-crm-in 0.55s var(--ma-ease) backwards; }
-.ma-root .mp-crm-tag { font-size: 15px; font-weight: 600; color: var(--ma-tint); }
-.ma-root .mp-crm-h { margin: 8px 0 0; font-size: 32px; line-height: 1.12; font-weight: 700; letter-spacing: -0.025em; color: var(--ma-tint); text-wrap: balance; }
-.ma-root .mp-crm-h span + span { color: var(--ma-text); }
-.ma-root .mp-crm-t { margin-top: 12px; font-size: 17px; line-height: 1.62; color: var(--ma-text2); }
-.ma-root .mp-crm-todo { margin: 14px -6px 0; padding: 0; list-style: none; }
-.ma-root .mp-crm-todo li + li { border-top: 1px solid var(--ma-line); }
-.ma-root .mp-crm-item { display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 8px 6px; font-size: 17px; font-weight: 500; }
-.ma-root .mp-crm-item > span:nth-child(2) { flex: 1; min-width: 0; }
-.ma-root .mp-crm-item.is-main { font-weight: 600; }
-.ma-root .mp-crm-item.is-main .mp-crm-ring { border-color: var(--ma-tint-bg); }
-.ma-root .mp-crm-item:active .mp-crm-ring { background: var(--ma-wash); }
-@keyframes mp-crm-in { from { opacity: 0; transform: translate3d(0, 20px, 0); } }
+/* shared bits */
+.ma-root .mp-crm-ring { flex: none; position: relative; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; border: 1.5px solid var(--ma-text3); transition: background-color 0.3s, border-color 0.3s; }
+.ma-root .mp-crm-ring.is-on, .ma-root .mp-crm-chk.is-done .mp-crm-ring { border-color: var(--ma-tint-bg); background: var(--ma-tint-bg); }
+.ma-root .mp-crm-ring.is-on::after, .ma-root .mp-crm-chk.is-done .mp-crm-ring::after { content: ""; position: absolute; left: 5px; top: 5.5px; width: 9px; height: 4.5px; border-left: 1.8px solid #fff; border-bottom: 1.8px solid #fff; transform: rotate(-45deg); }
+.ma-root .mp-crm-dot { flex: none; width: 10px; height: 10px; margin-top: 8px; border-radius: 50%; background: hsl(calc(var(--ma-h) + var(--o, 0)) calc(80% * var(--ts)) 62%); box-shadow: 0 0 0 4px hsl(calc(var(--ma-h) + var(--o, 0)) calc(80% * var(--ts)) 62% / 0.16); }
+@keyframes mp-crm-in { from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); } }
 
-/* ---- story: notes ---- */
-.ma-root .mp-crm-notes { display: grid; gap: 12px; }
-.ma-root .mp-crm-notes article { padding: 18px 18px 18px 20px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); border-left: 5px solid hsl(calc(var(--ma-h) + var(--o, 0)) calc(85% * var(--ts)) 60%); }
-.ma-root .mp-crm-notes p { font-size: 17px; line-height: 1.68; color: var(--ma-text2); }
-.ma-root .mp-crm-notes em { font-weight: 600; }
+/* ---- hero ---- */
+.ma-root .mp-crm-hero { padding: 22px 0 8px; }
+.ma-root .mp-crm-hero > * { animation: mp-crm-in 0.7s var(--ma-ease) backwards; }
+.ma-root .mp-crm-hero > :nth-child(2) { animation-delay: 0.06s; }
+.ma-root .mp-crm-hero > :nth-child(3) { animation-delay: 0.12s; }
+.ma-root .mp-crm-hero > :nth-child(4) { animation-delay: 0.18s; }
+.ma-root .mp-crm-hero > :nth-child(5) { animation-delay: 0.24s; }
+.ma-root .mp-crm-chip { margin: 0; font-size: 15px; font-weight: 500; letter-spacing: -0.24px; color: var(--ma-tint); }
+.ma-root .mp-crm-h { margin: 12px 0 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .mp-crm-h span + span { color: var(--ma-tint); }
+.ma-root .mp-crm-t { margin: 18px 0 0; max-width: 38ch; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-crm-btns { display: flex; gap: 10px; margin-top: 28px; }
+.ma-root .mp-crm-btns .ma-btn { flex: 1 1 0; min-width: 0; min-height: 50px; padding: 12px 10px; font-size: 16px; font-weight: 500; white-space: normal; text-align: center; transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-crm-btns .ma-btn:active { transform: scale(0.96); }
 
-/* ---- services: lists ---- */
-.ma-root .mp-crm-lists { display: grid; gap: 14px; }
-.ma-root .mp-crm-card { padding: 18px 16px 18px; border-radius: 26px; background: var(--ma-card); border: 1px solid var(--ma-line); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07), 0 10px 26px hsl(0 0% 0% / 0.22); }
-.ma-root .mp-crm-card header { display: flex; align-items: center; gap: 12px; }
-.ma-root .mp-crm-card h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 700; letter-spacing: -0.015em; color: hsl(calc(var(--ma-h) + var(--o, 0)) calc(100% * var(--ts)) 80%); }
-.ma-root .mp-crm-card h3 span + span::before { content: " "; }
-.ma-root .mp-crm-d { margin-top: 12px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.ma-root .mp-crm-fit { margin-top: 12px; padding: 12px 14px; border-radius: 16px; background: var(--ma-fill); font-size: 16px; line-height: 1.55; color: var(--ma-text); }
-.ma-root .mp-crm-fit b { display: block; margin-bottom: 2px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ma-text3); }
-.ma-root .mp-crm-chk { display: grid; margin: 6px 0 0; padding: 0; list-style: none; }
-.ma-root .mp-crm-chk li { display: flex; align-items: flex-start; gap: 14px; padding: 10px 0; font-size: 16px; line-height: 1.5; }
+/* a quiet pipeline of shapes (four stage columns, cards slide in) */
+.ma-root .mp-crm-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 36px; padding: 12px; border-radius: 26px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22); }
+.ma-root .mp-crm-flow span { display: grid; align-content: start; gap: 6px; min-height: 96px; }
+.ma-root .mp-crm-flow i { display: block; height: 6px; width: 60%; margin-bottom: 4px; border-radius: 3px; background: hsl(calc(var(--ma-h) + var(--i) * 30) calc(80% * var(--ts)) 64% / 0.9); }
+.ma-root .mp-crm-flow u { display: block; height: 26px; border-radius: 9px; background: hsl(240 6% 50% / 0.22); animation: mp-crm-card 0.6s var(--ma-spring) backwards; animation-delay: calc(0.35s + var(--i) * 0.12s); }
+.ma-root .mp-crm-flow span:nth-child(n + 3) u + u { opacity: 0; }
+@keyframes mp-crm-card { from { opacity: 0; transform: translate3d(-14px, 0, 0) scale(0.92); } }
+
+/* ---- story ---- */
+.ma-root .mp-crm-story { display: grid; gap: 16px; }
+.ma-root .mp-crm-story p { margin: 0; font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-crm-story em { font-style: normal; font-weight: 500; color: var(--ma-text); }
+
+/* ---- services: the CRM picker ---- */
+.ma-root .mp-crm-tabs { display: flex; gap: 8px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 6px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
+.ma-root .mp-crm-tabs::-webkit-scrollbar { display: none; }
+.ma-root .mp-crm-tabs button { flex: none; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 400; letter-spacing: -0.24px; white-space: nowrap; color: var(--ma-text2); cursor: pointer; scroll-snap-align: center; background: hsl(240 6% 50% / 0.2); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.1); transition: background-color 0.35s var(--ma-ease), color 0.3s, transform 0.3s var(--ma-spring); }
+.ma-root .mp-crm-tabs button:active { transform: scale(0.95); }
+.ma-root .mp-crm-tabs button.is-on { color: #fff; font-weight: 500; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 4) calc(88% * var(--ts)) 58%), var(--ma-tint-bg)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.2), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, inset 0 1px 0 hsl(0 0% 100% / 0.3); }
+.ma-root .mp-crm-panel { margin-top: 24px; animation: mp-crm-in 0.5s var(--ma-ease) backwards; }
+.ma-root .mp-crm-panel h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; }
+.ma-root .mp-crm-lead { margin: 10px 0 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-crm-fit { margin: 20px 0 0; padding-left: 14px; border-left: 2px solid var(--ma-tint-bg); font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text); }
+.ma-root .mp-crm-fit span { display: block; margin-bottom: 2px; font-size: 13px; letter-spacing: -0.08px; color: var(--ma-text3); }
+
+/* the two-way switch (iOS segmented control) */
+.ma-root .mp-crm-seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; margin-top: 24px; padding: 2px; border-radius: 999px; background: hsl(240 6% 50% / 0.22); }
+.ma-root .mp-crm-seg button { position: relative; z-index: 1; min-height: 40px; padding: 0 8px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 15px; letter-spacing: -0.24px; color: var(--ma-text2); cursor: pointer; transition: color 0.3s; }
+.ma-root .mp-crm-seg button.is-on { color: var(--ma-text); font-weight: 500; }
+.ma-root .mp-crm-seg i { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); border-radius: 999px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.2), hsl(0 0% 100% / 0.1)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), 0 3px 8px hsl(0 0% 0% / 0.18); transform: translate3d(calc(var(--x) * 100%), 0, 0); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-crm-chk { display: grid; margin: 12px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-chk li { display: flex; align-items: flex-start; gap: 14px; padding: 13px 0; font-size: 17px; line-height: 1.4; letter-spacing: -0.43px; animation: mp-crm-in 0.45s var(--ma-ease) backwards; animation-delay: calc(var(--i, 0) * 60ms); }
+.ma-root .mp-crm-chk li > span:last-child { min-width: 0; }
 .ma-root .mp-crm-chk li + li { border-top: 1px solid var(--ma-line); }
-.ma-root .mp-crm-chk .mp-crm-ring { margin-top: 0; }
-.ma-root .mp-crm-chk.is-done li { color: var(--ma-text2); }
+.ma-root .mp-crm-chk:not(.is-done) li > span:last-child { color: var(--ma-text2); }
 
-/* ---- related: tiles ---- */
-.ma-root .mp-crm-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.ma-root .mp-crm-tile { display: grid; gap: 8px; align-content: start; height: 100%; min-height: 128px; padding: 14px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); transition: transform 0.25s var(--ma-spring); }
-.ma-root .mp-crm-tile:active { transform: scale(0.97); }
-.ma-root .mp-crm-tile b { font-size: 17px; line-height: 1.25; font-weight: 600; }
-.ma-root .mp-crm-tile b span + span::before { content: " "; }
-.ma-root .mp-crm-tile > span:last-child { font-size: 15px; line-height: 1.45; color: var(--ma-text2); }
+/* ---- more from We3vision: an open list ---- */
+.ma-root .mp-crm-more { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-more li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-more a { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 16px 0; color: inherit; text-decoration: none; transition: opacity 0.2s; }
+.ma-root .mp-crm-more a:active { opacity: 0.6; }
+.ma-root .mp-crm-more a > span { display: grid; gap: 2px; min-width: 0; }
+.ma-root .mp-crm-more b { font-size: 17px; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-crm-more small { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text3); }
+.ma-root .mp-crm-more svg { flex: none; width: 18px; height: 18px; color: var(--ma-text3); }
 
-/* ---- process: progress rings ---- */
-.ma-root .mp-crm-prog { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
-.ma-root .mp-crm-prog > li { display: flex; gap: 14px; padding: 16px; }
-.ma-root .mp-crm-prog > li + li { border-top: 1px solid var(--ma-line); }
-.ma-root .mp-crm-pie { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: conic-gradient(var(--ma-tint-bg) calc(var(--p) * 1%), var(--ma-fill2) 0); }
-.ma-root .mp-crm-pie b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ma-card); font-size: 15px; font-weight: 700; }
-.ma-root .mp-crm-prog h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
-.ma-root .mp-crm-prog p { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.ma-root .mp-crm-sub { display: grid; gap: 4px; margin: 8px 0 0; padding: 0; list-style: none; }
-.ma-root .mp-crm-sub li { font-size: 15px; line-height: 1.5; color: var(--ma-text3); }
-.ma-root .mp-crm-sub li::before { content: "\2022\00A0\00A0"; color: var(--ma-tint); }
+/* ---- process: the pipeline ---- */
+.ma-root .mp-crm-track { position: relative; display: flex; justify-content: space-between; gap: 6px; padding: 4px 0; }
+.ma-root .mp-crm-rail { position: absolute; left: 22px; right: 22px; top: 50%; height: 2px; margin-top: -1px; border-radius: 1px; background: var(--ma-line); }
+.ma-root .mp-crm-rail i { display: block; height: 100%; border-radius: inherit; background: var(--ma-tint-bg); transform-origin: left center; transform: scaleX(var(--p)); transition: transform 0.55s var(--ma-ease); }
+.ma-root .mp-crm-track button { position: relative; z-index: 1; flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; font: inherit; font-size: 15px; font-variant-numeric: tabular-nums; color: var(--ma-text2); cursor: pointer; background: var(--ma-bg); box-shadow: inset 0 0 0 1.5px var(--ma-line); transition: background-color 0.3s, color 0.3s, transform 0.35s var(--ma-spring), box-shadow 0.3s; }
+.ma-root .mp-crm-track button:active { transform: scale(0.92); }
+.ma-root .mp-crm-track button.is-past { color: var(--ma-tint); box-shadow: inset 0 0 0 1.5px var(--ma-tint-bg); }
+.ma-root .mp-crm-track button.is-on { color: #fff; font-weight: 500; background: var(--ma-tint-bg); box-shadow: 0 0 0 5px var(--ma-wash); transform: scale(1.08); }
+.ma-root .mp-crm-stage { margin-top: 20px; padding: 22px 20px 20px; border-radius: 28px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22); }
+.ma-root .mp-crm-stage-in { animation: mp-crm-in 0.45s var(--ma-ease) backwards; }
+.ma-root .mp-crm-n { margin: 0; font-size: 13px; letter-spacing: -0.08px; color: var(--ma-tint); font-variant-numeric: tabular-nums; }
+.ma-root .mp-crm-stage h3 { margin: 6px 0 0; font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: 0.38px; text-wrap: balance; }
+.ma-root .mp-crm-st { margin: 8px 0 0; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-crm-sub { display: grid; margin: 12px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-sub li { position: relative; padding: 10px 0 10px 18px; font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text); }
+.ma-root .mp-crm-sub li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-sub li::before { content: ""; position: absolute; left: 2px; top: 17px; width: 6px; height: 6px; border-radius: 50%; background: var(--ma-tint-bg); }
+.ma-root .mp-crm-nav { display: flex; gap: 10px; margin-top: 20px; }
+.ma-root .mp-crm-nav .ma-btn { flex: 1 1 0; min-height: 44px; font: inherit; font-size: 16px; font-weight: 500; cursor: pointer; transition: transform 0.3s var(--ma-spring), opacity 0.2s; }
+.ma-root .mp-crm-nav .ma-btn:active { transform: scale(0.96); }
+.ma-root .mp-crm-nav .ma-btn:disabled { opacity: 0.5; cursor: default; transform: none; }
 
-/* ---- tags ---- */
-.ma-root .mp-crm-hash { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.ma-root .mp-crm-hash li { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; font-size: 16px; font-weight: 600; color: hsl(calc(var(--ma-h) + var(--o, 0)) calc(100% * var(--ts)) 82%); background: hsl(calc(var(--ma-h) + var(--o, 0)) calc(80% * var(--ts)) 55% / 0.16); }
-.ma-root .mp-crm-hash li::before { content: "#"; margin-right: 2px; opacity: 0.7; }
+/* ---- tools: quiet capsules ---- */
+.ma-root .mp-crm-caps { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-caps li { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px; font-size: 15px; letter-spacing: -0.24px; color: var(--ma-text); background: hsl(240 6% 50% / 0.2); }
 
-/* ---- my lists ---- */
-.ma-root .mp-crm-mylists, .ma-root .mp-crm-done { display: grid; margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
-.ma-root .mp-crm-mylists li, .ma-root .mp-crm-done li { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; }
-.ma-root .mp-crm-mylists li + li, .ma-root .mp-crm-done li + li { border-top: 1px solid var(--ma-line); }
-.ma-root .mp-crm-ic { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; font-size: 17px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o, 0) + 10) calc(90% * var(--ts)) 62%), hsl(calc(var(--ma-h) + var(--o, 0) - 10) calc(85% * var(--ts)) 42%)); }
-.ma-root .mp-crm-mylists b, .ma-root .mp-crm-done b { font-size: 17px; line-height: 1.35; font-weight: 600; }
-.ma-root .mp-crm-mylists p, .ma-root .mp-crm-done p { margin-top: 2px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
-.ma-root .mp-crm-done .mp-crm-ring { margin-top: 1px; }
+/* ---- kinds of CRM + advantages: open lists ---- */
+.ma-root .mp-crm-rows { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-rows li { display: flex; align-items: flex-start; gap: 16px; padding: 18px 0; }
+.ma-root .mp-crm-rows li:first-child { padding-top: 0; }
+.ma-root .mp-crm-rows li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-rows li > div { min-width: 0; }
+.ma-root .mp-crm-rows b { display: block; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-crm-rows p { margin: 4px 0 0; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
 
-/* ---- faq: contact-card fields ---- */
-.ma-root .mp-crm-card-faq { display: grid; margin: 0; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
-.ma-root .mp-crm-card-faq > div { padding: 14px 16px 16px; }
-.ma-root .mp-crm-card-faq > div + div { border-top: 1px solid var(--ma-line); }
-.ma-root .mp-crm-card-faq dt { font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--ma-tint); }
-.ma-root .mp-crm-card-faq dd { margin: 6px 0 0; font-size: 16px; line-height: 1.65; color: var(--ma-text); }
+/* ---- FAQ: an open list, + turns into − ---- */
+.ma-root .mp-crm-qa { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-crm-qa li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-crm-qa summary { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 56px; padding: 16px 0; list-style: none; cursor: pointer; font-size: 17px; line-height: 1.35; font-weight: 400; letter-spacing: -0.43px; }
+.ma-root .mp-crm-qa summary::-webkit-details-marker { display: none; }
+.ma-root .mp-crm-qa summary > span { min-width: 0; }
+.ma-root .mp-crm-qa summary i { flex: none; position: relative; width: 14px; height: 14px; margin-top: 5px; color: var(--ma-text3); transition: transform 0.45s var(--ma-spring), color 0.3s; }
+.ma-root .mp-crm-qa summary i::before, .ma-root .mp-crm-qa summary i::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.6px; border-radius: 1px; background: currentColor; }
+.ma-root .mp-crm-qa summary i::after { transform: rotate(90deg); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-crm-qa details[open] summary { font-weight: 500; }
+.ma-root .mp-crm-qa details[open] summary i { transform: rotate(180deg); color: var(--ma-tint); }
+.ma-root .mp-crm-qa details[open] summary i::after { transform: rotate(0); }
+.ma-root .mp-crm-qa details p { margin: 0 0 18px; max-width: 42ch; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); animation: mp-crm-in 0.5s var(--ma-ease) backwards; }
 
-@media (prefers-reduced-motion: reduce) { .ma-root .mp-crm-list { animation: none; } }
+/* tablet: a little more room, the pipeline stage keeps a readable width */
+@media (min-width: 700px) {
+  .ma-root .mp-crm-h { font-size: 40px; }
+  .ma-root .mp-crm-btns { max-width: 520px; }
+  .ma-root .mp-crm-flow { max-width: 620px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-root .mp-crm-hero > *, .ma-root .mp-crm-flow u, .ma-root .mp-crm-panel, .ma-root .mp-crm-chk li, .ma-root .mp-crm-stage-in, .ma-root .mp-crm-qa details p { animation: none; }
+  .ma-root .mp-crm-seg i, .ma-root .mp-crm-rail i, .ma-root .mp-crm-track button { transition: none; }
+}

@@ -9,6 +9,8 @@ import { AppScreen, Accordion, Button, Card, LeadForm, Pic, Points, Section, con
 import { JobApplyForm } from "../app/job-apply";
 import type { NavTab, OutlineItem } from "../app/nav-types";
 import { APPS } from "../launcher-data";
+import { ShareButton } from "./custom/blog/client";
+import "./detail.css";
 
 // The mobile twins of the three "one item" pages: an article (/blog/<slug>), a project (/portfolio/<slug>) and a job (/careers/<slug>).
 // Same words and pictures as the laptop pages (Admin > Blog, Projects, Careers): a new article, project or job added in the admin panel has its mobile page at once.
@@ -34,6 +36,8 @@ export async function renderMobileBlogPost(slug: string) {
   const app = APPS.blog;
   const b = base();
   const hasFaq = post.faq.length > 0;
+  const words = post.blocks.map((blk) => ("h" in blk ? blk.h : "p" in blk ? blk.p : blk.ul.join(" "))).join(" ").split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 220));
   const tabs: NavTab[] = [
     { id: null, label: "Article", icon: "blog" },
     ...(hasFaq ? [{ id: "faq", label: "FAQ", icon: "faq" as const }] : []),
@@ -50,11 +54,19 @@ export async function renderMobileBlogPost(slug: string) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(json)} />
-      <AppScreen title={post.title} subtitle={`${post.category} · ${post.dateLabel}`} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, outline, currentHref: "/blog" }}>
-        <article className="ma-sec">
-          {post.summary && <p className="ma-lead">{post.summary}</p>}
+      <AppScreen page="post-detail" title={post.title} subtitle={`${post.category} · ${post.dateLabel}`} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, outline, currentHref: "/blog" }}>
+        <article className="ma-sec mp-dt-art">
+          {post.summary && <p className="ma-lead mp-dt-lead">{post.summary}</p>}
+          <div className="mp-dt-bar">
+            <p className="mp-dt-meta">
+              <time dateTime={post.date}>{post.dateLabel}</time>
+              <span aria-hidden="true"> · </span>
+              {minutes} min read
+            </p>
+            <ShareButton title={post.title} glyph={app?.glyph} off={app?.off} />
+          </div>
           {post.image && <Pic src={post.image} alt={post.title} ratio="3 / 2" />}
-          <div className="ma-prose ma-article">
+          <div className="ma-prose ma-article mp-dt-body">
             {post.blocks.map((blk, i) => ("h" in blk ? <h2 key={i} className="ma-h2">{blk.h}</h2> : "p" in blk ? <p key={i}>{blk.p}</p> : <Points key={i} items={blk.ul} />))}
           </div>
           {post.tags.length > 0 && (
@@ -119,12 +131,16 @@ export async function renderMobileProject(slug: string) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(ld)} />
-      <AppScreen title={p.title} subtitle={p.category || undefined} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, outline, currentHref: "/portfolio" }}>
-        <article className="ma-sec">
-          {p.summary && <p className="ma-lead">{p.summary}</p>}
+      <AppScreen page="project-detail" title={p.title} subtitle={p.category || undefined} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, outline, currentHref: "/portfolio" }}>
+        <article className="ma-sec mp-dt-art">
           {cover && <Pic src={cover} alt={p.title} ratio="3 / 2" />}
+          <div className="mp-dt-bar">
+            <p className="mp-dt-meta">{p.category || "Project"}</p>
+            <ShareButton title={p.title} glyph={app?.glyph} off={app?.off} />
+          </div>
+          {p.summary && <p className="ma-lead mp-dt-lead">{p.summary}</p>}
           {text.length > 0 && (
-            <div className="ma-prose ma-article">
+            <div className="ma-prose ma-article mp-dt-body">
               {text.map((t, i) => (
                 <p key={i}>{t}</p>
               ))}
@@ -133,9 +149,9 @@ export async function renderMobileProject(slug: string) {
         </article>
         {gallery.length > 0 && (
           <Section id="gallery" chip="Gallery" title="More Pictures">
-            <div className="ma-stack">
+            <div className="mp-dt-gal">
               {gallery.map((u, i) => (
-                <Pic key={`${u}-${i}`} src={u} alt={`${p.title}, picture ${i + 1}`} ratio="3 / 2" />
+                <Pic key={`${u}-${i}`} src={u} alt={`${p.title}, picture ${i + 1}`} ratio={i === 0 ? "3 / 2" : "1"} />
               ))}
             </div>
           </Section>
@@ -200,25 +216,24 @@ export async function renderMobileJob(slug: string) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(ld)} />
-      <AppScreen title={job.title} subtitle={job.team ? `Position · ${job.team}` : "Position"} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#apply" nav={{ tabs, outline, currentHref: "/careers" }}>
-        <section className="ma-sec">
-          {job.summary && <p className="ma-lead">{job.summary}</p>}
-          <ul className="ma-tags" aria-label="Facts">
+      <AppScreen page="job-detail" title={job.title} subtitle={job.team ? `Position · ${job.team}` : "Position"} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#apply" nav={{ tabs, outline, currentHref: "/careers" }}>
+        <section className="ma-sec mp-dt-art">
+          {job.summary && <p className="ma-lead mp-dt-lead">{job.summary}</p>}
+          <ul className="ma-tags mp-dt-facts" aria-label="Facts">
             {facts.map((f) => (
               <li key={f}>{f}</li>
             ))}
           </ul>
-          <p className="ma-meta">
+          <p className="ma-meta mp-dt-meta">
             {job.postedLabel}
             {job.closesAt ? ` · Last day to apply: ${day(job.closesAt)}` : ""}
           </p>
-          <div className="ma-actions">
-            <Button href="#apply" block>
-              Apply for this position
-            </Button>
+          <div className="ma-actions mp-dt-two">
+            <Button href="#apply">Apply now</Button>
+            <ShareButton title={job.title} glyph={app?.glyph} off={app?.off} />
           </div>
           {intro.length > 0 && (
-            <div className="ma-prose ma-article">
+            <div className="ma-prose ma-article mp-dt-body">
               {intro.map((t, i) => (
                 <p key={i}>{t}</p>
               ))}
@@ -227,9 +242,9 @@ export async function renderMobileJob(slug: string) {
         </section>
         {blocks.map((x) => (
           <Section key={x.id} id={x.id} title={x.title}>
-            <Card>
+            <div className="mp-dt-pts">
               <Points items={x.items} />
-            </Card>
+            </div>
           </Section>
         ))}
         <Section id="apply" chip="Apply" title="Apply For This Position" intro="Everything in one go. We use your details only to talk to you about this job.">

@@ -1,15 +1,28 @@
-/* /products app screen ("mp-prod-"): the App Store "Today" story card. The store rows come from custom/products/store.css. Kit tokens only. */
+/* /products app screen ("mp-prod-"): an iOS 27 App Store "Today" card (art with the label and title, glass text area below), the story as
+   plain paragraphs, the products as open store rows (custom/products/store.css). Kit tokens only. */
 
-.mp-prod-today { margin-top: 6px; overflow: hidden; border-radius: 28px; background: var(--ma-card); border: 1px solid var(--ma-rim); box-shadow: 0 24px 56px hsl(0 0% 0% / 0.4); animation: mp-prod-rise 0.6s var(--ma-ease) backwards; }
-.mp-prod-art { position: relative; display: grid; align-content: end; min-height: 300px; padding: 22px; background:
+.ma-root[data-page="products"] .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; }
+.ma-root[data-page="products"] .ma-intro { font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; font-weight: 400; color: var(--ma-text2); }
+.ma-root[data-page="products"] .ma-sec { margin-top: 72px; }
+.ma-root[data-page="products"] .ma-sec-head { margin-bottom: 20px; }
+.ma-root[data-page="products"] #story p { font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root[data-page="products"] #story em { font-style: normal; font-weight: 500; color: var(--ma-text); }
+
+.ma-root .mp-prod-today { margin-top: 10px; overflow: hidden; border-radius: 28px; box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.18), 0 22px 50px hsl(0 0% 0% / 0.32); animation: mp-prod-rise 0.6s var(--ma-ease) backwards; }
+.ma-root .mp-prod-art { position: relative; display: grid; align-content: end; min-height: 300px; padding: 92px 22px 24px; background:
   radial-gradient(80% 60% at 85% 10%, hsl(calc(var(--ma-h) + 60) calc(80% * var(--ts)) 60% / 0.55), transparent 60%),
   radial-gradient(90% 70% at 0% 100%, hsl(calc(var(--ma-h) - 30) calc(80% * var(--ts)) 40% / 0.7), transparent 70%),
   linear-gradient(160deg, hsl(var(--ma-h) calc(80% * var(--ts)) 42%), hsl(calc(var(--ma-h) - 20) calc(70% * var(--ts)) 18%)); }
-.mp-prod-lbl { font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: hsl(0 0% 100% / 0.8); }
-.mp-prod-h { margin: 6px 0 0; font-size: 32px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; color: #fff; text-wrap: balance; }
-.mp-prod-h span + span { color: hsl(var(--ma-h) calc(100% * var(--ts)) 90%); }
-.mp-prod-body { padding: 18px 22px 22px; }
-.mp-prod-body p { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.mp-prod-acts { display: grid; gap: 10px; margin-top: 18px; }
+.ma-root .mp-prod-icons { position: absolute; top: 24px; left: 22px; display: flex; gap: 10px; }
+.ma-root .mp-prod-icons i { width: 44px; height: 44px; border-radius: 22.37%; background: linear-gradient(180deg, hsl(0 0% 100% / 0.3), hsl(0 0% 100% / 0.1)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.3), inset 0 1px 0 hsl(0 0% 100% / 0.4), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; animation: mp-prod-pop 0.55s var(--ma-spring) backwards; animation-delay: calc(0.3s + var(--i) * 0.08s); }
+.ma-root .mp-prod-lbl { margin: 0; font-size: 15px; font-weight: 500; letter-spacing: -0.24px; color: hsl(0 0% 100% / 0.8); }
+.ma-root .mp-prod-h { margin: 6px 0 0; font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; color: #fff; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .mp-prod-h span + span { color: hsl(var(--ma-h) calc(100% * var(--ts)) 90%); }
+.ma-root .mp-prod-body { padding: 20px 22px 22px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); }
+.ma-root .mp-prod-body p { margin: 0; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-prod-acts { display: flex; gap: 10px; margin-top: 20px; }
+.ma-root .mp-prod-acts .ma-btn { flex: 1 1 0; min-width: 0; min-height: 48px; padding: 12px 10px; font-size: 16px; font-weight: 500; white-space: normal; text-align: center; transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-prod-acts .ma-btn:active { transform: scale(0.96); }
 @keyframes mp-prod-rise { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.97); } }
-@media (prefers-reduced-motion: reduce) { .mp-prod-today { animation: none; } }
+@keyframes mp-prod-pop { from { opacity: 0; transform: scale(0.6); } }
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-prod-today, .ma-root .mp-prod-icons i { animation: none; } .ma-root .mp-prod-acts .ma-btn { transition: none; } }

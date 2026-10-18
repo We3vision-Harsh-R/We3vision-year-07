@@ -8,7 +8,7 @@ import { getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
 import type { SectionType } from "@/lib/cms/sections";
 import { getProjects } from "@/lib/projects";
 import { AppScreen, Collapse, contactFrom } from "../app";
-import { APPS } from "../launcher-data";
+import { APPS, GROUPS } from "../launcher-data";
 import { outlineFor, tabsFor } from "./nav";
 import { HERO_LIKE, MOBILE_SECTIONS, type AnyMobileSection } from "./sections";
 import type { MobileData, MobileSection } from "./types";
@@ -36,6 +36,8 @@ export async function loadMobilePage(slug: PageSlug) {
 export type RenderOptions = {
   /** Show one section type differently on THIS page only (e.g. { faq: MyFaq }). Everything else keeps the default screens. */
   overrides?: { [T in SectionType]?: MobileSection<T> };
+  /** section types that are always shown whole (no "Show more") on this page */
+  keepOpen?: SectionType[];
 };
 
 /** the sections that are never collapsed: forms and the first card of a page */
@@ -54,6 +56,8 @@ export async function renderMobilePage(slug: PageSlug, opts: RenderOptions = {})
       <PageJsonLd slug={slug} title={page.title} description={page.description} />
       <AppScreen
         title={PAGES[slug].title}
+        page={slug}
+        kicker={app ? GROUPS.find((g) => g.id !== "sug" && g.id !== "new" && g.apps.includes(app.id))?.label : undefined}
         glyph={app?.glyph}
         hue={app?.off}
         titleIsH1={!(first && HERO_LIKE.has(first))}
@@ -65,7 +69,7 @@ export async function renderMobilePage(slug: PageSlug, opts: RenderOptions = {})
           const Section = (opts.overrides?.[s.type] ?? MOBILE_SECTIONS[s.type]) as unknown as AnyMobileSection;
           const node = <Section data={s.data as never} site={site} contact={contact} id={s.id} index={i} page={slug} extra={extra} />;
           // the first section (the hero) and the forms are shown whole; every other tall section opens with "Show more"
-          return i === 0 || KEEP_OPEN.has(s.type) ? <Fragment key={s.id}>{node}</Fragment> : <Collapse key={s.id}>{node}</Collapse>;
+          return i === 0 || KEEP_OPEN.has(s.type) || (opts.keepOpen?.includes(s.type) && s.id !== "related-services") ? <Fragment key={s.id}>{node}</Fragment> : <Collapse key={s.id}>{node}</Collapse>;
         })}
       </AppScreen>
     </>

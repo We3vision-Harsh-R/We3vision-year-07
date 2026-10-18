@@ -17,7 +17,7 @@ export function useSheet(open: boolean, onClose: () => void) {
   }
   useEffect(() => {
     if (!leaving) return;
-    const t = window.setTimeout(() => setLeaving(false), 260);
+    const t = window.setTimeout(() => setLeaving(false), 380);
     return () => window.clearTimeout(t);
   }, [leaving]);
   const shown = open || leaving;
@@ -36,6 +36,24 @@ export function useSheet(open: boolean, onClose: () => void) {
       window.removeEventListener("keydown", key);
     };
   }, [shown, onClose]);
+
+  // focus moves into the sheet when it opens and returns to where it was when it closes; the page behind cannot be reached
+  useEffect(() => {
+    if (!shown) return;
+    const prev = document.activeElement as HTMLElement | null;
+    const screen = document.querySelector<HTMLElement>(".ma-screen");
+    screen?.setAttribute("inert", "");
+    const t = window.setTimeout(() => {
+      const panel = document.querySelector<HTMLElement>(".ma-sheet .ma-sheet-panel");
+      panel?.setAttribute("tabindex", "-1");
+      panel?.focus({ preventScroll: true });
+    }, 60);
+    return () => {
+      window.clearTimeout(t);
+      screen?.removeAttribute("inert");
+      if (prev && document.contains(prev)) prev.focus({ preventScroll: true });
+    };
+  }, [shown]);
 
   const grab = {
     onPointerDown: (e: ReactPointer<HTMLElement>) => {

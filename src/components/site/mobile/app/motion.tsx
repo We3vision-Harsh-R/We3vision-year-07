@@ -15,7 +15,7 @@ import { haptic } from "../haptics";
  *  - PROGRESS: a thin line under the navigation bar shows how far down the page you are.
  * With "reduce motion" nothing is animated (rows open natively, nothing fades).
  */
-const REVEAL = ".ma-sec-head, .ma-card, .ma-group, .ma-dg, .ma-stats, .ma-car, .ma-cloud, .ma-pic, .mp-wd-panel, .ma-form, .ma-actions";
+const REVEAL = ".ma-rvx, .ma-sec-head, .ma-card, .ma-group, .ma-dg, .ma-stats, .ma-car, .ma-cloud, .ma-pic, .mp-wd-panel, .ma-form, .ma-actions";
 const TAP = "a[href], button, summary, .ma-row, [role='tab']";
 const EASE = "cubic-bezier(0.32, 0.72, 0, 1)";
 
@@ -146,6 +146,9 @@ export function Motion() {
             if (par && (par.classList.contains("ma-group") || par.classList.contains("mp-wd-panel"))) {
               par.querySelectorAll<HTMLDetailsElement>(":scope > details[open]").forEach((o) => { if (o !== det) toggle(o, "close"); });
             }
+            // a list that asks for it (data-exclusive): the steps are <li><details>
+            const list = det.closest("[data-exclusive]");
+            list?.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((o) => { if (o !== det) toggle(o, "close"); });
             // a "Show more" section that is still closed opens first
             const more = det.closest(".ma-collapse")?.querySelector<HTMLButtonElement>(":scope > .ma-more[aria-expanded='false']");
             more?.click();

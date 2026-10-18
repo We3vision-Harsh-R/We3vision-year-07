@@ -1,7 +1,9 @@
-/* /products/wepresent ("mp-wep-"): touches of this page on top of custom/products/store.css: the slide enters like a Keynote build. Kit tokens only. */
-.mp-store-head.is-slide .mp-store-slide { animation: mp-wep-build 0.7s var(--ma-ease) backwards; }
-.mp-store-head.is-slide .mp-store-slide i { transform-origin: left center; animation: mp-wep-line 0.6s var(--ma-ease) 0.35s backwards; }
-.mp-store-head.is-slide .mp-store-slide i + i { animation-delay: 0.5s; }
+/* /products/wepresent ("mp-wep-"): iOS 27 App Store coming-soon page with a Keynote feel: the slide builds in. Store pieces: custom/products/store.css. Kit tokens only. */
+.ma-root[data-page="wepresent"] .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; }
+.ma-root[data-page="wepresent"] .ma-intro { font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; font-weight: 400; color: var(--ma-text2); }
+.ma-root[data-page="wepresent"] .ma-sec { margin-top: 72px; }
+.ma-root[data-page="wepresent"] .ma-sec-head { margin-bottom: 20px; }
+.ma-root[data-page="wepresent"] .mp-store-about { margin-top: 40px; }
+.ma-root .mp-store-head.is-slide .mp-store-slide { animation: mp-wep-build 0.7s var(--ma-ease) backwards; }
 @keyframes mp-wep-build { from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.94); } }
-@keyframes mp-wep-line { from { opacity: 0; transform: scaleX(0.2); } }
-@media (prefers-reduced-motion: reduce) { .mp-store-head.is-slide .mp-store-slide, .mp-store-head.is-slide .mp-store-slide i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-store-head.is-slide .mp-store-slide { animation: none; } }

@@ -1,73 +1,60 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, Button, Carousel, Points, Section } from "../../../app";
+import { AppLink, Button, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
+import { IndustryStage, ServicePicker } from "./client";
 
-// /software-development-services as Xcode and Files: the hero is a code editor (line numbers, a tab, a Run button), the story a Quick Look
-// document, the services folders, the process a project navigator tree, the industries Files tags, the questions a console.
-// Same CMS words as the laptop. Styles: (m)/m/software-development-services/page.css.
+// /software-development-services, quiet and open: no boxes, hairlines between things, regular type (medium only where it matters), a lot of space.
+// The hero is a file name and a large title; the services are a picker you can use; the process is a thread that fills as you read; the questions
+// are an open list. Same CMS words as the laptop. Styles: (m)/m/software-development-services/page.css ("mp-sw-").
 
-const hue = (i: number) => ({ "--o": i * 47 }) as CSSProperties;
-const nums = Array.from({ length: 9 }, (_, i) => i + 1);
+const rv = (i: number, step = 60) => ({ "--rv-d": `${i * step}ms` }) as CSSProperties;
 
-/** the top: an editor window; the chip is the file tab, the first button is Run */
+/** the top: the file name of a project, the title, the text and the two buttons side by side */
 export const SwHero: MobileSection<"pageHero"> = ({ data, index }) => {
   const H = index === 0 ? "h1" : "h2";
   return (
-    <section className="mp-sw-ide">
-      <div className="mp-sw-tabs">
-        <span className="mp-sw-file">
-          <span className="mp-sw-braces" aria-hidden="true">
-            {"{ }"}
-          </span>
-          {data.chip}
-        </span>
+    <section className="mp-sw-hero">
+      <p className="mp-sw-file">
+        <span aria-hidden="true">{"{ }"}</span>
+        {data.chip}
+        <i aria-hidden="true" />
+      </p>
+      <H className="mp-sw-h">
+        <Lines text={data.heading} />
+      </H>
+      {data.text && <p className="mp-sw-t">{data.text}</p>}
+      <div className="mp-sw-btns">
         {data.primaryLabel && data.primaryHref && (
-          <AppLink href={data.primaryHref} className="mp-sw-run">
-            <span className="mp-sw-play" aria-hidden="true" />
+          <AppLink href={data.primaryHref} className="ma-btn ma-btn-fill">
             {data.primaryLabel}
           </AppLink>
         )}
-      </div>
-      <div className="mp-sw-code">
-        <ol className="mp-sw-gutter" aria-hidden="true">
-          {nums.map((n) => (
-            <li key={n}>{n}</li>
-          ))}
-        </ol>
-        <div className="mp-sw-src">
-          <H className="mp-sw-h">
-            <Lines text={data.heading} />
-          </H>
-          {data.text && <p className="mp-sw-t">{data.text}</p>}
-          {data.secondaryLabel && data.secondaryHref && (
-            <AppLink href={data.secondaryHref} className="mp-sw-link">
-              {data.secondaryLabel}
-              <IcChevron className="mp-sw-chev" />
-            </AppLink>
-          )}
-        </div>
+        {data.secondaryLabel && data.secondaryHref && (
+          <AppLink href={data.secondaryHref} className="ma-btn">
+            {data.secondaryLabel}
+          </AppLink>
+        )}
       </div>
     </section>
   );
 };
 
-/** the story as a Quick Look document */
+/** the story: plain open text */
 export const SwStory: MobileSection<"story"> = ({ data, id }) => (
   <section id={id} className="ma-sec">
-    <article className="mp-sw-doc">
-      <span className="mp-sw-docic" aria-hidden="true" />
+    <div className="mp-sw-story">
       {paragraphs(data.body).map((p, i) => (
         <p key={i}>
           <Rich text={p} />
         </p>
       ))}
-    </article>
+    </div>
   </section>
 );
 
-/** "What we build" = folders of Files; "More from We3vision" = Recents (document thumbnails that open the page) */
+/** "What we build": pick a service, read it; "More from We3vision": a quiet list of links */
 export const SwServices: MobileSection<"services"> = ({ data, id }) => {
   const related = id === "related-services";
   return (
@@ -75,72 +62,59 @@ export const SwServices: MobileSection<"services"> = ({ data, id }) => {
       {related ? (
         <ul className="mp-sw-recent">
           {data.cards.map((c, i) => (
-            <li key={i}>
-              <AppLink href={c.href || "#contact"} className="mp-sw-thumb">
-                <span className="mp-sw-paper" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
+            <li key={i} className="ma-rvx" style={rv(i, 50)}>
+              <AppLink href={c.href || "#contact"}>
+                <span>
+                  <b>
+                    <Lines text={c.title} />
+                  </b>
+                  <small>{c.description}</small>
                 </span>
-                <b>
-                  <Lines text={c.title} />
-                </b>
-                <span>{c.description}</span>
+                <IcChevron />
               </AppLink>
             </li>
           ))}
         </ul>
       ) : (
-        <Carousel>
-          {data.cards.map((c, i) => {
+        <ServicePicker
+          label={oneLine(data.heading)}
+          tabs={data.cards.map((c) => oneLine(c.title))}
+          panels={data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
-            const more = c.fit || problems.length > 0 || outcomes.length > 0 || c.href;
             return (
-              <details key={i} className="mp-sw-folder" style={hue(i)}>
-                <summary>
-                  <span className="mp-sw-fic" aria-hidden="true" />
-                  <span className="mp-sw-fb">
-                    <b>
-                      <Lines text={c.title} />
-                    </b>
-                    <span>{c.description}</span>
-                  </span>
-                  {more && <IcChevron className="mp-sw-chev" />}
-                </summary>
-                {more && (
-                  <div className="mp-sw-fbody">
-                    {c.fit && (
-                      <>
-                        <p className="mp-sw-lab">Right for you when</p>
-                        <p>{c.fit}</p>
-                      </>
-                    )}
-                    {problems.length > 0 && (
-                      <>
-                        <p className="mp-sw-lab">Problems it solves</p>
-                        <Points items={problems} />
-                      </>
-                    )}
-                    {outcomes.length > 0 && (
-                      <>
-                        <p className="mp-sw-lab">What you get</p>
-                        <Points items={outcomes} />
-                      </>
-                    )}
-                    {c.href && (
-                      <div className="ma-actions">
-                        <Button href={c.href} variant="tinted" block>
-                          Learn more
-                        </Button>
-                      </div>
-                    )}
+              <div key={i}>
+                <h3>{oneLine(c.title)}</h3>
+                <p className="mp-sw-lead">{c.description}</p>
+                {c.fit && (
+                  <>
+                    <p className="mp-sw-lab">Right for you when</p>
+                    <p>{c.fit}</p>
+                  </>
+                )}
+                {problems.length > 0 && (
+                  <>
+                    <p className="mp-sw-lab">Problems it solves</p>
+                    <Points items={problems} />
+                  </>
+                )}
+                {outcomes.length > 0 && (
+                  <>
+                    <p className="mp-sw-lab">What you get</p>
+                    <Points items={outcomes} />
+                  </>
+                )}
+                {c.href && (
+                  <div className="ma-actions">
+                    <Button href={c.href} variant="tinted" block>
+                      Learn more
+                    </Button>
                   </div>
                 )}
-              </details>
+              </div>
             );
           })}
-        </Carousel>
+        />
       )}
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
@@ -153,67 +127,48 @@ export const SwServices: MobileSection<"services"> = ({ data, id }) => {
   );
 };
 
-/** the life cycle as a project navigator: a tree, every stage a file, the points its children */
+/** the life cycle: six steps, a small number, a title, a line. Nothing else. */
 export const SwProcess: MobileSection<"process"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ol className="mp-sw-tree">
+    <ol className="mp-sw-steps">
       {data.items.map((x, i) => (
-        <li key={i}>
-          <div className="mp-sw-node">
-            <span className="mp-sw-n">{String(i + 1).padStart(2, "0")}</span>
-            <h3>{oneLine(x.title)}</h3>
-          </div>
+        <li key={i} className="ma-rvx" style={rv(i, 60)}>
+          <span className="mp-sw-n" aria-hidden="true">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <h3>{oneLine(x.title)}</h3>
           <p>{x.text}</p>
-          {lines(x.points).length > 0 && (
-            <ul className="mp-sw-kids">
-              {lines(x.points).map((p, n) => (
-                <li key={n}>{p}</li>
-              ))}
-            </ul>
-          )}
+          {lines(x.points).length > 0 && <p className="mp-sw-pts">{lines(x.points).join("  ·  ")}</p>}
         </li>
       ))}
     </ol>
   </Section>
 );
 
-/** the technologies as linked frameworks */
+/** the technologies as one line of text */
 export const SwTags: MobileSection<"tags"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-sw-libs">
+    <p className="mp-sw-stack">
       {lines(data.items).map((t, i) => (
-        <li key={i}>
-          <span className="mp-sw-box" aria-hidden="true" />
-          {t}
-        </li>
+        <span key={i}>{t}</span>
       ))}
-    </ul>
+    </p>
   </Section>
 );
 
-/** the industries as Files tags: a coloured dot, the name, the text */
+/** the industries as a stage: pick one and a small app of that kind builds itself, with the text and a button under it */
 export const SwIndustries: MobileSection<"industries"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <ul className="mp-sw-tags">
-      {data.items.map((x, i) => (
-        <li key={i} style={hue(i)}>
-          <span className="mp-sw-dot" aria-hidden="true" />
-          <div>
-            <b>{x.name}</b>
-            <p>{x.description}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <IndustryStage items={data.items.map((x) => ({ name: x.name, description: x.description }))} />
   </Section>
 );
 
-/** the advantages as the inspector: a label on top, the value under it */
+/** the advantages: a short title and one line, open on the page */
 export const SwAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
     <div className="mp-sw-insp">
       {data.items.map((x, i) => (
-        <section key={i}>
+        <section key={i} className="ma-rvx" style={rv(i, 50)}>
           <h3>{x.title}</h3>
           <p>{x.description}</p>
         </section>
@@ -222,21 +177,21 @@ export const SwAdvantages: MobileSection<"advantages"> = ({ data, id }) => (
   </Section>
 );
 
-/** the FAQ as a debug console: the question is the prompt, the answer the output */
+/** FAQ: an open list; the question is a regular line, the answer opens under it */
 export const SwFaq: MobileSection<"faq"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
-    <div className="mp-sw-con">
+    <ul className="mp-sw-qa" data-exclusive>
       {data.items.map((x, i) => (
-        <details key={i}>
-          <summary>
-            <span className="mp-sw-prompt" aria-hidden="true">
-              &gt;
-            </span>
-            <span>{x.question}</span>
-          </summary>
-          <p>{x.answer}</p>
-        </details>
+        <li key={i}>
+          <details>
+            <summary>
+              <span>{x.question}</span>
+              <i aria-hidden="true" />
+            </summary>
+            <p>{x.answer}</p>
+          </details>
+        </li>
       ))}
-    </div>
+    </ul>
   </Section>
 );

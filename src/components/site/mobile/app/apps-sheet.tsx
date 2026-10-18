@@ -3,7 +3,7 @@
 import { useMemo, useState, type CSSProperties } from "react";
 import { Glyph } from "../glyph";
 import { APPS, SECTIONS } from "../launcher-data";
-import { IcChevron } from "./icons";
+import { IcChevron, IcPhone } from "./icons";
 import { AppLink } from "./link";
 import type { OutlineItem } from "./nav-types";
 import { useSheet } from "./use-sheet";
@@ -13,7 +13,7 @@ import { useSheet } from "./use-sheet";
  * rounded glass list that scrolls (momentum, no scroll-through). "On this page" jumps inside the screen; every other row opens another page
  * of the website as its own app. A search field filters the list.
  */
-export function AppsSheet({ open, onClose, outline, currentHref, onJump }: { open: boolean; onClose: () => void; outline: OutlineItem[]; currentHref: string; onJump: (id: string) => void }) {
+export function AppsSheet({ open, onClose, outline, currentHref, onJump, onContact, onShare }: { open: boolean; onClose: () => void; outline: OutlineItem[]; currentHref: string; onJump: (id: string) => void; onContact?: () => void; onShare?: () => void }) {
   const { shown, state, drag, grab } = useSheet(open, onClose);
   const [q, setQ] = useState("");
 
@@ -39,6 +39,13 @@ export function AppsSheet({ open, onClose, outline, currentHref, onJump }: { ope
           <button type="button" className="ma-sheet-x" onClick={onClose}>
             Done
           </button>
+          {onShare && (
+            <button type="button" className="ma-sheet-act" onClick={onShare} aria-label="Share this page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 15V4M8 8l4-4 4 4M6 12H5.5A1.5 1.5 0 0 0 4 13.5v5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-5a1.5 1.5 0 0 0-1.5-1.5H18" />
+              </svg>
+            </button>
+          )}
         </div>
         <label className="ma-sheet-search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -49,6 +56,36 @@ export function AppsSheet({ open, onClose, outline, currentHref, onJump }: { ope
         </label>
 
         <div className="ma-sheet-scroll">
+          {onContact && !q.trim() && (
+            <section>
+              <ul className="ma-sheet-list ma-sheet-first">
+                <li>
+                  <button type="button" className="ma-sheet-row" onClick={onContact}>
+                    <span className="ma-appic is-s ma-tile-green" aria-hidden="true"><IcPhone /></span>
+                    <span className="ma-sheet-txt">
+                      <b>Contact us</b>
+                      <small>Call, WhatsApp, e-mail or write to us</small>
+                    </span>
+                    <IcChevron className="ma-sheet-chev" />
+                  </button>
+                </li>
+                {onShare && (
+                  <li>
+                    <button type="button" className="ma-sheet-row" onClick={onShare}>
+                      <span className="ma-appic is-s ma-tile-blue" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15V4M8 8l4-4 4 4M6 12H5.5A1.5 1.5 0 0 0 4 13.5v5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-5a1.5 1.5 0 0 0-1.5-1.5H18" /></svg>
+                      </span>
+                      <span className="ma-sheet-txt">
+                        <b>Share this page</b>
+                        <small>Send the link to a friend</small>
+                      </span>
+                      <IcChevron className="ma-sheet-chev" />
+                    </button>
+                  </li>
+                )}
+              </ul>
+            </section>
+          )}
           {groups.jumps.length > 0 && (
             <section>
               <h3 className="ma-sheet-h">On this page</h3>

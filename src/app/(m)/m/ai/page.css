@@ -1,103 +1,247 @@
-/* /ai app screen ("mp-ai-"): an assistant app. Hero = first message with quick replies, flow = one agent run, pairs = you / assistant bubbles. Kit tokens only. */
+/* /ai phone + tablet screen ("mp-ai-"), iOS 27: an intelligence app in the look of Apple Intelligence.
+   One glass recipe (brain/16), the Apple type scale (regular 400; 500 for row titles; 600 for headings), 72 px between sections, open lists with
+   hairlines. Glass only where it groups a tool (the run, the answer, the service cards, the prompt). The glow ring is in two places only: the
+   summary card and the prompt box while you write. Consolidated 2026-10-18 (replaces the many appended passes). */
 
-/* ---- avatar and bubbles ---- */
-.ma-root .mp-ai-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; color: #fff; background: linear-gradient(145deg, hsl(calc(var(--ma-h) + 30) calc(90% * var(--ts)) 62%), hsl(calc(var(--ma-h) - 20) calc(85% * var(--ts)) 42%)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.45), 0 4px 12px hsl(var(--ma-h) calc(80% * var(--ts)) 30% / 0.5); }
-.ma-root .mp-ai-av svg { width: 20px; height: 20px; }
-.ma-root .mp-ai-msg { display: flex; align-items: flex-end; gap: 10px; max-width: 94%; }
-.ma-root .mp-ai-bub { min-width: 0; padding: 12px 16px; border-radius: 22px 22px 22px 6px; background: var(--ma-card2); border: 1px solid var(--ma-line); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.06); }
-.ma-root .mp-ai-who { margin-bottom: 4px; font-size: 13px; font-weight: 600; color: var(--ma-tint); }
-.ma-root .mp-ai-p { font-size: 16px; line-height: 1.6; color: var(--ma-text); }
-.ma-root .mp-ai-p em { font-weight: 600; }
-.ma-root .mp-ai-stack { display: grid; gap: 12px; }
-.ma-root .mp-ai-me { align-self: flex-end; justify-self: end; max-width: 88%; padding: 12px 16px; border-radius: 22px 22px 6px 22px; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); }
-.ma-root .mp-ai-me p { font-size: 16px; line-height: 1.55; color: #fff; }
-.ma-root .mp-ai-cap { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: var(--ma-text3); }
-.ma-root .mp-ai-me .mp-ai-cap { color: hsl(0 0% 100% / 0.8); }
-.ma-root .mp-ai-done { display: inline-flex; align-items: center; margin-top: 8px; min-height: 28px; padding: 0 12px; border-radius: 999px; font-size: 13px; font-weight: 600; background: var(--ma-wash); color: var(--ma-tint); }
-.ma-root .mp-ai-chev { flex: none; width: 18px; height: 18px; color: var(--ma-text3); transition: transform 0.3s var(--ma-ease); }
+.ma-root[data-page="ai"] {
+  --g-fill: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06));
+  --g-blur: blur(24px) saturate(1.8);
+  --g-edge: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828;
+  --g-shadow: var(--g-edge), 0 10px 30px hsl(0 0% 0% / 0.22);
+  --fill3: hsl(240 6% 50% / 0.22);
+  --tint-grad: linear-gradient(180deg, hsl(calc(var(--ma-h) + 4) calc(88% * var(--ts)) 58%), var(--ma-tint-bg));
+}
+@property --mp-ai-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes mp-ai-edge { to { --mp-ai-a: 360deg; } }
+@keyframes mp-ai-spin { to { transform: rotate(360deg); } }
+@keyframes mp-ai-in { from { opacity: 0; filter: blur(6px); translate: 0 6px; } }
+@keyframes mp-ai-drift { to { transform: translateX(-50%); } }
+@keyframes mp-ai-dot { 40% { translate: 0 -4px; opacity: 1; } 0%, 80%, 100% { opacity: 0.4; } }
 
-/* ---- hero: the first message ---- */
-.ma-root .mp-ai-hero { position: relative; margin-top: 6px; padding: 22px 20px 20px; border-radius: 30px; overflow: hidden; background: radial-gradient(120% 80% at 100% 0%, hsl(calc(var(--ma-h) + 40) calc(90% * var(--ts)) 55% / 0.28), transparent 60%), linear-gradient(170deg, var(--ma-card2), var(--ma-card)); border: 1px solid var(--ma-rim); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14), 0 20px 44px hsl(0 0% 0% / 0.32); animation: mp-ai-pop 0.6s var(--ma-spring) backwards; }
-.ma-root .mp-ai-top { display: flex; align-items: center; gap: 10px; }
-.ma-root .mp-ai-chip { display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px; border-radius: 999px; font-size: 14px; font-weight: 600; background: var(--ma-wash); color: var(--ma-tint); }
-.ma-root .mp-ai-h { margin: 16px 0 0; font-size: 31px; line-height: 1.14; font-weight: 700; letter-spacing: -0.024em; text-wrap: balance; }
+/* ---- rhythm and the section heads ---- */
+.ma-root[data-page="ai"] .ma-sec { margin-top: 0; padding-top: 72px; }
+.ma-root[data-page="ai"] .ma-sec-head { margin-bottom: 28px; }
+.ma-root[data-page="ai"] .ma-chip { font-size: 13px; font-weight: 500; letter-spacing: -0.08px; }
+.ma-root[data-page="ai"] .ma-h2 { margin-top: 12px; font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; overflow-wrap: break-word; }
+.ma-root[data-page="ai"] .ma-intro { margin-top: 12px; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root[data-page="ai"] .ma-actions { margin-top: 28px; }
+.ma-root[data-page="ai"] .ma-pts li { font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; }
+.ma-root[data-page="ai"] .ma-fold > summary { font-size: 17px; font-weight: 400; letter-spacing: -0.43px; }
+.ma-root .mp-ai-cap { margin: 20px 0 6px; font-size: 13px; line-height: 1.35; letter-spacing: -0.08px; color: var(--ma-text3); }
+.ma-root .mp-ai-p { margin: 0; font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text); text-wrap: pretty; }
+.ma-root .mp-ai-p + .mp-ai-p { margin-top: 14px; }
+
+/* ---- hero: the orb, a quiet label, a large title, the text, two buttons side by side ---- */
+.ma-root .mp-ai-hero { display: grid; justify-items: center; padding: 28px 0 0; text-align: center; }
+.ma-root .mp-ai-orb { position: relative; display: grid; place-items: center; width: 116px; height: 116px; margin-bottom: 26px; color: #fff; }
+.ma-root .mp-ai-orb i { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, hsl(calc(var(--ma-h) + 10) calc(95% * var(--ts)) 62%), hsl(calc(var(--ma-h) + 90) calc(95% * var(--ts)) 60%), hsl(calc(var(--ma-h) + 170) calc(90% * var(--ts)) 60%), hsl(calc(var(--ma-h) - 60) calc(95% * var(--ts)) 62%), hsl(calc(var(--ma-h) + 10) calc(95% * var(--ts)) 62%)); filter: blur(14px); opacity: 0.8; animation: mp-ai-spin 9s linear infinite; }
+.ma-root .mp-ai-orb i:nth-of-type(2) { inset: 12px; filter: blur(8px); opacity: 0.9; animation-duration: 6s; animation-direction: reverse; }
+.ma-root .mp-ai-orb i:nth-of-type(3) { inset: 24px; filter: blur(2px); opacity: 1; animation-duration: 12s; box-shadow: inset 0 0 18px hsl(0 0% 100% / 0.55); }
+.ma-root .mp-ai-orb svg { position: relative; width: 34px; height: 34px; filter: drop-shadow(0 2px 10px hsl(0 0% 0% / 0.35)); }
+.ma-root .mp-ai-chip { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-tint); }
+.ma-root .mp-ai-h { margin: 10px 0 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: break-word; }
 .ma-root .mp-ai-h span + span { color: var(--ma-tint); }
-.ma-root .mp-ai-t { margin-top: 12px; font-size: 17px; line-height: 1.62; color: var(--ma-text2); }
-.ma-root .mp-ai-replies { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-.ma-root .mp-ai-reply { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 999px; font-size: 16px; font-weight: 600; text-align: center; background: var(--ma-fill); border: 1px solid var(--ma-rim); transition: transform 0.25s var(--ma-spring); }
-.ma-root .mp-ai-reply.is-main { background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); border-color: transparent; box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); }
-.ma-root .mp-ai-reply:active { transform: scale(0.96); }
-@keyframes mp-ai-pop { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.97); } }
+.ma-root .mp-ai-t { max-width: 34ch; margin: 16px auto 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-ai-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; margin-top: 28px; }
+.ma-root .mp-ai-btn { flex: 1 1 auto; display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 16px; border-radius: 999px; font-size: 15px; font-weight: 500; letter-spacing: -0.24px; white-space: nowrap; color: var(--ma-text); background: var(--g-fill); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-edge); -webkit-tap-highlight-color: transparent; transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-ai-btn.is-main { color: #fff; background: var(--tint-grad); }
+.ma-root .mp-ai-btn:active { transform: scale(0.96); }
+.ma-root .mp-ai-hero > * { animation: mp-ai-in 0.7s var(--ma-ease) backwards; }
+.ma-root .mp-ai-hero > :nth-child(2) { animation-delay: 0.06s; }
+.ma-root .mp-ai-hero > :nth-child(3) { animation-delay: 0.12s; }
+.ma-root .mp-ai-hero > :nth-child(4) { animation-delay: 0.18s; }
+.ma-root .mp-ai-hero > :nth-child(5) { animation-delay: 0.24s; }
 
-/* ---- flow: one run of the agent ---- */
-.ma-root .mp-ai-thread { display: grid; gap: 12px; }
-.ma-root .mp-ai-run { padding: 16px; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); }
-.ma-root .mp-ai-runh { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 17px; }
-.ma-root .mp-ai-tools { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.ma-root .mp-ai-tools li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; border-radius: 16px; background: var(--ma-fill); font-size: 16px; line-height: 1.5; }
-.ma-root .mp-ai-tick { flex: none; position: relative; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; background: var(--ma-tint-bg); }
-.ma-root .mp-ai-tick::after { content: ""; position: absolute; left: 6px; top: 6px; width: 10px; height: 6px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
-.ma-root .mp-ai-note { margin-top: 12px; font-size: 15px; line-height: 1.55; color: var(--ma-text3); }
-.ma-root .mp-ai-chipbox { padding: 14px 16px 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
-.ma-root .mp-ai-chipbox .mp-ai-cap { margin-bottom: 10px; }
-.ma-root .mp-ai-chipbox.is-act { background: linear-gradient(155deg, hsl(var(--ma-h) calc(70% * var(--ts)) 26% / 0.85), var(--ma-card) 70%); }
+/* ---- flow: your words as a bubble, then the run as a grouped glass table (Figma slider + stepper + switch rows) ---- */
+.ma-root .mp-ai-run { display: grid; gap: 16px; }
+.ma-root .mp-ai-ask-me { justify-self: end; max-width: 86%; margin: 0; padding: 12px 16px; border-radius: 22px 22px 6px 22px; font-size: 17px; line-height: 1.4; letter-spacing: -0.43px; color: #fff; background: var(--tint-grad); box-shadow: var(--g-edge); overflow-wrap: break-word; }
+.ma-root .mp-ai-ask-me span { display: block; margin-bottom: 4px; font-size: 13px; letter-spacing: -0.08px; opacity: 0.8; }
+.ma-root .mp-ai-core { display: flex; align-items: center; gap: 10px; min-width: 0; font-size: 15px; letter-spacing: -0.24px; color: var(--ma-text2); }
+.ma-root .mp-ai-core b { min-width: 0; font-weight: 500; }
+.ma-root .mp-ai-mini { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: #fff; background: conic-gradient(from 20deg, hsl(calc(var(--ma-h) + 10) calc(90% * var(--ts)) 60%), hsl(calc(var(--ma-h) + 120) calc(90% * var(--ts)) 58%), hsl(calc(var(--ma-h) - 60) calc(90% * var(--ts)) 60%), hsl(calc(var(--ma-h) + 10) calc(90% * var(--ts)) 60%)); }
+.ma-root .mp-ai-mini svg { width: 15px; height: 15px; }
+.ma-root .mp-ai-table { display: grid; padding: 6px 16px 2px; border-radius: 28px; background: var(--g-fill); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-shadow); }
+.ma-root .mp-ai-sl { display: flex; align-items: center; gap: 12px; min-height: 52px; color: var(--ma-text3); }
+.ma-root .mp-ai-sl > svg { flex: none; width: 24px; height: 24px; }
+.ma-root .mp-ai-sl-box { --tw: 57px; position: relative; flex: 1; min-width: 0; height: 52px; }
+.ma-root .mp-ai-sl-box input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; background: none; appearance: none; -webkit-appearance: none; cursor: grab; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-ai-sl-box input:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; border-radius: 14px; }
+.ma-root .mp-ai-sl-box input::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--ma-tint-bg) calc(var(--tw) / 2 + (100% - var(--tw)) * var(--p)), hsl(0 0% 47% / 0.2) 0); }
+.ma-root .mp-ai-sl-box input::-moz-range-track { height: 6px; border-radius: 3px; background: hsl(0 0% 47% / 0.2); }
+.ma-root .mp-ai-sl-box input::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--ma-tint-bg); }
+.ma-root .mp-ai-sl-box input::-webkit-slider-thumb { -webkit-appearance: none; width: 57px; height: 40px; margin-top: -17px; border-radius: 1000px; border: 0.5px solid #ccc; background: hsl(0 0% 100% / 0.09); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); box-shadow: inset 0 40px 10px -40px #404040, inset 0 -40px 10px -40px #282828, inset 0 15px 25px -10px #e5e5e5, 0 1px 4px hsl(0 0% 0% / 0.4); transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-ai-sl-box input:active::-webkit-slider-thumb { transform: scale(1.06); }
+.ma-root .mp-ai-sl-box input::-moz-range-thumb { width: 57px; height: 40px; border-radius: 1000px; border: 0.5px solid #ccc; background: hsl(0 0% 100% / 0.09); box-shadow: inset 0 15px 25px -10px #e5e5e5, 0 1px 4px hsl(0 0% 0% / 0.4); }
+.ma-root .mp-ai-sl-dots { position: absolute; left: 0; right: 0; bottom: 15px; height: 3px; pointer-events: none; }
+.ma-root .mp-ai-sl-dots i { position: absolute; bottom: 0; left: calc(var(--tw) / 2 + (100% - var(--tw)) * var(--i)); width: 3px; height: 3px; margin-left: -1.5px; border-radius: 50%; background: hsl(0 0% 100% / 0.28); }
+.ma-root .mp-ai-nowrow { display: flex; align-items: center; gap: 16px; min-height: 64px; padding: 12px 0; border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ai-now { flex: 1; min-width: 0; margin: 0; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; overflow-wrap: break-word; animation: mp-ai-in 0.4s var(--ma-ease) backwards; }
+.ma-root .mp-ai-rows { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-rows li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ai-rows button { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 52px; padding: 10px 0; border: 0; background: none; color: var(--ma-text2); font: inherit; font-size: 17px; line-height: 1.3; letter-spacing: -0.43px; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s var(--ma-ease); }
+.ma-root .mp-ai-rows button > span { flex: 1; min-width: 0; overflow-wrap: break-word; }
+.ma-root .mp-ai-rows button[aria-checked="true"] { color: var(--ma-text); }
+.ma-root .mp-ai-rows button:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; border-radius: 10px; }
+.ma-root .mp-ai-tg { flex: none; position: relative; width: 51px; height: 31px; border-radius: 999px; background: hsl(0 0% 100% / 0.16); transition: background-color 0.35s var(--ma-ease); }
+.ma-root .mp-ai-tg::after { content: ""; position: absolute; left: 2px; top: 2px; width: 40px; height: 27px; border-radius: 14px; background: #fff; box-shadow: 0 2px 6px hsl(0 0% 0% / 0.3); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-ai-rows button[aria-checked="true"] .mp-ai-tg { background: var(--ma-tint-bg); }
+.ma-root .mp-ai-rows button[aria-checked="true"] .mp-ai-tg::after { transform: translateX(7px); }
+.ma-root .mp-ai-note { margin: 0; padding: 0 4px; font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text3); }
+.ma-root .mp-ai-io { display: grid; gap: 24px; margin: 32px 0 0; }
+.ma-root .mp-ai-io dt { margin-bottom: 10px; font-size: 13px; letter-spacing: -0.08px; color: var(--ma-text3); }
+.ma-root .mp-ai-io dd { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.ma-root .mp-ai-io dd span { padding: 7px 14px; border-radius: 999px; font-size: 15px; line-height: 1.3; letter-spacing: -0.24px; background: var(--fill3); }
 
-/* ---- "problem / solution" pairs ---- */
-.ma-root .mp-ai-pairs { display: grid; gap: 22px; margin: 0; padding: 0; list-style: none; }
-.ma-root .mp-ai-pairs > li { display: grid; gap: 8px; }
+/* ---- story: calm glass, the glow is only a 1.5 px ring that turns twice (glow place 1 of 2) ---- */
+.ma-root .mp-ai-glow { position: relative; padding: 22px 20px; border-radius: 28px; background: var(--g-fill); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-shadow); }
+.ma-root .mp-ai-glow::before { content: ""; position: absolute; inset: 0; padding: 1.5px; border-radius: inherit; pointer-events: none; opacity: 0.85; background: conic-gradient(from var(--mp-ai-a), hsl(calc(var(--ma-h) + 10) calc(95% * var(--ts)) 62%), hsl(calc(var(--ma-h) + 100) calc(95% * var(--ts)) 60%), hsl(calc(var(--ma-h) + 180) calc(90% * var(--ts)) 60%), hsl(calc(var(--ma-h) - 60) calc(95% * var(--ts)) 62%), hsl(calc(var(--ma-h) + 10) calc(95% * var(--ts)) 62%)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); animation: mp-ai-edge 7s linear 2; }
 
-/* ---- agent cards ---- */
-.ma-root .mp-ai-agents { display: grid; gap: 12px; }
-.ma-root .mp-ai-agent { border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
-.ma-root .mp-ai-agent > summary { list-style: none; display: flex; align-items: flex-start; gap: 14px; min-height: 64px; padding: 16px; cursor: pointer; }
-.ma-root .mp-ai-agent > summary::-webkit-details-marker { display: none; }
-.ma-root .mp-ai-agent[open] .mp-ai-chev, .ma-root .mp-ai-prompts details[open] .mp-ai-chev { transform: rotate(90deg); }
-.ma-root .mp-ai-agent-ic { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; font-size: 14px; font-weight: 700; color: #fff; background: linear-gradient(145deg, hsl(calc(var(--ma-h) + 30) calc(90% * var(--ts)) 58%), hsl(calc(var(--ma-h) - 20) calc(85% * var(--ts)) 40%)); }
-.ma-root .mp-ai-agent-b { flex: 1; min-width: 0; display: grid; gap: 4px; }
-.ma-root .mp-ai-agent-b b { font-size: 19px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; }
-.ma-root .mp-ai-agent-b b span + span::before { content: " "; }
-.ma-root .mp-ai-agent-b > span { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
-.ma-root .mp-ai-agent .mp-ai-chev { margin-top: 12px; }
-.ma-root .mp-ai-agent-body { padding: 0 16px 18px; border-top: 1px solid var(--ma-line); }
-.ma-root .mp-ai-agent-body .mp-ai-cap { margin: 16px 0 0; }
-.ma-root .mp-ai-agent-body > p:not(.mp-ai-cap) { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.ma-root .mp-ai-agent[open] .mp-ai-agent-body { animation: ma-open 0.35s var(--ma-ease) backwards; }
+/* ---- guide: suggestions, an open list ---- */
+.ma-root .mp-ai-sug { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-sug li { display: flex; align-items: flex-start; gap: 14px; padding: 16px 0; font-size: 17px; line-height: 1.4; letter-spacing: -0.43px; }
+.ma-root .mp-ai-sug li:first-child { padding-top: 0; }
+.ma-root .mp-ai-sug li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ai-sug li > span { flex: 1; min-width: 0; }
+.ma-root .mp-ai-sug svg { flex: none; width: 20px; height: 20px; margin-top: 2px; color: var(--ma-tint); }
 
-/* ---- process: a run log ---- */
-.ma-root .mp-ai-log { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.ma-root .mp-ai-log > li { display: flex; gap: 14px; padding: 16px; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); }
-.ma-root .mp-ai-logn { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; font-size: 14px; font-weight: 700; background: var(--ma-wash); color: var(--ma-tint); }
-.ma-root .mp-ai-log h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; }
-.ma-root .mp-ai-log p { margin-top: 4px; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.ma-root .mp-ai-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
-.ma-root .mp-ai-tags li { padding: 4px 12px; border-radius: 999px; font-size: 15px; background: var(--ma-fill); border: 1px solid var(--ma-line); color: var(--ma-text2); }
+/* ---- automate: an open list; each problem has an iOS segmented control that flips it to the answer ---- */
+.ma-root .mp-ai-flips { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-flips > li { padding: 24px 0; }
+.ma-root .mp-ai-flips > li:first-child { padding-top: 0; }
+.ma-root .mp-ai-flips > li:last-child { padding-bottom: 0; }
+.ma-root .mp-ai-flips > li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ai-seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 2px; border-radius: 999px; background: var(--fill3); }
+.ma-root .mp-ai-seg i { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); border-radius: 999px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.32), hsl(0 0% 100% / 0.2)); box-shadow: 0 3px 8px hsl(0 0% 0% / 0.25), inset 0 0.5px 0 hsl(0 0% 100% / 0.5); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-ai-flip.is-ai .mp-ai-seg i { transform: translateX(100%); }
+.ma-root .mp-ai-seg button { position: relative; min-width: 0; min-height: 36px; padding: 6px 10px; border: 0; background: none; color: var(--ma-text2); font: inherit; font-size: 15px; line-height: 1.25; letter-spacing: -0.24px; overflow-wrap: break-word; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s var(--ma-ease); }
+.ma-root .mp-ai-seg button[aria-pressed="true"] { color: var(--ma-text); }
+.ma-root .mp-ai-seg button:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 1px; border-radius: 999px; }
+.ma-root .mp-ai-faces { display: block; }
+.ma-root .mp-ai-face { margin: 0; padding: 16px 2px 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; animation: mp-ai-in 0.4s var(--ma-ease) backwards; }
+.ma-root .mp-ai-face.is-b { color: var(--ma-text); }
+.ma-root .mp-ai-done { display: block; margin-top: 10px; font-size: 13px; letter-spacing: -0.08px; color: var(--ma-tint); }
 
-/* ---- tags: model chips, a sideways row ---- */
-.ma-root .mp-ai-models { display: grid; grid-auto-flow: column; grid-template-rows: repeat(3, auto); gap: 8px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 8px; list-style: none; overflow-x: auto; scrollbar-width: none; }
-.ma-root .mp-ai-models::-webkit-scrollbar { display: none; }
-.ma-root .mp-ai-models li { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px 0 12px; border-radius: 14px; font-size: 16px; font-weight: 500; white-space: nowrap; background: var(--ma-card); border: 1px solid var(--ma-line); }
-.ma-root .mp-ai-models li span { width: 10px; height: 10px; border-radius: 50%; background: var(--ma-tint-bg); box-shadow: 0 0 0 3px var(--ma-wash); }
+/* ---- services: tinted glass cards; the details open under the title ---- */
+.ma-root .mp-ai-cards { display: grid; gap: 16px; }
+.ma-root .mp-ai-card { --hue: calc(var(--ma-h) + var(--off, 0)); border-radius: 28px; overflow: hidden; background: radial-gradient(120% 100% at 100% 0%, hsl(var(--hue) calc(85% * var(--ts)) 58% / 0.3), transparent 60%), var(--g-fill); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-shadow); transition: transform 0.4s var(--ma-spring); }
+.ma-root .mp-ai-card:has(> summary:active) { transform: scale(0.985); }
+.ma-root .mp-ai-card > summary { position: relative; display: grid; gap: 6px; padding: 20px; list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-ai-card > summary::-webkit-details-marker { display: none; }
+.ma-root .mp-ai-card > summary:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: -4px; border-radius: 28px; }
+.ma-root .mp-ai-no { margin-bottom: 20px; font-size: 13px; letter-spacing: -0.08px; color: var(--ma-text3); font-variant-numeric: tabular-nums; }
+.ma-root .mp-ai-card b { font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; color: var(--ma-text); text-wrap: balance; overflow-wrap: break-word; }
+.ma-root .mp-ai-d { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-ai-plus { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; color: var(--ma-text); background: hsl(0 0% 100% / 0.14); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-ai-plus::before, .ma-root .mp-ai-plus::after { content: ""; position: absolute; left: 9px; top: 15px; width: 14px; height: 2px; border-radius: 1px; background: currentColor; }
+.ma-root .mp-ai-plus::after { transform: rotate(90deg); }
+.ma-root .mp-ai-card[open] .mp-ai-plus { transform: rotate(45deg); }
+.ma-root .mp-ai-more { padding: 0 20px 22px; }
+.ma-root .mp-ai-card[open] .mp-ai-more { animation: mp-ai-in 0.45s var(--ma-ease) backwards; }
+.ma-root .mp-ai-more > .mp-ai-cap:first-child { margin-top: 4px; }
+.ma-root .mp-ai-more > p:not(.mp-ai-cap) { margin: 0; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text); }
 
-/* ---- industries: suggested prompts and FAQ ---- */
-.ma-root .mp-ai-prompts, .ma-root .mp-ai-qa { display: grid; gap: 10px; }
-.ma-root .mp-ai-prompts details, .ma-root .mp-ai-qa details { border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
-.ma-root .mp-ai-prompts summary, .ma-root .mp-ai-qa summary { list-style: none; display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 12px 16px; font-size: 17px; font-weight: 600; cursor: pointer; }
-.ma-root .mp-ai-prompts summary::-webkit-details-marker, .ma-root .mp-ai-qa summary::-webkit-details-marker { display: none; }
-.ma-root .mp-ai-prompts summary > span, .ma-root .mp-ai-qa summary > span { flex: 1; min-width: 0; }
-.ma-root .mp-ai-prompts .mp-ai-msg, .ma-root .mp-ai-qa .mp-ai-msg { margin: 0 12px 14px; max-width: none; }
-.ma-root .mp-ai-prompts details[open] .mp-ai-msg, .ma-root .mp-ai-qa details[open] .mp-ai-msg { animation: ma-open 0.35s var(--ma-ease) backwards; }
-.ma-root .mp-ai-qa summary { align-items: flex-start; line-height: 1.4; }
-.ma-root .mp-ai-qa summary::before { content: ""; flex: none; width: 10px; height: 10px; margin-top: 7px; border-radius: 50%; background: var(--ma-tint-bg); }
-.ma-root .mp-ai-qa details[open] summary { color: var(--ma-tint); }
+/* ---- process: a thread through quiet numbers; the points as one line of text ---- */
+.ma-root .mp-ai-log { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-log > li { position: relative; display: flex; gap: 16px; padding-bottom: 28px; }
+.ma-root .mp-ai-log > li:last-child { padding-bottom: 0; }
+.ma-root .mp-ai-log > li:not(:last-child)::before { content: ""; position: absolute; left: 15.5px; top: 40px; bottom: 8px; width: 1px; background: var(--ma-line); }
+.ma-root .mp-ai-logn { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; font-size: 15px; font-weight: 500; color: var(--ma-tint); background: var(--ma-wash); font-variant-numeric: tabular-nums; }
+.ma-root .mp-ai-log > li > div { flex: 1; min-width: 0; }
+.ma-root .mp-ai-log h3 { margin: 5px 0 0; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-ai-log p { margin: 6px 0 0; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-ai-tags { display: flex; flex-wrap: wrap; margin: 10px 0 0; padding: 0; list-style: none; font-size: 15px; line-height: 1.5; letter-spacing: -0.24px; color: var(--ma-text3); }
+.ma-root .mp-ai-tags li + li::before { content: "·"; margin: 0 8px; }
 
-/* ---- advantages: a settings-like list ---- */
-.ma-root .mp-ai-why { display: grid; margin: 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
-.ma-root .mp-ai-why li { display: flex; align-items: flex-start; gap: 14px; padding: 16px; }
+/* ---- tags: two rows of model names drifting sideways (press to hold) ---- */
+.ma-root .mp-ai-models { display: grid; gap: 10px; margin: 0 calc(-1 * var(--ma-gut)); overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.ma-root .mp-ai-track { display: flex; width: max-content; animation: mp-ai-drift 40s linear infinite; }
+.ma-root .mp-ai-track.is-back { animation-direction: reverse; animation-duration: 46s; }
+.ma-root .mp-ai-models:active .mp-ai-track { animation-play-state: paused; }
+.ma-root .mp-ai-track ul { display: flex; gap: 10px; margin: 0; padding: 0 5px; list-style: none; }
+.ma-root .mp-ai-track li { display: flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; font-size: 15px; letter-spacing: -0.24px; white-space: nowrap; background: var(--fill3); }
+
+/* ---- industries: capsules you tap, the answer as a glass bubble under them ---- */
+.ma-root .mp-ai-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.ma-root .mp-ai-chips button { max-width: 100%; min-height: 44px; padding: 8px 16px; border: 0; border-radius: 999px; background: var(--fill3); color: var(--ma-text); font: inherit; font-size: 15px; line-height: 1.25; letter-spacing: -0.24px; text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s var(--ma-ease), color 0.3s, transform 0.3s var(--ma-spring); }
+.ma-root .mp-ai-chips button:active { transform: scale(0.95); }
+.ma-root .mp-ai-chips button[aria-pressed="true"] { color: #fff; background: var(--tint-grad); box-shadow: var(--g-edge); }
+.ma-root .mp-ai-chips button:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; }
+.ma-root .mp-ai-reply-box { min-height: 128px; margin-top: 20px; padding: 18px 20px; border-radius: 26px 26px 26px 8px; background: var(--g-fill); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-shadow); }
+.ma-root .mp-ai-reply-box p { margin: 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; }
+.ma-root .mp-ai-hint { color: var(--ma-text3); }
+.ma-root .mp-ai-answer { display: grid; gap: 6px; animation: mp-ai-in 0.45s var(--ma-ease) backwards; }
+.ma-root .mp-ai-answer b { font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: 0.38px; overflow-wrap: break-word; }
+.ma-root .mp-ai-answer p { color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-ai-dots { display: flex; gap: 6px; padding: 10px 0; }
+.ma-root .mp-ai-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--ma-text3); animation: mp-ai-dot 0.9s ease-in-out infinite; }
+.ma-root .mp-ai-dots i:nth-child(2) { animation-delay: 0.15s; }
+.ma-root .mp-ai-dots i:nth-child(3) { animation-delay: 0.3s; }
+
+/* ---- advantages: an open settings list; title + line, a switch that turns on as it comes into view ---- */
+.ma-root .mp-ai-why { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-ai-why li { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; }
+.ma-root .mp-ai-why li:first-child { padding-top: 0; }
 .ma-root .mp-ai-why li + li { border-top: 1px solid var(--ma-line); }
-.ma-root .mp-ai-switch { flex: none; position: relative; width: 46px; height: 28px; margin-top: 2px; border-radius: 999px; background: var(--ma-tint-bg); }
-.ma-root .mp-ai-switch::after { content: ""; position: absolute; right: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px hsl(0 0% 0% / 0.3); }
-.ma-root .mp-ai-why b { font-size: 17px; line-height: 1.35; font-weight: 600; }
-.ma-root .mp-ai-why p { margin-top: 4px; font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+.ma-root .mp-ai-why li > div { flex: 1; min-width: 0; }
+.ma-root .mp-ai-why b { display: block; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-ai-why p { margin: 4px 0 0; font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-ai-switch { flex: none; position: relative; width: 51px; height: 31px; margin-top: 2px; border-radius: 999px; background: hsl(0 0% 100% / 0.16); transition: background-color 0.5s var(--ma-ease) 0.3s; }
+.ma-root .mp-ai-switch::after { content: ""; position: absolute; left: 2px; top: 2px; width: 40px; height: 27px; border-radius: 14px; background: #fff; box-shadow: 0 2px 6px hsl(0 0% 0% / 0.3); transition: transform 0.5s var(--ma-spring) 0.3s; }
+.ma-root .mp-ai-why li.is-in .mp-ai-switch { background: var(--ma-tint-bg); }
+.ma-root .mp-ai-why li.is-in .mp-ai-switch::after { transform: translateX(7px); }
 
-@media (min-width: 700px) { .ma-root .mp-ai-replies { flex-direction: row; } .ma-root .mp-ai-reply { flex: 1; } .ma-root .mp-ai-agents { align-items: start; } }
-@media (prefers-reduced-motion: reduce) { .ma-root .mp-ai-hero { animation: none; } .ma-root .mp-ai-agent[open] .mp-ai-agent-body, .ma-root .mp-ai-prompts details[open] .mp-ai-msg, .ma-root .mp-ai-qa details[open] .mp-ai-msg { animation: none; } }
+/* ---- FAQ: an open list, the question regular 17, a + that turns into − ---- */
+.ma-root .mp-ai-qa { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--ma-line); }
+.ma-root .mp-ai-qa li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ai-qa summary { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 56px; padding: 16px 0; list-style: none; cursor: pointer; font-size: 17px; line-height: 1.35; font-weight: 400; letter-spacing: -0.43px; -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-ai-qa summary::-webkit-details-marker { display: none; }
+.ma-root .mp-ai-qa summary > span { flex: 1; min-width: 0; overflow-wrap: break-word; }
+.ma-root .mp-ai-qa summary:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; border-radius: 8px; }
+.ma-root .mp-ai-qa details[open] summary { font-weight: 500; }
+.ma-root .mp-ai-pm { flex: none; position: relative; width: 14px; height: 14px; margin-top: 5px; color: var(--ma-text3); transition: transform 0.45s var(--ma-spring), color 0.3s; }
+.ma-root .mp-ai-pm::before, .ma-root .mp-ai-pm::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.6px; border-radius: 1px; background: currentColor; }
+.ma-root .mp-ai-pm::after { transform: rotate(90deg); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-ai-qa details[open] .mp-ai-pm { transform: rotate(180deg); color: var(--ma-tint); }
+.ma-root .mp-ai-qa details[open] .mp-ai-pm::after { transform: rotate(0deg); }
+.ma-root .mp-ai-qa details p { margin: 0 0 18px; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; animation: mp-ai-in 0.45s var(--ma-ease) backwards; }
+
+/* ---- contact: the prompt box (glow place 2 of 2, only while you write); name / e-mail / phone slide in as one grouped table ---- */
+.ma-root .mp-ai-prompt { display: grid; gap: 12px; }
+.ma-root .mp-ai-box { position: relative; padding: 16px 66px 16px 18px; border-radius: 28px; background: var(--g-fill); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-shadow); transition: box-shadow 0.5s var(--ma-ease); }
+.ma-root .mp-ai-box::before { content: ""; position: absolute; inset: 0; padding: 1.5px; border-radius: inherit; pointer-events: none; opacity: 0; background: conic-gradient(from var(--mp-ai-a), hsl(calc(var(--ma-h) + 10) calc(95% * var(--ts)) 62%), hsl(calc(var(--ma-h) + 100) calc(95% * var(--ts)) 60%), hsl(calc(var(--ma-h) + 180) calc(90% * var(--ts)) 60%), hsl(calc(var(--ma-h) - 60) calc(95% * var(--ts)) 62%), hsl(calc(var(--ma-h) + 10) calc(95% * var(--ts)) 62%)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); transition: opacity 0.5s var(--ma-ease); animation: mp-ai-edge 6s linear infinite paused; }
+.ma-root .mp-ai-prompt.is-open .mp-ai-box::before, .ma-root .mp-ai-box:focus-within::before { opacity: 1; animation-play-state: running; }
+.ma-root .mp-ai-prompt.is-open .mp-ai-box, .ma-root .mp-ai-box:focus-within { box-shadow: var(--g-edge), 0 0 36px hsl(var(--ma-h) calc(90% * var(--ts)) 60% / 0.25); }
+.ma-root .mp-ai-box textarea { display: block; width: 100%; min-height: 52px; padding: 0; border: 0; outline: 0; resize: none; background: none; color: var(--ma-text); font: inherit; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; }
+.ma-root .mp-ai-box textarea::placeholder { color: var(--ma-text3); }
+.ma-root .mp-ai-go { position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; color: #fff; background: var(--tint-grad); box-shadow: var(--g-edge); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.3s var(--ma-spring), opacity 0.3s; }
+.ma-root .mp-ai-go:active { transform: scale(0.9); }
+.ma-root .mp-ai-go:disabled { opacity: 0.5; }
+.ma-root .mp-ai-go:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; }
+.ma-root .mp-ai-go svg { width: 20px; height: 20px; }
+.ma-root .mp-ai-who { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s var(--ma-ease); }
+.ma-root .mp-ai-prompt.is-open .mp-ai-who { grid-template-rows: 1fr; }
+.ma-root .mp-ai-who > div { display: grid; min-height: 0; overflow: hidden; border-radius: 26px; opacity: 0; background: var(--g-fill); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-edge); transition: opacity 0.35s var(--ma-ease) 0.1s; }
+.ma-root .mp-ai-prompt.is-open .mp-ai-who > div { opacity: 1; }
+.ma-root .mp-ai-who input { width: 100%; height: 52px; padding: 0 18px; border: 0; border-radius: 0; outline: 0; background: none; color: var(--ma-text); font: inherit; font-size: 17px; letter-spacing: -0.43px; }
+.ma-root .mp-ai-who input + input { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-ai-who input::placeholder { color: var(--ma-text3); }
+.ma-root .mp-ai-who input:focus { background: hsl(0 0% 100% / 0.06); }
+.ma-root .mp-ai-err { margin: 0; padding: 0 4px; font-size: 15px; line-height: 1.4; color: #ff383c; }
+.ma-root .mp-ai-sent { display: flex; align-items: center; gap: 14px; margin: 0; padding: 18px 20px; border-radius: 26px; font-size: 17px; line-height: 1.4; letter-spacing: -0.43px; background: var(--g-fill); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-shadow); animation: mp-ai-in 0.5s var(--ma-ease) backwards; }
+.ma-root .mp-ai-sent svg { flex: none; width: 30px; height: 30px; padding: 6px; border-radius: 50%; color: #fff; background: var(--ma-tint-bg); }
+
+/* tablet: a calm column, the cards two by two */
+@media (min-width: 700px) {
+  .ma-root .mp-ai-hero { padding-top: 44px; }
+  .ma-root .mp-ai-btns { max-width: 420px; }
+  .ma-root .mp-ai-cards { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-root :is(.mp-ai-orb i, .mp-ai-hero > *, .mp-ai-glow::before, .mp-ai-box::before, .mp-ai-dots i, .mp-ai-answer, .mp-ai-face, .mp-ai-now, .mp-ai-more, .mp-ai-qa details p, .mp-ai-sent) { animation: none !important; }
+  .ma-root .mp-ai-track { flex-wrap: wrap; width: auto; padding: 0 var(--ma-gut); animation: none; }
+  .ma-root .mp-ai-track ul { flex-wrap: wrap; }
+  .ma-root .mp-ai-track ul[aria-hidden] { display: none; }
+  .ma-root .mp-ai-models { -webkit-mask-image: none; mask-image: none; }
+  .ma-root :is(.mp-ai-switch, .mp-ai-switch::after, .mp-ai-tg, .mp-ai-tg::after, .mp-ai-seg i, .mp-ai-who, .mp-ai-who > div, .mp-ai-plus, .mp-ai-pm, .mp-ai-pm::after, .mp-ai-card) { transition: none; }
+}

@@ -1,39 +1,70 @@
-/* /blog app screen ("mp-blog-"): masthead, top story, headline rows with thumbnails. Kit tokens only. */
+/* /blog app screen ("mp-blog-"), Apple News in iOS 27: Large Title masthead, a topic picker, the top story and open headline rows with hairlines.
+   Apple type scale in the site font, regular weight (500 for row titles, 600 for headings). Kit tokens only. */
 
-.mp-blog-mast { padding: 6px 0 20px; border-bottom: 3px solid var(--ma-text); }
-.mp-blog-kick { font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ma-tint); }
-.mp-blog-h { margin: 6px 0 0; font-size: 32px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance; }
-.mp-blog-h span + span { color: var(--ma-tint); }
-.mp-blog-t { margin-top: 10px !important; font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.mp-blog-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.ma-root[data-page="blog"] .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; }
+.ma-root[data-page="blog"] .ma-chip { font-size: 13px; font-weight: 500; letter-spacing: -0.08px; text-transform: none; }
+.ma-root[data-page="blog"] .ma-sec-head { margin-bottom: 24px; }
 
-.mp-blog-cat { font-size: 14px; font-weight: 700; letter-spacing: 0.02em; color: var(--ma-tint); }
-.mp-blog-date { font-size: 14px; color: var(--ma-text3); }
+/* ---- masthead ---- */
+.ma-root .mp-blog-mast { padding: 18px 0 8px; }
+.ma-root .mp-blog-kick { margin: 0; font-size: 15px; font-weight: 500; letter-spacing: -0.24px; color: var(--ma-tint); }
+.ma-root .mp-blog-h { margin: 10px 0 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .mp-blog-h span + span { color: var(--ma-tint); }
+.ma-root .mp-blog-t { margin: 14px 0 0 !important; max-width: 36ch; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-blog-acts { display: flex; gap: 10px; margin-top: 24px; }
+.ma-root .mp-blog-acts .ma-btn { flex: 1 1 0; min-width: 0; min-height: 48px; padding: 0 12px; font-size: 16px; font-weight: 500; white-space: nowrap; }
+.ma-root .mp-blog-acts .ma-btn:active { transform: scale(0.96); }
+.ma-root .mp-blog-mast > * { animation: mp-blog-in 0.7s var(--ma-ease) backwards; }
+.ma-root .mp-blog-mast > :nth-child(2) { animation-delay: 0.06s; }
+.ma-root .mp-blog-mast > :nth-child(3) { animation-delay: 0.12s; }
+.ma-root .mp-blog-mast > :nth-child(4) { animation-delay: 0.18s; }
+@keyframes mp-blog-in { from { opacity: 0; transform: translate3d(0, 12px, 0); filter: blur(6px); } }
 
-/* ---- the top story ---- */
-.mp-blog-top { display: block; overflow: hidden; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); box-shadow: 0 14px 34px hsl(0 0% 0% / 0.3); transition: transform 0.3s var(--ma-spring); }
-.mp-blog-top:active { transform: scale(0.985); }
-.mp-blog-pic { display: block; aspect-ratio: 16 / 10; background: linear-gradient(150deg, hsl(var(--ma-h) calc(60% * var(--ts)) 26%), var(--ma-card2)); }
-.mp-blog-pic img { width: 100%; height: 100%; object-fit: cover; }
-.mp-blog-tb { display: grid; gap: 6px; padding: 16px 18px 18px; }
-.mp-blog-tb b { font-size: 22px; line-height: 1.25; font-weight: 700; letter-spacing: -0.015em; }
-.mp-blog-sum { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
+/* ---- the topic picker (segmented pills that scroll sideways) ---- */
+.ma-root .mp-blog-tabs { display: flex; gap: 8px; margin: 0 calc(-1 * var(--ma-gut)) 24px; padding: 2px var(--ma-gut) 6px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; scroll-padding-inline: var(--ma-gut); }
+.ma-root .mp-blog-tabs::-webkit-scrollbar { display: none; }
+.ma-root .mp-blog-tabs button { flex: none; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 400; letter-spacing: -0.24px; white-space: nowrap; color: var(--ma-text2); cursor: pointer; scroll-snap-align: center; background: hsl(240 6% 50% / 0.2); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.1); transition: background-color 0.35s var(--ma-ease), color 0.3s, transform 0.3s var(--ma-spring); }
+.ma-root .mp-blog-tabs button:active { transform: scale(0.95); }
+.ma-root .mp-blog-tabs button:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; }
+.ma-root .mp-blog-tabs button.is-on { color: #fff; font-weight: 500; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 4) calc(88% * var(--ts)) 58%), var(--ma-tint-bg)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.2), inset 0 1px 0 hsl(0 0% 100% / 0.3), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; }
+.ma-root .mp-blog-panel { animation: mp-blog-swap 0.5s var(--ma-ease) backwards; }
+@keyframes mp-blog-swap { from { opacity: 0; filter: blur(8px); transform: translate3d(0, 8px, 0); } }
 
-/* ---- headline rows ---- */
-.mp-blog-list { margin: 14px 0 0; padding: 0; list-style: none; border-radius: 22px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; }
-.mp-blog-list li { position: relative; }
-.mp-blog-list li + li::before { content: ""; position: absolute; left: 16px; right: 16px; top: 0; height: 1px; background: var(--ma-line); }
-.mp-blog-row { display: flex; align-items: center; gap: 14px; min-height: 96px; padding: 14px 16px; transition: background-color 0.2s; }
-.mp-blog-row:active { background: var(--ma-fill); }
-.mp-blog-rb { flex: 1; min-width: 0; display: grid; gap: 4px; }
-.mp-blog-rb b { font-size: 17px; line-height: 1.32; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.mp-blog-th { flex: none; width: 84px; height: 84px; overflow: hidden; border-radius: 14px; background: linear-gradient(150deg, hsl(var(--ma-h) calc(60% * var(--ts)) 26%), var(--ma-card2)); }
-.mp-blog-th img { width: 100%; height: 100%; object-fit: cover; }
+.ma-root .mp-blog-cat { font-size: 13px; line-height: 1.35; font-weight: 500; letter-spacing: -0.08px; color: var(--ma-tint); }
+.ma-root .mp-blog-date { font-size: 13px; line-height: 1.35; font-weight: 400; letter-spacing: -0.08px; color: var(--ma-text3); }
+.ma-root .mp-blog-empty { margin: 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); }
 
-@media (prefers-reduced-motion: reduce) { .mp-blog-top { transition: none; } }
+/* ---- the top story: a picture, then open text (no box around it) ---- */
+.ma-root .mp-blog-top { display: block; color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-blog-pic { display: block; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 22px; background: linear-gradient(150deg, hsl(var(--ma-h) calc(60% * var(--ts)) 24%), var(--ma-card2)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.12), 0 14px 34px hsl(0 0% 0% / 0.28); transition: transform 0.35s var(--ma-spring); }
+.ma-root .mp-blog-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ma-root .mp-blog-top:active .mp-blog-pic { transform: scale(0.98); }
+.ma-root .mp-blog-tb { display: grid; gap: 6px; padding: 16px 2px 0; min-width: 0; }
+.ma-root .mp-blog-tt { font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .mp-blog-sum { font-size: 16px; line-height: 1.5; font-weight: 400; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
-/* compact rows */
-.mp-blog-row { min-height: 84px; padding: 10px 14px; gap: 12px; }
-.mp-blog-th { width: 64px; height: 64px; border-radius: 12px; }
-.mp-blog-rb b { font-size: 16px; -webkit-line-clamp: 2; }
-.mp-blog-sum { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+/* ---- headline rows: an open list with hairlines ---- */
+.ma-root .mp-blog-list { margin: 24px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--ma-line); }
+.ma-root .mp-blog-list li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-blog-row { display: flex; align-items: center; gap: 16px; min-height: 96px; padding: 14px 0; color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; transition: opacity 0.2s, transform 0.3s var(--ma-spring); }
+.ma-root .mp-blog-row:active { opacity: 0.6; transform: scale(0.99); }
+.ma-root .mp-blog-rb { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.ma-root .mp-blog-rt { font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.ma-root .mp-blog-th { flex: none; width: 76px; height: 76px; overflow: hidden; border-radius: 14px; background: linear-gradient(150deg, hsl(var(--ma-h) calc(60% * var(--ts)) 24%), var(--ma-card2)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.1); }
+.ma-root .mp-blog-th img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.ma-root .mp-blog-more { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; margin-top: 16px; border: 0; border-radius: 999px; font: inherit; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; color: var(--ma-tint); cursor: pointer; background: hsl(240 6% 50% / 0.2); transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-blog-more span { min-width: 24px; padding: 1px 8px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--ma-text2); background: hsl(240 6% 50% / 0.24); font-variant-numeric: tabular-nums; }
+.ma-root .mp-blog-more:active { transform: scale(0.96); }
+
+/* tablet: two columns, the top story beside the rows */
+@media (min-width: 760px) {
+  .ma-root .mp-blog-panel { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 32px; align-items: start; }
+  .ma-root .mp-blog-list { margin-top: 0; }
+  .ma-root .mp-blog-more { grid-column: 1 / -1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-root .mp-blog-mast > *, .ma-root .mp-blog-panel { animation: none; }
+  .ma-root .mp-blog-pic, .ma-root .mp-blog-row, .ma-root .mp-blog-tabs button, .ma-root .mp-blog-more { transition: none; }
+}

@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink, LeadForm, Section } from "../../../app";
-import { IcChat, IcMail, IcPhone, IcPin, IcWhatsApp } from "../../../app/icons";
+import { IcChat, IcChevron, IcMail, IcPhone, IcPin, IcWhatsApp } from "../../../app/icons";
 import { Lines, Rich, lines } from "../../../app/text";
+import { Segmented } from "./client";
 
-// /contact as the "Contacts" card of We3vision: a monogram, the four quick actions (call, WhatsApp, mail, map) from the real settings,
-// the form as a "New Message" sheet, the contact cards as labelled fields, the offices with a Maps link. Same CMS words. Styles: (m)/m/contact/page.css.
+// /contact in iOS 27 style, like the Contacts card of We3vision: a glass monogram, the large title, four round glass quick actions
+// (call, WhatsApp, mail, map) from the real settings, then one segmented control that switches between the message form (one grouped field)
+// and the phone / e-mail rows, and the offices as an open list with a Maps link. Same CMS words. Styles: (m)/m/contact/page.css (prefix "mp-con-").
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE = /^\+?\d[\d\s().-]{6,}$/;
@@ -13,18 +15,20 @@ const PHONE = /^\+?\d[\d\s().-]{6,}$/;
 function Action({ href, label, icon }: { href: string; label: string; icon: ReactNode }) {
   return (
     <AppLink href={href} className="mp-con-act">
-      <span aria-hidden="true">{icon}</span>
-      {label}
+      <span className="mp-con-ai" aria-hidden="true">
+        {icon}
+      </span>
+      <span className="mp-con-al">{label}</span>
     </AppLink>
   );
 }
 
-/** the top: the company's contact card */
+/** the top: the company's contact card, open on the page (no box) */
 export const ContactCard: MobileSection<"pageHero"> = ({ data, index, site, contact }) => {
   const H = index === 0 ? "h1" : "h2";
   const name = site.legalName || site.name;
   return (
-    <section className="mp-con-card">
+    <section className="mp-con-hero">
       <span className="mp-con-mono" aria-hidden="true">
         {name.trim().charAt(0).toUpperCase()}
       </span>
@@ -42,57 +46,61 @@ export const ContactCard: MobileSection<"pageHero"> = ({ data, index, site, cont
           {contact.maps && <Action href={contact.maps} label="Map" icon={<IcPin />} />}
         </nav>
       )}
-      <div className="mp-con-links">
-        {data.primaryLabel && data.primaryHref && (
-          <a className="ma-btn ma-btn-fill ma-btn-block" href={data.primaryHref}>
-            <IcChat className="mp-con-bi" />
-            {data.primaryLabel}
-          </a>
-        )}
-        {data.secondaryLabel && data.secondaryHref && (
-          <a className="ma-btn ma-btn-glass ma-btn-block" href={data.secondaryHref}>
-            {data.secondaryLabel}
-          </a>
-        )}
-      </div>
+      {((data.primaryLabel && data.primaryHref) || (data.secondaryLabel && data.secondaryHref)) && (
+        <div className="mp-con-btns">
+          {data.primaryLabel && data.primaryHref && (
+            <a className="ma-btn ma-btn-fill" href={data.primaryHref}>
+              <IcChat className="mp-con-bi" />
+              {data.primaryLabel}
+            </a>
+          )}
+          {data.secondaryLabel && data.secondaryHref && (
+            <a className="ma-btn ma-btn-glass" href={data.secondaryHref}>
+              {data.secondaryLabel}
+            </a>
+          )}
+        </div>
+      )}
     </section>
   );
 };
 
-/** the form as a message sheet, then the contact cards of the settings as labelled fields */
-export const ContactForm: MobileSection<"contact"> = ({ data, site }) => (
-  <Section id="contact" chip={data.chip} title={data.heading} intro={data.text}>
-    <div className="mp-con-sheet">
-      <div className="mp-con-grab" aria-hidden="true" />
-      <LeadForm buttonLabel={data.buttonLabel || undefined} />
+/** the form and the contact cards behind one segmented control */
+export const ContactForm: MobileSection<"contact"> = ({ data, site }) => {
+  const details = site.contactCards.map((card, i) => (
+    <div key={i} className="mp-con-fields">
+      {card.title && <p className="mp-con-fh">{card.title}</p>}
+      <ul>
+        {lines(card.lines).map((l, n) => {
+          const kind = EMAIL.test(l) ? "email" : PHONE.test(l) ? "phone" : "";
+          const href = kind === "email" ? "mailto:" + l : kind === "phone" ? "tel:" + l.replace(/[^\d+]/g, "") : undefined;
+          return (
+            <li key={n}>
+              {href ? (
+                <a href={href} className="mp-con-f is-link">
+                  <span className="mp-con-fk">{kind}</span>
+                  <span className="mp-con-fv">{l}</span>
+                </a>
+              ) : (
+                <span className="mp-con-f">
+                  <span className="mp-con-fv">{l}</span>
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </div>
-    {site.contactCards.map((card, i) => (
-      <div key={i} className="mp-con-fields">
-        {card.title && <p className="mp-con-fh">{card.title}</p>}
-        <ul>
-          {lines(card.lines).map((l, n) => {
-            const kind = EMAIL.test(l) ? "email" : PHONE.test(l) ? "phone" : "";
-            const href = kind === "email" ? "mailto:" + l : kind === "phone" ? "tel:" + l.replace(/[^\d+]/g, "") : undefined;
-            return (
-              <li key={n}>
-                {href ? (
-                  <a href={href} className="mp-con-f is-link">
-                    <span className="mp-con-fk">{kind}</span>
-                    {l}
-                  </a>
-                ) : (
-                  <span className="mp-con-f">{l}</span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    ))}
-  </Section>
-);
+  ));
+  const form = <LeadForm buttonLabel={data.buttonLabel || undefined} />;
+  return (
+    <Section id="contact" chip={data.chip} title={data.heading} intro={data.text}>
+      {details.length > 0 ? <Segmented label="How to reach us" tabs={["Message", "Phone and e-mail"]} panels={[form, <div key="d" className="mp-con-list">{details}</div>]} /> : form}
+    </Section>
+  );
+};
 
-/** the offices: one card per place with a Maps link (the laptop shows them on a globe) */
+/** the offices: an open list, each row opens Maps (the laptop shows them on a globe) */
 export const ContactReach: MobileSection<"reach"> = ({ data, id }) => (
   <Section id={id} chip={data.chip} title={data.heading}>
     {data.text && (
@@ -107,12 +115,15 @@ export const ContactReach: MobileSection<"reach"> = ({ data, id }) => (
             <span className="mp-con-pin" aria-hidden="true">
               <IcPin />
             </span>
-            <span className="mp-con-pl">{p.label}</span>
-            {p.lat && p.lng && (
-              <span className="mp-con-ll">
-                {p.lat}, {p.lng}
-              </span>
-            )}
+            <span className="mp-con-pb">
+              <span className="mp-con-pl">{p.label}</span>
+              {p.lat && p.lng && (
+                <span className="mp-con-ll">
+                  {p.lat}, {p.lng}
+                </span>
+              )}
+            </span>
+            <IcChevron className="mp-con-chev" />
           </a>
         </li>
       ))}

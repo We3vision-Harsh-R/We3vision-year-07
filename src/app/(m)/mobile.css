@@ -800,3 +800,143 @@
   .lnc .lnc-wid { --u: var(--wu, 1px); }
   .lnc .lnc-wid .lnc-ctc-r, .lnc .lnc-wid .lnc-pitch span { max-width: 100%; }
 }
+
+/* ---- v11: the dock and the Search pill, drawn from the iOS 26 home screen: a frosted capsule with a bright rim, big icons spread evenly, a small glass Search pill above it ---- */
+@media (max-width: 99999px) {
+  .lnc-bar .lnc-dock { margin: 0 calc(-10 * var(--u)); padding: calc(18 * var(--u)) calc(17 * var(--u)); border-radius: calc(46 * var(--u)); background-color: transparent; background-image: linear-gradient(165deg, hsl(0 0% 100% / 0.26), hsl(0 0% 100% / 0.1) 55%, hsl(0 0% 100% / 0.16)); -webkit-backdrop-filter: blur(30px) saturate(1.8) brightness(1.05); backdrop-filter: blur(30px) saturate(1.8) brightness(1.05); box-shadow: 0 0 0 0.5px hsl(0 0% 0% / 0.4), inset 0 1.5px 1px hsl(0 0% 100% / 0.55), inset 0 -1px 1px hsl(0 0% 100% / 0.12), 0 14px 34px hsl(0 0% 0% / 0.22); }
+  .lnc-bar .lnc-dock::after { padding: 1px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.7), hsl(0 0% 100% / 0.08) 38%, hsl(0 0% 100% / 0.28) 100%); }
+  .lnc-find, .lnc.is-edit .lnc-find { height: calc(32 * var(--u)); padding: 0 calc(18 * var(--u)); gap: calc(7 * var(--u)); font-size: calc(15 * var(--u)); font-weight: 600; letter-spacing: -0.005em; background-color: transparent; background-image: linear-gradient(165deg, hsl(0 0% 100% / 0.26), hsl(0 0% 100% / 0.1)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 0% / 0.3), inset 0 1px 1px hsl(0 0% 100% / 0.5); }
+  .lnc-find svg { width: calc(14 * var(--u)); height: calc(14 * var(--u)); stroke-width: 2.8; opacity: 1; }
+  .lnc-ind { height: calc(32 * var(--u)); margin-bottom: calc(14 * var(--u)); }
+}
+
+/* ---- v12: the numbers of the Figma "_Dock Material": dock 368 x 103, full pill, icons 63, padding 19 / 20; Search pill 76 x 30, 20 above the dock ---- */
+@media (max-width: 99999px) {
+  .lnc { --dk: calc(63 * var(--u)); }
+  .lnc-bar .lnc-dock { margin: 0 calc(-10 * var(--u)); padding: calc(20 * var(--u)) calc(19 * var(--u)); height: calc(103 * var(--u)); border-radius: calc(52 * var(--u)); align-items: center; }
+  .lnc-find, .lnc.is-edit .lnc-find { height: calc(30 * var(--u)); padding: 0 calc(11 * var(--u)); gap: calc(5 * var(--u)); font-size: calc(15 * var(--u)); }
+  .lnc-find svg { width: calc(13 * var(--u)); height: calc(13 * var(--u)); }
+  .lnc-ind { height: calc(30 * var(--u)); margin-bottom: calc(20 * var(--u)); }
+}
+
+/* ---- v13: the Figma widgets (iOS 27 file): the clock "Lock Screen Widget 2x2 Clock Big" (node 526:38737) and the date "Wed Apr / 1" ---- */
+@media (max-width: 99999px) {
+  .lnc-wid.lnc-clock { padding: 0; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; overflow: visible; }
+  .lnc-wid.lnc-clock::before, .lnc-wid.lnc-clock::after { display: none; }
+  .lnc-fc { position: relative; width: 100%; aspect-ratio: 1; container-type: inline-size; }
+  .lnc-fc > * { position: absolute; }
+  .lnc-fc-face { left: 4.32%; top: 4.32%; width: 91.36%; height: 91.36%; border-radius: 50%; background: hsl(0 0% 100% / 0.1); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); box-shadow: inset 0 1px 1px hsl(0 0% 100% / 0.22), 0 6px 18px hsl(0 0% 0% / 0.18); }
+  .lnc-fc-ta { inset: 6.65% 6.65% 6.65% 6.58%; width: auto; height: auto; max-width: none; }
+  .lnc-fc-tb { inset: 6.41%; width: auto; height: auto; max-width: none; }
+  .lnc-fc b { transform: translate(-50%, -50%); font-size: 11.73cqw; font-weight: 700; line-height: 1; color: #999; opacity: 0.95; font-variant-numeric: tabular-nums; }
+  .lnc-fc svg { inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .lnc-fc .lnc-hand { transform-origin: 81px 81px; transform-box: view-box; }
+  .lnc-fc .lnc-hand rect, .lnc-fc .lnc-s rect { fill: #fff; }
+  .lnc-fc .lnc-pin { fill: #fff; }
+  .lnc-wid.lnc-cal { align-content: start; justify-items: start; gap: 0; padding: calc(16 * var(--u)) calc(18 * var(--u)); }
+  .lnc .lnc-cal-d { display: block; font-size: calc(18 * var(--u)); font-weight: 600; letter-spacing: -0.02em; text-transform: none; opacity: 1; line-height: 1.2; }
+  .lnc .lnc-cal-d span { color: #fff; }
+  .lnc .lnc-cal-d em { font-style: normal; color: hsl(0 0% 100% / 0.55); }
+  .lnc-cal-n { font-size: calc(62 * var(--u)); font-weight: 400; line-height: 1; letter-spacing: -0.02em; margin-top: calc(2 * var(--u)); }
+}
+
+/* ---- v14: the month popover (Figma Date Picker) and the menu (Figma Menu 125:58750) ---- */
+@media (max-width: 99999px) {
+  .lnc-cal-hit { position: absolute; inset: 0; border: 0; background: none; border-radius: inherit; cursor: pointer; }
+  .lnc-cp { position: absolute; inset: 0; z-index: 70; display: grid; place-items: center; padding: 0 calc(16 * var(--u)); }
+  .lnc-cp-back { position: absolute; inset: 0; border: 0; background: hsl(calc(var(--th) + 347.58) calc(60% * var(--ts)) 3% / 0.45); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); animation: lnc-fade 0.35s ease both; }
+  .lnc-cp.is-out .lnc-cp-back { animation: lnc-fade 0.25s ease reverse both; }
+  .lnc-cp-card { position: relative; width: min(100%, calc(360 * var(--u))); padding: calc(14 * var(--u)) calc(14 * var(--u)) calc(10 * var(--u)); border-radius: calc(24 * var(--u)); color: #fff; background: hsl(0 0% 11% / 0.94); -webkit-backdrop-filter: blur(30px) saturate(1.6); backdrop-filter: blur(30px) saturate(1.6); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.14), 0 18px 60px hsl(0 0% 0% / 0.55), inset 0 3px 0.5px -2.25px #282828; transform-origin: 50% 40%; animation: lnc-cp-in 0.5s cubic-bezier(0.32, 0.72, 0, 1) both; }
+  .lnc-cp.is-out .lnc-cp-card { animation: lnc-cp-in 0.25s cubic-bezier(0.32, 0.72, 0, 1) reverse both; }
+  @keyframes lnc-cp-in { from { opacity: 0; transform: scale(0.88) translate3d(0, 10px, 0); } }
+  .lnc-cp-head { display: flex; align-items: center; gap: calc(4 * var(--u)); margin: 0 calc(4 * var(--u)) calc(8 * var(--u)); }
+  .lnc-cp-head b { flex: 1; display: inline-flex; align-items: center; gap: calc(4 * var(--u)); font-size: calc(17 * var(--u)); font-weight: 600; letter-spacing: -0.02em; }
+  .lnc-cp-head b svg { width: calc(12 * var(--u)); height: calc(12 * var(--u)); color: #0a84ff; }
+  .lnc-cp-head button { display: grid; place-items: center; width: calc(44 * var(--u)); height: calc(36 * var(--u)); padding: 0; border: 0; border-radius: 12px; background: none; color: #fff; cursor: pointer; transition: background-color 0.2s, transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1); }
+  .lnc-cp-head button:active { background: hsl(0 0% 100% / 0.14); transform: scale(0.92); }
+  .lnc-cp-head button svg { width: calc(22 * var(--u)); height: calc(22 * var(--u)); }
+  .lnc-cp-week, .lnc-cp-grid { display: grid; grid-template-columns: repeat(7, 1fr); justify-items: center; }
+  .lnc-cp-week i { font-style: normal; font-size: calc(11 * var(--u)); font-weight: 600; letter-spacing: 0.02em; color: hsl(0 0% 100% / 0.38); padding-bottom: calc(6 * var(--u)); }
+  .lnc-cp-grid { row-gap: calc(4 * var(--u)); animation: lnc-cp-month 0.4s cubic-bezier(0.32, 0.72, 0, 1) both; }
+  @keyframes lnc-cp-month { from { opacity: 0; transform: translate3d(0, 6px, 0); filter: blur(4px); } }
+  .lnc-cp-grid button { display: grid; place-items: center; width: calc(40 * var(--u)); height: calc(40 * var(--u)); padding: 0; border: 0; border-radius: 50%; background: none; color: #fff; font: inherit; font-size: calc(20 * var(--u)); font-weight: 400; font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color 0.25s, color 0.25s, transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1); }
+  .lnc-cp-grid button:active { transform: scale(0.9); }
+  .lnc-cp-grid button.is-today { background: hsl(210 100% 50% / 0.2); color: #0a84ff; }
+  .lnc-cp-grid button.is-picked { background: #fff; color: #000; font-weight: 600; }
+  .lnc-cp-time { display: flex; align-items: center; justify-content: space-between; margin-top: calc(10 * var(--u)); padding-top: calc(10 * var(--u)); border-top: 1px solid hsl(0 0% 100% / 0.1); font-size: calc(17 * var(--u)); }
+  .lnc-cp-time b { padding: calc(6 * var(--u)) calc(12 * var(--u)); border-radius: 12px; background: hsl(0 0% 100% / 0.14); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+  /* the menu: a rounded glass card, the icon on the left, hairlines between the groups, red for the destructive one, a chevron for a submenu */
+  .lnc-mn { border-radius: calc(36 * var(--u)); padding: calc(8 * var(--u)) calc(10 * var(--u)); background-color: hsl(0 0% 17% / 0.9); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.14), 0 20px 56px hsl(0 0% 0% / 0.45), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; }
+  .lnc-mn li + li { border-top: 1px solid hsl(0 0% 100% / 0.1); margin: 0 calc(10 * var(--u)); }
+  .lnc-mn button { flex-direction: row-reverse; justify-content: flex-end; gap: calc(14 * var(--u)); min-height: calc(50 * var(--u)); padding: calc(10 * var(--u)) calc(10 * var(--u)); font-size: calc(17 * var(--u)); font-weight: 400; border-radius: calc(22 * var(--u)); }
+  .lnc-mn button.is-danger { color: #ff383c; }
+  .lnc-mn button:disabled, .lnc-mn button[aria-disabled="true"] { color: hsl(0 0% 100% / 0.38); }
+}
+.ma-dd-menu { border-radius: 30px; padding: 8px 10px; background: hsl(0 0% 17% / 0.92); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.14), 0 20px 56px hsl(0 0% 0% / 0.45), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; }
+.ma-dd-opt { font-weight: 400; min-height: 50px; }
+.ma-dd-opt.is-on { font-weight: 500; }
+.ma-dd-menu li + li .ma-dd-opt { margin: 0; }
+
+/* ---- v15: Figma home screen widgets (iOS 27 file): corner radius 28, name 12 px / 510 under the widget; the date "Wed Apr / 1" (Lock Screen Widget 2x2 Date) ---- */
+@media (max-width: 99999px) {
+  .lnc-wid { border-radius: calc(28 * var(--u)); }
+  .lnc-wl { font-size: calc(12 * var(--u)); font-weight: 510; letter-spacing: 0; text-shadow: 0 2px 25px #000; }
+  .lnc-wid.lnc-cal { padding: 0; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; overflow: visible; container-type: inline-size; position: relative; display: block; }
+  .lnc-wid.lnc-cal::before, .lnc-wid.lnc-cal::after { display: none; }
+  .lnc .lnc-cal-d { display: flex; justify-content: center; gap: 8px; width: 100%; padding: 3px 0; font-size: 19.75cqw; font-weight: 590; letter-spacing: 0; line-height: 1.2; }
+  .lnc .lnc-cal-d span { color: #999; }
+  .lnc .lnc-cal-d em { color: hsl(0 0% 100% / 0.42); }
+  .lnc-cal-n { position: absolute; left: 0; right: 0; top: 29%; text-align: center; font-size: 76cqw; font-weight: 590; line-height: 1; letter-spacing: -0.02em; margin: 0; }
+}
+
+/* ---- v16 (2026-10-18): iOS 27 polish. Widget tiles are now sized in launcher.tsx from the Figma home screen widgets (164.67 square,
+        349.67 x 164.33 wide, 20.33 apart, radius 28) and never reach the next row; here: the Liquid Glass of the widgets (one recipe,
+        brain/16), labels 12 / 510 with the Figma shadow, a spring on every press, and the long-press menu as the Figma Menu 125:58750
+        (radius 34 glass, icon on the left, 17 regular, a hairline only before the red row, grows out of the item) ---- */
+@media (max-width: 99999px) {
+  /* the glass of a widget (the clock and the date are drawn without a tile, as in the Figma file) */
+  .lnc .lnc-wid:not(.lnc-clock):not(.lnc-cal) {
+    border: 0; border-radius: calc(28 * var(--u));
+    background-color: hsl(0 0% 100% / 0.1);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8);
+    box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22);
+  }
+  .lnc .lnc-wid:not(.lnc-clock):not(.lnc-cal)::after { padding: 1px; opacity: 0.55; }
+  .lnc .lnc-wid { transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1); }
+  .lnc .lnc-wid:active { transform: scale(0.96); transition-duration: 0.18s; }
+  /* the folder card on the home screen: the same tile as a widget */
+  .lnc .lnc-t .lnc-fcard { border-radius: calc(28 * var(--u)); }
+
+  /* the names under the icons and widgets: 12 / 510, white, the soft Figma shadow (one line, … when long) */
+  .lnc-lb, .lnc-wl { font-weight: 510; letter-spacing: 0; color: #fff; text-shadow: 0 1px 2px hsl(0 0% 0% / 0.28), 0 2px 25px hsl(0 0% 0% / 0.9); }
+  .lnc-wl { top: calc(100% + 6 * var(--u)); }
+
+  /* the long-press menu (and the wallpaper menu of the edit mode) */
+  .lnc-mn {
+    padding: calc(6 * var(--u)); border: 0; border-radius: calc(34 * var(--u));
+    background-color: hsl(0 0% 14% / 0.72);
+    -webkit-backdrop-filter: blur(40px) saturate(1.8); backdrop-filter: blur(40px) saturate(1.8);
+    box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.16), inset 0 1px 0 hsl(0 0% 100% / 0.14), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 24px 64px hsl(0 0% 0% / 0.45);
+    animation: lnc-mn-in 0.46s cubic-bezier(0.34, 1.28, 0.64, 1) both;
+  }
+  .lnc-mn li + li { border-top: 0; margin: 0; }
+  .lnc-mn li:has(> button.is-danger) { position: relative; margin-top: calc(6 * var(--u)); }
+  .lnc-mn li:has(> button.is-danger)::before { content: ""; position: absolute; left: calc(16 * var(--u)); right: calc(16 * var(--u)); top: calc(-3.5 * var(--u)); height: 1px; background: hsl(0 0% 100% / 0.12); }
+  .lnc-mn button {
+    flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: calc(12 * var(--u));
+    min-height: calc(48 * var(--u)); padding: 0 calc(14 * var(--u)); border-radius: calc(28 * var(--u));
+    font-size: calc(17 * var(--u)); font-weight: 400; letter-spacing: -0.43px; line-height: 1.3; text-align: left;
+    transition: background-color 0.18s ease;
+  }
+  .lnc-mn button > span { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .lnc-mn button svg { width: calc(22 * var(--u)); height: calc(22 * var(--u)); stroke-width: 1.7; }
+  .lnc-mn button:active { background: hsl(0 0% 100% / 0.12); }
+  .lnc-mn button.is-danger { color: #ff383c; }
+  @keyframes lnc-mn-in { from { opacity: 0; transform: scale(0.4); } 60% { opacity: 1; } }
+  .lnc-emn { animation: lnc-mn-in 0.46s cubic-bezier(0.34, 1.28, 0.64, 1) both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lnc-mn, .lnc-emn { animation: none; }
+  .lnc .lnc-wid { transition: none; }
+}

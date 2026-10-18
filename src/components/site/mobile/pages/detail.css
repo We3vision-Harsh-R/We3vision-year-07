@@ -1,0 +1,88 @@
+/* The one-item screens of the phone / tablet app ("mp-dt-"): an article (Apple News reading), a project and a job; plus the sitemap ("mp-sm-").
+   Apple type scale in the site font: body 17 / 1.5 regular, Title 2 headings, a comfortable measure. Scoped by data-page; kit tokens only. */
+
+.ma-root:is([data-page="post-detail"], [data-page="project-detail"], [data-page="job-detail"], [data-page="sitemap-index"]) .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; }
+.ma-root:is([data-page="post-detail"], [data-page="project-detail"], [data-page="job-detail"], [data-page="sitemap-index"]) .ma-chip { font-size: 13px; font-weight: 500; letter-spacing: -0.08px; text-transform: none; }
+.ma-root:is([data-page="post-detail"], [data-page="project-detail"], [data-page="job-detail"], [data-page="sitemap-index"]) .ma-intro { font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); }
+.ma-root:is([data-page="post-detail"], [data-page="project-detail"], [data-page="job-detail"]) .ma-sec { margin-top: 64px; }
+.ma-root:is([data-page="post-detail"], [data-page="project-detail"], [data-page="job-detail"]) .ma-sec.mp-dt-art { margin-top: 20px; }
+
+/* ---- reading column ---- */
+.ma-root .mp-dt-art { max-width: 680px; }
+@media (min-width: 760px) { .ma-root .mp-dt-art { margin-inline: auto; } }
+.ma-root .mp-dt-art > * { animation: mp-dt-in 0.7s var(--ma-ease) backwards; }
+.ma-root .mp-dt-art > :nth-child(2) { animation-delay: 0.06s; }
+.ma-root .mp-dt-art > :nth-child(3) { animation-delay: 0.12s; }
+.ma-root .mp-dt-art > :nth-child(n + 4) { animation-delay: 0.18s; }
+@keyframes mp-dt-in { from { opacity: 0; transform: translate3d(0, 12px, 0); filter: blur(6px); } }
+
+/* the deck under the title (Apple News: larger, regular, secondary) */
+.ma-root .mp-dt-lead { margin: 0; font-size: 20px; line-height: 1.4; font-weight: 400; letter-spacing: -0.45px; color: var(--ma-text2); text-wrap: pretty; overflow-wrap: anywhere; }
+.ma-root .mp-dt-art > .ma-pic { margin-top: 20px; border-radius: 22px; box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.12), 0 14px 34px hsl(0 0% 0% / 0.26); }
+.ma-root .mp-dt-art > .ma-pic:first-child { margin-top: 0; }
+
+/* date · reading time on the left, Share on the right, a hairline under it */
+.ma-root .mp-dt-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--ma-line); }
+.ma-root .mp-dt-meta { flex: 1; min-width: 0; margin: 0; font-size: 15px; line-height: 1.4; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text3); }
+
+/* a round glass Share button */
+.ma-root .mp-dt-share { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 16px 0 13px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 500; letter-spacing: -0.24px; color: var(--ma-text); cursor: pointer;
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8);
+  box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 6px 18px hsl(0 0% 0% / 0.18);
+  transition: transform 0.3s var(--ma-spring); -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-dt-share svg { width: 19px; height: 19px; color: var(--ma-tint); }
+.ma-root .mp-dt-share:active { transform: scale(0.94); }
+.ma-root .mp-dt-share:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; }
+
+/* the body text: 17 / 1.5, primary colour, headings as Title 2 */
+.ma-root .mp-dt-body { margin-top: 24px; }
+.ma-root .mp-dt-body p { margin: 0; font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text); text-wrap: pretty; overflow-wrap: anywhere; }
+.ma-root .mp-dt-body p + p { margin-top: 16px; }
+.ma-root .mp-dt-body .ma-h2 { margin: 36px 0 12px; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; }
+.ma-root .mp-dt-body .ma-pts { margin: 14px 0; }
+.ma-root .mp-dt-body .ma-pts li, .ma-root .mp-dt-pts .ma-pts li { font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text); }
+
+/* tags / facts: quiet tertiary pills, regular weight */
+.ma-root:is([data-page="post-detail"], [data-page="job-detail"]) .ma-tags { gap: 8px; margin-top: 28px; }
+.ma-root:is([data-page="post-detail"], [data-page="job-detail"]) .ma-tags li { min-height: 32px; padding: 0 12px; border: 0; background: hsl(240 6% 50% / 0.2); font-size: 13px; font-weight: 400; letter-spacing: -0.08px; color: var(--ma-text2); }
+.ma-root[data-page="job-detail"] .mp-dt-facts { margin-top: 20px; }
+.ma-root[data-page="job-detail"] .mp-dt-meta { margin-top: 14px; }
+
+/* two buttons side by side (Apply + Share) */
+.ma-root .mp-dt-two { display: flex; align-items: center; gap: 10px; }
+.ma-root .mp-dt-two .ma-btn { flex: 1 1 0; min-width: 0; min-height: 48px; font-size: 16px; font-weight: 500; }
+.ma-root .mp-dt-two .mp-dt-share { min-height: 48px; }
+
+/* job details: open lists, no box */
+.ma-root .mp-dt-pts { max-width: 680px; }
+
+/* project gallery: Photos-like grid, first picture wide */
+.ma-root .mp-dt-gal { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+.ma-root .mp-dt-gal .ma-pic { border-radius: 4px; }
+.ma-root .mp-dt-gal .ma-pic:first-child { grid-column: 1 / -1; border-radius: 18px 18px 4px 4px; }
+.ma-root .mp-dt-gal .ma-pic:last-child:nth-child(even) { grid-column: 1 / -1; aspect-ratio: 3 / 2; }
+@media (min-width: 700px) { .ma-root .mp-dt-gal { grid-template-columns: repeat(3, minmax(0, 1fr)); } .ma-root .mp-dt-gal .ma-pic:last-child:nth-child(even) { grid-column: auto; aspect-ratio: 1; } }
+
+/* ---- the sitemap: Settings-like sections that fold, open rows with hairlines ---- */
+.ma-root .mp-sm { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-sm-g { border-bottom: 1px solid var(--ma-line); }
+.ma-root .mp-sm-g > summary { list-style: none; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 6px 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-sm-g > summary::-webkit-details-marker { display: none; }
+.ma-root .mp-sm-g > summary span { flex: 1; min-width: 0; font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: 0.38px; }
+.ma-root .mp-sm-g > summary small { font-size: 15px; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text3); font-variant-numeric: tabular-nums; }
+.ma-root .mp-sm-g > summary svg { flex: none; width: 16px; height: 16px; color: var(--ma-text3); transition: transform 0.35s var(--ma-spring); }
+.ma-root .mp-sm-g[open] > summary svg { transform: rotate(90deg); }
+.ma-root .mp-sm-g > summary:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; border-radius: 8px; }
+.ma-root .mp-sm-list { margin: 0 0 10px; padding: 0; list-style: none; }
+.ma-root .mp-sm-g[open] > .mp-sm-list { animation: mp-dt-in 0.45s var(--ma-ease) backwards; }
+.ma-root .mp-sm-list li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-sm-row { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 0 10px 2px; color: var(--ma-text); text-decoration: none; transition: opacity 0.2s; -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-sm-row:active { opacity: 0.55; }
+.ma-root .mp-sm-row span { flex: 1; min-width: 0; font-size: 17px; line-height: 1.35; font-weight: 400; letter-spacing: -0.43px; overflow-wrap: anywhere; }
+.ma-root .mp-sm-row svg { flex: none; width: 14px; height: 14px; color: var(--ma-text3); }
+.ma-root .mp-sm-foot { margin: 20px 0 0; font-size: 13px; line-height: 1.35; letter-spacing: -0.08px; color: var(--ma-text3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-root .mp-dt-art > *, .ma-root .mp-sm-g[open] > .mp-sm-list { animation: none; }
+  .ma-root .mp-dt-share, .ma-root .mp-sm-g > summary svg, .ma-root .mp-sm-row { transition: none; }
+}

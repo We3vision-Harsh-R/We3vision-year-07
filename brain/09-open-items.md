@@ -125,3 +125,10 @@
 ## Status 2026-10-17 (evening): launcher v10 + detail pages
 - Done in the main folder, NOT committed (owner commits): everything in brain/11 "Launcher v10 + whole-app pass".
 - Not done / to decide: a styled 404 for a phone (needs the experimental `global-not-found` flag); "Edit Pages" (reorder/hide screens) is "Add Page" only; dock icons have no "-" badge in edit mode; haptics cannot be tested here (needs a real iPhone/Android); the mega menu on the laptop is untouched (shared with the locked Home page).
+
+## Open after the iOS 27 redesign (2026-10-18)
+- Visual review by the owner on a real phone/tablet; the browser pane screenshots were unreliable during the check.
+- app.css and mobile.css still carry the older appended blocks under the new ones (works, but could be consolidated).
+- A few UI labels are code words, not CMS: service card labels ("Right for you when", "Problems it solves", "What you get", "Learn more"), careers "All", contact "Message" / "Phone and e-mail", CRM "Back/Next/Step N of M", blog "min read" (estimated from word count).
+- /team: teamValues, highlights and FAQ use the default kit look.
+- CRM pipeline is sized for about 7 steps.

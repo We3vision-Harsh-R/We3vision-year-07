@@ -1,72 +1,243 @@
-/* /webdev app screen ("mp-wd-"): ONE pattern for every section: a header (label, title, intro) and a grouped panel of rows (tile + title + text). Kit tokens only. */
+/* =====================================================================================================================
+   /webdev + /mobile app screen ("mp-wd-"), iOS 27 (brain/16-ios27-design-system.md).
+   Open lists with hairlines; Liquid Glass only where it groups a tool (builder, service tiles, paper form, sheet button).
+   Apple type scale: 400 everywhere, 500 for row titles / the open question, 600 for headings only. Kit tokens only.
+   ===================================================================================================================== */
 
-/* ---- hero: a tinted card ---- */
-.ma-root .mp-wd-hero { margin-top: 6px; padding: 24px 20px 20px; border-radius: 28px; background: radial-gradient(110% 80% at 0% 0%, hsl(var(--ma-h) calc(80% * var(--ts)) 50% / 0.26), transparent 70%), var(--ma-card); border: 1px solid var(--ma-rim); box-shadow: 0 22px 50px hsl(0 0% 0% / 0.4), inset 0 1px 0 hsl(0 0% 100% / 0.14); animation: mp-wd-in 0.6s var(--ma-ease) backwards; }
-.ma-root .mp-wd-h { margin: 12px 0 0; font-size: 31px; line-height: 1.14; font-weight: 700; letter-spacing: -0.024em; text-wrap: balance; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) {
+  --wd-glass: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06));
+  --wd-glass-sh: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22);
+  --wd-fill: hsl(240 6% 50% / 0.22);
+}
+
+/* ---- section heads: Title 1, Body intro, 72 px between sections, 28 px under a head ---- */
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-sec { padding-top: 72px; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-sec-head { margin-bottom: 28px; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-chip { font-size: 13px; font-weight: 500; letter-spacing: -0.08px; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-h2 { margin-top: 12px; font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; overflow-wrap: break-word; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-intro { margin-top: 12px; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-title { font-weight: 600; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-btn { font-weight: 500; letter-spacing: -0.43px; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-pts li { font-size: 16px; line-height: 1.5; font-weight: 400; letter-spacing: -0.32px; }
+.ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-sheet-head b { font-size: 17px; font-weight: 600; letter-spacing: -0.43px; }
+@media (min-width: 700px) { .ma-root:is([data-page="webdev"], [data-page="mobile"]) .ma-h2 { font-size: 32px; } }
+
+/* ---- hero: a Large Title on the page (no card), a soft tint light behind it, two buttons side by side ---- */
+.ma-root .mp-wd-hero { position: relative; isolation: isolate; padding: 28px 0 4px; animation: mp-wd-in 0.7s var(--ma-ease) backwards; }
+.ma-root .mp-wd-hero-glow { position: absolute; z-index: -1; inset: -48px calc(var(--ma-gut) * -1) -24px; pointer-events: none; background: radial-gradient(70% 55% at 12% 18%, hsl(var(--ma-h) calc(80% * var(--ts)) 52% / 0.24), transparent 70%), radial-gradient(55% 45% at 92% 70%, hsl(calc(var(--ma-h) + 40) calc(80% * var(--ts)) 52% / 0.14), transparent 70%); }
+.ma-root .mp-wd-h { margin: 14px 0 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: break-word; }
 .ma-root .mp-wd-h span + span { color: var(--ma-tint); }
-.ma-root .mp-wd-t { margin-top: 12px; font-size: 17px; line-height: 1.62; color: var(--ma-text2); }
-@keyframes mp-wd-in { from { opacity: 0; transform: translate3d(0, 24px, 0); } }
+.ma-root .mp-wd-t { margin-top: 16px; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-wd-hero-act { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); grid-auto-flow: row; gap: 12px; margin-top: 28px; }
+.ma-root .mp-wd-hero .ma-btn { min-width: 0; min-height: 50px; padding: 0 12px; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ma-root .mp-wd-hero .ma-btn-glass { color: var(--ma-text); border: 0; background: var(--wd-glass); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: var(--wd-glass-sh); }
+@media (max-width: 359px) { .ma-root .mp-wd-hero .ma-btn { font-size: 15px; padding: 0 8px; } .ma-root .mp-wd-h { font-size: 30px; } }
+@media (min-width: 700px) { .ma-root .mp-wd-h { font-size: 44px; } .ma-root .mp-wd-hero-act { max-width: 460px; } }
+@keyframes mp-wd-in { from { opacity: 0; transform: translate3d(0, 18px, 0); } }
 
-/* ---- the panel and its rows (every section) ---- */
-.ma-root .mp-wd-panel { display: grid; margin: 0; padding: 0; list-style: none; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); overflow: hidden; box-shadow: 0 8px 22px hsl(0 0% 0% / 0.2); }
-.ma-root .mp-wd-gap { margin-top: 14px; }
-.ma-root .mp-wd-panel > * + *, .ma-root .mp-wd-panel > .mp-wd-fold + .mp-wd-fold { border-top: 1px solid var(--ma-line); }
-.ma-root .mp-wd-row { display: flex; align-items: flex-start; gap: 14px; padding: 16px; min-height: 64px; }
-.ma-root .mp-wd-tile { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px; font-size: 17px; font-weight: 700; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 8) calc(85% * var(--ts)) 58%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); }
-.ma-root .mp-wd-tile svg { width: 22px; height: 22px; }
-.ma-root .mp-wd-body { flex: 1; min-width: 0; display: grid; gap: 4px; align-self: center; }
-.ma-root .mp-wd-body b { font-size: 17px; line-height: 1.35; font-weight: 600; letter-spacing: -0.005em; }
-.ma-root .mp-wd-body b span + span::before { content: " "; }
-.ma-root .mp-wd-body > span { font-size: 16px; line-height: 1.55; color: var(--ma-text2); }
-.ma-root .mp-wd-chev { flex: none; align-self: center; width: 18px; height: 18px; color: var(--ma-text3); transition: transform 0.3s var(--ma-ease); }
+/* ---- story: open paragraphs, the first one in the main colour, a thin tint rule on the left ---- */
+.ma-root .mp-wd-story { padding-left: 18px; border-left: 2px solid hsl(var(--ma-h) calc(80% * var(--ts)) 65% / 0.45); }
+.ma-root .mp-wd-story p { font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; overflow-wrap: break-word; }
+.ma-root .mp-wd-story p:first-child { color: var(--ma-text); }
+.ma-root .mp-wd-story p + p { margin-top: 14px; }
 
-/* a row that opens */
-.ma-root .mp-wd-fold > summary { list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 0.2s; }
-.ma-root .mp-wd-fold > summary::-webkit-details-marker { display: none; }
-.ma-root .mp-wd-fold > summary:active, .ma-root .mp-wd-link:active { background: var(--ma-fill); }
-.ma-root .mp-wd-fold[open] > summary .mp-wd-chev { transform: rotate(90deg); }
-.ma-root .mp-wd-fb { padding: 0 16px 18px 74px; }
-.ma-root .mp-wd-fb > p:not(.mp-wd-lab) { font-size: 16px; line-height: 1.6; color: var(--ma-text2); }
-.ma-root .mp-wd-fold[open] .mp-wd-fb { animation: ma-open 0.35s var(--ma-ease) backwards; }
-.ma-root .mp-wd-lab { margin-top: 14px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ma-tint); }
-.ma-root .mp-wd-lab:first-child { margin-top: 0; }
-.ma-root .mp-wd-link { align-items: center; color: inherit; transition: background-color 0.2s; }
-
-/* ---- story ---- */
-.ma-root .mp-wd-story { padding: 22px 20px; gap: 16px; }
-.ma-root .mp-wd-story p { font-size: 17px; line-height: 1.7; color: var(--ma-text2); }
-
-/* ---- technologies: pills in the same panel ---- */
-.ma-root .mp-wd-chips { display: flex; flex-wrap: wrap; gap: 10px; padding: 18px 16px; }
-.ma-root .mp-wd-chips li { min-height: 44px; display: inline-flex; align-items: center; padding: 0 16px; border-radius: 999px; background: var(--ma-wash); border: 1px solid hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.25); font-size: 16px; font-weight: 600; }
-
-/* ---- the live builder (guide) ---- */
-.ma-root .mp-wd-lock { flex: none; position: relative; width: 11px; height: 9px; margin-top: 4px; border-radius: 2px; background: var(--ma-tint); }
-.ma-root .mp-wd-lock::before { content: ""; position: absolute; left: 2px; top: -5px; width: 5px; height: 6px; border: 2px solid var(--ma-tint); border-bottom: 0; border-radius: 4px 4px 0 0; }
-.ma-root .mp-wd-build { padding: 14px; border-radius: 24px; background: var(--ma-card); border: 1px solid var(--ma-line); }
-.ma-root .mp-wd-addr { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 16px; border-radius: 999px; background: var(--ma-fill2); border: 1px solid var(--ma-line); }
-.ma-root .mp-wd-input { flex: 1; min-width: 0; height: 44px; border: 0; background: none; color: var(--ma-text); font: inherit; font-size: 16px; font-weight: 600; }
+/* ---- the live builder: ONE glass card (it is a tool); a Safari address bar and a small page that takes the name ---- */
+.ma-root .mp-wd-build { padding: 16px; border-radius: 28px; background: var(--wd-glass); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: var(--wd-glass-sh); }
+.ma-root .mp-wd-addr { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 16px; border-radius: 999px; background: var(--wd-fill); transition: box-shadow 0.3s ease; }
+.ma-root .mp-wd-addr:focus-within { box-shadow: 0 0 0 2px var(--ma-tint), 0 0 22px hsl(var(--ma-h) calc(100% * var(--ts)) 70% / 0.35); }
+.ma-root .mp-wd-build.is-demo .mp-wd-addr { animation: mp-wd-glow 2.4s ease-in-out 3; }
+@keyframes mp-wd-glow { 50% { box-shadow: 0 0 0 2px hsl(var(--ma-h) calc(100% * var(--ts)) 70% / 0.45), 0 0 24px hsl(var(--ma-h) calc(100% * var(--ts)) 70% / 0.35); } }
+.ma-root .mp-wd-lock { flex: none; position: relative; width: 11px; height: 9px; margin-top: 4px; border-radius: 2px; background: var(--ma-text2); }
+.ma-root .mp-wd-lock::before { content: ""; position: absolute; left: 2px; top: -5px; width: 5px; height: 6px; border: 1.5px solid var(--ma-text2); border-bottom: 0; border-radius: 4px 4px 0 0; }
+.ma-root .mp-wd-field { position: relative; flex: 1; min-width: 0; display: block; }
+.ma-root .mp-wd-input { display: block; width: 100%; min-width: 0; height: 46px; border: 0; background: none; color: var(--ma-text); font: inherit; font-size: 17px; font-weight: 400; letter-spacing: -0.43px; }
 .ma-root .mp-wd-input:focus { outline: none; }
-.ma-root .mp-wd-addr:focus-within { outline: 2px solid var(--ma-tint); }
-.ma-root .mp-wd-page { margin-top: 12px; padding: 14px; border-radius: 16px; background: hsl(0 0% 100% / 0.92); display: grid; gap: 14px; }
+.ma-root .mp-wd-demo { position: absolute; inset: 0; display: flex; align-items: center; overflow: hidden; white-space: nowrap; font-size: 17px; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text); pointer-events: none; }
+.ma-root .mp-wd-demo::after { content: ""; flex: none; width: 2px; height: 20px; margin-left: 2px; border-radius: 1px; background: var(--ma-tint); animation: mp-wd-caret 1s steps(1) infinite; }
+@keyframes mp-wd-caret { 50% { opacity: 0; } }
+.ma-root .mp-wd-hint { margin: 12px 0 0; text-align: center; }
+.ma-root .mp-wd-tap { font-size: 13px; line-height: 1.35; font-weight: 400; letter-spacing: -0.08px; color: var(--ma-text2); }
+.ma-root .mp-wd-page { position: relative; overflow: hidden; display: grid; gap: 14px; margin-top: 14px; padding: 14px; border-radius: 18px; background: hsl(0 0% 100% / 0.94); }
 .ma-root .mp-wd-nav { display: flex; align-items: center; gap: 10px; min-height: 28px; }
-.ma-root .mp-wd-nav b { margin-right: auto; font-size: 17px; font-weight: 700; color: hsl(var(--ma-h) calc(60% * var(--ts)) 24%); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+.ma-root .mp-wd-nav b { margin-right: auto; max-width: 62%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 17px; font-weight: 600; color: hsl(var(--ma-h) calc(60% * var(--ts)) 24%); }
 .ma-root .mp-wd-nav i { width: 22px; height: 6px; border-radius: 3px; background: hsl(var(--ma-h) calc(20% * var(--ts)) 80%); }
 .ma-root .mp-wd-heroline { display: grid; gap: 8px; }
-.ma-root .mp-wd-heroline span { height: 14px; border-radius: 7px; background: hsl(var(--ma-h) calc(20% * var(--ts)) 86%); transition: transform 0.5s var(--ma-ease), background-color 0.4s; transform-origin: left; transform: scaleX(0.55); }
+.ma-root .mp-wd-heroline span { height: 14px; border-radius: 7px; background: hsl(var(--ma-h) calc(20% * var(--ts)) 86%); transform-origin: left; transform: scaleX(0.55); transition: transform 0.5s var(--ma-ease), background-color 0.4s; }
 .ma-root .mp-wd-heroline span + span { transform: scaleX(0.35); }
 .ma-root .mp-wd-heroline span.is-on { background: var(--ma-tint-bg); transform: scaleX(1); }
 .ma-root .mp-wd-heroline span.is-on + span { transform: scaleX(0.7); }
 .ma-root .mp-wd-blocks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.ma-root .mp-wd-blocks em { height: 54px; border-radius: 10px; background: hsl(var(--ma-h) calc(20% * var(--ts)) 88%); transition: transform 0.5s var(--ma-spring), background-color 0.4s; transform: translate3d(0, 6px, 0); }
+.ma-root .mp-wd-blocks em { height: 54px; border-radius: 12px; background: hsl(var(--ma-h) calc(20% * var(--ts)) 88%); transform: translate3d(0, 6px, 0); transition: transform 0.5s var(--ma-spring), background-color 0.4s; }
 .ma-root .mp-wd-blocks em.is-on { background: hsl(var(--ma-h) calc(70% * var(--ts)) 78%); transform: none; }
 .ma-root .mp-wd-blocks em.is-on:nth-child(2) { transition-delay: 0.08s; }
 .ma-root .mp-wd-blocks em.is-on:nth-child(3) { transition-delay: 0.16s; }
+.ma-root .mp-wd-build.is-demo .mp-wd-page::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(100deg, transparent 30%, hsl(var(--ma-h) calc(90% * var(--ts)) 80% / 0.4) 50%, transparent 70%); transform: translateX(-110%); animation: mp-wd-sweep 3.4s ease-in-out 2; }
+@keyframes mp-wd-sweep { 60%, 100% { transform: translateX(110%); } }
 
-@media (prefers-reduced-motion: reduce) { .ma-root .mp-wd-hero { animation: none; } .ma-root .mp-wd-fold[open] .mp-wd-fb { animation: none; } .ma-root .mp-wd-heroline span, .ma-root .mp-wd-blocks em { transition: none; } }
+/* the tips: an open numbered list under the builder */
+.ma-root .mp-wd-tips { margin: 24px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-wd-tips > li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 0; }
+.ma-root .mp-wd-tips > li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-wd-tips-n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ma-wash); color: var(--ma-tint); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.ma-root .mp-wd-tips-t { padding-top: 2px; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; text-wrap: pretty; overflow-wrap: break-word; }
 
-/* compact: the description in a closed row is two lines, the pills are in a box */
-.ma-root .mp-wd-fold:not([open]) .mp-wd-body > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.ma-root .mp-wd-chipbox { padding: 16px; }
-.ma-root .mp-wd-chipbox .mp-wd-chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
-.ma-root .mp-wd-chipbox .ma-clampw { gap: 8px; }
+/* ---- services: glass tiles (an app icon, the name, a round +); a tap opens the sheet ---- */
+.ma-root .mp-wd-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-wd-tiles > li { display: flex; min-width: 0; animation: mp-wd-pop 0.7s var(--ma-ease) both; animation-delay: calc(var(--i, 0) * 60ms); }
+.ma-root .mp-wd-tiles > li:nth-child(2) { --i: 1; } .ma-root .mp-wd-tiles > li:nth-child(3) { --i: 2; } .ma-root .mp-wd-tiles > li:nth-child(4) { --i: 3; }
+.ma-root .mp-wd-tiles > li:nth-child(5) { --i: 4; } .ma-root .mp-wd-tiles > li:nth-child(6) { --i: 5; } .ma-root .mp-wd-tiles > li:nth-child(n + 7) { --i: 6; }
+@keyframes mp-wd-pop { from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.97); } }
+.ma-root .mp-wd-tile2 { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 16px; width: 100%; height: 100%; min-height: 140px; padding: 16px; border: 0; border-radius: 28px; background: var(--wd-glass); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: var(--wd-glass-sh); color: var(--ma-text); font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.35s var(--ma-spring); }
+.ma-root .mp-wd-tile2:active { transform: scale(0.96); }
+.ma-root .mp-wd-tile2:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; }
+.ma-root .mp-wd-tile2 .ma-appic { width: 48px; height: 48px; }
+.ma-root .mp-wd-tile2-t { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; overflow-wrap: break-word; hyphens: auto; }
+.ma-root .mp-wd-tile2-c { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--wd-fill); color: var(--ma-text2); font-size: 18px; line-height: 1; font-weight: 400; transition: transform 0.35s var(--ma-spring); }
+.ma-root .mp-wd-tile2:active .mp-wd-tile2-c { transform: rotate(90deg); }
+@media (min-width: 700px) { .ma-root .mp-wd-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+@media (max-width: 359px) { .ma-root .mp-wd-tile2-t { font-size: 16px; } }
+
+/* the sheet of a service */
+.ma-sheet .mp-wd-sd { padding: 4px 22px 32px; }
+.ma-sheet .mp-wd-sd-top { display: flex; align-items: center; gap: 14px; margin: 4px 0 20px; }
+.ma-sheet .mp-wd-sd-top .ma-appic { flex: none; width: 56px; height: 56px; }
+.ma-sheet .mp-wd-sd-top h3 { min-width: 0; margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; overflow-wrap: break-word; }
+.ma-sheet .mp-wd-sd-d { font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-sheet .mp-wd-sd-t { font-size: 16px; line-height: 1.5; font-weight: 400; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-sheet .mp-wd-lab { margin: 24px 0 8px; font-size: 15px; line-height: 1.4; font-weight: 500; letter-spacing: -0.24px; color: var(--ma-text); }
+.ma-sheet .mp-wd-ex-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; min-height: 50px; padding: 0 22px; border-radius: 999px; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(80% * var(--ts)) 48%), var(--ma-tint-bg2)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35); color: #fff; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; transition: transform 0.25s var(--ma-spring); }
+.ma-sheet .mp-wd-ex-more:active { transform: scale(0.96); }
+.ma-sheet .mp-wd-ex-more svg { width: 18px; height: 18px; }
+
+/* ---- the open lists (process + FAQ): a + that turns into −, the body opens smoothly ---- */
+.ma-root .mp-wd-pl { margin: 0; padding: 0; list-style: none; interpolate-size: allow-keywords; }
+.ma-root .mp-wd-pl-i > details > summary { list-style: none; display: grid; align-items: center; gap: 14px; min-height: 56px; padding: 14px 0; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity 0.2s; }
+.ma-root .mp-wd-pl-i > details > summary::-webkit-details-marker { display: none; }
+.ma-root .mp-wd-pl-i > details > summary:active { opacity: 0.6; }
+.ma-root .mp-wd-pl-i > details > summary:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; border-radius: 8px; }
+.ma-root .mp-wd-pl-t { min-width: 0; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; overflow-wrap: break-word; text-wrap: pretty; }
+.ma-root .mp-wd-pl-x { position: relative; justify-self: end; width: 14px; height: 14px; }
+.ma-root .mp-wd-pl-x::before, .ma-root .mp-wd-pl-x::after { content: ""; position: absolute; left: 0; right: 0; top: 6.25px; height: 1.5px; border-radius: 1px; background: var(--ma-text3); transition: transform 0.35s var(--ma-ease), background-color 0.3s; }
+.ma-root .mp-wd-pl-x::after { transform: rotate(90deg); }
+.ma-root .mp-wd-pl details[open] > summary .mp-wd-pl-x::after { transform: rotate(90deg) scaleX(0); }
+.ma-root .mp-wd-pl details[open] > summary .mp-wd-pl-x::before { background: var(--ma-tint); }
+.ma-root .mp-wd-pl-b { padding: 0 38px 20px 0; }
+.ma-root .mp-wd-pl-b > p { font-size: 16px; line-height: 1.5; font-weight: 400; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; overflow-wrap: break-word; }
+.ma-root .mp-wd-pl-b > p + * { margin-top: 10px; }
+.ma-root .mp-wd-pl details[open] > .mp-wd-pl-b { animation: mp-wd-open 0.4s var(--ma-ease) backwards; }
+@keyframes mp-wd-open { from { opacity: 0; transform: translate3d(0, -6px, 0); } }
+.ma-root .mp-wd-pl details::details-content { block-size: 0; overflow: hidden; transition: block-size 0.4s var(--ma-ease), content-visibility 0.4s allow-discrete; }
+.ma-root .mp-wd-pl details[open]::details-content { block-size: auto; }
+
+/* process: a timeline, a number in a ring on a thin rail; the open stage fills its ring */
+.ma-root .mp-wd-pl.is-steps { position: relative; }
+.ma-root .mp-wd-pl.is-steps::before { content: ""; position: absolute; left: 15.5px; top: 30px; bottom: 30px; width: 1px; background: var(--ma-line); }
+.ma-root .mp-wd-pl.is-steps .mp-wd-pl-i > details > summary { grid-template-columns: 32px minmax(0, 1fr) 14px; }
+.ma-root .mp-wd-pl-n { position: relative; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--ma-bg); box-shadow: inset 0 0 0 1px var(--ma-line); color: var(--ma-text2); font-size: 15px; font-weight: 400; font-variant-numeric: tabular-nums; transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; }
+.ma-root .mp-wd-pl details[open] > summary .mp-wd-pl-n { background: var(--ma-tint-bg); box-shadow: none; color: #fff; }
+.ma-root .mp-wd-pl.is-steps .mp-wd-pl-b { padding-left: 46px; padding-right: 0; }
+
+/* FAQ: hairlines, the question regular, the open one medium */
+.ma-root .mp-wd-pl.is-q { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-wd-pl.is-q .mp-wd-pl-i { border-bottom: 1px solid var(--ma-line); }
+.ma-root .mp-wd-pl.is-q .mp-wd-pl-i > details > summary { grid-template-columns: minmax(0, 1fr) 14px; padding: 16px 0; }
+.ma-root .mp-wd-pl.is-q .mp-wd-pl-t { line-height: 1.45; font-weight: 400; }
+.ma-root .mp-wd-pl.is-q details[open] .mp-wd-pl-t { font-weight: 500; }
+
+/* ---- technologies: the kind as a small label, the names as quiet capsules (tertiary fill), hairlines between kinds ---- */
+.ma-root .mp-wd-tg { margin: 0; }
+.ma-root .mp-wd-tg-r { padding: 16px 0; }
+.ma-root .mp-wd-tg-r + .mp-wd-tg-r { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-wd-tg-r:first-child { padding-top: 0; }
+.ma-root .mp-wd-tg dt { margin: 0 0 10px; font-size: 13px; line-height: 1.35; font-weight: 500; letter-spacing: -0.08px; color: var(--ma-text2); }
+.ma-root .mp-wd-tg dd { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.ma-root .mp-wd-tg dd span { display: inline-flex; align-items: center; min-height: 32px; max-width: 100%; padding: 4px 12px; border-radius: 999px; background: var(--wd-fill); font-size: 15px; line-height: 1.3; font-weight: 400; letter-spacing: -0.24px; overflow-wrap: anywhere; }
+
+/* ---- industries: the iOS picker wheel (3D), a soft fill band in the middle ---- */
+.ma-root .mp-wd-wh-box { position: relative; height: 240px; overflow: hidden; perspective: 520px; perspective-origin: 50% 50%; -webkit-mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent); }
+.ma-root .mp-wd-wh-band { position: absolute; left: 0; right: 0; top: 97px; height: 46px; border-radius: 12px; background: var(--wd-fill); pointer-events: none; }
+.ma-root .mp-wd-wh-scroll { position: absolute; inset: 0; overflow-y: auto; padding: 97px 0; scroll-snap-type: y mandatory; scrollbar-width: none; overscroll-behavior: auto; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+.ma-root .mp-wd-wh-scroll::-webkit-scrollbar { display: none; }
+.ma-root .mp-wd-wh-scroll:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: -2px; border-radius: 14px; }
+.ma-root .mp-wd-wh-r { display: block; width: 100%; height: 46px; padding: 0 16px; border: 0; background: none; color: var(--ma-text); font: inherit; font-size: 20px; font-weight: 400; letter-spacing: -0.45px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; scroll-snap-align: center; transform-origin: 50% 50%; will-change: transform, opacity; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity 0.35s ease; }
+
+/* ---- why We3vision: an open list, a small tint tick, the point in regular weight ---- */
+.ma-root .mp-wd-pt { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-wd-pt > li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 0; }
+.ma-root .mp-wd-pt > li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-wd-pt-k { position: relative; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; background: var(--ma-wash); }
+.ma-root .mp-wd-pt-k::after { content: ""; position: absolute; left: 8px; top: 5px; width: 5px; height: 9px; border: solid var(--ma-tint); border-width: 0 1.75px 1.75px 0; transform: rotate(45deg); }
+.ma-root .mp-wd-pt-t { min-width: 0; font-size: 17px; line-height: 1.4; font-weight: 400; letter-spacing: -0.43px; overflow-wrap: break-word; }
+
+/* ---- more from We3vision: the app icons of those pages, like a home screen ---- */
+.ma-root .mp-wd-rel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 10px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-wd-rel-a { display: grid; justify-items: center; align-content: start; gap: 8px; text-align: center; color: inherit; -webkit-tap-highlight-color: transparent; transition: transform 0.3s var(--ma-spring); }
+.ma-root .mp-wd-rel-a:active { transform: scale(0.92); }
+.ma-root .mp-wd-rel-a .ma-appic { width: 64px; height: 64px; }
+.ma-root .mp-wd-rel-t { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13px; line-height: 1.3; font-weight: 400; letter-spacing: -0.08px; color: var(--ma-text); overflow-wrap: break-word; }
+@media (min-width: 700px) { .ma-root .mp-wd-rel { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* =====================================================================================================================
+   CONTACT: a glass sheet of paper (To / From / Reply to, a ruled page). Send: it folds, turns into a paper plane and flies away.
+   ===================================================================================================================== */
+.ma-root .mp-wd-pp { position: relative; display: grid; }
+.ma-root .mp-wd-pp-form, .ma-root .mp-wd-pp-done { grid-area: 1 / 1; }
+.ma-root .mp-wd-pp-sheet { position: relative; padding: 4px 16px 16px; border-radius: 6px 28px 28px 28px; background: var(--wd-glass); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: var(--wd-glass-sh); transform-origin: 50% 100%; }
+.ma-root .mp-wd-pp-fold { position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-radius: 0 28px 0 12px; background: linear-gradient(225deg, var(--ma-bg) 50%, hsl(0 0% 100% / 0.16) 50%); box-shadow: -3px 3px 8px hsl(0 0% 0% / 0.22); }
+.ma-root .mp-wd-pp-to, .ma-root .mp-wd-pp-row { display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: center; gap: 8px; min-height: 52px; margin: 0; padding-right: 26px; border-bottom: 1px solid hsl(0 0% 100% / 0.14); }
+.ma-root .mp-wd-pp-row { padding-right: 0; transition: border-color 0.25s; }
+.ma-root .mp-wd-pp-to span, .ma-root .mp-wd-pp-row span { font-size: 15px; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text3); }
+.ma-root .mp-wd-pp-to b { min-width: 0; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-wd-pp-row input { width: 100%; min-width: 0; height: 50px; border: 0; background: none; color: var(--ma-text); font: inherit; font-size: 17px; font-weight: 400; letter-spacing: -0.43px; }
+.ma-root .mp-wd-pp-row input::placeholder, .ma-root .mp-wd-pp-note::placeholder { color: var(--ma-text3); }
+.ma-root .mp-wd-pp-row input:focus, .ma-root .mp-wd-pp-note:focus { outline: none; }
+.ma-root .mp-wd-pp-row:focus-within { border-bottom-color: var(--ma-tint); }
+.ma-root .mp-wd-pp-note { display: block; width: 100%; margin-top: 4px; padding: 0; border: 0; resize: none; background: repeating-linear-gradient(transparent 0 31px, hsl(0 0% 100% / 0.14) 31px 32px); background-attachment: local; color: var(--ma-text); font: inherit; font-size: 17px; line-height: 32px; font-weight: 400; letter-spacing: -0.43px; }
+.ma-root .mp-wd-pp-send { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 50px; margin-top: 16px; border: 0; border-radius: 999px; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(80% * var(--ts)) 48%), var(--ma-tint-bg2)); color: #fff; font: inherit; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; cursor: pointer; box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.35), 0 8px 22px hsl(var(--ma-h) calc(80% * var(--ts)) 30% / 0.4); -webkit-tap-highlight-color: transparent; transition: transform 0.25s var(--ma-spring), opacity 0.2s; }
+.ma-root .mp-wd-pp-send:active { transform: scale(0.96); }
+.ma-root .mp-wd-pp-send:disabled { opacity: 0.8; }
+.ma-root .mp-wd-pp-send:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 3px; }
+.ma-root .mp-wd-pp-send svg { width: 20px; height: 20px; transition: transform 0.5s var(--ma-spring); }
+.ma-root .mp-wd-pp-send:active svg { transform: translate3d(3px, -3px, 0) rotate(10deg); }
+.ma-root .mp-wd-pp.is-busy .mp-wd-pp-send svg { animation: mp-wd-wiggle 0.6s ease-in-out infinite; }
+@keyframes mp-wd-wiggle { 50% { transform: translate3d(3px, -3px, 0) rotate(12deg); } }
+.ma-root .mp-wd-pp-err { margin-top: 14px; font-size: 15px; line-height: 1.4; color: hsl(358 100% 70%); text-align: center; }
+
+.ma-root .mp-wd-pp.is-sent .mp-wd-pp-sheet { animation: mp-wd-foldup 0.8s cubic-bezier(0.5, 0, 0.75, 0) forwards; }
+.ma-root .mp-wd-pp.is-sent .mp-wd-pp-send, .ma-root .mp-wd-pp.is-sent .mp-wd-pp-err { opacity: 0; transition: opacity 0.3s; }
+@keyframes mp-wd-foldup { 0% { transform: none; opacity: 1; } 55% { transform: perspective(700px) rotateX(70deg) scale(0.82, 0.5); opacity: 1; } 100% { transform: perspective(700px) rotateX(80deg) scale(0.2, 0.08) translate3d(0, -40px, 0); opacity: 0; } }
+.ma-root .mp-wd-pp-plane { position: absolute; left: 50%; top: 42%; width: 74px; height: 74px; margin: -37px 0 0 -37px; color: var(--ma-tint); opacity: 0; filter: drop-shadow(0 6px 16px hsl(var(--ma-h) calc(90% * var(--ts)) 60% / 0.6)); animation: mp-wd-fly 1.9s 0.55s cubic-bezier(0.4, 0.1, 0.3, 1) forwards; pointer-events: none; }
+@keyframes mp-wd-fly { 0% { opacity: 0; transform: translate3d(0, 20px, 0) scale(0.4) rotate(0); } 12% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotate(-8deg); } 55% { opacity: 1; transform: translate3d(70px, -90px, 0) scale(1.15) rotate(-24deg); } 100% { opacity: 0; transform: translate3d(260px, -330px, 0) scale(0.7) rotate(-34deg); } }
+.ma-root .mp-wd-pp-done { align-self: center; justify-self: center; display: grid; justify-items: center; gap: 16px; padding: 40px 12px; text-align: center; opacity: 0; animation: mp-wd-done 0.8s 1.5s var(--ma-ease) forwards; }
+@keyframes mp-wd-done { from { opacity: 0; transform: translate3d(0, 14px, 0); } to { opacity: 1; transform: none; } }
+.ma-root .mp-wd-pp-done p { margin: 0; max-width: 20em; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; text-wrap: balance; }
+.ma-root .mp-wd-pp-done button { min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: var(--wd-glass); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: var(--wd-glass-sh); color: var(--ma-text); font: inherit; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; cursor: pointer; transition: transform 0.25s var(--ma-spring); }
+.ma-root .mp-wd-pp-done button:active { transform: scale(0.96); }
+
+/* phone, e-mail and offices: a quiet disclosure, then open lists with hairlines (no boxes) */
+.ma-root .mp-wd-ct { margin-top: 28px; border-top: 1px solid var(--ma-line); }
+.ma-root .mp-wd-ct > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; color: var(--ma-tint); font-size: 17px; font-weight: 400; letter-spacing: -0.43px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-wd-ct > summary::-webkit-details-marker { display: none; }
+.ma-root .mp-wd-ct > summary:active { opacity: 0.6; }
+.ma-root .mp-wd-ct > summary svg { flex: none; width: 18px; height: 18px; transition: transform 0.35s var(--ma-ease); }
+.ma-root .mp-wd-ct[open] > summary svg { transform: rotate(90deg); }
+.ma-root .mp-wd-ct[open] > .mp-wd-ct-b { animation: mp-wd-open 0.4s var(--ma-ease) backwards; }
+.ma-root .mp-wd-ct-b { padding-bottom: 8px; }
+.ma-root .mp-wd-ct-g + .mp-wd-ct-g { margin-top: 20px; }
+.ma-root .mp-wd-ct-h { margin: 8px 0 2px; font-size: 13px; line-height: 1.35; font-weight: 500; letter-spacing: -0.08px; color: var(--ma-text2); }
+.ma-root .mp-wd-ct-g ul { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-wd-ct-g li { border-bottom: 1px solid var(--ma-line); }
+.ma-root .mp-wd-ct-g li > a, .ma-root .mp-wd-ct-g li > span { display: flex; align-items: center; min-height: 48px; padding: 12px 0; font-size: 17px; line-height: 1.4; font-weight: 400; letter-spacing: -0.43px; overflow-wrap: anywhere; }
+.ma-root .mp-wd-ct-g li > a { color: var(--ma-tint); -webkit-tap-highlight-color: transparent; }
+.ma-root .mp-wd-ct-g li > a:active { opacity: 0.6; }
+
+/* ---- reduced motion: nothing moves by itself ---- */
+@media (prefers-reduced-motion: reduce) {
+  .ma-root .mp-wd-hero, .ma-root .mp-wd-tiles > li, .ma-root .mp-wd-pl details[open] > .mp-wd-pl-b, .ma-root .mp-wd-ct[open] > .mp-wd-ct-b,
+  .ma-root .mp-wd-build.is-demo .mp-wd-addr, .ma-root .mp-wd-build.is-demo .mp-wd-page::after, .ma-root .mp-wd-demo::after,
+  .ma-root .mp-wd-pp.is-busy .mp-wd-pp-send svg { animation: none; }
+  .ma-root .mp-wd-heroline span, .ma-root .mp-wd-blocks em, .ma-root .mp-wd-pl details::details-content, .ma-root .mp-wd-pl-x::before, .ma-root .mp-wd-pl-x::after, .ma-root .mp-wd-tile2, .ma-root .mp-wd-tile2-c { transition: none; }
+  .ma-root .mp-wd-pp.is-sent .mp-wd-pp-sheet { animation: none; opacity: 0; }
+  .ma-root .mp-wd-pp-plane { display: none; }
+  .ma-root .mp-wd-pp-done { animation: none; opacity: 1; }
+}

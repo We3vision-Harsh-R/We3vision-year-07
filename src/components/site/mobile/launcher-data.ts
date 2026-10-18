@@ -130,14 +130,11 @@ const mesh = (a: number, b: number, c: number, d: number, deep = 12, sat = 1): s
     `linear-gradient(176deg, ${h(a, 33)}, ${h(c, deep)})`,
   ].join(", ");
 };
-/** a sweeping wave like the iOS 26 wallpapers: the curve of a big circle that is partly outside the screen, with a bright thin edge and a soft glow */
-const wave = (x: number, y: number, r: number, hue: number, strength = 1, sat = 1): string => {
-  const edge = `hsl(calc(var(--lh) + ${hue}) calc(${Math.round(100 * sat)}% * var(--ts)) 88% / ${0.85 * strength})`;
-  const glow = `hsl(calc(var(--lh) + ${hue - 14}) calc(${Math.round(95 * sat)}% * var(--ts)) 64% / ${0.42 * strength})`;
-  const shade = `hsl(calc(var(--lh) + ${hue + 20}) calc(${Math.round(80 * sat)}% * var(--ts)) 16% / ${0.5 * strength})`;
-  return `radial-gradient(circle at ${x}% ${y}%, transparent 0 ${r - 3}%, ${shade} ${r - 1.2}%, ${edge} ${r}%, ${glow} ${r + 2.4}%, transparent ${r + 14}%)`;
+/** a wallpaper is only smooth gradients now: the colour mesh, plus one wide soft light that crosses the screen (no lines, no edges) */
+const iosWall = (a: number, b: number, c: number, d: number, deep = 12, sat = 1): string => {
+  const light = `linear-gradient(118deg, transparent 18%, hsl(calc(var(--lh) + ${a + 30}) calc(${Math.round(100 * sat)}% * var(--ts)) 82% / 0.2) 44%, transparent 72%)`;
+  return [light, mesh(a, b, c, d, deep, sat)].join(", ");
 };
-const iosWall = (a: number, b: number, c: number, d: number, deep = 12, sat = 1): string => [wave(112, 24, 62, a + 36, 1, sat), wave(-12, 96, 58, c - 30, 0.8, sat), mesh(a, b, c, d, deep, sat)].join(", ");
 export const PRESETS: Preset[] = [
   { id: "aurora", label: "Aurora", o: [0, 50, -44], s: 1, plain: true, bg: iosWall(18, 64, -34, -62) },
   { id: "sunrise", label: "Sunrise", o: [0, 0, 0], s: 1, plain: true, bg: iosWall(92, 128, 54, 16, 14) },

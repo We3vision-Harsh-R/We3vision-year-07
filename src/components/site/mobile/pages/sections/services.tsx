@@ -1,46 +1,53 @@
 import type { MobileSection } from "../types";
-import { Button, Card, Carousel, GroupedList, ListRow, Points, Section } from "../../app";
-import { IcChevron } from "../../app/icons";
-import { Lines, lines, oneLine } from "../../app/text";
+import { AppLink, IcChevron, Points, Section } from "../../app";
+import { lines, oneLine } from "../../app/text";
+import { IaPicker } from "./ios27-a-client";
 
 export const ServicesSection: MobileSection<"services"> = ({ data, id }) => {
-  // a list of links with a short line each ("More from We3vision") is a list of rows; real service cards swipe
+  // a list of links with a short line each ("More from We3vision") is an open list of rows; real services are a segmented picker:
+  // pick a name and its words open below with a soft crossfade (every panel stays in the page)
   const linksOnly = data.cards.length > 0 && data.cards.every((c) => c.href && !c.fit && !lines(c.problems).length && !lines(c.outcomes).length);
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
       {linksOnly ? (
-        <GroupedList>
+        <ul className="ma-ia-links">
           {data.cards.map((c, i) => (
-            <ListRow key={i} title={oneLine(c.title)} text={c.description} href={c.href} />
+            <li key={i}>
+              <AppLink href={c.href} className="ma-ia-link">
+                <span>
+                  <b>{oneLine(c.title)}</b>
+                  {c.description && <small>{c.description}</small>}
+                </span>
+                <IcChevron />
+              </AppLink>
+            </li>
           ))}
-        </GroupedList>
-      ) : (
-        <Carousel label={oneLine(data.heading)}>
-          {data.cards.map((c, i) => {
+        </ul>
+      ) : data.cards.length > 0 ? (
+        <IaPicker
+          label={oneLine(data.heading) || "Services"}
+          tabs={data.cards.map((c) => oneLine(c.title))}
+          panels={data.cards.map((c, i) => {
             const problems = lines(c.problems);
             const outcomes = lines(c.outcomes);
-            const more = c.fit || problems.length > 0 || outcomes.length > 0;
             return (
-              <Card key={i} className="ma-fill">
-                <h3><Lines text={c.title} /></h3>
-                {c.description && <p>{c.description}</p>}
-                {more && (
-                  <details className="ma-fold">
-                    <summary>Details<IcChevron /></summary>
-                    <div>
-                      {c.fit && (<><p className="ma-sublabel">Right for you when</p><p>{c.fit}</p></>)}
-                      {problems.length > 0 && (<><p className="ma-sublabel">Problems it solves</p><Points items={problems} /></>)}
-                      {outcomes.length > 0 && (<><p className="ma-sublabel">What you get</p><Points items={outcomes} /></>)}
-                    </div>
-                  </details>
-                )}
-                {c.href && <div className="ma-actions"><Button href={c.href} variant="tinted" block>Learn more</Button></div>}
-              </Card>
+              <div key={i}>
+                <h3 className="ma-ia-ph">{oneLine(c.title)}</h3>
+                {c.description && <p className="ma-ia-body">{c.description}</p>}
+                {c.fit && (<><p className="ma-ia-lab">Right for you when</p><p className="ma-ia-txt">{c.fit}</p></>)}
+                {problems.length > 0 && (<><p className="ma-ia-lab">Problems it solves</p><Points items={problems} /></>)}
+                {outcomes.length > 0 && (<><p className="ma-ia-lab">What you get</p><Points items={outcomes} /></>)}
+                {c.href && <AppLink href={c.href} className="ma-ia-more">Learn more<IcChevron /></AppLink>}
+              </div>
             );
           })}
-        </Carousel>
+        />
+      ) : null}
+      {data.buttonLabel && data.buttonHref && (
+        <div className="ma-ia-btns">
+          <AppLink href={data.buttonHref} className="ma-btn ma-ia-glass">{data.buttonLabel}</AppLink>
+        </div>
       )}
-      {data.buttonLabel && data.buttonHref && <div className="ma-actions"><Button href={data.buttonHref} block>{data.buttonLabel}</Button></div>}
     </Section>
   );
 };

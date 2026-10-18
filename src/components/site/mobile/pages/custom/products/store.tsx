@@ -5,16 +5,16 @@ import { IcChevron } from "../../../app/icons";
 import { Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import "./store.css";
 
-// App Store-like pieces for the product pages (/products and /products/*): a product header (icon, name, subtitle, GET-style button),
-// a description card and the product list. Every word comes from the CMS section; `look` and `hue` only change the design per page.
-// Styles: store.css next to this file ("mp-store-"); each page adds its own touches in its page.css.
+// iOS 27 App Store pieces for the product pages (/products and /products/*): a product header (glass squircle icon, name, subtitle,
+// a "Get"-style capsule and a glass one), the description with "more", the product list as open App Store rows, the FAQ as an open list.
+// Every word comes from the CMS section; `look` and `hue` only change the artwork per page. Styles: store.css ("mp-store-").
 
 export type StoreLook = "row" | "center" | "slide" | "note";
 
 const nameOf = (heading: string) => lines(heading)[0] ?? "";
 const subOf = (heading: string) => lines(heading).slice(1).join(" ");
 
-/** the product icon: the first letter of the product's name on a theme-coloured squircle */
+/** the product icon: the first letter of the product's name on a theme-coloured squircle with a specular glass edge */
 export function StoreIcon({ name, hue = 0, size }: { name: string; hue?: number; size?: "sm" | "lg" }) {
   return (
     <span className={"mp-store-ic" + (size ? " is-" + size : "")} style={{ "--o": hue } as CSSProperties} aria-hidden="true">
@@ -33,7 +33,7 @@ export function StoreHeader({ data, index, look = "row", hue = 0 }: MobileSectio
     { label: data.secondaryLabel, href: data.secondaryHref },
   ].filter((a) => a.label && a.href);
   return (
-    <section className={"mp-store-head is-" + look}>
+    <section className={"mp-store-head is-" + look} style={{ "--o": hue } as CSSProperties}>
       {look === "slide" && (
         <div className="mp-store-slide" aria-hidden="true">
           <span>{name}</span>
@@ -42,7 +42,7 @@ export function StoreHeader({ data, index, look = "row", hue = 0 }: MobileSectio
         </div>
       )}
       <div className="mp-store-id">
-        {look !== "slide" && <StoreIcon name={name} hue={hue} size="lg" />}
+        <StoreIcon name={name} hue={hue} size={look === "slide" ? undefined : "lg"} />
         <div className="mp-store-nm">
           <H className="mp-store-h">
             {name}
@@ -54,7 +54,7 @@ export function StoreHeader({ data, index, look = "row", hue = 0 }: MobileSectio
       {acts.length > 0 && (
         <div className="mp-store-acts">
           {acts.map((a, i) => (
-            <AppLink key={i} href={a.href} className={i === 0 ? "mp-store-get" : "mp-store-alt"}>
+            <AppLink key={i} href={a.href as string} className={i === 0 ? "mp-store-get" : "mp-store-alt"}>
               {a.label}
             </AppLink>
           ))}
@@ -65,22 +65,34 @@ export function StoreHeader({ data, index, look = "row", hue = 0 }: MobileSectio
   );
 }
 
-/** the story section as the product's description */
+/** the story section as the product's description: the first paragraph, the rest behind "more" (like the App Store) */
 export function StoreAbout({ data, id, look = "row" }: MobileSectionProps<"story"> & { look?: StoreLook }) {
+  const ps = paragraphs(data.body);
+  const [first, ...rest] = ps;
   return (
     <section id={id} className={"ma-sec mp-store-about is-" + look}>
       <div className="mp-store-desc">
-        {paragraphs(data.body).map((p, i) => (
-          <p key={i}>
-            <Rich text={p} />
+        {first && (
+          <p>
+            <Rich text={first} />
           </p>
-        ))}
+        )}
+        {rest.length > 0 && (
+          <details className="mp-store-more">
+            <summary>more</summary>
+            {rest.map((p, i) => (
+              <p key={i}>
+                <Rich text={p} />
+              </p>
+            ))}
+          </details>
+        )}
       </div>
     </section>
   );
 }
 
-/** the products of /products as App Store rows: icon, name, line, a pill to open it */
+/** the products of /products as App Store rows: icon, name, line, a glass capsule to open it */
 export function StoreList({ data, id }: MobileSectionProps<"services">) {
   return (
     <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
@@ -101,7 +113,17 @@ export function StoreList({ data, id }: MobileSectionProps<"services">) {
               ) : null}
             </>
           );
-          return <li key={i}>{c.href ? <AppLink href={c.href} className="mp-store-row">{inner}</AppLink> : <div className="mp-store-row">{inner}</div>}</li>;
+          return (
+            <li key={i} className="ma-rvx" style={{ "--rv-d": `${i * 60}ms` } as CSSProperties}>
+              {c.href ? (
+                <AppLink href={c.href} className="mp-store-row">
+                  {inner}
+                </AppLink>
+              ) : (
+                <div className="mp-store-row">{inner}</div>
+              )}
+            </li>
+          );
         })}
       </ul>
       {data.buttonLabel && data.buttonHref && (
@@ -111,6 +133,27 @@ export function StoreList({ data, id }: MobileSectionProps<"services">) {
           </AppLink>
         </div>
       )}
+    </Section>
+  );
+}
+
+/** the FAQ of a product page as an open list: + turns into −, one open at a time */
+export function StoreFaq({ data, id }: MobileSectionProps<"faq">) {
+  return (
+    <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
+      <ul className="mp-store-qa" data-exclusive>
+        {data.items.map((x, i) => (
+          <li key={i}>
+            <details>
+              <summary>
+                <span>{x.question}</span>
+                <i aria-hidden="true" />
+              </summary>
+              <p>{x.answer}</p>
+            </details>
+          </li>
+        ))}
+      </ul>
     </Section>
   );
 }
