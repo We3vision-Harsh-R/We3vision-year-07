@@ -251,3 +251,7 @@
 .ma-root .mp-seo-row { height: 22px; transform: translate3d(0, calc(var(--y) * 27px), 0); }
 .ma-root .mp-seo-list > li { padding: 7px 0; }
 .ma-root .mp-seo-head { margin-bottom: 8px; }
+
+/* the space between two sections: one gap of 60 px (the kit padding and the page margin were adding up to about 150 px) */
+.ma-root:is([data-page="seo"], [data-page="meta-marketing"], [data-page="physical-marketing"]) .ma-sec { margin-top: 0; padding-top: 60px; }
+.ma-root:is([data-page="seo"], [data-page="meta-marketing"], [data-page="physical-marketing"]) .ma-sec-head { margin-bottom: 24px; }
