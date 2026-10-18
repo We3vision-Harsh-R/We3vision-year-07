@@ -1,5 +1,6 @@
 // STYLE DIFF: proves that a CSS change did not change how pages look. It opens every page in a headless Chrome (1440x900), freezes all
 // animations at the first frame, and keeps one hash of the computed styles (about 50 properties + ::before/::after) for every element.
+// Add --device=phone or --device=tablet to any command to compare the phone/tablet pages (/m/...) instead of the laptop pages.
 //   node tools/style-diff.mjs record http://localhost:1010 [/path ...]   before the change: pages are loaded 3 times; elements that
 //                                                                       differ between the runs (JS-driven) are marked "noise"
 //   node tools/style-diff.mjs compare http://localhost:1010 [/path ...]  after the change: lists the elements whose styles changed
@@ -12,7 +13,10 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-const [mode, baseArg, ...pathsArg] = process.argv.slice(2);
+// --device=phone|tablet (anywhere in the arguments): 390x844 at 3x / 820x1180 at 2x with a touch screen and an iPhone/iPad user agent, so the server sends the phone pages
+const deviceFlag = process.argv.slice(2).find((a) => a.startsWith("--device="));
+const deviceName = deviceFlag ? deviceFlag.split("=")[1] : "desktop";
+const [mode, baseArg, ...pathsArg] = process.argv.slice(2).filter((a) => !a.startsWith("--device="));
 if (!["record", "compare", "inspect", "diff"].includes(mode) || !baseArg) { console.error("usage: node tools/style-diff.mjs record|compare <baseUrl> [/path ...]  |  inspect <baseUrl> /path elementIndex  |  diff <urlBefore> <urlAfter> [/path ...]"); process.exit(2); }
 const base = baseArg.replace(/\/+$/, "");
 const DIR = ".task-log/style-snap";
@@ -75,7 +79,11 @@ listeners.push((m) => {
   if (m.method === "Runtime.exceptionThrown") problems.push((m.params.exceptionDetails.exception?.description ?? m.params.exceptionDetails.text).split("\n")[0].slice(0, 160));
   if (m.method === "Runtime.consoleAPICalled" && m.params.type === "error") problems.push(m.params.args.map((a) => a.value ?? a.description ?? "").join(" ").slice(0, 160));
 });
-await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+const DEVS = { desktop: [1440, 900, 1, false, ""], phone: [390, 844, 3, true, "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"], tablet: [820, 1180, 2, true, "Mozilla/5.0 (iPad; CPU OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"] };
+const DV = DEVS[deviceName];
+if (!DV) { console.error("device must be desktop, phone or tablet"); process.exit(2); }
+await send("Emulation.setDeviceMetricsOverride", { width: DV[0], height: DV[1], deviceScaleFactor: DV[2], mobile: DV[3] });
+if (DV[3]) { await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 }); await send("Network.setUserAgentOverride", { userAgent: DV[4] }); }
 async function snapshot(path, root = base) {
   const loaded = new Promise((r) => { const l = (m) => { if (m.method === "Page.loadEventFired") { listeners.splice(listeners.indexOf(l), 1); r(); } }; listeners.push(l); setTimeout(r, 120000); });
   const nav = await send("Page.navigate", { url: root + path });

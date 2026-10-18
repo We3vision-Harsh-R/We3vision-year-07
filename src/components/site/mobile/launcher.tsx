@@ -74,6 +74,9 @@ function Mi({ d }: { d: keyof typeof IconPaths }) {
 export function Launcher({ contact = null }: { contact?: Contact | null }) {
   const router = useRouter();
   const [ready, setReady] = useState(false);
+  // The first paint only builds the screen the visitor sees (about a third of the page). The other home screens and the App Library are filled in right after
+  // (the next two steps below), when the first screen is already on the glass. Same result for the visitor; the first screen shows sooner on a slow phone.
+  const [fill, setFill] = useState(0);
   const [saved, setSaved] = useState<Saved>({ ...defaultSaved(), pages: [] });
   const [cust, setCust] = useState(false);
   const [m, setM] = useState<Metrics | null>(null);
@@ -133,6 +136,15 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
       document.documentElement.classList.remove("lnc-lock");
     };
   }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+    const a = window.setTimeout(() => setFill(1), 250); // the neighbours of the first screen
+    const b = window.setTimeout(() => setFill(2), 900); // everything else (the App Library)
+    return () => { window.clearTimeout(a); window.clearTimeout(b); };
+  }, [ready]);
+  /** is the content of home screen / library number `pi` built yet? (always while editing or dragging: items move between screens) */
+  const built = (pi: number) => fill >= 2 || edit || !!drag || pi === page || (fill >= 1 && Math.abs(pi - page) <= 1);
 
   /** a change of the arrangement: kept at once */
   const update = useCallback((fn: (s: Saved) => Saved) => {
@@ -685,7 +697,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
                 <section key={pi} className="lnc-page lnc-home" style={{ flex: `0 0 ${100 / nPages}%`, width: `${100 / nPages}%` }} aria-label={pg.title ?? (pi === 0 ? "Home screen" : `Screen ${pi + 1}`)}>
                   {pg.title && <h2 className="lnc-ptitle">{pg.title}</h2>}
                   <div ref={(el) => { hs.current[pi] = el; }} className="lnc-hs" style={{ marginLeft: -m.gx / 2, width: m.W + m.gx }}>
-                    {slotsOf(pg).map((s) => renderTile(s, m))}
+                    {built(pi) ? slotsOf(pg).map((s) => renderTile(s, m)) : null}
                   </div>
                 </section>
               ))}
@@ -714,7 +726,7 @@ export function Launcher({ contact = null }: { contact?: Contact | null }) {
                     </ul>
                   ) : (
                     <div className="lnc-groups">
-                      {GROUPS.map((g) => (
+                      {(built(libIndex) ? GROUPS : []).map((g) => (
                         <div key={g.id} className="lnc-group">
                           <button type="button" className="lnc-tile" onClick={(e) => openGroup(g, e.currentTarget)} aria-label={`Open ${g.label}`}>
                             {g.apps.slice(0, 3).map((id) => <Ic key={id} app={APPS[id]} mini />)}

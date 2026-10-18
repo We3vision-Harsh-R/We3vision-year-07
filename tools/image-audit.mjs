@@ -1,5 +1,5 @@
 // IMAGE AUDIT (read-only): which pictures are much bigger than the size they are shown at, on which pages.
-//   node tools/image-audit.mjs http://localhost:1021 [/path ...]     (a production server is best; with no /path the sitemap is used)
+//   node tools/image-audit.mjs http://localhost:1021 [/path ...] [--device=desktop|phone|tablet]     (a production server is best; with no /path the sitemap is used)
 // For every <img> of every page it records the file, its real size in pixels (natural), the biggest size it is shown at on any page (css pixels),
 // and the bytes. "keep" is the width that stays sharp on a 2x screen at the biggest shown size (shown width x 3 for a safety margin).
 // A picture whose natural width is more than twice "keep" is listed as oversized, with the bytes that could be saved if it were re-encoded at "keep".
@@ -11,7 +11,7 @@ import { join } from "node:path";
 
 const args = process.argv.slice(2);
 const base = (args[0] ?? "http://localhost:1021").replace(/\/+$/, "");
-let paths = args.slice(1);
+let paths = args.filter((a) => !a.startsWith('--')).slice(1);
 if (!paths.length) {
   const sm = await fetch(`${base}/sitemap.xml`).then((r) => r.text());
   paths = [...new Set([...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1].trim()).pathname).concat("/"))];
@@ -28,7 +28,11 @@ let id = 1; const waiting = new Map(); const listeners = [];
 ws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id && waiting.has(m.id)) { waiting.get(m.id)(m); waiting.delete(m.id); } else listeners.forEach((l) => l(m)); };
 const send = (method, params = {}) => new Promise((res) => { const i = id++; waiting.set(i, res); ws.send(JSON.stringify({ id: i, method, params })); });
 await send("Page.enable");
-await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+const deviceName = (args.find((a) => a.startsWith("--device=")) ?? "--device=desktop").split("=")[1];
+const DV = { desktop: [1440, 900, 1, false, ""], phone: [390, 844, 3, true, "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"], tablet: [820, 1180, 2, true, "Mozilla/5.0 (iPad; CPU OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"] }[deviceName];
+await send("Emulation.setDeviceMetricsOverride", { width: DV[0], height: DV[1], deviceScaleFactor: DV[2], mobile: DV[3] });
+if (DV[3]) await send("Network.setUserAgentOverride", { userAgent: DV[4] });
+const DPR = DV[2];
 
 const PAGE = `(async () => {
   const nav = document.querySelector('.fn-root'); if (nav) nav.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, pointerType: 'mouse' }));
@@ -61,7 +65,7 @@ for (const e of seen.values()) {
   let bytes = 0;
   try { bytes = Number((await fetch(url, { method: "HEAD", headers: { "Accept-Encoding": "identity" } })).headers.get("content-length") ?? 0); } catch {}
   const shown = Math.max(e.w, 1);
-  const keep = Math.ceil(shown * 3);
+  const keep = Math.ceil(shown * Math.max(DPR, 2) * 1.5); // the pixels a screen of this density can show, plus 50 % of margin
   const over = e.nw / keep;
   const saved = over > 2 ? Math.round(bytes * (1 - (keep / e.nw) ** 2 * 1.3)) : 0; // pixels scale with the square; webp is not perfectly proportional (x1.3)
   rows.push({ ...e, pages: e.pages.size, bytes, keep, over: Math.round(over * 10) / 10, saved });
