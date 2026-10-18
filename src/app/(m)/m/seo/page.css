@@ -1,0 +1,253 @@
+/* /seo ("mp-seo-"): a search result page. Open and quiet: space, hairlines, regular type (500 for names, 600 for headings), the Apple type scale in the site font,
+   glass only on the buttons and on the results you climb. */
+
+.ma-root:is([data-page="seo"], [data-page="meta-marketing"], [data-page="physical-marketing"]) .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; }
+.ma-root:is([data-page="seo"], [data-page="meta-marketing"], [data-page="physical-marketing"]) .ma-intro { font-size: 17px; line-height: 1.4; letter-spacing: -0.43px; font-weight: 400; color: var(--ma-text2); }
+.ma-root:is([data-page="seo"], [data-page="meta-marketing"], [data-page="physical-marketing"]) .ma-chip { font-size: 13px; font-weight: 500; letter-spacing: -0.08px; }
+.ma-root:is([data-page="seo"], [data-page="meta-marketing"], [data-page="physical-marketing"]) .ma-sec { margin-top: 72px; }
+
+/* ---- hero ---- */
+.ma-root .mp-seo-hero { padding: 22px 0 8px; }
+.ma-root .mp-seo-eye { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 15px; letter-spacing: -0.24px; color: var(--ma-text2); }
+.ma-root .mp-seo-eye svg { width: 17px; height: 17px; color: var(--ma-tint); }
+.ma-root .mp-seo-h { margin: 16px 0 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .mp-seo-h span { display: block; }
+.ma-root .mp-seo-h span + span { color: var(--ma-tint); }
+.ma-root .mp-seo-t { margin: 18px 0 0; max-width: 38ch; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-seo-btns { display: flex; gap: 10px; margin-top: 28px; }
+.ma-root .mp-seo-btns .ma-btn { flex: 1 1 0; min-width: 0; min-height: 48px; padding: 0 10px; font-size: 16px; white-space: normal; text-align: center; }
+.ma-root .mp-seo-ladder { display: grid; gap: 10px; margin-top: 34px; }
+.ma-root .mp-seo-ladder p { display: flex; align-items: center; gap: 12px; margin: 0; padding: 10px 14px; border-radius: 16px; background: hsl(240 6% 50% / 0.14); animation: mp-seo-in 0.7s var(--ma-ease) backwards; animation-delay: calc(0.3s + var(--i) * 90ms); }
+.ma-root .mp-seo-ladder em { flex: none; width: 18px; font-style: normal; font-size: 13px; color: var(--ma-text3); font-variant-numeric: tabular-nums; }
+.ma-root .mp-seo-ladder span { flex: 1; display: grid; gap: 6px; }
+.ma-root .mp-seo-ladder u, .ma-root .mp-seo-row u { display: block; height: 6px; border-radius: 3px; background: hsl(0 0% 100% / 0.2); text-decoration: none; }
+.ma-root .mp-seo-ladder u:last-child { width: 60%; background: hsl(0 0% 100% / 0.12); }
+.ma-root .mp-seo-ladder p:first-child { background: var(--ma-wash); box-shadow: 0 0 0 1px hsl(var(--ma-h) 80% 60% / 0.35); animation: mp-seo-in 0.7s var(--ma-ease) 0.3s backwards, mp-seo-lit 2.6s ease-in-out 1.2s 3; }
+.ma-root .mp-seo-ladder p:first-child em { color: var(--ma-tint); }
+.ma-root .mp-seo-ladder p:first-child u { background: var(--ma-tint-bg); }
+@keyframes mp-seo-in { from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); } }
+@keyframes mp-seo-lit { 50% { box-shadow: 0 0 0 1px hsl(var(--ma-h) 80% 60% / 0.7), 0 0 26px hsl(var(--ma-h) 90% 60% / 0.3); } }
+
+/* ---- story ---- */
+.ma-root .mp-seo-story { display: grid; gap: 16px; }
+.ma-root .mp-seo-story p { margin: 0; font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text2); }
+.ma-root .mp-seo-story em { font-style: normal; font-weight: 500; color: var(--ma-text); }
+
+/* ---- guide: the way in to the toy ---- */
+.ma-root .mp-seo-try { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 54px; padding: 0 18px; border-radius: 999px; color: var(--ma-text); text-decoration: none; font-size: 17px; letter-spacing: -0.43px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; }
+.ma-root .mp-seo-try svg { flex: none; width: 18px; height: 18px; color: var(--ma-tint); }
+
+/* ---- services: climb the results ---- */
+.ma-root .mp-seo-head { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; }
+.ma-root .mp-seo-rank { flex: none; display: grid; margin: 0; }
+.ma-root .mp-seo-rank span { font-size: 13px; color: var(--ma-text3); }
+.ma-root .mp-seo-rank b { font-size: 40px; line-height: 1.05; font-weight: 600; letter-spacing: 0.37px; color: var(--ma-tint); font-variant-numeric: tabular-nums; animation: mp-seo-pop 0.5s var(--ma-spring); }
+@keyframes mp-seo-pop { from { transform: scale(0.7); opacity: 0; } }
+.ma-root .mp-seo-bar { flex: 1; height: 6px; border-radius: 3px; background: hsl(0 0% 47% / 0.2); overflow: hidden; }
+.ma-root .mp-seo-bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--ma-tint-bg), hsl(calc(var(--ma-h) + 60) 90% 62%)); transform-origin: left; transform: scaleX(var(--k)); transition: transform 0.7s var(--ma-ease); }
+.ma-root .mp-seo-serp { position: relative; height: calc(var(--rows) * 40px); }
+.ma-root .mp-seo-row { position: absolute; left: 0; right: 0; top: 0; height: 33px; display: flex; align-items: center; gap: 12px; padding: 0 12px; border-radius: 12px; background: hsl(240 6% 50% / 0.14); transform: translate3d(0, calc(var(--y) * 40px), 0); transition: transform 0.85s var(--ma-spring); }
+.ma-root .mp-seo-row em { flex: none; width: 16px; font-style: normal; font-size: 12px; color: var(--ma-text3); font-variant-numeric: tabular-nums; }
+.ma-root .mp-seo-row span { flex: 1; min-width: 0; }
+.ma-root .mp-seo-row u.t { display: block; width: calc(var(--w) * 1%); height: 6px; border-radius: 3px; background: hsl(0 0% 100% / 0.26); text-decoration: none; }
+.ma-root .mp-seo-row.is-me { z-index: 2; background: linear-gradient(180deg, hsl(var(--ma-h) 80% 60% / 0.3), hsl(var(--ma-h) 80% 50% / 0.16)); box-shadow: 0 0 0 1px hsl(var(--ma-h) 80% 70% / 0.5), 0 8px 20px hsl(var(--ma-h) 80% 30% / 0.35), inset 0 3px 0.5px -2.25px #282828; }
+.ma-root .mp-seo-row.is-me em { color: var(--ma-tint); }
+.ma-root .mp-seo-row.is-me b { display: block; font-size: 14px; font-weight: 500; letter-spacing: -0.24px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* the sentence of the service you touched */
+.ma-root .mp-seo-cap { display: grid; gap: 2px; min-height: 66px; margin: 14px 0 12px; animation: mp-seo-in 0.45s var(--ma-ease) backwards; }
+.ma-root .mp-seo-cap b { font-size: 15px; font-weight: 500; letter-spacing: -0.24px; color: var(--ma-tint); }
+.ma-root .mp-seo-cap span { font-size: 14px; line-height: 1.4; letter-spacing: -0.15px; color: var(--ma-text2); }
+
+/* the services as switches, two in a row */
+.ma-root .mp-seo-sw { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-seo-sw button { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 52px; padding: 6px 10px 6px 12px; border: 0; border-radius: 16px; background: hsl(240 6% 50% / 0.16); box-shadow: inset 0 0 0 0.5px hsl(0 0% 100% / 0.07); color: var(--ma-text); font: inherit; text-align: left; cursor: pointer; transition: background-color 0.35s var(--ma-ease), transform 0.3s var(--ma-spring); }
+.ma-root .mp-seo-sw button:active { transform: scale(0.97); }
+.ma-root .mp-seo-sw button span { min-width: 0; font-size: 13px; line-height: 1.25; font-weight: 400; letter-spacing: -0.08px; overflow-wrap: anywhere; }
+.ma-root .mp-seo-sw button i { flex: none; position: relative; width: 36px; height: 22px; border-radius: 999px; background: hsl(0 0% 100% / 0.2); transition: background-color 0.4s var(--ma-ease); }
+.ma-root .mp-seo-sw button i::after { content: ""; position: absolute; left: 2px; top: 2px; width: 28px; height: 18px; border-radius: 9px; background: #fff; box-shadow: 0 1px 4px hsl(0 0% 0% / 0.3); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-seo-sw button[aria-checked="true"] { background: var(--ma-wash); box-shadow: inset 0 0 0 1px hsl(var(--ma-h) 80% 65% / 0.4); }
+.ma-root .mp-seo-sw button[aria-checked="true"] i { background: var(--ma-tint-bg); }
+.ma-root .mp-seo-sw button[aria-checked="true"] i::after { transform: translateX(6px); }
+
+/* the full words of every service, under the toy */
+.ma-root .mp-seo-det { margin: 36px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-seo-det li { padding: 18px 0; }
+.ma-root .mp-seo-det li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-seo-det h3 { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-seo-det > li > p { margin: 4px 0 0; font-size: 15px; line-height: 1.45; letter-spacing: -0.24px; color: var(--ma-text2); }
+.ma-root .mp-seo-more { margin-top: 8px; }
+.ma-root .mp-seo-more > p { margin: 0 0 10px; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); }
+
+/* ---- stages: the ad card of Meta and the shop front of Physical (shapes only, they build up as the switches go on) ---- */
+.ma-root .mp-mk-p { opacity: 0.16; transform: scale(0.96); filter: grayscale(1); transition: opacity 0.5s var(--ma-ease), transform 0.6s var(--ma-spring), filter 0.5s; }
+.ma-root .mp-mk-p.is-on { opacity: 1; transform: none; filter: none; }
+.ma-root .mp-mk-ad, .ma-root .mp-mk-shop { height: 270px; }
+.ma-root .mp-mk-ad { display: grid; grid-template-rows: auto 1fr auto auto auto; gap: 8px; padding: 14px; border-radius: 22px; background: hsl(240 6% 50% / 0.14); box-shadow: inset 0 0 0 0.5px hsl(0 0% 100% / 0.1); }
+.ma-root .mp-mk-ad u, .ma-root .mp-mk-shop u { display: block; height: 6px; border-radius: 3px; background: hsl(0 0% 100% / 0.28); text-decoration: none; }
+.ma-root .mp-mk-ad-h { display: flex; align-items: center; gap: 10px; }
+.ma-root .mp-mk-ad-h i { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 8) 85% 64%), hsl(calc(var(--ma-h) - 10) 80% 46%)); }
+.ma-root .mp-mk-ad-h span { flex: 1; display: grid; gap: 6px; }
+.ma-root .mp-mk-ad-h u:last-child { width: 40%; background: hsl(0 0% 100% / 0.16); }
+.ma-root .mp-mk-ad-img { border-radius: 14px; background: linear-gradient(150deg, hsl(var(--ma-h) 80% 58% / 0.7), hsl(calc(var(--ma-h) + 70) 80% 55% / 0.55)); }
+.ma-root .mp-mk-ad-t u.s { width: 65%; background: hsl(0 0% 100% / 0.16); }
+.ma-root .mp-mk-ad-cta s { display: block; width: 46%; height: 28px; border-radius: 14px; background: var(--ma-tint-bg); }
+.ma-root .mp-mk-ad-re, .ma-root .mp-mk-ad-au { display: flex; gap: 8px; }
+.ma-root .mp-mk-ad-re i { width: 16px; height: 16px; border-radius: 50%; background: hsl(0 0% 100% / 0.28); }
+.ma-root .mp-mk-ad-au i { flex: none; width: 58px; height: 18px; border-radius: 9px; background: var(--ma-wash); box-shadow: inset 0 0 0 1px hsl(var(--ma-h) 80% 65% / 0.35); }
+.ma-root .mp-mk-shop { position: relative; border-radius: 22px; overflow: hidden; background: linear-gradient(180deg, hsl(240 6% 50% / 0.1), hsl(240 6% 50% / 0.2)); box-shadow: inset 0 0 0 0.5px hsl(0 0% 100% / 0.1); }
+.ma-root .mp-mk-sign { position: absolute; left: 14%; right: 14%; top: 14px; height: 34px; display: grid; place-items: center; border-radius: 10px; background: hsl(var(--ma-h) 70% 45% / 0.8); }
+.ma-root .mp-mk-sign u { width: 50%; background: #fff; }
+.ma-root .mp-mk-awn { position: absolute; left: 10%; right: 10%; top: 54px; height: 30px; display: flex; border-radius: 0 0 14px 14px; overflow: hidden; }
+.ma-root .mp-mk-awn i { flex: 1; background: hsl(var(--ma-h) 80% 60% / 0.85); }
+.ma-root .mp-mk-awn i:nth-child(even) { background: hsl(0 0% 100% / 0.8); }
+.ma-root .mp-mk-wall { position: absolute; left: 10%; right: 10%; top: 84px; bottom: 34px; background: hsl(0 0% 100% / 0.08); border-radius: 0 0 8px 8px; }
+.ma-root .mp-mk-win { position: absolute; left: 12%; top: 16px; width: 34%; bottom: 14px; border-radius: 8px; background: hsl(200 60% 70% / 0.25); box-shadow: inset 0 0 0 2px hsl(0 0% 100% / 0.2); }
+.ma-root .mp-mk-door { position: absolute; right: 14%; top: 14px; width: 24%; bottom: 0; border-radius: 8px 8px 0 0; background: hsl(0 0% 100% / 0.16); }
+.ma-root .mp-mk-poster { position: absolute; left: 52%; top: 4px; width: 30px; height: 40px; display: grid; gap: 5px; align-content: center; padding: 0 6px; border-radius: 4px; background: hsl(calc(var(--ma-h) + 60) 80% 62% / 0.85); }
+.ma-root .mp-mk-poster u { background: #fff; height: 4px; }
+.ma-root .mp-mk-stand { position: absolute; left: -8%; bottom: 0; width: 22px; height: 56px; display: grid; place-items: center; border-radius: 4px; background: var(--ma-tint-bg); }
+.ma-root .mp-mk-stand u { width: 10px; background: #fff; height: 4px; }
+.ma-root .mp-mk-box { position: absolute; right: 8%; bottom: 8px; width: 34px; height: 28px; border-radius: 4px; background: hsl(calc(var(--ma-h) + 150) 70% 60% / 0.85); }
+.ma-root .mp-mk-flag { position: absolute; left: 3%; top: 60px; width: 8px; height: 90px; border-radius: 4px; background: hsl(0 0% 100% / 0.3); }
+.ma-root .mp-mk-van { position: absolute; left: 14%; bottom: 8px; width: 70px; height: 26px; border-radius: 8px 12px 6px 6px; background: hsl(0 0% 100% / 0.8); }
+.ma-root .mp-mk-van i { position: absolute; bottom: -5px; width: 12px; height: 12px; border-radius: 50%; background: hsl(0 0% 20%); }
+.ma-root .mp-mk-van i:first-child { left: 10px; } .ma-root .mp-mk-van i:last-child { right: 10px; }
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-mk-p, .ma-root .mp-seo-cap { transition: none; animation: none; } }
+
+/* ---- more from We3vision ---- */
+.ma-root .mp-seo-links { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-seo-links li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-seo-links a { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; color: inherit; text-decoration: none; }
+.ma-root .mp-seo-links a span { display: grid; gap: 2px; min-width: 0; }
+.ma-root .mp-seo-links b { font-size: 17px; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-seo-links small { font-size: 15px; line-height: 1.35; color: var(--ma-text3); letter-spacing: -0.24px; }
+.ma-root .mp-seo-links svg { flex: none; width: 18px; height: 18px; color: var(--ma-text3); }
+
+/* ---- process ---- */
+.ma-root .mp-seo-steps { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-seo-steps li { padding: 26px 0; }
+.ma-root .mp-seo-steps li:first-child { padding-top: 0; }
+.ma-root .mp-seo-steps li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-seo-n { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 500; letter-spacing: 0.4px; color: var(--ma-tint); font-variant-numeric: tabular-nums; }
+.ma-root .mp-seo-steps h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; }
+.ma-root .mp-seo-steps p { margin: 8px 0 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); }
+.ma-root .mp-seo-steps p.mp-seo-pts { margin-top: 12px; font-size: 15px; letter-spacing: -0.24px; color: var(--ma-text3); }
+
+/* ---- tools ---- */
+.ma-root .mp-seo-stack { margin: 0; font-size: 19px; line-height: 1.7; letter-spacing: -0.3px; color: var(--ma-text2); }
+.ma-root .mp-seo-stack span + span::before { content: "·"; margin: 0 10px; color: var(--ma-text3); }
+
+/* ---- industries: pick one, see its search result ---- */
+.ma-root .mp-seo-tabs { display: flex; gap: 8px; margin: 0 calc(-1 * var(--ma-gut)); padding: 2px var(--ma-gut) 6px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
+.ma-root .mp-seo-tabs::-webkit-scrollbar { display: none; }
+.ma-root .mp-seo-tabs button { flex: none; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; letter-spacing: -0.24px; white-space: nowrap; color: var(--ma-text2); cursor: pointer; scroll-snap-align: center; background: hsl(240 6% 50% / 0.2); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.1); transition: background-color 0.35s var(--ma-ease), color 0.3s, transform 0.3s var(--ma-spring); }
+.ma-root .mp-seo-tabs button:active { transform: scale(0.95); }
+.ma-root .mp-seo-tabs button.is-on { color: #fff; font-weight: 500; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 4) calc(88% * var(--ts)) 58%), var(--ma-tint-bg)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.2), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; }
+.ma-root .mp-seo-snip { margin-top: 22px; padding: 20px; border-radius: 26px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 10px 30px hsl(0 0% 0% / 0.22); animation: mp-seo-in 0.5s var(--ma-ease) backwards; }
+.ma-root .mp-seo-url { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 13px; color: var(--ma-text3); }
+.ma-root .mp-seo-url i { width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 8) 85% 64%), hsl(calc(var(--ma-h) - 10) 80% 46%)); }
+.ma-root .mp-seo-snip h3 { margin: 8px 0 0; font-size: 20px; line-height: 1.25; font-weight: 500; letter-spacing: 0.38px; color: var(--ma-tint); }
+.ma-root .mp-seo-snip p:last-child { margin: 6px 0 0; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); }
+
+/* ---- why ---- */
+.ma-root .mp-seo-why { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-seo-why li { display: flex; gap: 14px; padding: 18px 0; }
+.ma-root .mp-seo-why li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-seo-why i { flex: none; position: relative; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; background: var(--ma-tint-bg); }
+.ma-root .mp-seo-why i::after { content: ""; position: absolute; left: 7px; top: 6px; width: 8px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
+.ma-root .mp-seo-why h3 { margin: 0; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-seo-why p { margin: 4px 0 0; font-size: 15px; line-height: 1.45; letter-spacing: -0.24px; color: var(--ma-text2); }
+
+/* ---- FAQ: an open list ---- */
+.ma-root .mp-seo-qa { margin: 0; padding: 0; list-style: none; }
+.ma-root .mp-seo-qa li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-seo-qa summary { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 56px; padding: 16px 0; list-style: none; cursor: pointer; }
+.ma-root .mp-seo-qa summary::-webkit-details-marker { display: none; }
+.ma-root .mp-seo-qa h3 { margin: 0; flex: 1; min-width: 0; font-size: 17px; line-height: 1.35; font-weight: 400; letter-spacing: -0.43px; transition: color 0.3s; }
+.ma-root .mp-seo-qa details[open] h3 { font-weight: 500; }
+.ma-root .mp-seo-qa summary i { flex: none; position: relative; width: 14px; height: 14px; margin-top: 5px; color: var(--ma-text3); transition: transform 0.45s var(--ma-spring), color 0.3s; }
+.ma-root .mp-seo-qa summary i::before, .ma-root .mp-seo-qa summary i::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 1.6px; border-radius: 1px; background: currentColor; }
+.ma-root .mp-seo-qa summary i::after { transform: rotate(90deg); transition: transform 0.45s var(--ma-spring); }
+.ma-root .mp-seo-qa details[open] summary i { transform: rotate(180deg); color: var(--ma-tint); }
+.ma-root .mp-seo-qa details[open] summary i::after { transform: rotate(0); }
+.ma-root .mp-seo-qa details p { margin: 0 0 18px; max-width: 42ch; font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); animation: mp-seo-in 0.5s var(--ma-ease) backwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-root .mp-seo-hero *, .ma-root .mp-seo-snip, .ma-root .mp-seo-more > div, .ma-root .mp-seo-qa details p { animation: none !important; }
+  .ma-root .mp-seo-row, .ma-root .mp-seo-bar i { transition: none; }
+}
+
+/* ---- the first design of the services: a bigger stage, then every service as a row with its words and a switch ---- */
+.ma-root .mp-seo-head { gap: 18px; margin-bottom: 14px; }
+.ma-root .mp-seo-rank { display: grid; }
+.ma-root .mp-seo-rank b { font-size: 40px; }
+.ma-root .mp-seo-serp { height: calc(var(--rows) * 66px); }
+.ma-root .mp-seo-row { height: 58px; padding: 0 14px; border-radius: 16px; transform: translate3d(0, calc(var(--y) * 66px), 0); }
+.ma-root .mp-seo-row em { width: 18px; font-size: 13px; }
+.ma-root .mp-seo-row span { display: grid; gap: 6px; }
+.ma-root .mp-seo-row u.t { height: 6px; }
+.ma-root .mp-seo-row.is-me b { font-size: 15px; }
+.ma-root .mp-seo-list { margin: 28px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-seo-list > li { padding: 16px 0; }
+.ma-root .mp-seo-list > li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-seo-sw-r { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.ma-root .mp-seo-sw-r span { display: grid; gap: 4px; min-width: 0; }
+.ma-root .mp-seo-sw-r b { font-size: 17px; line-height: 1.3; font-weight: 500; letter-spacing: -0.43px; }
+.ma-root .mp-seo-sw-r small { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-text3); }
+.ma-root .mp-seo-sw-r button { flex: none; position: relative; width: 51px; height: 31px; margin-top: 1px; padding: 0; border: 0; border-radius: 999px; background: hsl(0 0% 100% / 0.18); cursor: pointer; transition: background-color 0.4s var(--ma-ease); }
+.ma-root .mp-seo-sw-r button i { position: absolute; left: 2px; top: 2px; width: 40px; height: 27px; border-radius: 14px; background: #fff; box-shadow: 0 2px 6px hsl(0 0% 0% / 0.3); transition: transform 0.5s var(--ma-spring); }
+.ma-root .mp-seo-sw-r button[aria-checked="true"] { background: var(--ma-tint-bg); }
+.ma-root .mp-seo-sw-r button[aria-checked="true"] i { transform: translateX(7px); }
+.ma-root .mp-seo-moreof { margin-top: 8px; }
+.ma-root .mp-seo-moreof summary { display: flex; align-items: center; gap: 8px; min-height: 32px; list-style: none; cursor: pointer; font-size: 15px; letter-spacing: -0.24px; color: var(--ma-tint); }
+.ma-root .mp-seo-moreof summary::-webkit-details-marker { display: none; }
+.ma-root .mp-seo-moreof summary::after { content: "+"; font-size: 17px; }
+.ma-root .mp-seo-moreof[open] summary::after { content: "\2212"; }
+.ma-root .mp-seo-moreof > div { padding: 8px 0 4px; animation: mp-seo-in 0.45s var(--ma-ease) backwards; }
+.ma-root .mp-mk-ad, .ma-root .mp-mk-shop { height: 270px; }
+.ma-root .mp-mk-ad { padding: 14px; gap: 8px; }
+.ma-root .mp-mk-ad-h i { width: 30px; height: 30px; }
+.ma-root .mp-mk-ad-cta s { height: 28px; }
+.ma-root .mp-mk-sign { top: 14px; height: 34px; }
+.ma-root .mp-mk-awn { top: 54px; height: 30px; }
+.ma-root .mp-mk-wall { top: 84px; bottom: 34px; }
+.ma-root .mp-mk-flag { top: 60px; height: 90px; }
+.ma-root .mp-mk-van { height: 26px; }
+
+/* ---- the toy on ONE screen, with the first design kept: the stage (about 200 px) and every service as a row with its words and a switch (2 lines of text for 6 services, 1 line for 8) ---- */
+.ma-root .mp-seo-head { gap: 14px; margin-bottom: 10px; }
+.ma-root .mp-seo-rank { display: flex; align-items: baseline; gap: 8px; }
+.ma-root .mp-seo-rank b { font-size: 28px; }
+.ma-root .mp-seo-serp { height: calc(var(--rows) * 29px); }
+.ma-root .mp-seo-row { height: 24px; padding: 0 10px; border-radius: 12px; transform: translate3d(0, calc(var(--y) * 29px), 0); }
+.ma-root .mp-seo-row em { width: 16px; font-size: 12px; }
+.ma-root .mp-seo-row span { display: block; }
+.ma-root .mp-seo-row.is-me b { font-size: 13px; }
+.ma-root .mp-seo-list { margin: 10px 0 0; }
+.ma-root .mp-seo-list > li { padding: 9px 0; }
+.ma-root .mp-seo-sw-r { gap: 12px; align-items: center; }
+.ma-root .mp-seo-sw-r span { gap: 1px; }
+.ma-root .mp-seo-sw-r b { font-size: 15px; line-height: 1.25; letter-spacing: -0.24px; }
+.ma-root .mp-seo-sw-r small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--dl, 2); overflow: hidden; font-size: 13px; line-height: 1.3; letter-spacing: -0.08px; }
+.ma-root .mp-seo-sw-r button { width: 44px; height: 27px; margin-top: 0; }
+.ma-root .mp-seo-sw-r button i { width: 34px; height: 23px; border-radius: 12px; }
+.ma-root .mp-seo-sw-r button[aria-checked="true"] i { transform: translateX(5px); }
+.ma-root .mp-mk-ad, .ma-root .mp-mk-shop { height: 196px; }
+.ma-root .mp-mk-ad { padding: 10px 12px; gap: 6px; }
+.ma-root .mp-mk-ad-h i { width: 24px; height: 24px; }
+.ma-root .mp-mk-ad-cta s { height: 22px; }
+.ma-root .mp-mk-sign { top: 10px; height: 26px; }
+.ma-root .mp-mk-awn { top: 40px; height: 20px; }
+.ma-root .mp-mk-wall { top: 60px; bottom: 26px; }
+.ma-root .mp-mk-flag { top: 44px; height: 64px; }
+.ma-root .mp-mk-van { height: 20px; }
+.ma-root .mp-seo-det { margin: 28px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-seo-det li + li { border-top: 1px solid var(--ma-line); }
+.ma-root .mp-seo-det .mp-seo-moreof { margin: 0; }
+.ma-root .mp-seo-det .mp-seo-moreof summary { min-height: 48px; font-size: 16px; }
+
+.ma-root .mp-seo-serp { height: calc(var(--rows) * 27px); }
+.ma-root .mp-seo-row { height: 22px; transform: translate3d(0, calc(var(--y) * 27px), 0); }
+.ma-root .mp-seo-list > li { padding: 7px 0; }
+.ma-root .mp-seo-head { margin-bottom: 8px; }

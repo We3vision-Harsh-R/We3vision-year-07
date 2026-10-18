@@ -137,3 +137,12 @@
   .ma-root .ma-ia-seg i, .ma-root .ma-ia-sw > span, .ma-root .ma-ia-tabs button { transition: none; }
   .ma-root .ma-ia-b, .ma-root .ma-ia-swap[data-on="1"] .ma-ia-a { filter: none; }
 }
+
+/* ---- the giant word of the brand page: the same word in other languages, letters that slide like a slot machine ---- */
+.ma-root .ma-ia-giant { display: flex; margin: 0 0 6px; font-size: min(22vw, 96px); line-height: 1.12; font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; color: var(--ma-text); }
+.ma-root .ma-ia-gslot:nth-child(even) { color: var(--ma-tint); }
+.ma-root .ma-ia-gslot { display: block; width: 0.74em; height: 1.12em; overflow: hidden; text-align: center; }
+.ma-root .ma-ia-gstrip { display: flex; flex-direction: column; will-change: transform; }
+.ma-root .ma-ia-gstrip b { flex: none; display: block; height: 1.12em; font-weight: inherit; }
+.ma-root .ma-ia-gstrip.is-go { transform: translate3d(0, calc(-1.12em * var(--n)), 0); transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1) var(--d); }
+@media (prefers-reduced-motion: reduce) { .ma-root .ma-ia-gstrip.is-go { transition: none; } }

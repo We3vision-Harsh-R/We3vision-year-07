@@ -7,11 +7,12 @@ import { Lines } from "../../app/text";
  * The iOS 27 page hero (shared by pageHero, wordHero and hero): no box, an eyebrow, a Large Title (34 / 600), the text in Body (17 regular) and the two
  * buttons side by side (Liquid Glass: the first filled with the tint, the second clear glass). Only the first section of a page owns the h1.
  */
-export function IaHero({ h1, chip, heading, text, actions, children }: { h1: boolean; chip?: string; heading?: string; text?: string; actions?: { label?: string; href?: string }[]; children?: ReactNode }) {
+export function IaHero({ h1, chip, heading, text, actions, children, lead }: { h1: boolean; lead?: ReactNode; chip?: string; heading?: string; text?: string; actions?: { label?: string; href?: string }[]; children?: ReactNode }) {
   const H = h1 ? "h1" : "h2";
   const acts = (actions ?? []).flatMap((a) => (a.label && a.href ? [{ label: a.label, href: a.href }] : [])).slice(0, 2);
   return (
     <section className="ma-ia-hero">
+      {lead}
       {chip && <p className="ma-ia-eye"><i aria-hidden="true" />{chip}</p>}
       {heading && <H className="ma-ia-title"><Lines text={heading} /></H>}
       {text && (text.length > 240 ? <Clamp lines={5}><p className="ma-ia-lead">{text}</p></Clamp> : <p className="ma-ia-lead">{text}</p>)}
