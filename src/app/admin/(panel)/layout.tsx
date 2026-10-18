@@ -8,7 +8,11 @@ import { db } from "@/lib/db";
 
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const admin = await requireAdmin();
-  const [unreadLeads, alerts] = await Promise.all([db.lead.count({ where: { isRead: false } }), readAlerts()]);
+  const [unreadLeads, alerts, newApplications] = await Promise.all([
+    db.lead.count({ where: { isRead: false } }),
+    readAlerts(),
+    db.careerApplication.count({ where: { status: "new", stage: "complete" } }),
+  ]);
   const unreadAlerts = alerts.filter((a) => !a.read && a.level !== "info").length;
 
   return (
@@ -23,7 +27,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
             <button className="rounded-lg border border-white/15 px-3 py-1.5 text-xs text-white/70">Log out</button>
           </form>
         </div>
-        <AdminNav unreadLeads={unreadLeads} unreadAlerts={unreadAlerts} />
+        <AdminNav unreadLeads={unreadLeads} unreadAlerts={unreadAlerts} newApplications={newApplications} />
         <div className="mt-6 hidden space-y-3 border-t border-white/10 pt-5 text-sm lg:mt-auto lg:block">
           <a href="/" target="_blank" rel="noreferrer" className="block text-white/60 transition hover:text-white">
             View website ↗

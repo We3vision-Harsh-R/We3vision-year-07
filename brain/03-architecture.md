@@ -63,6 +63,13 @@ Rules: read helpers in `lib/*.ts` return built-in data without a DB and **throw*
   - Headers for the whole site: HSTS 1 year, COOP same-origin, CSP `frame-ancestors / base-uri / object-src / form-action`, X-Permitted-Cross-Domain-Policies.
   - Alerts: `lib/alerts.ts` `raiseAlert()` keeps the latest 300 in table Setting, key `siteAlerts` (Admin > Alerts, red badge for unread critical/warning) and sends critical/warning to WhatsApp (`lib/whatsapp.ts`: CallMeBot, Meta Cloud API or a webhook; env names in `.env.example`), the same alert at most once / 30 min, 12 / hour. Sources: `src/instrumentation.ts` (every server error), every failed save (`alertFailure`), rate limits reached, the shield, admin sign-ins / users / passwords, browser errors (`src/instrumentation-client.ts` → `/api/alerts/client`: same-origin, 8 KB, 20 / 10 min). A new contact message goes to WhatsApp too (`notifyNewLead`).
 
+## Careers hiring desk (Admin > Careers, 2026-10-18)
+- `/admin/careers` = `components/admin/hiring/hiring-desk.tsx` (Board: one column per step, drag a card to move it; List: table with check boxes and bulk move / tag / export / remove) + `application-drawer.tsx` (step, star, 1–5 rating, tags, "looked after by" an admin, interview with a Google Calendar link, ready WhatsApp / e-mail messages, notes, timeline; keys ← → Esc).
+- Steps (`PIPELINE` in `lib/hiring-shared.ts`): new, contacted, shortlisted, interview, offer, hired, hold, rejected ("Not now"). Stored in `CareerApplication.status`.
+- What HR keeps (rating, tags, star, assignee, interview, timeline) is NOT a column: one row per application in table Setting, key `hire:<application id>` (`lib/hiring.ts`), so no migration was needed. Actions: `actions/hiring.ts` (every one checks requireAdmin and writes the timeline).
+- A finished job application / ticket goes to WhatsApp (`notifyNewApplication` in lib/alerts.ts, link `/admin/careers?open=<id>`); the menu "Careers" shows the number of new complete applications.
+- Jobs list (`careers-jobs.tsx`): All / Open / Closed, order ↑ ↓ (`moveJob`), Duplicate (a closed copy, `duplicateJob`), Copy link, per job: new / in process / hired of the openings.
+
 ## How to…
 **Add a section type**: define in `SECTIONS` → component in `sections/<name>.tsx` → register in `sections/index.tsx`.
 **Add a page**: entry in `PAGES` (+ content in `content/<page>.ts`) → `src/app/(site)/<path>/page.tsx` using `renderPage(slug)` and

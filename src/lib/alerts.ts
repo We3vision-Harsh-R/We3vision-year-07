@@ -158,3 +158,27 @@ export async function notifyNewLead(lead: { name: string; email: string; phone: 
   ];
   await sendWhatsApp(lines.filter((l) => l !== null).join("\n"));
 }
+
+/** a finished job application or ticket goes to the owner's WhatsApp (ALERT_APPLICATIONS=off turns it off) */
+export async function notifyNewApplication(id: string) {
+  if (!whatsappProvider() || process.env.ALERT_APPLICATIONS === "off" || !hasDb) return;
+  try {
+    const a = await db.careerApplication.findUnique({ where: { id }, select: { name: true, email: true, phone: true, roleTitle: true, city: true, experience: true, source: true } });
+    if (!a) return;
+    const base = siteBase();
+    const lines = [
+      "🧑‍💼 New job application on the We3vision website",
+      `Position: ${clean(a.roleTitle, 100) || "General application"}`,
+      `Name: ${clean(a.name, 100)}`,
+      a.experience ? `Experience: ${clean(a.experience, 80)}` : null,
+      a.city ? `Location: ${clean(a.city, 120)}` : null,
+      a.phone ? `Phone: ${clean(a.phone, 30)}` : null,
+      a.email ? `E-mail: ${clean(a.email, 200)}` : null,
+      `From: ${a.source === "job" ? "the job page" : "the ticket office"}`,
+      base ? `\nOpen: ${base}/admin/careers?open=${id}` : null,
+    ];
+    await sendWhatsApp(lines.filter((l) => l !== null).join("\n"));
+  } catch (error) {
+    console.error("notifyNewApplication failed", error instanceof Error ? error.message : error);
+  }
+}

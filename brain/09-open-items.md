@@ -139,3 +139,8 @@
 - The new password-fingerprint cookie logs every admin out once after the deploy (expected).
 - The shield counts in memory (one Node process); with several processes each one counts on its own.
 - Admin > Alerts still to be seen with the real DB (it could not be opened locally).
+
+## Hiring desk (2026-10-18)
+- To check with the real DB after the deploy: drag and drop, notes, interview, bulk actions.
+- HR facts live in Setting rows "hire:<id>"; if applications grow to many thousands, move them to columns / a table (needs a migration).
+- Message templates are fixed in lib/hiring-shared.ts (TEMPLATES); an editor in Admin > Careers > Questions of HR could come later.

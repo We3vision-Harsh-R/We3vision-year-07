@@ -1,10 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
-import { COMMON_FIELDS, APPLICATION_STATUSES } from "@/lib/careers-shared";
-import { alertFailure } from "@/lib/alerts";
+import { COMMON_FIELDS } from "@/lib/careers-shared";
+import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
@@ -106,6 +107,8 @@ export async function completeTicket(input: PassengerInput): Promise<ActionResul
       data: { name, email, phone, linkedin: f("linkedin", 300), skills, experience: f("experience", 80), answers: answers as unknown as Prisma.InputJsonValue, stage: "complete" },
     });
     if (hit.count === 0) return { ok: false, error: "Your ticket was not found. Please book your seat again." };
+    const ticket = input.id;
+    after(() => notifyNewApplication(ticket));
     revalidatePath("/admin/careers");
     return { ok: true, message: "Your ticket is booked. See you at Surat Junction!" };
   } catch (error) {
@@ -118,31 +121,6 @@ export async function completeTicket(input: PassengerInput): Promise<ActionResul
 // ---------------------------------------------------------------------------------------------------------------------------------
 // The admin panel (Careers)
 // ---------------------------------------------------------------------------------------------------------------------------------
-
-const statusValues: string[] = APPLICATION_STATUSES.map((s) => s.value);
-
-export async function setApplicationStatus(id: string, status: string, note: string): Promise<ActionResult> {
-  await requireAdmin();
-  if (!statusValues.includes(status)) return { ok: false, error: "Unknown status." };
-  try {
-    await db.careerApplication.update({ where: { id }, data: { status, note: para(note, 1000) } });
-    revalidatePath("/admin/careers");
-    return { ok: true, message: "Saved." };
-  } catch {
-    return { ok: false, error: "Could not save. Please try again." };
-  }
-}
-
-export async function deleteApplication(id: string): Promise<ActionResult> {
-  await requireAdmin();
-  try {
-    await db.careerApplication.delete({ where: { id } });
-    revalidatePath("/admin/careers");
-    return { ok: true, message: "Removed." };
-  } catch {
-    return { ok: false, error: "Could not remove it. Please try again." };
-  }
-}
 
 export type SetupInput = {
   questions: { id?: string; label?: unknown; kind?: unknown; options?: unknown; required?: unknown; active?: unknown }[];

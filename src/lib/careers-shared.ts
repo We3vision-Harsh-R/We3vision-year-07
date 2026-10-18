@@ -31,14 +31,6 @@ export const COMMON_FIELDS: CommonField[] = [
   { key: "about", label: "Why do you want to join We3vision?", kind: "textarea", required: false, placeholder: "A few lines are enough" },
 ];
 
-export const APPLICATION_STATUSES = [
-  { value: "new", label: "New" },
-  { value: "contacted", label: "Contacted" },
-  { value: "interview", label: "Interview" },
-  { value: "hired", label: "Hired" },
-  { value: "rejected", label: "Not now" },
-] as const;
-
 /** The call slots with HR: the next working days, three windows a day. */
 export function callSlots(from: Date = new Date(), days = 5): { day: string; label: string; times: string[] }[] {
   const out: { day: string; label: string; times: string[] }[] = [];

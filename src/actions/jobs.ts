@@ -1,10 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
 import { WORK_MODES, WORK_TYPES, slugify } from "@/lib/careers-shared";
-import { alertFailure } from "@/lib/alerts";
+import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
@@ -61,7 +62,7 @@ export async function applyForJob(input: ApplyInput): Promise<ActionResult> {
       if (q.required && !a) return { ok: false, error: `Please answer: ${q.label}` };
       if (a) answers.push({ q: q.label, a });
     }
-    await db.careerApplication.create({
+    const created = await db.careerApplication.create({
       data: {
         city,
         currentStatus: f("currentStatus", 80),
@@ -79,7 +80,9 @@ export async function applyForJob(input: ApplyInput): Promise<ActionResult> {
         stage: "complete",
         source: "job",
       },
+      select: { id: true },
     });
+    after(() => notifyNewApplication(created.id));
     revalidatePath("/admin/careers");
     return { ok: true, message: "Thank you. Your application is with our HR team." };
   } catch (error) {
@@ -199,5 +202,64 @@ export async function deleteJob(id: string): Promise<ActionResult> {
     return { ok: true, message: "The job is removed. The applications that came for it are kept." };
   } catch {
     return { ok: false, error: "Could not remove it. Please try again." };
+  }
+}
+
+/** A copy of a job (closed, so it can be checked before it goes on the site): the quick way to post a similar position. */
+export async function duplicateJob(id: string): Promise<ActionResult & { id?: string }> {
+  await requireAdmin();
+  try {
+    const r = await db.careerRole.findUnique({ where: { id } });
+    if (!r) return { ok: false, error: "This job does not exist any more." };
+    const wanted = slugify(`${r.slug || r.title}-copy`) || "position-copy";
+    let slug = wanted;
+    for (let n = 2; n < 50 && (await db.careerRole.findUnique({ where: { slug }, select: { id: true } })); n++) slug = `${wanted}-${n}`;
+    const last = await db.careerRole.findFirst({ orderBy: { sortOrder: "desc" }, select: { sortOrder: true } });
+    const row = await db.careerRole.create({
+      data: {
+        title: `${r.title} (copy)`.slice(0, 100),
+        team: r.team,
+        summary: r.summary,
+        description: r.description,
+        responsibilities: r.responsibilities as Prisma.InputJsonValue,
+        requirements: r.requirements as Prisma.InputJsonValue,
+        perks: r.perks as Prisma.InputJsonValue,
+        location: r.location,
+        workType: r.workType,
+        workMode: r.workMode,
+        experience: r.experience,
+        openings: r.openings,
+        salary: r.salary,
+        closesAt: "",
+        active: false,
+        slug,
+        sortOrder: (last?.sortOrder ?? 0) + 1,
+      },
+      select: { id: true },
+    });
+    revalidatePath("/admin/careers/jobs");
+    return { ok: true, message: "A closed copy is made. Change it and open it when it is ready.", id: row.id };
+  } catch (error) {
+    console.error("duplicateJob failed", error);
+    alertFailure("Copying a job (admin)", error, "warning");
+    return { ok: false, error: "Could not copy the job. Please try again." };
+  }
+}
+
+/** Moves a job one place up or down (the order of the Careers page). */
+export async function moveJob(id: string, direction: "up" | "down"): Promise<ActionResult> {
+  await requireAdmin();
+  try {
+    const list = await db.careerRole.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true } });
+    const i = list.findIndex((r) => r.id === id);
+    const j = direction === "up" ? i - 1 : i + 1;
+    if (i < 0 || j < 0 || j >= list.length) return { ok: true, message: "" };
+    [list[i], list[j]] = [list[j], list[i]];
+    await db.$transaction(list.map((r, n) => db.careerRole.update({ where: { id: r.id }, data: { sortOrder: n + 1 } })));
+    revalidatePath("/careers");
+    revalidatePath("/admin/careers/jobs");
+    return { ok: true, message: "Moved." };
+  } catch {
+    return { ok: false, error: "Could not move the job." };
   }
 }

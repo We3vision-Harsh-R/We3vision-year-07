@@ -10,10 +10,10 @@ export default async function CareersJobsPage() {
   await requireAdmin();
   const [roles, counts] = await Promise.all([
     db.careerRole.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] }),
-    db.careerApplication.groupBy({ by: ["roleId"], _count: { _all: true } }),
+    db.careerApplication.groupBy({ by: ["roleId", "status"], _count: { _all: true } }),
   ]);
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date());
-  const count = new Map(counts.map((c) => [c.roleId, c._count._all]));
+  const sum = (roleId: string, test: (status: string) => boolean) => counts.filter((c) => c.roleId === roleId && test(c.status)).reduce((n, c) => n + c._count._all, 0);
   const rows: JobRow[] = roles.map((r) => ({
     id: r.id,
     title: r.title,
@@ -24,7 +24,10 @@ export default async function CareersJobsPage() {
     openings: r.openings,
     active: r.active,
     closesAt: r.closesAt,
-    applications: count.get(r.id) ?? 0,
+    applications: sum(r.id, () => true),
+    fresh: sum(r.id, (s) => s === "new"),
+    inProcess: sum(r.id, (s) => ["contacted", "shortlisted", "interview", "offer"].includes(s)),
+    hired: sum(r.id, (s) => s === "hired"),
     expired: Boolean(r.closesAt && r.closesAt < today),
   }));
   return (
@@ -41,7 +44,7 @@ export default async function CareersJobsPage() {
             ← Applications
           </Link>
           <Link href="/admin/careers/jobs/new" className={btnPrimary}>
-            + New job
+            + Post a job
           </Link>
         </div>
       </div>

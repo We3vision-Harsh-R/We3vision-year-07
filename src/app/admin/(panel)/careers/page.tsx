@@ -1,21 +1,30 @@
 import Link from "next/link";
-import { CareersApplications, type ApplicationRow } from "@/components/admin/careers-applications";
+import { HiringDesk } from "@/components/admin/hiring/hiring-desk";
 import { btnPrimary, btnSecondary } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { readAllMeta } from "@/lib/hiring";
+import { EMPTY_META, type HireRow } from "@/lib/hiring-shared";
 
-export const metadata = { title: "Careers" };
+export const metadata = { title: "Careers: applications" };
 
 const fmt = new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" });
+const ID = /^[a-z0-9]{10,40}$/i;
 
-export default async function CareersAdminPage({ searchParams }: { searchParams: Promise<{ job?: string }> }) {
-  await requireAdmin();
-  const { job } = await searchParams;
-  const rows = await db.careerApplication.findMany({ orderBy: { createdAt: "desc" }, take: 500 });
-  const view: ApplicationRow[] = rows.map((r) => ({
+export default async function CareersAdminPage({ searchParams }: { searchParams: Promise<{ job?: string; open?: string }> }) {
+  const admin = await requireAdmin();
+  const { job, open } = await searchParams;
+  const [rows, metas, roles, admins] = await Promise.all([
+    db.careerApplication.findMany({ orderBy: { createdAt: "desc" }, take: 1500 }),
+    readAllMeta(),
+    db.careerRole.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, title: true, active: true } }),
+    db.adminUser.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
+  ]);
+  const view: HireRow[] = rows.map((r) => ({
     id: r.id,
     city: r.city,
     currentStatus: r.currentStatus,
+    roleId: r.roleId,
     roleTitle: r.roleTitle,
     joinDate: r.joinDate,
     noticePeriod: r.noticePeriod,
@@ -29,32 +38,43 @@ export default async function CareersAdminPage({ searchParams }: { searchParams:
     experience: r.experience,
     answers: Array.isArray(r.answers) ? (r.answers as { q?: unknown; a?: unknown }[]).map((x) => ({ q: String(x.q ?? ""), a: String(x.a ?? "") })) : [],
     stage: r.stage,
-    status: r.status,
-    note: r.note,
-    created: fmt.format(r.createdAt),
     source: r.source,
-    roleId: r.roleId,
+    status: r.status,
+    oldNote: r.note,
+    createdAt: r.createdAt.toISOString(),
+    created: fmt.format(r.createdAt),
+    meta: metas.get(r.id) ?? EMPTY_META,
   }));
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Careers</h1>
+          <h1 className="text-2xl font-bold">Careers: applications</h1>
           <p className="mt-1 max-w-2xl text-sm text-zinc-500">
-            The applications: what visitors send on the page of a job, and the tickets they book at the ticket office of the Careers page (where they are, the position they
-            want and, when they gave them, their passenger details).
+            Every application that comes from a job page or the ticket office of the Careers page. Move it through the steps, rate it, tag it, plan the interview, send a ready
+            message and keep notes; the timeline remembers who did what.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Link href="/admin/careers/setup" className={btnSecondary}>
             Questions of HR
           </Link>
-          <Link href="/admin/careers/jobs" className={btnPrimary}>
-            Jobs →
+          <Link href="/admin/careers/jobs" className={btnSecondary}>
+            Jobs
+          </Link>
+          <Link href="/admin/careers/jobs/new" className={btnPrimary}>
+            + Post a job
           </Link>
         </div>
       </div>
-      <CareersApplications rows={view} initialJob={typeof job === "string" && /^[a-z0-9]{10,40}$/i.test(job) ? job : ""} />
+      <HiringDesk
+        rows={view}
+        jobs={roles}
+        admins={admins}
+        me={admin.id}
+        initialJob={typeof job === "string" && ID.test(job) ? job : ""}
+        initialOpen={typeof open === "string" && ID.test(open) ? open : ""}
+      />
     </div>
   );
 }
