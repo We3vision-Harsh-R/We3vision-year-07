@@ -1,4 +1,5 @@
 import { getAdmin } from "@/lib/auth";
+import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 
 // Upload of a picture from the admin panel. Only a logged-in admin may use it. The browser sends the picture already resized to a light .webp
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
     return Response.json({ url: `/media/${row.id}` });
   } catch (error) {
     console.error("upload failed", error);
+    alertFailure("Uploading a picture (admin)", error, "warning");
     return Response.json({ error: "Could not upload the picture. Please try again." }, { status: 500 });
   }
 }

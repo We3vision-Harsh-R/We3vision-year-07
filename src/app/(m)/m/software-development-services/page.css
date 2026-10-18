@@ -9,7 +9,7 @@
   --fill3: hsl(240 6% 50% / 0.22);
   --tint-grad: linear-gradient(180deg, hsl(calc(var(--ma-h) + 4) calc(88% * var(--ts)) 58%), var(--ma-tint-bg));
 }
-@keyframes mp-sw-in { from { opacity: 0; transform: translate3d(0, 12px, 0); filter: blur(6px); } }
+@keyframes mp-sw-in { from { opacity: 0; transform: translate3d(0, 12px, 0); } }
 @keyframes mp-sw-caret { 50% { opacity: 0; } }
 
 /* ---- rhythm and the section heads ---- */

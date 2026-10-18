@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
 import { COMMON_FIELDS, APPLICATION_STATUSES } from "@/lib/careers-shared";
+import { alertFailure } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
@@ -56,6 +57,7 @@ export async function bookSeat(input: BookInput): Promise<{ ok: true; id: string
     return { ok: true, id: row.id };
   } catch (error) {
     console.error("bookSeat failed", error);
+    alertFailure("Booking a Careers seat", error, "critical");
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 }
@@ -108,6 +110,7 @@ export async function completeTicket(input: PassengerInput): Promise<ActionResul
     return { ok: true, message: "Your ticket is booked. See you at Surat Junction!" };
   } catch (error) {
     console.error("completeTicket failed", error);
+    alertFailure("Saving a Careers ticket", error, "critical", `${name} <${email}> ${phone}`);
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 }
@@ -166,6 +169,7 @@ export async function saveCareerSetup(input: SetupInput): Promise<ActionResult> 
     return { ok: true, message: `Saved: ${questions.length} questions. The Careers page is updated.` };
   } catch (error) {
     console.error("saveCareerSetup failed", error);
+    alertFailure("Saving the Careers setup (admin)", error, "warning");
     return { ok: false, error: "Could not save. Please try again." };
   }
 }

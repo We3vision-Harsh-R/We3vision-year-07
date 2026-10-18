@@ -39,7 +39,7 @@ summary.mp-team-row::-webkit-details-marker { display: none; }
 .mp-team-more { padding: 0 16px 16px 70px; animation: mp-team-open 0.35s var(--ma-ease) backwards; }
 .mp-team-more p { font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; color: var(--ma-text2); text-wrap: pretty; }
 .mp-team-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; font-size: 17px; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-tint); }
-@keyframes mp-team-open { from { opacity: 0; filter: blur(4px); transform: translate3d(0, -6px, 0); } }
+@keyframes mp-team-open { from { opacity: 0; transform: translate3d(0, -6px, 0); } }
 
 /* ---- manifesto: open prose, first paragraph larger; the quote with a tint rule ---- */
 .mp-team-prose { display: grid; gap: 14px; }
@@ -70,7 +70,7 @@ summary.mp-team-row::-webkit-details-marker { display: none; }
 .mp-team-step h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; text-wrap: balance; overflow-wrap: anywhere; }
 .mp-team-by { font-size: 15px; line-height: 1.4; letter-spacing: -0.24px; color: var(--ma-tint); }
 .mp-team-tx { margin-top: 6px; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
-@keyframes mp-team-swap { from { opacity: 0; filter: blur(6px); transform: translate3d(0, 6px, 0); } }
+@keyframes mp-team-swap { from { opacity: 0; transform: translate3d(0, 6px, 0); } }
 
 @media (prefers-reduced-motion: reduce) {
   .mp-team-more, .mp-team-step { animation: none; }

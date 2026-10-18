@@ -19,7 +19,7 @@
 .ma-root .mp-pf-head > :nth-child(2) { animation-delay: 0.06s; }
 .ma-root .mp-pf-head > :nth-child(3) { animation-delay: 0.12s; }
 .ma-root .mp-pf-head > :nth-child(4) { animation-delay: 0.18s; }
-@keyframes mp-pf-in { from { opacity: 0; transform: translate3d(0, 12px, 0); filter: blur(6px); } }
+@keyframes mp-pf-in { from { opacity: 0; transform: translate3d(0, 12px, 0); } }
 .ma-root .mp-pf-empty { margin: 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); }
 
 /* ---- albums: a sideways row of covers that filter the grid ---- */
@@ -40,7 +40,7 @@
 
 /* ---- the photo grid ---- */
 .ma-root .mp-pf-panel { animation: mp-pf-swap 0.5s var(--ma-ease) backwards; }
-@keyframes mp-pf-swap { from { opacity: 0; filter: blur(8px); transform: translate3d(0, 8px, 0); } }
+@keyframes mp-pf-swap { from { opacity: 0; transform: translate3d(0, 8px, 0); } }
 .ma-root .mp-pf-gh { margin: 24px 0 12px; font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: 0.38px; }
 .ma-root .mp-pf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; margin: 0 calc(-1 * var(--ma-gut)); }
 @media (min-width: 700px) { .ma-root .mp-pf-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; border-radius: 20px; overflow: hidden; } }

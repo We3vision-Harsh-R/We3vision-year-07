@@ -15,7 +15,7 @@
 .ma-root .mp-ux-btns { display: flex; gap: 10px; margin-top: 28px; }
 .ma-root .mp-ux-btns .ma-btn { flex: 1 1 0; min-width: 0; min-height: 46px; padding: 12px 10px; font-size: 15px; font-weight: 500; white-space: nowrap; transition: transform 0.3s var(--ma-spring); }
 .ma-root .mp-ux-btns .ma-btn:active { transform: scale(0.96); }
-@keyframes mp-ux-in { from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); } }
+@keyframes mp-ux-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
 
 /* story: plain open text */
 .ma-root .mp-ux-story { display: grid; gap: 16px; }

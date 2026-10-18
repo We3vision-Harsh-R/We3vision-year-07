@@ -1,7 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { z } from "zod";
+import { alertFailure, notifyNewLead } from "@/lib/alerts";
 import { requireAdmin } from "@/lib/auth";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
@@ -34,9 +36,12 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
 
   try {
     await db.lead.create({ data: parsed.data });
+    after(() => notifyNewLead(parsed.data));
     return { status: "success", message: "Thank you! We will contact you soon." };
   } catch (error) {
     console.error("submitLead failed", error);
+    const { name, email, phone, message } = parsed.data;
+    alertFailure("Saving a contact message", error, "critical", `${name} <${email}> ${phone}\n${message.slice(0, 300)}`);
     return { status: "error", message: "Something went wrong. Please try again or email us." };
   }
 }

@@ -13,4 +13,4 @@ function createClient() {
 }
 
 export const db = globalForDb.prisma ?? createClient();
-if (process.env.NODE_ENV !== "production") globalForDb.prisma = db;
+globalForDb.prisma = db; // one client for the whole process (pages, server actions and the proxy share it)

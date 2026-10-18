@@ -21,7 +21,7 @@
 .ma-root .mp-store-alt { color: var(--ma-text); background: linear-gradient(180deg, hsl(0 0% 100% / 0.14), hsl(0 0% 100% / 0.06)); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828; }
 .ma-root .mp-store-get:active, .ma-root .mp-store-alt:active { transform: scale(0.96); }
 .ma-root .mp-store-t { margin: 24px 0 0; padding-top: 18px; border-top: 1px solid var(--ma-line); font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
-@keyframes mp-store-in { from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); } }
+@keyframes mp-store-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
 
 /* centred header (coming soon): a big icon with a soft halo */
 .ma-root .mp-store-head.is-center { text-align: center; }

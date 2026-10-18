@@ -5,6 +5,7 @@ import { after } from "next/server";
 import { notifySearchEngines } from "@/lib/seo-ping";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
+import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
 import { PAGES, isPageSlug, normalizeContent, type PageContent } from "@/lib/cms/pages";
@@ -39,6 +40,7 @@ export async function saveDraft(slug: string, payload: PagePayload): Promise<Act
     return { ok: true, message: "Draft saved. Visitors will not see it until you publish." };
   } catch (error) {
     console.error("saveDraft failed", error);
+    alertFailure("Saving a page draft (admin)", error, "warning");
     return { ok: false, error: "Could not save. Please try again." };
   }
 }
@@ -68,6 +70,7 @@ export async function publish(slug: string, payload: PagePayload): Promise<Actio
     return { ok: true, message: "Published. The live website is updated." };
   } catch (error) {
     console.error("publish failed", error);
+    alertFailure("Publishing a page (admin)", error, "warning");
     return { ok: false, error: "Could not publish. Nothing was changed on the live site." };
   }
 }
@@ -82,6 +85,7 @@ export async function discardDraft(slug: string): Promise<ActionResult> {
     return { ok: true, message: "Changes discarded." };
   } catch (error) {
     console.error("discardDraft failed", error);
+    alertFailure("Discarding a page draft (admin)", error, "warning");
     return { ok: false, error: "Could not discard changes." };
   }
 }

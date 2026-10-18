@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
+import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 import { cleanPeople } from "@/lib/team-shared";
 import type { ActionResult } from "./types";
@@ -20,6 +21,7 @@ export async function saveTeam(input: unknown): Promise<ActionResult> {
     return { ok: true, message: `Saved. ${people.length} ${people.length === 1 ? "person is" : "people are"} in the office on the live Team page.` };
   } catch (error) {
     console.error("saveTeam failed", error);
+    alertFailure("Saving the team (admin)", error, "warning");
     return { ok: false, error: "Could not save the team. Please try again." };
   }
 }

@@ -13,9 +13,10 @@ const items = [
   { href: "/admin/settings", label: "Site settings" },
   { href: "/admin/access", label: "Admin access" },
   { href: "/admin/leads", label: "Leads" },
+  { href: "/admin/alerts", label: "Alerts" },
 ];
 
-export function AdminNav({ unreadLeads }: { unreadLeads: number }) {
+export function AdminNav({ unreadLeads, unreadAlerts = 0 }: { unreadLeads: number; unreadAlerts?: number }) {
   const pathname = usePathname();
   return (
     <nav aria-label="Admin" className="flex gap-1 overflow-x-auto lg:flex-col">
@@ -32,6 +33,7 @@ export function AdminNav({ unreadLeads }: { unreadLeads: number }) {
           >
             {item.label}
             {item.label === "Leads" && unreadLeads > 0 && <span className="rounded-full bg-brand px-2 py-0.5 text-xs text-white">{unreadLeads}</span>}
+            {item.label === "Alerts" && unreadAlerts > 0 && <span className="rounded-full bg-rose-600 px-2 py-0.5 text-xs text-white">{unreadAlerts}</span>}
           </Link>
         );
       })}

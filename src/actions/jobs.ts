@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
 import { WORK_MODES, WORK_TYPES, slugify } from "@/lib/careers-shared";
+import { alertFailure } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
@@ -83,6 +84,7 @@ export async function applyForJob(input: ApplyInput): Promise<ActionResult> {
     return { ok: true, message: "Thank you. Your application is with our HR team." };
   } catch (error) {
     console.error("applyForJob failed", error);
+    alertFailure("Saving a job application", error, "critical", `${name} <${email}> ${phone}`);
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 }
@@ -168,6 +170,7 @@ export async function saveJob(input: JobInput): Promise<ActionResult & { id?: st
     return { ok: true, message: "Saved. The job is updated on the Careers page.", id, slug };
   } catch (error) {
     console.error("saveJob failed", error);
+    alertFailure("Saving a job (admin)", error, "warning");
     return { ok: false, error: "Could not save. Please try again." };
   }
 }

@@ -44,7 +44,7 @@
 .mp-about-dots button::before { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: var(--ma-text); opacity: 0.3; transition: opacity 0.3s, transform 0.3s var(--ma-spring); }
 .mp-about-dots button.is-on::before { opacity: 1; transform: scale(1.15); }
 .mp-about-dots button:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: -8px; border-radius: 12px; }
-@keyframes mp-about-in { from { opacity: 0; filter: blur(6px); transform: translate3d(0, 6px, 0); } }
+@keyframes mp-about-in { from { opacity: 0; transform: translate3d(0, 6px, 0); } }
 @keyframes mp-about-hop { 0% { transform: translate3d(0, 0, 0); } 40% { transform: translate3d(0, -10px, 0) rotate(-4deg); } 100% { transform: none; } }
 
 /* ---- Pando in Messages bubbles (open, no card) ---- */

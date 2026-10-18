@@ -1,3 +1,4 @@
+import { alertFailure } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
@@ -29,6 +30,7 @@ export async function POST(req: Request) {
     return Response.json({ url: `/media/${row.id}`, name: `${base}.${k.ext}` });
   } catch (error) {
     console.error("resume upload failed", error);
+    alertFailure("Uploading a resume", error, "critical");
     return Response.json({ error: "Could not upload the file. Please try again." }, { status: 500 });
   }
 }

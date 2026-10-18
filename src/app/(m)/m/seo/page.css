@@ -25,7 +25,7 @@
 .ma-root .mp-seo-ladder p:first-child { background: var(--ma-wash); box-shadow: 0 0 0 1px hsl(var(--ma-h) 80% 60% / 0.35); animation: mp-seo-in 0.7s var(--ma-ease) 0.3s backwards, mp-seo-lit 2.6s ease-in-out 1.2s 3; }
 .ma-root .mp-seo-ladder p:first-child em { color: var(--ma-tint); }
 .ma-root .mp-seo-ladder p:first-child u { background: var(--ma-tint-bg); }
-@keyframes mp-seo-in { from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); } }
+@keyframes mp-seo-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
 @keyframes mp-seo-lit { 50% { box-shadow: 0 0 0 1px hsl(var(--ma-h) 80% 60% / 0.7), 0 0 26px hsl(var(--ma-h) 90% 60% / 0.3); } }
 
 /* ---- story ---- */

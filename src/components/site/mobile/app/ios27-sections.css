@@ -42,7 +42,7 @@
 .ma-root .ma-s27-ans h3 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: 0.35px; }
 .ma-root .ma-s27-ans p { margin: 10px 0 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); }
 .ma-root .ma-s27-ans p.ma-s27-count { margin-top: 16px; font-size: 13px; letter-spacing: -0.08px; color: var(--ma-text3); font-variant-numeric: tabular-nums; }
-@keyframes ma-s27-swap { from { opacity: 0; transform: translate3d(0, 8px, 0); filter: blur(6px); } }
+@keyframes ma-s27-swap { from { opacity: 0; transform: translate3d(0, 8px, 0); } }
 
 /* ---- advantages: an open list, a small tinted tick, title + line ---- */
 .ma-root .ma-s27-rows { margin: 0; padding: 0; list-style: none; }

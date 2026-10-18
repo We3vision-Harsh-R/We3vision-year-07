@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
+import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/generated/prisma/client";
 import { normalizeSite } from "@/lib/cms/settings";
@@ -16,6 +17,7 @@ export async function saveSiteSettings(input: unknown): Promise<ActionResult> {
     return { ok: true, message: "Settings saved. The live website is updated." };
   } catch (error) {
     console.error("saveSiteSettings failed", error);
+    alertFailure("Saving the site settings (admin)", error, "warning");
     return { ok: false, error: "Could not save settings. Please try again." };
   }
 }

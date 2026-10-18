@@ -52,7 +52,7 @@
 .ma-root .mp-vr-orb:focus-visible, .ma-root .mp-vr-segb:focus-visible, .ma-root .mp-vr-opt:focus-visible { outline: 2px solid var(--ma-tint); outline-offset: 2px; }
 .ma-root .mp-vr-cta { display: flex; align-items: center; justify-content: center; min-height: 50px; margin-top: 24px; padding: 0 20px; border-radius: 999px; font-size: 17px; line-height: 1.1; font-weight: 500; letter-spacing: -0.43px; text-align: center; color: #fff; background: linear-gradient(180deg, hsl(calc(var(--ma-h) + 6) calc(85% * var(--ts)) 52%), var(--ma-tint-bg)); box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.4); transition: transform 0.3s var(--ma-spring); }
 .ma-root .mp-vr-cta:active { transform: scale(0.96); }
-@keyframes mp-vr-swap { from { opacity: 0; filter: blur(6px); transform: translate3d(0, 6px, 0); } }
+@keyframes mp-vr-swap { from { opacity: 0; transform: translate3d(0, 6px, 0); } }
 
 /* ---- government projects: two windows, steps and team as open lists inside ---- */
 .ma-root .mp-vr-wins { display: grid; gap: 20px; }

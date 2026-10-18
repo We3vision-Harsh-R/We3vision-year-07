@@ -132,3 +132,10 @@
 - A few UI labels are code words, not CMS: service card labels ("Right for you when", "Problems it solves", "What you get", "Learn more"), careers "All", contact "Message" / "Phone and e-mail", CRM "Back/Next/Step N of M", blog "min read" (estimated from word count).
 - /team: teamValues, highlights and FAQ use the default kit look.
 - CRM pipeline is sized for about 7 steps.
+
+## Alerts / WhatsApp (2026-10-18)
+- WhatsApp works only after the owner adds on Hostinger: ALERT_WHATSAPP_TO + CALLMEBOT_APIKEY (or WHATSAPP_CLOUD_TOKEN + WHATSAPP_CLOUD_PHONE_ID, or ALERT_WEBHOOK_URL), then Admin > Alerts > "Send a test message".
+- CallMeBot is a free third-party relay: the alert text (and a contact message: name, e-mail, words) passes through it. The Meta Cloud API is the official option.
+- The new password-fingerprint cookie logs every admin out once after the deploy (expected).
+- The shield counts in memory (one Node process); with several processes each one counts on its own.
+- Admin > Alerts still to be seen with the real DB (it could not be opened locally).

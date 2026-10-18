@@ -57,6 +57,11 @@ Rules: read helpers in `lib/*.ts` return built-in data without a DB and **throw*
 - Editor content is sanitised on the server (types, lengths, safe links); no raw HTML is stored/rendered.
 - Contact form: honeypot + 5 messages/hour/IP (`actions/leads.ts`). Security headers + `noindex` for `/admin` and `/preview` in `next.config.ts`.
 - Uploads: picture resized to webp in the browser, re-checked on the server; resumes checked by magic bytes, only downloadable.
+- Since 2026-10-18 (security + alerts):
+  - `lib/shield.ts`, run first in `proxy.ts`: 404 for hacking-tool addresses (wp-login, .env, .git, *.php…), attack text in the address (SQL injection, <script>, ../), 403 for scanner user agents (sqlmap, nikto…). One IP with 15 probes in 10 min = blocked 1 h; more than 400 requests a minute = blocked 10 min (private / unknown IPs are never blocked). The proxy matcher also catches those dotted addresses.
+  - Login: 10 tries / 15 min per IP + an account lock after 5 wrong passwords (15 min, counted per typed e-mail). The cookie carries a fingerprint of the password hash (`sessionVersion` in `lib/auth.ts`): a new password logs out every other device.
+  - Headers for the whole site: HSTS 1 year, COOP same-origin, CSP `frame-ancestors / base-uri / object-src / form-action`, X-Permitted-Cross-Domain-Policies.
+  - Alerts: `lib/alerts.ts` `raiseAlert()` keeps the latest 300 in table Setting, key `siteAlerts` (Admin > Alerts, red badge for unread critical/warning) and sends critical/warning to WhatsApp (`lib/whatsapp.ts`: CallMeBot, Meta Cloud API or a webhook; env names in `.env.example`), the same alert at most once / 30 min, 12 / hour. Sources: `src/instrumentation.ts` (every server error), every failed save (`alertFailure`), rate limits reached, the shield, admin sign-ins / users / passwords, browser errors (`src/instrumentation-client.ts` → `/api/alerts/client`: same-origin, 8 KB, 20 / 10 min). A new contact message goes to WhatsApp too (`notifyNewLead`).
 
 ## How to…
 **Add a section type**: define in `SECTIONS` → component in `sections/<name>.tsx` → register in `sections/index.tsx`.

@@ -12,7 +12,7 @@
 .ma-root .mp-crm-ring.is-on, .ma-root .mp-crm-chk.is-done .mp-crm-ring { border-color: var(--ma-tint-bg); background: var(--ma-tint-bg); }
 .ma-root .mp-crm-ring.is-on::after, .ma-root .mp-crm-chk.is-done .mp-crm-ring::after { content: ""; position: absolute; left: 5px; top: 5.5px; width: 9px; height: 4.5px; border-left: 1.8px solid #fff; border-bottom: 1.8px solid #fff; transform: rotate(-45deg); }
 .ma-root .mp-crm-dot { flex: none; width: 10px; height: 10px; margin-top: 8px; border-radius: 50%; background: hsl(calc(var(--ma-h) + var(--o, 0)) calc(80% * var(--ts)) 62%); box-shadow: 0 0 0 4px hsl(calc(var(--ma-h) + var(--o, 0)) calc(80% * var(--ts)) 62% / 0.16); }
-@keyframes mp-crm-in { from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); } }
+@keyframes mp-crm-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
 
 /* ---- hero ---- */
 .ma-root .mp-crm-hero { padding: 22px 0 8px; }
