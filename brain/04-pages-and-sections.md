@@ -40,7 +40,7 @@ hero (Home hub) · story · brandBoard · strengths · services · highlights ·
 backdrop7 · pageHero · wordHero · archGallery · projects · flow · automate · faq · process · tags · timeline · guide · vrEntry ·
 aboutWorld · aboutHero · aboutChapters · vrSpace · vrFloor · vrEmerge · vrDevices · vrQuiz · vrProcess · sketchCanvas · team ·
 teamOffice · careerJourney · careerDestination · careerOpenings · careerValues · careerTeams · careerHelpDesk · teamManifesto ·
-teamJourney · teamValues.
+teamJourney · teamValues · blogFeatured · blogPicks · ctaBand.
 
 | Section | What it is | Main files |
 |---|---|---|

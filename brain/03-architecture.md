@@ -63,6 +63,18 @@ Rules: read helpers in `lib/*.ts` return built-in data without a DB and **throw*
   - Headers for the whole site: HSTS 1 year, COOP same-origin, CSP `frame-ancestors / base-uri / object-src / form-action`, X-Permitted-Cross-Domain-Policies.
   - Alerts: `lib/alerts.ts` `raiseAlert()` keeps the latest 300 in table Setting, key `siteAlerts` (Admin > Alerts, red badge for unread critical/warning) and sends critical/warning to WhatsApp (`lib/whatsapp.ts`: CallMeBot, Meta Cloud API or a webhook; env names in `.env.example`), the same alert at most once / 30 min, 12 / hour. Sources: `src/instrumentation.ts` (every server error), every failed save (`alertFailure`), rate limits reached, the shield, admin sign-ins / users / passwords, browser errors (`src/instrumentation-client.ts` → `/api/alerts/client`: same-origin, 8 KB, 20 / 10 min). A new contact message goes to WhatsApp too (`notifyNewLead`).
 
+## Blog page from the admin panel + live preview (2026-10-18)
+- Admin > Pages > Blog: every section of the page (add, remove, order, words, look) is edited there; the articles themselves come from Admin > Blog.
+  Blog sections: `blogs` (look on a laptop: Picture wall / Cards with words / Headline list; look on a phone: Top story + headlines / Picture cards;
+  topic buttons show/hide, "All" word, one topic only, how many, "Show more", "min read", empty text), `blogFeatured` (top story: newest or a chosen
+  article, wide / side by side), `blogPicks` (hand-picked articles, numbered / cards), `ctaBand` (heading, text, two buttons, glow / plain).
+  Laptop renderers: sections/blogs.tsx, modern/blog-shelf.tsx, sections/blog-extra.tsx (CSS bx-). Phone: mobile/pages/sections/blogExtra.tsx,
+  custom/blog (BLOG_MOBILE options, CSS mbx-). Which articles: lib/blog-select.ts (same for both).
+- New field kind `choice` (lib/cms/fields.ts): a few buttons in the editor, the first option is the default.
+- Live preview (components/admin/live-preview.tsx in the page editor, every page): while it is on, the draft is saved 0.9 s after the last change and
+  the preview reloads where it was. Laptop = /preview/<slug>?embed=1 (scaled 1440 px); Phone = /m/preview/<slug>?embed=1 (only slugs in
+  lib/cms/preview.ts: blog). Publish also refreshes /m/<path>, so phones see it at once.
+
 ## Careers hiring desk (Admin > Careers, 2026-10-18)
 - `/admin/careers` = `components/admin/hiring/hiring-desk.tsx` (Board: one column per step, drag a card to move it; List: table with check boxes and bulk move / tag / export / remove) + `application-drawer.tsx` (step, star, 1–5 rating, tags, "looked after by" an admin, interview with a Google Calendar link, ready WhatsApp / e-mail messages, notes, timeline; keys ← → Esc).
 - Steps (`PIPELINE` in `lib/hiring-shared.ts`): new, contacted, shortlisted, interview, offer, hired, hold, rejected ("Not now"). Stored in `CareerApplication.status`.

@@ -1,20 +1,15 @@
 import { getBlogEntries } from "@/lib/blog";
-import type { BlogEntry } from "@/lib/blog-shared";
+import { feedOf, readMinutes } from "@/lib/blog-select";
 import { type MasonryItem } from "../modern/blog-masonry";
-import { BlogMasonry } from "../lazy";
+import { BlogShelf, type ShelfLabels } from "../modern/blog-shelf";
 import { ButtonLink, SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";
 
-// The list of the articles: only the cover pictures, in a masonry (blog-masonry.tsx). The articles, the shape of every picture and their order come
-// from the admin panel (Blog); the items written in the content of the section are only used when there is no article at all.
-/** about how long the article takes to read (200 words a minute) */
-function readMinutes(blocks: BlogEntry["blocks"]) {
-  const words = blocks.reduce((n, b) => n + ("h" in b ? b.h : "p" in b ? b.p : b.ul.join(" ")).split(/s+/).length, 0);
-  return Math.max(1, Math.round(words / 200));
-}
-
-async function BlogGrid({ fallback }: { fallback: MasonryItem[] }) {
-  const entries = await getBlogEntries();
+// The list of the articles. The articles, the shape of every picture and their order come from the admin panel (Blog); what this section shows
+// (the look, the topic buttons, one topic only, how many, the words of the buttons) comes from Admin > Pages. The items written in the content
+// of the section are only used when there is no article at all.
+async function BlogGrid({ fallback, category, limit, layout, topics, labels }: { fallback: MasonryItem[]; category: string; limit: string; layout: string; topics: boolean; labels: ShelfLabels }) {
+  const entries = feedOf(await getBlogEntries(), category, limit);
   const items: MasonryItem[] = entries.length
     ? entries.map((e) => ({
         id: e.id,
@@ -29,13 +24,13 @@ async function BlogGrid({ fallback }: { fallback: MasonryItem[] }) {
         minutes: readMinutes(e.blocks),
       }))
     : fallback;
-  return <BlogMasonry items={items} />;
+  return <BlogShelf items={items} layout={layout} topics={topics} labels={labels} />;
 }
 
 export const Blogs: SectionComponent<"blogs"> = ({ data }) => (
   <section id="blogs" className="py-24 sm:py-32">
-    {/* wider than the other sections: the bigger the screen, the more columns of pictures */}
-    <div className="mx-auto w-full max-w-[2200px] px-5 sm:px-8">
+    {/* the picture wall is wider than the other sections: the bigger the screen, the more columns of pictures */}
+    <div className={`mx-auto w-full px-5 sm:px-8 ${data.layout === "grid" || data.layout === "list" ? "max-w-[1240px]" : "max-w-[2200px]"}`}>
       <SectionHead chip={data.chip} heading={data.heading}>
         {data.buttonLabel && data.buttonHref ? (
           <ButtonLink href={data.buttonHref} variant="ghost">
@@ -44,7 +39,14 @@ export const Blogs: SectionComponent<"blogs"> = ({ data }) => (
         ) : null}
       </SectionHead>
       <div className="mt-14">
-        <BlogGrid fallback={data.items.map((p) => ({ id: p.href || p.title, title: p.title, category: p.category, image: p.image, tile: "portrait", href: p.href || "#" }))} />
+        <BlogGrid
+          fallback={data.items.map((p) => ({ id: p.href || p.title, title: p.title, category: p.category, image: p.image, tile: "portrait", href: p.href || "#" }))}
+          category={data.category}
+          limit={data.limit}
+          layout={data.layout}
+          topics={data.topics !== "hide"}
+          labels={{ all: data.allLabel || "All", more: data.moreLabel || "Show more", read: data.readLabel, empty: data.emptyText }}
+        />
       </div>
     </div>
   </section>

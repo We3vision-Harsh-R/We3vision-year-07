@@ -35,6 +35,29 @@ function FieldControl({ field, value, onChange }: { field: Field; value: unknown
           {field.hint && <span className="mt-1 block text-xs font-normal text-zinc-400">{field.hint}</span>}
         </label>
       );
+    case "choice": {
+      const current = field.options.some((o) => o.value === value) ? value : field.options[0]?.value;
+      return (
+        <div>
+          <p className={labelClass}>{field.label}</p>
+          <div className="mt-1.5 flex flex-wrap gap-2" role="radiogroup" aria-label={field.label}>
+            {field.options.map((o) => (
+              <button
+                key={o.value}
+                type="button"
+                role="radio"
+                aria-checked={current === o.value}
+                onClick={() => onChange(o.value)}
+                className={`rounded-lg border px-3 py-2 text-sm font-medium transition ${current === o.value ? "border-brand bg-brand/10 text-brand" : "border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50"}`}
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+          {field.hint && <span className="mt-1 block text-xs font-normal text-zinc-400">{field.hint}</span>}
+        </div>
+      );
+    }
     case "image":
       return <ImageField label={field.label} hint={field.hint} value={typeof value === "string" ? value : ""} onChange={onChange} />;
     case "textarea":

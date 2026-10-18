@@ -9,6 +9,7 @@ import { Advantages } from "./advantages";
 import { ArchGallery } from "./arch-gallery";
 import { Automate } from "../lazy";
 import { Backdrop } from "./backdrop";
+import { BlogFeatured, BlogPicks, CtaBand } from "./blog-extra";
 import { Blogs } from "./blogs";
 import { CareerDestinationSection, CareerHelpDeskSection, CareerJourneySection, CareerOpeningsSection, CareerTeamsSection, CareerValuesSection } from "./career";
 import { Contact } from "./contact";
@@ -55,6 +56,9 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   industries: Industries,
   advantages: Advantages,
   blogs: Blogs,
+  blogFeatured: BlogFeatured,
+  blogPicks: BlogPicks,
+  ctaBand: CtaBand,
   reach: Reach,
   contact: Contact,
   backdrop7: Backdrop,

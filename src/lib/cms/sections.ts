@@ -15,6 +15,7 @@ const HIGHLIGHT_HINT = "Tip: put *stars* around words to highlight them.";
 const LINES_HINT = "Press Enter to start the second line (the lower line is brighter).";
 
 const chip = (hint?: string): Field => ({ kind: "text", key: "chip", label: "Small label above the heading", max: 40, hint });
+const ARTICLE_HINT = "The part of the article's address after /blog/ (see Admin > Blog), or the whole link.";
 const headingField = (label = "Heading"): Field => ({ kind: "textarea", key: "heading", label, max: 120, hint: LINES_HINT });
 
 export const SECTIONS = {
@@ -187,12 +188,47 @@ export const SECTIONS = {
   }),
   blogs: defineSection({
     label: "Blog cards",
-    description: "Heading with a 'view all' button and blog post cards",
+    description: "The articles of Admin > Blog: topic buttons and the list, in the look you choose",
     fields: [
       chip(),
       headingField(),
       { kind: "text", key: "buttonLabel", label: "Button text", max: 30 },
       { kind: "url", key: "buttonHref", label: "Button link" },
+      {
+        kind: "choice",
+        key: "layout",
+        label: "Look on a laptop",
+        options: [
+          { value: "masonry", label: "Picture wall" },
+          { value: "grid", label: "Cards with words" },
+          { value: "list", label: "Headline list" },
+        ],
+      },
+      {
+        kind: "choice",
+        key: "phoneLayout",
+        label: "Look on a phone",
+        options: [
+          { value: "news", label: "Top story + headlines" },
+          { value: "cards", label: "Picture cards" },
+        ],
+      },
+      {
+        kind: "choice",
+        key: "topics",
+        label: "Topic buttons above the articles",
+        options: [
+          { value: "show", label: "Show" },
+          { value: "hide", label: "Hide" },
+        ],
+        hint: "The topics are the categories of the articles (Admin > Blog).",
+      },
+      { kind: "text", key: "allLabel", label: "First topic button (all articles)", max: 30 },
+      { kind: "text", key: "category", label: "Only the articles of this topic (leave empty for all)", max: 40, hint: "Write the topic as in Admin > Blog, e.g. Design" },
+      { kind: "text", key: "limit", label: "How many articles at most (leave empty for all)", max: 3 },
+      { kind: "text", key: "moreLabel", label: "Button that shows more articles", max: 40 },
+      { kind: "text", key: "readLabel", label: "Words after the reading time", max: 20, hint: "e.g. min read" },
+      { kind: "text", key: "emptyText", label: "Text when there is no article yet", max: 120 },
       {
         kind: "list",
         key: "items",
@@ -212,8 +248,80 @@ export const SECTIONS = {
       heading: "Heading\nsecond line",
       buttonLabel: "View all",
       buttonHref: "/blog",
+      layout: "masonry",
+      phoneLayout: "news",
+      topics: "show",
+      allLabel: "All",
+      category: "",
+      limit: "",
+      moreLabel: "Show more articles",
+      readLabel: "min read",
+      emptyText: "New articles will appear here soon.",
       items: [{ category: "Category", title: "Post title", image: "", href: "/blog" }],
     },
+  }),
+  blogFeatured: defineSection({
+    label: "Blog: top story",
+    description: "One article shown big: its picture, topic, title, summary and a button (the newest one, or the one you choose)",
+    fields: [
+      chip(),
+      { kind: "text", key: "slug", label: "Article (leave empty for the newest article)", max: 200, hint: ARTICLE_HINT },
+      { kind: "text", key: "buttonLabel", label: "Button text", max: 30 },
+      { kind: "text", key: "readLabel", label: "Words after the reading time", max: 20, hint: "e.g. min read" },
+      {
+        kind: "choice",
+        key: "look",
+        label: "Look",
+        options: [
+          { value: "wide", label: "Big picture, words on it" },
+          { value: "split", label: "Picture and words side by side" },
+        ],
+      },
+    ],
+    defaults: { chip: "Top story", slug: "", buttonLabel: "Read the article", readLabel: "min read", look: "wide" },
+  }),
+  blogPicks: defineSection({
+    label: "Blog: hand-picked articles",
+    description: "A short list of articles you choose (editor's picks, most read, start here)",
+    fields: [
+      chip(),
+      headingField(),
+      { kind: "textarea", key: "intro", label: "Text under the heading", max: 300 },
+      { kind: "textarea", key: "slugs", label: "Articles, one per line, in this order (leave empty for the newest four)", max: 1600, hint: ARTICLE_HINT },
+      {
+        kind: "choice",
+        key: "look",
+        label: "Look",
+        options: [
+          { value: "numbered", label: "Numbered list" },
+          { value: "cards", label: "Small picture cards" },
+        ],
+      },
+    ],
+    defaults: { chip: "Editor's picks", heading: "Start\nHere", intro: "", slugs: "", look: "numbered" },
+  }),
+  ctaBand: defineSection({
+    label: "Call to action band",
+    description: "A wide band with a heading, a line of text and one or two buttons",
+    fields: [
+      chip(),
+      headingField(),
+      { kind: "textarea", key: "text", label: "Text", max: 300, hint: HIGHLIGHT_HINT },
+      { kind: "text", key: "primaryLabel", label: "First button text", max: 30 },
+      { kind: "url", key: "primaryHref", label: "First button link" },
+      { kind: "text", key: "secondaryLabel", label: "Second button text (leave empty for none)", max: 30 },
+      { kind: "url", key: "secondaryHref", label: "Second button link" },
+      {
+        kind: "choice",
+        key: "look",
+        label: "Look",
+        options: [
+          { value: "glow", label: "Glowing card" },
+          { value: "plain", label: "Plain, centred" },
+        ],
+      },
+    ],
+    defaults: { chip: "", heading: "Heading\nsecond line", text: "", primaryLabel: "Talk to us", primaryHref: "#contact", secondaryLabel: "", secondaryHref: "", look: "glow" },
   }),
   reach: defineSection({
     label: "Global reach",

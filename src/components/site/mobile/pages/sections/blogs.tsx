@@ -1,10 +1,11 @@
+import { feedOf } from "@/lib/blog-select";
 import type { MobileSection } from "../types";
 import { AppLink, Button, Pic, Section } from "../../app";
 
 // The articles come from Admin > Blog (the laptop does the same); the items written in the section are only used when there is no article.
 // A picture and its words under it, no box around them.
 export const BlogsSection: MobileSection<"blogs"> = ({ data, id, extra }) => {
-  const posts = extra.posts ?? [];
+  const posts = feedOf(extra.posts ?? [], data.category, data.limit);
   const list =
     posts.length > 0
       ? posts.map((p) => ({ key: String(p.id), src: p.image, title: p.title, kicker: p.category, text: p.summary, href: "/blog/" + p.slug }))

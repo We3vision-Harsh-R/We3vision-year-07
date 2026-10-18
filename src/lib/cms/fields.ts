@@ -5,6 +5,7 @@ export type Field =
   | { kind: "textarea"; key: string; label: string; max?: number; hint?: string }
   | { kind: "url"; key: string; label: string; hint?: string }
   | { kind: "image"; key: string; label: string; hint?: string } // a picture: a link, or /media/<id> of a picture uploaded in the admin panel
+  | { kind: "choice"; key: string; label: string; options: readonly { value: string; label: string }[]; hint?: string } // one of a few options (the first one is the default)
   | { kind: "group"; key: string; label: string; fields: Field[] }
   | { kind: "list"; key: string; label: string; itemLabel: string; fields: Field[]; max?: number };
 
@@ -40,6 +41,9 @@ export function normalize(fields: readonly Field[], input: unknown): Record<stri
         out[f.key] = isSafeHref(s) ? s : "";
         break;
       }
+      case "choice":
+        out[f.key] = f.options.some((o) => o.value === v) ? v : (f.options[0]?.value ?? "");
+        break;
       case "group":
         out[f.key] = normalize(f.fields, v);
         break;
@@ -55,7 +59,7 @@ export function normalize(fields: readonly Field[], input: unknown): Record<stri
 export function emptyValue(fields: readonly Field[]): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const f of fields) {
-    out[f.key] = f.kind === "list" ? [] : f.kind === "group" ? emptyValue(f.fields) : "";
+    out[f.key] = f.kind === "list" ? [] : f.kind === "group" ? emptyValue(f.fields) : f.kind === "choice" ? (f.options[0]?.value ?? "") : "";
   }
   return out;
 }

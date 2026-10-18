@@ -66,6 +66,8 @@ export async function publish(slug: string, payload: PagePayload): Promise<Actio
       if (old.length) await tx.pageVersion.deleteMany({ where: { id: { in: old.map((v) => v.id) } } });
     });
     revalidatePath(PAGES[rest.slug].path);
+    // the phone/tablet twin (/m/<path>, served at the same address) is a page of its own: refresh it too, so phones see the change at once
+    if (PAGES[rest.slug].path !== "/") revalidatePath(`/m${PAGES[rest.slug].path}`);
     after(() => notifySearchEngines([PAGES[rest.slug].path]));
     return { ok: true, message: "Published. The live website is updated." };
   } catch (error) {

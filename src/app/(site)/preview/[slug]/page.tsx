@@ -47,16 +47,20 @@ import { skinOf } from "@/lib/cms/page-route";
 export const metadata: Metadata = { title: "Draft preview", robots: { index: false, follow: false } };
 
 /** Shows the unpublished draft inside the real site layout. Admin only. */
-export default async function PreviewPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function PreviewPage({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ embed?: string }> }) {
   await requireAdmin();
   const { slug } = await params;
+  const { embed } = await searchParams;
   if (!isPageSlug(slug)) notFound();
   const [draft, site] = await Promise.all([getDraftPage(slug), getSiteSettings()]);
   return (
     <>
-      <div className="fixed left-4 top-4 z-[60] rounded-full bg-amber-400 px-5 py-2 text-center text-sm font-semibold text-black shadow-xl">
-        Draft preview, visitors cannot see this version until you publish.
-      </div>
+      {/* inside the live preview of the editor (?embed=1) the editor itself says that it is the draft */}
+      {embed !== "1" && (
+        <div className="fixed left-4 top-4 z-[60] rounded-full bg-amber-400 px-5 py-2 text-center text-sm font-semibold text-black shadow-xl">
+          Draft preview, visitors cannot see this version until you publish.
+        </div>
+      )}
       <PageSections sections={draft.content.sections} site={site} skin={skinOf(slug)} page={slug} />
     </>
   );

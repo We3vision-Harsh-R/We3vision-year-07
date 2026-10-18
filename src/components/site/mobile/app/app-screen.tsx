@@ -3,6 +3,7 @@ import { Glyph } from "../glyph";
 import "./app.css";
 import "./ios27-sections.css";
 import "./ios27-sections-b.css";
+import "./blog-sections.css";
 import { ScreenChrome } from "./chrome";
 import { AppNav } from "./app-nav";
 import { Motion } from "./motion";

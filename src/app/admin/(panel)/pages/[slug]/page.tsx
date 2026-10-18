@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { PageEditor } from "@/components/admin/page-editor";
 import { requireAdmin } from "@/lib/auth";
 import { PAGES, isPageSlug } from "@/lib/cms/pages";
+import { MOBILE_PREVIEW_SLUGS } from "@/lib/cms/preview";
 import { getDraftPage } from "@/lib/cms/queries";
 import { formatDate } from "@/lib/format";
 
@@ -33,6 +34,7 @@ export default async function EditPage({
       isPublished={page.isPublished}
       publishedAt={page.publishedAt ? formatDate(page.publishedAt) : null}
       versions={page.versions.map((v) => ({ id: v.id, createdAt: formatDate(v.createdAt) }))}
+      phonePreview={(MOBILE_PREVIEW_SLUGS as readonly string[]).includes(slug)}
     />
   );
 }

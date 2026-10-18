@@ -1,3 +1,6 @@
+import { feedOf } from "@/lib/blog-select";
+import type { RenderOptions } from "../../render";
+import { BlogsSection } from "../../sections/blogs";
 import type { MobileSection } from "../../types";
 import { AppLink, Section } from "../../../app";
 import { Lines } from "../../../app/text";
@@ -34,15 +37,18 @@ export const BlogMasthead: MobileSection<"pageHero"> = ({ data, index }) => {
 };
 
 /** the articles: topics, top story + headline rows */
-export const BlogFeed: MobileSection<"blogs"> = ({ data, id, extra }) => {
-  const posts = extra.posts ?? [];
+export const BlogFeed: MobileSection<"blogs"> = (props) => {
+  const { data, id, extra } = props;
+  // "Picture cards" in Admin > Pages: the kit's article cards instead of the news layout
+  if (data.phoneLayout === "cards") return <BlogsSection {...props} />;
+  const posts = feedOf(extra.posts ?? [], data.category, data.limit);
   const stories: BlogStory[] =
     posts.length > 0
       ? posts.map((p) => ({ key: p.id, title: p.title, category: p.category, image: p.image, href: "/blog/" + p.slug, summary: p.summary, date: p.dateLabel }))
       : data.items.map((p, i) => ({ key: String(i), title: p.title, category: p.category, image: p.image, href: p.href }));
   return (
     <Section id={id} chip={data.chip} title={data.heading}>
-      <BlogBrowser stories={stories} />
+      <BlogBrowser stories={stories} topics={data.topics !== "hide"} labels={{ all: data.allLabel || "All", more: data.moreLabel || "Show more articles", empty: data.emptyText }} />
       {data.buttonLabel && data.buttonHref && (
         <div className="ma-actions">
           <AppLink href={data.buttonHref} className="ma-btn ma-btn-tinted ma-btn-block">
@@ -53,3 +59,6 @@ export const BlogFeed: MobileSection<"blogs"> = ({ data, id, extra }) => {
     </Section>
   );
 };
+
+/** the options of the blog page on a phone: used by its route and by the draft preview of the admin panel */
+export const BLOG_MOBILE: RenderOptions = { overrides: { pageHero: BlogMasthead, blogs: BlogFeed } };

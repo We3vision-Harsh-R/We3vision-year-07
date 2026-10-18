@@ -45,11 +45,13 @@ type Props = {
   highlightId?: string;
   /** false: the pictures are not links and nothing opens (the preview) */
   interactive?: boolean;
+  /** the words after the reading time (Admin > Pages > Blog cards) */
+  readLabel?: string;
 };
 
 const OPEN_AFTER = 500;
 
-export function BlogMasonry({ items, columns, minColumn = 300, minColumns = 3, maxColumns = 6, highlightId, interactive = true }: Props) {
+export function BlogMasonry({ items, columns, minColumn = 300, minColumns = 3, maxColumns = 6, highlightId, interactive = true, readLabel = "min read" }: Props) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [settled, setSettled] = useState(false);
@@ -194,7 +196,7 @@ export function BlogMasonry({ items, columns, minColumn = 300, minColumns = 3, m
           <p className="bm-info-meta">
             {panel.item.dateLabel}
             {panel.item.dateLabel && panel.item.minutes ? " · " : ""}
-            {panel.item.minutes ? `${panel.item.minutes} min read` : ""}
+            {panel.item.minutes ? `${panel.item.minutes} ${readLabel}`.trim() : ""}
           </p>
           {panel.item.summary && <p className="bm-info-text">{panel.item.summary}</p>}
           {panel.item.tags && panel.item.tags.length > 0 && (

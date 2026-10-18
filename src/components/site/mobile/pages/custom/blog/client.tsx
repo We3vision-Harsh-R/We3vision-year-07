@@ -15,13 +15,14 @@ const STEP = 8;
  * Apple News "For You": a row of topics (a segmented picker that scrolls sideways, All first), the newest article of the topic as the top story
  * and the others as headline rows with a picture on the right. The list swaps with a soft crossfade; "Show more" adds eight at a time.
  */
-export function BlogBrowser({ stories }: { stories: BlogStory[] }) {
-  const cats = ["All", ...Array.from(new Set(stories.map((s) => s.category).filter(Boolean)))];
+export function BlogBrowser({ stories, topics = true, labels = { all: "All", more: "Show more articles", empty: "New articles will appear here soon." } }: { stories: BlogStory[]; topics?: boolean; labels?: { all: string; more: string; empty: string } }) {
+  const cats = [labels.all, ...Array.from(new Set(stories.map((s) => s.category).filter((c) => c && c !== labels.all)))];
   const [k, setK] = useState(0);
   const [shown, setShown] = useState(STEP);
   const row = useRef<HTMLDivElement>(null);
-  const cat = cats[k] ?? "All";
-  const list = cat === "All" ? stories : stories.filter((s) => s.category === cat);
+  const all = k === 0;
+  const cat = cats[k] ?? labels.all;
+  const list = all ? stories : stories.filter((s) => s.category === cat);
   const [top, ...rest] = list;
   const more = rest.length - shown;
   const pick = (i: number, focus = false) => {
@@ -38,10 +39,10 @@ export function BlogBrowser({ stories }: { stories: BlogStory[] }) {
     if (e.key === "Home") { e.preventDefault(); pick(0, true); }
     if (e.key === "End") { e.preventDefault(); pick(cats.length - 1, true); }
   };
-  if (stories.length === 0) return <p className="mp-blog-empty">New articles will appear here soon.</p>;
+  if (stories.length === 0) return <p className="mp-blog-empty">{labels.empty}</p>;
   return (
     <div className="mp-blog-br">
-      {cats.length > 2 && (
+      {topics && cats.length > 2 && (
         <div ref={row} className="mp-blog-tabs" role="tablist" aria-label="Topics">
           {cats.map((c, i) => (
             <button key={c} type="button" role="tab" id={`blog-t-${i}`} aria-selected={i === k} aria-controls="blog-panel" tabIndex={i === k ? 0 : -1} className={i === k ? "is-on" : ""} onClick={() => pick(i)} onKeyDown={(e) => key(e, i)}>
@@ -50,7 +51,7 @@ export function BlogBrowser({ stories }: { stories: BlogStory[] }) {
           ))}
         </div>
       )}
-      <div key={cat} id="blog-panel" role={cats.length > 2 ? "tabpanel" : undefined} aria-labelledby={cats.length > 2 ? `blog-t-${k}` : undefined} className="mp-blog-panel">
+      <div key={cat} id="blog-panel" role={topics && cats.length > 2 ? "tabpanel" : undefined} aria-labelledby={topics && cats.length > 2 ? `blog-t-${k}` : undefined} className="mp-blog-panel">
         {top && (
           <AppLink href={top.href} className="mp-blog-top">
             <span className="mp-blog-pic">{top.image ? <img src={top.image} alt={top.title} loading="lazy" decoding="async" /> : null}</span>
@@ -68,7 +69,7 @@ export function BlogBrowser({ stories }: { stories: BlogStory[] }) {
               <li key={s.key}>
                 <AppLink href={s.href} className="mp-blog-row">
                   <span className="mp-blog-rb">
-                    {s.category && cat === "All" && <span className="mp-blog-cat">{s.category}</span>}
+                    {s.category && all && <span className="mp-blog-cat">{s.category}</span>}
                     <span className="mp-blog-rt">{s.title}</span>
                     {s.date && <span className="mp-blog-date">{s.date}</span>}
                   </span>
@@ -80,7 +81,7 @@ export function BlogBrowser({ stories }: { stories: BlogStory[] }) {
         )}
         {more > 0 && (
           <button type="button" className="mp-blog-more" onClick={() => setShown((n) => n + STEP)}>
-            Show more articles <span>{more}</span>
+            {labels.more} <span>{more}</span>
           </button>
         )}
       </div>

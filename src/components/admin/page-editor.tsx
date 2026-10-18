@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { discardDraft, publish, restoreVersion, saveDraft } from "@/actions/pages";
 import type { ActionResult } from "@/actions/types";
 import { newSection, type PageSection } from "@/lib/cms/pages";
 import { SECTIONS, SECTION_TYPES, type SectionType } from "@/lib/cms/sections";
 import { FieldsEditor } from "./fields-editor";
+import { LivePreview } from "./live-preview";
 import { btnDanger, btnIcon, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
 
 type Props = {
@@ -19,9 +20,11 @@ type Props = {
   publishedAt: string | null;
   versions: { id: string; createdAt: string }[];
   restored: boolean;
+  /** the page can also be previewed as the phone app */
+  phonePreview?: boolean;
 };
 
-export function PageEditor({ slug, title, path, initial, hasDraftChanges, isPublished, publishedAt, versions, restored }: Props) {
+export function PageEditor({ slug, title, path, initial, hasDraftChanges, isPublished, publishedAt, versions, restored, phonePreview = false }: Props) {
   const router = useRouter();
   const [sections, setSections] = useState(initial.sections);
   const [seoTitle, setSeoTitle] = useState(initial.seoTitle);
@@ -35,6 +38,12 @@ export function PageEditor({ slug, title, path, initial, hasDraftChanges, isPubl
     restored ? { ok: true, message: "Old version loaded into the draft. Review it, then publish when you are happy." } : null,
   );
   const [pending, startTransition] = useTransition();
+  // live preview: while it is open, every change is saved to the draft a moment after the last key press and the preview reloads
+  const [previewOn, setPreviewOn] = useState(false);
+  const [rev, setRev] = useState(0);
+  const [auto, setAuto] = useState("");
+  const edits = useRef(0);
+  const chain = useRef<Promise<unknown>>(Promise.resolve());
 
   useEffect(() => {
     if (!dirty) return;
@@ -43,7 +52,30 @@ export function PageEditor({ slug, title, path, initial, hasDraftChanges, isPubl
     return () => window.removeEventListener("beforeunload", warn);
   }, [dirty]);
 
+  useEffect(() => {
+    if (!previewOn || !dirty) return;
+    const snapshot = { seoTitle, seoDescription, content: { sections } };
+    const timer = window.setTimeout(() => {
+      const at = edits.current;
+      setAuto("Saving…");
+      chain.current = chain.current.then(async () => {
+        const res = await saveDraft(slug, snapshot);
+        if (!res.ok) {
+          setAuto(res.error);
+          return;
+        }
+        // newer edits since this save stay "unsaved" and are saved by the next round
+        if (edits.current === at) setDirty(false);
+        setUnpublished(true);
+        setRev((r) => r + 1);
+        setAuto("Draft saved · preview updated");
+      });
+    }, 900);
+    return () => window.clearTimeout(timer);
+  }, [previewOn, dirty, sections, seoTitle, seoDescription, slug]);
+
   const edit = <T,>(setter: (v: T) => void) => (v: T) => {
+    edits.current += 1;
     setter(v);
     setDirty(true);
     setResult(null);
@@ -106,6 +138,9 @@ export function PageEditor({ slug, title, path, initial, hasDraftChanges, isPubl
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
+            <button type="button" className={previewOn ? btnPrimary : btnSecondary} aria-pressed={previewOn} onClick={() => setPreviewOn((v) => !v)} title="Show the page next to the editor; changes are saved to the draft as you type">
+              {previewOn ? "Live preview: on" : "Live preview"}
+            </button>
             <a href={dirty ? undefined : `/preview/${slug}`} target="_blank" rel="noreferrer" aria-disabled={dirty} title={dirty ? "Save draft first" : undefined} className={`${btnSecondary} ${dirty ? "pointer-events-none opacity-50" : ""}`}>
               Preview draft ↗
             </a>
@@ -124,6 +159,8 @@ export function PageEditor({ slug, title, path, initial, hasDraftChanges, isPubl
         )}
       </div>
 
+      <div className={previewOn ? "grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]" : ""}>
+      <div className="min-w-0 space-y-6">
       <section className={card}>
         <h2 className="font-semibold text-zinc-900">Search engine (SEO)</h2>
         <p className="text-sm text-zinc-500">How this page appears on Google. Leave empty to use the default.</p>
@@ -237,6 +274,14 @@ export function PageEditor({ slug, title, path, initial, hasDraftChanges, isPubl
           </button>
         )}
       </section>
+
+      </div>
+      {previewOn && (
+        <div className="sticky top-24 h-[calc(100vh-8rem)] min-h-[480px]">
+          <LivePreview slug={slug} phone={phonePreview} rev={rev} status={auto || (dirty ? "Changes are saved a moment after you stop typing" : "Showing the saved draft")} />
+        </div>
+      )}
+      </div>
 
       <p className="pb-8 text-center text-xs text-zinc-400">
         Live page: <a className="underline" href={path} target="_blank" rel="noreferrer">{path}</a>

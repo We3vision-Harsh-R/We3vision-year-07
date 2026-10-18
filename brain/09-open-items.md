@@ -144,3 +144,8 @@
 - To check with the real DB after the deploy: drag and drop, notes, interview, bulk actions.
 - HR facts live in Setting rows "hire:<id>"; if applications grow to many thousands, move them to columns / a table (needs a migration).
 - Message templates are fixed in lib/hiring-shared.ts (TEMPLATES); an editor in Admin > Careers > Questions of HR could come later.
+
+## Blog page / live preview (2026-10-18)
+- If the blog page is already published in the DB, the new top story is not on the live page until it is added in Admin > Pages > Blog (+ Add section) and published.
+- The phone preview exists only for the blog page (lib/cms/preview.ts); other pages need their mobile options there to get one.
+- Live preview reloads the frame after each save (about 1 s); a longer page scrolls back to the same place, inner scroll areas start at the top.

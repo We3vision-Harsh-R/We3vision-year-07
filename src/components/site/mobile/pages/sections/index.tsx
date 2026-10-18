@@ -8,6 +8,7 @@ import { AdvantagesSection } from "./advantages";
 import { ArchGallerySection } from "./archGallery";
 import { AutomateSection } from "./automate";
 import { Backdrop7Section } from "./backdrop7";
+import { BlogFeaturedSection, BlogPicksSection, CtaBandSection } from "./blogExtra";
 import { BlogsSection } from "./blogs";
 import { BrandBoardSection } from "./brandBoard";
 import { CareerDestinationSection } from "./careerDestination";
@@ -59,6 +60,9 @@ export const MOBILE_SECTIONS: { [T in SectionType]: MobileSection<T> } = {
   industries: IndustriesSection,
   advantages: AdvantagesSection,
   blogs: BlogsSection,
+  blogFeatured: BlogFeaturedSection,
+  blogPicks: BlogPicksSection,
+  ctaBand: CtaBandSection,
   reach: ReachSection,
   contact: ContactSection,
   backdrop7: Backdrop7Section,
