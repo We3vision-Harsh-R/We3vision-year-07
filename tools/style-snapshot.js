@@ -9,7 +9,7 @@ window.__snap = async (mode) => {
   const PS = ["content","display","width","height","backgroundColor","backgroundImage","opacity","transform","position","top","left","borderTopWidth","boxShadow"];
   if (innerWidth !== 1440) return `WRONG VIEWPORT ${innerWidth}x${innerHeight}: set 1440x900 first`;
   await new Promise((r) => setTimeout(r, 3500));
-  document.getAnimations().forEach((a) => { try { a.pause(); a.currentTime = 0; } catch (e) {} });
+  document.getAnimations().forEach((a) => { try { a.pause(); a.currentTime = 0; } catch { /* a finished animation cannot be paused */ } });
   await new Promise((r) => setTimeout(r, 150));
   const fnv = (s) => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); };
   const els = [...document.querySelectorAll("body *")].slice(0, 9000);

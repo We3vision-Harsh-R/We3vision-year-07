@@ -24,7 +24,7 @@ export function parseCss(src) {
   };
 
   // reads statements until the closing brace of the block (or the end of the file)
-  function block(base) {
+  function block() {
     const out = [];
     while (i < n) {
       // leading trivia: whitespace and comments

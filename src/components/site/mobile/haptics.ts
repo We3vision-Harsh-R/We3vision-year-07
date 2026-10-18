@@ -21,6 +21,9 @@ function ensure() {
 
 export function haptic(kind: Haptic = "light"): void {
   try {
+    // only as the answer to a real tap: the browser refuses (and logs an error for) a vibration that no tap asked for, e.g. a section that opens by itself
+    const ua = typeof navigator !== "undefined" ? (navigator as Navigator & { userActivation?: { isActive: boolean } }).userActivation : undefined;
+    if (ua && !ua.isActive) return;
     if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
       navigator.vibrate(kind === "success" ? [10, 30, 14] : kind === "medium" ? 16 : kind === "select" ? 6 : 9);
       return;

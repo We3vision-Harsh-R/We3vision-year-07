@@ -191,7 +191,7 @@ if (mode === "check") {
     walk(parseCss(text), []);
   };
   readBack(newGlobals);
-  for (const [b, items] of out) readBack(renderBundle(items));
+  for (const [, items] of out) readBack(renderBundle(items));
   let lost = 0, extra = 0;
   for (const [k, c] of want) if ((have.get(k) ?? 0) < c) { lost++; if (lost <= 5) console.log("LOST:", k.slice(0, 160)); }
   for (const [k, c] of have) if ((want.get(k) ?? 0) < c) { extra++; if (extra <= 5) console.log("EXTRA:", k.slice(0, 160)); }

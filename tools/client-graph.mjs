@@ -4,7 +4,7 @@
 // is imported by a server file therefore goes to every page that includes that server file. A client file that is only reached through
 // a dynamic import INSIDE another client file becomes its own chunk, loaded only when it is rendered.
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import { posix } from "node:path";
 
 const minKB = Number(process.argv[2] ?? 14);
