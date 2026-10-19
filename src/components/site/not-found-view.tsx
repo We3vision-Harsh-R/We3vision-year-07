@@ -2,7 +2,7 @@ import Image from "next/image";
 import "@/styles/not-found.css";
 
 // The branded "lost" screen (CSS prefix nf-): used for an unknown address, a missing article / job / project and a crashed page.
-// Plain <a> links on purpose: it must also work inside global-not-found, which renders without the site layout.
+// Plain <a> links on purpose (hence the eslint-disable lines): it must also work inside global-not-found, which renders without the site layout/router.
 const LINKS: [string, string][] = [
   ["Web Development", "/webdev"],
   ["App Development", "/mobile"],
@@ -28,6 +28,7 @@ export function NotFoundView({
   return (
     <section className="nf-root">
       <div className="nf-box">
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a href="/" className="nf-logo" aria-label="We3vision home">
           <Image src="/brand/logo-white.webp" alt="" width={600} height={468} priority unoptimized />
         </a>
@@ -39,6 +40,7 @@ export function NotFoundView({
         <p className="nf-text">{text}</p>
         <div className="nf-actions">
           {children}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a href="/" className="nf-btn nf-btn-main">
             Back to home
           </a>
