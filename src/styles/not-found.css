@@ -13,7 +13,7 @@ body:has(.nf-root) {
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  padding: 120px 24px;
+  padding: 64px 24px;
   overflow: hidden;
   text-align: center;
   background:
@@ -27,7 +27,7 @@ body:has(.nf-root) {
 }
 .nf-logo {
   display: inline-block;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 .nf-logo img {
   display: block;
@@ -121,7 +121,7 @@ body:has(.nf-root) {
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px 24px;
-  margin: 48px 0 0;
+  margin: 36px 0 0;
   padding: 24px 0 0;
   border-top: 1px solid hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 76% / 0.18);
   list-style: none;
