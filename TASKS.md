@@ -110,3 +110,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 104 | WebDev page: new first screen (page builds itself) | done |
 | 105 | Mobile page: new first screen (one code, two phones) | done |
 | 106 | CRM page: new first screen (one customer, every channel) | done |
+| 107 | UI/UX page: new first screen (wireframe to finished UI) | done |
