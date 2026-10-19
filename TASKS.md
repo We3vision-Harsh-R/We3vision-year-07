@@ -99,3 +99,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 93 | Launcher v3 Apple look | done |
 | 94 | Meta Marketing page redesign: Ads-Manager style UI, 7 objectives what-we-do, social post previews | done |
 | 95 | Mobile foundation: device detect + separate /m route group, launcher moved out of the desktop layout | in progress |
+| 96 | Test round 1 Phase 1: shield regex, webdev H1, aria-labels, branded 404, env guard | done |
