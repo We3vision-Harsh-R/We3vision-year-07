@@ -442,7 +442,7 @@ export const SHOPIFYAPP_SECTIONS = build({
 // ---------------------------------------------------------------------------------------------------------------------
 export const PLUGIN_SEO = {
   title: "WordPress Plugin Development Company | We3vision",
-  description: "Custom WordPress plugin development, customisation, integration, upgrades, maintenance and add-ons from We3vision, Surat, India. Reliable plugins built to WordPress standards.",
+  description: "Custom WordPress plugin development, integration, upgrades and maintenance from We3vision, Surat, India. Reliable plugins built to WordPress standards.",
 };
 export const PLUGIN_SECTIONS = build({
   seo: PLUGIN_SEO,
