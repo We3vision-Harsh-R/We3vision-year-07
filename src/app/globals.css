@@ -10219,3 +10219,272 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
 .lm[data-faded="true"] a {
   pointer-events: none;
 }
+
+/* Web Development first screen (prefix wdh-, modern/webdev-hero.tsx): words on the left, a website that builds itself in a browser window on the right.
+   Theme colours only (--th / --ts). Pure CSS: the blocks drop in one after another, then a selection outline walks over four of them and names them.
+   With "reduce motion" the finished page stands still. */
+.wdh {
+  position: relative;
+  display: grid;
+  width: 100%;
+  max-width: 1180px;
+  grid-template-columns: minmax(0, 1fr) 540px;
+  align-items: center;
+  gap: 56px;
+  text-align: left;
+}
+.wdh-copy {
+  min-width: 0;
+}
+.wdh-h1 {
+  margin: 24px 0 0;
+  background: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 352.8) calc(100% * var(--ts)) 85.29%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2.6rem, 4.4vw, 4.2rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  padding-bottom: 0.08em;
+  text-wrap: balance;
+}
+.wdh-p {
+  margin: 22px 0 0;
+  max-width: 520px;
+  color: #fff;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  text-shadow: 0 2px 18px hsl(calc(var(--th) + 344) calc(71.43% * var(--ts)) 4.12% / 0.95);
+}
+.wdh-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 34px;
+}
+.wdh-win {
+  position: relative;
+  overflow: visible;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
+  border-radius: 16px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7% / 0.86);
+  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.45);
+}
+.wdh-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 16px;
+  border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
+}
+.wdh-bar i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 40% / 0.7);
+}
+.wdh-url {
+  flex: 1;
+  height: 12px;
+  margin-left: 14px;
+  border-radius: 6px;
+  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 30% / 0.55);
+  max-width: 220px;
+}
+.wdh-page {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+.wdh-blk {
+  position: relative;
+  border-radius: 10px;
+  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 14%);
+  animation: wdh-in 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(0.5s + var(--i) * 0.17s);
+}
+.wdh-ln {
+  display: block;
+  height: 8px;
+  width: 60px;
+  border-radius: 4px;
+  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.4);
+}
+.wdh-l2 {
+  width: 70%;
+}
+.wdh-l3 {
+  width: 82%;
+}
+.wdh-pill {
+  display: block;
+  width: 64px;
+  height: 22px;
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
+}
+.wdh-pill-b {
+  width: 92px;
+  margin-top: 6px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.9);
+}
+.wdh-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+}
+.wdh-nav .wdh-pill {
+  margin-left: auto;
+}
+.wdh-logo {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.9);
+}
+.wdh-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  align-items: center;
+  gap: 18px;
+  padding: 20px;
+  background: hsl(calc(var(--th) + 352) calc(52% * var(--ts)) 21%);
+}
+.wdh-top-t {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.wdh-h {
+  display: block;
+  height: 14px;
+  width: 92%;
+  border-radius: 7px;
+  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 90% / 0.85);
+}
+.wdh-h2 {
+  width: 66%;
+}
+.wdh-img {
+  display: block;
+  height: 92px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55), hsl(calc(var(--th) + 20) calc(70% * var(--ts)) 60% / 0.35));
+}
+.wdh-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.wdh-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 17%);
+}
+.wdh-ic {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45);
+}
+.wdh-foot {
+  display: flex;
+  gap: 22px;
+  padding: 14px 16px;
+  background: hsl(calc(var(--th) + 349) calc(40% * var(--ts)) 11%);
+}
+/* the selection outline: it walks over the menu, the hero, the first card and the footer and names each one (a 12 s loop, after the page has built) */
+.wdh-blk[data-tag]::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 2px solid hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
+  border-radius: 13px;
+  opacity: 0;
+  pointer-events: none;
+  animation: wdh-sel 12s linear infinite;
+  animation-delay: var(--sd, 3s);
+}
+.wdh-blk[data-tag]::before {
+  content: attr(data-tag);
+  position: absolute;
+  left: 8px;
+  top: -30px;
+  z-index: 2;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  opacity: 0;
+  pointer-events: none;
+  animation: wdh-sel 12s linear infinite;
+  animation-delay: var(--sd, 3s);
+}
+.wdh-nav {
+  --sd: 3s;
+}
+.wdh-top {
+  --sd: 6s;
+}
+.wdh-card[data-tag] {
+  --sd: 9s;
+}
+.wdh-foot {
+  --sd: 12s;
+}
+@keyframes wdh-in {
+  from {
+    opacity: 0;
+    transform: translateY(-22px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes wdh-sel {
+  0% {
+    opacity: 0;
+  }
+  3%,
+  22% {
+    opacity: 1;
+  }
+  27%,
+  100% {
+    opacity: 0;
+  }
+}
+@media (min-width: 1024px) and (max-height: 800px) {
+  .wdh-h1 {
+    font-size: clamp(2.5rem, 7.4vh, 3.7rem);
+  }
+  .wdh-p {
+    margin-top: 16px;
+  }
+  .wdh-cta {
+    margin-top: 26px;
+  }
+  .wdh-win {
+    transform: scale(0.9);
+    transform-origin: center right;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wdh-blk {
+    animation: none;
+  }
+  .wdh-blk[data-tag]::after,
+  .wdh-blk[data-tag]::before {
+    animation: none;
+    opacity: 0;
+  }
+}
