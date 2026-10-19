@@ -134,8 +134,9 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - Browser error reporter no longer reports ChunkLoadError (old scripts after a deploy).
 - Checks: tsc, eslint, webpack build; Playwright at 390x844: sheets above the tab bar and clickable, Messages, Years, Today open/close, widgets, contact card, Wallet pass, Tips, Maps, job sheet + Apply link, Photos viewer swipe 3/30 -> 4/30, Today story buttons; no sideways scroll.
 
-## 2026-10-19 · Whole-website test + bug list (no task number, no code changed)
+## 2026-10-19 · Whole-website test + bug list, then task 96 Phase 1 fixes
 - Owner: test every page, list UI/UX/CX rule breaks and weak design, with fix, benefit, reason, next step, one master table to paste into another chat.
 - Result: `brain/18-website-test-master-table.md` (33 items B-01..B-33, page-wise status of all 41 routes + 63 detail pages, master-design tokens, service-wise hero ideas, visitor-clarity checklist, fix phases, paste prompt).
 - Biggest find: `/wordpress-plugin-development-company` returns 404 because `src/lib/shield.ts:12` treats `wordpress` (no boundary) as a hacker probe; the page is in the menu and sitemap.
 - Not tested: production build/Lighthouse, admin (login), form submit, real devices, Safari/Firefox. The owner's dev server on port 1010 stopped during the test (cause unknown); it was restarted from `.claude/launch.json`.
+- Task 96 (Phase 1 of the list, owner said go): shield regex fix (`/wordpress-plugin-development-company` was 404), one H1 + no fake anchors on /webdev (office-site.tsx, office.css `.ws-h1`), aria-labels on WordPress/WooCommerce demos, branded 404/not-found/error pages (global-not-found.tsx, not-found-view.tsx, styles/not-found.css, `experimental.globalNotFound` in next.config.ts), production warning for missing NEXT_PUBLIC_SITE_URL (root-shell.tsx). Checks: tsc, eslint, webpack build, prod server smoke test (statuses + 404 HTML), dev screenshot of the 404.

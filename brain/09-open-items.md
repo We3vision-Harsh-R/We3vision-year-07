@@ -156,7 +156,8 @@
 - Not tested on a real iPhone/Android (pull-down to close, swipes).
 
 ## Website test round 1 (2026-10-19) — see [18-website-test-master-table.md](18-website-test-master-table.md)
-- Nothing fixed yet. Start with Phase 1 (B-01 shield regex, B-09 H1/anchors, B-18 aria-labels, B-04 branded 404, B-30 env guard).
+- Phase 1 done in task 96 (B-01, B-04, B-09, B-18, B-30). Next: Phase 2 (B-02 og image, B-03 live env check, B-08 titles/descriptions, B-22 JSON-LD, B-19 image sizes) — ask the owner first.
+- `global-not-found` is an experimental Next flag: if a Next upgrade breaks the 404, remove the flag and `src/app/global-not-found.tsx`.
 - Owner to answer: shared Home-affecting changes (logo/pill/menu/focus ring/og default), Industries city label clip (locked), Archivo font exception, WeJobs "coming soon" vs live subdomain, real portfolio content.
 - Still to test: prod build Lighthouse, admin, form submit on staging, 1440×900 and 1920×1080 screenshots, other browsers, real phone.
 - Live check needed: `NEXT_PUBLIC_SITE_URL` on Hostinger (local robots/sitemap/canonical show localhost:3000).
