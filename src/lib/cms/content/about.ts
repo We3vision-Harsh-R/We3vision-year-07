@@ -17,7 +17,7 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>): PageSect
 export const ABOUT_SEO = {
   title: "About We3vision | IT Company in Surat, India Since 2019",
   description:
-    "We3vision Private Limited is a Surat-based IT company founded in 2019, building web, app, AR/VR, metaverse, AI, CGI and CRM solutions for businesses across India and the globe.",
+    "Surat-based IT company founded in 2019. We3vision builds web, app, AR/VR, metaverse, AI, CGI and CRM solutions for businesses in India and worldwide.",
 };
 
 export const ABOUT_SECTIONS: PageSection[] = [

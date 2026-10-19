@@ -18,7 +18,7 @@ const contact = (heading: string, text: string, button: string) => section("cont
 
 // ---- /products ----
 export const PRODUCTS_SEO = {
-  title: "Our Software Products | WeBugMate, WeJobs, WeThink, WePresent | We3vision",
+  title: "Software Products by We3vision | WeBugMate & More",
   description: "Software products built by We3vision, Surat, India: WeBugMate, an AI-powered project and task management tool, and the upcoming WeJobs, WeThink and WePresent.",
 };
 export const PRODUCTS_SECTIONS: PageSection[] = [

@@ -10,7 +10,7 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>, id: strin
 
 export const TEAM_SEO = {
   title: "Our Team | The People Behind We3vision | Surat, India",
-  description: "Meet the people of We3vision Private Limited: the leaders, developers, designers, artists and marketers who build websites, apps, AI, metaverse and brand work from our office in Surat.",
+  description: "Meet the leaders, developers, designers, artists and marketers of We3vision Private Limited, building web, app, AI, metaverse and brand work from Surat.",
 };
 
 export type TeamMember = { name: string; role: string; dept: string; bio: string; photo: string; linkedin: string; girl: string };

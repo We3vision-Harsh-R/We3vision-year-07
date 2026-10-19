@@ -5,6 +5,7 @@ import { Img } from "@/components/site/img";
 import { PageSections } from "@/components/site/sections";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { coverOf, getProjectBySlug } from "@/lib/projects";
+import { SHARE_IMAGE } from "@/lib/share-image";
 
 // One project of the portfolio (added in the admin panel under Projects). Served from cache; saving the project refreshes it.
 export const revalidate = 600;
@@ -15,11 +16,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const path = `/portfolio/${p.slug}`;
   const description = p.summary || `${p.title}: a project by We3vision.`;
   return {
-    title: `${p.title} | Portfolio | We3vision`,
+    title: `${p.title} | Portfolio | We3vision`.length <= 60 ? `${p.title} | Portfolio | We3vision` : `${p.title} | We3vision`,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "article", url: path, siteName: "We3vision Private Limited", title: p.title, description, images: coverOf(p) ? [coverOf(p)] : undefined },
-    twitter: { card: "summary_large_image", title: p.title, description },
+    openGraph: { type: "article", url: path, siteName: "We3vision Private Limited", title: p.title, description, images: [coverOf(p) || SHARE_IMAGE] },
+    twitter: { card: "summary_large_image", title: p.title, description, images: [coverOf(p) || SHARE_IMAGE.url] },
   };
 }
 

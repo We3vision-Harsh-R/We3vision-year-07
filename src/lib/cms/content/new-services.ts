@@ -9,8 +9,8 @@ import { build, related } from "./tech";
 // Shopify Plugin Development (/shopify-plugin-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SHOPIFYPLUGIN_SEO = {
-  title: "Shopify Plugin Development Services | Custom Add-ons & Extensions | We3vision",
-  description: "Custom Shopify plugin development: theme extensions, sections, widgets, checkout add-ons and integrations built by We3vision, a Shopify development company in Surat, India.",
+  title: "Shopify Plugin Development Services | We3vision",
+  description: "Custom Shopify plugins: theme extensions, sections, widgets, checkout add-ons and integrations by We3vision, a Shopify company in Surat, India.",
 };
 export const SHOPIFYPLUGIN_SECTIONS = build({
   seo: SHOPIFYPLUGIN_SEO,
@@ -86,8 +86,8 @@ export const SHOPIFYPLUGIN_SECTIONS = build({
 // Custom Software Development (/software-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SOFTWARE_SEO = {
-  title: "Custom Software Development Company in Surat, India | We3vision",
-  description: "Custom software development in Surat, India: business portals, dashboards, ERP and CRM systems, SaaS products, automation and API integrations built around the way your team works.",
+  title: "Custom Software Development in Surat, India | We3vision",
+  description: "Custom software in Surat, India: business portals, dashboards, ERP and CRM systems, SaaS, automation and API integrations built around your team.",
 };
 export const SOFTWARE_SECTIONS = build({
   seo: SOFTWARE_SEO,
@@ -167,8 +167,8 @@ export const SOFTWARE_SECTIONS = build({
 // Brand Development (/brand-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const BRANDDEV_SEO = {
-  title: "Brand Development Services in Surat, India | Strategy, Logo, Guidelines & Launch | We3vision",
-  description: "Complete brand development: brand strategy, naming, logo and visual identity, stationery, packaging, brand guidelines and launch for startups, software and companies. Brand development agency in Surat, India.",
+  title: "Brand Development Services in Surat, India | We3vision",
+  description: "Complete brand development: strategy, naming, logo and identity, packaging, brand guidelines and launch for startups and companies in Surat, India.",
 };
 export const BRANDDEV_SECTIONS = build({
   seo: BRANDDEV_SEO,
@@ -248,8 +248,8 @@ export const BRANDDEV_SECTIONS = build({
 // Brand Kit Design (/brand-kit-design)
 // ---------------------------------------------------------------------------------------------------------------------
 export const BRANDKIT_SEO = {
-  title: "Brand Kit Design Services | Logo, Colours, Typography & Templates | We3vision",
-  description: "Brand kit design in Surat, India: logo suite, colour palette, typography, social media and stationery templates and brand guidelines, all in one ready-to-use kit.",
+  title: "Brand Kit Design Services in Surat, India | We3vision",
+  description: "Brand kit design in Surat, India: logo suite, colour palette, typography, social media and stationery templates and guidelines in one ready-to-use kit.",
 };
 export const BRANDKIT_SECTIONS = build({
   seo: BRANDKIT_SEO,
@@ -312,7 +312,7 @@ export const BRANDKIT_SECTIONS = build({
 // Brand Video Production (/brand-video-production)
 // ---------------------------------------------------------------------------------------------------------------------
 export const BRANDVIDEO_SEO = {
-  title: "Brand Video Production in Surat, India | Shooting, Influencer Videos & Editing | We3vision",
+  title: "Brand Video Production in Surat, India | We3vision",
   description: "Brand video production from planning to editing: brand films, product videos, reels and influencer-based video shoots. Video production company in Surat, India.",
 };
 export const BRANDVIDEO_SECTIONS = build({
@@ -392,7 +392,7 @@ export const BRANDVIDEO_SECTIONS = build({
 // ---------------------------------------------------------------------------------------------------------------------
 export const ZERO_SEO = {
   title: "End-to-End Brand Development Services | We3vision",
-  description: "Build your brand from the ground up with We3vision. Explore brand strategy, naming, logo design, visual identity, packaging, digital branding, brand videos and launch support.",
+  description: "Build your brand from the ground up: strategy, naming, logo, visual identity, packaging, digital branding, brand videos and launch support.",
 };
 export const ZERO_SECTIONS = build({
   seo: ZERO_SEO,

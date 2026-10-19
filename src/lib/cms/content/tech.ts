@@ -93,8 +93,8 @@ export const build = (t: Tech): PageSection[] => [
 // Headless CMS (/headless-CMS-devlopment-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const HEADLESS_SEO = {
-  title: "Headless CMS Development Services | Strapi, Contentful, Sanity | We3vision",
-  description: "Custom headless CMS development, migration, API integration and React or Vue front ends. We3vision, Surat, India builds content platforms that serve your website, apps and more.",
+  title: "Headless CMS Development Services | We3vision",
+  description: "Custom headless CMS development, migration, API integration and React or Vue front ends from We3vision, Surat, India, for websites, apps and more.",
 };
 export const HEADLESS_SECTIONS = build({
   seo: HEADLESS_SEO,
@@ -176,7 +176,7 @@ export const HEADLESS_SECTIONS = build({
 // Custom WordPress (/custom-wordpress-devlopment-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const WORDPRESS_SEO = {
-  title: "Custom WordPress Development Services | Themes, Plugins, Migration | We3vision",
+  title: "Custom WordPress Development Services | We3vision",
   description: "Custom WordPress websites, themes, plugins, WooCommerce stores, migration and support from We3vision, Surat, India. Work per project, per hour or with a dedicated team.",
 };
 export const WORDPRESS_SECTIONS = build({
@@ -251,7 +251,7 @@ export const WORDPRESS_SECTIONS = build({
 // Shopify (/shopify-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SHOPIFY_SEO = {
-  title: "Shopify Development Services | Custom Stores, Themes & Apps | We3vision",
+  title: "Shopify Development Services | Custom Stores | We3vision",
   description: "Shopify store design, theme customisation, app integration, custom apps, migration and support from We3vision, Surat, India. Fast, tailored Shopify websites.",
 };
 export const SHOPIFY_SECTIONS = build({
@@ -315,7 +315,7 @@ export const SHOPIFY_SECTIONS = build({
 // Custom WooCommerce (/custom-woocommerce-devlopment)
 // ---------------------------------------------------------------------------------------------------------------------
 export const WOOCOMMERCE_SEO = {
-  title: "Custom WooCommerce Development Services | Online Stores | We3vision",
+  title: "Custom WooCommerce Development Services | We3vision",
   description: "WooCommerce store development, theme customisation, plugins, API integration, migration, speed and SEO optimisation, and support from We3vision, Surat, India.",
 };
 export const WOOCOMMERCE_SECTIONS = build({
@@ -379,7 +379,7 @@ export const WOOCOMMERCE_SECTIONS = build({
 // Shopify apps (/shopify-app-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SHOPIFYAPP_SEO = {
-  title: "Shopify App Development Services | Custom & Public Apps | We3vision",
+  title: "Shopify App Development Services | We3vision",
   description: "Custom Shopify apps, private and public apps for the Shopify App Store, third-party integrations, maintenance and optimisation from We3vision, Surat, India.",
 };
 export const SHOPIFYAPP_SECTIONS = build({
@@ -441,7 +441,7 @@ export const SHOPIFYAPP_SECTIONS = build({
 // WordPress plugins (/wordpress-plugin-development-company)
 // ---------------------------------------------------------------------------------------------------------------------
 export const PLUGIN_SEO = {
-  title: "WordPress Plugin Development Company | Custom Plugins | We3vision",
+  title: "WordPress Plugin Development Company | We3vision",
   description: "Custom WordPress plugin development, customisation, integration, upgrades, maintenance and add-ons from We3vision, Surat, India. Reliable plugins built to WordPress standards.",
 };
 export const PLUGIN_SECTIONS = build({

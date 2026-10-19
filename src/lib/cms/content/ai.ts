@@ -18,9 +18,9 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>, id: strin
 });
 
 export const AI_SEO = {
-  title: "AI Development Company in India | Custom AI Solutions | We3vision",
+  title: "AI Development Company in India | We3vision",
   description:
-    "Custom AI development: chatbots, recommendation systems, computer vision, predictive analytics and machine learning. We3vision builds AI that automates real business problems and connects to your website, CRM or ERP.",
+    "Custom AI development: chatbots, computer vision, predictive analytics and machine learning that automate real business work and plug into your CRM or ERP.",
 };
 
 export const AI_SECTIONS: PageSection[] = [

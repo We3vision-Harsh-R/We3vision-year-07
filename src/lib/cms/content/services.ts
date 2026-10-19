@@ -81,9 +81,9 @@ const build = (s: Svc): PageSection[] => [
 // Web Development (/webdev)
 // ---------------------------------------------------------------------------------------------------------------------
 export const WEBDEV_SEO = {
-  title: "Web Development Company in Surat, India | Custom Websites | We3vision",
+  title: "Web Development Company in Surat, India | We3vision",
   description:
-    "Modern, responsive and SEO-friendly websites: WordPress, WooCommerce, Shopify, headless CMS and custom e-commerce. We3vision builds fast, secure websites that are easy to manage, from landing pages to complex web portals.",
+    "Fast, secure, SEO-friendly websites: WordPress, WooCommerce, Shopify, headless CMS and custom portals, built by We3vision and easy for you to manage.",
 };
 export const WEBDEV_SECTIONS = build({
   seo: WEBDEV_SEO,
@@ -167,9 +167,9 @@ export const WEBDEV_SECTIONS = build({
 // Mobile App Development (/mobile)
 // ---------------------------------------------------------------------------------------------------------------------
 export const MOBILE_SEO = {
-  title: "Mobile App Development Company in Surat, India | Android & iOS | We3vision",
+  title: "Mobile App Development Company in Surat | We3vision",
   description:
-    "Custom Android, iOS and cross-platform mobile apps built with Flutter, React Native, Kotlin and Swift. We3vision takes your app from idea to Google Play and App Store launch, and keeps it updated.",
+    "Custom Android, iOS and cross-platform apps in Flutter, React Native, Kotlin and Swift, from idea to Play Store and App Store launch and beyond.",
 };
 export const MOBILE_SECTIONS = build({
   seo: MOBILE_SEO,
@@ -252,9 +252,9 @@ export const MOBILE_SECTIONS = build({
 // Metaverse Solutions (/metaverse)
 // ---------------------------------------------------------------------------------------------------------------------
 export const METAVERSE_SEO = {
-  title: "Metaverse Development Company in India | Virtual Worlds & Experiences | We3vision",
+  title: "Metaverse Development Company in India | We3vision",
   description:
-    "Metaverse solutions, virtual world development, metaverse applications and virtual events built with Unity, Unreal Engine, WebGL and WebXR. We3vision creates immersive digital experiences around your business goals.",
+    "Metaverse solutions, virtual worlds, apps and events built with Unity, Unreal Engine, WebGL and WebXR around your business goals.",
 };
 // the earlier Metaverse page (all sections), kept for when the page is built up again
 export const METAVERSE_FULL_SECTIONS = build({
@@ -393,9 +393,9 @@ export const METAVERSE_SECTIONS: PageSection[] = [
 // UI/UX Design (/ui-ux-design)
 // ---------------------------------------------------------------------------------------------------------------------
 export const UIUX_SEO = {
-  title: "UI/UX Design Services in Surat, India | Web & Mobile App Design | We3vision",
+  title: "UI/UX Design Services in Surat, India | We3vision",
   description:
-    "UI/UX design for websites and apps: UX research, wireframes, prototypes, UI design, design systems, usability testing and redesign. We3vision designs interfaces that look great and convert.",
+    "UX research, wireframes, prototypes, UI design, design systems and usability testing for websites and apps that look great and convert.",
 };
 export const UIUX_SECTIONS = build({
   seo: UIUX_SEO,
@@ -486,9 +486,9 @@ export const UIUX_SECTIONS = build({
 // CRM Development (/crm)
 // ---------------------------------------------------------------------------------------------------------------------
 export const CRM_SEO = {
-  title: "Custom CRM Development Company in India | CRM Software | We3vision",
+  title: "Custom CRM Development Company in India | We3vision",
   description:
-    "Custom CRM development: sales, marketing and support CRMs with automation, dashboards and integrations (ERP, HubSpot, Salesforce, WhatsApp Business API). We3vision builds CRMs that grow with your business.",
+    "Custom CRM development: sales, marketing and support CRMs with automation, dashboards and ERP, HubSpot, Salesforce or WhatsApp integrations.",
 };
 export const CRM_SECTIONS = build({
   seo: CRM_SEO,
@@ -570,9 +570,9 @@ export const CRM_SECTIONS = build({
 // 2D & 3D Animation (/animation)
 // ---------------------------------------------------------------------------------------------------------------------
 export const ANIMATION_SEO = {
-  title: "2D & 3D Animation Services in India | CGI & Product Visualization | We3vision",
+  title: "2D & 3D Animation Services in India | We3vision",
   description:
-    "2D animation, 3D animation, CGI and 3D product visualization for explainers, promotions and brand storytelling. We3vision turns concepts into engaging visual content tailored to your project.",
+    "2D and 3D animation, CGI and product visualization for explainers, promotions and brand storytelling, tailored to your project.",
 };
 export const ANIMATION_SECTIONS = build({
   seo: ANIMATION_SEO,
@@ -653,9 +653,9 @@ export const ANIMATION_SECTIONS = build({
 // 3D Modeling (/3d-modeling)
 // ---------------------------------------------------------------------------------------------------------------------
 export const MODELING_SEO = {
-  title: "3D Modeling Services in India | 3D Product Visualization | We3vision",
+  title: "3D Modeling Services in India | We3vision",
   description:
-    "Custom 3D modeling, 3D product visualization and digital environments for brands and immersive experiences. We3vision creates detailed 3D assets with PBR materials, lighting and optimization.",
+    "Custom 3D modeling and product visualization for brands and immersive experiences: detailed assets with PBR materials, lighting and optimization.",
 };
 export const MODELING_SECTIONS = build({
   seo: MODELING_SEO,
@@ -738,9 +738,9 @@ export const MODELING_SECTIONS = build({
 // Graphics & UI/UX Design (/graphics)
 // ---------------------------------------------------------------------------------------------------------------------
 export const GRAPHICS_SEO = {
-  title: "Graphic Design Company in Surat, India | Logo, Branding & Print Design | We3vision",
+  title: "Graphic Design Company in Surat, India | We3vision",
   description:
-    "Graphic design services in Surat, India: logo design, brand identity, social media graphics, packaging, brochure and print design, illustration and UI design, made in Adobe Illustrator, Photoshop and InDesign.",
+    "Logo design, brand identity, social media graphics, packaging, print and illustration made in Illustrator, Photoshop and InDesign, in Surat, India.",
 };
 export const GRAPHICS_SECTIONS = build({
   seo: GRAPHICS_SEO,

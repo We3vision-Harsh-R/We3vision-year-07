@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JobPage } from "@/components/site/career/job-page";
 import { getCareerSetup, getOpenJob, getOpenJobs } from "@/lib/careers";
+import { SHARE_IMAGE } from "@/lib/share-image";
 
 // The page of one job. The jobs are written in the admin panel (Careers > Jobs). Served from cache; saving a job refreshes it.
 export const revalidate = 600;
@@ -24,8 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${job.title}: Job in ${job.location} | We3vision`,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "website", url: path, siteName: "We3vision Private Limited", title: `${job.title} at We3vision`, description },
-    twitter: { card: "summary", title: `${job.title} at We3vision`, description },
+    openGraph: { type: "website", url: path, siteName: "We3vision Private Limited", title: `${job.title} at We3vision`, description, images: [SHARE_IMAGE] },
+    twitter: { card: "summary_large_image", title: `${job.title} at We3vision`, description, images: [SHARE_IMAGE.url] },
   };
 }
 

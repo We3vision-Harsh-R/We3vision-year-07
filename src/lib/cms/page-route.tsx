@@ -4,6 +4,7 @@ import { TechPage, isTechPage } from "@/components/site/tech";
 import { PageJsonLd } from "@/components/site/page-jsonld";
 import { PAGES, type PageSlug } from "./pages";
 import { getPublishedPage, getSiteSettings } from "./queries";
+import { SHARE_IMAGE } from "@/lib/share-image";
 
 // Shared by the route files of the editable pages, so each route file only says which page it shows.
 
@@ -14,8 +15,8 @@ export async function pageMetadata(slug: PageSlug): Promise<Metadata> {
     title: page.title,
     description: page.description,
     alternates: { canonical: path },
-    openGraph: { type: "website", url: path, siteName: site.legalName || site.name, title: page.title, description: page.description },
-    twitter: { card: "summary_large_image", title: page.title, description: page.description },
+    openGraph: { type: "website", url: path, siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
+    twitter: { card: "summary_large_image", title: page.title, description: page.description, images: [SHARE_IMAGE.url] },
   };
 }
 

@@ -35,7 +35,7 @@ export const SHOWCASE = Array.from({ length: 30 }, (_, i) => ({
 export const BRAND_SEO = {
   title: "Brand Identity Design Services in Surat, India | We3vision",
   description:
-    "Brand strategy, logo design, visual identity, brand guidelines and marketing collateral. We3vision helps businesses build a clear, consistent brand identity that people remember.",
+    "Brand strategy, logo design, visual identity, guidelines and collateral. We3vision builds a clear, consistent brand identity that people remember.",
 };
 
 export const BRAND_SECTIONS: PageSection[] = [

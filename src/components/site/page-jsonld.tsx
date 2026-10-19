@@ -25,7 +25,7 @@ export function PageJsonLd({ slug, title, description }: { slug: PageSlug; title
       "@type": "BreadcrumbList",
       itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: c.url })),
     },
-    { "@type": "WebPage", "@id": `${url}#webpage`, url, name: title, description, isPartOf: { "@type": "WebSite", url: base || undefined, name: "We3vision" } },
+    { "@type": slug === "about" ? "AboutPage" : "WebPage", "@id": `${url}#webpage`, url, name: title, description, isPartOf: { "@type": "WebSite", url: base || undefined, name: "We3vision" } },
   ];
   if (group) {
     graph.push({
