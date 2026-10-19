@@ -111,3 +111,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 105 | Mobile page: new first screen (one code, two phones) | done |
 | 106 | CRM page: new first screen (one customer, every channel) | done |
 | 107 | UI/UX page: new first screen (wireframe to finished UI) | done |
+| 108 | Animation page: new first screen (bouncing ball) | done |
