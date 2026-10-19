@@ -1,5 +1,7 @@
 # 00 — Start here (1-page briefing)
 
+> **Continuing design work or a new chat? Read [19-design-decisions-and-handoff.md](19-design-decisions-and-handoff.md) and [18-website-test-master-table.md](18-website-test-master-table.md) right after this page** (decisions made 2026-10-19, what is done, what is open, paste prompt).
+
 ## What this project is
 The production website **and** admin CMS of **We3vision Private Limited** (Surat, India — web, app, AI, metaverse, UI/UX, CRM, SEO,
 animation and brand-design agency). One Next.js 16 app: public site + `/admin` panel + server actions. Dark violet theme, Poppins font,

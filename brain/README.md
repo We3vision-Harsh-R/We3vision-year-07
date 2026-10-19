@@ -1,6 +1,6 @@
 # We3vision Brain — read this folder before you touch the project
 
-> Last updated: 2026-10-13, after task 74. Written so that **any** AI tool (Claude Code, Cursor, Codex, Copilot, Gemini, ChatGPT…) or a new
+> Last updated: 2026-10-19, after task 109 (see 18 and 19 for the test round and the design decisions). Written so that **any** AI tool (Claude Code, Cursor, Codex, Copilot, Gemini, ChatGPT…) or a new
 > developer can continue the project without asking the owner what was done before.
 
 This folder is the project's memory. Everything a new AI session would otherwise have to guess is written here: what the project is, the
@@ -28,6 +28,8 @@ what is still open.
 | 13 | [13-mobile-app-plan.md](13-mobile-app-plan.md) | **mobile app sprint** | Plan: every page as an iOS-style app screen |
 | 14 | [14-mobile-skills-map.md](14-mobile-skills-map.md) | before mobile work | Mobile skills map |
 | 15 | [15-optimization-handbook.md](15-optimization-handbook.md) | **any speed work, any new page** | Method, what was used, checklist for new pages, ledger of what was optimized on which page, phase approval status |
+| 18 | [18-website-test-master-table.md](18-website-test-master-table.md) | **bug list / test report** | 33 findings (B-01..B-33) with status, page-wise table, fix phases |
+| 19 | [19-design-decisions-and-handoff.md](19-design-decisions-and-handoff.md) | **continuing design work / new chat** | Design decisions (font, 14px, focus, SEO, heroes), the unique-hero pattern, what is done / open, paste prompt |
 | 10 | [10-starter-prompt.md](10-starter-prompt.md) | when you open a new AI tool | Copy-paste prompt that makes any AI use this folder |
 
 Related files outside this folder: `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `.github/copilot-instructions.md` / `.cursor/rules/` (they

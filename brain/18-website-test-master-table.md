@@ -1,5 +1,6 @@
 # 18 — Website test report + MASTER TABLE (2026-10-19)
 
+> **Design decisions + what to do next: see [19-design-decisions-and-handoff.md](19-design-decisions-and-handoff.md).**
 > Aa file copy-paste kari ne biji chat ma api shakay: aa ek j file ma badhu che (bug list, page-wise status, design plan, visitor clarity, fix order, prompt).
 > Rule: kai fix karvu hoy to pehla `brain/00-START-HERE.md` + `brain/02-rules-and-preferences.md` vanchvu. Home `/` LOCKED che; locked sections ma pehla owner ne puchvu.
 
