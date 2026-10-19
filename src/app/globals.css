@@ -11250,3 +11250,166 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
     display: none;
   }
 }
+
+/* Animation first screen (prefix anm-, modern/animation-hero.tsx; the words use the .wdh-* layout): the classic bouncing-ball test. The ball bounces across the
+   stage (x = across, y = bounce, b = squash and stretch), its shadow grows and fades with the height, three dashed ghost frames trail behind it. Theme
+   colours only. Pure CSS. With "reduce motion" the ball rests on the floor. */
+.anm {
+  position: relative;
+  width: 540px;
+  padding-top: 38px;
+  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 0.5s;
+}
+.anm-tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 1px 12px;
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+}
+.anm-panel {
+  position: relative;
+  height: 372px;
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
+  border-radius: 16px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0, transparent 53px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06) 53px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06) 54px),
+    repeating-linear-gradient(0deg, transparent 0, transparent 53px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06) 53px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06) 54px),
+    hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7% / 0.88);
+  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.45);
+}
+.anm-floor {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 62px;
+  height: 2px;
+  border-radius: 1px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
+}
+.anm-x {
+  position: absolute;
+  left: 0;
+  bottom: 64px;
+  width: 56px;
+  height: 56px;
+  transform: translateX(240px);
+  animation: anm-across 3.9s linear infinite alternate;
+  animation-delay: calc(var(--d) * 0.1s);
+}
+.anm-y {
+  position: absolute;
+  inset: 0;
+  animation: anm-bounce 1.3s infinite;
+  animation-delay: calc(var(--d) * 0.1s);
+}
+.anm-b {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 92%) 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%) 28%, hsl(calc(var(--th) + 14) calc(80% * var(--ts)) 62%) 100%);
+  transform-origin: 50% 100%;
+  animation: anm-squash 1.3s linear infinite;
+  animation-delay: calc(var(--d) * 0.1s);
+}
+.anm-ghost {
+  opacity: calc(0.5 - var(--d) * 0.14);
+}
+.anm-ghost .anm-b {
+  border: 1.5px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
+  background: none;
+}
+.anm-sx {
+  bottom: 54px;
+  height: 14px;
+}
+.anm-sh {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 14px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 3% / 0.85);
+  transform-origin: 50% 50%;
+  animation: anm-shadow 1.3s linear infinite;
+}
+@keyframes anm-across {
+  from {
+    transform: translateX(34px);
+  }
+  to {
+    transform: translateX(450px);
+  }
+}
+@keyframes anm-bounce {
+  0% {
+    transform: translateY(-236px);
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1);
+  }
+  100% {
+    transform: translateY(-236px);
+  }
+}
+@keyframes anm-squash {
+  0%,
+  100% {
+    transform: scale(0.96, 1.05);
+  }
+  38%,
+  62% {
+    transform: scale(0.9, 1.16);
+  }
+  48%,
+  52% {
+    transform: scale(1.42, 0.6);
+  }
+}
+@keyframes anm-shadow {
+  0%,
+  100% {
+    transform: scaleX(0.45);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scaleX(1.25);
+    opacity: 1;
+  }
+}
+@media (min-width: 1024px) and (max-height: 800px) {
+  .anm {
+    transform: scale(0.9);
+    transform-origin: center right;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anm {
+    animation: none;
+  }
+  .anm-x,
+  .anm-y,
+  .anm-b,
+  .anm-sh {
+    animation: none;
+  }
+  .anm-x {
+    transform: translateX(240px);
+  }
+  .anm-ghost {
+    display: none;
+  }
+  .anm-sh {
+    transform: scaleX(1.2);
+  }
+}

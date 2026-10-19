@@ -3,6 +3,7 @@ import { HeroBadges } from "../hero-badges";
 import { AiHeroBg } from "../modern/ai-hero-bg";
 import CursorGrid from "../modern/cursor-grid";
 import { HeroGradient } from "../modern/hero-gradient";
+import { AnimationHero } from "../modern/animation-hero";
 import { CrmHero } from "../modern/crm-hero";
 import { MobileHero } from "../modern/mobile-hero";
 import { UiuxHero } from "../modern/uiux-hero";
@@ -30,6 +31,8 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
   if (page === "crm") return <CrmHero data={data} site={site} />;
   // the UI/UX page: a wireframe that a light line paints into the finished screen
   if (page === "ui-ux-design") return <UiuxHero data={data} site={site} />;
+  // the Animation page: the classic bouncing-ball test
+  if (page === "animation") return <AnimationHero data={data} site={site} />;
   return (
   <section id="top" className="phz-hero relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
     {/* the service pages: soft light in the colours of the theme behind the words, a different pattern on every page */}
