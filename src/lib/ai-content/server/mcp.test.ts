@@ -11,7 +11,7 @@ vi.mock("@/lib/db", () => ({
 const alerts = vi.hoisted(() => ({ later: [] as { title: string; notify?: boolean }[] }));
 vi.mock("@/lib/alerts", () => ({ alertFailure: vi.fn(), alertLater: (a: { title: string; notify?: boolean }) => alerts.later.push(a) }));
 
-import { POST } from "@/app/api/mcp/route";
+import { GET, OPTIONS, POST } from "@/app/api/mcp/route";
 import { hashToken } from "./tokens";
 
 const TOKEN = "w3v_pat_" + "a".repeat(43);
@@ -61,6 +61,29 @@ describe("authentication", () => {
   it("rejects a connection whose admin is not a company account", async () => {
     fake.current!.tables.adminUser[0].email = "someone@gmail.com";
     expect((await rpc("tools/list", {})).status).toBe(403);
+  });
+});
+
+describe("protocol handshake (what a client does first)", () => {
+  it("answers initialize with the tools capability and the workflow instructions", async () => {
+    const res = await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "test", version: "1" } });
+    expect(res.status).toBe(200);
+    const out = (await res.json()).result;
+    expect(out.capabilities).toHaveProperty("tools");
+    expect(out.serverInfo.name).toBe("we3vision-content");
+    expect(out.instructions).toContain("nothing goes live");
+  });
+
+  it("accepts the initialized notification", async () => {
+    const res = await POST(new Request(URL_, { method: "POST", headers: { "content-type": "application/json", accept: "application/json, text/event-stream", authorization: `Bearer ${TOKEN}`, "x-forwarded-for": "10.8.8.8" }, body: JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized" }) }));
+    expect(res.status).toBe(202);
+  });
+
+  it("answers the browser preflight and refuses GET (stateless server)", async () => {
+    const pre = OPTIONS();
+    expect(pre.status).toBe(204);
+    expect(pre.headers.get("access-control-allow-headers")).toContain("Authorization");
+    expect((await GET()).status).toBe(405);
   });
 });
 
