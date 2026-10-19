@@ -101,3 +101,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 95 | Mobile foundation: device detect + separate /m route group, launcher moved out of the desktop layout | in progress |
 | 96 | Test round 1 Phase 1: shield regex, webdev H1, aria-labels, branded 404, env guard | done |
 | 97 | Test round 1 Phase 2: og image, short titles/descriptions, About/Sitemap JSON-LD, image sizes | done |
+| 98 | Home metadata: share image (metadata only) | done |
