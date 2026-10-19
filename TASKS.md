@@ -108,3 +108,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 102 | Phase 4 part 2 (Home + locked unlocked by owner): detail page overlap, Archivo to Poppins, small labels 14px everywhere | done |
 | 103 | Portfolio: projects that are still placeholders are not shown on the public site | done |
 | 104 | WebDev page: new first screen (page builds itself) | done |
+| 105 | Mobile page: new first screen (one code, two phones) | done |
