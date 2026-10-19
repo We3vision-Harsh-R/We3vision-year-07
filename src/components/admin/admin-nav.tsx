@@ -10,6 +10,7 @@ const items = [
   { href: "/admin/blog", label: "Blog" },
   { href: "/admin/team", label: "Team" },
   { href: "/admin/careers", label: "Careers" },
+  { href: "/admin/ai-submissions", label: "AI Submissions" },
   { href: "/admin/ai-integrations", label: "AI Integrations" },
   { href: "/admin/settings", label: "Site settings" },
   { href: "/admin/access", label: "Admin access" },
@@ -17,7 +18,7 @@ const items = [
   { href: "/admin/alerts", label: "Alerts" },
 ];
 
-export function AdminNav({ unreadLeads, unreadAlerts = 0, newApplications = 0 }: { unreadLeads: number; unreadAlerts?: number; newApplications?: number }) {
+export function AdminNav({ unreadLeads, unreadAlerts = 0, newApplications = 0, pendingSubmissions = 0 }: { unreadLeads: number; unreadAlerts?: number; newApplications?: number; pendingSubmissions?: number }) {
   const pathname = usePathname();
   return (
     <nav aria-label="Admin" className="flex gap-1 overflow-x-auto lg:flex-col">
@@ -35,6 +36,7 @@ export function AdminNav({ unreadLeads, unreadAlerts = 0, newApplications = 0 }:
             {item.label}
             {item.label === "Leads" && unreadLeads > 0 && <span className="rounded-full bg-brand px-2 py-0.5 text-xs text-white">{unreadLeads}</span>}
             {item.label === "Careers" && newApplications > 0 && <span className="rounded-full bg-sky-600 px-2 py-0.5 text-xs text-white">{newApplications}</span>}
+            {item.label === "AI Submissions" && pendingSubmissions > 0 && <span className="rounded-full bg-amber-500 px-2 py-0.5 text-xs text-white">{pendingSubmissions}</span>}
             {item.label === "Alerts" && unreadAlerts > 0 && <span className="rounded-full bg-rose-600 px-2 py-0.5 text-xs text-white">{unreadAlerts}</span>}
           </Link>
         );

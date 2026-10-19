@@ -53,6 +53,27 @@ export const careerType: ContentTypeDef = {
     openings: 1,
   },
   livePath: (slug) => `/careers/${slug}`,
+  listPath: "/careers",
+  toFormValues: (d) => ({ id: "", slug: "", ...careerType.toAdminInput(d, true) }),
+  fromFormValues: (v) => {
+    const lines = (x: unknown) => str(x).split("\n");
+    return {
+      title: v.title,
+      team: v.team,
+      summary: v.summary,
+      description: v.description,
+      responsibilities: lines(v.responsibilities),
+      requirements: lines(v.requirements),
+      perks: lines(v.perks),
+      location: v.location,
+      workType: v.workType,
+      workMode: v.workMode,
+      experience: v.experience,
+      openings: Number(v.openings) || 1,
+      salary: v.salary,
+      closesAt: v.closesAt,
+    };
+  },
   slugOf: (d) => slugify(str(d.title), 70) || "position",
   toAdminInput: (d, publish): Record<string, unknown> => ({
     title: d.title,

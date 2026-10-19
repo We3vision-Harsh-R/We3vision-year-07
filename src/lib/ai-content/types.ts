@@ -47,8 +47,14 @@ export type ContentTypeDef = {
   example: DraftData;
   /** where the item lives when it is live (needs the slug the admin action returned) */
   livePath: (slug: string) => string;
+  /** the list page the item appears on (told to the search engines together with the item) */
+  listPath: string;
   /** the draft -> the input of the admin panel's own save action. `publish` false = save hidden (a normal draft). */
   toAdminInput: (data: DraftData, publish: boolean) => Record<string, unknown>;
+  /** the draft -> the values of the normal admin form (the "Edit" screen of a submission fills that form with them) */
+  toFormValues: (data: DraftData) => Record<string, unknown>;
+  /** the values of the normal admin form -> a draft (not yet validated: validateDraft checks it) */
+  fromFormValues: (values: Record<string, unknown>) => DraftData;
   /** the address (slug) the item will get, worked out the same way as the admin action (before the uniqueness check) */
   slugOf: (data: DraftData) => string;
   /** a readable preview of the draft in Markdown */

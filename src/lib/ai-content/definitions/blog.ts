@@ -1,4 +1,4 @@
-import { TILES, DEFAULT_TILE } from "@/lib/blog-shared";
+import { TILES, DEFAULT_TILE, parseFaq, parseTags } from "@/lib/blog-shared";
 import { slugify } from "../sanitize";
 import type { ContentTypeDef, DraftData } from "../types";
 
@@ -53,6 +53,23 @@ export const blogType: ContentTypeDef = {
     faq: [{ question: "Can AI replace a support team?", answer: "No. It handles repeat questions well, while people handle special cases and sensitive conversations." }],
   },
   livePath: (slug) => `/blog/${slug}`,
+  listPath: "/blog",
+  toFormValues: (d) => {
+    const { published: _published, ...form } = blogType.toAdminInput(d, true);
+    void _published;
+    return form;
+  },
+  fromFormValues: (v) => ({
+    title: v.title,
+    category: v.category,
+    summary: v.summary,
+    cover: v.cover,
+    tile: v.tile,
+    content: v.content,
+    tags: parseTags(str(v.tags)),
+    faq: parseFaq(str(v.faq)),
+    date: v.date,
+  }),
   slugOf: (d) => slugify(str(d.title), 80) || "article",
   toAdminInput: (d, publish): Record<string, unknown> => ({
     title: d.title,

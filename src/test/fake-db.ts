@@ -48,7 +48,9 @@ export function createFakeDb() {
     update: async ({ where, data }: { where: Row; data: Row }) => {
       const row = tables[name].find((r) => matches(r, where));
       if (!row) throw new Error("not found");
-      Object.assign(row, data);
+      const { events, ...rest } = data as Row & { events?: { create: Row } };
+      Object.assign(row, rest);
+      if (events) tables.submissionEvent.push({ id: id(), submissionId: row.id, at: new Date(), note: "", ...events.create });
       return row;
     },
     updateMany: async ({ where, data }: { where?: Row; data: Row }) => {
@@ -69,5 +71,15 @@ export function createFakeDb() {
     },
   });
 
-  return { tables, db: Object.fromEntries(names.map((t) => [t, model(t)])) as Record<(typeof names)[number], ReturnType<typeof model>> };
+  const models = Object.fromEntries(names.map((t) => [t, model(t)])) as Record<(typeof names)[number], ReturnType<typeof model>>;
+  // the few extras the blog and job actions use
+  const db = {
+    ...models,
+    blogPost: {
+      ...models.blogPost,
+      aggregate: async () => ({ _max: { sortOrder: tables.blogPost.reduce<number | null>((m, r) => Math.max(m ?? 0, Number(r.sortOrder ?? 0)), null) } }),
+    },
+    $transaction: async (ops: Promise<unknown>[]) => Promise.all(ops),
+  };
+  return { tables, db };
 }

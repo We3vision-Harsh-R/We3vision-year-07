@@ -8,13 +8,15 @@ import type { McpContext } from "./tokens";
 // admin panel. A submission is only ever CREATED here as pending_review; going live is done by an admin (publish.ts).
 
 export const STATUSES = ["pending_review", "approved", "rejected", "draft"] as const;
-export type SubmissionStatus = (typeof STATUSES)[number];
+/** "publishing" is held for a moment while an admin approves it (so a double click cannot publish twice). */
+export type SubmissionStatus = (typeof STATUSES)[number] | "publishing";
 
 export const STATUS_LABEL: Record<SubmissionStatus, string> = {
   pending_review: "Pending approval",
   approved: "Approved and live",
   rejected: "Rejected",
   draft: "Saved as a hidden draft",
+  publishing: "Publishing…",
 };
 
 const actorOf = (ctx: McpContext) => `connection: ${ctx.connectionName} (${ctx.adminEmail})`;
@@ -67,4 +69,13 @@ export function listOwnSubmissions(adminId: string, status: SubmissionStatus | u
 
 export function getOwnSubmission(adminId: string, id: string) {
   return db.contentSubmission.findFirst({ where: { id, connection: { adminId } }, select: publicFields });
+}
+
+/** How many are waiting (the badge in the admin menu). 0 when the tables are not there yet, so the admin panel never breaks. */
+export async function countPending(): Promise<number> {
+  try {
+    return await db.contentSubmission.count({ where: { status: "pending_review" } });
+  } catch {
+    return 0;
+  }
 }
