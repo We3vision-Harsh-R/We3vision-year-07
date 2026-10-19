@@ -1,13 +1,13 @@
 import type { CSSProperties } from "react";
 import { HeroBadges } from "../hero-badges";
-import type { SectionComponent } from "../sections/shared";
+import type { SectionProps } from "../sections/shared";
 import { ButtonLink, Chip } from "../ui";
 import { HeroGradient } from "./hero-gradient";
 
 // First screen of the Web Development page: the words on the left, and on the right a browser window in which a website builds itself block by block
 // (menu bar, hero, three cards, footer), then a selection outline walks over the blocks and names them. Pure CSS (no script), drawn in the theme
 // colours (see .wdh-* at the end of globals.css). With "reduce motion" the finished page just stands there.
-type Props = Parameters<SectionComponent<"pageHero">>[0];
+type Props = SectionProps<"pageHero">;
 
 const rise = (ms: number) => ({ animationDelay: `${ms}ms` });
 const at = (i: number) => ({ "--i": i }) as CSSProperties;
