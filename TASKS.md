@@ -106,3 +106,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 100 | Phase 3 shared: focus ring + skip link, cursor on inputs, contact form labels | done |
 | 101 | Phase 4 safe part: transition all, small labels, theme colours (non-Home) | done |
 | 102 | Phase 4 part 2 (Home + locked unlocked by owner): detail page overlap, Archivo to Poppins, small labels 14px everywhere | done |
+| 103 | Portfolio: projects that are still placeholders are not shown on the public site | done |
