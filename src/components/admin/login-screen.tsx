@@ -25,7 +25,7 @@ const Arrow = ({ dir }: { dir: "left" | "right" }) => (
   </svg>
 );
 
-export function LoginScreen({ image }: { image: string }) {
+export function LoginScreen({ image, next = "" }: { image: string; next?: string }) {
   const [state, action, pending] = useActionState<LoginState, FormData>(login, {});
   const [show, setShow] = useState(false);
   const [help, setHelp] = useState(false);
@@ -45,6 +45,7 @@ export function LoginScreen({ image }: { image: string }) {
           <p className="al-sub">Sign in to manage the website.</p>
 
           <form action={action}>
+            {next && <input type="hidden" name="next" value={next} />}
             <label className="al-field">
               <span>Email</span>
               <input name="email" type="email" required autoComplete="username" autoFocus placeholder={`name@${ADMIN_DOMAIN}`} />

@@ -9,6 +9,7 @@ import { createSession, destroySession, sessionVersion } from "@/lib/auth";
 import { db, hasDb } from "@/lib/db";
 import { isLimited, rateLimit, resetLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
+import { safeAdminNext } from "@/lib/safe-next";
 import { REMEMBER_MAX_AGE, SESSION_MAX_AGE } from "@/lib/session-token";
 
 export type LoginState = { error?: string };
@@ -52,7 +53,7 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
     alertFailure("Admin login", error);
     return { error: "Something went wrong. Please try again." };
   }
-  redirect("/admin");
+  redirect(safeAdminNext(formData.get("next")));
 }
 
 export async function logout() {

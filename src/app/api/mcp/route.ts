@@ -1,3 +1,4 @@
+import { CORS, ipOf, preflight, reply, siteOrigin } from "@/lib/ai-content/server/http";
 import { handleMcpRequest } from "@/lib/ai-content/server/mcp";
 import { authenticate } from "@/lib/ai-content/server/tokens";
 import { isLimited, rateLimit } from "@/lib/rate-limit";
@@ -7,32 +8,7 @@ import { isLimited, rateLimit } from "@/lib/rate-limit";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-// Not cookies: the browser is never asked to prove anything here, so any origin may call (the token is the proof). No credentials are allowed.
-const CORS: Record<string, string> = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, GET, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Authorization, Content-Type, Accept, Mcp-Session-Id, Mcp-Protocol-Version, Last-Event-ID",
-  "Access-Control-Expose-Headers": "WWW-Authenticate, Mcp-Session-Id",
-  "Access-Control-Max-Age": "86400",
-};
-
-const ipOf = (request: Request) => request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
-
-function siteOrigin(request: Request) {
-  const configured = (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/+$/, "");
-  if (/^https?:\/\//.test(configured)) return configured;
-  const h = request.headers;
-  const host = h.get("x-forwarded-host") ?? h.get("host");
-  return host ? `${h.get("x-forwarded-proto") ?? "http"}://${host}` : new URL(request.url).origin;
-}
-
-function reply(body: unknown, status: number, extra: Record<string, string> = {}) {
-  return Response.json(body, { status, headers: { ...CORS, "Cache-Control": "no-store", ...extra } });
-}
-
-export function OPTIONS() {
-  return new Response(null, { status: 204, headers: CORS });
-}
+export const OPTIONS = preflight;
 
 export async function POST(request: Request) {
   const origin = siteOrigin(request);

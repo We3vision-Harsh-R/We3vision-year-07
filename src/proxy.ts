@@ -28,7 +28,12 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     } catch {
       // SESSION_SECRET not configured: nobody can be logged in.
     }
-    if (!userId) return NextResponse.redirect(new URL("/admin/login", request.url));
+    if (!userId) {
+      // the page the admin wanted comes back after the login (the OAuth consent screen of Admin > AI Integrations needs it)
+      const login = new URL("/admin/login", request.url);
+      if (pathname !== "/admin") login.searchParams.set("next", pathname + request.nextUrl.search);
+      return NextResponse.redirect(login);
+    }
     return NextResponse.next();
   }
 

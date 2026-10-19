@@ -10,6 +10,7 @@ const items = [
   { href: "/admin/blog", label: "Blog" },
   { href: "/admin/team", label: "Team" },
   { href: "/admin/careers", label: "Careers" },
+  { href: "/admin/ai-integrations", label: "AI Integrations" },
   { href: "/admin/settings", label: "Site settings" },
   { href: "/admin/access", label: "Admin access" },
   { href: "/admin/leads", label: "Leads" },
