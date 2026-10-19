@@ -5,6 +5,7 @@ import CursorGrid from "../modern/cursor-grid";
 import { HeroGradient } from "../modern/hero-gradient";
 import { CrmHero } from "../modern/crm-hero";
 import { MobileHero } from "../modern/mobile-hero";
+import { UiuxHero } from "../modern/uiux-hero";
 import { WebdevHero } from "../modern/webdev-hero";
 import { Chip, ButtonLink } from "../ui";
 import type { SectionComponent } from "./shared";
@@ -27,6 +28,8 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
   if (page === "mobile") return <MobileHero data={data} site={site} />;
   // the CRM page: one customer card with the tools of the company round it
   if (page === "crm") return <CrmHero data={data} site={site} />;
+  // the UI/UX page: a wireframe that a light line paints into the finished screen
+  if (page === "ui-ux-design") return <UiuxHero data={data} site={site} />;
   return (
   <section id="top" className="phz-hero relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
     {/* the service pages: soft light in the colours of the theme behind the words, a different pattern on every page */}

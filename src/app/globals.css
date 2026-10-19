@@ -10994,3 +10994,259 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
     animation: none;
   }
 }
+
+/* UI/UX first screen (prefix uxh-, modern/uiux-hero.tsx; the words use the .wdh-* layout): the same screen drawn twice, a grey wireframe underneath and the
+   finished design on top. A light line sweeps across, paints the wireframe into the finished screen, holds, and sweeps back (a 10 s loop). Theme colours
+   only. Pure CSS. With "reduce motion" the finished screen stands still. */
+.uxh {
+  position: relative;
+  width: 540px;
+  padding-top: 38px;
+  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 0.5s;
+}
+.uxh-tag {
+  position: absolute;
+  top: 0;
+  padding: 1px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+}
+.uxh-tag1 {
+  left: 0;
+  border: 1px dashed hsl(calc(var(--th) + 352) calc(30% * var(--ts)) 70% / 0.6);
+  color: hsl(calc(var(--th) + 353.78) calc(30% * var(--ts)) 82%);
+}
+.uxh-tag2 {
+  right: 0;
+  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+}
+.uxh-frame {
+  position: relative;
+  height: 372px;
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
+  border-radius: 16px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7% / 0.88);
+  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.45);
+}
+.uxh-layer {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+}
+.uxh-f {
+  clip-path: inset(0 0 0 0);
+  animation: uxh-paint 10s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.uxh-scan {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 84%);
+  box-shadow: 0 0 22px 4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.8);
+  animation: uxh-line 10s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.uxh-lay {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100%;
+}
+.uxh-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 34px;
+}
+.uxh-nav .uxh-pill {
+  margin-left: auto;
+}
+.uxh-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 170px;
+  align-items: center;
+  gap: 22px;
+  flex: 1;
+}
+.uxh-top-t {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.uxh-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  height: 104px;
+}
+.uxh-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 14px;
+  border-radius: 12px;
+}
+.uxh-lg,
+.uxh-ic {
+  display: block;
+  flex: none;
+}
+.uxh-lg {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+}
+.uxh-ic {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+}
+.uxh-ln {
+  display: block;
+  height: 8px;
+  width: 58px;
+  border-radius: 4px;
+}
+.uxh-l2 {
+  width: 68%;
+}
+.uxh-l3 {
+  width: 88%;
+}
+.uxh-l4 {
+  width: 64%;
+}
+.uxh-h {
+  display: block;
+  height: 16px;
+  width: 92%;
+  border-radius: 8px;
+}
+.uxh-h2 {
+  width: 64%;
+}
+.uxh-pill {
+  display: block;
+  width: 66px;
+  height: 24px;
+  border-radius: 999px;
+}
+.uxh-pill-b {
+  width: 104px;
+  height: 30px;
+  margin-top: 8px;
+}
+.uxh-img {
+  display: block;
+  height: 150px;
+  border-radius: 12px;
+}
+/* the wireframe: dashed outlines and thin grey lines, no colour */
+.uxh-w .uxh-lg,
+.uxh-w .uxh-ic,
+.uxh-w .uxh-pill,
+.uxh-w .uxh-h,
+.uxh-w .uxh-card {
+  border: 1.5px dashed hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.6);
+  background: none;
+}
+.uxh-w .uxh-ln {
+  background: hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.45);
+}
+.uxh-w .uxh-img {
+  border: 1.5px dashed hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.6);
+  background:
+    linear-gradient(to top right, transparent calc(50% - 0.75px), hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.45) 50%, transparent calc(50% + 0.75px)),
+    linear-gradient(to bottom right, transparent calc(50% - 0.75px), hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.45) 50%, transparent calc(50% + 0.75px));
+}
+/* the finished design: colour, type, buttons, a picture */
+.uxh-f {
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
+}
+.uxh-f .uxh-lg {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.9);
+}
+.uxh-f .uxh-ln {
+  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.45);
+}
+.uxh-f .uxh-pill {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
+}
+.uxh-f .uxh-pill-b {
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 72%));
+}
+.uxh-f .uxh-h {
+  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 90% / 0.9);
+}
+.uxh-f .uxh-img {
+  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.65), hsl(calc(var(--th) + 20) calc(70% * var(--ts)) 60% / 0.4));
+}
+.uxh-f .uxh-card {
+  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 15%);
+}
+.uxh-f .uxh-ic {
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+}
+@keyframes uxh-paint {
+  0%,
+  8% {
+    clip-path: inset(0 100% 0 0);
+  }
+  42%,
+  58% {
+    clip-path: inset(0 0 0 0);
+  }
+  92%,
+  100% {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+@keyframes uxh-line {
+  0%,
+  8% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  42% {
+    transform: translateX(536px);
+    opacity: 1;
+  }
+  44%,
+  56% {
+    transform: translateX(536px);
+    opacity: 0;
+  }
+  58% {
+    transform: translateX(536px);
+    opacity: 1;
+  }
+  92%,
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@media (min-width: 1024px) and (max-height: 800px) {
+  .uxh {
+    transform: scale(0.9);
+    transform-origin: center right;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .uxh {
+    animation: none;
+  }
+  .uxh-f {
+    animation: none;
+    clip-path: none;
+  }
+  .uxh-scan {
+    display: none;
+  }
+}
