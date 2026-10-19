@@ -161,3 +161,7 @@
 - Owner to answer: shared Home-affecting changes (logo/pill/menu/focus ring/og default), Industries city label clip (locked), Archivo font exception, WeJobs "coming soon" vs live subdomain, real portfolio content.
 - Still to test: prod build Lighthouse, admin, form submit on staging, 1440×900 and 1920×1080 screenshots, other browsers, real phone.
 - Live check needed: `NEXT_PUBLIC_SITE_URL` on Hostinger (local robots/sitemap/canonical show localhost:3000).
+
+## Phase 5 (2026-10-19, task 103)
+- Placeholder projects are hidden automatically (see 08). Owner to fix in Admin > Projects: titles Carousel 1/2/3, typo Good DOllar / God Dollar, Arushi vs Aarushi. The live database may differ from the dev one.
+- WeJobs / WeThink subdomains are live but the site says Coming soon (owner decided to keep it). Next phases: B-25 service heroes (page by page), B-03 live env check, Phase 6 optimize.
