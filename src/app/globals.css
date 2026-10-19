@@ -11413,3 +11413,298 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
     transform: scaleX(1.2);
   }
 }
+
+/* 3D Modeling first screen (prefix mdl-, modern/modeling-hero.tsx; the words use the .wdh-* layout): a sphere that starts as a wireframe, fills with light and
+   then changes its material (matte, glossy, metal) while a light circles it. A 12 s loop, a tag names the state. Theme colours only. Pure CSS. With "reduce
+   motion" the glossy sphere stands still. */
+.mdl {
+  position: relative;
+  width: 540px;
+  padding-top: 38px;
+  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 0.5s;
+}
+.mdl-tags {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 28px;
+  width: 200px;
+}
+.mdl-tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 1px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  opacity: 0;
+  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  animation: mdl-t 12s linear infinite;
+}
+.mdl-tag0 {
+  border: 1px dashed hsl(calc(var(--th) + 352) calc(30% * var(--ts)) 70% / 0.7);
+  background: none;
+  color: hsl(calc(var(--th) + 353.78) calc(30% * var(--ts)) 82%);
+  animation-name: mdl-t0;
+}
+.mdl-tag1 {
+  animation-name: mdl-t1;
+}
+.mdl-tag2 {
+  animation-name: mdl-t2;
+}
+.mdl-tag3 {
+  animation-name: mdl-t3;
+}
+.mdl-panel {
+  position: relative;
+  height: 372px;
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
+  border-radius: 16px;
+  background: radial-gradient(ellipse 60% 50% at 50% 38%, hsl(calc(var(--th) + 350) calc(46% * var(--ts)) 13% / 0.9), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 6% / 0.9));
+  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.45);
+}
+.mdl-floor {
+  position: absolute;
+  left: 50%;
+  top: 304px;
+  width: 240px;
+  height: 36px;
+  margin-left: -120px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 2% / 0.85), transparent);
+}
+.mdl-sphere {
+  position: absolute;
+  left: 50%;
+  top: 40px;
+  width: 250px;
+  height: 250px;
+  margin-left: -125px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.mdl-m {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0;
+}
+.mdl-matte {
+  background: radial-gradient(circle at 36% 30%, hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 74%), hsl(calc(var(--th) + 352) calc(38% * var(--ts)) 52%) 55%, hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 20%) 100%);
+  animation: mdl-a 12s linear infinite;
+}
+.mdl-gloss {
+  background: radial-gradient(circle at 36% 30%, hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 92%) 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%) 26%, hsl(calc(var(--th) + 14) calc(80% * var(--ts)) 52%) 68%, hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 14%) 100%);
+  animation: mdl-b 12s linear infinite;
+}
+.mdl-metal {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 60%, hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 6% / 0.7) 100%),
+    linear-gradient(180deg, hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 90%) 0%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 64%) 38%, hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 12%) 49%, hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 44%) 53%, hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 24%) 100%);
+  animation: mdl-c 12s linear infinite;
+}
+.mdl-lt {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: mdl-orbit 12s linear infinite;
+}
+.mdl-glow {
+  position: absolute;
+  left: 20%;
+  top: 14%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 96% / 0.55), transparent);
+  opacity: 0;
+  animation: mdl-glow 12s linear infinite;
+}
+.mdl-spec {
+  position: absolute;
+  left: 28%;
+  top: 22%;
+  width: 22px;
+  height: 14px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 98% / 0.95);
+  filter: blur(1.5px);
+  opacity: 0;
+  animation: mdl-spec 12s linear infinite;
+}
+.mdl-wire {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mdl-wire * {
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+@keyframes mdl-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes mdl-a {
+  0%,
+  8% {
+    opacity: 0;
+  }
+  14%,
+  31% {
+    opacity: 1;
+  }
+  37%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes mdl-b {
+  0%,
+  31% {
+    opacity: 0;
+  }
+  37%,
+  64% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes mdl-c {
+  0%,
+  64% {
+    opacity: 0;
+  }
+  70%,
+  92% {
+    opacity: 1;
+  }
+  98%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes mdl-glow {
+  0%,
+  10% {
+    opacity: 0;
+  }
+  16%,
+  90% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes mdl-spec {
+  0%,
+  34% {
+    opacity: 0;
+  }
+  40%,
+  90% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes mdl-t0 {
+  0%,
+  6% {
+    opacity: 1;
+  }
+  9%,
+  91% {
+    opacity: 0;
+  }
+  94%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes mdl-t1 {
+  0%,
+  10% {
+    opacity: 0;
+  }
+  13%,
+  30% {
+    opacity: 1;
+  }
+  33%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes mdl-t2 {
+  0%,
+  34% {
+    opacity: 0;
+  }
+  37%,
+  63% {
+    opacity: 1;
+  }
+  66%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes mdl-t3 {
+  0%,
+  67% {
+    opacity: 0;
+  }
+  70%,
+  90% {
+    opacity: 1;
+  }
+  93%,
+  100% {
+    opacity: 0;
+  }
+}
+@media (min-width: 1024px) and (max-height: 800px) {
+  .mdl {
+    transform: scale(0.9);
+    transform-origin: center right;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mdl {
+    animation: none;
+  }
+  .mdl-m,
+  .mdl-lt,
+  .mdl-glow,
+  .mdl-spec,
+  .mdl-tag {
+    animation: none;
+  }
+  .mdl-gloss {
+    opacity: 1;
+  }
+  .mdl-glow,
+  .mdl-spec {
+    opacity: 1;
+  }
+  .mdl-tag2 {
+    opacity: 1;
+  }
+}

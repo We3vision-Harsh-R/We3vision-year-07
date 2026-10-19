@@ -6,6 +6,7 @@ import { HeroGradient } from "../modern/hero-gradient";
 import { AnimationHero } from "../modern/animation-hero";
 import { CrmHero } from "../modern/crm-hero";
 import { MobileHero } from "../modern/mobile-hero";
+import { ModelingHero } from "../modern/modeling-hero";
 import { UiuxHero } from "../modern/uiux-hero";
 import { WebdevHero } from "../modern/webdev-hero";
 import { Chip, ButtonLink } from "../ui";
@@ -33,6 +34,8 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
   if (page === "ui-ux-design") return <UiuxHero data={data} site={site} />;
   // the Animation page: the classic bouncing-ball test
   if (page === "animation") return <AnimationHero data={data} site={site} />;
+  // the 3D Modeling page: a sphere that fills with light and changes its material
+  if (page === "3d-modeling") return <ModelingHero data={data} site={site} />;
   return (
   <section id="top" className="phz-hero relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
     {/* the service pages: soft light in the colours of the theme behind the words, a different pattern on every page */}
