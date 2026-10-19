@@ -103,3 +103,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 97 | Test round 1 Phase 2: og image, short titles/descriptions, About/Sitemap JSON-LD, image sizes | done |
 | 98 | Home metadata: share image (metadata only) | done |
 | 99 | Phase 3 safe part: page hero fits laptop screens (balanced heading, CTA above the menu pill) | done |
+| 100 | Phase 3 shared: focus ring + skip link, cursor on inputs, contact form labels | done |
