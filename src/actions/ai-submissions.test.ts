@@ -36,8 +36,9 @@ async function submit(type: "blog" | "career") {
   const def = getContentType(type)!;
   const r = validateDraft(def, def.example);
   if (!r.ok) throw new Error("example invalid");
-  const { id } = await createSubmission(ctx as never, def, r.data);
-  return id;
+  const created = await createSubmission(ctx as never, def, r.data);
+  if ("full" in created) throw new Error("queue full");
+  return created.id;
 }
 
 beforeEach(() => {

@@ -20,6 +20,9 @@ export function siteOrigin(request: Request) {
   return host ? `${h.get("x-forwarded-proto") ?? "http"}://${host}` : new URL(request.url).origin;
 }
 
+/** AI_INTEGRATION=off in the environment switches the whole integration off at once (MCP, sign-in of tools, tokens) without a deploy of code. */
+export const aiDisabled = () => (process.env.AI_INTEGRATION ?? "").trim().toLowerCase() === "off";
+
 export function reply(body: unknown, status = 200, extra: Record<string, string> = {}) {
   return Response.json(body, { status, headers: { ...CORS, "Cache-Control": "no-store", ...extra } });
 }

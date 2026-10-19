@@ -1,4 +1,4 @@
-import { ipOf, preflight, reply } from "@/lib/ai-content/server/http";
+import { aiDisabled, ipOf, preflight, reply } from "@/lib/ai-content/server/http";
 import { registerClient } from "@/lib/ai-content/server/oauth";
 import { hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
@@ -9,6 +9,7 @@ export const dynamic = "force-dynamic";
 export const OPTIONS = preflight;
 
 export async function POST(request: Request) {
+  if (aiDisabled()) return reply({ error: "temporarily_unavailable", error_description: "The AI integration is switched off." }, 503);
   if (!hasDb) return reply({ error: "server_error", error_description: "The website database is not configured." }, 503);
   if (!rateLimit(`oauth-register:${ipOf(request)}`, 10, 60 * 60_000)) return reply({ error: "slow_down", error_description: "Too many registrations. Try again later." }, 429);
   if (Number(request.headers.get("content-length") ?? 0) > 10_000) return reply({ error: "invalid_client_metadata", error_description: "Request too large." }, 413);

@@ -21,7 +21,10 @@ export const STATUS_LABEL: Record<SubmissionStatus, string> = {
 
 const actorOf = (ctx: McpContext) => `connection: ${ctx.connectionName} (${ctx.adminEmail})`;
 
-export type CreateResult = { id: string; duplicate: boolean };
+/** At most this many drafts of one admin wait at the same time (a runaway AI tool cannot flood the approval queue). */
+export const MAX_PENDING = 30;
+
+export type CreateResult = { id: string; duplicate: boolean } | { full: true };
 
 /** Saves a validated draft as pending_review. The same title sent twice while it is still waiting returns the first one (a retry is harmless). */
 export async function createSubmission(ctx: McpContext, def: ContentTypeDef, data: DraftData): Promise<CreateResult> {
@@ -31,6 +34,8 @@ export async function createSubmission(ctx: McpContext, def: ContentTypeDef, dat
     select: { id: true },
   });
   if (same) return { id: same.id, duplicate: true };
+  const waiting = await db.contentSubmission.count({ where: { status: "pending_review", connection: { adminId: ctx.adminId } } });
+  if (waiting >= MAX_PENDING) return { full: true };
   const row = await db.contentSubmission.create({
     data: {
       contentType: def.key,

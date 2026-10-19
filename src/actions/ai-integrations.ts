@@ -6,6 +6,7 @@ import { alertFailure, alertLater } from "@/lib/alerts";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { checkAuthorize, issueCode, type AuthorizeParams } from "@/lib/ai-content/server/oauth";
+import { aiDisabled } from "@/lib/ai-content/server/http";
 import { SCOPES, hashToken, hintOf, newToken } from "@/lib/ai-content/server/tokens";
 import { rateLimit } from "@/lib/rate-limit";
 import type { ActionResult } from "./types";
@@ -79,6 +80,7 @@ export type DecideResult = { ok: true; url: string } | { ok: false; error: strin
 /** The consent screen: the admin pressed "Allow" or "Deny". Everything is checked again here; the answer is the address to send the browser to. */
 export async function decideAuthorization(input: AuthorizeParams & { approve: boolean }): Promise<DecideResult> {
   const admin = await requireAdmin();
+  if (aiDisabled()) return { ok: false, error: "The AI integration is switched off on this website." };
   const check = await checkAuthorize({
     clientId: String(input.clientId ?? ""),
     redirectUri: String(input.redirectUri ?? ""),

@@ -4,4 +4,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 
 | # | Task | Status |
 |---|------|--------|
-| 110 | AI content integration (MCP server + approval queue) | in progress |
+| 110 | AI content integration (MCP server + approval queue) | done |

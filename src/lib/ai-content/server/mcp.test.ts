@@ -8,7 +8,8 @@ vi.mock("@/lib/db", () => ({
     return fake.current!.db;
   },
 }));
-vi.mock("@/lib/alerts", () => ({ alertFailure: vi.fn(), alertLater: vi.fn() }));
+const alerts = vi.hoisted(() => ({ later: [] as { title: string; notify?: boolean }[] }));
+vi.mock("@/lib/alerts", () => ({ alertFailure: vi.fn(), alertLater: (a: { title: string; notify?: boolean }) => alerts.later.push(a) }));
 
 import { POST } from "@/app/api/mcp/route";
 import { hashToken } from "./tokens";
@@ -160,6 +161,39 @@ describe("tools", () => {
     fake.current!.tables.blogPost.push({ title: "How AI Can Speed Up Support", slug: "x", category: "AI/ML", published: true, publishedAt: new Date("2026-01-02") });
     const r = await call("list_existing_content", { content_type: "blog", query: "speed" });
     expect(r.content[0].text).toContain("/blog/x");
+  });
+
+  it("alerts the owner when a new draft is waiting (once, not for a repeated send)", async () => {
+    alerts.later.length = 0;
+    await call("send_to_we3vision", { content_type: "blog", data: draft, user_confirmed: true });
+    await call("send_to_we3vision", { content_type: "blog", data: draft, user_confirmed: true });
+    expect(alerts.later).toHaveLength(1);
+    expect(alerts.later[0]).toMatchObject({ notify: true });
+    expect(alerts.later[0].title).toContain(draft.title);
+  });
+
+  it("stops at 30 waiting drafts so the queue cannot be flooded", async () => {
+    for (let i = 0; i < 30; i++) fake.current!.tables.contentSubmission.push({ id: `pending${i}xxxxxxxx`, contentType: "blog", title: `Other ${i}`, status: "pending_review", connectionId: "conn1" });
+    const r = await call("send_to_we3vision", { content_type: "blog", data: draft, user_confirmed: true });
+    expect(r.isError).toBe(true);
+    expect(r.content[0].text).toContain("30 drafts are already waiting");
+    expect(fake.current!.tables.contentSubmission).toHaveLength(30);
+  });
+
+  it("refuses a request body that is too big", async () => {
+    const big = "x".repeat(4 * 1024 * 1024);
+    const res = await POST(new Request(URL_, { method: "POST", headers: { "content-type": "application/json", accept: "application/json, text/event-stream", authorization: `Bearer ${TOKEN}`, "x-forwarded-for": "10.9.9.9" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "preview_content", arguments: { content_type: "blog", data: { title: big } } } }) }));
+    expect(res.status).toBe(413);
+  });
+
+  it("the kill switch AI_INTEGRATION=off answers 503 at once", async () => {
+    process.env.AI_INTEGRATION = "off";
+    try {
+      expect((await rpc("tools/list", {})).status).toBe(503);
+    } finally {
+      delete process.env.AI_INTEGRATION;
+    }
+    expect((await rpc("tools/list", {})).status).toBe(200);
   });
 
   it("unknown tools and bad arguments are answered, not thrown", async () => {

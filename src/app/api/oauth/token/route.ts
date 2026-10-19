@@ -1,4 +1,4 @@
-import { ipOf, preflight, reply } from "@/lib/ai-content/server/http";
+import { aiDisabled, ipOf, preflight, reply } from "@/lib/ai-content/server/http";
 import { exchangeCode, pruneCodes, refreshTokens } from "@/lib/ai-content/server/oauth";
 import { hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
@@ -10,6 +10,7 @@ export const OPTIONS = preflight;
 const oauthError = (error: string, description: string, status = 400) => reply({ error, error_description: description }, status);
 
 export async function POST(request: Request) {
+  if (aiDisabled()) return oauthError("temporarily_unavailable", "The AI integration is switched off.", 503);
   if (!hasDb) return oauthError("server_error", "The website database is not configured.", 503);
   if (!rateLimit(`oauth-token:${ipOf(request)}`, 60, 10 * 60_000)) return oauthError("slow_down", "Too many requests. Try again later.", 429);
   if (Number(request.headers.get("content-length") ?? 0) > 20_000) return oauthError("invalid_request", "Request too large.", 413);

@@ -168,3 +168,10 @@
 
 ## B-25 service heroes (task 104)
 - Done: /webdev (page builds itself), /mobile (one code, two phones), /crm (one customer, every channel), /ui-ux-design (wireframe to finished UI), /animation (bouncing ball), /3d-modeling (material sphere). Next in the list: blog, products, team; show 2-3 options first, build the pick. Ideas are in brain/18 section 5.
+
+## AI integration (task 110)
+- Before merging to main: apply the migration `20261019000000_ai_integration` to the live DB (owner OK), then merge + deploy; set `NEXT_PUBLIC_SITE_URL` (https) on Hostinger; check `/.well-known/oauth-*` answers 200 JSON (curl lines in docs/MCP_SETUP.md 1.4).
+- Test with a real token in the MCP Inspector, then in Claude (custom connector) and Claude Code; open Admin > AI Integrations and AI Submissions in a browser once (never opened with a real DB).
+- MCP Apps UI (Send button card inside the AI client) not built. Optional later.
+- Add more content types (portfolio, case studies, testimonials, events) with the 5 steps in docs/MCP_SETUP.md section 5.
+

@@ -11,6 +11,7 @@ import { DEFAULT_SCOPES, hashToken, hintOf, newToken, parseScopes, type Scope } 
 export const ACCESS_TTL_S = 60 * 60; // an access token lives one hour
 export const CONNECTION_TTL_MS = 90 * 24 * 60 * 60_000; // an unused connection ends after 90 days (every refresh moves it)
 export const CODE_TTL_MS = 10 * 60_000;
+const MAX_CLIENTS = 2000; // registration is open (that is how claude.ai connects), so the table is capped
 
 const BLOCKED_SCHEMES = new Set(["javascript:", "data:", "file:", "blob:", "vbscript:", "about:", "ftp:", "ws:", "wss:", "chrome:", "view-source:"]);
 
@@ -45,6 +46,7 @@ export async function registerClient(body: unknown): Promise<RegisterResult> {
   if (o.token_endpoint_auth_method !== undefined && o.token_endpoint_auth_method !== "none") {
     return { ok: false, error: "invalid_client_metadata", description: "Only public clients (token_endpoint_auth_method: none) with PKCE are supported." };
   }
+  if ((await db.oauthClient.count()) >= MAX_CLIENTS) return { ok: false, error: "invalid_client_metadata", description: "Too many registered tools. Ask the site owner to clean up." };
   const name = (typeof o.client_name === "string" ? o.client_name : "").replace(/[\u0000-\u001F<>]/g, "").trim().slice(0, 80) || "AI tool";
   const client_id = `w3c_${randomBytes(16).toString("base64url")}`;
   const redirect_uris = [...new Set(uris as string[])];
