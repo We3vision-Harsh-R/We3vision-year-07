@@ -156,7 +156,7 @@
 - Not tested on a real iPhone/Android (pull-down to close, swipes).
 
 ## Website test round 1 (2026-10-19) — see [18-website-test-master-table.md](18-website-test-master-table.md)
-- Phase 1 done in task 96 (B-01, B-04, B-09, B-18, B-30). Phase 2 done in task 97 (B-02, B-08, B-22; B-19 not needed). Home share picture done in task 98. Waiting: B-03 live env check. Phase 3 half done in task 99 (hero). Waiting for the owner (shared with Home): B-07 focus ring + skip link, B-07b cursor on inputs, B-17 contact form labels. Titles saved in Admin > Pages override the code defaults.
+- Phase 1 done in task 96 (B-01, B-04, B-09, B-18, B-30). Phase 2 done in task 97 (B-02, B-08, B-22; B-19 not needed). Home share picture done in task 98. Waiting: B-03 live env check. Phase 3 done in tasks 99 + 100 (hero, focus ring, skip link, text cursor, form labels). Next: Phase 4 (B-05 logo/pill overlap, B-13 small labels, B-15 theme colours, B-16 transition: all, B-14 Archivo, B-25 service heroes) — ask first; B-05 is shared with Home. Titles saved in Admin > Pages override the code defaults.
 - `global-not-found` is an experimental Next flag: if a Next upgrade breaks the 404, remove the flag and `src/app/global-not-found.tsx`.
 - Owner to answer: shared Home-affecting changes (logo/pill/menu/focus ring/og default), Industries city label clip (locked), Archivo font exception, WeJobs "coming soon" vs live subdomain, real portfolio content.
 - Still to test: prod build Lighthouse, admin, form submit on staging, 1440×900 and 1920×1080 screenshots, other browsers, real phone.
