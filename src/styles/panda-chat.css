@@ -215,7 +215,7 @@
   border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
   border-radius: 999px;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   text-decoration: none;
 }
 .pd-service-links a:hover,
@@ -274,7 +274,7 @@
   width: min(calc(100% - 32px), 420px);
   margin: 10px 16px 0;
   color: hsl(calc(var(--th) + 350) calc(37% * var(--ts)) 80%);
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   --d: 1;
 }
 .pd-service-combobox-wrap {
@@ -341,7 +341,7 @@
   background: transparent;
   color: #fff;
   font: inherit;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   text-align: left;
 }
 .pd-service-options button:hover,
@@ -354,14 +354,14 @@
   display: block;
   padding: 8px 9px 4px;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   font-weight: 700;
 }
 .pd-service-empty {
   margin: 0;
   padding: 9px;
   color: hsl(calc(var(--th) + 350) calc(37% * var(--ts)) 80%);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
 }
 .pd-body {
   display: flex;

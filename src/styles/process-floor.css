@@ -343,7 +343,7 @@
 .pf-rail button i {
     min-width: 1.7rem;
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -380,7 +380,7 @@
     border-radius: 999px;
     background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.06em;
   }
@@ -402,7 +402,7 @@
     display: block;
     margin-top: 1.3rem;
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.9);
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -419,7 +419,7 @@
     padding-top: 1rem;
     border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
     color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 70%);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
   }
 .pf-p-nav button {
     display: grid;
@@ -455,7 +455,7 @@
     display: block;
     margin-top: 1.3rem;
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.9);
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;

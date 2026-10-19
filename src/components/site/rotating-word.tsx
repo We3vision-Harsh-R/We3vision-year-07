@@ -1,14 +1,13 @@
 "use client";
 
-import { Archivo } from "next/font/google";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 
 // A giant heavy wordmark whose letters swipe (slot-machine style) from one language to the next. The word means the same
 // in every language, but its letters and spelling look different. While a letter swipes it passes the matching letter of
 // the first word ("Brand"), so people get an idea of what the word is. One cycle = 3 s of swiping + 1 s standing still.
-const archivo = Archivo({ subsets: ["latin"], weight: "900", display: "swap" });
+// the brand font (Poppins, weight 800: the heaviest weight loaded in root-shell.tsx)
 // letters of other scripts come from the system fonts (bold)
-const FONT_STACK = `${archivo.style.fontFamily}, "Noto Sans", "Nirmala UI", "Segoe UI", "Yu Gothic", "Meiryo", "Malgun Gothic", "Microsoft YaHei", system-ui, sans-serif`;
+const FONT_STACK = `var(--font-poppins), "Noto Sans", "Nirmala UI", "Segoe UI", "Yu Gothic", "Meiryo", "Malgun Gothic", "Microsoft YaHei", system-ui, sans-serif`;
 
 // keep in sync with .rw-win / .rw-cell / .rw-strip in globals.css: letter height 1.12em + empty space 0.9em between letters,
 // so only one letter is ever inside the window and the letters above / below it never peek in

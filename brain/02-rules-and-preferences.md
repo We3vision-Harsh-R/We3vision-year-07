@@ -23,12 +23,13 @@ These are standing instructions. They override defaults. When a rule and a task 
 - **Only change what the new request names.** Finished/approved work stays exactly as it is ("pachal na task ne change nai kar, ene as
   it is reva de"). If a request seems to need an older change, find a way that keeps the old behaviour (new rule, remap input) and say
   what was touched.
-- **Home page `/` is LOCKED (since 2026-10-11).** No change of any kind: not layout, colours, animation or text. Before a task check
+- **UNLOCKED by the owner on 2026-10-19 ("home page ne unlocked kari de and bija jetla lock hoi ene pan unlocked kari deje"): Home `/`, the service strip, the TechSpace pop-up and the Industries city may be edited again like any other part. Keep this in mind: they are still finished designs, so change only what the task names.** (History: Home was locked from 2026-10-11.)
+- **(old rule, now void) Home page `/` was LOCKED (since 2026-10-11).** No change of any kind: not layout, colours, animation or text. Before a task check
   whether files/classes are used by Home. Shared code (footer, nav pill, mega menu, background/aurora, glow edge, glass cards,
   headings) also changes Home → scope such a change (page prop/slug check, a class Home does not have) or ask once. Never edit for
   another page's task: `hero-scene.tsx`, `industries-road.tsx`, `tech-space.tsx`, `glance-orbit.tsx`, `sections/highlights.tsx`,
   `src/lib/cms/content/home.ts`, the Home route.
-- **Locked sections** (the owner said "perfect"): ask before editing:
+- **(old rule, now void) Locked sections** (the owner said "perfect"): were:
   - "What we build" service strip: `src/components/site/service-strip.tsx`, `src/lib/cms/content/service-details.ts`, `.ss-*` CSS.
   - TechSpace **pop-up card**: `.tx-pop` and everything inside it in `src/components/site/tech-space.tsx` + `.tx-*` CSS (the blur around
     it was adjusted later at the owner's request). A `LOCKED` comment sits at the top of locked files.

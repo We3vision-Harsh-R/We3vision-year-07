@@ -204,7 +204,7 @@
 }
 .mm-col-t i {
   color: var(--a);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-style: normal;
 }
 .mm-li {
@@ -249,7 +249,7 @@
   min-width: 1.5em;
   color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.55);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.85em;
+  font-size: 0.875rem;
   font-style: normal;
 }
 .mm-li a:hover,
@@ -531,9 +531,9 @@
 @container (max-width: 1296px) {
 .mm-in { padding-inline: 1rem; }
 .mm-in2 .mm-svc-grid { gap: 1rem 0.9rem; }
-.mm-in2 .mm-sub .mm-li a { font-size: 0.8125rem; gap: 0.3rem; }
+.mm-in2 .mm-sub .mm-li a { font-size: 0.875rem; gap: 0.3rem; }
 .mm-in2 .mm-sub .mm-li a::before { width: 4px; height: 4px; }
-.mm-row3 .mm-li a { font-size: 0.8125rem; }
+.mm-row3 .mm-li a { font-size: 0.875rem; }
 .mm-rec ul { gap: 0.5rem; }
 .mm-rec li + li { padding-left: 0.5rem; }
 .mm-rec img { height: 2rem; max-width: 5.4rem; }

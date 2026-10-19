@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { SmartLink } from "./smart-link";
 
 /**
@@ -23,7 +24,7 @@ export function LogoMark({ name }: { name: string }) {
   }, []);
 
   return (
-    <div className="lm" data-scrolled={scrolled}>
+    <div className="lm" data-scrolled={scrolled} data-faded={reading && faded}>
       <SmartLink href="/" aria-label={`${name} home`}>
         <Image src="/brand/logo-white.webp" alt="" width={600} height={468} priority unoptimized className="lm-mark" />
         <Image src="/brand/logo-text-white.webp" alt={name} width={700} height={277} priority unoptimized className="lm-text" />

@@ -110,7 +110,7 @@
 }
 .rl-sign-t {
   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 88%);
-  font-size: 13.5px;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.08em;
 }
@@ -181,7 +181,7 @@
 }
 .rl-mile-t {
   fill: hsl(calc(var(--th) + 347) 40% 14%);
-  font-size: 12px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
@@ -280,7 +280,7 @@
 }
 .rl-num {
   fill: rgba(255, 255, 255, 0.85);
-  font-size: 12px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.12em;
 }
@@ -307,7 +307,7 @@
   border-radius: 999px;
   background: var(--a);
   color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -1538,7 +1538,7 @@ a.rt-row:hover {
 }
 .rl-office-s {
   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-  font-size: 11px;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.24em;
 }
@@ -1735,7 +1735,7 @@ a.rt-row:hover {
 }
 .rl-bd-s {
   fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 88% / 0.85);
-  font-size: 12px;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 .cj-lock {
@@ -2133,7 +2133,7 @@ a.rt-row:hover {
 }
 .rl-bs-t {
   fill: #fff;
-  font-size: 13px;
+  font-size: 0.875rem;
   font-weight: 800;
   letter-spacing: 0.16em;
 }

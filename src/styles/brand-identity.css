@@ -1177,7 +1177,7 @@
 .kit-card small {
   overflow: hidden;
   color: var(--soft);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1206,7 +1206,7 @@
 }
 .kit-post span {
   color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 8% / 0.8);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
 }
 .kit-chips .kit-app {
   display: grid;

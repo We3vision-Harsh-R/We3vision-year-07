@@ -18,7 +18,7 @@ function SocialIcon({ label, href }: { label: string; href: string }) {
           <circle cx="17.5" cy="6.5" r="1" className="fill-current stroke-none" />
         </svg>
       ) : (
-        <span className="text-xs font-semibold">{label.slice(0, 1)}</span>
+        <span className="text-sm font-semibold">{label.slice(0, 1)}</span>
       )}
     </a>
   );

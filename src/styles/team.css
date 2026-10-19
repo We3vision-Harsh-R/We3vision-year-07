@@ -185,7 +185,7 @@
   transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .to2-badge b {
-  font-size: 8.5px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: -0.02em;
 }

@@ -576,7 +576,7 @@ html.theme-anim {
   }
   .orb-label {
     width: 76px;
-    font-size: 0.6rem;
+    font-size: 0.875rem;
     line-height: 1.2;
     text-align: center;
     white-space: normal;
@@ -783,7 +783,7 @@ html.theme-anim {
   justify-content: space-between;
   margin-bottom: 18px;
   color: hsl(calc(var(--th) + 353.78) calc(22.69% * var(--ts)) calc(53.33% + 7% * max(0, cos((var(--th) - 240) * 2.4deg))));
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -816,7 +816,7 @@ html.theme-anim {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.04));
   color: hsl(calc(var(--th) + 347.5) calc(39.22% * var(--ts)) 80%);
-  font-size: 0.74rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-align: center;
@@ -1848,7 +1848,7 @@ html.theme-anim {
   padding: 12px 14px 14px;
 }
 .of[data-layout="tall"] .of-goal p {
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   line-height: 1.45;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2659,7 +2659,7 @@ html.theme-anim {
 }
 .ss-no {
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.12em;
 }
@@ -2736,7 +2736,7 @@ html.theme-anim {
   gap: 0.4rem;
   margin: 0;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.8);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
 }
 .ss-hint svg {
   animation: ss-nudge 1.4s ease-in-out infinite;
@@ -2925,7 +2925,7 @@ html.theme-anim {
     gap: 1rem;
     margin-top: 1.6rem;
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.85);
-    font-size: 0.8rem;
+    font-size: 0.875rem;
   }
   .ss-prog-n {
     min-width: 4.4rem;
@@ -3040,7 +3040,7 @@ html.has-sb::-webkit-scrollbar {
   display: block;
   margin-bottom: 0.7rem;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.9);
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -3150,7 +3150,7 @@ html.has-sb::-webkit-scrollbar {
     border-radius: 999px;
     background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
-    font-size: 0.74rem;
+    font-size: 0.875rem;
     letter-spacing: 0.1em;
   }
   .ss-d-fit {
@@ -3500,7 +3500,7 @@ html.has-sb::-webkit-scrollbar {
 }
 .ts-pl-name small {
   color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 82%);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
 }
 /* the sun */
 .ts-sun {
@@ -3718,7 +3718,7 @@ html.has-sb::-webkit-scrollbar {
   overflow: hidden;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.75);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -3835,7 +3835,7 @@ html.has-sb::-webkit-scrollbar {
   border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
   border-radius: 999px;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.04em;
 }
@@ -3849,7 +3849,7 @@ html.has-sb::-webkit-scrollbar {
   display: block;
   margin: 1.4rem 0 0.65rem;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.9);
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -3887,7 +3887,7 @@ html.has-sb::-webkit-scrollbar {
   background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 .tx-builds li:hover {
@@ -3933,7 +3933,7 @@ html.has-sb::-webkit-scrollbar {
   display: block;
   margin-bottom: 0.3rem;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -3949,7 +3949,7 @@ html.has-sb::-webkit-scrollbar {
 }
 .tx-foot > span {
   color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 66%);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   letter-spacing: 0.04em;
 }
 .tx-cta {
@@ -4678,7 +4678,7 @@ html.has-sb::-webkit-scrollbar {
   .cm-rail button i {
     min-width: 1.7rem;
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -4715,7 +4715,7 @@ html.has-sb::-webkit-scrollbar {
     border-radius: 999px;
     background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.06em;
   }
@@ -4742,7 +4742,7 @@ html.has-sb::-webkit-scrollbar {
     padding-top: 1rem;
     border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
     color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 70%);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
   }
   .cm-p-nav button {
     display: grid;
@@ -6385,7 +6385,7 @@ html.has-sb::-webkit-scrollbar {
     padding-bottom: 0.7rem;
     border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.2);
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -7064,7 +7064,7 @@ html.has-sb::-webkit-scrollbar {
 }
 .ft-col-t i {
   color: var(--a);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-style: normal;
 }
 .ft-col ul {
@@ -10207,4 +10207,15 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.02em;
+}
+
+/* Article / project / job pages: the logo fades away while the visitor reads (logo-mark.tsx sets data-faded) so it does not lie on the text. */
+.lm {
+  transition: opacity 0.35s ease;
+}
+.lm[data-faded="true"] {
+  opacity: 0;
+}
+.lm[data-faded="true"] a {
+  pointer-events: none;
 }

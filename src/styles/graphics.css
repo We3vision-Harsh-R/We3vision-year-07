@@ -312,7 +312,7 @@
 .gfx-poster.is-designed { background: linear-gradient(150deg, hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 60%), hsl(calc(var(--th) + 326) calc(90% * var(--ts)) 50%)); color: #fff; justify-content: flex-end; }
 .gfx-poster.is-designed .gfx-poster-shape,
 .gfx-poster.is-designed .gfx-poster-ring { opacity: 1; transform: none; }
-.gfx-poster.is-designed .gfx-poster-kicker { letter-spacing: 0.25em; text-transform: uppercase; font-size: 0.8rem; opacity: 0.9; }
+.gfx-poster.is-designed .gfx-poster-kicker { letter-spacing: 0.25em; text-transform: uppercase; font-size: 0.875rem; opacity: 0.9; }
 .gfx-poster.is-designed .gfx-poster-title { font-size: 2.6rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
 .gfx-poster.is-designed .gfx-poster-text { opacity: 0.9; }
 .gfx-poster.is-designed .gfx-poster-btn { align-self: flex-start; text-decoration: none; padding: 8px 20px; border-radius: 999px; background: #fff; color: hsl(calc(var(--th) + 354) 70% 40%); font-weight: 650; }

@@ -47,7 +47,7 @@ html.tp-open {
   border-radius: 999px;
   background: color-mix(in srgb, var(--color-violet) 10%, transparent);
   color: var(--color-violet);
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 .tp-title {
@@ -244,7 +244,7 @@ html.tp-open {
   max-width: 300px;
   text-align: left;
   color: rgba(255, 255, 255, 0.78);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
 }
 .tp-name input {
   height: 46px;
@@ -267,7 +267,7 @@ html.tp-open {
 }
 .tp-name small {
   color: rgba(255, 255, 255, 0.5);
-  font-size: 0.76rem;
+  font-size: 0.875rem;
 }
 .tp-actions {
   display: flex;

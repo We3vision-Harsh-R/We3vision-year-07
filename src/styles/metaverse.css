@@ -499,7 +499,7 @@
 .vfo-world[data-layout="tall"] .vfo-steps li b {
   width: 20px;
   height: 20px;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 .vfo-pad[data-here="true"] {
   border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
@@ -663,7 +663,7 @@
   place-items: center;
   border-radius: 50%;
   background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
 }
 @keyframes vfo-step {
   0%,

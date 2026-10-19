@@ -40,7 +40,7 @@
   background: hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 16%);
   box-shadow: inset 0 0 0 1.5px var(--a);
   color: var(--a);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -274,7 +274,7 @@
   position: relative;
   height: 26px;
   color: var(--soft);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
 }
 .ae-ruler span {
   position: absolute;

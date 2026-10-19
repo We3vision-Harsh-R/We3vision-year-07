@@ -828,7 +828,7 @@
   border-radius: 5px;
   background: transparent;
   color: transparent;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
   transform: translateX(-50%);
 }
@@ -1015,7 +1015,7 @@
   position: absolute;
   top: 14px;
   left: 28px;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 .vz-ph-screen h4 {

@@ -91,6 +91,8 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
   const rootRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const [away, setAway] = useState(false);
+  // on an article, project or job page the menu goes away while the visitor scrolls down (it would lie on the text); scrolling up or a Tab brings it back
+  const reading = /^/(blog|portfolio|careers)/[^/]+/.test(pathname);
 
   // Slide in from below after the first paint.
   useEffect(() => {
@@ -183,7 +185,7 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
       onTouchStart={loadMega}
       data-page={pathname === "/" ? "home" : "inner"}
       className={`fn-root fixed inset-x-0 bottom-6 z-50 flex justify-center px-4 transition-[opacity,transform,filter] duration-700 sm:bottom-12 ${SPRING} ${
-        !ready ? "translate-y-28 opacity-0" : away ? "pointer-events-none translate-y-4 opacity-0 blur-[10px]" : "translate-y-0 opacity-100"
+        !ready ? "translate-y-28 opacity-0" : away ? "pointer-events-none translate-y-4 opacity-0 blur-[10px]" : reading && collapsed && !menuOpen ? "pointer-events-none translate-y-4 opacity-0 focus-within:pointer-events-auto focus-within:translate-y-0 focus-within:opacity-100" : "translate-y-0 opacity-100"
       }`}
     >
       {/* Tablet / desktop: the pill */}

@@ -1,6 +1,5 @@
 "use client";
 
-import { Archivo } from "next/font/google";
 import { useEffect, useRef } from "react";
 import { BOARDS } from "./timeline-boards";
 import { PersonTop } from "./timeline-art";
@@ -14,7 +13,6 @@ import { PersonTop } from "./timeline-art";
 // come and go: some tables have one, two or three people, a few colleagues walk about and a few enjoy a coffee in the café.
 // Everything is drawn from CSS (see .of-* in globals.css) in the colours of the visitor's theme.
 
-const archivo = Archivo({ subsets: ["latin"], weight: "900", display: "swap" });
 
 const ZW = 300; // the drawing of one corner is 300 x 226 px (scaled to the screen with --zs)
 const ZH = 226;
@@ -376,7 +374,7 @@ export function OfficeStage({ teams, finalYear, goalTitle, goalText, names }: { 
 
       {/* the big year and the goal */}
       <div className="of-center">
-        <p className={`of-year ${archivo.className}`}>{finalYear}</p>
+        <p className="of-year">{finalYear}</p>
         <div className="of-goal">
           <h3>{goalTitle}</h3>
           <p>{goalText}</p>

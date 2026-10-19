@@ -10,8 +10,8 @@ heavy scroll-driven 3D/animated sections. The site celebrates "7 years of We3vis
 1. **Work in the main folder** `…/We3vision-year-07` (the git repo). Never edit in a `.claude/worktrees/*` copy and then copy files over —
    stale copies overwrite newer work (this already destroyed the chatbot CSS once; see [07](07-workflow-and-tools.md)).
 2. **Touch only what the task names.** Finished work stays exactly as it is.
-3. **Home page `/` is LOCKED.** No change of any kind (also check shared code: footer, nav, background, glow edge, glass cards…).
-4. **Locked sections** (never edit without asking): `service-strip.tsx`, the TechSpace pop-up card (`.tx-*`), the Industries 3D city.
+3. **Home page `/` is UNLOCKED (owner, 2026-10-19).** It is a finished design: change only what the task names, and check shared code (footer, nav, background, glow edge, glass cards, headings) before changing it.
+4. **Former locked sections** (`service-strip.tsx`, TechSpace pop-up `.tx-*`, Industries 3D city) were UNLOCKED on 2026-10-19; same care as Home.
 5. **Desktop/laptop only.** Write no mobile/responsive code, do not "fix" phone layout (the owner does mobile separately).
 6. **Readability:** paragraphs ≥ 16px, chips/labels ≥ 14px, good contrast. Font is **Poppins** only.
 7. **Theme rule:** never hard-code a violet/pink colour. Use `hsl(calc(var(--th) + N) calc(S% * var(--ts)) L%)` or the Tailwind tokens.
