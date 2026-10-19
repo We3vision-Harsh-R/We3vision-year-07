@@ -73,13 +73,13 @@ export function BuiltSite({
         0,
         "ws-nav",
         <>
-          <a className="ws-logo">
+          <span className="ws-logo">
             <i>{initial}</i>
             <b>{name}</b>
-          </a>
+          </span>
           <nav>
             {["Services", "About", "Work", "Contact"].map((t) => (
-              <a key={t}>{t}</a>
+              <span key={t}>{t}</span>
             ))}
           </nav>
           <button type="button" className="ws-btn ws-btn-sm">
@@ -95,9 +95,9 @@ export function BuiltSite({
             <span className="ws-badge">
               <i /> Now open for new projects
             </span>
-            <h1>
+            <div className="ws-h1">
               Welcome to <em>{name}</em>
-            </h1>
+            </div>
             <div className="ws-lines">
               <Line w="92%" />
               <Line w="78%" />
@@ -327,10 +327,10 @@ export function BuiltSite({
           </div>
           <footer className="ws-foot">
             <div>
-              <a className="ws-logo">
+              <span className="ws-logo">
                 <i>{initial}</i>
                 <b>{name}</b>
-              </a>
+              </span>
               <Line w="140px" />
               <Line w="100px" />
             </div>

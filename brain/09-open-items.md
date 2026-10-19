@@ -154,3 +154,9 @@
 - Old CSS of the replaced pieces (mp-about-apps, mp-about-rail, mp-about-facts ...) is still in the page CSS files (unused, harmless; can be cleaned).
 - Job rows open a sheet, so the phone page has no direct <a> to every job any more (the laptop page, the canonical one, keeps them).
 - Not tested on a real iPhone/Android (pull-down to close, swipes).
+
+## Website test round 1 (2026-10-19) — see [18-website-test-master-table.md](18-website-test-master-table.md)
+- Nothing fixed yet. Start with Phase 1 (B-01 shield regex, B-09 H1/anchors, B-18 aria-labels, B-04 branded 404, B-30 env guard).
+- Owner to answer: shared Home-affecting changes (logo/pill/menu/focus ring/og default), Industries city label clip (locked), Archivo font exception, WeJobs "coming soon" vs live subdomain, real portfolio content.
+- Still to test: prod build Lighthouse, admin, form submit on staging, 1440×900 and 1920×1080 screenshots, other browsers, real phone.
+- Live check needed: `NEXT_PUBLIC_SITE_URL` on Hostinger (local robots/sitemap/canonical show localhost:3000).

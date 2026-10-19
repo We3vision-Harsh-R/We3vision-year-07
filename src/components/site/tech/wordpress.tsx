@@ -185,8 +185,8 @@ export function WordpressPage({ d }: { d: TechData }) {
                 </div>
                 <div className="wpa-box">
                   <h3>Quick Draft</h3>
-                  <input value={draftTitle} onChange={(e) => setDraftTitle(e.target.value)} placeholder="Title" />
-                  <textarea value={draftBody} onChange={(e) => setDraftBody(e.target.value)} placeholder="What’s on your mind?" rows={3} />
+                  <input value={draftTitle} onChange={(e) => setDraftTitle(e.target.value)} placeholder="Title" aria-label="Post title" />
+                  <textarea value={draftBody} onChange={(e) => setDraftBody(e.target.value)} placeholder="What’s on your mind?" aria-label="Post text" rows={3} />
                   <button type="button" className="wpa-btn" disabled={!draftTitle.trim()} onClick={() => { setDrafts((x) => [{ t: draftTitle.trim(), b: draftBody.trim() }, ...x]); setDraftTitle(""); setDraftBody(""); }}>Save Draft</button>
                   {drafts.length > 0 && <ul className="wpa-drafts">{drafts.map((x, n) => <li key={n}><b>{x.t}</b><span>Draft</span>{x.b && <p>{x.b}</p>}</li>)}</ul>}
                 </div>
@@ -209,7 +209,7 @@ export function WordpressPage({ d }: { d: TechData }) {
               <p className="wpa-intro">{d.services.intro}</p>
               <div className="wpa-tools">
                 <span>All ({d.services.cards.length})</span><span>| Published ({d.services.cards.length})</span>
-                <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search Pages" />
+                <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search Pages" aria-label="Search pages" />
               </div>
               <div className="wpa-split">
                 <table className="wpa-table">
@@ -288,7 +288,7 @@ export function WordpressPage({ d }: { d: TechData }) {
                   {d.tools.items.map((t) => (
                     <tr key={t} className={active.has(t) ? "is-on" : ""}>
                       <td><b>{t}</b><small>{active.has(t) ? "Deactivate" : "Activate"}</small></td>
-                      <td><button type="button" role="switch" aria-checked={active.has(t)} className="wpa-switch" onClick={() => setActive((s) => toggleSet(s, t))}><i /></button></td>
+                      <td><button type="button" role="switch" aria-checked={active.has(t)} aria-label={`${active.has(t) ? "Deactivate" : "Activate"} ${t}`} className="wpa-switch" onClick={() => setActive((s) => toggleSet(s, t))}><i /></button></td>
                     </tr>
                   ))}
                 </tbody>

@@ -1,0 +1,146 @@
+/* Branded 404 and error pages (prefix nf-). Used by app/global-not-found.tsx (unknown address), app/(site)/not-found.tsx (blog/job/project not found)
+   and app/(site)/error.tsx (a page crashed). Theme-relative colours only; the fallbacks keep the default violet when the theme variables are not loaded. */
+body:has(.nf-root) {
+  margin: 0;
+  background: hsl(calc(var(--th, 0) + 347.58) calc(76% * var(--ts, 1)) 4.9%);
+  color: #fff;
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.nf-root {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px;
+  overflow: hidden;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 38%, hsl(calc(var(--th, 0) + 344) calc(60% * var(--ts, 1)) 16% / 0.9), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 85% 85%, hsl(calc(var(--th, 0) + 6) calc(70% * var(--ts, 1)) 14% / 0.7), transparent 70%);
+}
+.nf-box {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+}
+.nf-logo {
+  display: inline-block;
+  margin-bottom: 40px;
+}
+.nf-logo img {
+  display: block;
+  width: 64px;
+  height: auto;
+}
+.nf-code {
+  margin: 0;
+  font-size: clamp(110px, 16vw, 190px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  background: linear-gradient(180deg, #fff 10%, hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 76%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.nf-chip {
+  display: inline-block;
+  margin: 20px 0 0;
+  padding: 6px 16px;
+  border: 1px solid hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 76% / 0.35);
+  border-radius: 999px;
+  color: hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 82%);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.nf-title {
+  margin: 24px 0 0;
+  font-size: clamp(30px, 3.4vw, 40px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.nf-text {
+  margin: 16px auto 0;
+  max-width: 520px;
+  color: hsl(calc(var(--th, 0) + 353.78) calc(30% * var(--ts, 1)) 72%);
+  font-size: 18px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+.nf-btn {
+  display: inline-flex;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+.nf-btn-main {
+  background: linear-gradient(180deg, hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 84%), hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 72%));
+  color: hsl(calc(var(--th, 0) + 347.58) calc(76% * var(--ts, 1)) 6%);
+}
+.nf-btn-ghost {
+  border-color: hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 76% / 0.35);
+  background: hsl(calc(var(--th, 0) + 351) calc(40% * var(--ts, 1)) 19% / 0.4);
+  color: #fff;
+}
+.nf-btn:hover {
+  transform: translateY(-2px);
+}
+.nf-btn-ghost:hover {
+  border-color: hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 76% / 0.7);
+  background: hsl(calc(var(--th, 0) + 351) calc(40% * var(--ts, 1)) 19% / 0.7);
+}
+.nf-btn:focus-visible,
+.nf-links a:focus-visible,
+.nf-logo:focus-visible {
+  outline: 2px solid hsl(calc(var(--th, 0) + 14) calc(100% * var(--ts, 1)) 78%);
+  outline-offset: 3px;
+}
+.nf-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  margin: 48px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 76% / 0.18);
+  list-style: none;
+}
+.nf-links a {
+  border-radius: 6px;
+  color: hsl(calc(var(--th, 0) + 354) calc(100% * var(--ts, 1)) 82%);
+  font-size: 15px;
+  text-decoration: none;
+}
+.nf-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nf-btn {
+    transition: none;
+  }
+  .nf-btn:hover {
+    transform: none;
+  }
+}

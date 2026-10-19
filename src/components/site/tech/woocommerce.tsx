@@ -59,7 +59,7 @@ function Checkout() {
         <div className="woo-qty"><button type="button" aria-label="Less" onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button><span>{qty}</span><button type="button" aria-label="More" onClick={() => setQty((q) => Math.min(9, q + 1))}>+</button></div>
       </div>
       <div className="woo-coupon">
-        <input value={code} onChange={(e) => setCode(e.target.value)} placeholder="Coupon code (try WELCOME10)" onKeyDown={(e) => e.key === "Enter" && apply()} />
+        <input value={code} onChange={(e) => setCode(e.target.value)} placeholder="Coupon code (try WELCOME10)" aria-label="Coupon code" onKeyDown={(e) => e.key === "Enter" && apply()} />
         <button type="button" onClick={apply}>Apply</button>
       </div>
       {msg && <p className={`woo-msg ${applied ? "is-ok" : ""}`}>{msg}</p>}

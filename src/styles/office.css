@@ -1149,6 +1149,7 @@
   color: transparent;
 }
 .ws h1,
+.ws .ws-h1,
 .ws h2,
 .ws h3 {
   margin: 0;
@@ -1234,7 +1235,8 @@
     transform: scale(1.35);
   }
 }
-.ws-hero h1 {
+.ws-hero h1,
+.ws-hero .ws-h1 {
   margin: 26px 0 22px;
   font-size: 78px;
   font-weight: 800;
@@ -1836,7 +1838,8 @@
 .ws-root[data-device="tablet"] .ws-about {
   grid-template-columns: 1fr;
 }
-.ws-root[data-device="tablet"] .ws-hero h1 {
+.ws-root[data-device="tablet"] .ws-hero h1,
+.ws-root[data-device="tablet"] .ws-hero .ws-h1 {
   font-size: 60px;
 }
 .ws-root[data-device="tablet"] .ws-nav,
@@ -1877,7 +1880,8 @@
 .ws-root[data-device="phone"] .ws-hero {
   padding: 36px 20px;
 }
-.ws-root[data-device="phone"] .ws-hero h1 {
+.ws-root[data-device="phone"] .ws-hero h1,
+.ws-root[data-device="phone"] .ws-hero .ws-h1 {
   font-size: 40px;
 }
 .ws-root[data-device="phone"] .ws-hero-art {

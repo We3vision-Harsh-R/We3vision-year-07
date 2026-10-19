@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
   poweredByHeader: false,
   // build on small hosts: use worker threads (no extra processes) and few workers
-  experimental: { workerThreads: true, cpus: 2 },
+  experimental: { workerThreads: true, cpus: 2, globalNotFound: true },
   // development only: lets other computers on the same Wi-Fi open the dev server (http://<this PC's IP>:1010)
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*"],
   // `ANALYZE_STATS=1 npm run build` writes .next/stats-client.json (what is inside every browser chunk); read it with node tools/chunk-report.mjs

@@ -17,6 +17,12 @@ const poppins = Poppins({
   display: "swap",
 });
 
+// Canonical links, robots.txt and sitemap.xml are built from NEXT_PUBLIC_SITE_URL. Without it they point to localhost and Google would index
+// nothing useful, so a production build says so loudly (it does not fail: a deploy must never be blocked by a missing setting).
+if (!process.env.NEXT_PUBLIC_SITE_URL && process.env.NODE_ENV === "production") {
+  console.warn("[we3vision] NEXT_PUBLIC_SITE_URL is not set: canonical links, robots.txt and sitemap.xml will point to http://localhost:1010. Set it to the live https address (Hostinger > environment variables).");
+}
+
 export const baseMetadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:1010"),
   title: "We3vision",

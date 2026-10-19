@@ -9,7 +9,7 @@ import type { AlertInput } from "@/lib/alerts";
 // Visitors without a known address (or with a private one: the host's own network) are never blocked by the counters.
 
 const PROBE_PATH =
-  /^\/(?:wp-(?:admin|login|content|includes|json|config)|wordpress|xmlrpc|phpmyadmin|pma\b|myadmin|mysql|adminer|cgi-bin|vendor\/|boaform|hnap1|owa\/|autodiscover|actuator|solr\b|jenkins|manager\/html|telescope|_ignition|administrator|server-status|backup\b)/i;
+  /^\/(?:wp-(?:admin|login|content|includes|json|config)|wordpress(?:\/|$)|xmlrpc|phpmyadmin|pma\b|myadmin|mysql|adminer|cgi-bin|vendor\/|boaform|hnap1|owa\/|autodiscover|actuator|solr\b|jenkins|manager\/html|telescope|_ignition|administrator|server-status|backup\b)/i;
 const PROBE_EXT = /\.(?:php\d?|aspx?|jsp|cgi|pl|env|ini|sql|bak|old|swp|sh|cfg|conf|log|ya?ml|git|svn|htaccess|htpasswd|ds_store)(?:$|[/.])/i;
 const BAD_INPUT =
   /<\s*\/?\s*script|javascript:|\bunion\b[\s+/*]+(?:all[\s+]+)?select\b|information_schema|\b(?:sleep|benchmark|pg_sleep|waitfor)\s*\(|\.\.[/\\]|\/etc\/passwd|win\.ini|\$\{jndi:|\bor\b\s+['"]?1['"]?\s*=\s*['"]?1|<\?php|\bon(?:error|load)\s*=/i;

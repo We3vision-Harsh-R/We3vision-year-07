@@ -133,3 +133,9 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - About: story player, Pando in Messages, services as a Settings list -> sheet, journey as Years + the 2027 goal as a Today card, facts as widgets -> sheet, leaders as Contacts -> card. Careers: Wallet pass, values as Tips cards, teams Settings list -> sheet, station as a Maps card (Apple Maps link), every job opens a sheet with Apply. Portfolio: a picture opens the Photos viewer ("Open" goes to the project; the grid keeps real links). Products: App Store Today tab (h1 kept for SEO, visually hidden) + Top Apps list where a row opens the product sheet.
 - Browser error reporter no longer reports ChunkLoadError (old scripts after a deploy).
 - Checks: tsc, eslint, webpack build; Playwright at 390x844: sheets above the tab bar and clickable, Messages, Years, Today open/close, widgets, contact card, Wallet pass, Tips, Maps, job sheet + Apply link, Photos viewer swipe 3/30 -> 4/30, Today story buttons; no sideways scroll.
+
+## 2026-10-19 · Whole-website test + bug list (no task number, no code changed)
+- Owner: test every page, list UI/UX/CX rule breaks and weak design, with fix, benefit, reason, next step, one master table to paste into another chat.
+- Result: `brain/18-website-test-master-table.md` (33 items B-01..B-33, page-wise status of all 41 routes + 63 detail pages, master-design tokens, service-wise hero ideas, visitor-clarity checklist, fix phases, paste prompt).
+- Biggest find: `/wordpress-plugin-development-company` returns 404 because `src/lib/shield.ts:12` treats `wordpress` (no boundary) as a hacker probe; the page is in the menu and sitemap.
+- Not tested: production build/Lighthouse, admin (login), form submit, real devices, Safari/Firefox. The owner's dev server on port 1010 stopped during the test (cause unknown); it was restarted from `.claude/launch.json`.
