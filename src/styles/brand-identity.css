@@ -100,7 +100,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -288,7 +288,7 @@
   position: absolute;
   left: 16px;
   bottom: 14px;
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: hsl(calc(var(--th) + 358) calc(100% * var(--ts)) 92.16% / 0.6);
@@ -580,7 +580,7 @@
   flex: none;
   margin: 0 0 14px;
   padding-left: 40px;
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: hsl(calc(var(--th) + 358) calc(100% * var(--ts)) 92.16% / 0.55);
@@ -668,7 +668,7 @@
 }
 .bb-n {
   flex: none;
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   letter-spacing: 0.1em;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.7);
 }
@@ -691,7 +691,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   line-height: 1.4;
   color: hsl(calc(var(--th) + 358) calc(100% * var(--ts)) 92.16% / 0.45);
   transition: color 0.4s;
@@ -731,7 +731,7 @@
 }
 .bb-note {
   margin: 0;
-  font-size: 0.84rem;
+  font-size: 0.875rem;
   line-height: 1.4;
   color: hsl(calc(var(--th) + 358) calc(100% * var(--ts)) 92.16% / 0.5);
 }

@@ -358,8 +358,8 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(5, 2, 12, 0.72) 0%, rgba(5, 2, 12, 0.35) 34%, transparent 58%),
-    radial-gradient(ellipse at 62% 50%, transparent 55%, rgba(3, 1, 8, 0.55) 100%);
+    linear-gradient(90deg, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.72) 0%, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.35) 34%, transparent 58%),
+    radial-gradient(ellipse at 62% 50%, transparent 55%, hsl(calc(var(--th) - 26.86) calc(77.78% * var(--ts)) 1.76% / 0.55) 100%);
 }
 .aw-chip {
   display: inline-flex;
@@ -566,7 +566,7 @@
     height: calc(100svh * (2.6 + var(--n) * 1.05));
   }
 .aw-vignette {
-    background: linear-gradient(0deg, rgba(5, 2, 12, 0.85) 0%, rgba(5, 2, 12, 0.5) 38%, transparent 62%);
+    background: linear-gradient(0deg, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.85) 0%, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.5) 38%, transparent 62%);
   }
 .aw-hero,
 .aw-meet {

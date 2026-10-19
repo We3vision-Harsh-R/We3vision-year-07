@@ -435,7 +435,7 @@ select.cj-in {
 }
 select.cj-in option,
 .cj-to select option {
-  background: #14081f;
+  background: hsl(calc(var(--th) - 12.7) calc(58.97% * var(--ts)) 7.65%);
   color: #fff;
 }
 input[type="date"].cj-in {
@@ -1229,7 +1229,7 @@ input[type="date"].cj-in {
   border-radius: 6px;
   background: hsl(calc(var(--th) + 354) calc(92% * var(--ts)) 58%);
   color: hsl(calc(var(--th) + 347.58) 50% 8%);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;

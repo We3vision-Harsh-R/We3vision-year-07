@@ -1036,7 +1036,7 @@ html.theme-anim {
   border-radius: 999px;
   background: color-mix(in srgb, var(--color-void) 78%, transparent);
   color: #fff;
-  font-size: 0.68rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -1189,9 +1189,9 @@ html.theme-anim {
   top: 8px;
   z-index: 3;
   color: hsl(calc(var(--th) + var(--zt, 0)) calc(70% * var(--ts)) 88% / 0.55);
-  font-size: 9.5px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -5058,7 +5058,7 @@ html.has-sb::-webkit-scrollbar {
 .vr {
   position: relative;
   height: calc(100svh * 7.4);
-  background: #060310;
+  background: hsl(calc(var(--th) - 30.15) calc(68.42% * var(--ts)) 3.73%);
 }
 .vr[data-state="still"],
 .vr[data-state="fallback"] {
@@ -5069,7 +5069,7 @@ html.has-sb::-webkit-scrollbar {
   top: 0;
   height: 100svh;
   overflow: hidden;
-  background: radial-gradient(ellipse at 50% 60%, hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 14%), #060310 70%);
+  background: radial-gradient(ellipse at 50% 60%, hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 14%), hsl(calc(var(--th) - 30.15) calc(68.42% * var(--ts)) 3.73%) 70%);
 }
 .vr-canvas {
   position: absolute;
@@ -5088,7 +5088,7 @@ html.has-sb::-webkit-scrollbar {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at 50% 46%, transparent 52%, rgba(3, 1, 8, 0.6) 100%);
+  background: radial-gradient(ellipse at 50% 46%, transparent 52%, hsl(calc(var(--th) - 26.86) calc(77.78% * var(--ts)) 1.76% / 0.6) 100%);
 }
 .vr-captions {
   position: absolute;
@@ -5108,7 +5108,7 @@ html.has-sb::-webkit-scrollbar {
   letter-spacing: -0.03em;
   line-height: 1.15;
   text-align: center;
-  text-shadow: 0 2px 24px rgba(5, 2, 12, 0.9), 0 0 6px rgba(5, 2, 12, 0.8);
+  text-shadow: 0 2px 24px hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.9), 0 0 6px hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.8);
   opacity: 0;
   will-change: opacity, transform;
 }

@@ -173,7 +173,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--bx, 50%) var(--by, 50%), rgba(6, 2, 12, 0.05) 0, rgba(6, 2, 12, 0.42) 75%);
+  background: radial-gradient(circle at var(--bx, 50%) var(--by, 50%), hsl(calc(var(--th) - 20) calc(71.43% * var(--ts)) 2.75% / 0.05) 0, hsl(calc(var(--th) - 20) calc(71.43% * var(--ts)) 2.75% / 0.42) 75%);
 }
 .vfo-blur i {
   --rr: calc(var(--br, 700px) * (1.32 - var(--k) * 0.17));
@@ -1942,8 +1942,8 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% 48%, transparent 38%, rgba(2, 1, 8, 0.6) 100%),
-    linear-gradient(180deg, rgba(2, 1, 8, 0.25), transparent 30%, transparent 70%, rgba(2, 1, 8, 0.35));
+    radial-gradient(ellipse at 50% 48%, transparent 38%, hsl(calc(var(--th) - 35.43) calc(77.78% * var(--ts)) 1.76% / 0.6) 100%),
+    linear-gradient(180deg, hsl(calc(var(--th) - 35.43) calc(77.78% * var(--ts)) 1.76% / 0.25), transparent 30%, transparent 70%, hsl(calc(var(--th) - 35.43) calc(77.78% * var(--ts)) 1.76% / 0.35));
 }
 .vs-fade {
   position: absolute;
@@ -2005,14 +2005,14 @@
   will-change: transform, opacity;
   background:
     linear-gradient(140deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.07) 38%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12)),
-    rgba(20, 12, 36, 0.28);
+    hsl(calc(var(--th) - 24) calc(50% * var(--ts)) 9.41% / 0.28);
   -webkit-backdrop-filter: blur(36px) saturate(1.7) brightness(1.08);
   backdrop-filter: blur(36px) saturate(1.7) brightness(1.08);
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.65),
     inset 0 -1px 1px rgba(255, 255, 255, 0.18),
     inset 0 0 40px rgba(255, 255, 255, 0.06),
-    0 50px 120px rgba(2, 1, 8, 0.55),
+    0 50px 120px hsl(calc(var(--th) - 35.43) calc(77.78% * var(--ts)) 1.76% / 0.55),
     0 6px 20px rgba(0, 0, 0, 0.3);
 }
 .vs[data-pin="false"] .vs-win {
@@ -2028,7 +2028,7 @@
   aspect-ratio: 940 / 392;
   overflow: hidden;
   border-radius: 26px;
-  background: #0b0716;
+  background: hsl(calc(var(--th) - 28) calc(51.72% * var(--ts)) 5.69%);
 }
 .vs-art {
   position: absolute;
@@ -2041,7 +2041,7 @@
 .vs-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(5, 2, 12, 0.82) 0%, rgba(5, 2, 12, 0.4) 44%, rgba(5, 2, 12, 0) 72%);
+  background: linear-gradient(90deg, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.82) 0%, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.4) 44%, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0) 72%);
 }
 .vs-hero-text {
   position: absolute;
@@ -2188,7 +2188,7 @@
     border-radius: 22px;
   }
 .vs-shade {
-    background: linear-gradient(0deg, rgba(5, 2, 12, 0.88) 0%, rgba(5, 2, 12, 0.5) 52%, rgba(5, 2, 12, 0) 85%);
+    background: linear-gradient(0deg, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.88) 0%, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.5) 52%, hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0) 85%);
   }
 .vs-hero-text {
     top: auto;

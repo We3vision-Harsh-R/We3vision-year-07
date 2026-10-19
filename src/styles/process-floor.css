@@ -219,7 +219,7 @@
     padding: 20px 22px 22px;
     border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45);
     border-radius: 18px;
-    background: linear-gradient(180deg, rgba(30, 16, 56, 0.94), rgba(14, 8, 28, 0.94));
+    background: linear-gradient(180deg, hsl(calc(var(--th) - 23) calc(55.56% * var(--ts)) 14.12% / 0.94), hsl(calc(var(--th) - 26) calc(55.56% * var(--ts)) 7.06% / 0.94));
     box-shadow:
       inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25),
       0 22px 50px rgba(0, 0, 0, 0.5);

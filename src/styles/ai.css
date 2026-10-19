@@ -30,7 +30,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.04);
   color: hsl(calc(var(--th) + 347.5) calc(39.22% * var(--ts)) 80%);
-  font-size: 0.74rem;
+  font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: none;
@@ -455,7 +455,7 @@
   width: 14px;
   height: 14px;
   fill: none;
-  stroke: #0b0614;
+  stroke: hsl(calc(var(--th) - 22.57) calc(53.85% * var(--ts)) 5.1%);
   stroke-width: 3.2;
   stroke-linecap: round;
   stroke-linejoin: round;

@@ -103,7 +103,7 @@
 .woo-rail::before { content: ""; position: absolute; left: 0; right: 0; top: 27px; height: 6px; border-radius: 3px; background: var(--wo-l); }
 .woo-rail-fill { position: absolute; left: 0; top: 27px; height: 6px; border-radius: 3px; background: var(--wo-a); transition: width 0.7s; }
 .woo-van { position: absolute; top: -8px; margin-left: -18px; font-size: 1.8rem; transition: left 0.7s; z-index: 2; }
-.woo-rail button { position: absolute; top: 14px; width: 32px; height: 32px; margin-left: -16px; border-radius: 50%; border: 3px solid var(--wo-l); background: hsl(calc(var(--th) + 346) calc(40% * var(--ts)) 8%); color: var(--wo-m); font: 600 0.95rem inherit; font-family: inherit; cursor: pointer; transition: all 0.3s; z-index: 1; }
+.woo-rail button { position: absolute; top: 14px; width: 32px; height: 32px; margin-left: -16px; border-radius: 50%; border: 3px solid var(--wo-l); background: hsl(calc(var(--th) + 346) calc(40% * var(--ts)) 8%); color: var(--wo-m); font: 600 0.95rem inherit; font-family: inherit; cursor: pointer; transition: color 0.3s, background 0.3s, border-color 0.3s, box-shadow 0.3s, opacity 0.3s, transform 0.3s, fill 0.3s, stroke 0.3s, filter 0.3s; z-index: 1; }
 .woo-rail button.is-done { background: var(--wo-a); border-color: var(--wo-a); color: #fff; }
 .woo-rail button.is-on { transform: scale(1.25); box-shadow: 0 0 0 6px hsl(calc(var(--th) + 346) calc(55% * var(--ts)) 58% / 0.25); }
 .woo-status { padding: 28px 34px; border-radius: 20px; background: #fff; color: #2b2d2f; display: grid; grid-template-columns: 1.3fr 1fr; gap: 6px 40px; animation: woo-in 0.4s ease; }

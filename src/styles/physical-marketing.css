@@ -19,7 +19,7 @@
 .phy-cap small { font-size: 0.875rem; color: var(--m-mute); }
 .phy-pick { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 10px; border-top: 1px solid var(--m-line); }
 .phy-pick button,
-.phy-seg button { padding: 6px 14px; border: 1px solid var(--m-line); border-radius: 999px; background: none; color: var(--m-mute); font-size: 0.875rem; cursor: pointer; transition: all 0.3s; }
+.phy-seg button { padding: 6px 14px; border: 1px solid var(--m-line); border-radius: 999px; background: none; color: var(--m-mute); font-size: 0.875rem; cursor: pointer; transition: color 0.3s, background 0.3s, border-color 0.3s, box-shadow 0.3s, opacity 0.3s, transform 0.3s, fill 0.3s, stroke 0.3s, filter 0.3s; }
 .phy-pick button:hover,
 .phy-seg button:hover { color: var(--m-ink); border-color: var(--m-a); }
 .phy-pick button.is-on,
@@ -34,7 +34,7 @@
 .phy-path::before { content: ""; position: absolute; left: 6%; right: 6%; top: 21px; height: 2px; background: var(--m-line); }
 .phy-path li { position: relative; flex: 1; text-align: center; }
 .phy-path button { display: grid; justify-items: center; gap: 10px; width: 100%; padding: 0 6px; border: 0; background: none; color: var(--m-mute); font-size: 0.95rem; line-height: 1.3; cursor: pointer; }
-.phy-path b { z-index: 1; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--m-line); background: var(--m-dk); font-size: 1rem; transition: all 0.4s; }
+.phy-path b { z-index: 1; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--m-line); background: var(--m-dk); font-size: 1rem; transition: color 0.4s, background 0.4s, border-color 0.4s, box-shadow 0.4s, opacity 0.4s, transform 0.4s, fill 0.4s, stroke 0.4s, filter 0.4s; }
 .phy-path li.is-done b,
 .phy-path li.is-on b { background: var(--m-a); border-color: var(--m-a); color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%); }
 .phy-path li.is-on b { box-shadow: 0 0 20px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.6); transform: scale(1.12); }
@@ -64,7 +64,7 @@
 .phy-hall { fill: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 10%); stroke: var(--m-line); stroke-width: 2; }
 .phy-walk { stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.4); stroke-width: 3; stroke-dasharray: 8 10; fill: none; }
 .phy-zone { cursor: pointer; outline: none; }
-.phy-zone rect { fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.06); stroke: var(--m-line); stroke-width: 1.5; transition: all 0.3s; }
+.phy-zone rect { fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.06); stroke: var(--m-line); stroke-width: 1.5; transition: color 0.3s, background 0.3s, border-color 0.3s, box-shadow 0.3s, opacity 0.3s, transform 0.3s, fill 0.3s, stroke 0.3s, filter 0.3s; }
 .phy-zone text { fill: var(--m-ink); font-size: 18px; font-weight: 700; font-family: var(--font-poppins), Poppins, sans-serif; }
 .phy-zone .phy-zt { font-size: 14px; font-weight: 500; fill: var(--m-mute); }
 .phy-dot { fill: var(--m-a); }

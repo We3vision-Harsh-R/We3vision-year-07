@@ -36,7 +36,7 @@
 .sha-app { display: flex; flex-direction: column; gap: 8px; }
 .sha-col p,
 .sha-app p { margin: 0 0 4px; font: 400 0.875rem ui-monospace, Menlo, monospace; color: var(--sa-m); }
-.sha-col button { display: flex; justify-content: space-between; align-items: center; gap: 8px; text-align: left; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--sa-l); background: none; color: var(--sa-t); font: 500 0.95rem inherit; font-family: inherit; cursor: pointer; transition: all 0.25s; }
+.sha-col button { display: flex; justify-content: space-between; align-items: center; gap: 8px; text-align: left; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--sa-l); background: none; color: var(--sa-t); font: 500 0.95rem inherit; font-family: inherit; cursor: pointer; transition: color 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s, opacity 0.25s, transform 0.25s, fill 0.25s, stroke 0.25s, filter 0.25s; }
 .sha-col button.is-on { border-color: var(--sa-a); background: hsl(calc(var(--th) + 356) calc(55% * var(--ts)) 58% / 0.12); }
 .sha-col button u { text-decoration: none; font: 400 0.875rem ui-monospace, monospace; color: var(--sa-m); }
 .sha-col button.is-on u { color: var(--sa-a); }
