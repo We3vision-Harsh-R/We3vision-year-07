@@ -10146,3 +10146,65 @@ html { scroll-padding-top: 90px; }.smp-group h2 i,
     font-size: clamp(3rem, 8.4vh, 4.2rem);
   }
 }
+
+/* Keyboard focus, skip link, text cursor and contact form labels (task 100, prefix fcs- / skp- / cf-fld).
+   1) One visible focus ring for every link, button, tab and switch when it is reached with the keyboard (:focus-visible: the mouse does not draw it).
+      The ring is drawn 3px away from the element, in the light violet of the site, so it is seen on a dark page and also round a light button.
+      Components that draw their own ring (.rp-cta, .gsel-opt ...) keep it: their selectors are stronger than this one. */
+html a:focus-visible,
+html button:focus-visible,
+html summary:focus-visible,
+html select:focus-visible,
+html [role="button"]:focus-visible,
+html [role="tab"]:focus-visible,
+html [role="switch"]:focus-visible,
+html [tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: 2px solid var(--color-violet);
+  outline-offset: 3px;
+}
+/* 2) "Skip to content": the first thing a Tab reaches, shown only while it has the focus. */
+.skp-link {
+  position: fixed;
+  left: 16px;
+  top: -80px;
+  z-index: 100000;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: var(--color-violet);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skp-link:focus-visible {
+  top: 16px;
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+#main-content:focus {
+  outline: none;
+}
+/* 3) Over a text field the custom cursor steps aside and the normal text cursor (I-beam) is shown, so the visitor sees where they type. */
+html.has-custom-cursor input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="button"]):not([type="submit"]):not([type="file"]),
+html.has-custom-cursor textarea,
+html.has-custom-cursor [contenteditable="true"] {
+  cursor: text !important;
+}
+div.pointer-events-none[data-mode="text"][aria-hidden] {
+  opacity: 0 !important;
+}
+/* 4) Contact form: a visible label above every field (it stays when the visitor types, unlike a placeholder). */
+.cf-fld {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+.cf-lab {
+  color: hsl(calc(var(--th) + 353.78) calc(30% * var(--ts)) 82%);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}

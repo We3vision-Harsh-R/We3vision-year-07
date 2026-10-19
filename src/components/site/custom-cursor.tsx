@@ -7,6 +7,8 @@ import { THEME_EVENT, loadTheme } from "@/lib/theme";
 //  - a soft violet glow (56px circle, blurred, colour-dodge),
 //  - the arrow (26px) OR the pointing hand (24px) when over something clickable,
 //  - the "You" tag (gradient border) 16px right/below the pointer.
+// text fields: the custom cursor steps aside and the normal text cursor is shown (see the end of globals.css)
+const TEXT_FIELD = "input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=button]):not([type=submit]):not([type=file]), textarea, [contenteditable=true]";
 const CLICKABLE = 'a[href], button:not(:disabled), [role="button"], [role="tab"], summary, label[for], select';
 
 const subscribeName = (cb: () => void) => {
@@ -63,7 +65,8 @@ export function CustomCursor() {
         cy = y;
         root.dataset.visible = "true";
       }
-      root.dataset.mode = (e.target as Element | null)?.closest(CLICKABLE) ? "pointer" : "default";
+      const target = e.target as Element | null;
+      root.dataset.mode = target?.closest(TEXT_FIELD) ? "text" : target?.closest(CLICKABLE) ? "pointer" : "default";
       wake();
     };
     const onLeave = () => {

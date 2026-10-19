@@ -72,9 +72,6 @@
     0 0 0 3px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45),
     0 18px 50px -24px rgba(0, 0, 0, 0.75);
 }
-.bm-item:focus-visible {
-  outline: none;
-}
 .bm-img {
   display: block;
   width: 100%;

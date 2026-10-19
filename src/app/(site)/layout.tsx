@@ -18,12 +18,17 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <RootShell>
       <div className="relative overflow-x-clip">
+        <a href="#main-content" className="skp-link">
+          Skip to content
+        </a>
         <SmoothScroll />
         <SiteScrollbar />
         <LateExtras />
         <Background />
         <LogoMark name={site.name} />
-        <main>{children}</main>
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
         <Footer site={site} />
         <FloatingNav
           items={site.nav}

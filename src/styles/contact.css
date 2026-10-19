@@ -175,7 +175,6 @@
 }
 .rc-go:hover,
 .rc-go:focus-visible {
-  outline: none;
   transform: translateY(-2px);
 }
 .rc-links {

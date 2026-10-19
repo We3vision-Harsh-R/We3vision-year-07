@@ -221,10 +221,22 @@ export function ContactFlow({ buttonLabel }: Props) {
             <h3 className="cf-q">How can we reach you?</h3>
             <p className="cf-hint">We answer ourselves, usually the same day.</p>
             <div className="cf-fields">
-              <input name="name" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} maxLength={100} autoComplete="name" aria-label="Full name" className={`cf-in${ios}`} placeholder="Your name" />
-              <input name="email" type="email" required maxLength={200} autoComplete="email" aria-label="Email" className={`cf-in${ios}`} placeholder="Your email" />
-              <input name="phone" type="tel" maxLength={30} autoComplete="tel" aria-label="Phone (optional)" className={`cf-in cf-wide${ios}`} placeholder="Phone (optional)" />
-              <textarea value={text} onChange={(e) => setText(e.target.value)} maxLength={1700} rows={4} aria-label="Message (optional)" className={`cf-in cf-wide${ios}`} placeholder="Tell us a little about the project (optional)" />
+              <label className="cf-fld">
+                <span className="cf-lab">Full name</span>
+                <input name="name" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} maxLength={100} autoComplete="name" className={`cf-in${ios}`} placeholder="Your full name…" />
+              </label>
+              <label className="cf-fld">
+                <span className="cf-lab">Email</span>
+                <input name="email" type="email" inputMode="email" spellCheck={false} required maxLength={200} autoComplete="email" className={`cf-in${ios}`} placeholder="you@example.com" />
+              </label>
+              <label className="cf-fld cf-wide">
+                <span className="cf-lab">Phone (optional)</span>
+                <input name="phone" type="tel" inputMode="tel" maxLength={30} autoComplete="tel" className={`cf-in${ios}`} placeholder="+91 …" />
+              </label>
+              <label className="cf-fld cf-wide">
+                <span className="cf-lab">Message (optional)</span>
+                <textarea value={text} onChange={(e) => setText(e.target.value)} maxLength={1700} rows={4} className={`cf-in${ios}`} placeholder="Tell us a little about the project…" />
+              </label>
             </div>
             <input type="hidden" name="message" value={message} />
             {/* Honeypot: hidden from people, bots fill it in. */}
