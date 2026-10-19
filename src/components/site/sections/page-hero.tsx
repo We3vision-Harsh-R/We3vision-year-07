@@ -19,7 +19,7 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
     return <ContactReception chip={data.chip} heading={data.heading} text={data.text} links={links} badges={<HeroBadges badges={site.badges} />} />;
   }
   return (
-  <section id="top" className="relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
+  <section id="top" className="phz-hero relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
     {/* the service pages: soft light in the colours of the theme behind the words, a different pattern on every page */}
     {skin === "modern" && page !== "ai" && page !== "blog" && page !== "team" && <HeroGradient page={page ?? ""} />}
     {/* the AI page: a smooth gradient with a quiet neural network */}
@@ -48,7 +48,7 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
         </div>
       )}
       <h1
-        className="animate-rise mt-7 whitespace-pre-line bg-gradient-to-b from-white to-[hsl(calc(var(--th)_+_352.8)_calc(100%_*_var(--ts))_85.29%)] bg-clip-text pb-2 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.04em] text-transparent drop-shadow-[0_6px_30px_hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.85)] sm:text-6xl lg:text-[4.6rem]"
+        className="phz-h1 animate-rise mt-7 whitespace-pre-line bg-gradient-to-b from-white to-[hsl(calc(var(--th)_+_352.8)_calc(100%_*_var(--ts))_85.29%)] bg-clip-text pb-2 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.04em] text-transparent drop-shadow-[0_6px_30px_hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.85)] sm:text-6xl lg:text-[4.6rem]"
         style={rise(250)}
       >
         {data.heading}
