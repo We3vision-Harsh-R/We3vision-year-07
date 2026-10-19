@@ -1618,7 +1618,7 @@ a.rt-row:hover {
 }
 .rl-livery {
   fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90% / 0.92);
-  font-size: 8px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.16em;
 }

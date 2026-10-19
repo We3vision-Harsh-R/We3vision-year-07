@@ -377,7 +377,7 @@ html.theme-anim {
 }
 .rw-clock {
   color: hsl(calc(var(--th) + 352.99) calc(100% * var(--ts)) 85.69% / 0.7);
-  font: 500 0.78rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 500 0.875rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: 0.18em;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
@@ -550,7 +550,7 @@ html.theme-anim {
   top: calc(100% + 9px);
   left: 50%;
   color: hsl(calc(var(--th) + 353.78) calc(22.69% * var(--ts)) calc(53.33% + 7% * max(0, cos((var(--th) - 240) * 2.4deg))));
-  font: 500 0.7rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 500 0.875rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: 0.06em;
   white-space: nowrap;
   transform: translateX(-50%);
@@ -606,7 +606,7 @@ html.theme-anim {
 .orb-index {
   display: block;
   color: hsl(calc(var(--th) + 353.78) calc(22.69% * var(--ts)) calc(53.33% + 7% * max(0, cos((var(--th) - 240) * 2.4deg))));
-  font: 500 0.8rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 500 0.875rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: 0.2em;
 }
 .orb-icon {

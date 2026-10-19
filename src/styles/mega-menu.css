@@ -473,7 +473,7 @@
 .mm-in2 .mm-svc-grid { display: grid; grid-template-columns: repeat(5, max-content); justify-content: space-between; gap: 0.9rem; padding-top: 0.7rem; }
 .mm-in2 .mm-sub { padding: 0.8rem 1rem 0.9rem; border: 1px solid var(--hair); border-radius: 16px; background: hsl(calc(var(--th) + 349) calc(40% * var(--ts)) 12% / 0.55); min-width: 0; }
 .mm-in2 .mm-sub-t { display: flex; align-items: baseline; gap: 0.55rem; margin: 0 0 0.35rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--hair); color: var(--a); font-size: 0.95rem; font-weight: 650; letter-spacing: 0.03em; }
-.mm-in2 .mm-sub-t i { color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.5); font: 400 0.8rem ui-monospace, Menlo, monospace; font-style: normal; }
+.mm-in2 .mm-sub-t i { color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.5); font: 400 0.875rem ui-monospace, Menlo, monospace; font-style: normal; }
 .mm-in2 .mm-sub .mm-li { padding: 0.3rem 0 0; gap: 0.05rem; }
 .mm-in2 .mm-sub .mm-li li::before,
 .mm-in2 .mm-sub .mm-li li::after { display: none; }

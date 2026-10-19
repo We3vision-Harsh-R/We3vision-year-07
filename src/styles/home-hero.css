@@ -280,7 +280,7 @@
 }
 .hub-idx {
   color: var(--ac);
-  font: 500 0.7rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 500 0.875rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: 0.22em;
 }
 .hub-title {
@@ -343,7 +343,7 @@
 .hub-sn {
   padding-top: 3px;
   color: var(--ac);
-  font: 500 0.66rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 500 0.875rem / 1 ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: 0.16em;
 }
 .hub-subs h3 {

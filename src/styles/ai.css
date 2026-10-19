@@ -9,7 +9,7 @@
   gap: 0 24px;
   padding: 0 8px 16px;
   color: hsl(calc(var(--th) + 353.78) calc(22.69% * var(--ts)) calc(53.33% + 7% * max(0, cos((var(--th) - 240) * 2.4deg))));
-  font: 700 0.76rem / 1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: 700 0.875rem / 1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -171,7 +171,7 @@
   border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.45);
   border-radius: 999px;
   color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%);
-  font: 600 0.62rem / 1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: 600 0.875rem / 1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-style: normal;
   letter-spacing: 0.12em;
   text-transform: uppercase;
