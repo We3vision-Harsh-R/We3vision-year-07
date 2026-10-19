@@ -3,6 +3,7 @@ import { HeroBadges } from "../hero-badges";
 import { AiHeroBg } from "../modern/ai-hero-bg";
 import CursorGrid from "../modern/cursor-grid";
 import { HeroGradient } from "../modern/hero-gradient";
+import { MobileHero } from "../modern/mobile-hero";
 import { WebdevHero } from "../modern/webdev-hero";
 import { Chip, ButtonLink } from "../ui";
 import type { SectionComponent } from "./shared";
@@ -21,6 +22,8 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
   }
   // the Web Development page has its own first screen: a website that builds itself in a browser window
   if (page === "webdev") return <WebdevHero data={data} site={site} />;
+  // the Mobile App page: one code card that splits into an iPhone-style and an Android-style phone
+  if (page === "mobile") return <MobileHero data={data} site={site} />;
   return (
   <section id="top" className="phz-hero relative flex min-h-screen items-center justify-center px-4 pb-32 pt-32 text-center">
     {/* the service pages: soft light in the colours of the theme behind the words, a different pattern on every page */}
