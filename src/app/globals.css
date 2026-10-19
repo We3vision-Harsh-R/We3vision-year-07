@@ -10767,3 +10767,230 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
     animation: none;
   }
 }
+
+/* CRM first screen (prefix crh-, modern/crm-hero.tsx; the words use the .wdh-* layout): one customer card with four tool tiles round it. A pulse runs from
+   a tile into the card every 6 s (one after the other) and that line of the customer's history fills in. Theme colours only. Pure CSS. With "reduce
+   motion" nothing moves and the history is already filled in. */
+.crh {
+  position: relative;
+  width: 540px;
+  height: 420px;
+  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 0.5s;
+}
+.crh-wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.crh-wires path {
+  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.4);
+  stroke-width: 2;
+  stroke-dasharray: 5 7;
+}
+.crh-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 80%);
+  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.9);
+  offset-rotate: 0deg;
+  opacity: 0;
+  animation: crh-go 6s linear infinite;
+  animation-delay: calc(1.2s + var(--i) * 1.5s);
+}
+.crh-tile {
+  position: absolute;
+  display: flex;
+  width: 150px;
+  height: 60px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
+  border-radius: 14px;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.88);
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
+  font-size: 14px;
+  font-weight: 500;
+  animation: crh-send 6s linear infinite;
+  animation-delay: calc(1.2s + var(--i) * 1.5s);
+}
+.crh-t1 {
+  left: 20px;
+  top: 22px;
+}
+.crh-t2 {
+  left: 370px;
+  top: 22px;
+}
+.crh-t3 {
+  left: 20px;
+  top: 338px;
+}
+.crh-t4 {
+  left: 370px;
+  top: 338px;
+}
+.crh-card {
+  position: absolute;
+  left: 165px;
+  top: 142px;
+  width: 210px;
+  height: 136px;
+  padding: 14px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
+  border-radius: 16px;
+  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 12% / 0.95);
+  box-shadow: 0 26px 70px -28px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.55);
+}
+.crh-who {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.crh-av {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
+}
+.crh-nm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.crh-nm i {
+  display: block;
+  width: 54px;
+  height: 7px;
+  border-radius: 4px;
+  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 90% / 0.8);
+}
+.crh-nm i + i {
+  width: 36px;
+  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.4);
+}
+.crh-badge {
+  position: absolute;
+  right: -2px;
+  top: -34px;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  white-space: nowrap;
+}
+.crh-hist {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.crh-hist li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.crh-ic {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+}
+.crh-bar {
+  display: block;
+  height: 8px;
+  flex: 1;
+  border-radius: 4px;
+  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.45);
+  transform-origin: left center;
+  animation: crh-fill 6s linear infinite;
+  animation-delay: calc(1.2s + var(--i) * 1.5s);
+}
+.crh-hist li:nth-child(2) .crh-bar {
+  flex: 0 0 78%;
+}
+.crh-hist li:nth-child(3) .crh-bar {
+  flex: 0 0 62%;
+}
+.crh-hist li:nth-child(4) .crh-bar {
+  flex: 0 0 86%;
+}
+@keyframes crh-go {
+  0% {
+    opacity: 0;
+    offset-distance: 0%;
+  }
+  3% {
+    opacity: 1;
+  }
+  22% {
+    opacity: 1;
+    offset-distance: 100%;
+  }
+  25%,
+  100% {
+    opacity: 0;
+    offset-distance: 100%;
+  }
+}
+@keyframes crh-send {
+  0%,
+  100% {
+    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
+  }
+  3%,
+  10% {
+    border-color: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 80%);
+  }
+  16% {
+    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
+  }
+}
+@keyframes crh-fill {
+  0%,
+  22% {
+    transform: scaleX(0.2);
+  }
+  30%,
+  88% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0.2);
+  }
+}
+@media (min-width: 1024px) and (max-height: 800px) {
+  .crh {
+    transform: scale(0.88);
+    transform-origin: center right;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crh {
+    animation: none;
+  }
+  .crh-dot {
+    animation: none;
+    opacity: 0;
+  }
+  .crh-tile,
+  .crh-bar {
+    animation: none;
+  }
+}
