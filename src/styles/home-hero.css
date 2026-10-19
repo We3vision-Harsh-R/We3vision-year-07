@@ -39,7 +39,7 @@
   color: hsl(calc(var(--th) + 352.99) calc(100% * var(--ts)) 85.69%);
   font-family: inherit;
   font-weight: 600;
-  font-size: clamp(0.68rem, 0.95vw, 0.8rem);
+  font-size: 0.875rem;
   line-height: 1.12;
   letter-spacing: -0.01em;
   text-align: left;

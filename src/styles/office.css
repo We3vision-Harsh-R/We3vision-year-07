@@ -382,7 +382,7 @@
   border-radius: 999px;
   background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
   color: var(--g-a);
-  font-size: clamp(0.7rem, 1.05cqw, 0.9rem);
+  font-size: clamp(0.875rem, 1.05cqw, 0.9rem);
   font-weight: 500;
 }
 .ob-head h2 {
@@ -419,7 +419,7 @@
   left: 2.4%;
   z-index: 4;
   max-width: 24cqw;
-  font-size: clamp(0.72rem, 1.1cqw, 0.95rem);
+  font-size: clamp(0.875rem, 1.1cqw, 0.95rem);
 }
 .ob-arms > g:nth-child(1) {
   animation: ob-idle 3.4s ease-in-out infinite alternate;
@@ -531,7 +531,7 @@
   border-radius: 999px;
   background: #0b0818;
   color: #cfc8ea;
-  font-size: 1.25cqw;
+  font-size: max(0.875rem, 1.25cqw);
 }
 .ob-url span {
   display: grid;
@@ -541,7 +541,7 @@
   border-radius: 50%;
   background: var(--g-a);
   color: var(--g-e);
-  font-size: 1.1cqw;
+  font-size: max(0.875rem, 1.1cqw);
   font-weight: 800;
 }
 .ob-live {
@@ -550,7 +550,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   color: #cfc8ea;
-  font-size: 1cqw;
+  font-size: max(0.875rem, 1cqw);
   font-weight: 700;
   letter-spacing: 0.1em;
   white-space: nowrap;
@@ -603,7 +603,7 @@
 .ob-plan b {
   margin-bottom: 0.4cqw;
   color: #6f6890;
-  font-size: 0.95cqw;
+  font-size: max(0.875rem, 0.95cqw);
   letter-spacing: 0.14em;
 }
 .ob-explorer p {
@@ -800,7 +800,7 @@
   border-radius: 999px;
   background: rgba(15, 10, 30, 0.9);
   color: #fff;
-  font-size: 1.2cqw;
+  font-size: max(0.875rem, 1.2cqw);
   font-weight: 600;
   transform: translateX(-50%);
   animation: gs-pop 0.3s ease-out both;
@@ -857,7 +857,7 @@
   border-radius: 999px;
   background: transparent;
   color: #d8d1f0;
-  font-size: clamp(0.64rem, 1cqw, 0.85rem);
+  font-size: clamp(0.875rem, 1cqw, 0.875rem);
   text-transform: capitalize;
   cursor: pointer;
   transition: background 0.25s, color 0.25s;
@@ -878,7 +878,7 @@
   gap: 0.6cqw;
   margin: 0 0 0.35cqw 1.4cqw;
   color: var(--g-w);
-  font-size: clamp(0.66rem, 1cqw, 0.85rem);
+  font-size: clamp(0.875rem, 1cqw, 0.875rem);
   font-weight: 600;
   letter-spacing: 0.04em;
 }
@@ -890,7 +890,7 @@
   border-radius: 50%;
   background: var(--g-a);
   color: var(--g-e);
-  font-size: 0.9cqw;
+  font-size: max(0.875rem, 0.9cqw);
 }
 .ob-pill {
   position: relative;
@@ -977,7 +977,7 @@
   border-radius: 999px;
   background: linear-gradient(135deg, var(--g-b), var(--g-a));
   color: var(--g-e);
-  font-size: clamp(0.8rem, 1.35cqw, 1.3rem);
+  font-size: clamp(0.875rem, 1.35cqw, 1.3rem);
   font-weight: 800;
   white-space: nowrap;
   cursor: pointer;
@@ -1024,7 +1024,7 @@
   gap: 0.6cqw;
   margin-left: 1.4cqw;
   color: var(--g-w);
-  font-size: clamp(0.64rem, 0.95cqw, 0.82rem);
+  font-size: clamp(0.875rem, 0.95cqw, 0.875rem);
 }
 .ob-eg span {
   opacity: 0.6;
@@ -2216,29 +2216,29 @@
   scroll-behavior: auto;
 }
 .ob-code pre {
-  font-size: 1.62cqw;
+  font-size: max(0.875rem, 1.62cqw);
 }
 .ob-no {
   width: 3.8cqw;
 }
 .ob-explorer,
 .ob-plan {
-  font-size: 1.3cqw;
+  font-size: max(0.875rem, 1.3cqw);
 }
 .ob-code-view {
   grid-template-columns: 13.5cqw minmax(0, 1fr) 14.5cqw;
 }
 .ob-status {
-  font-size: 1.15cqw;
+  font-size: max(0.875rem, 1.15cqw);
 }
 .ob-tabs button {
-  font-size: 1.45cqw;
+  font-size: max(0.875rem, 1.45cqw);
 }
 .ob-live {
-  font-size: 1.1cqw;
+  font-size: max(0.875rem, 1.1cqw);
 }
 .ob-url {
-  font-size: 1.4cqw;
+  font-size: max(0.875rem, 1.4cqw);
 }
 .ob[data-phase="coding"] .dg-head {
   animation: dg-nod 0.9s ease-in-out infinite alternate;
@@ -2381,7 +2381,7 @@
 .ob-seg button,
 .ob-mini {
     padding: 0.3cqw 0.8cqw;
-    font-size: 0.92cqw;
+    font-size: max(0.875rem, 0.92cqw);
     white-space: nowrap;
   }
 }
@@ -2413,7 +2413,7 @@
   top: 3.2%;
   left: 1.6%;
   max-width: 17.2cqw;
-  font-size: clamp(0.62rem, 1.12cqw, 0.92rem);
+  font-size: clamp(0.875rem, 1.12cqw, 0.92rem);
   line-height: 1.38;
 }
 .ob-tools {
@@ -2617,7 +2617,7 @@
   width: 17.2cqw;
   max-width: 17.2cqw;
   padding: 0.9cqw 1.1cqw 1cqw;
-  font-size: clamp(0.62rem, 1.08cqw, 0.9rem);
+  font-size: clamp(0.875rem, 1.08cqw, 0.9rem);
   line-height: 1.42;
 }
 .ob-b-eye {
@@ -2626,7 +2626,7 @@
   gap: 0.5cqw;
   margin-bottom: 0.4cqw;
   color: var(--g-a);
-  font-size: clamp(0.5rem, 0.78cqw, 0.7rem);
+  font-size: clamp(0.875rem, 0.78cqw, 0.875rem);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -2660,7 +2660,7 @@
 }
 .ob-lab {
   color: rgba(255, 255, 255, 0.55);
-  font-size: clamp(0.5rem, 0.76cqw, 0.7rem);
+  font-size: clamp(0.875rem, 0.76cqw, 0.875rem);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -2691,12 +2691,12 @@
 .ob-tools .ob-seg button {
   flex: 1;
   padding: 0.42cqw 0.1cqw;
-  font-size: clamp(0.5rem, 0.88cqw, 0.8rem);
+  font-size: clamp(0.875rem, 0.88cqw, 0.875rem);
   white-space: nowrap;
 }
 .ob-tools .ob-mini {
   padding: 0.5cqw 0.8cqw;
-  font-size: clamp(0.5rem, 0.88cqw, 0.8rem);
+  font-size: clamp(0.875rem, 0.88cqw, 0.875rem);
   white-space: nowrap;
 }
 .ob-ctl {
@@ -2719,7 +2719,7 @@
   border-radius: 999px;
   background: rgba(10, 6, 18, 0.6);
   color: #fff;
-  font-size: clamp(0.58rem, 0.9cqw, 0.8rem);
+  font-size: clamp(0.875rem, 0.9cqw, 0.875rem);
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -2775,7 +2775,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.07);
   color: #d9d3f0;
-  font-size: 1.35cqw;
+  font-size: max(0.875rem, 1.35cqw);
   font-weight: 700;
   letter-spacing: 0.1em;
   line-height: 1;
@@ -2803,7 +2803,7 @@
   box-shadow: 0 0 0.9cqw #28c840;
 }
 .ob-url {
-  font-size: 1.5cqw;
+  font-size: max(0.875rem, 1.5cqw);
 }
 .ob-secs {
   animation: ob-sec 60s linear infinite;
