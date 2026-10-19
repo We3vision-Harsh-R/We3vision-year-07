@@ -92,7 +92,7 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
   const pathname = usePathname();
   const [away, setAway] = useState(false);
   // on an article, project or job page the menu goes away while the visitor scrolls down (it would lie on the text); scrolling up or a Tab brings it back
-  const reading = /^/(blog|portfolio|careers)/[^/]+/.test(pathname);
+  const reading = /^\/(blog|portfolio|careers)\/[^/]+/.test(pathname);
 
   // Slide in from below after the first paint.
   useEffect(() => {

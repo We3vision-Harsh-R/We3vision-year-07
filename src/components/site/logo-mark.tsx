@@ -13,8 +13,14 @@ import { SmartLink } from "./smart-link";
 export function LogoMark({ name }: { name: string }) {
   // it starts as the icon: at the top of the page the icon opens into the logo after a moment (and stays), once the page is scrolled it folds back
   const [scrolled, setScrolled] = useState(true);
+  // on an article, project or job page the logo fades away while the visitor reads (it would lie on the text) and comes back near the top
+  const reading = /^\/(blog|portfolio|careers)\/[^/]+/.test(usePathname());
+  const [faded, setFaded] = useState(false);
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 30);
+    const on = () => {
+      setScrolled(window.scrollY > 30);
+      setFaded(window.scrollY > 240);
+    };
     const intro = window.setTimeout(on, 500);
     window.addEventListener("scroll", on, { passive: true });
     return () => {
