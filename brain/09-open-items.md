@@ -167,4 +167,4 @@
 - WeJobs / WeThink subdomains are live but the site says Coming soon (owner decided to keep it). Next phases: B-25 service heroes (page by page), B-03 live env check, Phase 6 optimize.
 
 ## B-25 service heroes (task 104)
-- Done: /webdev (page builds itself), /mobile (one code, two phones), /crm (one customer, every channel), /ui-ux-design (wireframe to finished UI). Next in the list: /animation, /3d-modeling (+ blog, products, team); show 2-3 options first, build the pick. Ideas are in brain/18 section 5.
+- Done: /webdev (page builds itself), /mobile (one code, two phones), /crm (one customer, every channel), /ui-ux-design (wireframe to finished UI), /animation (bouncing ball). Next in the list: /3d-modeling (+ blog, products, team); show 2-3 options first, build the pick. Ideas are in brain/18 section 5.
