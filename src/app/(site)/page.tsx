@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageSections } from "@/components/site/sections";
 import { getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
+import { SHARE_IMAGE } from "@/lib/share-image";
 
 // Served from cache. Admin "Publish" refreshes it instantly; the timer is a safety net
 // (e.g. if the server restarted or the first build ran without a database).
@@ -12,8 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page.title,
     description: page.description,
     alternates: { canonical: "/" },
-    openGraph: { type: "website", url: "/", siteName: site.legalName || site.name, title: page.title, description: page.description },
-    twitter: { card: "summary_large_image", title: page.title, description: page.description },
+    openGraph: { type: "website", url: "/", siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
+    twitter: { card: "summary_large_image", title: page.title, description: page.description, images: [SHARE_IMAGE.url] },
   };
 }
 
