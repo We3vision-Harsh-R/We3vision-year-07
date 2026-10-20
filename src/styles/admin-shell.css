@@ -1,0 +1,479 @@
+/* The admin panel in the colours of the website (task 116). Prefix: ads-
+   Loaded by src/app/admin/layout.tsx. Everything is scoped to .ads (the admin root), so nothing here can touch the public site.
+   HOW IT WORKS: the admin screens are written with Tailwind classes for a LIGHT panel (bg-white, zinc greys, brand, emerald/rose/amber/sky badges).
+   Inside .ads those colour variables are re-pointed to the dark violet theme (same hsl(--th, --ts) formula as the site, so the colour theme the visitor
+   chose on the website also colours the admin), and the few classes that a variable cannot re-point are fixed in the @layer block at the end.
+   No admin screen needs editing to get the new colours. */
+
+.ads {
+  color-scheme: dark;
+  color: hsl(calc(var(--th) + 351) calc(30% * var(--ts)) 96%);
+
+  /* surfaces */
+  --ads-bg: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9%);
+  --ads-side: hsl(calc(var(--th) + 347.58) calc(66% * var(--ts)) 6.4%);
+  --ads-card: hsl(calc(var(--th) + 350) calc(46% * var(--ts)) 9.6%);
+  --ads-input: hsl(calc(var(--th) + 349) calc(52% * var(--ts)) 6.6%);
+  --ads-line: hsl(calc(var(--th) + 351) calc(34% * var(--ts)) 20%);
+  --ads-ink: hsl(calc(var(--th) + 351) calc(30% * var(--ts)) 96%);
+  --ads-muted: hsl(calc(var(--th) + 353) calc(20% * var(--ts)) 68%);
+  --ads-accent: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%);
+  --ads-accent-deep: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 54%);
+  --ads-accent-soft: hsl(calc(var(--th) + 352) calc(60% * var(--ts)) 17%);
+
+  /* Tailwind: the accent used by buttons, rings, borders */
+  --color-brand: var(--ads-accent-deep);
+
+  /* Tailwind: the zinc greys, re-pointed (50 = quiet fill, 100 = divider/chip, 200/300 = borders, 400/500 = muted text, 600-950 = raised dark panels) */
+  --color-zinc-50: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 13%);
+  --color-zinc-100: hsl(calc(var(--th) + 351) calc(36% * var(--ts)) 16.5%);
+  --color-zinc-200: var(--ads-line);
+  --color-zinc-300: hsl(calc(var(--th) + 352) calc(26% * var(--ts)) 30%);
+  --color-zinc-400: hsl(calc(var(--th) + 353) calc(18% * var(--ts)) 60%);
+  --color-zinc-500: var(--ads-muted);
+  --color-zinc-600: hsl(calc(var(--th) + 352) calc(22% * var(--ts)) 40%);
+  --color-zinc-700: hsl(calc(var(--th) + 352) calc(26% * var(--ts)) 32%);
+  --color-zinc-800: hsl(calc(var(--th) + 351) calc(36% * var(--ts)) 27%);
+  --color-zinc-900: hsl(calc(var(--th) + 351) calc(40% * var(--ts)) 21%);
+  --color-zinc-950: hsl(calc(var(--th) + 349) calc(60% * var(--ts)) 4%);
+
+  /* Tailwind: status colours (dark fill + readable text on the dark page) */
+  --color-emerald-50: hsl(155 45% 12%);
+  --color-emerald-100: hsl(155 42% 17%);
+  --color-emerald-200: hsl(155 38% 27%);
+  --color-emerald-600: hsl(155 55% 52%);
+  --color-emerald-700: hsl(155 55% 62%);
+  --color-emerald-800: hsl(155 55% 70%);
+  --color-emerald-900: hsl(155 55% 78%);
+  --color-rose-50: hsl(350 45% 13%);
+  --color-rose-100: hsl(350 42% 18%);
+  --color-rose-200: hsl(350 38% 30%);
+  --color-rose-300: hsl(350 45% 42%);
+  --color-rose-600: hsl(350 85% 70%);
+  --color-rose-700: hsl(350 85% 74%);
+  --color-rose-800: hsl(350 85% 80%);
+  --color-amber-50: hsl(40 50% 12%);
+  --color-amber-100: hsl(40 50% 17%);
+  --color-amber-200: hsl(40 45% 28%);
+  --color-amber-300: hsl(40 55% 42%);
+  --color-amber-700: hsl(40 85% 62%);
+  --color-amber-800: hsl(40 85% 70%);
+  --color-amber-900: hsl(40 85% 78%);
+  --color-sky-100: hsl(200 50% 18%);
+  --color-sky-200: hsl(200 45% 30%);
+  --color-sky-800: hsl(200 85% 74%);
+}
+
+/* the body already is the website's void colour; the panel shell paints the same with a soft glow of the theme colour */
+.ads-app {
+  display: grid;
+  grid-template-columns: 276px minmax(0, 1fr);
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 520px at 18% -8%, hsl(calc(var(--th) + 352) calc(70% * var(--ts)) 14% / 0.55), transparent 70%),
+    var(--ads-bg);
+}
+
+/* ---------- sidebar ---------- */
+.ads-side {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100vh;
+  padding: 22px 14px 16px;
+  background: var(--ads-side);
+  border-right: 1px solid var(--ads-line);
+}
+.ads-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+  color: var(--ads-ink);
+}
+.ads-brand-mark {
+  width: auto;
+  height: 34px;
+}
+.ads-brand b {
+  display: block;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.ads-brand small {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--ads-muted);
+}
+.ads-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ads-line) transparent;
+}
+.ads-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 10px 6px;
+  border: 0;
+  background: none;
+  color: var(--ads-muted);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.ads-group-head:hover {
+  color: var(--ads-ink);
+}
+.ads-group-head svg {
+  transition: transform 0.25s;
+}
+.ads-group-head svg[data-open="false"] {
+  transform: rotate(-90deg);
+}
+.ads-group-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+.ads-group-body[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.ads-group-body > div {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ads-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: var(--ads-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+.ads-link:hover {
+  background: hsl(calc(var(--th) + 352) calc(50% * var(--ts)) 12%);
+  color: var(--ads-ink);
+}
+.ads-link[aria-current="page"] {
+  background: var(--ads-accent-soft);
+  color: var(--ads-ink);
+}
+.ads-link[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--ads-accent);
+}
+.ads-link[aria-current="page"] svg {
+  color: var(--ads-accent);
+}
+.ads-link-name {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+/* small count next to a menu item / on a tile */
+.ads-badge {
+  min-width: 24px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--ads-accent-deep);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+.ads-badge[data-tone="sky"] {
+  background: hsl(205 80% 40%);
+}
+.ads-badge[data-tone="amber"] {
+  background: hsl(36 90% 38%);
+}
+.ads-badge[data-tone="rose"] {
+  background: hsl(350 75% 46%);
+}
+
+.ads-side-foot {
+  display: grid;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--ads-line);
+}
+.ads-site-link {
+  padding: 0 8px;
+  color: var(--ads-muted);
+  font-size: 0.9375rem;
+  transition: color 0.2s;
+}
+.ads-site-link:hover {
+  color: var(--ads-accent);
+}
+.ads-who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0 8px;
+}
+.ads-who > span:last-child {
+  min-width: 0;
+}
+.ads-who b {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ads-who small {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--ads-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ads-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ads-accent-soft);
+  color: var(--ads-accent);
+  font-weight: 700;
+}
+.ads-logout {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--ads-line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ads-muted);
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.ads-logout:hover {
+  background: hsl(calc(var(--th) + 352) calc(50% * var(--ts)) 12%);
+  color: var(--ads-ink);
+  border-color: hsl(calc(var(--th) + 352) calc(26% * var(--ts)) 30%);
+}
+
+.ads-main {
+  min-width: 0;
+  padding: 34px 44px 56px;
+}
+
+/* ---------- dashboard ---------- */
+.ads-dash {
+  display: grid;
+  gap: 34px;
+  max-width: 1280px;
+}
+.ads-dash-head h1 {
+  margin: 0;
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.ads-dash-head p {
+  margin: 6px 0 0;
+  font-size: 1rem;
+  color: var(--ads-muted);
+}
+.ads-stats {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+.ads-stat {
+  display: grid;
+  gap: 2px;
+  padding: 16px 16px 14px;
+  border: 1px solid var(--ads-line);
+  border-radius: 16px;
+  background: var(--ads-card);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.ads-stat:hover {
+  border-color: hsl(calc(var(--th) + 352) calc(50% * var(--ts)) 36%);
+  transform: translateY(-2px);
+}
+.ads-stat-label {
+  font-size: 0.875rem;
+  color: var(--ads-muted);
+}
+.ads-stat-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.ads-stat-hint {
+  font-size: 0.875rem;
+  color: var(--color-zinc-400);
+}
+.ads-stat[data-hot="true"] .ads-stat-value {
+  color: var(--ads-accent);
+}
+.ads-stat[data-hot="true"][data-tone="sky"] .ads-stat-value {
+  color: hsl(200 85% 72%);
+}
+.ads-stat[data-hot="true"][data-tone="amber"] .ads-stat-value {
+  color: hsl(40 90% 66%);
+}
+.ads-stat[data-hot="true"][data-tone="rose"] .ads-stat-value {
+  color: hsl(350 90% 74%);
+}
+
+.ads-cat-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.ads-cat-head h2 {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 600;
+}
+.ads-cat-head p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--ads-muted);
+}
+.ads-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.ads-tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--ads-line);
+  border-radius: 16px;
+  background: var(--ads-card);
+  transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
+}
+.ads-tile:hover {
+  border-color: hsl(calc(var(--th) + 352) calc(50% * var(--ts)) 38%);
+  background: hsl(calc(var(--th) + 351) calc(46% * var(--ts)) 11.5%);
+  transform: translateY(-2px);
+}
+.ads-tile-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: var(--ads-accent-soft);
+  color: var(--ads-accent);
+}
+.ads-tile-text {
+  flex: 1;
+  min-width: 0;
+}
+.ads-tile-text b {
+  display: block;
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+.ads-tile-text small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--ads-muted);
+}
+.ads-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ads-group-body,
+  .ads-group-head svg,
+  .ads-tile,
+  .ads-stat {
+    transition: none;
+  }
+}
+
+/* ---------- classes that a variable cannot re-point ----------
+   :where() keeps the specificity at one class, so a state class (hover:bg-zinc-50, focus:ring...) still wins over these. */
+@layer utilities {
+  /* the old white cards / buttons / inputs */
+  :where(.ads) .bg-white {
+    background-color: var(--ads-card);
+  }
+  :where(.ads) :is(input, select, textarea).bg-white {
+    background-color: var(--ads-input);
+  }
+  /* text greys (they were dark on light) */
+  :where(.ads) .text-zinc-950,
+  :where(.ads) .text-zinc-900 {
+    color: var(--ads-ink);
+  }
+  :where(.ads) .text-zinc-800 {
+    color: hsl(calc(var(--th) + 351) calc(28% * var(--ts)) 92%);
+  }
+  :where(.ads) .text-zinc-700 {
+    color: hsl(calc(var(--th) + 351) calc(26% * var(--ts)) 86%);
+  }
+  :where(.ads) .text-zinc-600 {
+    color: hsl(calc(var(--th) + 352) calc(22% * var(--ts)) 78%);
+  }
+  /* links and accents written as text-brand need the LIGHT accent on a dark page */
+  :where(.ads) .text-brand {
+    color: var(--ads-accent);
+  }
+  :where(.ads) .hover\:text-brand:hover {
+    color: var(--ads-accent);
+  }
+  /* readability: nothing smaller than 14px */
+  :where(.ads) .text-xs {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  :where(.ads) :is(input, select, textarea)::placeholder {
+    color: var(--color-zinc-400);
+  }
+}
