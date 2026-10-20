@@ -92,6 +92,7 @@ More prompts:
 - "Show my submissions" → `list_my_submissions`.
 - "What happened to the 3D article?" → `get_submission_status` (approved with the live address, or rejected with the reason you wrote).
 - "Use this picture as the cover" (attach a picture) → `upload_image`, then the `cover` field.
+- No picture given? The Blog page shows only covers, so an article without one gets a **drawn cover automatically** when it is sent (title and topic on a dark violet drawing, in the shape you chose). The AI can show it first with `generate_cover_image`. The admin can replace it in the Edit form (Cover picture). It is drawn with code, not a photo and not a paid image service, and it uses the default violet (a picture cannot follow the visitor's colour theme).
 
 Then in the admin panel: **AI Submissions** (the menu shows a number of waiting drafts; the owner also gets a WhatsApp alert if alerts are on).
 - **Preview** is the real site page (the same components as the live page), field-by-field view, and the history (who sent / edited / approved / rejected, and when).
@@ -111,6 +112,7 @@ Then in the admin panel: **AI Submissions** (the menu shows a number of waiting 
 | `list_my_submissions`, `get_submission_status` | Status of what was sent | no |
 | `list_existing_content` | Existing articles / jobs, for duplicates and internal links | no |
 | `upload_image` | Stores a JPG/PNG/WEBP/GIF (2 MB max) in the media library | a file |
+| `generate_cover_image` | Draws a branded cover (title + topic on a dark violet drawing, made by code) in the picture shape of the Blog page, stores it, and shows it | a file |
 
 Permissions: `content:submit` (send, upload) and `content:read` (lists, status). `list_content_types`, `get_content_guidelines` and `preview_content` need either.
 

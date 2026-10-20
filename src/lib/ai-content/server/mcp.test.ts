@@ -12,6 +12,7 @@ const alerts = vi.hoisted(() => ({ later: [] as { title: string; notify?: boolea
 vi.mock("@/lib/alerts", () => ({ alertFailure: vi.fn(), alertLater: (a: { title: string; notify?: boolean }) => alerts.later.push(a) }));
 
 import { GET, OPTIONS, POST } from "@/app/api/mcp/route";
+import { resetLimit } from "@/lib/rate-limit";
 import { hashToken } from "./tokens";
 
 const TOKEN = "w3v_pat_" + "a".repeat(43);
@@ -36,6 +37,8 @@ const call = async (name: string, args: unknown) => {
 const draft = { title: "How AI Can Speed Up Support", content: "Intro paragraph.\n\n## First point\n\nText.", summary: "Short summary." };
 
 beforeEach(() => {
+  // the limits live in the memory of the process: every test starts with fresh ones
+  for (const key of ["mcp:conn1", "mcp-send_to_we3vision:conn1", "mcp-upload_image:conn1", "mcp-generate_cover_image:conn1"]) resetLimit(key);
   fake.current = createFakeDb();
   const { tables } = fake.current;
   tables.adminUser.push({ id: "admin1", email: "harsh@we3vision.com" });
@@ -92,7 +95,7 @@ describe("tools", () => {
     const res = await rpc("tools/list", {});
     const tools = (await res.json()).result.tools as { name: string; inputSchema: { properties?: Record<string, unknown> } }[];
     const names = tools.map((t) => t.name).sort();
-    expect(names).toEqual(["get_content_guidelines", "get_submission_status", "list_content_types", "list_existing_content", "list_my_submissions", "preview_content", "send_to_we3vision", "upload_image"]);
+    expect(names).toEqual(["generate_cover_image", "get_content_guidelines", "get_submission_status", "list_content_types", "list_existing_content", "list_my_submissions", "preview_content", "send_to_we3vision", "upload_image"]);
     for (const bad of ["publish", "delete", "update", "approve"]) expect(names.some((x) => x.includes(bad))).toBe(false);
   });
 
@@ -139,6 +142,33 @@ describe("tools", () => {
     expect(r.content[0].text).toContain(`/admin/ai-submissions/${sub.id}`);
     expect(r.content[0].text).toContain("NOT live");
   });
+
+  it("a draft without a picture gets a branded cover drawn by code, stored in the media library", async () => {
+    const r = await call("send_to_we3vision", { content_type: "blog", data: { ...draft, tile: "tall" }, user_confirmed: true });
+    expect(r.isError).toBeUndefined();
+    const [media] = fake.current!.tables.media;
+    expect(media).toMatchObject({ mime: "image/png" });
+    expect(String(media.name)).toContain("ai-cover-how-ai-can-speed-up-support");
+    const [sub] = fake.current!.tables.contentSubmission;
+    expect((sub.data as { cover: string }).cover).toBe(`/media/${media.id}`);
+    expect(r.content[0].text).toContain("cover picture was drawn automatically");
+  }, 60000);
+
+  it("a draft that already has a picture gets no extra cover", async () => {
+    await call("send_to_we3vision", { content_type: "blog", data: { ...draft, cover: "https://example.com/own.png" }, user_confirmed: true });
+    expect(fake.current!.tables.media).toHaveLength(0);
+    expect((fake.current!.tables.contentSubmission[0].data as { cover: string }).cover).toBe("https://example.com/own.png");
+  });
+
+  it("generate_cover_image returns the link and the picture itself", async () => {
+    const r = await call("generate_cover_image", { title: "7 Trends Shaping 3D Web Design", category: "Design", tile: "landscape" });
+    expect(r.isError).toBeUndefined();
+    expect(r.content[0].text).toMatch(/\/media\/c\d+test/);
+    const image = r.content[1] as unknown as { type: string; mimeType: string; data: string };
+    expect(image).toMatchObject({ type: "image", mimeType: "image/png" });
+    expect(Buffer.from(image.data, "base64").subarray(1, 4).toString()).toBe("PNG");
+    expect(r.structuredContent).toMatchObject({ width: 1200, height: 864 });
+  }, 60000);
 
   it("sending the same draft twice does not create a second submission", async () => {
     await call("send_to_we3vision", { content_type: "blog", data: draft, user_confirmed: true });

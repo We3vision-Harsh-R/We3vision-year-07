@@ -55,6 +55,8 @@ export type ContentTypeDef = {
   toFormValues: (data: DraftData) => Record<string, unknown>;
   /** the values of the normal admin form -> a draft (not yet validated: validateDraft checks it) */
   fromFormValues: (values: Record<string, unknown>) => DraftData;
+  /** optional: when the picture field is empty, a branded cover is drawn by code (lib/ai-content/server/cover.tsx) while the draft is sent */
+  autoCover?: { field: string; input: (data: DraftData) => { title: string; category?: string; tile?: string } };
   /** the address (slug) the item will get, worked out the same way as the admin action (before the uniqueness check) */
   slugOf: (data: DraftData) => string;
   /** a readable preview of the draft in Markdown */

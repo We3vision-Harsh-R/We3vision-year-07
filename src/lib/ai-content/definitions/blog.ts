@@ -14,11 +14,12 @@ export const blogType: ContentTypeDef = {
   description:
     "An article for the We3vision blog (www.we3vision.com/blog). Use it for thought-leadership, how-to and industry articles about web, app, AI, metaverse, UI/UX, SEO, CRM, animation and brand design.",
   titleField: "title",
+  autoCover: { field: "cover", input: (d) => ({ title: str(d.title), category: str(d.category), tile: str(d.tile) }) },
   fields: [
     { name: "title", label: "Title", kind: "text", max: 140, min: 10, required: true, help: "The headline (the page H1). Include the main keyword near the start, make it specific and honest.", example: "7 Trends Shaping 3D Web Design in 2026" },
     { name: "category", label: "Topic (small label)", kind: "text", max: 40, help: "One short topic label shown on the Blog page. Reuse an existing one (see list_blog_posts) such as \"Design\" or \"AI/ML\" when it fits.", example: "Design" },
     { name: "summary", label: "Summary", kind: "text", max: 300, help: "1–2 sentences shown on the card and used as the description in search results. Aim for 140–160 characters, plain words, no clickbait.", example: "How WebGL, scroll-driven scenes and lighter 3D models are changing what a business website can feel like." },
-    { name: "cover", label: "Cover picture", kind: "image", help: "Optional. Upload with upload_image first and use the returned /media/<id> link. Without it the article has no cover." },
+    { name: "cover", label: "Cover picture", kind: "image", help: "Optional. Leave it out and a branded cover (title and topic on a dark violet drawing, in the picture shape you chose) is drawn automatically when the draft is sent; call generate_cover_image first to see it. To use the user's own picture, upload it with upload_image and use the returned /media/<id> link." },
     { name: "tile", label: "Shape of the picture on the Blog page", kind: "enum", options: TILES.map((t) => t.value), default: DEFAULT_TILE, help: `The crop of the cover on the Blog page: ${TILES.map((t) => `${t.value} (${t.size})`).join(", ")}. Use "portrait" unless the picture needs another shape.` },
     {
       name: "content",
@@ -39,6 +40,7 @@ export const blogType: ContentTypeDef = {
     "SEO: main keyword in the title (near the start), the summary and the first paragraph. One idea per `## ` section, descriptive headings. Do not stuff keywords.",
     "Structure: 1 short intro paragraph, 4–8 `## ` sections, a short conclusion with a gentle next step (for example talking to the We3vision team). Add 3–6 FAQ items that are not repeated in the body.",
     "Formatting: no HTML, no Markdown links, images or tables (they are not rendered). Only `## ` headings, `- ` bullets and paragraphs. Do not start the body with the title.",
+    "Cover picture: on the Blog page the cover is the only thing seen, so every article needs one. If the user gave a picture, upload it with upload_image. If not, do nothing or call generate_cover_image (it shows you the cover): a branded cover is drawn by code, and one is also drawn automatically when you send. Never invent picture addresses and never use pictures from the internet.",
     "Language: English (Indian business audience). Use US or UK spelling consistently.",
     "Before sending: check list_blog_posts so the topic and title are not a duplicate, and mention related existing articles if they fit.",
   ],
@@ -89,7 +91,7 @@ export const blogType: ContentTypeDef = {
     const faq = (Array.isArray(d.faq) ? d.faq : []) as { question: string; answer: string }[];
     return [
       `# ${str(d.title)}`,
-      `_${str(d.category) || "No topic"} · ${str(d.date)} · picture shape: ${str(d.tile)}${d.cover ? ` · cover: ${str(d.cover)}` : " · no cover picture"}_`,
+      `_${str(d.category) || "No topic"} · ${str(d.date)} · picture shape: ${str(d.tile)}${d.cover ? ` · cover: ${str(d.cover)}` : " · no cover yet (a branded one is drawn automatically when you send)"}_`,
       str(d.summary) ? `> ${str(d.summary)}` : "",
       str(d.content),
       tags.length ? `**Tags:** ${tags.join(", ")}` : "",

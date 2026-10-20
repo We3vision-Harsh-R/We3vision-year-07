@@ -3,7 +3,9 @@ import { z } from "zod";
 import { rateLimit } from "@/lib/rate-limit";
 import { CONTENT_TYPES, CONTENT_TYPE_KEYS, buildSchema, fieldGuide, getContentType, jsonSchemaOf, validateDraft } from "../registry";
 import type { ContentTypeDef } from "../types";
+import { TILES } from "@/lib/blog-shared";
 import { ADAPTERS } from "./adapters";
+import { createCover } from "./cover";
 import { storeImage } from "./images";
 import { alertLater } from "@/lib/alerts";
 import { getAiSettings } from "./settings";
@@ -15,7 +17,7 @@ import type { McpContext, Scope } from "./tokens";
 // from the registry, so a new content type needs no change in this file.
 
 export type ToolResult = {
-  content: { type: "text"; text: string }[];
+  content: ({ type: "text"; text: string } | { type: "image"; data: string; mimeType: string })[];
   structuredContent?: Record<string, unknown>;
   isError?: boolean;
 };
@@ -144,6 +146,15 @@ const sendToWe3vision: Tool = {
     const r = validateDraft(def, args.data);
     if (!r.ok) return fail(`Not sent: the draft has errors. Fix these and call send_to_we3vision again:\n${errorsText(r.errors)}`);
 
+    // an article without a picture gets a branded cover drawn by code (the Blog page shows nothing but covers)
+    let coverNote = "";
+    if (def.autoCover && !r.data[def.autoCover.field]) {
+      const cover = await createCover(def.autoCover.input(r.data));
+      if (cover.ok) {
+        r.data[def.autoCover.field] = cover.url;
+        coverNote = "A branded cover picture was drawn automatically (the admin can replace it).";
+      } else coverNote = "No cover could be drawn; the admin can add one.";
+    }
     const title = String(r.data[def.titleField] ?? "");
     const sameLive = (await ADAPTERS[def.key as keyof typeof ADAPTERS].listExisting(title, 5)).find((x) => x.title.toLowerCase() === title.toLowerCase());
     const created = await createSubmission(ctx, def, r.data);
@@ -154,10 +165,38 @@ const sendToWe3vision: Tool = {
     const lines = [
       duplicate ? `This draft was already sent and is still waiting (submission ${id}). Nothing new was created.` : `Sent. "${title}" is now waiting for approval (submission ${id}).`,
       "It is NOT live. An admin has to preview, edit and approve it in the admin panel.",
+      !duplicate ? coverNote : "",
       `Admin panel link: ${link}`,
       sameLive ? `Note for the user: ${def.label.toLowerCase()} with the same title already exists (${sameLive.url}, ${sameLive.status}). The admin will see that when reviewing.` : "",
     ].filter(Boolean);
     return text(lines.join("\n"), { submission_id: id, status: "pending_review", duplicate, admin_url: link, existing_with_same_title: sameLive ?? null });
+  },
+};
+
+const generateCover: Tool = {
+  name: "generate_cover_image",
+  title: "Draw a cover picture",
+  description:
+    "Draws a branded cover picture for a blog article (title and topic on a dark violet drawing, made by code: no photo, no stock image, no external service) in the picture shape of the Blog page, stores it, and returns a \"/media/<id>\" link plus the picture itself so you and the user can see it. Use it when the user gave no picture: put the link in the `cover` field of the draft. Optional: if you leave `cover` out, the same kind of cover is drawn automatically when you send the draft. If the user gives their own picture, use upload_image instead. The same title always gives the same drawing.",
+  scope: "content:submit",
+  shown: z.object({
+    title: z.string().min(2).max(140).describe("The title of the article (it is written on the cover)."),
+    category: z.string().max(40).optional().describe("The topic label of the article, for example Design or AI/ML."),
+    tile: z.enum(TILES.map((t) => t.value) as [string, ...string[]]).optional().describe("The picture shape: landscape, square, portrait (default) or tall. Use the same value as the tile of the draft."),
+  }),
+  schema: z.object({ title: z.string().min(2).max(140), category: z.string().max(40).optional(), tile: z.enum(TILES.map((t) => t.value) as [string, ...string[]]).optional() }),
+  annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  limit: [20, 60 * 60_000],
+  async run(_ctx, args: { title: string; category?: string; tile?: string }) {
+    const r = await createCover(args);
+    if (!r.ok) return fail(r.error);
+    return {
+      content: [
+        { type: "text", text: `Cover drawn (${r.width} × ${r.height}). Use this as the cover field: ${r.url}` },
+        { type: "image", data: Buffer.from(r.bytes).toString("base64"), mimeType: r.mime },
+      ],
+      structuredContent: { url: r.url, width: r.width, height: r.height },
+    };
   },
 };
 
@@ -238,7 +277,7 @@ const uploadImage: Tool = {
   },
 };
 
-export const TOOLS: readonly Tool[] = [listContentTypes, getGuidelines, previewContent, sendToWe3vision, listMine, getStatus, listExisting, uploadImage];
+export const TOOLS: readonly Tool[] = [listContentTypes, getGuidelines, previewContent, sendToWe3vision, listMine, getStatus, listExisting, uploadImage, generateCover];
 
 export const SERVER_INSTRUCTIONS = [
   "This server lets you prepare content for the We3vision website (blog articles, job openings). You can only create submissions: nothing goes live until a We3vision admin approves it in the admin panel.",

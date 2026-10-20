@@ -171,7 +171,9 @@ export default async function AiGuidePage() {
         <ul className="list-disc space-y-1 pl-5 text-sm text-zinc-600">
           <li>Always tell it to show the preview first. It only sends after you clearly say “send it” / “submit it”.</li>
           <li>Give it the real facts (experience, salary, perks, links). It is told never to invent numbers, clients or testimonials.</li>
-          <li>To use a cover picture, attach the picture in the chat and say “use this as the cover”.</li>
+          <li>
+            <b>Cover picture of a blog article:</b> if you attach a picture and say “use this as the cover”, that picture is used. If you give none, the website <b>draws a cover itself</b> (the title and the topic on a dark violet drawing, in the picture shape of the article), so every article has an image on the Blog page. You can ask the AI to “show me the cover first”, and you can replace it later in <b>Edit</b> → Cover picture.
+          </li>
           <li>If the AI says a field is too long or missing, just ask it to fix it and try again.</li>
           <li>Up to 30 drafts can wait at the same time. Approve or reject some to make room.</li>
         </ul>
