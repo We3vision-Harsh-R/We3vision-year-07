@@ -1,4 +1,5 @@
-import { CORS, aiDisabled, ipOf, preflight, reply, siteOrigin } from "@/lib/ai-content/server/http";
+import { aiEnabled } from "@/lib/ai-content/server/settings";
+import { CORS, ipOf, preflight, reply, siteOrigin } from "@/lib/ai-content/server/http";
 import { handleMcpRequest } from "@/lib/ai-content/server/mcp";
 import { authenticate } from "@/lib/ai-content/server/tokens";
 import { isLimited, rateLimit } from "@/lib/rate-limit";
@@ -11,7 +12,7 @@ export const runtime = "nodejs";
 export const OPTIONS = preflight;
 
 export async function POST(request: Request) {
-  if (aiDisabled()) return reply({ jsonrpc: "2.0", error: { code: -32002, message: "The AI integration is switched off on this website." }, id: null }, 503);
+  if (!(await aiEnabled())) return reply({ jsonrpc: "2.0", error: { code: -32002, message: "The AI integration is switched off on this website." }, id: null }, 503);
   const origin = siteOrigin(request);
   const ip = ipOf(request);
   // too many wrong tokens from one address: stop answering for a while

@@ -1,7 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useTransition } from "react";
-import { createConnection, removeConnection, revokeConnection, type CreateConnectionResult } from "@/actions/ai-integrations";
+import {
+  createConnection,
+  removeConnection,
+  removeTool,
+  revokeAllConnections,
+  revokeConnection,
+  saveAiSwitches,
+  type CreateConnectionResult,
+} from "@/actions/ai-integrations";
 import type { ActionResult } from "@/actions/types";
 import { btnDanger, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
 
@@ -20,10 +29,13 @@ export type ConnectionRow = {
   submissions: number;
 };
 
+export type ToolRow = { id: string; name: string; hosts: string; registered: string; active: number };
+export type SwitchState = { enabled: boolean; alerts: boolean; forcedOff: boolean; forcedAlertsOff: boolean };
+
 const SCOPE_LABEL: Record<string, string> = { "content:submit": "Send for approval", "content:read": "Read lists and status" };
 
 /** A read-only box with a Copy button. */
-function CopyBox({ label, value, multiline = false }: { label: string; value: string; multiline?: boolean }) {
+export function CopyBox({ label, value, multiline = false }: { label: string; value: string; multiline?: boolean }) {
   const [copied, setCopied] = useState(false);
   const copy = async () => {
     try {
@@ -60,7 +72,9 @@ function Notice({ result }: { result: ActionResult | null }) {
   );
 }
 
-export function AiIntegrations({ mcpUrl, connections }: { mcpUrl: string; connections: ConnectionRow[] }) {
+export function AiIntegrations({ mcpUrl, connections, tools, switches }: { mcpUrl: string; connections: ConnectionRow[]; tools: ToolRow[]; switches: SwitchState }) {
+  const [on, setOn] = useState(switches.enabled);
+  const [alerts, setAlerts] = useState(switches.alerts);
   const [name, setName] = useState("");
   const [submit, setSubmit] = useState(true);
   const [read, setRead] = useState(true);
@@ -82,11 +96,55 @@ export function AiIntegrations({ mcpUrl, connections }: { mcpUrl: string; connec
       setResult(await fn());
     });
 
+  const saveSwitches = (enabled: boolean, alertsOn: boolean) =>
+    start(async () => {
+      const res = await saveAiSwitches({ enabled, alerts: alertsOn });
+      setResult(res);
+      if (res.ok) {
+        setOn(enabled);
+        setAlerts(alertsOn);
+      }
+    });
+
+  const activeCount = connections.filter((c) => c.status === "active").length;
   const token = created?.token ?? "";
   const url = created?.mcpUrl ?? mcpUrl;
 
   return (
     <>
+      <section className={`${card} space-y-4`}>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold">
+              AI tools are {on ? <span className="text-emerald-700">allowed</span> : <span className="text-rose-600">blocked</span>}
+            </h2>
+            <p className="mt-1 text-sm text-zinc-500">
+              {on ? "Connected tools can send drafts for your approval." : "Nothing can connect, sign in or send while this is blocked. Your connections stay in the list."}
+            </p>
+          </div>
+          <button type="button" className={on ? btnDanger : btnPrimary} disabled={pending || (!on && switches.forcedOff)} onClick={() => saveSwitches(!on, alerts)}>
+            {on ? "Block all AI tools" : "Allow AI tools"}
+          </button>
+        </div>
+        {switches.forcedOff && (
+          <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
+            The server has AI_INTEGRATION=off, so the tools are blocked whatever this page says. Remove that variable on the hosting to allow them.
+          </p>
+        )}
+        <label className="flex items-center gap-2.5 text-sm text-zinc-700">
+          <input type="checkbox" checked={alerts && !switches.forcedAlertsOff} disabled={pending || switches.forcedAlertsOff} onChange={(e) => saveSwitches(on, e.target.checked)} />
+          Send me a WhatsApp alert when an AI tool sends a new draft{switches.forcedAlertsOff ? " (switched off on the server by ALERT_AI=off)" : ""}
+        </label>
+        <Notice result={result} />
+        <p className="text-sm text-zinc-500">
+          New to this? Read the{" "}
+          <Link href="/admin/ai-guide" className="font-medium text-brand hover:underline">
+            AI Guide
+          </Link>
+          : where to do what, how to connect Claude, Claude Code or Cursor, and example prompts.
+        </p>
+      </section>
+
       <section className={`${card} space-y-4`}>
         <div>
           <h2 className="text-lg font-semibold">The MCP address of your website</h2>
@@ -123,7 +181,6 @@ export function AiIntegrations({ mcpUrl, connections }: { mcpUrl: string; connec
             <input type="checkbox" checked={read} onChange={(e) => setRead(e.target.checked)} /> Read existing articles, jobs and the status of its submissions (content:read)
           </label>
         </fieldset>
-        <Notice result={result} />
         <button type="button" className={btnPrimary} disabled={pending || name.trim().length < 2} onClick={make}>
           {pending ? "Please wait…" : "Create connection"}
         </button>
@@ -144,7 +201,19 @@ export function AiIntegrations({ mcpUrl, connections }: { mcpUrl: string; connec
       </section>
 
       <section className={`${card} space-y-3`}>
-        <h2 className="text-lg font-semibold">Connections</h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold">Connections</h2>
+          {activeCount > 0 && (
+            <button
+              type="button"
+              className={btnDanger}
+              disabled={pending}
+              onClick={() => window.confirm(`Revoke all ${activeCount} active connection(s)? Every AI tool is signed out at once.`) && act(() => revokeAllConnections())}
+            >
+              Revoke all
+            </button>
+          )}
+        </div>
         {connections.length === 0 ? (
           <p className="text-sm text-zinc-500">No connection yet.</p>
         ) : (
@@ -182,6 +251,39 @@ export function AiIntegrations({ mcpUrl, connections }: { mcpUrl: string; connec
                     </button>
                   )}
                 </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className={`${card} space-y-3`}>
+        <div>
+          <h2 className="text-lg font-semibold">Tools that signed in</h2>
+          <p className="mt-1 text-sm text-zinc-500">
+            Claude, Cursor and similar tools register themselves the first time you connect them with the address above. Remove one to forget it and sign it out; it must be added and allowed again.
+          </p>
+        </div>
+        {tools.length === 0 ? (
+          <p className="text-sm text-zinc-500">No tool has registered yet.</p>
+        ) : (
+          <ul className="divide-y divide-zinc-100">
+            {tools.map((t) => (
+              <li key={t.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+                <div className="min-w-0">
+                  <p className="font-medium">{t.name}</p>
+                  <p className="break-all text-xs text-zinc-500">
+                    Returns to {t.hosts} · registered {t.registered} · {t.active} active connection(s)
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className={btnDanger}
+                  disabled={pending}
+                  onClick={() => window.confirm(`Remove "${t.name}"? Its connections are revoked.`) && act(() => removeTool(t.id))}
+                >
+                  Remove tool
+                </button>
               </li>
             ))}
           </ul>

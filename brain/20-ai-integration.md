@@ -23,7 +23,7 @@ in 4 commits (registry, MCP server, OAuth + AI Integrations, approval queue) + s
 - Approval always runs the SAME actions as the admin forms (slug, order, cache refresh), then pings the search engines.
 - `BlogForm` / `JobForm` got an optional `onSave` prop (used by the submission "Edit" screen). Without it they behave exactly as before.
 - Admin login now returns to the page that asked for it (`?next=`, only local paths: `lib/safe-next.ts`); changed `proxy.ts`, `actions/auth.ts`, login page/screen (default unchanged).
-- `AI_INTEGRATION=off` = kill switch; `ALERT_AI=off` = no WhatsApp for a new draft. Limits: 120 calls/min and 10 sends/h per connection, 30 waiting drafts per admin, 3 MB body, 2 MB picture, 2000 registered tools.
+- Everything is manageable in the admin panel (owner's wish, 2026-10-20): Admin > AI Guide (`/admin/ai-guide`, instructions: where to do what, connect each tool, prompts, fields of each type read from the registry, approve/reject, stop access, troubleshooting), AI Integrations (allow/block switch + WhatsApp-alert tick box stored in table Setting key `aiIntegration` via `server/settings.ts`, create token, Revoke, Revoke all, Tools that signed in -> Remove tool), AI Submissions (queue, Delete this record for finished ones). `AI_INTEGRATION=off` / `ALERT_AI=off` in the environment still win over the panel. Limits: 120 calls/min and 10 sends/h per connection, 30 waiting drafts per admin, 3 MB body, 2 MB picture, 2000 registered tools.
 - The admin layout counts pending drafts with `countPending()` which swallows errors, so the admin panel works even before the migration.
 
 ## Not done / not verified (be honest)

@@ -209,6 +209,15 @@ describe("tools", () => {
     expect(res.status).toBe(413);
   });
 
+  it("the switch in the admin panel (table Setting) blocks the tools at once, and the alert switch silences the WhatsApp", async () => {
+    fake.current!.tables.setting.push({ key: "aiIntegration", value: { enabled: true, alerts: false } });
+    alerts.later.length = 0;
+    await call("send_to_we3vision", { content_type: "blog", data: draft, user_confirmed: true });
+    expect(alerts.later).toHaveLength(0);
+    fake.current!.tables.setting[0].value = { enabled: false, alerts: true };
+    expect((await rpc("tools/list", {})).status).toBe(503);
+  });
+
   it("the kill switch AI_INTEGRATION=off answers 503 at once", async () => {
     process.env.AI_INTEGRATION = "off";
     try {

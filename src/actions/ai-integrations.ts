@@ -6,7 +6,7 @@ import { alertFailure, alertLater } from "@/lib/alerts";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { checkAuthorize, issueCode, type AuthorizeParams } from "@/lib/ai-content/server/oauth";
-import { aiDisabled } from "@/lib/ai-content/server/http";
+import { aiEnabled, getAiSettings, saveAiSettings } from "@/lib/ai-content/server/settings";
 import { SCOPES, hashToken, hintOf, newToken } from "@/lib/ai-content/server/tokens";
 import { rateLimit } from "@/lib/rate-limit";
 import type { ActionResult } from "./types";
@@ -80,7 +80,7 @@ export type DecideResult = { ok: true; url: string } | { ok: false; error: strin
 /** The consent screen: the admin pressed "Allow" or "Deny". Everything is checked again here; the answer is the address to send the browser to. */
 export async function decideAuthorization(input: AuthorizeParams & { approve: boolean }): Promise<DecideResult> {
   const admin = await requireAdmin();
-  if (aiDisabled()) return { ok: false, error: "The AI integration is switched off on this website." };
+  if (!(await aiEnabled())) return { ok: false, error: "The AI integration is switched off on this website." };
   const check = await checkAuthorize({
     clientId: String(input.clientId ?? ""),
     redirectUri: String(input.redirectUri ?? ""),
@@ -107,5 +107,67 @@ export async function decideAuthorization(input: AuthorizeParams & { approve: bo
     console.error("decideAuthorization failed", error);
     alertFailure("Allowing an AI tool (admin)", error, "warning");
     return { ok: false, error: "Something went wrong. Please try again." };
+  }
+}
+
+/** The two switches of the page: allow AI tools at all, and the WhatsApp alert for a new draft. (AI_INTEGRATION=off / ALERT_AI=off in the environment always win.) */
+export async function saveAiSwitches(input: { enabled?: unknown; alerts?: unknown }): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  const now = await getAiSettings();
+  const next = { enabled: input.enabled !== false, alerts: input.alerts !== false };
+  if (next.enabled && now.forcedOff) return { ok: false, error: "AI_INTEGRATION=off is set on the server, so it cannot be switched on here. Remove that variable first." };
+  try {
+    await saveAiSettings(next);
+    alertLater({ level: "info", kind: "ai", title: `AI integration switched ${next.enabled ? "on" : "off"}`, detail: `By ${admin.email}` });
+    revalidatePath("/admin/ai-integrations");
+    return { ok: true, message: next.enabled ? "AI tools are allowed." : "AI tools are blocked now. Nothing can connect or send until you switch it on again." };
+  } catch (error) {
+    console.error("saveAiSwitches failed", error);
+    alertFailure("Saving the AI switches (admin)", error, "warning");
+    return { ok: false, error: "Could not save. Please try again." };
+  }
+}
+
+/** Stops every connection of every tool at once. */
+export async function revokeAllConnections(): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  try {
+    const done = await db.aiConnection.updateMany({ where: { revokedAt: null }, data: { revokedAt: new Date() } });
+    alertLater({ level: "info", kind: "ai", title: `All AI connections revoked (${done.count})`, detail: `By ${admin.email}` });
+    revalidatePath("/admin/ai-integrations");
+    return { ok: true, message: done.count ? `${done.count} connection(s) revoked. Every AI tool is signed out.` : "There was no active connection." };
+  } catch {
+    return { ok: false, error: "Could not revoke. Please try again." };
+  }
+}
+
+/** Forgets a tool that signed in (Claude, Cursor …): its connections are revoked and it has to be added and allowed again. */
+export async function removeTool(clientId: string): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  try {
+    const id = String(clientId ?? "");
+    await db.aiConnection.updateMany({ where: { clientId: id, revokedAt: null }, data: { revokedAt: new Date() } });
+    await db.oauthClient.delete({ where: { id } });
+    alertLater({ level: "info", kind: "ai", title: "An AI tool was removed", detail: `By ${admin.email}` });
+    revalidatePath("/admin/ai-integrations");
+    return { ok: true, message: "The tool was removed and its connections are revoked." };
+  } catch {
+    return { ok: false, error: "Could not remove the tool. Please try again." };
+  }
+}
+
+/** Deletes the record of a submission that is finished (approved, rejected or saved as a draft). The live item, if any, is not touched. */
+export async function deleteSubmissionRecord(id: string): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  try {
+    const row = await db.contentSubmission.findUnique({ where: { id }, select: { status: true, title: true } });
+    if (!row) return { ok: false, error: "This submission does not exist any more." };
+    if (row.status === "pending_review" || row.status === "publishing") return { ok: false, error: "Approve or reject it first." };
+    await db.contentSubmission.delete({ where: { id } });
+    alertLater({ level: "info", kind: "ai", title: `AI submission record deleted: ${row.title.slice(0, 80)}`, detail: `By ${admin.email}` });
+    revalidatePath("/admin/ai-submissions");
+    return { ok: true, message: "The record is deleted. The live article or job (if any) is untouched." };
+  } catch {
+    return { ok: false, error: "Could not delete. Please try again." };
   }
 }

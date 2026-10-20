@@ -6,7 +6,7 @@ type Row = Record<string, unknown> & { id?: string };
 export function createFakeDb() {
   let n = 0;
   const id = () => `c${String(++n).padStart(12, "0")}test`;
-  const names = ["aiConnection", "contentSubmission", "submissionEvent", "media", "blogPost", "careerRole", "adminUser", "oauthClient", "oauthCode"] as const;
+  const names = ["aiConnection", "contentSubmission", "submissionEvent", "media", "blogPost", "careerRole", "adminUser", "oauthClient", "oauthCode", "setting"] as const;
   const tables = Object.fromEntries(names.map((t) => [t, [] as Row[]])) as Record<(typeof names)[number], Row[]>;
 
   const matches = (row: Row, where: Row = {}): boolean =>
@@ -57,6 +57,13 @@ export function createFakeDb() {
       const rows = tables[name].filter((r) => matches(r, where));
       rows.forEach((r) => Object.assign(r, data));
       return { count: rows.length };
+    },
+    upsert: async ({ where, create, update }: { where: Row; create: Row; update: Row }) => {
+      const row = tables[name].find((r) => matches(r, where));
+      if (row) return Object.assign(row, update);
+      const made: Row = { id: id(), ...create };
+      tables[name].push(made);
+      return made;
     },
     delete: async ({ where }: { where: Row }) => {
       const i = tables[name].findIndex((r) => matches(r, where));

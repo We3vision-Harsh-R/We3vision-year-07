@@ -12,6 +12,7 @@ const items = [
   { href: "/admin/careers", label: "Careers" },
   { href: "/admin/ai-submissions", label: "AI Submissions" },
   { href: "/admin/ai-integrations", label: "AI Integrations" },
+  { href: "/admin/ai-guide", label: "AI Guide" },
   { href: "/admin/settings", label: "Site settings" },
   { href: "/admin/access", label: "Admin access" },
   { href: "/admin/leads", label: "Leads" },

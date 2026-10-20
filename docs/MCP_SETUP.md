@@ -6,6 +6,8 @@ AI tools (Claude, Claude Code, Cursor, ChatGPT …) can write **blog articles** 
 https://<your-site>/api/mcp
 ```
 
+> Everything below can also be done without a developer, inside the admin panel: **Admin → AI Guide** explains where to do what in plain words, **AI Integrations** manages connections, tools and the on/off switch, **AI Submissions** is the approval queue.
+
 **Nothing an AI sends goes live.** It arrives in **Admin → AI Submissions** as "Pending approval". An admin previews it, can edit it, and approves (it goes live through the normal Blog / Careers save logic) or rejects it (kept with a reason, never shown).
 
 ```
@@ -25,8 +27,8 @@ An AI tool has no tool to publish, edit or delete live content. The only writes 
    | Name | Meaning |
    |---|---|
    | `NEXT_PUBLIC_SITE_URL` | The public address, `https://www.we3vision.com` (already used by the sitemap). The MCP and sign-in links are built from it. It must be `https`. |
-   | `AI_INTEGRATION` | `off` switches the whole integration off at once (MCP, tool sign-in, tokens). Empty = on. |
-   | `ALERT_AI` | `off` stops the WhatsApp message "new AI draft is waiting". |
+   | `AI_INTEGRATION` | `off` forces the whole integration off (MCP, tool sign-in, tokens); the admin panel cannot switch it on again. Empty = the admin panel decides (Admin → AI Integrations → "Block all AI tools" / "Allow AI tools"). |
+   | `ALERT_AI` | `off` forces the WhatsApp message "new AI draft is waiting" off. Empty = the tick box in Admin → AI Integrations decides. |
 3. **Deploy.** Nothing else is needed: the endpoint is a normal Next.js route (`src/app/api/mcp/route.ts`), stateless, no extra port, no WebSocket.
 4. **Check the three addresses** after deploying (replace the host):
    ```bash
@@ -160,7 +162,9 @@ No MCP code changes: `tools.ts` builds its schemas and descriptions from `CONTEN
 ## 6. Revoke access
 
 - **One connection:** Admin → AI Integrations → **Revoke**. It stops working on the very next request (tokens are looked up in the database every time; nothing is cached).
-- **Everything at once:** set `AI_INTEGRATION=off` and restart the Node app. The endpoint answers 503.
+- **All connections at once:** Admin → AI Integrations → **Revoke all**.
+- **Block all AI tools for a while:** Admin → AI Integrations → **Block all AI tools** (the endpoint answers 503; connections stay; **Allow AI tools** turns it on again). Hard stop from the server: set `AI_INTEGRATION=off` and restart the Node app.
+- **Forget a tool that signed in (Claude, Cursor …):** Admin → AI Integrations → Tools that signed in → **Remove tool**.
 - **A lost token:** revoke that connection. A tool that signed in with OAuth can also be revoked here; its refresh token dies with it.
 - Deleting an admin user deletes their connections. A connection whose admin is no longer a `@we3vision.com` account is refused.
 

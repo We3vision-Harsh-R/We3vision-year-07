@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
-import { AiIntegrations, type ConnectionRow } from "@/components/admin/ai-integrations";
+import { AiIntegrations, type ConnectionRow, type ToolRow } from "@/components/admin/ai-integrations";
+import { getAiSettings } from "@/lib/ai-content/server/settings";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 
@@ -15,11 +16,22 @@ async function siteOrigin() {
   return `${h.get("x-forwarded-proto") ?? "http"}://${host}`;
 }
 
+function hostOf(uri: string) {
+  try {
+    const u = new URL(uri);
+    return u.host || u.protocol;
+  } catch {
+    return uri.slice(0, 40);
+  }
+}
+
 export default async function AiIntegrationsPage() {
   const me = await requireAdmin();
-  const [rows, pending] = await Promise.all([
+  const [rows, pending, clients, settings] = await Promise.all([
     db.aiConnection.findMany({ orderBy: { createdAt: "desc" }, include: { admin: { select: { email: true } }, _count: { select: { submissions: true } } } }),
     db.contentSubmission.count({ where: { status: "pending_review" } }),
+    db.oauthClient.findMany({ orderBy: { createdAt: "desc" }, take: 100 }),
+    getAiSettings(),
   ]);
   const now = new Date();
   const connections: ConnectionRow[] = rows.map((c) => ({
@@ -36,6 +48,13 @@ export default async function AiIntegrationsPage() {
     status: c.revokedAt ? "revoked" : c.expiresAt && c.expiresAt < now ? "expired" : "active",
     submissions: c._count.submissions,
   }));
+  const tools: ToolRow[] = clients.map((c) => ({
+    id: c.id,
+    name: c.name,
+    hosts: (Array.isArray(c.redirectUris) ? (c.redirectUris as unknown[]) : []).filter((u): u is string => typeof u === "string").map(hostOf).join(", ") || "-",
+    registered: fmt.format(c.createdAt),
+    active: rows.filter((r) => r.clientId === c.id && !r.revokedAt && (!r.expiresAt || r.expiresAt >= now)).length,
+  }));
   return (
     <div className="max-w-4xl space-y-6">
       <div>
@@ -44,7 +63,7 @@ export default async function AiIntegrationsPage() {
           Let AI tools (Claude, Cursor, ChatGPT …) write blog articles and job posts for you. They can only send drafts to <b>AI Submissions</b> ({pending} waiting now); nothing goes live until you approve it.
         </p>
       </div>
-      <AiIntegrations mcpUrl={`${await siteOrigin()}/api/mcp`} connections={connections} />
+      <AiIntegrations mcpUrl={`${await siteOrigin()}/api/mcp`} connections={connections} tools={tools} switches={settings} />
     </div>
   );
 }

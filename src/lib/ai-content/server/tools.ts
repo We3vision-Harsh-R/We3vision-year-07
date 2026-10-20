@@ -6,6 +6,7 @@ import type { ContentTypeDef } from "../types";
 import { ADAPTERS } from "./adapters";
 import { storeImage } from "./images";
 import { alertLater } from "@/lib/alerts";
+import { getAiSettings } from "./settings";
 import { MAX_PENDING, STATUSES, STATUS_LABEL, createSubmission, getOwnSubmission, listOwnSubmissions, type SubmissionStatus } from "./submissions";
 import type { McpContext, Scope } from "./tokens";
 
@@ -148,7 +149,7 @@ const sendToWe3vision: Tool = {
     const created = await createSubmission(ctx, def, r.data);
     if ("full" in created) return fail(`Not sent: ${MAX_PENDING} drafts are already waiting for approval. Ask the user to approve or reject some in Admin > AI Submissions first.`);
     const { id, duplicate } = created;
-    if (!duplicate && process.env.ALERT_AI !== "off") alertLater({ level: "info", kind: "ai", title: `New ${def.label.toLowerCase()} from AI is waiting: ${title.slice(0, 80)}`, detail: `Sent by ${ctx.connectionName}`, path: `/admin/ai-submissions/${id}`, notify: true });
+    if (!duplicate && (await getAiSettings()).alerts) alertLater({ level: "info", kind: "ai", title: `New ${def.label.toLowerCase()} from AI is waiting: ${title.slice(0, 80)}`, detail: `Sent by ${ctx.connectionName}`, path: `/admin/ai-submissions/${id}`, notify: true });
     const link = origin(ctx, `/admin/ai-submissions/${id}`);
     const lines = [
       duplicate ? `This draft was already sent and is still waiting (submission ${id}). Nothing new was created.` : `Sent. "${title}" is now waiting for approval (submission ${id}).`,

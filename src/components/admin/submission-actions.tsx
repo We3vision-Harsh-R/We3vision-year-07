@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { deleteSubmissionRecord } from "@/actions/ai-integrations";
 import { approveSubmission, rejectSubmission } from "@/actions/ai-submissions";
 import type { ActionResult } from "@/actions/types";
 import { btnDanger, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
@@ -62,6 +63,39 @@ export function SubmissionActions({ id, liveLabel }: { id: string; liveLabel: st
       {result && (
         <p role="status" className={`rounded-lg px-3 py-2 text-sm ${result.ok ? "bg-emerald-50 text-emerald-800" : "bg-rose-50 text-rose-700"}`}>
           {result.ok ? result.message : result.error}
+        </p>
+      )}
+    </section>
+  );
+}
+
+/** For a finished submission: removes its record from the list (the live item, if any, stays). */
+export function DeleteRecord({ id }: { id: string }) {
+  const router = useRouter();
+  const [result, setResult] = useState<ActionResult | null>(null);
+  const [pending, start] = useTransition();
+  return (
+    <section className={`${card} space-y-2`}>
+      <h2 className="text-lg font-semibold">Clean up</h2>
+      <p className="text-sm text-zinc-500">Removes this record and its history from the list. A live article or job that came from it is not touched.</p>
+      <button
+        type="button"
+        className={`${btnDanger} w-full`}
+        disabled={pending}
+        onClick={() =>
+          window.confirm("Delete this record? This cannot be undone.") &&
+          start(async () => {
+            const res = await deleteSubmissionRecord(id);
+            setResult(res);
+            if (res.ok) router.push("/admin/ai-submissions");
+          })
+        }
+      >
+        Delete this record
+      </button>
+      {result && !result.ok && (
+        <p role="alert" className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">
+          {result.error}
         </p>
       )}
     </section>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SubmissionActions } from "@/components/admin/submission-actions";
+import { DeleteRecord, SubmissionActions } from "@/components/admin/submission-actions";
 import { SubmissionFrame } from "@/components/admin/submission-frame";
 import { FieldList, SubmissionBadge } from "@/components/admin/submission-parts";
 import { card } from "@/components/admin/ui";
@@ -75,6 +75,7 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
         </div>
         <aside className="space-y-6">
           {waiting && <SubmissionActions id={sub.id} liveLabel={`"${sub.title}"`} />}
+          {!waiting && sub.status !== "publishing" && <DeleteRecord id={sub.id} />}
           <section className={`${card} space-y-3`}>
             <h2 className="text-lg font-semibold">History</h2>
             <ol className="space-y-3">

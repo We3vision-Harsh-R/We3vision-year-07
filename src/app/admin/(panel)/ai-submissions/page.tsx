@@ -35,6 +35,10 @@ export default async function AiSubmissionsPage({ searchParams }: { searchParams
           <Link href="/admin/ai-integrations" className="text-brand hover:underline">
             AI Integrations
           </Link>
+          . New here? Read the{" "}
+          <Link href="/admin/ai-guide" className="text-brand hover:underline">
+            AI Guide
+          </Link>
           .
         </p>
       </div>
