@@ -115,3 +115,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 109 | 3D Modeling page: new first screen (material sphere) | done |
 | 110 | Software Development page redesign: developer workspace (editor, git workflow, toolbox) | done |
 | 111 | Software page v2: centred, VS Code / Git / AWS / zero-gravity interactive | done |
+| 115 | AI content integration (MCP server + approval queue) | done |

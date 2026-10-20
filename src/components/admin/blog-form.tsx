@@ -47,7 +47,13 @@ export type OtherPost = MasonryItem & { published: boolean };
 const CONTENT_PLACEHOLDER = "First paragraph…\n\n## A heading\n\nA paragraph.\n\n- a point\n- another point";
 
 /** The editor of one article: the words, the picture, the shape and the place of the picture on the Blog page, with a preview of that page. */
-export function BlogForm({ id, slug, initial, others }: { id?: string; slug?: string; initial: BlogData; others: OtherPost[] }) {
+export type FormSave = (values: BlogData) => Promise<{ ok: boolean; message: string }>;
+
+/**
+ * Optional `onSave`: the AI Submissions screen uses the same form, but "Save" then keeps the changes in the submission instead of adding the article
+ * to the list (`backHref` says where Back goes). Without it the form works exactly as before.
+ */
+export function BlogForm({ id, slug, initial, others, onSave, backHref }: { id?: string; slug?: string; initial: BlogData; others: OtherPost[]; onSave?: FormSave; backHref?: string }) {
   const router = useRouter();
   const [v, setV] = useState<BlogData>(initial);
   const [dirty, setDirty] = useState(false);
@@ -80,7 +86,11 @@ export function BlogForm({ id, slug, initial, others }: { id?: string; slug?: st
 
   const save = () =>
     start(async () => {
-      if (id) {
+      if (onSave) {
+        const res = await onSave(v);
+        setMsg({ ok: res.ok, text: res.message });
+        if (res.ok) setDirty(false);
+      } else if (id) {
         const res = await updateBlogPost(id, v);
         setMsg(res.ok ? { ok: true, text: res.message } : { ok: false, text: res.error });
         if (res.ok) {
@@ -183,10 +193,14 @@ export function BlogForm({ id, slug, initial, others }: { id?: string; slug?: st
       </div>
 
       <div className={`${card} flex flex-wrap items-center justify-between gap-4`}>
-        <label className="flex items-center gap-2.5 text-sm font-medium text-zinc-700">
-          <input type="checkbox" checked={v.published} onChange={(e) => set("published", e.target.checked)} className="size-4 accent-[var(--color-brand)]" />
-          Show this article on the website
-        </label>
+        {onSave ? (
+          <span className="text-sm text-zinc-500">Saved into the submission. It goes live only when you press Approve.</span>
+        ) : (
+          <label className="flex items-center gap-2.5 text-sm font-medium text-zinc-700">
+            <input type="checkbox" checked={v.published} onChange={(e) => set("published", e.target.checked)} className="size-4 accent-[var(--color-brand)]" />
+            Show this article on the website
+          </label>
+        )}
         <div className="flex flex-wrap items-center gap-3">
           {msg && (
             <p role="status" className={`rounded-lg px-3 py-2 text-sm ${msg.ok ? "bg-emerald-50 text-emerald-800" : "bg-rose-50 text-rose-700"}`}>
@@ -203,11 +217,11 @@ export function BlogForm({ id, slug, initial, others }: { id?: string; slug?: st
               Delete
             </button>
           )}
-          <Link href="/admin/blog" className={btnSecondary}>
+          <Link href={backHref ?? "/admin/blog"} className={btnSecondary}>
             Back
           </Link>
-          <button type="button" className={btnPrimary} onClick={save} disabled={pending || (id ? !dirty : false)}>
-            {pending ? "Saving…" : id ? "Save changes" : "Add article"}
+          <button type="button" className={btnPrimary} onClick={save} disabled={pending || (id || onSave ? !dirty : false)}>
+            {pending ? "Saving…" : onSave ? "Save changes" : id ? "Save changes" : "Add article"}
           </button>
         </div>
       </div>

@@ -49,7 +49,11 @@ export const EMPTY_JOB: JobFormValue = {
   active: true,
 };
 
-export function JobForm({ initial }: { initial: JobFormValue }) {
+/**
+ * Optional `onSave`: the AI Submissions screen uses the same form, but "Save" then keeps the changes in the submission instead of creating the job
+ * (`backHref` says where Back goes). Without it the form works exactly as before.
+ */
+export function JobForm({ initial, onSave, backHref }: { initial: JobFormValue; onSave?: (values: JobFormValue) => Promise<ActionResult>; backHref?: string }) {
   const router = useRouter();
   const [v, setV] = useState(initial);
   const [dirty, setDirty] = useState(false);
@@ -71,11 +75,12 @@ export function JobForm({ initial }: { initial: JobFormValue }) {
 
   const save = () =>
     start(async () => {
-      const res = await saveJob(v);
+      const res = await (onSave ? onSave(v) : saveJob(v));
       setResult(res);
       if (res.ok) {
         setDirty(false);
-        if (!v.id && res.id) router.replace(`/admin/careers/jobs/${res.id}`);
+        if (onSave) return;
+        if (!v.id && "id" in res && res.id) router.replace(`/admin/careers/jobs/${res.id}`);
         else router.refresh();
       }
     });
@@ -164,10 +169,14 @@ export function JobForm({ initial }: { initial: JobFormValue }) {
       <section className={`${card} space-y-4`}>
         <h2 className="text-lg font-semibold">Open or closed</h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-zinc-700">
-            <input type="checkbox" checked={v.active} onChange={(e) => set("active", e.target.checked)} />
-            Open: shown on the Careers page and open for applications
-          </label>
+          {onSave ? (
+            <p className="text-sm text-zinc-500">Saved into the submission. The job opens on the Careers page only when you press Approve.</p>
+          ) : (
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-700">
+              <input type="checkbox" checked={v.active} onChange={(e) => set("active", e.target.checked)} />
+              Open: shown on the Careers page and open for applications
+            </label>
+          )}
           <label className={labelClass}>
             Last day to apply (optional: the job closes by itself after it)
             <input className={inputClass} type="date" value={v.closesAt} onChange={(e) => set("closesAt", e.target.value)} />
@@ -176,9 +185,14 @@ export function JobForm({ initial }: { initial: JobFormValue }) {
       </section>
 
       <div className={`${card} flex flex-wrap items-center gap-3`}>
-        <button type="button" className={btnPrimary} disabled={pending || !v.title.trim() || (!dirty && Boolean(v.id))} onClick={save}>
-          {pending ? "Saving…" : v.id ? "Save the job" : "Create the job"}
+        <button type="button" className={btnPrimary} disabled={pending || !v.title.trim() || (!dirty && (Boolean(v.id) || Boolean(onSave)))} onClick={save}>
+          {pending ? "Saving…" : onSave ? "Save changes" : v.id ? "Save the job" : "Create the job"}
         </button>
+        {backHref && (
+          <a href={backHref} className={btnSecondary}>
+            Back
+          </a>
+        )}
         {v.slug && v.id && (
           <a href={`/careers/${v.slug}`} target="_blank" rel="noreferrer" className={btnSecondary}>
             Open the page of the job ↗

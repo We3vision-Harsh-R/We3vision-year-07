@@ -14,6 +14,7 @@ model AdminUser {
   passwordHash String
   createdAt    DateTime  @default(now())
   lastLoginAt  DateTime?
+  aiConnections AiConnection[]
 }
 
 // One row per editable website page. `draft` is what the editor works on,
@@ -215,4 +216,102 @@ model CareerApplication {
 
   @@index([createdAt])
   @@index([roleId])
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+// AI integration (Admin > AI Integrations, Admin > AI Submissions). An AI tool (Claude, Cursor, ChatGPT …) connects to /api/mcp with a
+// connection and can ONLY create submissions that wait for approval. See brain/20-ai-integration.md and docs/MCP_SETUP.md.
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+/// One connection of an AI tool = one admin's grant. `kind` is "token" (a personal access token the admin copied) or "oauth" (the tool
+/// signed in through the consent screen). Tokens are stored only as SHA-256 hashes. Revoking (revokedAt) works at once.
+model AiConnection {
+  id              String              @id @default(cuid())
+  name            String
+  kind            String              @default("token")
+  adminId         String
+  admin           AdminUser           @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  /// SHA-256 of the access token
+  tokenHash       String              @unique
+  /// the first characters of the token, to recognise it in the list
+  tokenHint       String              @default("")
+  /// oauth only: SHA-256 of the refresh token
+  refreshHash     String?             @unique
+  /// oauth only: when the access token stops working (the tool then refreshes it)
+  accessExpiresAt DateTime?
+  /// space separated: content:submit content:read
+  scopes          String              @default("content:submit content:read")
+  /// oauth only: the client that was registered by the tool
+  clientId        String              @default("")
+  /// the whole connection stops working at this time (empty = until revoked)
+  expiresAt       DateTime?
+  lastUsedAt      DateTime?
+  revokedAt       DateTime?
+  createdAt       DateTime            @default(now())
+  submissions     ContentSubmission[]
+
+  @@index([adminId])
+}
+
+/// A client that registered itself (OAuth dynamic client registration). Public clients only: PKCE is required.
+model OauthClient {
+  id           String   @id
+  name         String
+  redirectUris Json     @default("[]")
+  createdAt    DateTime @default(now())
+}
+
+/// A one-time authorization code (10 minutes), stored as a hash.
+model OauthCode {
+  codeHash      String    @id
+  clientId      String
+  adminId       String
+  redirectUri   String
+  codeChallenge String
+  scopes        String
+  expiresAt     DateTime
+  usedAt        DateTime?
+  createdAt     DateTime  @default(now())
+
+  @@index([expiresAt])
+}
+
+/// A piece of content an AI tool sent. `data` is the validated draft (fields of src/lib/ai-content/registry.ts). Status:
+/// pending_review | approved | rejected | draft (approved by an admin but saved hidden). Nothing is live until an admin approves.
+model ContentSubmission {
+  id             String            @id @default(cuid())
+  contentType    String
+  title          String            @default("")
+  data           Json
+  status         String            @default("pending_review")
+  connectionId   String?
+  connection     AiConnection?     @relation(fields: [connectionId], references: [id], onDelete: SetNull)
+  /// name of the connection at the time (stays when the connection is deleted)
+  connectionName String            @default("")
+  reviewedBy     String            @default("")
+  reviewedAt     DateTime?
+  rejectReason   String            @default("")
+  /// the live item made on approval (BlogPost / CareerRole id and its address)
+  entityId       String            @default("")
+  entitySlug     String            @default("")
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  events         SubmissionEvent[]
+
+  @@index([status, createdAt])
+  @@index([connectionId])
+}
+
+/// The audit log of a submission: who did what and when (a connection by name, an admin by e-mail).
+model SubmissionEvent {
+  id           String            @id @default(cuid())
+  submissionId String
+  submission   ContentSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  /// submitted | edited | approved | saved_draft | rejected
+  action       String
+  actor        String
+  note         String            @default("")
+  at           DateTime          @default(now())
+
+  @@index([submissionId, at])
 }

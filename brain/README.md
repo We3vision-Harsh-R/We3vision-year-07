@@ -30,6 +30,7 @@ what is still open.
 | 15 | [15-optimization-handbook.md](15-optimization-handbook.md) | **any speed work, any new page** | Method, what was used, checklist for new pages, ledger of what was optimized on which page, phase approval status |
 | 18 | [18-website-test-master-table.md](18-website-test-master-table.md) | **bug list / test report** | 33 findings (B-01..B-33) with status, page-wise table, fix phases |
 | 19 | [19-design-decisions-and-handoff.md](19-design-decisions-and-handoff.md) | **continuing design work / new chat** | Design decisions (font, 14px, focus, SEO, heroes), the unique-hero pattern, what is done / open, paste prompt |
+| 20 | [20-ai-integration.md](20-ai-integration.md) | **AI tools (MCP) creating blog / jobs, approval queue** | Where the code is, rules, what is not verified; manual in docs/MCP_SETUP.md |
 | 10 | [10-starter-prompt.md](10-starter-prompt.md) | when you open a new AI tool | Copy-paste prompt that makes any AI use this folder |
 
 Related files outside this folder: `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `.github/copilot-instructions.md` / `.cursor/rules/` (they
