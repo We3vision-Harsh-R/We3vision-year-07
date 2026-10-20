@@ -31,6 +31,7 @@ export const OfficeBuilder = dynamic(() => import("./office-builder").then((m) =
 export const PhysicalPage = dynamic(() => import("./marketing/physical").then((m) => m.PhysicalPage));
 export const PluginPage = dynamic(() => import("./tech/plugin").then((m) => m.PluginPage));
 export const ProcessVariant = dynamic(() => import("./modern/process-variants").then((m) => m.ProcessVariant));
+export const SoftwarePage = dynamic(() => import("./software/software").then((m) => m.SoftwarePage));
 export const SeoAeoPage = dynamic(() => import("./marketing/seo-aeo").then((m) => m.SeoAeoPage));
 export const ServiceStage = dynamic(() => import("./modern/service-stage").then((m) => m.ServiceStage));
 export const ServiceStrip = dynamic(() => import("./service-strip").then((m) => m.ServiceStrip));

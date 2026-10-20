@@ -36,6 +36,7 @@ import "@/styles/end-to-end.css";
 import "@/styles/seo-marketing.css";
 import "@/styles/physical-marketing.css";
 import "@/styles/meta-marketing.css";
+import "@/styles/software-dev.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageSections } from "@/components/site/sections";

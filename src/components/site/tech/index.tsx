@@ -6,6 +6,7 @@ import { techData, type TechData } from "./data";
 import { BrandDevPage } from "../lazy";
 import { E2EPage } from "../lazy";
 import { SeoAeoPage } from "../lazy";
+import { SoftwarePage } from "../lazy";
 import { MetaPage } from "../lazy";
 import { PhysicalPage } from "../lazy";
 import { GraphicsPage } from "../lazy";
@@ -24,6 +25,7 @@ const PAGES: Record<string, ComponentType<{ d: TechData }>> = {
   "brand-development": BrandDevPage,
   "zero-to-n": E2EPage,
   seo: SeoAeoPage,
+  software: SoftwarePage,
   "meta-marketing": MetaPage,
   "physical-marketing": PhysicalPage,
   "custom-wordpress": WordpressPage,
