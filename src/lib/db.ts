@@ -12,5 +12,7 @@ function createClient() {
   return new PrismaClient({ adapter });
 }
 
-export const db = globalForDb.prisma ?? createClient();
+const cached = globalForDb.prisma;
+// A client made before the last `prisma generate` lacks the newer tables (the dev server keeps it in memory): replace it.
+export const db = cached && "contentSubmission" in cached ? cached : createClient();
 globalForDb.prisma = db; // one client for the whole process (pages, server actions and the proxy share it)
