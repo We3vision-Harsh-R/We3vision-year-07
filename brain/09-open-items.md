@@ -186,3 +186,8 @@
 - MCP Apps UI (Send button card inside the AI client) not built. Optional later.
 - Add more content types (portfolio, case studies, testimonials, events) with the 5 steps in docs/MCP_SETUP.md section 5.
 
+
+## Admin panel restructure + theme (task 116, 2026-10-20)
+- Only the shell, the dashboard and the colours changed; the 14 screens keep their layout and logic. Old rule "admin is excluded from re-colouring" is void: the admin follows the site theme.
+- Check each screen once on a real login (dark colours on every form, table, badge, the hiring desk drawer and the live-preview frames): bg/text classes that are not in the remap list (e.g. a new `bg-blue-*`) stay light. Add them to the variable block in `styles/admin-shell.css`.
+- `text-xs` in the admin is forced to 14px (owner readability rule); the hiring desk and tables may look tighter.
