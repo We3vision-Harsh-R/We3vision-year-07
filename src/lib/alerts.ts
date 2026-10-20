@@ -25,6 +25,8 @@ export type SiteAlert = {
   firstAt: string;
   lastAt: string;
   read: boolean;
+  /** the owner checked it and pressed "Solved" (Admin > Alerts) */
+  resolved?: boolean;
 };
 
 const KEY = "siteAlerts";
