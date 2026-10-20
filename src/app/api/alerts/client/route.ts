@@ -35,7 +35,14 @@ export async function POST(req: Request) {
       level: ours ? "warning" : "info",
       kind: "browser",
       title: `Error in a visitor's browser: ${message.slice(0, 100)}`,
-      detail: [message, stack.split("\n").slice(0, 4).join("\n")].filter(Boolean).join("\n"),
+      detail: [
+        message,
+        text(data.source, 300) && `File: ${text(data.source, 300)}${text(data.where, 120) ? ` (${text(data.where, 120)})` : ""}`,
+        text(data.path, 200) && `Page address: ${text(data.path, 200)}`,
+        stack && `Stack trace (top frames):\n${stack.split("\n").slice(0, 7).join("\n")}`,
+      ]
+        .filter(Boolean)
+        .join("\n"),
       path: text(data.path, 200),
       ip,
     });

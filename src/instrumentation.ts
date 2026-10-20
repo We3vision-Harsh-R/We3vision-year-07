@@ -17,12 +17,22 @@ export const onRequestError: Instrumentation.onRequestError = async (err, reques
   const { raiseAlert } = await import("@/lib/alerts");
   const path = (request.path || "").split("?")[0];
   const where = { render: "page", route: "API route", action: "form / server action", proxy: "proxy" }[context.routeType] ?? context.routeType;
-  const stack = typeof e?.stack === "string" ? e.stack.split("\n").slice(1, 4).join("\n") : "";
+  const stack = typeof e?.stack === "string" ? e.stack.split("\n").slice(1, 9).join("\n") : "";
   await raiseAlert({
     level: OLD_ACTION.test(message) ? "info" : "critical",
     kind: "server",
     title: OLD_ACTION.test(message) ? "An old browser tab used a form of the previous version" : `Server error in a ${where}`,
-    detail: [`${typeof e?.name === "string" ? e.name : "Error"}: ${message}`, digest && `digest ${digest}`, `${request.method} ${context.routePath}`, stack].filter(Boolean).join("\n"),
+    // labelled lines: the admin's "Copy for AI" button (lib/alert-report.ts) hands this text to an AI, so it says where the error is
+    detail: [
+      `${typeof e?.name === "string" ? e.name : "Error"}: ${message}`,
+      `Route (page file location): ${context.routePath} [${where}, router ${context.routerKind}]`,
+      `Request: ${request.method} ${path}`,
+      context.renderSource && `Render source: ${context.renderSource}`,
+      digest && `Digest: ${digest}`,
+      stack && `Stack trace (top frames):\n${stack}`,
+    ]
+      .filter(Boolean)
+      .join("\n"),
     path,
   });
 };

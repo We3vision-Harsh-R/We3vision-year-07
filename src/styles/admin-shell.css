@@ -477,3 +477,27 @@
     color: var(--color-zinc-400);
   }
 }
+
+/* ---------- Alerts: "Copy for AI" ---------- */
+.ads-copy {
+  display: grid;
+  gap: 10px;
+}
+.ads-copy-box {
+  display: grid;
+  gap: 6px;
+  max-width: 620px;
+  font-size: 0.875rem;
+  color: var(--ads-muted);
+}
+.ads-copy-box textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--ads-line);
+  border-radius: 10px;
+  background: var(--ads-input);
+  color: var(--ads-ink);
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
