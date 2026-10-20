@@ -90,6 +90,42 @@ describe("protocol handshake (what a client does first)", () => {
   });
 });
 
+describe("the owner's instructions reach the AI tool", () => {
+  const owner = { general: "We3vision is a studio in Surat. Never promise rankings.", types: { blog: { extra: "End every article with a call to action.", askFirst: ["The target city", "The offer to mention"] } } };
+
+  it("get_content_guidelines lists what to ask first and the owner's rules", async () => {
+    fake.current!.tables.setting.push({ key: "aiInstructions", value: owner });
+    const r = await call("get_content_guidelines", { content_type: "blog" });
+    const text = r.content[0].text;
+    expect(text).toContain("Before you write: collect this information");
+    expect(text).toContain("- The target city");
+    expect(text).toContain("Never promise rankings.");
+    expect(text).toContain("End every article with a call to action.");
+    expect(r.structuredContent).toMatchObject({ ask_first: ["The target city", "The offer to mention"] });
+  });
+
+  it("without saved instructions the standard list is sent", async () => {
+    const r = await call("get_content_guidelines", { content_type: "career" });
+    expect(r.content[0].text).toContain("The job title and the team");
+  });
+
+  it("list_content_types shows the list per type", async () => {
+    fake.current!.tables.setting.push({ key: "aiInstructions", value: owner });
+    const r = await call("list_content_types", {});
+    expect(r.content[0].text).toContain("Information to collect from the user before writing:");
+    expect(r.content[0].text).toContain("- The target city");
+    expect((r.structuredContent as { owner_instructions: string }).owner_instructions).toContain("studio in Surat");
+  });
+
+  it("the general instructions are said to the tool when it connects", async () => {
+    fake.current!.tables.setting.push({ key: "aiInstructions", value: owner });
+    const res = await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "t", version: "1" } });
+    const out = (await res.json()).result;
+    expect(out.instructions).toContain("Never promise rankings.");
+    expect(out.instructions).toContain("get_content_guidelines");
+  });
+});
+
 describe("tools", () => {
   it("lists only tools that cannot publish, edit or delete live content", async () => {
     const res = await rpc("tools/list", {});

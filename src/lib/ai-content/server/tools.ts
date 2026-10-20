@@ -4,7 +4,9 @@ import { rateLimit } from "@/lib/rate-limit";
 import { CONTENT_TYPES, CONTENT_TYPE_KEYS, buildSchema, fieldGuide, getContentType, jsonSchemaOf, validateDraft } from "../registry";
 import type { ContentTypeDef } from "../types";
 import { TILES } from "@/lib/blog-shared";
+import { renderGuidelines, resolveInstructions } from "../instructions";
 import { ADAPTERS } from "./adapters";
+import { getStoredInstructions } from "./instructions-store";
 import { createCover } from "./cover";
 import { storeImage } from "./images";
 import { alertLater } from "@/lib/alerts";
@@ -78,8 +80,12 @@ const listContentTypes: Tool = {
   annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   async run() {
     const types = CONTENT_TYPES.map((t) => ({ content_type: t.key, label: t.label, description: t.description, fields: t.fields.map((f) => ({ name: f.name, label: f.label, required: Boolean(f.required), help: f.help })), json_schema: jsonSchemaOf(t) }));
-    const human = CONTENT_TYPES.map((t) => `## ${t.key} (${t.label})\n${t.description}\n\n${fieldGuide(t)}`).join("\n\n");
-    return text(`${human}\n\nCall get_content_guidelines for the writing rules and an example before you draft.`, { content_types: types });
+    const stored = await getStoredInstructions();
+    const human = CONTENT_TYPES.map((t) => {
+      const ask = resolveInstructions(t, stored).askFirst;
+      return `## ${t.key} (${t.label})\n${t.description}\n\nInformation to collect from the user before writing:\n${ask.map((q) => `- ${q}`).join("\n") || "- (nothing special)"}\n\n${fieldGuide(t)}`;
+    }).join("\n\n");
+    return text(`${human}\n\nCall get_content_guidelines for the owner's instructions, the writing rules and an example before you draft.`, { content_types: types.map((t) => ({ ...t, ask_first: resolveInstructions(getContentType(t.content_type)!, stored).askFirst })), owner_instructions: stored.general });
   },
 };
 
@@ -87,21 +93,16 @@ const getGuidelines: Tool = {
   name: "get_content_guidelines",
   title: "Get content guidelines",
   description:
-    "Returns the We3vision brand voice, SEO rules and formatting rules for one content type, plus its field guide and a complete valid example. Read it BEFORE you write a draft, and follow it. This tool only reads.",
+    "Returns, for one content type, what you must do BEFORE writing: the information to collect from the user (ask for what is missing), the instructions of the website owner (they win), the We3vision brand voice, SEO and formatting rules, the field guide and a complete valid example. Always call it before you write a draft and follow it. This tool only reads.",
   scope: "any",
   shown: z.object({ content_type: typeKey }),
   schema: z.object({ content_type: typeKey }),
   annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   async run(_ctx, args: { content_type: string }) {
     const def = definitionOf(args.content_type);
-    const body = [
-      `# Guidelines: ${def.label}`,
-      def.guidelines.map((g) => `- ${g}`).join("\n"),
-      `## Fields\n${fieldGuide(def)}`,
-      `## Example of a valid draft\n\`\`\`json\n${JSON.stringify(def.example, null, 2)}\n\`\`\``,
-      "## Workflow\n1. Draft the content. 2. Call preview_content and fix every error it lists. 3. Show the preview to the user and apply their changes. 4. Only when the user clearly says to send it, call send_to_we3vision. It then waits for approval in the admin panel; nothing goes live by itself.",
-    ].join("\n\n");
-    return text(body, { content_type: def.key, guidelines: def.guidelines, example: def.example });
+    const stored = await getStoredInstructions();
+    const r = resolveInstructions(def, stored);
+    return text(renderGuidelines(def, stored), { content_type: def.key, ask_first: r.askFirst, owner_instructions: { general: stored.general, extra: r.extra }, guidelines: def.guidelines, example: def.example });
   },
 };
 
@@ -281,6 +282,7 @@ export const TOOLS: readonly Tool[] = [listContentTypes, getGuidelines, previewC
 
 export const SERVER_INSTRUCTIONS = [
   "This server lets you prepare content for the We3vision website (blog articles, job openings). You can only create submissions: nothing goes live until a We3vision admin approves it in the admin panel.",
+  "Before you write anything, call get_content_guidelines for the content type: it lists the information you must collect from the user first (ask for what is missing in one short message) and the instructions of the website owner.",
   "Workflow: 1) list_content_types and get_content_guidelines, 2) list_existing_content to avoid duplicates, 3) draft, 4) preview_content and fix all errors, 5) show the preview to the user and revise on their feedback, 6) call send_to_we3vision ONLY after the user explicitly confirms. Use exactly the field names and limits of the content type. Never invent facts, numbers, clients or testimonials.",
 ].join("\n");
 

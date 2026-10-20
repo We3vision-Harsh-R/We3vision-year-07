@@ -3,6 +3,8 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { alertFailure } from "@/lib/alerts";
+import { renderServerInstructions } from "../instructions";
+import { getStoredInstructions } from "./instructions-store";
 import { SERVER_INSTRUCTIONS, TOOLS, allowCall, toolJsonSchema, type ToolResult } from "./tools";
 import type { McpContext } from "./tokens";
 
@@ -14,8 +16,8 @@ export const MAX_BODY_BYTES = 3 * 1024 * 1024;
 const issueText = (issues: readonly { path: PropertyKey[]; message: string }[]) =>
   issues.map((i) => `- ${i.path.length ? i.path.map(String).join(".") : "(arguments)"}: ${i.message}`).join("\n");
 
-function buildServer(ctx: McpContext) {
-  const server = new Server({ name: "we3vision-content", version: "1.0.0" }, { capabilities: { tools: {} }, instructions: SERVER_INSTRUCTIONS });
+function buildServer(ctx: McpContext, instructions: string) {
+  const server = new Server({ name: "we3vision-content", version: "1.0.0" }, { capabilities: { tools: {} }, instructions });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: TOOLS.map((t) => ({ name: t.name, title: t.title, description: t.description, inputSchema: toolJsonSchema(t) as { type: "object" }, annotations: t.annotations })),
@@ -43,7 +45,7 @@ function buildServer(ctx: McpContext) {
 /** Answers one MCP request (a POST with a JSON-RPC message) for an authenticated connection. */
 export async function handleMcpRequest(request: Request, ctx: McpContext): Promise<Response> {
   const transport = new WebStandardStreamableHTTPServerTransport({ sessionIdGenerator: undefined, enableJsonResponse: true, maxRequestBodySize: MAX_BODY_BYTES });
-  const server = buildServer(ctx);
+  const server = buildServer(ctx, renderServerInstructions(SERVER_INSTRUCTIONS, await getStoredInstructions()));
   await server.connect(transport);
   try {
     return await transport.handleRequest(request);

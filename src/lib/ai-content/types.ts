@@ -41,6 +41,8 @@ export type ContentTypeDef = {
   fields: readonly FieldDef[];
   /** brand voice, SEO and formatting rules (plain sentences; the AI reads them with get_content_guidelines) */
   guidelines: readonly string[];
+  /** the information the AI must have before it writes (it asks the user for what is missing); the owner can replace this list in Admin > AI Instructions */
+  askFirst: readonly string[];
   /** the field that names the item in lists and previews */
   titleField: string;
   /** a complete, valid example draft */

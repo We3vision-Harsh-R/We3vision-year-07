@@ -65,6 +65,7 @@ export default async function AiGuidePage() {
             ["where", "Where to do what"],
             ["connect", "Connect a tool"],
             ["use", "Use it"],
+            ["instructions", "Instructions for the AI"],
             ["types", "What the AI can create"],
             ["decide", "Approve or reject"],
             ["stop", "Stop access"],
@@ -112,6 +113,7 @@ export default async function AiGuidePage() {
             <tbody className="divide-y divide-zinc-100">
               <Where what="Get the MCP address, connect a tool, make a token" where="AI Integrations" href="/admin/ai-integrations" note="Create connection, copy the address and token, choose permissions and how long it lasts." />
               <Where what="Stop one tool, or all tools" where="AI Integrations" href="/admin/ai-integrations" note="Revoke (one), Revoke all, Remove tool, or Block all AI tools with one button." />
+              <Where what="Tell the AI what to know and ask before writing, and how to write" where="AI Instructions" href="/admin/ai-instructions" note="Company facts and rules for everything; per blog / job: the questions the AI must ask you first, and your extra rules. Every tool reads them automatically." />
               <Where what="Get a WhatsApp alert for each new draft" where="AI Integrations" href="/admin/ai-integrations" note="The tick box at the top. Needs WhatsApp alerts set up (Alerts)." />
               <Where what="See what AI sent, preview it, edit it" where="AI Submissions" href="/admin/ai-submissions" note="Tabs: Pending, Approved, Saved as draft, Rejected. The menu shows how many are waiting." />
               <Where what="Publish, save hidden, or reject a draft" where="AI Submissions" href="/admin/ai-submissions" note="Open a draft, then use the buttons on the right." />
@@ -176,6 +178,20 @@ export default async function AiGuidePage() {
           </li>
           <li>If the AI says a field is too long or missing, just ask it to fix it and try again.</li>
           <li>Up to 30 drafts can wait at the same time. Approve or reject some to make room.</li>
+        </ul>
+      </section>
+
+      <section id="instructions" className={`${card} space-y-3`}>
+        <h2 className="text-lg font-semibold">Instructions for the AI: you write them once, here</h2>
+        <p className="text-sm text-zinc-600">
+          In <Link href="/admin/ai-instructions" className="font-medium text-brand hover:underline">AI Instructions</Link> you decide what every AI tool is told. You do not paste anything into Claude, ChatGPT or Cursor: they read it from this website by themselves, every time, before they write.
+        </p>
+        <ul className="list-disc space-y-1 pl-5 text-sm text-zinc-700">
+          <li><b>About We3vision and rules for all content:</b> facts the AI may use, your readers, the voice, what it must never say.</li>
+          <li><b>For a blog article and for a job post, the information the AI must collect first:</b> for example topic, reader and keyword for a blog; experience, location and responsibilities for a job. The AI asks you for what is missing, then writes.</li>
+          <li><b>Your extra rules for each type:</b> for example “end with a call to action”. They win over the built-in rules.</li>
+          <li>The fields, limits and the built-in writing rules stay as they are: the AI always writes the same fields as the admin forms.</li>
+          <li>Changes apply from the next request of any tool. Under “What the AI receives now” you can read exactly what it gets.</li>
         </ul>
       </section>
 

@@ -14,6 +14,15 @@ export const blogType: ContentTypeDef = {
   description:
     "An article for the We3vision blog (www.we3vision.com/blog). Use it for thought-leadership, how-to and industry articles about web, app, AI, metaverse, UI/UX, SEO, CRM, animation and brand design.",
   titleField: "title",
+  askFirst: [
+    "The topic and the angle: what should the reader learn or decide?",
+    "Who the article is for (for example business owners, startups, one industry)",
+    "The main keyword or phrase to rank for, and related keywords",
+    "The tone and the length wanted (default: practical and clear, 800–1500 words)",
+    "Facts, numbers, links or examples the article must include (nothing is invented)",
+    "Which We3vision service the article should lead to, if any",
+    "The cover picture: the user's own picture, or let a branded cover be drawn",
+  ],
   autoCover: { field: "cover", input: (d) => ({ title: str(d.title), category: str(d.category), tile: str(d.tile) }) },
   fields: [
     { name: "title", label: "Title", kind: "text", max: 140, min: 10, required: true, help: "The headline (the page H1). Include the main keyword near the start, make it specific and honest.", example: "7 Trends Shaping 3D Web Design in 2026" },

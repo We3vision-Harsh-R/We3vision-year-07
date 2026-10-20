@@ -13,6 +13,14 @@ export const careerType: ContentTypeDef = {
   label: "Job opening",
   description: "A job opening for the Careers page (www.we3vision.com/careers). Each opening gets its own page with an apply form and Google JobPosting data.",
   titleField: "title",
+  askFirst: [
+    "The job title and the team",
+    "Years of experience wanted, and the must-have skills and tools",
+    "Location, job type (full-time, part-time, internship, contract) and work mode (on-site, hybrid, remote)",
+    "The main responsibilities (5–8 points)",
+    "Number of openings and the last day to apply, if there is one",
+    "Salary and perks: only if the user says them, never guess",
+  ],
   fields: [
     { name: "title", label: "Name of the position", kind: "text", min: 2, max: 100, required: true, help: "The job title only, as candidates search for it. No location, salary or \"urgent\".", example: "Senior UI/UX Designer" },
     { name: "team", label: "Team", kind: "text", max: 40, help: "The team or department, for example \"Design\", \"Development\", \"Marketing\".", example: "Design" },

@@ -118,6 +118,15 @@ Permissions: `content:submit` (send, upload) and `content:read` (lists, status).
 
 > **MCP Apps UI (a preview card with a "Send" button inside the AI client)** is not built yet. The plain tool flow above works in every client: the AI shows the preview as text and asks you to confirm.
 
+## 3b. Tell the AI what to ask and how to write (Admin → AI Instructions)
+
+The owner writes the instructions once in **Admin → AI Instructions**; every AI tool reads them from the website, so nothing is pasted into Claude, ChatGPT or Cursor:
+
+- **General instructions:** facts about the company, the readers, the voice, what to never say. The AI gets them when it connects (the "instructions" of the MCP server) and again in `get_content_guidelines`.
+- **Per content type (blog, job): "information the AI must collect first"** (a list, one point per line; the standard list is in the registry entry as `askFirst`) and **your extra rules**. The AI asks the user for whatever is missing, then writes. Your rules win over the built-in rules.
+- Stored in the table `Setting` (key `aiInstructions`); code: `src/lib/ai-content/instructions.ts` (pure) and `server/instructions-store.ts`. A database problem never stops the tools (they get the built-in rules).
+- The AI cannot be forced to ask: the instructions are strong guidance in the tool description, the server instructions and `get_content_guidelines`. What is enforced is the form: exact fields, limits, allowed values, and that nothing is live before approval.
+
 ## 4. Test it
 
 **Unit tests** (registry validation, MCP tools, OAuth flow, approval → publish):
@@ -150,7 +159,7 @@ The registry is the single source of truth. A new type needs **one registry entr
 1. **Registry entry** – copy `src/lib/ai-content/definitions/career.ts` to `definitions/<type>.ts` and change it:
    - `key`, `label`, `description`.
    - `fields`: one object per field of the admin form: `name`, `label`, `kind` (`text`, `longtext`, `markup`, `enum`, `int`, `date`, `image`, `list`, `qa`, `boolean`), `required`, limits (`max`, `options`, …) and `help` (what the AI should write). Use the **same limits as the admin save action**.
-   - `guidelines` (brand voice, SEO, formatting), `example` (a valid draft).
+   - `guidelines` (brand voice, SEO, formatting), `askFirst` (the standard list of information to collect from the user before writing; the owner can replace it in Admin → AI Instructions), `example` (a valid draft).
    - `toAdminInput(data, publish)`: the draft → the input the admin form's save action expects (`publish: false` = save hidden). `toFormValues` / `fromFormValues`: the draft ↔ the values of the admin form. `slugOf`, `livePath`, `listPath`, `preview`.
 2. **Register it** in `src/lib/ai-content/registry.ts` → add it to `CONTENT_TYPES`.
 3. **Three mappings** (TypeScript errors point at each one):
