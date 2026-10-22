@@ -67,7 +67,7 @@ export const blogType: ContentTypeDef = {
     tile: "portrait",
     content:
       "Support teams answer the same ten questions all day. AI can take that load, if it is set up with care.\n\n## Start with the repeat questions\n\nList the questions your team answers most often. These are the best first candidates for automation.\n\n## Keep a human in the loop\n\n- Hand over to a person when the customer is upset\n- Let the team review the answers every week\n\n## What to do next\n\nStart small, measure the results, and grow from there.",
-    tags: ["AI", "customer support", "automation"],
+    tags: ["AI customer support", "customer support automation", "AI chatbot"],
     faq: [{ question: "Can AI replace a support team?", answer: "No. It handles repeat questions well, while people handle special cases and sensitive conversations." }],
   },
   livePath: (slug) => `/blog/${slug}`,

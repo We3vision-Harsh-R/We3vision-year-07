@@ -31,7 +31,6 @@ export type SeoReport = {
 
 export const SEO_GOOD_SCORE = 85;
 
-const STOP = new Set(["a", "an", "the", "and", "or", "of", "to", "in", "on", "for", "with", "is", "are", "how", "what", "why"]);
 const CLICKBAIT = /\b(shocking|you won'?t believe|insane|secret trick|game[- ]?changer|revolutionary|mind[- ]?blowing|unbelievable)\b|!{2,}/i;
 const NEXT_STEP = /\b(contact|talk to|reach out|get in touch|next step|book a|schedule|start with|get started|let'?s|discuss|call us|speak with)\b/i;
 const CONCLUSION_HEAD = /\b(conclusion|next step|final|wrap|takeaway|summary|what to do|get started|start|ready)\b/i;

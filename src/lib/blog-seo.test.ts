@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { getContentType } from "./ai-content/registry";
 import { SEO_GOOD_SCORE, analyzeBlog, seoReportText } from "./blog-seo";
 
 const KW = "3D web design";
@@ -63,5 +64,17 @@ describe("analyzeBlog", () => {
     expect(r.keywordSource).toBe("none");
     expect(r.score).toBeGreaterThanOrEqual(0);
     expect(r.checks.find((c) => c.id === "title-keyword")?.fix).toContain("focus keyword");
+  });
+});
+
+describe("blog in the AI registry", () => {
+  const blog = getContentType("blog")!;
+  it("gives the AI an SEO report and the quality gate rule", () => {
+    expect(blog.seo).toBeTypeOf("function");
+    const r = blog.seo!(blog.example);
+    expect(r.score).toBeGreaterThan(0);
+    expect(r.keyword).toBe("AI customer support"); // the first tag of the example is the focus keyword
+    expect(blog.guidelines.join(" ")).toContain("QUALITY GATE");
+    expect(blog.askFirst.join(" ")).toContain("FOCUS KEYWORD");
   });
 });
