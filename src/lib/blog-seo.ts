@@ -51,6 +51,9 @@ const blockText = (b: Block) => ("h" in b ? b.h : "p" in b ? b.p : b.ul.join(" "
 function check(id: string, group: SeoGroup, max: number, status: SeoStatus, label: string, problem: string, fix: string): SeoCheck {
   return { id, group, status, label, problem, fix, max, points: status === "pass" ? max : status === "warn" ? Math.round(max / 2) : 0 };
 }
+/** a check that cannot run (no focus keyword set): shown as a warning, no points */
+const unknown = (id: string, group: SeoGroup, max: number, label: string, fix: string): SeoCheck => ({ ...check(id, group, max, "warn", label, "No focus keyword is set, so this cannot be checked.", fix), points: 0 });
+
 /** inside lo..hi = pass, any other number above zero = warn, zero = fail */
 const rangeStatus = (n: number, lo: number, hi: number): SeoStatus => (n >= lo && n <= hi ? "pass" : n > 0 ? "warn" : "fail");
 const band = (n: number, pass: [number, number], warn: [number, number]): SeoStatus => (n >= pass[0] && n <= pass[1] ? "pass" : n >= warn[0] && n <= warn[1] ? "warn" : "fail");
@@ -89,7 +92,7 @@ export function analyzeBlog(input: SeoInput): SeoReport {
   const pos = keyword ? norm(title).indexOf(norm(keyword)) : -1;
   checks.push(
     noKw
-      ? check("title-keyword", "Title", 8, "warn", "Keyword in the title", "No focus keyword is set, so this cannot be checked.", kwFix)
+      ? unknown("title-keyword", "Title", 8, "Keyword in the title", kwFix)
       : check(
           "title-keyword",
           "Title",
@@ -128,7 +131,7 @@ export function analyzeBlog(input: SeoInput): SeoReport {
   );
   checks.push(
     noKw
-      ? check("desc-keyword", "Description", 5, "warn", "Keyword in the description", "No focus keyword is set, so this cannot be checked.", kwFix)
+      ? unknown("desc-keyword", "Description", 5, "Keyword in the description", kwFix)
       : check(
           "desc-keyword",
           "Description",
@@ -180,8 +183,8 @@ export function analyzeBlog(input: SeoInput): SeoReport {
 
   // ---- Keyword (15)
   if (noKw) {
-    checks.push(check("kw-intro", "Keyword", 7, "warn", "Keyword in the first paragraph", "No focus keyword is set, so this cannot be checked.", kwFix));
-    checks.push(check("kw-density", "Keyword", 8, "warn", "Keyword use", "No focus keyword is set, so this cannot be checked.", kwFix));
+    checks.push(unknown("kw-intro", "Keyword", 7, "Keyword in the first paragraph", kwFix));
+    checks.push(unknown("kw-density", "Keyword", 8, "Keyword use", kwFix));
   } else {
     const early = wordsOf(firstParagraph).slice(0, 100).join(" ");
     checks.push(check("kw-intro", "Keyword", 7, countPhrase(early, keyword) > 0 ? "pass" : "fail", "Keyword in the first paragraph", `The first paragraph does not contain "${keyword}".`, `Use "${keyword}" naturally in the first 100 words.`));
@@ -214,7 +217,9 @@ export function analyzeBlog(input: SeoInput): SeoReport {
   checks.push(check("tags", "Extras", 3, rangeStatus(input.tags.length, 3, 8), `Tags (${input.tags.length})`, "Tags help the topic page and related articles.", "Use 3-8 short keyword tags."));
   checks.push(check("cover", "Extras", 2, input.cover.trim() ? "pass" : "warn", "Cover picture", "No cover picture: the blog page shows only covers, and share previews are empty.", "Add a cover picture."));
 
-  const score = checks.reduce((n, c) => n + c.points, 0);
+  // an almost empty article cannot score well because of checks that pass on nothing (short paragraphs, no stuffing ...)
+  const raw = checks.reduce((n, c) => n + c.points, 0);
+  const score = words < 100 ? Math.min(raw, 30) : raw;
   const grade: SeoReport["grade"] = score >= SEO_GOOD_SCORE ? "Great" : score >= 70 ? "Good" : score >= 50 ? "Needs work" : "Poor";
   return { score, grade, keyword, keywordSource, words, checks };
 }
