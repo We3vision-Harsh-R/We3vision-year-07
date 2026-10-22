@@ -10,6 +10,7 @@ import { createBlogPost, deleteBlogPost, updateBlogPost } from "@/actions/blog";
 import type { MasonryItem } from "@/components/site/modern/blog-masonry";
 import { TILES, type TileValue } from "@/lib/blog-shared";
 import { BlogPreview } from "./blog-preview";
+import { BlogSeoPanel } from "./blog-seo-panel";
 import { ImageField } from "./image-field";
 import { btnDanger, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
 
@@ -191,6 +192,8 @@ export function BlogForm({ id, slug, initial, others, onSave, backHref }: { id?:
           <span className="mt-1 block text-xs font-normal text-zinc-400">Separate with commas.</span>
         </label>
       </div>
+
+      <BlogSeoPanel title={v.title} summary={v.summary} content={v.content} tags={v.tags} faq={v.faq} cover={v.cover} />
 
       <div className={`${card} flex flex-wrap items-center justify-between gap-4`}>
         {onSave ? (

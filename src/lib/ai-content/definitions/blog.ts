@@ -1,3 +1,4 @@
+import { analyzeBlog } from "@/lib/blog-seo";
 import { TILES, DEFAULT_TILE, parseFaq, parseTags } from "@/lib/blog-shared";
 import { slugify } from "../sanitize";
 import type { ContentTypeDef, DraftData } from "../types";
@@ -16,18 +17,18 @@ export const blogType: ContentTypeDef = {
   titleField: "title",
   askFirst: [
     "The topic and the angle: what should the reader learn or decide?",
-    "Who the article is for (for example business owners, startups, one industry)",
-    "The main keyword or phrase to rank for, and related keywords",
-    "The tone and the length wanted (default: practical and clear, 800–1500 words)",
+    "The FOCUS KEYWORD: the one phrase the article should rank for (for example \"3D web design\"), and 3–5 related phrases",
+    "Who the article is for (for example business owners, startups, one industry) and what they want when they search that phrase",
+    "The tone and the length wanted (default: practical and clear, 900–1500 words)",
     "Facts, numbers, links or examples the article must include (nothing is invented)",
     "Which We3vision service the article should lead to, if any",
     "The cover picture: the user's own picture, or let a branded cover be drawn",
   ],
   autoCover: { field: "cover", input: (d) => ({ title: str(d.title), category: str(d.category), tile: str(d.tile) }) },
   fields: [
-    { name: "title", label: "Title", kind: "text", max: 140, min: 10, required: true, help: "The headline (the page H1). Include the main keyword near the start, make it specific and honest.", example: "7 Trends Shaping 3D Web Design in 2026" },
+    { name: "title", label: "Title", kind: "text", max: 140, min: 10, required: true, help: "The headline (the page H1), 50–60 characters (search results cut it at about 60). Put the focus keyword in the first half, make it specific and honest. No hype words, no ALL-CAPS.", example: "7 Trends Shaping 3D Web Design in 2026" },
     { name: "category", label: "Topic (small label)", kind: "text", max: 40, help: "One short topic label shown on the Blog page. Reuse an existing one (see list_blog_posts) such as \"Design\" or \"AI/ML\" when it fits.", example: "Design" },
-    { name: "summary", label: "Summary", kind: "text", max: 300, help: "1–2 sentences shown on the card and used as the description in search results. Aim for 140–160 characters, plain words, no clickbait.", example: "How WebGL, scroll-driven scenes and lighter 3D models are changing what a business website can feel like." },
+    { name: "summary", label: "Summary", kind: "text", max: 300, help: "1–2 sentences shown on the card and used as the description in search results. 140–160 characters (never under 120), include the focus keyword once, different from the title, plain words, no clickbait.", example: "How WebGL, scroll-driven scenes and lighter 3D models are changing what a business website can feel like." },
     { name: "cover", label: "Cover picture", kind: "image", help: "Optional. Leave it out and a branded cover (title and topic on a dark violet drawing, in the picture shape you chose) is drawn automatically when the draft is sent; call generate_cover_image first to see it. To use the user's own picture, upload it with upload_image and use the returned /media/<id> link." },
     { name: "tile", label: "Shape of the picture on the Blog page", kind: "enum", options: TILES.map((t) => t.value), default: DEFAULT_TILE, help: `The crop of the cover on the Blog page: ${TILES.map((t) => `${t.value} (${t.size})`).join(", ")}. Use "portrait" unless the picture needs another shape.` },
     {
@@ -37,22 +38,28 @@ export const blogType: ContentTypeDef = {
       max: 60000,
       required: true,
       syntax: "Light markup only, no HTML and no #-title: start a section with `## Heading`, a bullet with `- point`, and separate paragraphs with an empty line.",
-      help: "The full article body. Use `## ` for section headings (the title is already the H1), short paragraphs, and bullets where they help. Typical length 800–1500 words.",
+      help: "The full article body. Use `## ` for section headings (the title is already the H1), short paragraphs, and bullets where they help. 900–1500 words (never under 800).",
     },
-    { name: "tags", label: "Tags", kind: "list", maxItems: 12, itemMax: 40, help: "3–8 short keywords (no #). Example: [\"3D web\", \"WebGL\", \"UI/UX\"]." },
+    { name: "tags", label: "Tags", kind: "list", maxItems: 12, itemMax: 40, help: "4–8 short keywords (no #). The FIRST tag must be the focus keyword, written exactly the same (the SEO check uses it). Example: [\"3D web design\", \"WebGL\", \"UI/UX\"]." },
     { name: "faq", label: "FAQ", kind: "qa", maxItems: 10, questionMax: 150, answerMax: 400, help: "3–6 questions readers really ask, with direct 1–3 sentence answers. They also become FAQ structured data for search." },
     { name: "date", label: "Date", kind: "date", default: "today", help: "Publish date shown on the article. Leave out to use today." },
   ],
   guidelines: [
     "Voice: clear, confident and practical, like a studio explaining its craft to a business owner. Short sentences. No hype words (\"revolutionary\", \"game-changing\"), no filler openings.",
     "Never invent facts: no made-up statistics, client names, case-study results, quotes or testimonials about We3vision. Mention We3vision services only as they really are (web, app, AI/ML, metaverse, UI/UX, SEO, CRM, animation, 3D, brand design). When a number is needed, say where it comes from or leave it out.",
-    "SEO: main keyword in the title (near the start), the summary and the first paragraph. One idea per `## ` section, descriptive headings. Do not stuff keywords.",
-    "Structure: 1 short intro paragraph, 4–8 `## ` sections, a short conclusion with a gentle next step (for example talking to the We3vision team). Add 3–6 FAQ items that are not repeated in the body.",
+    "QUALITY GATE (do this every time): after drafting call preview_content. For a blog article it returns an SEO score out of 100 and the exact problems with what to do about each. Fix every [FIX] item and the [improve] items that make sense, call preview_content again, and repeat until the score is 85 or more BEFORE you show the preview to the user. Tell the user the final score. Never raise the score by stuffing keywords or padding.",
+    "FOCUS KEYWORD: one phrase the article should rank for. Use it in the title (in the first half), the summary, the first 100 words, one `## ` heading, and about once in every 100–150 words (about 1% of the words, never more than 2.5%). The FIRST tag is the focus keyword written exactly the same. Use related words and synonyms for the rest: write for people first.",
+    "Title and summary: title 50–60 characters; summary 140–160 characters and not a copy of the title. Both honest and specific, no hype words.",
+    "Structure: a short introduction (2–4 sentences, under 120 words) that says what the reader will get; 5–7 `## ` sections, each with its own descriptive heading (no two the same); 900–1500 words in total; at least one `- ` bullet list; a short conclusion with ONE gentle next step (for example talking to the We3vision team). A real article is much longer than the short example below.",
+    "Readability: average sentence about 15–20 words, paragraphs of 2–4 sentences (never over 120 words), plain words, concrete examples instead of general statements.",
+    "FAQ: 3–6 questions people really ask about the topic, with direct 1–3 sentence answers that are not repeated from the body (they become the FAQ rich result in Google).",
+    "Never claim rankings or traffic results, and never invent statistics, sources or quotes. If a fact is needed and the user did not give it, leave it out or ask.",
     "Formatting: no HTML, no Markdown links, images or tables (they are not rendered). Only `## ` headings, `- ` bullets and paragraphs. Do not start the body with the title.",
     "Cover picture: on the Blog page the cover is the only thing seen, so every article needs one. If the user gave a picture, upload it with upload_image. If not, do nothing or call generate_cover_image (it shows you the cover): a branded cover is drawn by code, and one is also drawn automatically when you send. Never invent picture addresses and never use pictures from the internet.",
     "Language: English (Indian business audience). Use US or UK spelling consistently.",
     "Before sending: check list_blog_posts so the topic and title are not a duplicate, and mention related existing articles if they fit.",
   ],
+  // a SHORT illustration of the format (a real article is 900+ words, see the guidelines)
   example: {
     title: "How AI Can Speed Up Your Customer Support",
     category: "AI/ML",
@@ -82,6 +89,15 @@ export const blogType: ContentTypeDef = {
     date: v.date,
   }),
   slugOf: (d) => slugify(str(d.title), 80) || "article",
+  seo: (d) =>
+    analyzeBlog({
+      title: str(d.title),
+      summary: str(d.summary),
+      content: str(d.content),
+      tags: list(d.tags),
+      faq: (Array.isArray(d.faq) ? d.faq : []) as { question: string; answer: string }[],
+      cover: str(d.cover),
+    }),
   toAdminInput: (d, publish): Record<string, unknown> => ({
     title: d.title,
     category: d.category,

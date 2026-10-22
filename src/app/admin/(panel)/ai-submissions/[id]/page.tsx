@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DeleteRecord, SubmissionActions } from "@/components/admin/submission-actions";
 import { SubmissionFrame } from "@/components/admin/submission-frame";
+import { SubmissionSeo } from "@/components/admin/submission-seo";
 import { FieldList, SubmissionBadge } from "@/components/admin/submission-parts";
 import { card } from "@/components/admin/ui";
 import { getContentType, validateDraft } from "@/lib/ai-content/registry";
@@ -75,6 +76,7 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
         </div>
         <aside className="space-y-6">
           {waiting && <SubmissionActions id={sub.id} liveLabel={`"${sub.title}"`} />}
+          {checked.ok && def.seo && <SubmissionSeo report={def.seo(checked.data)} />}
           {!waiting && sub.status !== "publishing" && <DeleteRecord id={sub.id} />}
           <section className={`${card} space-y-3`}>
             <h2 className="text-lg font-semibold">History</h2>

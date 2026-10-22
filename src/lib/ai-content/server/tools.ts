@@ -3,6 +3,7 @@ import { z } from "zod";
 import { rateLimit } from "@/lib/rate-limit";
 import { CONTENT_TYPES, CONTENT_TYPE_KEYS, buildSchema, fieldGuide, getContentType, jsonSchemaOf, validateDraft } from "../registry";
 import type { ContentTypeDef } from "../types";
+import { SEO_GOOD_SCORE, seoReportText } from "@/lib/blog-seo";
 import { TILES } from "@/lib/blog-shared";
 import { renderGuidelines, resolveInstructions } from "../instructions";
 import { ADAPTERS } from "./adapters";
@@ -121,7 +122,17 @@ const previewContent: Tool = {
     if (!r.ok) {
       return text(`The draft is NOT valid yet. Fix these and call preview_content again:\n${errorsText(r.errors)}`, { valid: false, errors: r.errors });
     }
-    return text(`The draft is valid. Preview (this is what the admin will see; nothing is saved):\n\n${def.preview(r.data)}\n\n---\nShow this to the user. When they confirm, call send_to_we3vision with the same content.`, { valid: true, errors: [], normalized: r.data, preview: def.preview(r.data) });
+    const seo = def.seo?.(r.data);
+    const seoText = seo
+      ? `\n\n---\n${seoReportText(seo)}\n${seo.score >= SEO_GOOD_SCORE ? "The score is good enough." : `The score is below ${SEO_GOOD_SCORE}: fix the listed problems and call preview_content again BEFORE showing the user.`}`
+      : "";
+    return text(`The draft is valid. Preview (this is what the admin will see; nothing is saved):\n\n${def.preview(r.data)}${seoText}\n\n---\nShow this to the user. When they confirm, call send_to_we3vision with the same content.`, {
+      valid: true,
+      errors: [],
+      normalized: r.data,
+      preview: def.preview(r.data),
+      ...(seo ? { seo: { score: seo.score, grade: seo.grade, keyword: seo.keyword, problems: seo.checks.filter((c) => c.status !== "pass").map((c) => ({ check: c.label, problem: c.problem, fix: c.fix })) } } : {}),
+    });
   },
 };
 
@@ -167,6 +178,7 @@ const sendToWe3vision: Tool = {
       duplicate ? `This draft was already sent and is still waiting (submission ${id}). Nothing new was created.` : `Sent. "${title}" is now waiting for approval (submission ${id}).`,
       "It is NOT live. An admin has to preview, edit and approve it in the admin panel.",
       !duplicate ? coverNote : "",
+      def.seo ? `SEO score of the draft: ${def.seo(r.data).score}/100 (the admin sees it when reviewing).` : "",
       `Admin panel link: ${link}`,
       sameLive ? `Note for the user: ${def.label.toLowerCase()} with the same title already exists (${sameLive.url}, ${sameLive.status}). The admin will see that when reviewing.` : "",
     ].filter(Boolean);

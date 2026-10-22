@@ -2,6 +2,8 @@
 // its fields (types, limits, allowed values, help for the AI), the guidelines, and how a draft is turned into what the admin panel's own
 // save action expects. The MCP tool schemas, the server-side validation and the admin preview are all generated from it.
 
+import type { SeoReport } from "@/lib/blog-seo";
+
 export type DraftData = Record<string, unknown>;
 
 type FieldBase = {
@@ -63,4 +65,6 @@ export type ContentTypeDef = {
   slugOf: (data: DraftData) => string;
   /** a readable preview of the draft in Markdown */
   preview: (data: DraftData) => string;
+  /** optional: the SEO check of the draft (blog articles): preview_content gives it to the AI, the admin sees it on the submission */
+  seo?: (data: DraftData) => SeoReport;
 };

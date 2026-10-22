@@ -172,7 +172,7 @@ export function analyzeBlog(input: SeoInput): SeoReport {
   checks.push(check("h2-unique", "Structure", 4, dup ? "warn" : "pass", "Every heading is different", "Two headings have the same text.", "Give every section its own descriptive heading."));
   checks.push(
     noKw
-      ? check("h2-keyword", "Structure", 4, "warn", "Keyword in a heading", "No focus keyword is set, so this cannot be checked.", kwFix)
+      ? unknown("h2-keyword", "Structure", 4, "Keyword in a heading", kwFix)
       : check("h2-keyword", "Structure", 4, headings.some((h) => countPhrase(h, keyword) > 0) ? "pass" : "warn", "Keyword in a heading", `No heading contains "${keyword}".`, `Use "${keyword}" (or a close form) in one \`## \` heading.`),
   );
   const introOk = blocks.length > 0 && "p" in blocks[0] && wordsOf(firstParagraph).length <= 120;

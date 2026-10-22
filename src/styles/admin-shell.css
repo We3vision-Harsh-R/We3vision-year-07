@@ -565,3 +565,124 @@
   font-size: 0.875rem;
   font-weight: 600;
 }
+
+/* ---------- Blog editor: SEO check ---------- */
+.ads-seo {
+  display: grid;
+  gap: 18px;
+}
+.ads-seo-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.ads-seo-head h2 {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 600;
+}
+.ads-seo-head p {
+  margin: 4px 0 0;
+  font-size: 0.9375rem;
+  color: var(--ads-muted);
+}
+.ads-seo-score {
+  --c: hsl(350 85% 62%);
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: conic-gradient(var(--c) var(--p), hsl(calc(var(--th) + 351) calc(30% * var(--ts)) 18%) 0);
+}
+.ads-seo-score[data-tone="great"] {
+  --c: hsl(155 60% 50%);
+}
+.ads-seo-score[data-tone="good"] {
+  --c: hsl(95 55% 52%);
+}
+.ads-seo-score[data-tone="mid"] {
+  --c: hsl(40 90% 56%);
+}
+.ads-seo-score span {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--ads-card);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.ads-seo-groups {
+  display: grid;
+  gap: 14px;
+}
+.ads-seo-groups h3 {
+  margin: 0 0 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ads-muted);
+}
+.ads-seo ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ads-seo-row {
+  display: flex;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--ads-line);
+  border-radius: 12px;
+  background: var(--ads-input);
+}
+.ads-seo-row b {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.ads-seo-row p {
+  margin: 3px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ads-muted);
+}
+.ads-seo-fix {
+  color: var(--ads-ink);
+}
+.ads-seo-mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 700;
+  background: hsl(155 55% 24%);
+  color: #fff;
+}
+.ads-seo-row[data-status="warn"] .ads-seo-mark {
+  background: hsl(36 90% 38%);
+}
+.ads-seo-row[data-status="fail"] .ads-seo-mark {
+  background: hsl(350 75% 46%);
+}
+.ads-seo-done summary {
+  margin-bottom: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ads-muted);
+  cursor: pointer;
+}
+.ads-seo-note {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-zinc-400);
+}
