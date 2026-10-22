@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { clearReadAlerts, deleteAlert, markAlertRead, markAllAlertsRead, sendTestWhatsApp } from "@/actions/alerts";
+import { CopyAlert } from "@/components/admin/alert-copy";
+import { AlertRecheck } from "@/components/admin/alert-recheck";
 import { btnDanger, btnPrimary, btnSecondary, card } from "@/components/admin/ui";
+import { alertKindName } from "@/lib/alert-report";
 import { type AlertLevel, readAlerts } from "@/lib/alerts";
 import { requireAdmin } from "@/lib/auth";
 import { formatDate } from "@/lib/format";
@@ -15,6 +18,9 @@ const LEVELS: { value: AlertLevel; label: string; badge: string; border: string 
 ];
 const look = (level: AlertLevel) => LEVELS.find((l) => l.value === level) ?? LEVELS[2];
 
+/** how many alerts "Copy for AI" at the top puts in one prompt */
+const COPY_MAX = 10;
+
 const PROVIDERS = { callmebot: "CallMeBot", cloud: "WhatsApp Cloud API", webhook: "Webhook" } as const;
 const TEST: Record<string, { text: string; good: boolean }> = {
   ok: { text: "The test message is sent. Check your WhatsApp.", good: true },
@@ -27,10 +33,11 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
   await requireAdmin();
   const { level, test } = await searchParams;
   const all = await readAlerts();
-  const shown = LEVELS.some((l) => l.value === level) ? all.filter((a) => a.level === level) : all;
+  const shown = level === "solved" ? all.filter((a) => a.resolved) : LEVELS.some((l) => l.value === level) ? all.filter((a) => a.level === level) : all;
   const provider = whatsappProvider();
   const notice = test ? TEST[test] : undefined;
   const unread = all.filter((a) => !a.read).length;
+  const solved = all.filter((a) => a.resolved).length;
 
   return (
     <div className="max-w-4xl space-y-6">
@@ -98,8 +105,12 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
               {l.label} ({all.filter((a) => a.level === l.value).length})
             </Link>
           ))}
+          <Link href="/admin/alerts?level=solved" className={`rounded-full border px-3 py-1.5 ${level === "solved" ? "border-zinc-800 bg-zinc-800 text-white" : "border-zinc-300 text-zinc-700"}`}>
+            Solved ({solved})
+          </Link>
         </nav>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          {shown.length > 0 && <CopyAlert alerts={shown.slice(0, COPY_MAX)} label={`Copy ${Math.min(shown.length, COPY_MAX)} for AI`} className={btnSecondary} />}
           {unread > 0 && (
             <form action={markAllAlertsRead}>
               <button className={btnSecondary}>Mark all as read</button>
@@ -118,11 +129,13 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
         {shown.map((a) => {
           const l = look(a.level);
           return (
-            <article key={a.id} className={`${card} ${a.read ? "opacity-70" : l.border}`}>
+            <article key={a.id} className={`${card} ${a.resolved ? "opacity-60" : a.read ? "opacity-70" : l.border}`}>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <p className="flex flex-wrap items-center gap-2 font-semibold">
                     <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${l.badge}`}>{l.label}</span>
+                    {a.resolved && <span className="ads-solved-tag">✓ Solved</span>}
+                    <span className="rounded-full border border-zinc-300 px-2 py-0.5 text-xs font-medium text-zinc-600">{alertKindName(a.kind)}</span>
                     <span className="break-words">{a.title}</span>
                     {a.count > 1 && <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">× {a.count}</span>}
                   </p>
@@ -137,7 +150,9 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
                 </time>
               </div>
               {a.detail && <pre className="mt-3 overflow-x-auto whitespace-pre-wrap break-words rounded-lg bg-zinc-50 p-3 font-mono text-xs leading-relaxed text-zinc-700">{a.detail}</pre>}
-              <div className="mt-4 flex gap-2">
+              <div className="mt-4 flex flex-wrap items-start gap-2">
+                <CopyAlert alerts={[a]} label="Copy for AI" className={btnPrimary} />
+                {!a.resolved && <AlertRecheck id={a.id} />}
                 {!a.read && (
                   <form action={markAlertRead}>
                     <input type="hidden" name="id" value={a.id} />

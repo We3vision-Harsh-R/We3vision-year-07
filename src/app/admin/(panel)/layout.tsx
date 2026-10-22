@@ -2,45 +2,43 @@ import Image from "next/image";
 import Link from "next/link";
 import { logout } from "@/actions/auth";
 import { AdminNav } from "@/components/admin/admin-nav";
-import { readAlerts } from "@/lib/alerts";
+import { getAdminBadges } from "@/lib/admin-badges";
 import { requireAdmin } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { countPending } from "@/lib/ai-content/server/submissions";
 
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const admin = await requireAdmin();
-  const [unreadLeads, alerts, newApplications, pendingSubmissions] = await Promise.all([
-    db.lead.count({ where: { isRead: false } }),
-    readAlerts(),
-    db.careerApplication.count({ where: { status: "new", stage: "complete" } }),
-    countPending(),
-  ]);
-  const unreadAlerts = alerts.filter((a) => !a.read && a.level !== "info").length;
+  const badges = await getAdminBadges();
 
   return (
-    <div className="lg:grid lg:min-h-screen lg:grid-cols-[250px_1fr]">
-      <aside className="bg-ink px-4 py-4 text-white lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:px-5 lg:py-6">
-        <div className="mb-4 flex items-center justify-between lg:mb-8 lg:block">
-          <Link href="/admin" className="flex items-center gap-2.5 font-display text-lg font-bold">
-            <Image src="/brand/logo-mark.webp" alt="" width={480} height={395} className="h-8 w-auto" />
-            Admin panel
-          </Link>
-          <form action={logout} className="lg:hidden">
-            <button className="rounded-lg border border-white/15 px-3 py-1.5 text-xs text-white/70">Log out</button>
-          </form>
-        </div>
-        <AdminNav unreadLeads={unreadLeads} unreadAlerts={unreadAlerts} newApplications={newApplications} pendingSubmissions={pendingSubmissions} />
-        <div className="mt-6 hidden space-y-3 border-t border-white/10 pt-5 text-sm lg:mt-auto lg:block">
-          <a href="/" target="_blank" rel="noreferrer" className="block text-white/60 transition hover:text-white">
+    <div className="ads-app">
+      <aside className="ads-side">
+        <Link href="/admin" className="ads-brand">
+          <Image src="/brand/logo-mark.webp" alt="" width={480} height={395} className="ads-brand-mark" />
+          <span>
+            <b>We3vision</b>
+            <small>Admin panel</small>
+          </span>
+        </Link>
+        <AdminNav badges={badges} />
+        <div className="ads-side-foot">
+          <a href="/" target="_blank" rel="noreferrer" className="ads-site-link">
             View website ↗
           </a>
-          <p className="truncate text-xs text-white/40">{admin.email}</p>
+          <p className="ads-who" title={admin.email}>
+            <span className="ads-avatar" aria-hidden="true">
+              {admin.name.trim().charAt(0).toUpperCase() || "A"}
+            </span>
+            <span>
+              <b>{admin.name}</b>
+              <small>{admin.email}</small>
+            </span>
+          </p>
           <form action={logout}>
-            <button className="w-full rounded-lg border border-white/15 px-3 py-2 text-white/70 transition hover:bg-white/5 hover:text-white">Log out</button>
+            <button className="ads-logout">Log out</button>
           </form>
         </div>
       </aside>
-      <div className="min-w-0 px-4 py-6 sm:px-8 sm:py-8">{children}</div>
+      <div className="ads-main">{children}</div>
     </div>
   );
 }

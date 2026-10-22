@@ -25,6 +25,8 @@ export type SiteAlert = {
   firstAt: string;
   lastAt: string;
   read: boolean;
+  /** the owner checked it and pressed "Solved" (Admin > Alerts) */
+  resolved?: boolean;
 };
 
 const KEY = "siteAlerts";
@@ -92,7 +94,7 @@ export async function raiseAlert(input: AlertInput): Promise<void> {
       level: input.level,
       kind: clean(input.kind, 40),
       title: clean(input.title, 160),
-      detail: clean(input.detail, 800),
+      detail: clean(input.detail, 1600),
       path: clean(input.path, 200),
       ip: clean(input.ip, 64),
     };

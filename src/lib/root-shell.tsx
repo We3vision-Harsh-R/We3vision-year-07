@@ -31,8 +31,8 @@ export const baseMetadata: Metadata = {
 };
 
 // Puts the visitor's saved colour on <html> BEFORE the first paint, so the site never flashes the original violet first.
-// (The admin panel keeps its own colours: it is skipped.)
-const THEME_BOOT = `(function(){try{if(location.pathname.indexOf("/admin")===0)return;var t=JSON.parse(localStorage.getItem("we3.theme")||"null");if(t&&typeof t.h==="number"){var r=document.documentElement.style;r.setProperty("--th",String(t.h));r.setProperty("--ts",String(t.s||1));}}catch(e){}})();`;
+// (The admin panel wears the same colour: styles/admin-shell.css.)
+const THEME_BOOT = `(function(){try{var t=JSON.parse(localStorage.getItem("we3.theme")||"null");if(t&&typeof t.h==="number"){var r=document.documentElement.style;r.setProperty("--th",String(t.h));r.setProperty("--ts",String(t.s||1));}}catch(e){}})();`;
 
 export function RootShell({ children, htmlClass = "" }: { children: React.ReactNode; htmlClass?: string }) {
   return (
