@@ -102,7 +102,7 @@ describe("mapping to the admin panel's own save action", () => {
     if (!r.ok) throw new Error("example must be valid");
     const live = blog.toAdminInput(r.data, true);
     expect(live.published).toBe(true);
-    expect(live.tags).toBe("AI, customer support, automation");
+    expect(live.tags).toBe("AI customer support, customer support automation, AI chatbot");
     expect(String(live.faq).split("\n")).toHaveLength(1);
     expect(String(live.faq)).toContain(" | ");
     expect(blog.toAdminInput(r.data, false).published).toBe(false);

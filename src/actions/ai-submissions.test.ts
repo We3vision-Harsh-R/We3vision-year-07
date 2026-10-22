@@ -59,7 +59,7 @@ describe("approve a blog article", () => {
 
     const [, post] = fake.current!.tables.blogPost;
     expect(post).toMatchObject({ slug: "how-ai-can-speed-up-your-customer-support", published: true, sortOrder: 5, title: "How AI Can Speed Up Your Customer Support" });
-    expect(post.tags).toEqual(["AI", "customer support", "automation"]);
+    expect(post.tags).toEqual(["AI customer support", "customer support automation", "AI chatbot"]);
     expect(post.faq).toEqual([{ question: "Can AI replace a support team?", answer: expect.stringContaining("No.") }]);
 
     const sub = fake.current!.tables.contentSubmission[0];
