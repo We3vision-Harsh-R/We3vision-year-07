@@ -116,4 +116,5 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 110 | Software Development page redesign: developer workspace (editor, git workflow, toolbox) | done |
 | 111 | Software page v2: centred, VS Code / Git / AWS / zero-gravity interactive | done |
 | 115 | AI content integration (MCP server + approval queue) | done |
+| 118 | Admin panel: new look from the owner's attendance-portal screenshot (floating glass sidebar, capsule top bar, pink active pill, dashboard with ring + count cards + rows) | done |
 | 116 | Home: services tabs section redesign (laptop) | done |

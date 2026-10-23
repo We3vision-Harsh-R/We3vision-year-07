@@ -192,6 +192,12 @@
 - Check each screen once on a real login (dark colours on every form, table, badge, the hiring desk drawer and the live-preview frames): bg/text classes that are not in the remap list (e.g. a new `bg-blue-*`) stay light. Add them to the variable block in `styles/admin-shell.css`.
 - `text-xs` in the admin is forced to 14px (owner readability rule); the hiring desk and tables may look tighter.
 
+- Dev-only crash fix (task 115): `/admin/ai-submissions` threw "Cannot read properties of undefined (reading findMany)" because the dev server kept an old Prisma client in globalThis after `prisma generate` added ContentSubmission. `src/lib/db.ts` now replaces a cached client that lacks `contentSubmission`. Rule: after a schema change run `npx prisma generate` and restart `npm run dev`. Production is not affected (postinstall generates, fresh process).
+
+## Admin look (task 118)
+- Check the new admin look with the real login on a laptop screen (1280-1920 px wide) and a few real screens (Pages editor, Blog form, Careers board, Leads, Alerts): the old Tailwind screens were not edited, only re-dressed (rounder cards, pink main button). Report anything that looks off.
+- The sidebar keeps the six categories (open by default); the screenshot had a flat list. Ask the owner if the categories should start folded.
+
 - Dev-only crash fix (small fix, no task number): `/admin/ai-submissions` threw "Cannot read properties of undefined (reading findMany)" because the dev server kept an old Prisma client in globalThis after `prisma generate` added ContentSubmission. `src/lib/db.ts` now replaces a cached client that lacks `contentSubmission`. Rule: after a schema change run `npx prisma generate` and restart `npm run dev`. Production is not affected (postinstall generates, fresh process).
 
 - Home services section (task 116, laptop/desktop >= 1100px): the open service is now a split board in `hero-scene.tsx` + the last block of `src/styles/home-hero.css`: left = number, title, text and a filled button (accent colour of the service); right = its sub-services as four tiles (number chip, name, text; hover lifts and lights up). The tab row got an accent underline on the open tab. Panda, rail, street, scroll and hover behaviour are unchanged. Checked at 1280x720, 1366x768, 1440x900 and 1920x1080.

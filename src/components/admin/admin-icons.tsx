@@ -1,7 +1,8 @@
 import type { AdminIconKey } from "@/components/admin/admin-menu";
 
-// One line-icon per admin menu item (24 x 24, drawn with the current text colour).
-const PATHS: Record<AdminIconKey, string> = {
+// One line-icon per admin menu item (24 x 24, drawn with the current text colour), plus a few icons the panel itself uses (bell, check, clock …).
+type ExtraIcon = "check" | "clock" | "cross" | "bell" | "logout" | "chevron" | "arrow" | "external";
+const PATHS: Record<AdminIconKey | ExtraIcon, string> = {
   dashboard: "M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z",
   pages: "M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5",
   projects: "M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4M9 9.5h.01",
@@ -18,10 +19,21 @@ const PATHS: Record<AdminIconKey, string> = {
   integrations: "M9 3v5M15 3v5M6 8h12v4a6 6 0 01-12 0zM12 18v3",
   guide: "M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19V5M9 8h7",
   access: "M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4",
+  // used by the panel itself
+  check: "M12 21a9 9 0 100-18 9 9 0 000 18zM8 12.5l3 3 5-6",
+  clock: "M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2",
+  cross: "M12 21a9 9 0 100-18 9 9 0 000 18zM9 9l6 6M15 9l-6 6",
+  bell: "M6 17v-6a6 6 0 0112 0v6l2 2H4zM10 21h4",
+  logout: "M15 4h4a1 1 0 011 1v14a1 1 0 01-1 1h-4M10 8l-4 4 4 4M6 12h10",
+  chevron: "M9 6l6 6-6 6",
+  arrow: "M5 12h14M13 6l6 6-6 6",
+  external: "M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5",
   fest: "M12 3c2.5 3 2.5 5.5 0 8-2.5-2.5-2.5-5 0-8zM3 14h18c-1.2 4.2-4.6 6.5-9 6.5S4.2 18.2 3 14zM7 14c1 1 3 1.5 5 1.5s4-.5 5-1.5",
 };
 
-export function AdminIcon({ name, size = 20 }: { name: AdminIconKey; size?: number }) {
+export type IconName = AdminIconKey | ExtraIcon;
+
+export function AdminIcon({ name, size = 20 }: { name: IconName; size?: number }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={PATHS[name]} />
