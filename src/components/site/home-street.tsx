@@ -1,5 +1,6 @@
 import "@/styles/home-hero.css";
 import type { CSSProperties } from "react";
+import { DIWALI, DIWALI_ITEM, DiwaliLayer, type DiwaliKind } from "./home-diwali";
 
 // The little street the panda walks along on the home page (the rail under the service boxes, see hero-scene.tsx): a street lamp at every
 // service (its light is the colour of that service and falls on the panda when it stands there), and between the services bamboo, pines,
@@ -13,6 +14,8 @@ const WOOD = "hsl(calc(var(--th) + 336) calc(30% * var(--ts)) 24%)";
 
 type Kind = "bench" | "tree" | "pine" | "flowers" | "bamboo" | "bush";
 const KINDS: Kind[] = ["bench", "tree", "flowers", "pine", "bench", "bush", "tree", "pine"];
+// at Diwali the people celebrating stand between the services (home-diwali.tsx), with a tree or a bench now and then
+const FESTIVE: (Kind | DiwaliKind)[] = ["sparkler", "tree", "lady", "anar", "couple", "chakri", "bench", "sparkler"];
 
 function Tree() {
   return (
@@ -132,9 +135,10 @@ const ITEM: Record<Kind, () => React.JSX.Element> = { tree: Tree, pine: Pine, ba
 /** the street of n services: a lamp at every service, decorations in between (accents: the colour of every service) */
 export function Street({ n, accents }: { n: number; accents: string[] }) {
   const gaps = Math.max(0, n - 1);
-  const decor: { k: Kind; at: number; dx: number; side: number }[] = [
+  const kinds = DIWALI ? FESTIVE : KINDS;
+  const decor: { k: Kind | DiwaliKind; at: number; dx: number; side: number }[] = [
     { k: "bamboo", at: -0.5, dx: -6, side: 0 },
-    ...Array.from({ length: gaps }, (_, j) => ({ k: KINDS[j % KINDS.length], at: j + 0.5, dx: 30, side: 0 })),
+    ...Array.from({ length: gaps }, (_, j) => ({ k: kinds[j % kinds.length], at: j + 0.5, dx: 30, side: 0 })),
     { k: "bamboo", at: n - 0.5, dx: 22, side: 0 },
     { k: "pine", at: n - 0.5, dx: 70, side: 0 },
   ];
@@ -149,7 +153,7 @@ export function Street({ n, accents }: { n: number; accents: string[] }) {
           data-k={d.k}
           style={{ "--i": d.at, "--dx": `${d.dx}px`, "--lc": accents[Math.max(0, Math.min(n - 1, Math.round(d.at)))] } as CSSProperties}
         >
-          {ITEM[d.k]()}
+          {d.k in ITEM ? ITEM[d.k as Kind]() : DIWALI_ITEM[d.k as DiwaliKind]()}
         </i>
       ))}
       {/* a lamp at every service: its light is the colour of the service */}
@@ -160,6 +164,8 @@ export function Street({ n, accents }: { n: number; accents: string[] }) {
           <Lamp />
         </i>
       ))}
+      {/* Diwali: rangolis, toran lights, diyas and fireworks */}
+      {DIWALI && <DiwaliLayer n={n} />}
       {/* fireflies */}
       {Array.from({ length: 9 }, (_, i) => (
         <i key={i} className="st-fly" style={{ "--f": i, "--lc": accents[i % accents.length] } as CSSProperties} />

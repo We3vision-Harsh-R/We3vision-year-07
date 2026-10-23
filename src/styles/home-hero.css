@@ -1033,3 +1033,10 @@
     transition: none;
   }
 }
+
+/* --n (the number of services) is registered by the Shopify styles in globals.css (@property --n, inherits: false), so it does not reach
+   the pieces of the rail by itself: hand it down explicitly to the ticks, the street and everything that stands on it */
+.hub-rail > *,
+.hub-rail .st > * {
+  --n: inherit;
+}

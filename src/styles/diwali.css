@@ -1,0 +1,430 @@
+/* Loaded only by: src/components/site/home-diwali.tsx (Diwali on the street of the home page). Prefix "dw-". Festive warm colours (gold,
+   saffron, red, green), no violet or pink. Every movement is transform / opacity; prefers-reduced-motion keeps a quiet, still picture.
+   Positions follow the street: the middle of the box --a of the service row (the same formula as .st-item / .hub-tick). */
+.st i[class^="dw-"],
+.st b[class^="dw-"],
+.dw-fig i,
+.dw-fig b,
+.dw-sky i,
+.dw-sky b,
+.dw-toran b {
+  display: block;
+  font-style: normal;
+}
+
+/* ---- the people ---- */
+.dw-fig {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+.dw-fig svg {
+  position: relative;
+  display: block;
+  overflow: visible;
+}
+.dw-fig::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(251, 191, 36, 0.32), transparent);
+  transform: translateX(-50%);
+  pointer-events: none;
+  animation: dw-glow 2.2s ease-in-out infinite alternate;
+}
+@keyframes dw-glow {
+  to {
+    opacity: 0.55;
+    transform: translateX(-50%) scale(1.12);
+  }
+}
+
+/* sparks: a sparkler star, an anar fountain, a chakri wheel */
+.dw-sparks {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: 2;
+}
+.dw-sparks::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #fff, #fde68a 40%, rgba(251, 191, 36, 0));
+  animation: dw-flick 0.18s steps(2) infinite alternate;
+}
+.dw-sparks i {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 2px;
+  height: 2px;
+  border-radius: 1px;
+}
+.dw-sparks.is-star i {
+  height: 11px;
+  top: -11px;
+  background: linear-gradient(0deg, #fff, #fde047 45%, rgba(251, 146, 60, 0));
+  transform-origin: 50% 100%;
+  transform: rotate(calc(var(--k) * 45deg + 20deg));
+  animation: dw-ray-flick 0.42s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k) * -0.11s);
+}
+@keyframes dw-ray-flick {
+  0% {
+    opacity: 0.3;
+    scale: 0.4 0.5;
+  }
+  100% {
+    opacity: 1;
+    scale: 1 1.25;
+  }
+}
+@keyframes dw-flick {
+  to {
+    opacity: 0.6;
+    scale: 0.8;
+  }
+}
+.dw-sparks.is-fountain::before {
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+}
+.dw-sparks.is-fountain i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fde68a;
+  box-shadow: 0 0 4px 1px rgba(251, 191, 36, 0.9);
+  animation: dw-fount 1s cubic-bezier(0.2, 0.7, 0.4, 1) infinite;
+  animation-delay: calc(var(--k) * -0.083s);
+}
+@keyframes dw-fount {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  55% {
+    opacity: 1;
+    transform: translate(calc((var(--k) - 5.5) * 2.4px), -44px) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc((var(--k) - 5.5) * 4.2px), -20px) scale(0.4);
+  }
+}
+.dw-sparks.is-wheel::before {
+  display: none;
+}
+.dw-sparks.is-wheel i {
+  height: 6px;
+  top: -6px;
+  background: linear-gradient(0deg, #fff, #facc15);
+  transform-origin: 50% 100%;
+  transform: rotate(calc(var(--k) * 45deg)) translateY(-8px);
+  animation: dw-ray-flick 0.25s linear infinite alternate;
+  animation-delay: calc(var(--k) * -0.06s);
+}
+
+/* the chakri: a wheel spinning on the ground */
+.dw-chakri {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: 2;
+}
+.dw-chakri > i {
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: conic-gradient(#fef08a, #f97316, #fef08a, #16a34a, #fef08a, #f97316, #fef08a);
+  box-shadow: 0 0 12px 4px rgba(251, 191, 36, 0.65);
+  animation: dw-spin 0.45s linear infinite;
+}
+.dw-chakri .dw-sparks {
+  left: 0 !important;
+  top: 0 !important;
+  animation: dw-spin 0.45s linear infinite;
+}
+@keyframes dw-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+/* flames of the diyas and of the thali */
+.dw-flame {
+  position: absolute;
+  width: 6px;
+  height: 9px;
+  margin: -9px 0 0 -3px;
+  border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+  background: radial-gradient(60% 55% at 50% 70%, #fff, #fde047 45%, #f97316 85%);
+  box-shadow: 0 0 8px 3px rgba(251, 191, 36, 0.55), 0 -2px 14px 4px rgba(249, 115, 22, 0.25);
+  transform-origin: 50% 100%;
+  animation: dw-flame 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k, 0) * -0.23s);
+}
+.dw-flame.is-sm {
+  width: 4px;
+  height: 7px;
+  margin: -7px 0 0 -2px;
+}
+@keyframes dw-flame {
+  0% {
+    transform: scale(1, 1) rotate(-3deg);
+    opacity: 0.92;
+  }
+  35% {
+    transform: scale(0.88, 1.12) rotate(2deg);
+  }
+  70% {
+    transform: scale(1.06, 0.9) rotate(-1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.94, 1.08) rotate(3deg);
+  }
+}
+
+/* ---- diyas along the kerb, at the foot of every lamp ---- */
+.dw-diyas {
+  position: absolute;
+  bottom: -1px;
+  left: calc((100% - (var(--n, 7) - 1) * 8px) / var(--n, 7) * (var(--a, 0) + 0.5) + var(--a, 0) * 8px + 66px);
+  display: flex !important;
+  gap: 4px;
+  line-height: 0;
+  transform: scale(var(--u));
+  transform-origin: 0 100%;
+}
+.dw-diya {
+  position: relative;
+}
+.dw-diya svg {
+  display: block;
+}
+.dw-diya .dw-flame {
+  left: 9px;
+  top: 3px;
+}
+
+/* ---- a rangoli at every service stop, lying on the street ---- */
+.dw-rangoli {
+  position: absolute;
+  top: 2px;
+  left: calc((100% - (var(--n, 7) - 1) * 8px) / var(--n, 7) * (var(--a, 0) + 0.5) + var(--a, 0) * 8px);
+  width: 60px;
+  line-height: 0;
+  transform: translateX(-50%) perspective(210px) rotateX(58deg) scale(var(--u));
+  transform-origin: 50% 0;
+  opacity: 0.9;
+}
+.dw-rangoli svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.35));
+}
+.dw-rg-a,
+.dw-rg-b {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dw-spin 40s linear infinite;
+}
+.dw-rg-b {
+  animation-direction: reverse;
+  animation-duration: 28s;
+}
+
+/* ---- string lights from lamp post to lamp post ---- */
+.dw-toran {
+  position: absolute;
+  left: calc((100% - (var(--n, 7) - 1) * 8px) / var(--n, 7) * (var(--a, 0) + 0.5) + var(--a, 0) * 8px + 54px);
+  bottom: calc(94px * var(--u) - 22px);
+  width: calc((100% - (var(--n, 7) - 1) * 8px) / var(--n, 7) + 8px);
+  height: 22px;
+}
+.dw-toran svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.dw-toran b {
+  position: absolute;
+  width: 5px;
+  height: 6px;
+  margin: -1px 0 0 -2.5px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  background: var(--bc, #fbbf24);
+  box-shadow: 0 0 7px 2px var(--bc, #fbbf24);
+  animation: dw-twinkle 1.8s ease-in-out infinite;
+  animation-delay: calc(var(--k) * -0.2s);
+}
+.dw-toran b:nth-child(5n + 2) {
+  --bc: #f97316;
+}
+.dw-toran b:nth-child(5n + 3) {
+  --bc: #22c55e;
+}
+.dw-toran b:nth-child(5n + 4) {
+  --bc: #ef4444;
+}
+.dw-toran b:nth-child(5n + 5) {
+  --bc: #fde68a;
+}
+.dw-toran b:nth-child(5n + 6) {
+  --bc: #38bdf8;
+}
+@keyframes dw-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+    box-shadow: 0 0 2px 0 var(--bc, #fbbf24);
+  }
+}
+
+/* ---- fireworks in the sky above the street (under the service boxes, nothing to click) ---- */
+.dw-sky {
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  bottom: 30px;
+  height: calc(var(--gap, 110px) - 26px);
+  pointer-events: none;
+}
+.dw-burst {
+  position: absolute;
+  left: 10%;
+  bottom: 60%;
+  width: 0;
+  height: 0;
+  --c: #fbbf24;
+}
+.dw-burst:nth-child(2) {
+  left: 27%;
+  bottom: 74%;
+  --c: #f97316;
+}
+.dw-burst:nth-child(3) {
+  left: 45%;
+  bottom: 52%;
+  --c: #4ade80;
+}
+.dw-burst:nth-child(4) {
+  left: 62%;
+  bottom: 78%;
+  --c: #fde68a;
+}
+.dw-burst:nth-child(5) {
+  left: 79%;
+  bottom: 58%;
+  --c: #f87171;
+}
+.dw-burst:nth-child(6) {
+  left: 94%;
+  bottom: 70%;
+  --c: #38bdf8;
+}
+.dw-trail {
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 2px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(0deg, transparent, var(--c));
+  opacity: 0;
+  animation: dw-rise 5.4s ease-out infinite;
+  animation-delay: calc(var(--k) * -0.9s);
+}
+@keyframes dw-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(70px);
+  }
+  4% {
+    opacity: 0.9;
+  }
+  22% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+  26%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.dw-rays i {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 2px;
+  height: 10px;
+  border-radius: 2px;
+  background: linear-gradient(0deg, var(--c), #fff);
+  box-shadow: 0 0 6px var(--c);
+  opacity: 0;
+  transform-origin: 50% 100%;
+  --ang: calc(var(--r) * 25.714deg);
+  animation: dw-ray 5.4s cubic-bezier(0.15, 0.75, 0.3, 1) infinite;
+  animation-delay: calc(var(--k) * -0.9s);
+}
+@keyframes dw-ray {
+  0%,
+  23% {
+    opacity: 0;
+    transform: rotate(var(--ang)) translateY(0) scaleY(0.2);
+  }
+  27% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 1;
+    transform: rotate(var(--ang)) translateY(-24px) scaleY(1);
+  }
+  72%,
+  100% {
+    opacity: 0;
+    transform: rotate(var(--ang)) translateY(-30px) scaleY(0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dw-sky {
+    display: none;
+  }
+  .dw-fig::after,
+  .dw-sparks::before,
+  .dw-sparks i,
+  .dw-chakri > i,
+  .dw-chakri .dw-sparks,
+  .dw-flame,
+  .dw-rg-a,
+  .dw-rg-b,
+  .dw-toran b {
+    animation: none;
+  }
+  .dw-sparks.is-fountain i {
+    opacity: 0;
+  }
+}
