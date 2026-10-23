@@ -4,9 +4,8 @@ import type { CSSProperties } from "react";
 // DIWALI on the little street of the home page (home-street.tsx): people celebrating on the street (a boy with a sparkler, a woman with a
 // thali of diyas, a child covering the ears in front of an anar, a couple with sparklers, a chakri spinning), a rangoli at every service stop,
 // string lights (toran) from lamp to lamp, small diyas along the kerb and fireworks in the sky above the street. Flat inline SVG like the rest
-// of the street; every movement is CSS (transform / opacity), styles in src/styles/diwali.css ("dw-"). After the festival set DIWALI = false.
-
-export const DIWALI = true;
+// of the street; every movement is CSS (transform / opacity), styles in src/styles/diwali.css ("dw-"). It is shown only while Diwali is on for
+// the home page in Admin > Fest (html[data-fest="diwali"]); otherwise the street keeps its trees, benches and flowers.
 
 const SKIN = "#c58a5c";
 const SKIN2 = "#a8714a";
@@ -226,7 +225,7 @@ function Burst({ k }: { k: number }) {
 /** everything of Diwali that is not a person: rangolis, toran lights, diyas along the kerb, fireworks */
 export function DiwaliLayer({ n }: { n: number }) {
   return (
-    <>
+    <i className="dw-layer">
       <i className="dw-sky">
         {Array.from({ length: 6 }, (_, k) => (
           <Burst key={k} k={k} />
@@ -247,6 +246,6 @@ export function DiwaliLayer({ n }: { n: number }) {
           <Diya k={i * 3 + 2} />
         </i>
       ))}
-    </>
+    </i>
   );
 }

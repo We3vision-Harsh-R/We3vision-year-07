@@ -428,3 +428,33 @@
     opacity: 0;
   }
 }
+
+/* ---- the festival switch (Admin > Fest): the Diwali street shows only while html[data-fest="diwali"]; the normal one otherwise ---- */
+.st .is-fest,
+.st .dw-layer {
+  display: none !important;
+}
+html[data-fest="diwali"] .st .is-fest,
+html[data-fest="diwali"] .st .dw-layer {
+  display: block !important;
+  animation: dw-show 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[data-fest="diwali"] .st .is-plain {
+  display: none !important;
+}
+.dw-layer {
+  position: absolute;
+  inset: 0;
+  --n: inherit;
+}
+.dw-layer > * {
+  --n: inherit;
+}
+html[data-fest="diwali"] .st .dw-diyas {
+  display: flex !important;
+}
+@keyframes dw-show {
+  from {
+    opacity: 0;
+  }
+}

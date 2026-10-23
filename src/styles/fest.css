@@ -1,0 +1,318 @@
+/* Festival themes of the laptop website (Admin > Fest). Loaded by src/components/site/fest/fest-layer.tsx. Prefix "fs-".
+   Rules: nothing changes the layout of a page (all pieces are fixed / absolute and pointer-events: none), the content always stays on top
+   (the sky is the background layer), every movement is transform / opacity, sizes follow the window (vw with limits), and
+   prefers-reduced-motion gets a still picture. Festive warm colours (gold, saffron, red, green) next to the theme colour of the site. */
+
+/* every piece comes in softly when the festival is switched on */
+.fs-sky,
+.fs-corners,
+.fs-ftdiyas {
+  animation: fs-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes fs-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---- the sky: behind the content (the same layer as the page background) ---- */
+.fs-sky {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fs-sky i,
+.fs-sky b,
+.fs-corners i {
+  display: block;
+  font-style: normal;
+}
+.fs-warm {
+  position: absolute;
+  inset: auto -10% -30% -10%;
+  height: 70%;
+  background:
+    radial-gradient(50% 60% at 25% 100%, rgba(251, 146, 60, 0.18), transparent 70%),
+    radial-gradient(45% 55% at 78% 100%, rgba(250, 204, 21, 0.14), transparent 70%);
+  animation: fs-breathe 9s ease-in-out infinite alternate;
+}
+@keyframes fs-breathe {
+  to {
+    opacity: 0.6;
+    transform: translateY(4%);
+  }
+}
+.fs-mandala {
+  position: absolute;
+  left: 50%;
+  bottom: -28vmin;
+  width: 70vmin;
+  height: 70vmin;
+  margin-left: -35vmin;
+  border-radius: 50%;
+  opacity: 0.07;
+  background:
+    repeating-conic-gradient(from 0deg, #fbbf24 0 6deg, transparent 6deg 15deg),
+    radial-gradient(closest-side, transparent 52%, #fb923c 53% 55%, transparent 56% 68%, #fbbf24 69% 70%, transparent 71%);
+  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 73%);
+  mask-image: radial-gradient(closest-side, #000 72%, transparent 73%);
+  animation: fs-turn 120s linear infinite;
+}
+@keyframes fs-turn {
+  to {
+    rotate: 1turn;
+  }
+}
+/* paper lanterns rising slowly from the bottom of the window to the top */
+.fs-lantern {
+  position: absolute;
+  left: var(--x);
+  bottom: -90px;
+  width: clamp(22px, 2.3vw, 40px);
+  opacity: 0;
+  filter: drop-shadow(0 0 14px rgba(251, 146, 60, 0.65));
+  animation: fs-rise var(--t) linear infinite;
+  animation-delay: var(--d);
+  scale: var(--s);
+}
+.fs-lantern svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: fs-sway 5s ease-in-out infinite alternate;
+}
+@keyframes fs-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  8% {
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(3vw, -115vh, 0);
+  }
+}
+@keyframes fs-sway {
+  from {
+    rotate: -6deg;
+  }
+  to {
+    rotate: 6deg;
+  }
+}
+/* fireworks high in the window */
+.fs-burst {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 0;
+  height: 0;
+}
+.fs-burst b {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 2px;
+  height: clamp(10px, 1.1vw, 18px);
+  border-radius: 2px;
+  background: linear-gradient(0deg, var(--c), #fff);
+  box-shadow: 0 0 8px var(--c);
+  opacity: 0;
+  transform-origin: 50% 100%;
+  --ang: calc(var(--r) * 22.5deg);
+  animation: fs-ray 9s cubic-bezier(0.15, 0.75, 0.3, 1) infinite;
+  animation-delay: var(--d);
+}
+@keyframes fs-ray {
+  0%,
+  60% {
+    opacity: 0;
+    transform: rotate(var(--ang)) translateY(0) scaleY(0.2);
+  }
+  63% {
+    opacity: 1;
+  }
+  76% {
+    opacity: 0.9;
+    transform: rotate(var(--ang)) translateY(clamp(-48px, -3.6vw, -30px)) scaleY(1);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: rotate(var(--ang)) translateY(clamp(-58px, -4.4vw, -36px)) scaleY(0.3);
+  }
+}
+
+/* ---- two akash kandils at the top of the page, between the corner badges and the logo (they scroll away with the page) ---- */
+.fs-corners {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.fs-kandil {
+  position: absolute;
+  top: 0;
+  width: clamp(44px, 4.4vw, 80px);
+  transform-origin: 50% 0;
+  animation: fs-swing 4.6s ease-in-out infinite alternate;
+}
+.fs-kandil.is-l {
+  left: 15vw;
+}
+.fs-kandil.is-r {
+  right: 15vw;
+  animation-delay: -2.3s;
+}
+.fs-kandil svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.55));
+}
+.fs-kandil-core {
+  animation: fs-core 1.8s ease-in-out infinite alternate;
+}
+@keyframes fs-swing {
+  from {
+    rotate: -4deg;
+  }
+  to {
+    rotate: 4deg;
+  }
+}
+@keyframes fs-core {
+  to {
+    opacity: 0.55;
+  }
+}
+/* a narrow window: the kandils would come too close to the content */
+@media (max-width: 1000px) {
+  .fs-corners {
+    display: none;
+  }
+}
+
+/* ---- sparks behind the mouse ---- */
+.fs-sparks {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+}
+.fs-sparks i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: #fde68a;
+  box-shadow: 0 0 6px 2px rgba(251, 191, 36, 0.8);
+  opacity: 0;
+}
+.fs-sparks i.is-on {
+  animation: fs-spark 0.75s ease-out forwards;
+}
+@keyframes fs-spark {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx), var(--dy), 0) scale(0.3);
+  }
+}
+
+/* ---- a row of diyas along the top of the footer (inside its empty top padding; the footer clips what is outside it) ---- */
+.fs-ftdiyas {
+  position: absolute;
+  top: clamp(18px, 2vw, 30px);
+  left: 4%;
+  right: 4%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.fs-ftdiyas i {
+  position: relative;
+  display: block;
+  line-height: 0;
+}
+.fs-ftdiyas b {
+  position: absolute;
+  left: 9px;
+  top: -6px;
+  width: 6px;
+  height: 9px;
+  border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+  background: radial-gradient(60% 55% at 50% 70%, #fff, #fde047 45%, #f97316 85%);
+  box-shadow: 0 0 9px 3px rgba(251, 191, 36, 0.55);
+  transform-origin: 50% 100%;
+  animation: fs-flame 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k) * -0.21s);
+}
+@keyframes fs-flame {
+  0% {
+    transform: scale(1, 1) rotate(-3deg);
+  }
+  50% {
+    transform: scale(0.88, 1.12) rotate(2deg);
+  }
+  100% {
+    transform: scale(1.05, 0.92) rotate(3deg);
+  }
+}
+
+/* ---- the industries city: warm lit windows and string lights on the buildings ---- */
+html[data-fest="diwali"] .cm-win .cm-fr,
+html[data-fest="diwali"] .cm-win .cm-rt,
+html[data-fest="diwali"] .cm-win .cm-bk,
+html[data-fest="diwali"] .cm-win .cm-lf {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(24, 12, 6, 0.5) 0 3px, transparent 3px 13px),
+    repeating-linear-gradient(90deg, rgba(253, 224, 71, 0.5) 0 7px, transparent 7px 16px);
+}
+/* string lights along the top of the lit buildings: still (the city has hundreds of faces, a moving light on each would make the scroll heavy) */
+html[data-fest="diwali"] .cm-win .cm-fr::after,
+html[data-fest="diwali"] .cm-win .cm-rt::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: radial-gradient(circle, #fde047 0 1.4px, rgba(251, 191, 36, 0.45) 1.9px, transparent 2.6px) 0 50% / 9px 6px repeat-x;
+}
+html[data-fest="diwali"] .cm-win .cm-rt::after {
+  background-image: radial-gradient(circle, #fdba74 0 1.4px, rgba(251, 146, 60, 0.45) 1.9px, transparent 2.6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-sky,
+  .fs-corners,
+  .fs-ftdiyas,
+  .fs-warm,
+  .fs-mandala,
+  .fs-lantern svg,
+  .fs-kandil,
+  .fs-kandil-core,
+  .fs-ftdiyas b {
+    animation: none;
+  }
+  .fs-lantern,
+  .fs-burst {
+    display: none !important;
+  }
+}

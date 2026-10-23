@@ -1,5 +1,6 @@
 import "../globals.css";
 import { Background } from "@/components/site/background";
+import { FestLayer } from "@/components/site/fest/fest-layer";
 import { FloatingNav } from "@/components/site/floating-nav";
 import { Footer } from "@/components/site/footer";
 import { LateExtras } from "@/components/site/late-extras";
@@ -7,6 +8,8 @@ import { LogoMark } from "@/components/site/logo-mark";
 import { SiteScrollbar } from "@/components/site/site-scrollbar";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { getSiteSettings } from "@/lib/cms/queries";
+import { anyFest, festBootScript } from "@/lib/fest";
+import { getFestConfig } from "@/lib/fest-server";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
 
 // ROOT LAYOUT of the laptop website (see src/lib/root-shell.tsx): the only one that loads globals.css and the desktop scenes.
@@ -14,9 +17,10 @@ import { RootShell, baseMetadata } from "@/lib/root-shell";
 export const metadata = baseMetadata;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const site = await getSiteSettings();
+  const [site, fest] = await Promise.all([getSiteSettings(), getFestConfig()]);
+  const festOn = anyFest(fest);
   return (
-    <RootShell>
+    <RootShell boot={festOn ? festBootScript(fest) : undefined}>
       <div className="relative overflow-x-clip">
         <a href="#main-content" className="skp-link">
           Skip to content
@@ -25,6 +29,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <SiteScrollbar />
         <LateExtras />
         <Background />
+        {/* a festival theme (Admin > Fest): RootShell puts it on <html> before the first paint (boot), these are its decorations */}
+        {festOn && <FestLayer cfg={fest} />}
         <LogoMark name={site.name} />
         <main id="main-content" tabIndex={-1}>
           {children}

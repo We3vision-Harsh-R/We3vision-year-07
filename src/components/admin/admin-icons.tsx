@@ -18,6 +18,7 @@ const PATHS: Record<AdminIconKey, string> = {
   integrations: "M9 3v5M15 3v5M6 8h12v4a6 6 0 01-12 0zM12 18v3",
   guide: "M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19V5M9 8h7",
   access: "M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4",
+  fest: "M12 3c2.5 3 2.5 5.5 0 8-2.5-2.5-2.5-5 0-8zM3 14h18c-1.2 4.2-4.6 6.5-9 6.5S4.2 18.2 3 14zM7 14c1 1 3 1.5 5 1.5s4-.5 5-1.5",
 };
 
 export function AdminIcon({ name, size = 20 }: { name: AdminIconKey; size?: number }) {
