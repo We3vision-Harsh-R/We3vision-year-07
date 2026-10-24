@@ -191,8 +191,10 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
       {/* Tablet / desktop: the pill */}
       <nav
         aria-label="Main"
-        onPointerEnter={(e) => e.pointerType === "mouse" && hoverOpen()}
-        onPointerMove={(e) => e.pointerType === "mouse" && armed.current && !menuOpen && hoverOpen()}
+        // the mouse on the pill opens the big menu ONLY when the pill is the round button (the page is scrolled: the whole nav is the Menu button then);
+        // on the full pill only the Menu button opens it (its own onPointerEnter below), not Home, About or Services
+        onPointerEnter={(e) => e.pointerType === "mouse" && collapsed && hoverOpen()}
+        onPointerMove={(e) => e.pointerType === "mouse" && collapsed && armed.current && !menuOpen && hoverOpen()}
         onPointerLeave={(e) => e.pointerType === "mouse" && leaveMenu()}
         style={{ width: collapsed ? SIZE : fullWidth, height: SIZE }}
         className={`relative hidden overflow-hidden rounded-full transition-[width] duration-500 sm:block ${SPRING} ${GLASS}`}
@@ -207,7 +209,12 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
         >
           {items.map((item) => (
             <li key={item.label + item.href}>
-              <SmartLink href={item.href} onClick={closeMenu} className="fn-link block px-3 py-2.5 text-sm leading-[18px] text-orchid transition-colors duration-200 hover:text-violet">
+              <SmartLink
+                href={item.href}
+                onClick={closeMenu}
+                // the mouse moves from the Menu button onto a link: the menu that the hover opened closes (one that was opened with a click or by the round button stays)
+                onPointerEnter={(e) => e.pointerType === "mouse" && !hoverExpanded.current && leaveMenu()}
+                className="fn-link block px-3 py-2.5 text-sm leading-[18px] text-orchid transition-colors duration-200 hover:text-violet">
                 {item.label}
               </SmartLink>
             </li>

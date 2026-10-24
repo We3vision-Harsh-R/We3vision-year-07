@@ -1,12 +1,30 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 // The big name at the bottom of the footer. It is drawn as an outline; where the mouse is, the letters are filled with light (a round window
 // that follows the pointer). Without a mouse (a phone) a window of light slowly goes along the word by itself (CSS). Only two custom properties
 // change while the pointer moves.
+// The size follows the number of letters (the CSS: --chars), and a measurement makes sure the whole name always fits the width of the window,
+// whatever the name is and however wide the window (the name "We3vision Private Limited" is much longer than "We3vision").
 export function FooterWord({ text }: { text: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    const line = el?.querySelector<HTMLElement>(".ft-word-o");
+    if (!el || !line) return;
+    const fit = () => {
+      el.style.fontSize = ""; // back to the size of the CSS, then measure
+      const room = el.clientWidth;
+      const need = line.scrollWidth;
+      if (room > 0 && need > room) el.style.fontSize = `${(parseFloat(getComputedStyle(el).fontSize) * room * 0.985) / need}px`;
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    void document.fonts?.ready.then(fit);
+    return () => ro.disconnect();
+  }, [text]);
   const move = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "mouse") return;
     const el = ref.current;
@@ -20,7 +38,7 @@ export function FooterWord({ text }: { text: string }) {
     if (ref.current) ref.current.dataset.live = "false";
   };
   return (
-    <div ref={ref} className="ft-word" data-live="false" onPointerMove={move} onPointerLeave={leave} aria-hidden>
+    <div ref={ref} className="ft-word" data-live="false" style={{ "--chars": Math.max(text.length, 4) } as React.CSSProperties} onPointerMove={move} onPointerLeave={leave} aria-hidden>
       <span className="ft-word-o">{text}</span>
       <span className="ft-word-f">{text}</span>
     </div>

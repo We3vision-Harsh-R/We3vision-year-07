@@ -223,3 +223,15 @@
 - The home Diwali street still lives in the services section (home-street.tsx); it is not lazy (small).
 - Speed numbers are headless (software-heavy) and only for comparing; check on a real laptop. Home without festival is still the heaviest page (industries road + services street); the 3D road is the next candidate if the owner wants more.
 - Colour picker settings: not tried with a real admin save (login-gated); defaults keep the old behaviour (first visit, 1.4 s, the 18 design colours, free colour on).
+
+## UI check + nav fix (2026-10-24)
+- Floating nav (components/site/floating-nav.tsx): the big menu opened when the mouse touched ANY part of the pill (Home, About, Services). Now it opens only on the Menu button (hover or click) or, on a scrolled page, on the round button; moving from the Menu button onto a link closes a hover-opened menu (a click-opened one stays). Test: node tools/nav-hover-test.mjs <url> /about?view=desktop (fails on the old code, passes now).
+- @property --n in globals.css now inherits (it did not since 2026-10-15): the lines of the process stepper (/brand-kit-design, /mobile) and the SEO journey (/seo) were missing, and the home street pieces were off screen.
+- tools/ui-audit.mjs: lists overflow, overlapping text, tiny text, lost elements, broken images and console errors for every page at laptop sizes. Known false alarms: closed accordions are skipped; /crm deck cards, flip cards of the FAQ on /shopify-plugin-*, and the 3D city boxes on / overlap or sit far away by design.
+
+## Owner list of fixes, 2026-10-24 (items 3-7)
+- 3 CRM story boxes (look "stack", .vy-stack in globals.css, also /zero-to-n-brand-development): same width and same height, aligned (no staircase offset any more).
+- 4 /seo "Measure What Matters" (.sxo-meas in styles/seo-marketing.css): the three boxes have one width and one height (grid stretch), top and bottom aligned.
+- 5 Krina Rudani card (team office): spelling is "Krina Rudani" in the database and in cms/content/team.ts; the card was fully inside the office at 1100, 1440 and 1920 px. Waiting for the owner to say what the correct spelling is.
+- 6 Footer name (footer-word.tsx + .ft-word in globals.css): font size follows the number of letters (--chars) and a measurement keeps the whole name inside the window, so "We3vision Private Limited" is no longer clipped.
+- 7 About timeline (sections/timeline.tsx): after partnerYear Harsh stays on the line in front and Parth steps onto it behind him (GAP 76 px, he waits until Harsh is a GAP ahead, so they never overlap); the office start positions follow (one behind the other). Test: tltest (scratchpad) at 390, 1100, 1440, 1920 px.

@@ -7116,7 +7116,8 @@ html.has-sb::-webkit-scrollbar {
   position: relative;
   margin-top: 4.5rem;
   overflow: hidden;
-  font-size: clamp(3.4rem, 15.5vw, 15rem);
+  /* 15.5vw for the 9 letters of "We3vision", the same width for any other name (the number of letters is --chars; footer-word.tsx measures it too) */
+  font-size: clamp(1.6rem, calc(136vw / var(--chars, 9)), 15rem);
   font-weight: 700;
   letter-spacing: -0.06em;
   line-height: 0.92;
@@ -9809,14 +9810,15 @@ html.has-sb::-webkit-scrollbar {
   display: grid;
   max-width: 1040px;
   gap: 1.2rem;
+  /* every box has the same width (the whole column) and the same height (the tallest one) */
+  grid-auto-rows: 1fr;
   margin-inline: auto;
 }
 .vy-st {
   display: grid;
   grid-template-columns: 5.5rem minmax(0, 1fr);
   gap: 1.4rem;
-  align-items: start;
-  margin-left: calc(var(--i) * 3.5rem);
+  align-items: center;
   padding: 1.7rem 2rem;
   border: 1px solid var(--hair);
   border-left: 3px solid var(--a);
@@ -10087,7 +10089,8 @@ html.has-sb::-webkit-scrollbar {
 
 
 /* Shopify: numbers count up, bars grow, rows slide in, the mini guide waves in the banner and cheers on a new order */
-@property --n { syntax: "<integer>"; inherits: false; initial-value: 0; }
+/* --n is the number of items of a row / track / stepper that its children read (calc(50% / var(--n)), repeat(var(--n), 1fr) ...): it must inherit, otherwise every child sees 0 (a line at left: infinity). Registered only so that the counter of the Shopify page can animate it. */
+@property --n { syntax: "<integer>"; inherits: true; initial-value: 0; }
 @keyframes shp-count { from { --n: 0; } }
 
 /* ===================================================================================================================================

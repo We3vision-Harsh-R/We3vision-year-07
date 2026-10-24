@@ -11,17 +11,17 @@ import type { SectionComponent } from "./shared";
 // Vertical timeline: a glowing line down the middle, years on one side and glass cards on the other (stacked on phones).
 // The story walks along it, seen from above: three founders (Smit, Harsh, Vatsal) walk down the line while you scroll, Harsh in front.
 // At `leaveYear` two of them drop out of the journey: each sits down on his own bench in a small garden beside the line (there is
-// room for it under that year), and the centre one keeps walking. At `partnerYear` a fourth one (Parth) joins him and they walk
-// on side by side. The line ends in the last screen, the office of `finalYear`: a huge year, the goal of the company and the seven
-// teams at work, where the two of them walk in over the big year and sit down in their boss chairs.
+// room for it under that year), and the centre one keeps walking. At `partnerYear` a fourth one (Parth) joins him: he waits beside the
+// line, then steps onto it behind Harsh, and the two of them walk on one behind the other on the line (Harsh in front, GAP px apart). The line
+// ends in the last screen, the office of `finalYear`: a huge year, the goal of the company and the seven teams at work, where the two of them
+// walk in over the big year (still one behind the other) and sit down side by side in their boss chairs.
 
 const GAP = 76; // px between the three while they walk one behind the other (a figure is 66 px high)
 const ZONE = 280; // height of the garden under the leave year
 const BENCH_A = 74; // the benches (px under the start of the garden)
 const BENCH_B = 186;
 const SIDE = 60; // how far from the line the benches stand
-const ABREAST = 34; // the two founders walk this far to the left / right of the line (a figure is 47 px wide)
-const PHONE_GAP = 52; // on a phone the partner walks this far to the right of the line
+const WAIT = 56; // the partner waits this far beside the line (on a phone as well) until Harsh has gone by (a figure is 47 px wide)
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const ease = (t: number) => t * t * (3 - 2 * t);
@@ -112,17 +112,19 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
       const moving = Math.abs(gy - lastY) > 0.2;
       lastY = gy;
 
-      // the partner joins at his year: from the moment the centre one has crossed it, they go on side by side
-      const jp = clamp((gy - ys[joinAt]) / 110);
+      // the partner joins at his year: when the centre one has gone GAP px past him (so that they cannot touch: a figure is 66 px high and
+      // 47 px wide) he steps onto the line and follows him
+      const jp = clamp((gy - ys[joinAt] - GAP) / 70);
       const jpe = ease(jp);
-      const dx = wide ? ABREAST : 0;
 
+      // Harsh goes by the partner who waits for him (his name stands away from the partner, or is left out on a phone: no room beside the line)
+      const passing = gy > ys[joinAt] - 90 && gy < ys[joinAt] + GAP + 70;
       const poses: { y: number; x: number; face: string; pose: string; wave: boolean; show: boolean; a?: number; tag?: string }[] = [];
       // 0 Smit, 1 Harsh, 2 Vatsal: Harsh walks in front, Vatsal and Smit follow him
       [Math.min(gy - 2 * GAP, seatA), gy, Math.min(gy - GAP, seatB)].forEach((y, i) => {
         const seat = i === 0 ? seatA : i === 2 ? seatB : null;
         const sat = seat !== null && y >= seat - 0.5;
-        let x = i === 1 ? lineX - dx * jpe : lineX;
+        let x = lineX; // Harsh stays on the line all the way (Parth comes in behind him)
         let face = "down";
         if (seat !== null) {
           const side = wide ? (i === 0 ? -SIDE : SIDE) : SIDE; // wide: Smit on the left bench, Vatsal on the right one
@@ -134,16 +136,16 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
         // the two who follow him come in out of a blur at the start of the line; once seated they wave after him
         const a = i === 1 ? 1 : clamp((y - (ys[0] - 24)) / 56);
         const wave = sat && gy - (seat as number) < 420;
-        poses.push({ y, x, face, pose: sat ? "sit" : moving ? "walk" : "idle", wave, show: true, a, tag: i === 2 ? "r" : "l" });
+        poses.push({ y, x, face, pose: sat ? "sit" : moving ? "walk" : "idle", wave, show: true, a, tag: i === 2 ? "r" : i === 1 && passing && joinSide < 0 ? "r" : "l" });
       });
       // 3 the partner: he stands at his year from the start, waves when the centre one comes near and, once that one has
-      // crossed him, goes on with him side by side
+      // crossed him, steps onto the line and follows him, GAP px behind (walking down the page the one behind has the smaller y,
+      // the same as Vatsal and Smit before him). He stays where he waits until Harsh is GAP ahead, so that they never overlap.
       const py = ys[joinAt];
       const near = gy > py - 150 && gy < py + 20;
       poses.push({
-        // coming over from the far side he drops back for a moment so that they do not walk through each other
-        y: Math.max(py, gy) - (joinSide < 0 ? 30 * Math.sin(Math.PI * jpe) : 0),
-        x: lerp(lineX + (wide ? 56 : PHONE_GAP) * joinSide, lineX + (wide ? ABREAST : PHONE_GAP), jpe),
+        y: Math.max(py, gy - GAP),
+        x: lerp(lineX + WAIT * joinSide, lineX, jpe),
         face: jp > 0.5 ? "down" : joinSide < 0 ? "right" : "left",
         pose: jp > 0 && moving ? "walk" : "idle",
         wave: near,
@@ -151,12 +153,8 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
         // his name stands on the side away from the one he waits for
         tag: jp < 0.5 && joinSide < 0 ? "l" : "r",
       });
-      // on a phone there is no room beside the line for the name of the one who walks on the line
-      if (!wide) {
-        poses.forEach((p, i) => {
-          p.tag = i === 1 && jp > 0.1 ? "none" : "r";
-        });
-      }
+      // on a phone the names stand on the right of the line
+      if (!wide) poses.forEach((p, i) => (p.tag = i === 1 && passing ? "none" : "r"));
 
       poses.forEach((p, i) => {
         const el = personRefs.current[i];
@@ -188,13 +186,15 @@ export const Timeline: SectionComponent<"timeline"> = ({ data }) => {
       const cx = W / 2;
       const cy = H * (W / H < 0.9 ? 0.62 : 0.58);
       const olLeft = or.left;
-      const starts = [olLeft + lineX - dx, olLeft + lineX + (wide ? ABREAST : PHONE_GAP)];
+      // they come into the last screen one behind the other on the line (Harsh in front) and walk to their chairs side by side
+      const starts = [olLeft + lineX, olLeft + lineX];
+      const startY = [vh * 0.52, vh * 0.52 - GAP];
       const finals = [cx - 38 * u, cx + 38 * u];
       const stageMoving = Math.abs(s - lastS) > 0.0004;
       lastS = s;
       stagePersons.forEach((el, k) => {
         const x = lerp(starts[k], finals[k], ease(sp));
-        const y = lerp(vh * 0.52, cy, ease(sp));
+        const y = lerp(startY[k], cy, ease(sp));
         el.style.visibility = er.top <= 0 ? "visible" : "hidden";
         el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
         const sat = sp >= 1;
