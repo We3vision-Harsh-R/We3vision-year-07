@@ -6,7 +6,11 @@
 // ambient effect (fireworks, embers, petals, anar fountains) is on, and it stops while the tab is hidden. A canvas that has nothing on it is
 // not cleared again (no work for the graphics card), and the engine watches its own frame time: on a slow computer it lowers the amount
 // of particles by itself (and raises it again when there is room), so the page stays smooth with every effect on.
+// Fireworks follow real physics (fest-physics.ts): a rocket is a ballistic body that stops at the top and bursts there, the stars of a burst fly
+// out over a SPHERE, are stopped by the air and then drift down, burn white-hot -> colour -> ember and leave a streak of where they were.
 // No React in here: the layer (fest-top.tsx) creates the engine, the pointer effects (fest-pointer.tsx) and the places call burst() / rocket().
+
+import { ROCKET_G, launchSpeed, ringDir, sphereDir, starAlpha, starColour, starSpeed } from "./fest-physics";
 
 export type Depth = 0 | 1 | 2; // far, middle, near
 /** scale of sizes and speeds, opacity, and the canvas of the three distances (0 = the soft back canvas, 1 = the sharp front canvas) */
@@ -23,7 +27,7 @@ const CAP = 700;
 export type BurstType = "peony" | "willow" | "ring" | "chrysanthemum" | "crackle";
 export const BURST_TYPES: BurstType[] = ["peony", "willow", "ring", "chrysanthemum", "crackle"];
 
-type Kind = "spark" | "glitter" | "ember" | "petal" | "trail";
+type Kind = "spark" | "star" | "glitter" | "ember" | "petal" | "trail";
 type P = {
   kind: Kind;
   x: number;
@@ -41,12 +45,26 @@ type P = {
   l: number;
   rot: number;
   vr: number;
-  /** petals: sway and flip phase; sparks of a chrysanthemum: leaves a trail */
+  /** petals: sway and flip phase; stars: flicker phase */
   ph: number;
-  trail: boolean;
+  /** stars: the second colour (hue) they burn towards, the depth into the screen and its speed */
+  h2: number;
+  z: number;
+  vz: number;
+  /** stars: seconds between two samples of the streak (a longer time = a longer tail), the clock of that, and the three last places */
+  tr: number;
+  tt: number;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  x3: number;
+  y3: number;
+  /** stars of a crackle: pop into glitter when they burn out */
+  crk: boolean;
 };
-type Flash = { x: number; y: number; r: number; life: number; max: number; h: number };
-type Rocket = { x: number; y0: number; y: number; ty: number; t: number; dur: number; h: number; type: BurstType; scale: number; trailT: number };
+type Flash = { x: number; y: number; r: number; life: number; max: number; h: number; l: number; a: number };
+type Rocket = { x: number; y: number; vx: number; vy: number; ty: number; t: number; h: number; type: BurstType; scale: number; ph: number };
 type Fountain = { x: number; y: number; until: number; acc: number; depth: Depth };
 type Layer = { ps: P[]; flashes: Flash[]; rockets: Rocket[] };
 type Surface = { canvas: HTMLCanvasElement; ctx: CanvasRenderingContext2D; w: number; h: number; drawn: boolean };
@@ -62,6 +80,19 @@ const COLORS: [number, number, number][] = [
   [50, 100, 88],
   [282, 80, 70],
 ];
+/** the kinds of burst: how many stars, their air drag (1/s), life (s), gravity (px/s^2, small: a star is light), streak sampling (s) and size (px) */
+const SHELLS: Record<BurstType, { n: number; drag: number; life: [number, number]; g: number; tr: number; size: [number, number] }> = {
+  peony: { n: 124, drag: 2.1, life: [1.6, 2.2], g: 95, tr: 0.026, size: [1.9, 2.9] },
+  chrysanthemum: { n: 104, drag: 2, life: [2.1, 2.8], g: 120, tr: 0.045, size: [1.8, 2.7] },
+  willow: { n: 84, drag: 1.55, life: [2.8, 3.6], g: 175, tr: 0.08, size: [1.9, 2.8] },
+  ring: { n: 66, drag: 2.3, life: [1.5, 2], g: 80, tr: 0.03, size: [2, 2.9] },
+  crackle: { n: 84, drag: 2.1, life: [1.5, 2.1], g: 100, tr: 0.022, size: [1.7, 2.5] },
+};
+/** a particle with every field filled in (its streak starts where it is) */
+const mk = (p: Partial<P> & Pick<P, "kind" | "x" | "y">): P => {
+  const c = pick(COLORS);
+  return { vx: 0, vy: 0, ay: 0, drag: 0, delay: 0, life: 1, max: 1, size: 1.6, h: c[0], s: c[1], l: c[2], rot: 0, vr: 0, ph: Math.random() * 6.28, h2: p.h ?? c[0], z: 0, vz: 0, tr: 0, tt: 0, x1: p.x, y1: p.y, x2: p.x, y2: p.y, x3: p.x, y3: p.y, crk: false, ...p };
+};
 const DENSITY = { low: 0.55, normal: 1, rich: 1.6 } as const;
 export type EngineDensity = keyof typeof DENSITY;
 const rnd = (a: number, b: number) => a + Math.random() * (b - a);
@@ -155,8 +186,7 @@ export class FestEngine {
     if (!L) return;
     const cap = Math.round(CAP * this.quality);
     if (L.ps.length > cap) L.ps.splice(0, L.ps.length - cap);
-    const c = pick(COLORS);
-    L.ps.push({ vx: 0, vy: 0, ay: 0, drag: 0, delay: 0, life: 1, max: 1, size: 1.6, h: c[0], s: c[1], l: c[2], rot: 0, vr: 0, ph: Math.random() * 6.28, trail: false, ...p });
+    L.ps.push(mk(p));
     this.kick();
   }
 
@@ -206,66 +236,81 @@ export class FestEngine {
     });
   }
 
-  /** a warm glow where something burst */
-  private flash(depth: Depth, x: number, y: number, r: number, h: number) {
-    this.layers[depth]?.flashes.push({ x, y, r: r * DEPTHS[depth].k, life: 0.45, max: 0.45, h });
+  /** a glow where something burst: a short white one at the bang and a longer warm one of the colour of the stars */
+  private flash(depth: Depth, x: number, y: number, r: number, h: number, life = 0.9, l = 72, a = 0.3) {
+    this.layers[depth]?.flashes.push({ x, y, r: r * DEPTHS[depth].k, life, max: life, h, l, a });
     this.kick();
   }
 
-  /** a burst of a kind at a place; `scale` 1 = the size of a big firework */
+  /** a burst of a kind at a place; `scale` 1 = the size of a big firework. The stars start on a sphere (a ring: in a tilted plane), so a burst is
+   *  round from every side; the air stops them (drag), gravity lets them sink, and each one burns white-hot -> its colour -> an ember. */
   burst(x: number, y: number, o: { depth?: Depth; type?: BurstType; scale?: number; color?: number } = {}) {
     const depth = o.depth ?? 2;
     const type = o.type ?? pick(BURST_TYPES);
+    const sh = SHELLS[type];
     const k = DEPTHS[depth].k;
-    const R = rnd(120, 190) * (o.scale ?? 1) * k; // how far the sparks fly (px)
-    const col = COLORS[(o.color ?? Math.floor(Math.random() * COLORS.length)) % COLORS.length];
+    const R = rnd(130, 200) * (o.scale ?? 1) * k; // how far the stars reach (px)
+    const col = type === "willow" ? ([42, 100, 62] as [number, number, number]) : COLORS[(o.color ?? Math.floor(Math.random() * COLORS.length)) % COLORS.length];
     const col2 = pick(COLORS);
     const q = this.density * this.quality;
-    const n = Math.round((type === "ring" ? 46 : type === "willow" ? 54 : 74) * q * (0.55 + 0.45 * k));
-    const drag = type === "willow" ? 1.25 : 1.7;
-    this.flash(depth, x, y, R * 1.15, col[0]);
+    const n = Math.round(sh.n * q * (0.55 + 0.45 * k));
+    const spin = rnd(0, 6.2832);
+    const tilt = rnd(0.25, 1.15);
+    this.flash(depth, x, y, R * 0.55, 48, 0.16, 96, 0.55);
+    this.flash(depth, x, y, R * 1.3, col[0], 0.9, 70, 0.3);
     for (let i = 0; i < n; i++) {
-      const a = (i / n) * 6.2832 + rnd(-0.06, 0.06);
-      let sp = type === "ring" ? 1 : rnd(0.35, 1);
-      if (type === "ring") sp *= 0.95;
-      const v = R * drag * sp;
-      const tilt = type === "ring" ? 0.45 : 1;
-      const life = type === "willow" ? rnd(2.1, 3) : rnd(1, 1.7);
-      const c = type === "chrysanthemum" && i % 3 === 0 ? col2 : col;
+      const [dx, dy, dz] = type === "ring" ? ringDir(i, n, tilt, spin) : sphereDir(i, n, spin);
+      const life = rnd(sh.life[0], sh.life[1]);
+      const kd = sh.drag * rnd(0.93, 1.07);
+      const v = starSpeed(R * rnd(0.9, 1), kd, life);
+      const c = type === "crackle" ? ([i % 2 ? 46 : 38, 100, 66] as [number, number, number]) : col;
       this.add(depth, {
-        kind: "spark",
+        kind: "star",
         x,
         y,
-        vx: Math.cos(a) * v,
-        vy: Math.sin(a) * v * tilt,
-        ay: (type === "willow" ? 150 : 70) * k,
-        drag,
+        vx: dx * v,
+        vy: dy * v,
+        vz: dz * v,
+        ay: sh.g * k,
+        drag: kd,
         life,
         max: life,
-        size: rnd(1.3, 2.3) * (0.55 + 0.45 * k),
-        h: type === "willow" ? 42 : c[0],
+        size: rnd(sh.size[0], sh.size[1]) * (0.55 + 0.45 * k),
+        h: c[0] + rnd(-4, 4),
+        h2: type === "willow" ? 28 : type === "chrysanthemum" ? c[0] - 22 : c[0],
         s: c[1],
-        l: type === "willow" ? 68 : c[2] + 6,
-        trail: type === "chrysanthemum" || type === "willow",
+        l: c[2],
+        tr: sh.tr,
+        crk: type === "crackle",
       });
     }
+    // a pistil: a smaller second sphere of another colour inside (many real shells have one)
+    if ((type === "peony" || type === "chrysanthemum") && Math.random() < 0.55) {
+      const m = Math.round(n * 0.34);
+      for (let i = 0; i < m; i++) {
+        const [dx, dy, dz] = sphereDir(i, m, spin + 1);
+        const life = rnd(1, 1.5);
+        const v = starSpeed(R * 0.42, 2.2, life);
+        this.add(depth, { kind: "star", x, y, vx: dx * v, vy: dy * v, vz: dz * v, ay: sh.g * k, drag: 2.2, life, max: life, size: rnd(1.3, 2) * (0.55 + 0.45 * k), h: col2[0], h2: col2[0], s: col2[1], l: col2[2], tr: 0.02 });
+      }
+    }
     // the crackle: tiny white glitter that twinkles after the bang
-    const g = Math.round((type === "crackle" ? 60 : 22) * q * k);
+    const g = Math.round((type === "crackle" ? 40 : 18) * q * k);
     for (let i = 0; i < g; i++) {
       const a = rnd(0, 6.2832);
       const sp = R * rnd(0.2, 0.75);
       const life = rnd(0.9, 1.9);
-      this.add(depth, { kind: "glitter", x, y, vx: Math.cos(a) * sp * 0.9, vy: Math.sin(a) * sp * 0.9, ay: 50 * k, drag: 1.5, delay: rnd(0.35, 0.8), life, max: life, size: rnd(1, 1.8), h: 48, s: 100, l: 92 });
+      this.add(depth, { kind: "glitter", x, y, vx: Math.cos(a) * sp * 0.9, vy: Math.sin(a) * sp * 0.9, ay: 50 * k, drag: 1.5, delay: rnd(0.3, 0.8), life, max: life, size: rnd(1, 1.8), h: 48, s: 100, l: 92 });
     }
   }
 
-  /** a rocket that climbs from (x, y) to height ty and bursts there. Returns the place of the burst. */
+  /** a rocket from (x, y) that is thrown up with exactly the speed that lets gravity stop it at height ty (v^2 = 2 g h); it is fast at the start and
+   *  nearly still at the top, where it bursts. */
   rocket(x: number, y: number, ty: number, o: { depth?: Depth; type?: BurstType; scale?: number } = {}) {
     const depth = o.depth ?? 2;
     const L = this.layers[depth];
     if (!L) return;
-    const dist = Math.max(10, y - ty);
-    L.rockets.push({ x, y0: y, y, ty, t: 0, dur: 0.5 + dist / 1100, h: pick(COLORS)[0], type: o.type ?? pick(BURST_TYPES), scale: o.scale ?? 1, trailT: 0 });
+    L.rockets.push({ x, y, vx: rnd(-14, 14), vy: -launchSpeed(Math.max(10, y - ty)), ty, t: 0, h: pick(COLORS)[0], type: o.type ?? pick(BURST_TYPES), scale: o.scale ?? 1, ph: rnd(0, 6.28) });
     this.kick();
   }
 
@@ -356,28 +401,28 @@ export class FestEngine {
     this.fountains = this.fountains.filter((f) => f.until > this.time);
 
     for (const [depth, L] of this.layers.entries()) {
-      // rockets: they slow down as they climb, trailing sparks, and burst at the top
+      // rockets: gravity slows them down (v = v0 - g t), they sway a little and throw sparks backwards; at the top (they stop) they burst
+      const k = DEPTHS[depth].k;
       for (const r of L.rockets) {
         r.t += dt;
-        const p = Math.min(1, r.t / r.dur);
-        const e = 1 - Math.pow(1 - p, 2.4);
-        const prev = r.y;
-        r.y = r.y0 + (r.ty - r.y0) * e;
-        r.trailT += dt;
-        const k = DEPTHS[depth].k;
-        const steps = Math.max(1, Math.round(Math.abs(prev - r.y) / 5));
+        r.vy += ROCKET_G * dt;
+        const px = r.x;
+        const py = r.y;
+        r.x += (r.vx + Math.sin(r.t * 22 + r.ph) * 9) * dt;
+        r.y += r.vy * dt;
+        const steps = Math.max(1, Math.round(Math.hypot(r.x - px, r.y - py) / 4));
         for (let i = 0; i < steps; i++) {
           if (Math.random() < 0.9 * this.quality) {
-            const yy = prev + ((r.y - prev) * i) / steps;
-            this.add(depth as Depth, { kind: "trail", x: r.x + rnd(-1.5, 1.5), y: yy, vx: rnd(-14, 14), vy: rnd(10, 40) * k, ay: 60, drag: 1, life: rnd(0.35, 0.75), max: 0.75, size: rnd(1.1, 2.2) * (0.6 + 0.4 * k), h: rnd(24, 44), s: 100, l: rnd(60, 80) });
+            const f = i / steps;
+            this.add(depth as Depth, { kind: "trail", x: px + (r.x - px) * f + rnd(-1.2, 1.2), y: py + (r.y - py) * f, vx: -r.vx * 0.1 + rnd(-22, 22), vy: -r.vy * 0.06 + rnd(-10, 30), ay: 140 * k, drag: 1.6, life: rnd(0.45, 0.9), max: 0.9, size: rnd(1.1, 2.2) * (0.6 + 0.4 * k), h: rnd(28, 46), s: 100, l: rnd(68, 88) });
           }
         }
-        if (p >= 1) {
+        if (r.vy >= -12 || r.y <= r.ty) {
           this.burst(r.x, r.y, { depth: depth as Depth, type: r.type, scale: r.scale });
-          r.dur = -1;
+          r.t = -1;
         }
       }
-      L.rockets = L.rockets.filter((r) => r.dur > 0);
+      L.rockets = L.rockets.filter((r) => r.t >= 0);
       L.flashes = L.flashes.filter((f) => (f.life -= dt) > 0);
       for (const p of L.ps) {
         if (p.delay > 0) {
@@ -394,13 +439,29 @@ export class FestEngine {
           p.vx += Math.sin(p.ph) * 18 * dt;
         }
         const dr = Math.exp(-p.drag * dt);
+        if (p.kind === "star") {
+          // the streak: the three last places, sampled every p.tr seconds
+          p.tt += dt;
+          if (p.tt >= p.tr) {
+            p.tt = 0;
+            p.x3 = p.x2;
+            p.y3 = p.y2;
+            p.x2 = p.x1;
+            p.y2 = p.y1;
+            p.x1 = p.x;
+            p.y1 = p.y;
+          }
+          p.vz *= dr;
+          p.z += p.vz * dt;
+          if (p.life <= 0 && p.crk) {
+            p.crk = false;
+            for (let i = 0; i < 3; i++) L.ps.push(mk({ kind: "glitter", x: p.x, y: p.y, vx: rnd(-70, 70), vy: rnd(-70, 40), ay: 60, drag: 2, delay: rnd(0, 0.14), life: rnd(0.25, 0.5), max: 0.5, size: rnd(1.1, 2), h: 48, s: 100, l: 94 }));
+          }
+        }
         p.vx *= dr;
         p.vy = p.vy * dr + p.ay * dt;
         p.x += p.vx * dt;
         p.y += p.vy * dt;
-        if (p.trail && p.life > 0.2 && Math.random() < 0.3 * this.quality) {
-          L.ps.push({ kind: "trail", x: p.x, y: p.y, vx: 0, vy: 8, ay: 20, drag: 1, delay: 0, life: 0.4, max: 0.4, size: p.size * 0.7, h: p.h, s: p.s, l: p.l, rot: 0, vr: 0, ph: 0, trail: false });
-        }
       }
       L.ps = L.ps.filter((p) => p.life > 0 && p.y < h + 40 && p.y > -80 && p.x > -60 && p.x < w + 60);
     }
@@ -427,7 +488,7 @@ export class FestEngine {
       for (const f of L.flashes) {
         const t = f.life / f.max;
         const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r);
-        g.addColorStop(0, `hsla(${f.h},100%,75%,${0.32 * t * DA})`);
+        g.addColorStop(0, `hsla(${f.h},100%,${f.l}%,${f.a * t * DA})`);
         g.addColorStop(1, `hsla(${f.h},100%,60%,0)`);
         ctx.fillStyle = g;
         ctx.beginPath();
@@ -435,11 +496,19 @@ export class FestEngine {
         ctx.fill();
       }
       for (const r of L.rockets) {
-        ctx.fillStyle = `hsla(${r.h},100%,82%,${0.95 * DA})`;
+        // a short bright streak behind the head (where it was a moment ago), the head and its glow
+        ctx.strokeStyle = `hsla(${r.h},100%,72%,${0.55 * DA})`;
+        ctx.lineWidth = 2.2;
+        ctx.lineCap = "round";
         ctx.beginPath();
-        ctx.arc(r.x, r.y, 2.4, 0, 6.2832);
+        ctx.moveTo(r.x - r.vx * 0.03, r.y - r.vy * 0.03);
+        ctx.lineTo(r.x, r.y);
+        ctx.stroke();
+        ctx.fillStyle = `hsla(${r.h},100%,86%,${0.95 * DA})`;
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, 2.2, 0, 6.2832);
         ctx.fill();
-        ctx.fillStyle = `hsla(${r.h},100%,60%,${0.25 * DA})`;
+        ctx.fillStyle = `hsla(${r.h},100%,60%,${0.22 * DA})`;
         ctx.beginPath();
         ctx.arc(r.x, r.y, 9, 0, 6.2832);
         ctx.fill();
@@ -447,7 +516,41 @@ export class FestEngine {
       for (const p of L.ps) {
         if (p.delay > 0 || p.kind === "petal") continue;
         const t = Math.max(0, p.life / p.max);
-        if (p.kind === "spark") {
+        if (p.kind === "star") {
+          const age = 1 - t;
+          const [hh, ss, ll] = starColour(age, p.h, p.h2, p.s, p.l);
+          const a = starAlpha(age, Math.abs(Math.sin(p.life * 47 + p.ph))) * DA * Math.min(1.1, Math.max(0.6, 0.85 + p.z * 0.0007));
+          if (a < 0.01) continue;
+          const w = p.size * (1 + p.z * 0.0008); // a star nearer to the viewer is a little bigger and brighter
+          const c = `hsla(${hh.toFixed(0)},${ss.toFixed(0)}%,${ll.toFixed(0)}%,`;
+          ctx.lineCap = "round";
+          ctx.lineWidth = w;
+          ctx.strokeStyle = c + a * 0.9 + ")";
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x1, p.y1);
+          ctx.stroke();
+          ctx.lineWidth = w * 0.72;
+          ctx.strokeStyle = c + a * 0.55 + ")";
+          ctx.beginPath();
+          ctx.moveTo(p.x1, p.y1);
+          ctx.lineTo(p.x2, p.y2);
+          ctx.stroke();
+          ctx.lineWidth = w * 0.45;
+          ctx.strokeStyle = c + a * 0.26 + ")";
+          ctx.beginPath();
+          ctx.moveTo(p.x2, p.y2);
+          ctx.lineTo(p.x3, p.y3);
+          ctx.stroke();
+          ctx.fillStyle = c + a * 0.14 + ")";
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, w * 2.6, 0, 6.2832);
+          ctx.fill();
+          ctx.fillStyle = c + a + ")";
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, w * 0.8, 0, 6.2832);
+          ctx.fill();
+        } else if (p.kind === "spark") {
           const a = Math.pow(t, 0.75) * DA;
           ctx.strokeStyle = `hsla(${p.h},${p.s}%,${p.l}%,${a})`;
           ctx.lineWidth = p.size;
@@ -471,9 +574,9 @@ export class FestEngine {
           ctx.arc(p.x, p.y, p.size, 0, 6.2832);
           ctx.fill();
         } else {
-          ctx.fillStyle = `hsla(${p.h},${p.s}%,${p.l}%,${t * DA})`;
+          ctx.fillStyle = `hsla(${p.h - (1 - t) * 14},${p.s}%,${p.l - (1 - t) * 18}%,${t * DA})`;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, 6.2832);
+          ctx.arc(p.x, p.y, p.size * (0.5 + 0.5 * t), 0, 6.2832);
           ctx.fill();
         }
       }

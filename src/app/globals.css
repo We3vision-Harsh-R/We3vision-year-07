@@ -11718,3 +11718,12 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
 [data-pause-off][data-off="true"] *::after {
   animation-play-state: paused !important;
 }
+
+/* footer version number (v51 ...) */
+.ft-ver {
+  margin-left: 0.9rem;
+  padding: 0.12rem 0.6rem;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  font-size: 0.875rem;
+}

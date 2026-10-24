@@ -5,6 +5,7 @@ import { AdminIcon } from "@/components/admin/admin-icons";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { AdminTopbar } from "@/components/admin/admin-topbar";
 import type { AdminBadges } from "@/lib/admin-badges";
+import { SITE_VERSION } from "@/lib/version";
 
 // The frame of every admin screen: a floating glass sidebar (brand, menu, the signed-in admin, sign out), the top bar and the place for the screen.
 // The panel layout (app/admin/(panel)/layout.tsx) fills it with the real admin; the design sandbox fills it with sample data.
@@ -45,7 +46,7 @@ export function AdminShell({
           <Image src="/brand/logo-mark.webp" alt="" width={480} height={395} className="ads-brand-mark" />
           <span>
             <b>{siteName}</b>
-            <small>Admin panel</small>
+            <small>Admin panel · v{SITE_VERSION}</small>
           </span>
         </Link>
         <AdminNav badges={badges} pathOverride={pathOverride} />

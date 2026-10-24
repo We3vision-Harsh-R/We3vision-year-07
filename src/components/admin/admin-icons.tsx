@@ -28,6 +28,7 @@ const PATHS: Record<AdminIconKey | ExtraIcon, string> = {
   chevron: "M9 6l6 6-6 6",
   arrow: "M5 12h14M13 6l6 6-6 6",
   external: "M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5",
+  versions: "M12 3v4M12 17v4M3 12h4M17 12h4M12 8a4 4 0 100 8 4 4 0 000-8z",
   fest: "M12 3c2.5 3 2.5 5.5 0 8-2.5-2.5-2.5-5 0-8zM3 14h18c-1.2 4.2-4.6 6.5-9 6.5S4.2 18.2 3 14zM7 14c1 1 3 1.5 5 1.5s4-.5 5-1.5",
 };
 

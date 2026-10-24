@@ -1,0 +1,319 @@
+/* The portfolio board (sections/projects-board.tsx). Prefix "pfb-". Colours follow the site theme (--th / --ts). */
+.pfb {
+  --pf-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%);
+  --pf-ink: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 95%);
+  --pf-mute: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 80%);
+  --pf-line: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+  --pf-dk: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 8%);
+  margin-top: 56px;
+}
+.pfb-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px;
+  border: 1px solid var(--pf-line);
+  border-radius: 26px;
+  background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 10% / 0.7);
+  backdrop-filter: blur(14px);
+}
+.pfb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+.pfb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  border: 1px solid var(--pf-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--pf-mute);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.25s;
+}
+.pfb-chip b {
+  min-width: 24px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.12);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+.pfb-chip:hover {
+  border-color: var(--pf-a);
+  color: var(--pf-ink);
+  transform: translateY(-1px);
+}
+.pfb-chip[aria-pressed="true"] {
+  border-color: transparent;
+  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85%), hsl(calc(var(--th) + 348) calc(72% * var(--ts)) 67%));
+  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
+  box-shadow: 0 6px 22px hsl(calc(var(--th) + 348) calc(72% * var(--ts)) 67% / 0.3);
+}
+.pfb-chip[aria-pressed="true"] b {
+  background: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12% / 0.16);
+}
+.pfb-chip:focus-visible,
+.pfb-card:focus-visible,
+.pfb-count button:focus-visible,
+.pfb-empty button:focus-visible {
+  outline: 2px solid var(--pf-a);
+  outline-offset: 3px;
+}
+.pfb-search {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  width: 300px;
+  padding: 0 16px;
+  border: 1px solid var(--pf-line);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 7% / 0.7);
+  color: var(--pf-mute);
+  transition: border-color 0.25s;
+}
+.pfb-search:focus-within {
+  border-color: var(--pf-a);
+}
+.pfb-search input {
+  flex: 1;
+  min-width: 0;
+  height: 46px;
+  border: 0;
+  outline: none;
+  background: none;
+  color: var(--pf-ink);
+  font: inherit;
+  font-size: 1rem;
+}
+.pfb-search input::placeholder {
+  color: var(--pf-mute);
+  opacity: 0.7;
+}
+.pfb-count {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 6px 20px;
+  color: var(--pf-mute);
+  font-size: 1rem;
+}
+.pfb-count b {
+  color: var(--pf-ink);
+}
+.pfb-count button,
+.pfb-empty button {
+  padding: 6px 14px;
+  border: 1px solid var(--pf-line);
+  border-radius: 999px;
+  background: none;
+  color: var(--pf-a);
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s;
+}
+.pfb-count button:hover,
+.pfb-empty button:hover {
+  border-color: var(--pf-a);
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
+}
+.pfb-empty {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 80px 20px;
+  border: 1px dashed var(--pf-line);
+  border-radius: 26px;
+  color: var(--pf-mute);
+  font-size: 1.125rem;
+}
+.pfb-empty p {
+  margin: 0;
+}
+
+/* ---- the bento grid: the first card is big (2 x 2) ---- */
+.pfb-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 320px;
+  grid-auto-flow: dense;
+  gap: 20px;
+}
+.pfb-card {
+  --mx: 50%;
+  --my: 40%;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--pf-line);
+  border-radius: 26px;
+  background: var(--pf-dk);
+  color: var(--pf-ink);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(26px) scale(0.98);
+  animation: pfb-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--i) * 55ms);
+  transition: border-color 0.35s, box-shadow 0.35s;
+}
+.pfb-card[data-big="true"] {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+@keyframes pfb-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pfb-card:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
+  box-shadow: 0 26px 60px -26px hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 55% / 0.55);
+}
+.pfb-img,
+.pfb-ph {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+}
+.pfb-img {
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pfb-card:hover .pfb-img {
+  transform: scale(1.07);
+}
+.pfb-ph {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(90% 90% at 20% 10%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.45), transparent 62%), radial-gradient(90% 90% at 90% 100%, hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 56% / 0.4), transparent 64%), var(--pf-dk);
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
+  font-size: 6rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.pfb-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 5% / 0.28) 0%, transparent 34%, hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 5% / 0.92) 100%);
+}
+.pfb-light {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(340px circle at var(--mx) var(--my), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.2), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.pfb-card:hover .pfb-light {
+  opacity: 1;
+}
+.pfb-no {
+  position: absolute;
+  top: 24px;
+  right: 74px;
+  color: hsl(0 0% 100% / 0.65);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.pfb-go {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 8% / 0.55);
+  border: 1px solid hsl(0 0% 100% / 0.25);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s, color 0.3s;
+}
+.pfb-card:hover .pfb-go {
+  transform: rotate(45deg) scale(1.08);
+  background: var(--pf-a);
+  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
+}
+.pfb-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  gap: 8px;
+  padding: 22px 24px 24px;
+}
+.pfb-cat {
+  justify-self: start;
+  padding: 5px 13px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 347) calc(58% * var(--ts)) 8% / 0.6);
+  backdrop-filter: blur(8px);
+  color: var(--pf-a);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.pfb-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.pfb-card[data-big="true"] .pfb-title {
+  font-size: 2.4rem;
+  letter-spacing: -0.03em;
+}
+.pfb-sum {
+  display: -webkit-box;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  color: var(--pf-mute);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s;
+}
+.pfb-card:hover .pfb-sum,
+.pfb-card:focus-visible .pfb-sum,
+.pfb-card[data-big="true"] .pfb-sum {
+  max-height: 3.2em;
+  opacity: 1;
+}
+.pfb-card[data-big="true"] .pfb-sum {
+  max-width: 640px;
+  -webkit-line-clamp: 3;
+  max-height: 4.8em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pfb-card {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+.pfb-more {
+  border-style: dashed;
+  color: var(--pf-a);
+}
