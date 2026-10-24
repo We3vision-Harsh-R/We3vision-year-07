@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ROCKET_G, climbTime, fallDistance, launchSpeed, ringDir, sphereDir, starAlpha, starColour, starSpeed } from "./fest-physics";
+import { ROCKET_G, climbTime, fallDistance, launchSpeed, launchVelocity, ringDir, sphereDir, starAlpha, starColour, starSpeed } from "./fest-physics";
 
 describe("fireworks physics", () => {
   it("a rocket launched with launchSpeed stops exactly at the asked height", () => {
@@ -78,5 +78,25 @@ describe("fireworks physics", () => {
     expect(starAlpha(0.2, 1)).toBe(1);
     expect(starAlpha(1, 1)).toBe(0);
     expect(starAlpha(0.9, 0)).toBeLessThan(starAlpha(0.9, 1));
+  });
+});
+
+describe("a rocket thrown at an angle", () => {
+  it("follows a parabola: stops rising at the asked height and lands its top where the angle says", () => {
+    const { vx, vy, t } = launchVelocity(300, 0.5, 700, 0, 5000);
+    expect(vy).toBeLessThan(0);
+    expect(vx).toBeGreaterThan(0); // to the right
+    expect(Math.abs(vy) ** 2 / (2 * ROCKET_G)).toBeCloseTo(300, 6);
+    expect(vx / Math.abs(vy)).toBeCloseTo(Math.tan(0.5), 6); // vx = vy tan(angle)
+    expect(700 + vx * t).toBeGreaterThan(700);
+  });
+
+  it("a negative angle goes to the left and the top of the arc stays inside the window", () => {
+    const left = launchVelocity(300, -0.5, 700, 0, 5000);
+    expect(left.vx).toBeLessThan(0);
+    const edge = launchVelocity(300, 1.2, 1300, 36, 1404);
+    expect(1300 + edge.vx * edge.t).toBeLessThanOrEqual(1404 + 1e-6);
+    const wall = launchVelocity(300, -1.2, 80, 36, 1404);
+    expect(80 + wall.vx * wall.t).toBeGreaterThanOrEqual(36 - 1e-6);
   });
 });

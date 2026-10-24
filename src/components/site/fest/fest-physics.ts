@@ -59,3 +59,14 @@ export function starAlpha(age: number, flicker: number): number {
   const tw = age > 0.78 ? 0.45 + 0.55 * flicker : 1;
   return Math.max(0, fade * tw);
 }
+
+/** A rocket thrown from (x0, .) up by `rise` px at `angle` radians from the vertical (0 = straight up, + = to the right). Its height is fixed by the
+ *  climb (vy = sqrt(2 g rise), it stops rising exactly `rise` higher) and the sideways speed is vx = vy tan(angle), so the path is a parabola.
+ *  `minX` / `maxX` keep the top of the arc inside the window: the sideways speed is cut so that x0 + vx * t stays between them. */
+export function launchVelocity(rise: number, angle: number, x0: number, minX: number, maxX: number, g = ROCKET_G): { vx: number; vy: number; t: number } {
+  const vy = launchSpeed(rise, g);
+  const t = vy / g;
+  const top = x0 + vy * Math.tan(angle) * t;
+  const x = Math.min(maxX, Math.max(minX, top));
+  return { vx: (x - x0) / t, vy: -vy, t };
+}

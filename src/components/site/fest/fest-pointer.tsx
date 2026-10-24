@@ -129,9 +129,15 @@ export function FestPointer({ fx }: { fx: ReadonlySet<string> }) {
         const now = performance.now();
         if (now - lastRocket > 180) {
           lastRocket = now;
-          // it climbs a random height from the click point and bursts somewhere on the screen, never above a margin at the top
-          const ty = rocketTarget(cy, Math.random());
-          eng.rocket(cx, cy, ty, { depth: 2, scale: Math.min(1.2, 0.7 + (cy - ty) / window.innerHeight) });
+          // a volley: 3 to 5 rockets leave the click point at different angles, each climbs to its own random height (never above a margin at the
+          // top) and bursts there, all in their own colour
+          const n = 3 + Math.floor(Math.random() * 3);
+          eng.volley(
+            cx,
+            cy,
+            Array.from({ length: n }, () => rocketTarget(cy, Math.random())),
+            { depth: 2 },
+          );
           for (let i = 0; i < 6; i++) eng.spark(cx, cy, { vx: rnd(-90, 90), vy: rnd(-120, -20), life: rnd(0.25, 0.5), size: rnd(1.2, 2), depth: 2 });
         }
       }

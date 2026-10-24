@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 53,
+    date: "2026-10-24",
+    title: "Fest: a click launches a fan of rockets",
+    notes: [
+      "A click on an empty part of a page (Fest > Rocket on click) now launches 3 to 5 rockets at different angles, each in its own colour.",
+      "Each rocket flies a real parabola (gravity), draws a glowing line of its path, stops at its own height and bursts there; the tops of the arcs stay inside the window.",
+    ],
+  },
+  {
     v: 52,
     date: "2026-10-24",
     title: "Portfolio page redesign with filters",

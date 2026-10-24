@@ -10,7 +10,7 @@
 // out over a SPHERE, are stopped by the air and then drift down, burn white-hot -> colour -> ember and leave a streak of where they were.
 // No React in here: the layer (fest-top.tsx) creates the engine, the pointer effects (fest-pointer.tsx) and the places call burst() / rocket().
 
-import { ROCKET_G, launchSpeed, ringDir, sphereDir, starAlpha, starColour, starSpeed } from "./fest-physics";
+import { ROCKET_G, launchVelocity, ringDir, sphereDir, starAlpha, starColour, starSpeed } from "./fest-physics";
 
 export type Depth = 0 | 1 | 2; // far, middle, near
 /** scale of sizes and speeds, opacity, and the canvas of the three distances (0 = the soft back canvas, 1 = the sharp front canvas) */
@@ -64,9 +64,13 @@ type P = {
   crk: boolean;
 };
 type Flash = { x: number; y: number; r: number; life: number; max: number; h: number; l: number; a: number };
-type Rocket = { x: number; y: number; vx: number; vy: number; ty: number; t: number; h: number; type: BurstType; scale: number; ph: number };
+/** the glowing line a rocket draws behind it (where it has been in the last STREAK_LIFE seconds); it outlives the rocket */
+type Streak = { pts: { x: number; y: number; t: number }[]; h: number; open: boolean };
+type Rocket = { x: number; y: number; vx: number; vy: number; ty: number; t: number; h: number; type: BurstType; scale: number; ph: number; delay: number; streak: Streak };
 type Fountain = { x: number; y: number; until: number; acc: number; depth: Depth };
-type Layer = { ps: P[]; flashes: Flash[]; rockets: Rocket[] };
+type Layer = { ps: P[]; flashes: Flash[]; rockets: Rocket[]; streaks: Streak[] };
+/** how long the line of a rocket stays (s) */
+const STREAK_LIFE = 1.6;
 type Surface = { canvas: HTMLCanvasElement; ctx: CanvasRenderingContext2D; w: number; h: number; drawn: boolean };
 
 /** festival colours as [hue, saturation %, lightness %] */
@@ -126,7 +130,7 @@ export class FestEngine {
   /** canvases: [back, front] */
   constructor(canvases: HTMLCanvasElement[], density: EngineDensity = "normal") {
     this.density = DENSITY[density];
-    this.layers = [0, 1, 2].map(() => ({ ps: [], flashes: [], rockets: [] }));
+    this.layers = [0, 1, 2].map(() => ({ ps: [], flashes: [], rockets: [], streaks: [] }));
     this.surfaces = canvases.map((canvas) => ({ canvas, ctx: canvas.getContext("2d") as CanvasRenderingContext2D, w: 0, h: 0, drawn: false }));
     this.resize();
     window.addEventListener("resize", this.onResize);
@@ -176,7 +180,7 @@ export class FestEngine {
 
   private busy() {
     const a = this.ambient;
-    return a.fireworks || a.embers || a.petals || a.anar || this.fountains.length > 0 || this.layers.some((l) => l.ps.length || l.flashes.length || l.rockets.length);
+    return a.fireworks || a.embers || a.petals || a.anar || this.fountains.length > 0 || this.layers.some((l) => l.ps.length || l.flashes.length || l.rockets.length || l.streaks.length);
   }
 
   // ------------------------------------------------------------------ making things fly
@@ -244,13 +248,18 @@ export class FestEngine {
 
   /** a burst of a kind at a place; `scale` 1 = the size of a big firework. The stars start on a sphere (a ring: in a tilted plane), so a burst is
    *  round from every side; the air stops them (drag), gravity lets them sink, and each one burns white-hot -> its colour -> an ember. */
-  burst(x: number, y: number, o: { depth?: Depth; type?: BurstType; scale?: number; color?: number } = {}) {
+  burst(x: number, y: number, o: { depth?: Depth; type?: BurstType; scale?: number; color?: number; hue?: number } = {}) {
     const depth = o.depth ?? 2;
     const type = o.type ?? pick(BURST_TYPES);
     const sh = SHELLS[type];
     const k = DEPTHS[depth].k;
     const R = rnd(130, 200) * (o.scale ?? 1) * k; // how far the stars reach (px)
-    const col = type === "willow" ? ([42, 100, 62] as [number, number, number]) : COLORS[(o.color ?? Math.floor(Math.random() * COLORS.length)) % COLORS.length];
+    const col =
+      type === "willow"
+        ? ([42, 100, 62] as [number, number, number])
+        : o.hue !== undefined
+          ? ([o.hue, 100, 62] as [number, number, number])
+          : COLORS[(o.color ?? Math.floor(Math.random() * COLORS.length)) % COLORS.length];
     const col2 = pick(COLORS);
     const q = this.density * this.quality;
     const n = Math.round(sh.n * q * (0.55 + 0.45 * k));
@@ -304,14 +313,32 @@ export class FestEngine {
     }
   }
 
-  /** a rocket from (x, y) that is thrown up with exactly the speed that lets gravity stop it at height ty (v^2 = 2 g h); it is fast at the start and
-   *  nearly still at the top, where it bursts. */
-  rocket(x: number, y: number, ty: number, o: { depth?: Depth; type?: BurstType; scale?: number } = {}) {
+  /** a rocket from (x, y), thrown up with exactly the speed that lets gravity stop it at height ty (v^2 = 2 g h), at `angle` radians from the
+   *  vertical (+ = to the right): the sideways speed makes its path a parabola. It is fast at the start and nearly still at the top, where it bursts;
+   *  it draws a glowing line of its path in its own colour. `delay` (s) waits before it leaves. */
+  rocket(x: number, y: number, ty: number, o: { depth?: Depth; type?: BurstType; scale?: number; angle?: number; hue?: number; delay?: number } = {}) {
     const depth = o.depth ?? 2;
     const L = this.layers[depth];
     if (!L) return;
-    L.rockets.push({ x, y, vx: rnd(-14, 14), vy: -launchSpeed(Math.max(10, y - ty)), ty, t: 0, h: pick(COLORS)[0], type: o.type ?? pick(BURST_TYPES), scale: o.scale ?? 1, ph: rnd(0, 6.28) });
+    const w = this.w || window.innerWidth;
+    const v = launchVelocity(Math.max(10, y - ty), o.angle ?? rnd(-0.12, 0.12), x, 36, w - 36);
+    const h = o.hue ?? pick(COLORS)[0];
+    const streak: Streak = { pts: [], h, open: true };
+    L.streaks.push(streak);
+    L.rockets.push({ x, y, vx: v.vx, vy: v.vy, ty, t: 0, h, type: o.type ?? pick(BURST_TYPES), scale: o.scale ?? 1, ph: rnd(0, 6.28), delay: o.delay ?? 0, streak });
     this.kick();
+  }
+
+  /** several rockets from one place, each at its own angle (a fan to the left and the right of straight up), its own height (`targets` = the heights
+   *  where they stop), its own colour, and a short wait between them: what a click launches */
+  volley(x: number, y: number, targets: number[], o: { depth?: Depth } = {}) {
+    const n = targets.length;
+    const hues = [...COLORS].sort(() => Math.random() - 0.5).map((c) => c[0]);
+    const order = [...targets.keys()].sort(() => Math.random() - 0.5);
+    targets.forEach((ty, i) => {
+      const angle = n === 1 ? rnd(-0.3, 0.3) : (i / (n - 1) - 0.5) * 0.6 + rnd(-0.07, 0.07);
+      this.rocket(x, y, ty, { depth: o.depth, angle, hue: hues[i % hues.length], delay: order[i] * rnd(0.04, 0.09), scale: Math.min(1.2, 0.7 + (y - ty) / (this.h || window.innerHeight)) });
+    });
   }
 
   /** a fountain of sparks (an anar) at the bottom of the window for `seconds` */
@@ -360,7 +387,7 @@ export class FestEngine {
       const depth = pick([0, 0, 1, 1, 2] as Depth[]);
       const x = rnd(0.08, 0.92) * w;
       const ty = rnd(0.1, 0.45) * h;
-      this.rocket(x + rnd(-40, 40), h + 10, ty, { depth, scale: rnd(0.8, 1.15) });
+      this.rocket(x + rnd(-40, 40), h + 10, ty, { depth, scale: rnd(0.8, 1.15), angle: rnd(-0.2, 0.2) });
     }
     if (a.embers) {
       this.emberAcc += dt * 20 * dens;
@@ -404,12 +431,17 @@ export class FestEngine {
       // rockets: gravity slows them down (v = v0 - g t), they sway a little and throw sparks backwards; at the top (they stop) they burst
       const k = DEPTHS[depth].k;
       for (const r of L.rockets) {
+        if (r.delay > 0) {
+          r.delay -= dt;
+          continue;
+        }
         r.t += dt;
         r.vy += ROCKET_G * dt;
         const px = r.x;
         const py = r.y;
-        r.x += (r.vx + Math.sin(r.t * 22 + r.ph) * 9) * dt;
+        r.x += (r.vx + Math.sin(r.t * 22 + r.ph) * 3) * dt;
         r.y += r.vy * dt;
+        r.streak.pts.push({ x: r.x, y: r.y, t: this.time });
         const steps = Math.max(1, Math.round(Math.hypot(r.x - px, r.y - py) / 4));
         for (let i = 0; i < steps; i++) {
           if (Math.random() < 0.9 * this.quality) {
@@ -418,11 +450,16 @@ export class FestEngine {
           }
         }
         if (r.vy >= -12 || r.y <= r.ty) {
-          this.burst(r.x, r.y, { depth: depth as Depth, type: r.type, scale: r.scale });
+          this.burst(r.x, r.y, { depth: depth as Depth, type: r.type, scale: r.scale, hue: r.h });
+          r.streak.open = false;
           r.t = -1;
         }
       }
       L.rockets = L.rockets.filter((r) => r.t >= 0);
+      for (const sk of L.streaks) {
+        while (sk.pts.length && this.time - sk.pts[0].t > STREAK_LIFE) sk.pts.shift();
+      }
+      L.streaks = L.streaks.filter((sk) => sk.open || sk.pts.length > 1);
       L.flashes = L.flashes.filter((f) => (f.life -= dt) > 0);
       for (const p of L.ps) {
         if (p.delay > 0) {
@@ -470,7 +507,7 @@ export class FestEngine {
   private draw() {
     this.surfaces.forEach((sf, si) => {
       const depths = ([0, 1, 2] as Depth[]).filter((d) => DEPTHS[d].cv === si);
-      const busy = depths.some((d) => this.layers[d].ps.length || this.layers[d].flashes.length || this.layers[d].rockets.length);
+      const busy = depths.some((d) => this.layers[d].ps.length || this.layers[d].flashes.length || this.layers[d].rockets.length || this.layers[d].streaks.length);
       // an empty canvas that is already clear costs nothing: do not touch it
       if (!busy && !sf.drawn) return;
       sf.ctx.clearRect(0, 0, sf.w, sf.h);
@@ -495,7 +532,25 @@ export class FestEngine {
         ctx.arc(f.x, f.y, f.r, 0, 6.2832);
         ctx.fill();
       }
+      // the lines the rockets draw: bright at the head, fading with age
+      ctx.lineCap = "round";
+      for (const sk of L.streaks) {
+        for (let k = 1; k < sk.pts.length; k++) {
+          const a = sk.pts[k - 1];
+          const b = sk.pts[k];
+          const age = (this.time - b.t) / STREAK_LIFE;
+          if (age >= 1) continue;
+          const f = 1 - age;
+          ctx.strokeStyle = `hsla(${sk.h},100%,${66 + age * 12}%,${0.9 * f * f * DA})`;
+          ctx.lineWidth = 1.2 + 2.4 * f;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
       for (const r of L.rockets) {
+        if (r.delay > 0) continue;
         // a short bright streak behind the head (where it was a moment ago), the head and its glow
         ctx.strokeStyle = `hsla(${r.h},100%,72%,${0.55 * DA})`;
         ctx.lineWidth = 2.2;
