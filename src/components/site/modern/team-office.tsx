@@ -29,6 +29,7 @@ import {
 import { GlowEdge } from "../glow-edge";
 import { PersonTop } from "../timeline-art";
 import { BOARDS } from "../timeline-boards";
+import { OfficeFest } from "../fest/office-fest";
 
 // The office of We3vision on the Team page, in the look of the office at the end of the About timeline (floor, walls, plants, tables with
 // laptops, chairs, colleagues who walk about), with the real people of the company in it, arranged as the company is built:
@@ -569,6 +570,9 @@ export function TeamOffice({ people, chip = "The office", heading = "Meet The Te
             )}
           </p>
         </div>
+
+        {/* Diwali in the office (Admin > Fest, "Team page office"): lies over the floor, takes no click */}
+        {!preview && <OfficeFest effect="team" />}
 
         {hot && (
           <div

@@ -1,0 +1,273 @@
+/* The offices in Diwali (Admin > Fest, "Places"): the overlay of src/components/site/fest/office-fest.tsx, over the floor of the About office and the
+   Team office. Prefix "fo-". Lies over everything in the office (above the tables and the people, under the card of a team member), takes no click.
+   Three depths: far (blurred), mid (a little blurred), near (sharp). Only transform / translate / opacity move; still picture with reduced motion. */
+
+.fo {
+  position: absolute;
+  inset: 0;
+  z-index: 8; /* over the tables and the people (the zones are 3 and 4), under the card of a person (20) */
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint;
+}
+.fo i,
+.fo b,
+.fo u,
+.fo s {
+  display: block;
+  font-style: normal;
+  text-decoration: none;
+}
+.fo-d {
+  position: absolute;
+  inset: 0;
+  transform: translate3d(calc(var(--mx, 0) * var(--px, 6px) * -1), calc(var(--my, 0) * var(--py, 5px) * -1), 0);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fo-d[data-z="0"] {
+  --bl: 2.6px;
+  --op: 0.7;
+  --px: 4px;
+  --py: 3px;
+}
+.fo-d[data-z="1"] {
+  --bl: 1.1px;
+  --op: 0.92;
+  --px: 9px;
+  --py: 7px;
+}
+.fo-d[data-z="2"] {
+  --bl: 0px;
+  --op: 1;
+  --px: 16px;
+  --py: 12px;
+}
+/* the blur sits on every piece (small areas) and not on a whole layer, so that it stays cheap */
+.fo-it {
+  position: absolute;
+  filter: blur(var(--bl, 0));
+  opacity: var(--op, 1);
+}
+
+/* ---- far: fireworks over the top wall ---- */
+.fo-fw {
+  width: 0;
+  height: 0;
+}
+.fo-fw b {
+  position: absolute;
+  left: -50px;
+  top: -50px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--h), transparent);
+  opacity: 0;
+  animation: fo-flash 8s ease-out infinite;
+  animation-delay: var(--d);
+}
+.fo-fw u {
+  position: absolute;
+  left: -1.5px;
+  top: -1.5px;
+  width: 3px;
+  height: 12px;
+  border-radius: 3px;
+  background: linear-gradient(#fff, var(--h));
+  box-shadow: 0 0 8px var(--h);
+  opacity: 0;
+  transform-origin: 50% 100%;
+  animation: fo-ray 8s ease-out infinite;
+  animation-delay: var(--d);
+}
+@keyframes fo-flash {
+  0%,
+  4% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  6% {
+    opacity: 0.8;
+    transform: scale(0.8);
+  }
+  26%,
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+@keyframes fo-ray {
+  0%,
+  4% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(0) scaleY(0.2);
+  }
+  6% {
+    opacity: 1;
+  }
+  30%,
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(-86px) scaleY(1);
+  }
+}
+/* sky lanterns drift up (they start at their own height, so the whole office has some) */
+.fo-lant {
+  width: 36px;
+  line-height: 0;
+  filter: blur(var(--bl)) drop-shadow(0 0 14px rgba(251, 146, 60, 0.55));
+  opacity: 0;
+  animation: fo-lant var(--t) linear infinite;
+  animation-delay: var(--d);
+}
+.fo-lant svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@keyframes fo-lant {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  10%,
+  80% {
+    opacity: var(--op);
+  }
+  100% {
+    opacity: 0;
+    translate: 34px -62vh;
+  }
+}
+
+/* ---- mid: the toran over the top wall, kandils, strings of bulbs along the side walls ---- */
+.fo-toran {
+  left: 50%;
+  top: 6px;
+  line-height: 0;
+  translate: -50% 0;
+}
+.fo-kandil {
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+  filter: blur(var(--bl)) drop-shadow(0 6px 12px rgba(251, 146, 60, 0.5));
+  translate: -50% 0;
+  animation: fo-swing 5s ease-in-out infinite alternate;
+  animation-delay: var(--d);
+}
+.fo-kandil u {
+  width: 1.4px;
+  height: 56px;
+  background: linear-gradient(#3b2f2a, #92400e);
+}
+.fo-kandil svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@keyframes fo-swing {
+  from {
+    rotate: -4deg;
+  }
+  to {
+    rotate: 4deg;
+  }
+}
+.fo-side {
+  top: 96px;
+  bottom: 70px;
+  width: 10px;
+  background: radial-gradient(circle, #fde047 0 1.7px, rgba(251, 191, 36, 0.4) 2.3px, transparent 3.4px) 50% 0 / 10px 20px repeat-y;
+  animation: fo-tw 1.6s steps(1, end) infinite;
+}
+.fo-side.is-l {
+  left: 18px;
+}
+.fo-side.is-r {
+  right: 18px;
+}
+.fo-side.is-b {
+  background-position: 50% 10px;
+  background-image: radial-gradient(circle, #fdba74 0 1.7px, rgba(249, 115, 22, 0.4) 2.3px, transparent 3.4px);
+  animation-delay: -0.8s;
+}
+@keyframes fo-tw {
+  50% {
+    opacity: calc(var(--op) * 0.25);
+  }
+}
+
+/* ---- near: rangolis in the corners, a line of diyas, sparks that rise ---- */
+.fo-rangoli {
+  line-height: 0;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.5));
+}
+.fo-rangoli.is-bl {
+  left: -64px;
+  bottom: -70px;
+  animation: fo-turn 140s linear infinite;
+}
+.fo-rangoli.is-br {
+  right: -52px;
+  bottom: -56px;
+  animation: fo-turn 110s linear infinite reverse;
+}
+@keyframes fo-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+.fo-diyas {
+  left: 50%;
+  bottom: 14px;
+  display: flex;
+  gap: clamp(18px, 3.4vw, 56px);
+  translate: -50% 0;
+}
+.fo-ember {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fde047;
+  box-shadow: 0 0 7px 2px rgba(251, 191, 36, 0.7);
+  opacity: 0;
+  animation: fo-rise var(--t) ease-out infinite;
+  animation-delay: var(--d);
+}
+@keyframes fo-rise {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    translate: calc((var(--i) - 8) * 3px) -34vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fo-fw b,
+  .fo-fw u,
+  .fo-lant,
+  .fo-kandil,
+  .fo-side,
+  .fo-rangoli,
+  .fo-ember {
+    animation: none;
+  }
+  .fo-fw,
+  .fo-lant,
+  .fo-ember {
+    display: none;
+  }
+  .fo-d {
+    transition: none;
+  }
+}

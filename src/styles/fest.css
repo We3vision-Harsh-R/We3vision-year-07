@@ -1,11 +1,12 @@
 /* Festival themes of the laptop website (Admin > Fest). Loaded by src/components/site/fest/fest-layer.tsx. Prefix "fs-".
-   Rules: nothing changes the layout of a page (all pieces are fixed / absolute and pointer-events: none), the content always stays on top
-   (the sky is the background layer), every movement is transform / opacity, sizes follow the window (vw with limits), and
-   prefers-reduced-motion gets a still picture. Festive warm colours (gold, saffron, red, green) next to the theme colour of the site. */
+   THE LAYER ABOVE THE WHOLE PAGE (.fs-top): three layers that are three distances from the screen. The far layer is small, slow and softly blurred (behind),
+   the middle one is a little blurred, the near one is sharp and big (in front); they lean against the mouse a little (parallax: --mx / --my, set by
+   fest-top.tsx). Rules: nothing changes the layout of a page (everything is fixed / absolute and pointer-events: none), every movement is transform /
+   opacity, sizes follow the window (vw with limits), and prefers-reduced-motion gets a still picture. Festive warm colours (gold, saffron, red, green). */
 
 /* every piece comes in softly when the festival is switched on */
-.fs-sky,
-.fs-corners,
+.fs-top,
+.fs-pointer,
 .fs-ftdiyas {
   animation: fs-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -15,67 +16,120 @@
   }
 }
 
-/* ---- the sky: behind the content (the same layer as the page background) ---- */
-.fs-sky {
+.fs-top {
   position: fixed;
   inset: 0;
-  z-index: -10;
+  z-index: 99000; /* above the menu, the pop-ups and the chat; the custom cursor (100000) stays on top */
   overflow: hidden;
   pointer-events: none;
+  contain: layout paint style;
 }
-.fs-sky i,
-.fs-sky b,
-.fs-corners i {
+.fs-top i,
+.fs-top b,
+.fs-top u,
+.fs-pointer i,
+.fs-pointer b {
   display: block;
   font-style: normal;
+  text-decoration: none;
 }
-.fs-warm {
+.fs-depth {
   position: absolute;
-  inset: auto -10% -30% -10%;
+  inset: 0;
+}
+/* the blur of the distance is on the whole layer: one filter, not one for every piece */
+.fs-depth[data-z="0"] {
+  filter: blur(3.2px);
+  opacity: 0.62;
+}
+.fs-depth[data-z="1"] {
+  filter: blur(1.3px);
+  opacity: 0.86;
+}
+.fs-cv {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.fs-lay {
+  --px: 26px;
+  --py: 14px;
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transform: translate3d(calc(var(--mx, 0) * var(--px) * -1), calc(var(--my, 0) * var(--py) * -1), 0);
+}
+.fs-lay[data-z="1"] {
+  --px: 12px;
+  --py: 7px;
+}
+.fs-lay[data-z="0"] {
+  --px: 5px;
+  --py: 3px;
+}
+
+/* ---- golden glow and light rays ---- */
+.fs-glow {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+}
+.fs-glow-l,
+.fs-glow-r {
+  position: absolute;
+  animation: fs-breathe 8s ease-in-out infinite alternate;
+}
+.fs-glow-l {
+  left: -14%;
+  bottom: -26%;
+  width: 62%;
+  height: 74%;
+  background: radial-gradient(closest-side, rgba(251, 146, 60, 0.3), transparent 74%);
+}
+.fs-glow-r {
+  right: -16%;
+  top: -28%;
+  width: 60%;
   height: 70%;
-  background:
-    radial-gradient(50% 60% at 25% 100%, rgba(251, 146, 60, 0.18), transparent 70%),
-    radial-gradient(45% 55% at 78% 100%, rgba(250, 204, 21, 0.14), transparent 70%);
-  animation: fs-breathe 9s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgba(250, 204, 21, 0.2), transparent 74%);
+  animation-delay: -3.5s;
+}
+.fs-rays {
+  position: absolute;
+  left: 50%;
+  top: -34vmax;
+  width: 96vmax;
+  height: 96vmax;
+  margin-left: -48vmax;
+  background: repeating-conic-gradient(from 0deg, rgba(253, 224, 71, 0.085) 0 4.5deg, transparent 4.5deg 13deg);
+  -webkit-mask-image: radial-gradient(closest-side, #000 18%, transparent 68%);
+  mask-image: radial-gradient(closest-side, #000 18%, transparent 68%);
+  animation: fs-turn 150s linear infinite, fs-breathe 10s ease-in-out infinite alternate;
 }
 @keyframes fs-breathe {
   to {
-    opacity: 0.6;
-    transform: translateY(4%);
+    opacity: 0.55;
+    transform: translateY(3%);
   }
-}
-.fs-mandala {
-  position: absolute;
-  left: 50%;
-  bottom: -28vmin;
-  width: 70vmin;
-  height: 70vmin;
-  margin-left: -35vmin;
-  border-radius: 50%;
-  opacity: 0.07;
-  background:
-    repeating-conic-gradient(from 0deg, #fbbf24 0 6deg, transparent 6deg 15deg),
-    radial-gradient(closest-side, transparent 52%, #fb923c 53% 55%, transparent 56% 68%, #fbbf24 69% 70%, transparent 71%);
-  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 73%);
-  mask-image: radial-gradient(closest-side, #000 72%, transparent 73%);
-  animation: fs-turn 120s linear infinite;
 }
 @keyframes fs-turn {
   to {
     rotate: 1turn;
   }
 }
-/* paper lanterns rising slowly from the bottom of the window to the top */
+
+/* ---- sky lanterns: rise from the bottom of the window to the top ---- */
 .fs-lantern {
   position: absolute;
   left: var(--x);
   bottom: -90px;
-  width: clamp(22px, 2.3vw, 40px);
+  width: clamp(24px, 2.4vw, 42px);
   opacity: 0;
+  scale: var(--s);
   filter: drop-shadow(0 0 14px rgba(251, 146, 60, 0.65));
   animation: fs-rise var(--t) linear infinite;
   animation-delay: var(--d);
-  scale: var(--s);
 }
 .fs-lantern svg {
   display: block;
@@ -89,14 +143,14 @@
     transform: translate3d(0, 0, 0);
   }
   8% {
-    opacity: 0.85;
+    opacity: 0.9;
   }
-  80% {
-    opacity: 0.7;
+  82% {
+    opacity: 0.75;
   }
   100% {
     opacity: 0;
-    transform: translate3d(3vw, -115vh, 0);
+    transform: translate3d(3vw, -118vh, 0);
   }
 }
 @keyframes fs-sway {
@@ -107,131 +161,288 @@
     rotate: 6deg;
   }
 }
-/* fireworks high in the window */
-.fs-burst {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: 0;
-  height: 0;
-}
-.fs-burst b {
-  position: absolute;
-  left: -1px;
-  top: -1px;
-  width: 2px;
-  height: clamp(10px, 1.1vw, 18px);
-  border-radius: 2px;
-  background: linear-gradient(0deg, var(--c), #fff);
-  box-shadow: 0 0 8px var(--c);
-  opacity: 0;
-  transform-origin: 50% 100%;
-  --ang: calc(var(--r) * 22.5deg);
-  animation: fs-ray 9s cubic-bezier(0.15, 0.75, 0.3, 1) infinite;
-  animation-delay: var(--d);
-}
-@keyframes fs-ray {
-  0%,
-  60% {
-    opacity: 0;
-    transform: rotate(var(--ang)) translateY(0) scaleY(0.2);
-  }
-  63% {
-    opacity: 1;
-  }
-  76% {
-    opacity: 0.9;
-    transform: rotate(var(--ang)) translateY(clamp(-48px, -3.6vw, -30px)) scaleY(1);
-  }
-  90%,
-  100% {
-    opacity: 0;
-    transform: rotate(var(--ang)) translateY(clamp(-58px, -4.4vw, -36px)) scaleY(0.3);
-  }
-}
 
-/* ---- two akash kandils at the top of the page, between the corner badges and the logo (they scroll away with the page) ---- */
-.fs-corners {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 0;
-  z-index: 5;
-  pointer-events: none;
-}
+/* ---- akash kandils: hang from the top edge and swing ---- */
 .fs-kandil {
   position: absolute;
   top: 0;
-  width: clamp(44px, 4.4vw, 80px);
+  left: var(--x);
+  width: calc(80px * var(--s));
+  margin-left: calc(-40px * var(--s));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transform-origin: 50% 0;
-  animation: fs-swing 4.6s ease-in-out infinite alternate;
+  filter: drop-shadow(0 6px 14px rgba(251, 146, 60, 0.45));
+  animation: fs-swing 5.5s ease-in-out infinite alternate;
+  animation-delay: var(--d);
 }
-.fs-kandil.is-l {
-  left: 15vw;
-}
-.fs-kandil.is-r {
-  right: 15vw;
-  animation-delay: -2.3s;
+.fs-cord {
+  display: block;
+  width: 1.4px;
+  height: var(--len);
+  background: linear-gradient(#3b2f2a, #92400e);
 }
 .fs-kandil svg {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
-  filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.55));
 }
 .fs-kandil-core {
-  animation: fs-core 1.8s ease-in-out infinite alternate;
+  animation: fs-core 2.2s ease-in-out infinite alternate;
 }
 @keyframes fs-swing {
   from {
-    rotate: -4deg;
+    rotate: -5deg;
   }
   to {
-    rotate: 4deg;
+    rotate: 5deg;
   }
 }
 @keyframes fs-core {
-  to {
-    opacity: 0.55;
+  from {
+    opacity: 0.65;
   }
-}
-/* a narrow window: the kandils would come too close to the content */
-@media (max-width: 1000px) {
-  .fs-corners {
-    display: none;
+  to {
+    opacity: 1;
   }
 }
 
-/* ---- sparks behind the mouse ---- */
-.fs-sparks {
-  position: fixed;
-  inset: 0;
-  z-index: 70;
-  pointer-events: none;
-}
-.fs-sparks i {
+/* ---- toran: a garland of marigolds and bulbs along the top edge ---- */
+.fs-toran {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  margin: -2px 0 0 -2px;
-  border-radius: 50%;
-  background: #fde68a;
-  box-shadow: 0 0 6px 2px rgba(251, 191, 36, 0.8);
-  opacity: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  line-height: 0;
 }
-.fs-sparks i.is-on {
-  animation: fs-spark 0.75s ease-out forwards;
+.fs-toran.is-near {
+  top: -6px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
 }
-@keyframes fs-spark {
+.fs-toran.is-far {
+  top: 6px;
+}
+.fs-bulb {
+  fill: #fde047;
+  animation: fs-bulb 4.8s linear infinite;
+  animation-delay: calc(var(--k) * -0.31s);
+}
+@keyframes fs-bulb {
   0% {
+    fill: #fde047;
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+  }
+  12% {
+    opacity: 0.4;
+  }
+  25% {
+    fill: #fb923c;
+    opacity: 1;
+  }
+  37% {
+    opacity: 0.4;
+  }
+  50% {
+    fill: #f87171;
+    opacity: 1;
+  }
+  62% {
+    opacity: 0.4;
+  }
+  75% {
+    fill: #86efac;
+    opacity: 1;
+  }
+  87% {
+    opacity: 0.4;
   }
   100% {
+    fill: #fde047;
+    opacity: 1;
+  }
+}
+
+/* ---- diyas: a row along the bottom edge (the middle stays free for the bottom menu) ---- */
+.fs-diyaline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0;
+}
+.fs-diyaline[data-z="1"] {
+  bottom: 20px;
+}
+.fs-diyaline[data-z="0"] {
+  bottom: 36px;
+}
+.fs-dl-slot {
+  position: absolute;
+  bottom: var(--j);
+  transform: translateX(-50%);
+}
+.fs-diya {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+.fs-diya::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -130%;
+  width: calc(var(--w) * 3.4);
+  height: calc(var(--w) * 2.4);
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(251, 191, 36, 0.42), transparent);
+  animation: fs-glimmer 1.7s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k) * -0.37s);
+}
+.fs-diya svg {
+  position: relative;
+  display: block;
+}
+.fs-diya b {
+  position: absolute;
+  left: calc(var(--w) * 0.43);
+  top: calc(var(--w) * -0.2);
+  width: calc(var(--w) * 0.22);
+  height: calc(var(--w) * 0.34);
+  border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+  background: radial-gradient(60% 55% at 50% 70%, #fff, #fde047 45%, #f97316 85%);
+  box-shadow: 0 0 calc(var(--w) * 0.4) calc(var(--w) * 0.12) rgba(251, 191, 36, 0.6);
+  transform-origin: 50% 100%;
+  animation: fs-flame 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k) * -0.21s);
+}
+@keyframes fs-glimmer {
+  to {
+    opacity: 0.55;
+    transform: translateX(-50%) scale(0.92);
+  }
+}
+@keyframes fs-flame {
+  0% {
+    transform: scale(1, 1) rotate(-3deg);
+  }
+  50% {
+    transform: scale(0.88, 1.12) rotate(2deg);
+  }
+  100% {
+    transform: scale(1.05, 0.92) rotate(3deg);
+  }
+}
+
+/* ---- rangoli corners ---- */
+.fs-rangoli {
+  position: absolute;
+  line-height: 0;
+  opacity: 0.55;
+  filter: drop-shadow(0 0 22px rgba(251, 146, 60, 0.5));
+}
+.fs-rangoli.is-bl {
+  left: -7vmin;
+  bottom: -7vmin;
+  animation: fs-turn 100s linear infinite;
+}
+.fs-rangoli.is-tr {
+  right: -9vmin;
+  top: -9vmin;
+  opacity: 0.4;
+  animation: fs-turn 150s linear infinite reverse;
+}
+.fs-rg-a,
+.fs-rg-b {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fs-turn 36s linear infinite;
+}
+.fs-rg-b {
+  animation-direction: reverse;
+}
+
+/* ---- the pointer effects ---- */
+.fs-pointer {
+  position: fixed;
+  inset: 0;
+  z-index: 99001;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fs-diya-cur {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  line-height: 0;
+  transition: opacity 0.3s;
+  will-change: transform;
+}
+.fs-diya-cur svg {
+  display: block;
+  filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.7));
+}
+.fs-diya-cur b {
+  position: absolute;
+  left: 11px;
+  top: -9px;
+  width: 6px;
+  height: 10px;
+  border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+  background: radial-gradient(60% 55% at 50% 70%, #fff, #fde047 45%, #f97316 85%);
+  box-shadow: 0 0 12px 5px rgba(251, 191, 36, 0.6);
+  transform-origin: 50% 100%;
+  animation: fs-flame 0.8s ease-in-out infinite alternate;
+}
+.fs-chakri-cur {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  will-change: transform;
+}
+.fs-chakri-cur i {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #fff7cc, transparent 18%, #fb923c 36%, transparent 54%, #fde047 72%, transparent 90%, #fff7cc);
+  -webkit-mask-image: radial-gradient(circle, transparent 28%, #000 31%, #000 78%, transparent 82%);
+  mask-image: radial-gradient(circle, transparent 28%, #000 31%, #000 78%, transparent 82%);
+  box-shadow: 0 0 14px rgba(251, 146, 60, 0.7);
+  animation: fs-spin 0.32s linear infinite;
+}
+@keyframes fs-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+.fs-bloom {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
+  line-height: 0;
+  filter: drop-shadow(0 0 14px rgba(251, 146, 60, 0.6));
+  animation: fs-bloom 1.9s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes fs-bloom {
+  0% {
+    transform: scale(0.1) rotate(-90deg);
     opacity: 0;
-    transform: translate3d(var(--dx), var(--dy), 0) scale(0.3);
+  }
+  22% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5) rotate(50deg);
+    opacity: 0;
   }
 }
 
@@ -263,30 +474,19 @@
   animation: fs-flame 0.9s ease-in-out infinite alternate;
   animation-delay: calc(var(--k) * -0.21s);
 }
-@keyframes fs-flame {
-  0% {
-    transform: scale(1, 1) rotate(-3deg);
-  }
-  50% {
-    transform: scale(0.88, 1.12) rotate(2deg);
-  }
-  100% {
-    transform: scale(1.05, 0.92) rotate(3deg);
-  }
-}
 
-/* ---- the industries city: warm lit windows and string lights on the buildings ---- */
-html[data-fest="diwali"] .cm-win .cm-fr,
-html[data-fest="diwali"] .cm-win .cm-rt,
-html[data-fest="diwali"] .cm-win .cm-bk,
-html[data-fest="diwali"] .cm-win .cm-lf {
+/* ---- the industries city (the ring-road version): warm lit windows and string lights on the buildings ---- */
+html[data-fest-fx~="ind-roofs"] .cm-win .cm-fr,
+html[data-fest-fx~="ind-roofs"] .cm-win .cm-rt,
+html[data-fest-fx~="ind-roofs"] .cm-win .cm-bk,
+html[data-fest-fx~="ind-roofs"] .cm-win .cm-lf {
   background-image:
     repeating-linear-gradient(0deg, rgba(24, 12, 6, 0.5) 0 3px, transparent 3px 13px),
     repeating-linear-gradient(90deg, rgba(253, 224, 71, 0.5) 0 7px, transparent 7px 16px);
 }
 /* string lights along the top of the lit buildings: still (the city has hundreds of faces, a moving light on each would make the scroll heavy) */
-html[data-fest="diwali"] .cm-win .cm-fr::after,
-html[data-fest="diwali"] .cm-win .cm-rt::after {
+html[data-fest-fx~="ind-roofs"] .cm-win .cm-fr::after,
+html[data-fest-fx~="ind-roofs"] .cm-win .cm-rt::after {
   content: "";
   position: absolute;
   top: 0;
@@ -295,24 +495,32 @@ html[data-fest="diwali"] .cm-win .cm-rt::after {
   height: 6px;
   background: radial-gradient(circle, #fde047 0 1.4px, rgba(251, 191, 36, 0.45) 1.9px, transparent 2.6px) 0 50% / 9px 6px repeat-x;
 }
-html[data-fest="diwali"] .cm-win .cm-rt::after {
+html[data-fest-fx~="ind-roofs"] .cm-win .cm-rt::after {
   background-image: radial-gradient(circle, #fdba74 0 1.4px, rgba(251, 146, 60, 0.45) 1.9px, transparent 2.6px);
 }
 
+/* nothing moves for a visitor who asked for less motion: the still pieces stay */
 @media (prefers-reduced-motion: reduce) {
-  .fs-sky,
-  .fs-corners,
+  .fs-top,
+  .fs-pointer,
   .fs-ftdiyas,
-  .fs-warm,
-  .fs-mandala,
+  .fs-glow-l,
+  .fs-glow-r,
+  .fs-rays,
   .fs-lantern svg,
   .fs-kandil,
   .fs-kandil-core,
+  .fs-bulb,
+  .fs-diya::before,
+  .fs-diya b,
+  .fs-rangoli,
+  .fs-rg-a,
+  .fs-rg-b,
   .fs-ftdiyas b {
     animation: none;
   }
   .fs-lantern,
-  .fs-burst {
+  .fs-pointer {
     display: none !important;
   }
 }

@@ -557,3 +557,26 @@
   font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
   font-variant-numeric: tabular-nums;
 }
+
+/* ---- Login in the big menu (next to Follow us) ---- */
+.mm-account {
+  margin-top: 1.1rem;
+}
+.mm-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%), hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 64%));
+  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 12px 28px -12px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.8);
+  transition: transform 0.4s cubic-bezier(0.22, 1.4, 0.36, 1), box-shadow 0.4s, filter 0.3s;
+}
+.mm-login:hover,
+.mm-login:focus-visible {
+  transform: translateY(-3px);
+  filter: brightness(1.06);
+}

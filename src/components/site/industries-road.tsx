@@ -6,6 +6,8 @@ import { Box, LANE_BOT, LANE_TOP, PH, PW, Piece, Vehicle, district, kindOf } fro
 import type { Road } from "./modern/map-variants";
 import type { ReactNode } from "react";
 import { CameraTuner, type Cam } from "./camera-tuner";
+import { CarFest, RoadFest } from "./fest/industries-fest";
+import { useFest } from "./fest/use-fest";
 
 // The industries city of the service pages. It is the same city as the one on the home page (industries-city.tsx, the districts and the
 // buildings come from city-scene.tsx, the look from the .cm-* styles) but the car does not drive round a ring road: it drives straight
@@ -89,6 +91,7 @@ export function IndustriesRoad({
 }) {
   const n = items.length;
   const uid = useId();
+  const festFx = useFest()?.fx; // the Diwali decorations of the road that are switched on (Admin > Fest), if any
   const [active, setActive] = useState(0);
   // the camera (on the home page it can be set by hand with the tuner: add ?cam to the address; the values are kept in this browser)
   const base = useMemo<Cam>(() => ({ zoom: zoomP, pitch: 90 - rxP, ang: angP, lens, x, y, blur }), [zoomP, rxP, angP, lens, x, y, blur]);
@@ -173,6 +176,9 @@ export function IndustriesRoad({
       lamps: lamps.map((x) => ({ x, y: yAt(x) })),
       width: xB - xA,
       xA,
+      yAt,
+      decorFrom: xs(0) - 170, // the part of the road that the festival decorates
+      decorTo: xs(n - 1) + 170,
     };
   }, [items, n, road, infinite]);
 
@@ -377,6 +383,8 @@ export function IndustriesRoad({
                 );
               })}
 
+              {festFx && festFx.size > 0 && <RoadFest fx={festFx} pads={geo.pads} lamps={geo.lamps} yAt={geo.yAt} ang={ang} rx={rx} from={geo.decorFrom} to={geo.decorTo} />}
+
               {/* the traffic on the other lane, and our car */}
               {[0, 1, 2].map((k) => (
                 <div
@@ -390,6 +398,7 @@ export function IndustriesRoad({
               <div ref={carRef} className="cm-car" data-turn="">
                 <i className="cm-glow" />
                 <Vehicle v="car" />
+                <CarFest />
               </div>
             </div>
           </div>

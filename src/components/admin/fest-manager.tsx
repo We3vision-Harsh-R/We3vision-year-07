@@ -3,10 +3,11 @@
 import { useMemo, useState, useTransition } from "react";
 import { saveFest } from "@/actions/fest";
 import type { ActionResult } from "@/actions/types";
-import { FEST_EFFECTS, FESTIVALS, type FestConfig, type FestId } from "@/lib/fest";
+import { DENSITIES, FEST_EFFECTS, FEST_GROUPS, FESTIVALS, type FestConfig, type FestId } from "@/lib/fest";
 import { btnPrimary, btnSecondary, card, inputClass } from "./ui";
 
-// Admin > Fest: the festival themes. Per festival: one switch for the whole website, the extra effects, and a switch for every page (or a
+// Admin > Fest: the festival themes. Per festival: one switch for the whole website, how much is drawn (light / normal / rich), the 30 effects in
+// four groups (whole website, industries road, pointer, places) each with its own switch and an all on / all off, and a switch for every page (or a
 // group of pages such as all blog articles). Nothing is on = the normal theme of the website, exactly as it is. Laptop / desktop site only.
 
 export type FestPage = { path: string; title: string; group: string };
@@ -94,21 +95,66 @@ export function FestManager({ initial, pages }: { initial: FestConfig; pages: Fe
               <Switch on={r.site} label={`${f.name} on the whole website`} onChange={(v) => change(f.id, (x) => ({ ...x, site: v }))} />
             </div>
 
-            <div>
-              <h3 className="text-sm font-semibold text-zinc-800">Effects</h3>
-              <ul className="mt-2 divide-y divide-zinc-100 rounded-xl border border-zinc-200">
-                {FEST_EFFECTS.map((e) => (
-                  <li key={e.key} className="flex items-center justify-between gap-4 px-4 py-3">
-                    <span>
-                      <span className="block text-sm font-medium text-zinc-900">{e.label}</span>
-                      <span className="block text-xs text-zinc-500">{e.hint}</span>
-                    </span>
-                    <Switch on={r.effects[e.key]} label={e.label} onChange={(v) => change(f.id, (x) => ({ ...x, effects: { ...x.effects, [e.key]: v } }))} />
-                  </li>
+            <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-zinc-200 px-4 py-3">
+              <div>
+                <p className="font-medium text-zinc-900">How much is drawn</p>
+                <p className="text-sm text-zinc-500">{DENSITIES.find((d) => d.id === r.density)?.hint}</p>
+              </div>
+              <div className="inline-flex rounded-lg bg-zinc-100 p-1" role="radiogroup" aria-label={`${f.name}: how much is drawn`}>
+                {DENSITIES.map((d) => (
+                  <button
+                    key={d.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={r.density === d.id}
+                    onClick={() => change(f.id, (x) => ({ ...x, density: d.id }))}
+                    className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition-colors ${r.density === d.id ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-800"}`}
+                  >
+                    {d.label}
+                  </button>
                 ))}
-              </ul>
-              <p className="mt-2 text-xs text-zinc-400">The street of the home page, the city of the industries and the diyas of the footer always come with the festival.</p>
+              </div>
             </div>
+
+            {FEST_GROUPS.map((g) => {
+              const list = FEST_EFFECTS.filter((e) => e.group === g.id);
+              const onCount = list.filter((e) => r.effects[e.key]).length;
+              const setAll = (v: boolean) => change(f.id, (x) => ({ ...x, effects: { ...x.effects, ...Object.fromEntries(list.map((e) => [e.key, v])) } }));
+              return (
+                <div key={g.id}>
+                  <div className="flex flex-wrap items-end justify-between gap-3">
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-zinc-800">
+                        {g.title} <span className="font-normal text-zinc-400">· {onCount} of {list.length} on</span>
+                      </h3>
+                      <p className="mt-0.5 text-xs text-zinc-500">{g.blurb}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button type="button" className="rounded-lg border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-50 disabled:opacity-40" disabled={onCount === list.length} onClick={() => setAll(true)}>
+                        All on
+                      </button>
+                      <button type="button" className="rounded-lg border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-50 disabled:opacity-40" disabled={onCount === 0} onClick={() => setAll(false)}>
+                        All off
+                      </button>
+                    </div>
+                  </div>
+                  <ul className="mt-2 divide-y divide-zinc-100 rounded-xl border border-zinc-200">
+                    {list.map((e) => (
+                      <li key={e.key} className="flex items-center justify-between gap-4 px-4 py-3">
+                        <span>
+                          <span className="block text-sm font-medium text-zinc-900">{e.label}</span>
+                          <span className="block text-xs text-zinc-500">{e.hint}</span>
+                        </span>
+                        <Switch on={r.effects[e.key]} label={e.label} onChange={(v) => change(f.id, (x) => ({ ...x, effects: { ...x.effects, [e.key]: v } }))} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+            <p className="-mt-2 text-xs text-zinc-400">
+              The street of the home page and the diyas of the footer always come with the festival. The effects only show on the pages where the festival is on (below).
+            </p>
 
             <div>
               <div className="flex flex-wrap items-center justify-between gap-3">

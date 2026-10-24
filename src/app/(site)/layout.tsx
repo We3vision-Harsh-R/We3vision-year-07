@@ -29,8 +29,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <SiteScrollbar />
         <LateExtras />
         <Background />
-        {/* a festival theme (Admin > Fest): RootShell puts it on <html> before the first paint (boot), these are its decorations */}
-        {festOn && <FestLayer cfg={fest} />}
+        {/* a festival theme (Admin > Fest): RootShell puts it on <html> before the first paint (boot), these are its decorations. While developing, FestLayer is always there: an address with ?festtest shows every effect (the check is removed from the production build) */}
+        {(festOn || process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_FEST_PREVIEW === "1") && <FestLayer cfg={fest} />}
         <LogoMark name={site.name} />
         <main id="main-content" tabIndex={-1}>
           {children}

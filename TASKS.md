@@ -118,3 +118,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 115 | AI content integration (MCP server + approval queue) | done |
 | 118 | Admin panel: new look from the owner's attendance-portal screenshot (floating glass sidebar, capsule top bar, pink active pill, dashboard with ring + count cards + rows) | done |
 | 116 | Home: services tabs section redesign (laptop) | done |
+| 119 | Fest v2: 30 Diwali effects in 4 groups (whole site, industries road, pointer incl. rocket on click, places: menu + login, logo ground, About + Team office), all switchable in Admin > Fest | done |

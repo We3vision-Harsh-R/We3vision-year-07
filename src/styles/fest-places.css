@@ -1,0 +1,347 @@
+/* The festival in the places of the site (Admin > Fest, "Places"): the ground next to the company name, the big menu, the offices of the About and
+   Team pages. Loaded by src/components/site/fest/fest-layer.tsx. Prefix "fs-". Same rules as fest.css: pointer-events: none, only transform / opacity
+   move, still picture with prefers-reduced-motion. */
+
+/* ---- the ground next to the company name ---- */
+.fs-brand {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  z-index: 31; /* just over the logo (30): nothing to click here, the logo stays clickable */
+  width: min(920px, 74vw);
+  height: 3.8rem;
+  translate: -50% 0;
+  pointer-events: none;
+  animation: fs-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.fs-brand i,
+.fs-brand b,
+.fs-brand u {
+  display: block;
+  font-style: normal;
+  text-decoration: none;
+}
+.fs-bg-ground {
+  position: absolute;
+  left: 1%;
+  right: 1%;
+  bottom: 0;
+  height: 12px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  border-top: 1.5px solid rgba(253, 224, 71, 0.75);
+  background: linear-gradient(#4a2c14, #160c06);
+  box-shadow: 0 -3px 14px rgba(251, 191, 36, 0.38);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10% 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10% 90%, transparent);
+}
+/* a string of bulbs along the edge of the ground */
+.fs-bg-bulbs {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 13px;
+  height: 6px;
+  background: radial-gradient(circle, #fde047 0 1.3px, rgba(251, 191, 36, 0.4) 1.8px, transparent 2.6px) 0 50% / 12px 6px repeat-x;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12% 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12% 88%, transparent);
+  animation: fs-bg-twinkle 1.6s steps(2, jump-none) infinite;
+}
+@keyframes fs-bg-twinkle {
+  50% {
+    opacity: 0.45;
+  }
+}
+.fs-bg-diya {
+  position: absolute;
+  bottom: 6px;
+  translate: -50% 0;
+  line-height: 0;
+}
+.fs-bg-diya b {
+  position: absolute;
+  left: 4.6px;
+  top: -4.5px;
+  width: 3px;
+  height: 5px;
+  border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+  background: radial-gradient(60% 55% at 50% 70%, #fff, #fde047 45%, #f97316 85%);
+  box-shadow: 0 0 6px 2px rgba(251, 191, 36, 0.6);
+  transform-origin: 50% 100%;
+  animation: fs-flame 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k) * -0.21s);
+}
+/* the people: the figures of the home street at half size, standing on the ground */
+.fs-bg-fig {
+  position: absolute;
+  bottom: 8px;
+  translate: -50% 0;
+  scale: 0.52;
+  transform-origin: 50% 100%;
+}
+/* tiny rockets: climb, then burst */
+.fs-bg-rocket {
+  position: absolute;
+  bottom: 14px;
+  width: 0;
+  height: 0;
+}
+.fs-bg-up {
+  position: absolute;
+  left: -1px;
+  bottom: 0;
+  width: 2px;
+  height: 9px;
+  border-radius: 2px;
+  background: linear-gradient(#fff, #fb923c 60%, transparent);
+  opacity: 0;
+  animation: fs-bg-up 5.2s ease-in infinite;
+  animation-delay: var(--d);
+}
+@keyframes fs-bg-up {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  4% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-38px);
+  }
+  33%,
+  100% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+.fs-bg-burst {
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  width: 0;
+  height: 0;
+}
+.fs-bg-burst u {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 2px;
+  height: 7px;
+  border-radius: 2px;
+  background: linear-gradient(#fff, #fbbf24);
+  box-shadow: 0 0 5px #fbbf24;
+  opacity: 0;
+  transform-origin: 50% 100%;
+  animation: fs-bg-ray 5.2s ease-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.fs-bg-rocket .fs-bg-burst u {
+  animation-delay: inherit;
+}
+@keyframes fs-bg-ray {
+  0%,
+  31% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(0) scaleY(0.2);
+  }
+  34% {
+    opacity: 1;
+  }
+  52%,
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(-17px) scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-brand,
+  .fs-bg-bulbs,
+  .fs-bg-diya b,
+  .fs-bg-up,
+  .fs-bg-burst u {
+    animation: none;
+  }
+  .fs-bg-rocket {
+    display: none;
+  }
+}
+
+/* ---- the big menu ---- */
+.fs-menu {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  overflow: hidden;
+  border-radius: 30px;
+  pointer-events: none;
+}
+.fs-menu i,
+.fs-menu b,
+.fs-menu u,
+.fs-menu s {
+  display: block;
+  font-style: normal;
+  text-decoration: none;
+}
+.fs-menu-toran {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -3px;
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+  opacity: 0;
+  transform: translateY(-16px);
+  transition: opacity 0.6s, transform 0.9s cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+.mm[data-open="true"] .fs-menu-toran {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.3s;
+}
+.fs-menu-kandil {
+  position: absolute;
+  top: 0;
+  width: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+  filter: drop-shadow(0 6px 12px rgba(251, 146, 60, 0.5));
+  animation: fs-swing 5s ease-in-out infinite alternate;
+  animation-delay: var(--d);
+}
+.fs-menu-kandil.is-l {
+  left: 26px;
+}
+.fs-menu-kandil.is-r {
+  right: 26px;
+}
+.fs-menu-kandil u {
+  width: 1.4px;
+  height: 26px;
+  background: linear-gradient(#3b2f2a, #92400e);
+}
+.fs-menu-kandil svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.fs-menu-rangoli {
+  position: absolute;
+  line-height: 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.45));
+  transition: opacity 0.9s 0.4s;
+}
+.mm[data-open="true"] .fs-menu-rangoli {
+  opacity: 0.34;
+}
+.fs-menu-rangoli.is-br {
+  right: -70px;
+  bottom: -90px;
+  animation: fs-turn 110s linear infinite;
+}
+.fs-menu-rangoli.is-bl {
+  left: -56px;
+  bottom: -70px;
+  animation: fs-turn 150s linear infinite reverse;
+}
+/* sparks that rise from the bottom while the menu is open */
+.fs-menu-sparks {
+  position: absolute;
+  inset: 0;
+}
+.fs-menu-sparks s {
+  position: absolute;
+  left: var(--x);
+  bottom: -6px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fde047;
+  box-shadow: 0 0 7px 2px rgba(251, 191, 36, 0.7);
+  opacity: 0;
+}
+.mm[data-open="true"] .fs-menu-sparks s {
+  animation: fs-menu-rise var(--t) ease-out infinite;
+  animation-delay: var(--d);
+}
+@keyframes fs-menu-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  12% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc((var(--i) - 11) * 3px), -46vh, 0);
+  }
+}
+
+/* the menu wears the festival: a warm gold edge and light, gold numbers, a flame on the link under the mouse */
+html[data-fest-fx~="menu"] .mm-pop {
+  border-color: rgba(251, 191, 36, 0.4);
+  background:
+    radial-gradient(60% 50% at 0 100%, rgba(251, 146, 60, 0.17), transparent 70%),
+    radial-gradient(70% 60% at 100% 0, rgba(250, 204, 21, 0.15), transparent 70%),
+    hsl(calc(var(--th) + 347.58) calc(60% * var(--ts)) 7% / 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 236, 170, 0.22), 0 40px 90px -30px rgba(0, 0, 0, 0.85), 0 0 70px -14px rgba(251, 146, 60, 0.32);
+}
+html[data-fest-fx~="menu"] .mm-in {
+  padding-top: clamp(2.6rem, 3.6vw, 3.4rem);
+}
+html[data-fest-fx~="menu"] .mm-col-t i,
+html[data-fest-fx~="menu"] .mm-sub-t i {
+  color: #fbbf24;
+}
+html[data-fest-fx~="menu"] .mm-li a {
+  position: relative;
+}
+html[data-fest-fx~="menu"] .mm-li a::after {
+  content: "";
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  width: 7px;
+  height: 11px;
+  margin-top: -6px;
+  border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+  background: radial-gradient(60% 55% at 50% 70%, #fff, #fde047 45%, #f97316 85%);
+  box-shadow: 0 0 9px 3px rgba(251, 191, 36, 0.6);
+  opacity: 0;
+  transform: scale(0.3);
+  transform-origin: 50% 100%;
+  transition: opacity 0.25s, transform 0.35s cubic-bezier(0.22, 1.5, 0.36, 1);
+  pointer-events: none;
+}
+html[data-fest-fx~="menu"] .mm-li a:hover::after,
+html[data-fest-fx~="menu"] .mm-li a:focus-visible::after {
+  opacity: 1;
+  transform: scale(1);
+  animation: fs-flame 0.8s ease-in-out infinite alternate;
+}
+html[data-fest-fx~="menu"] .mm-li a:hover,
+html[data-fest-fx~="menu"] .mm-li a:focus-visible {
+  color: #fde68a;
+}
+html[data-fest-fx~="menu"] .mm-login {
+  background: linear-gradient(135deg, #fde68a, #fb923c);
+  box-shadow: 0 12px 28px -12px rgba(251, 146, 60, 0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-menu-kandil,
+  .fs-menu-rangoli,
+  .fs-menu-sparks s {
+    animation: none;
+  }
+  .fs-menu-sparks {
+    display: none;
+  }
+}

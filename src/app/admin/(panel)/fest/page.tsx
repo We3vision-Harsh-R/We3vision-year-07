@@ -24,8 +24,10 @@ export default async function FestPageAdmin() {
       <div>
         <h1 className="text-2xl font-bold">Fest</h1>
         <p className="mt-1 max-w-2xl text-sm text-zinc-500">
-          Festival themes for the laptop and desktop website. Switch a festival on for the whole website or only for some pages; the decorations come
-          in smoothly and never cover the content. With every festival off, the website shows its normal theme exactly as it is.
+          Festival themes for the laptop and desktop website. Switch a festival on for the whole website or only for some pages, then choose
+          the effects one by one: the whole website, the road of the Industries section, the mouse, and places such as the big menu, the logo
+          ground and the two offices. The decorations come in smoothly and never cover the content. With every festival off, the website shows its
+          normal theme exactly as it is.
         </p>
       </div>
       <FestManager initial={cfg} pages={pages} />

@@ -211,3 +211,9 @@
 - The laptop site layout puts html[data-fest] (and data-fest-fx) before the first paint (RootShell boot script from festBootScript) and renders components/site/fest/fest-layer.tsx (sky behind the content, kandils at the top between the corner badges and the logo, cursor sparks, footer diyas). Festival CSS: src/styles/fest.css ("fs-"), the home street in diwali.css, the industries city (warm windows + still string lights) in fest.css.
 - Nothing is on by default: the site looks exactly as before until a festival is switched on. Only Diwali exists; a new festival = FESTIVALS + its pieces + CSS under html[data-fest="<id>"].
 - Not tried with a real admin save on the live DB (tested with a temporary local switch). The phone app (src/app/(m)) has no festival theme yet.
+
+## Fest v2: 30 effects (task 119, 2026-10-24)
+- All effects are laptop/desktop only (the phone app has no festival theme). Everything is `pointer-events: none`; with prefers-reduced-motion a still picture is shown.
+- Defaults after save: everything on except embers, petals, rangoli corners, anar, and the diya / petal trail / bloom / chakri pointer effects (owner can switch them on in Admin > Fest). Nothing shows until a festival is switched on for the site or for pages.
+- The "Login" button in the mega menu goes to /admin/login (the only login that exists). Public member accounts are still a separate open task (spec: member accounts, blog submission).
+- Not seen on the live site with a real admin save; checked in a local production build with `?festtest`. Check on a real laptop: weak GPUs may need the "Light" amount (Admin > Fest > How much is drawn).
