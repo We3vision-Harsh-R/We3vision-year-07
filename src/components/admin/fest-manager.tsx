@@ -66,7 +66,17 @@ export function FestManager({ initial, pages }: { initial: FestConfig; pages: Fe
     start(async () => {
       const res = await saveFest(cfg);
       setResult(res);
-      if (res.ok) setDirty(false);
+      if (res.ok) {
+        setDirty(false);
+        // the open pages of the website in this browser change at once (components/site/fest/fest-live.tsx); other browsers within ~10 s
+        try {
+          const ch = new BroadcastChannel("we3-fest");
+          ch.postMessage(cfg);
+          ch.close();
+        } catch {
+          // an old browser: the pages still pick it up by themselves
+        }
+      }
     });
 
   return (

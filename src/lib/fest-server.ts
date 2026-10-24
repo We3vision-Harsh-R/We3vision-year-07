@@ -17,7 +17,19 @@ export async function getFestConfig(): Promise<FestConfig> {
   }
 }
 
+// the live check of the open pages (/api/fest, every few seconds per visitor) reads a copy that is at most a few seconds old, so many visitors
+// do not mean many database reads; a save in the admin panel replaces the copy at once
+let copy: { at: number; cfg: FestConfig } | null = null;
+export async function getFestConfigLive(maxAgeMs = 4000): Promise<FestConfig> {
+  if (copy && Date.now() - copy.at < maxAgeMs) return copy.cfg;
+  const cfg = await getFestConfig();
+  copy = { at: Date.now(), cfg };
+  return cfg;
+}
+
 export async function saveFestConfig(cfg: FestConfig) {
-  const value = cleanFest(cfg) as unknown as Prisma.InputJsonValue;
+  const clean = cleanFest(cfg);
+  const value = clean as unknown as Prisma.InputJsonValue;
   await db.setting.upsert({ where: { key: KEY }, update: { value }, create: { key: KEY, value } });
+  copy = { at: Date.now(), cfg: clean };
 }

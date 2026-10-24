@@ -1,6 +1,6 @@
 import "../globals.css";
 import { Background } from "@/components/site/background";
-import { LazyFestLayer } from "@/components/site/fest/lazy";
+import { FestLive } from "@/components/site/fest/fest-live";
 import { FloatingNav } from "@/components/site/floating-nav";
 import { Footer } from "@/components/site/footer";
 import { LateExtras } from "@/components/site/late-extras";
@@ -32,8 +32,10 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <SiteScrollbar />
         <LateExtras picker={site.picker} />
         <Background />
-        {/* a festival theme (Admin > Fest): RootShell puts it on <html> before the first paint (boot), these are its decorations. While developing, FestLayer is always there: an address with ?festtest shows every effect (the check is removed from the production build) */}
-        {(festOn || process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_FEST_PREVIEW === "1") && <LazyFestLayer cfg={fest} />}
+        {/* a festival theme (Admin > Fest): RootShell puts it on <html> before the first paint (boot); FestLive keeps the settings fresh (a change in
+            the admin panel shows without a reload) and loads the decorations only once a festival is on. While developing (or in a preview build)
+            the layer is always there: an address with ?festtest shows every effect */}
+        <FestLive initial={fest} force={process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_FEST_PREVIEW === "1"} />
         <LogoMark name={site.name} />
         <main id="main-content" tabIndex={-1}>
           {children}
