@@ -2,6 +2,8 @@ import { useId, type CSSProperties } from "react";
 
 // The drawn pieces of the festival layers (inline SVG, no pictures): a sky lantern, an akash kandil, a diya, a marigold, a rangoli and a toran
 // garland. They are plain shapes; the movement (swing, flicker, twinkle, turn) is CSS in src/styles/fest.css ("fs-").
+// SPEED: nothing INSIDE an SVG is animated (that repaints the whole picture every frame); the pictures are still and the CSS only moves,
+// turns or fades the element around them.
 
 export function SkyLantern() {
   const id = useId();
@@ -23,8 +25,17 @@ export function SkyLantern() {
 }
 
 export function Kandil() {
+  const id = useId();
   return (
     <svg viewBox="0 0 80 150" width="80" height="150" aria-hidden>
+      {/* its warm light, drawn in (a drop-shadow filter on the swinging lamp would be redone every frame) */}
+      <defs>
+        <radialGradient id={`${id}g`}>
+          <stop offset="0" stopColor="#fb923c" stopOpacity="0.55" />
+          <stop offset="1" stopColor="#fb923c" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="40" cy="76" r="40" fill={`url(#${id}g)`} />
       <line x1="40" y1="0" x2="40" y2="40" stroke="#3b2f2a" strokeWidth="1.4" />
       <rect x="33" y="38" width="14" height="6" rx="2" fill="#92400e" />
       {/* the star-shaped body of an akash kandil */}
@@ -34,7 +45,7 @@ export function Kandil() {
       <path d="M4 70L22 62L40 74L22 80Z" fill="#ea580c" />
       <path d="M76 70L58 62L40 74L58 80Z" fill="#ea580c" />
       <path d="M40 44L58 62L76 70L58 80L40 104L22 80L4 70L22 62Z" fill="none" stroke="#fde68a" strokeWidth="1.2" />
-      <circle cx="40" cy="74" r="7" fill="#fff7cc" className="fs-kandil-core" />
+      <circle cx="40" cy="74" r="7" fill="#fff7cc" />
       {/* tassels */}
       <path d="M30 98q-2 22 0 40M40 104q0 20 0 42M50 98q2 22 0 40" stroke="#fbbf24" strokeWidth="1.6" fill="none" strokeLinecap="round" />
       <circle cx="30" cy="138" r="2.4" fill="#dc2626" />
@@ -120,18 +131,33 @@ export function ToranGarland({ scallops = 8, seg = 200, sag = 40, bulbSize = 3.4
       items.push({ x, y, flower: i % 2 === 1 });
     }
   }
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} aria-hidden>
-      {paths.map((d, i) => (
-        <path key={i} d={d} fill="none" stroke="#3b2f2a" strokeWidth="1.4" />
-      ))}
-      {items.map((it, k) =>
-        it.flower ? (
-          <Marigold key={k} cx={it.x} cy={it.y + 3} r={7.5} />
-        ) : (
-          <circle key={k} className="fs-bulb" cx={it.x} cy={it.y + 3} r={bulbSize} style={{ "--k": k } as CSSProperties} />
-        ),
+  // the bulbs are two still pictures over the garland (every other bulb in each, in other colours) that fade in and out one after the
+  // other: a twinkle that the graphics card does by itself (only opacity moves), instead of repainting the whole garland every frame
+  const bulbs = items.filter((it) => !it.flower);
+  const set = (phase: 0 | 1) => (
+    <svg className={`fs-tb is-${phase ? "b" : "a"}`} viewBox={`0 0 ${W} ${H}`} width={W} height={H} aria-hidden>
+      {bulbs.map((it, k) =>
+        k % 2 === phase ? (
+          <g key={k}>
+            <circle cx={it.x} cy={it.y + 3} r={bulbSize * 2.2} fill={BULB_GLOW[(k >> 1) % BULB_GLOW.length]} />
+            <circle cx={it.x} cy={it.y + 3} r={bulbSize} fill={BULB[(k >> 1) % BULB.length]} />
+          </g>
+        ) : null,
       )}
     </svg>
   );
+  return (
+    <span className="fs-tg" style={{ width: W, height: H }}>
+      <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} aria-hidden>
+        {paths.map((d, i) => (
+          <path key={i} d={d} fill="none" stroke="#3b2f2a" strokeWidth="1.4" />
+        ))}
+        {items.map((it, k) => (it.flower ? <Marigold key={k} cx={it.x} cy={it.y + 3} r={7.5} /> : null))}
+      </svg>
+      {set(0)}
+      {set(1)}
+    </span>
+  );
 }
+const BULB = ["#fde047", "#fb923c", "#f87171", "#86efac"];
+const BULB_GLOW = ["rgba(253,224,71,.32)", "rgba(251,146,60,.3)", "rgba(248,113,113,.28)", "rgba(134,239,172,.26)"];

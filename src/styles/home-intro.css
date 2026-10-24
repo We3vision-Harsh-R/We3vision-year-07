@@ -1,0 +1,320 @@
+/* The first screen of the home page (laptop / desktop): src/components/site/home-intro.tsx. Prefix "hi-".
+   One calm screen instead of the old particle scene: big type on the left, the anniversary seal with the two recognitions on the right, the facts
+   of "At a glance" as one row at the bottom. Theme colours only (--th / --ts), Poppins, paragraphs >= 16px, labels >= 14px. Nothing loops:
+   the pieces fade in once and the ring of the seal draws itself once. */
+
+.hi {
+  --hi-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --hi-a2: hsl(calc(var(--th) + 348) calc(72% * var(--ts)) 67%);
+  --hi-soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.8);
+  --hi-hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+  --hi-card: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 12% / 0.55);
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.6rem, 3.6vh, 3.2rem);
+  /* (the bottom keeps clear of the menu bar that floats at the bottom of the window) */
+  padding: clamp(6.5rem, 12.5vh, 9rem) clamp(1.5rem, 6vw, 7rem) clamp(6.5rem, 12.5vh, 8rem);
+  color: #fff;
+}
+
+/* ---- the two columns ---- */
+.hi-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 6rem);
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.hi-copy > * {
+  animation: hi-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hi-copy > :nth-child(2) {
+  animation-delay: 0.08s;
+}
+.hi-copy > :nth-child(3) {
+  animation-delay: 0.16s;
+}
+.hi-copy > :nth-child(4) {
+  animation-delay: 0.24s;
+}
+@keyframes hi-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+.hi-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 0 1rem;
+  color: var(--hi-a);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.hi-eyebrow::before {
+  content: "";
+  width: 2.6rem;
+  height: 1.5px;
+  background: currentColor;
+}
+.hi-display {
+  margin: 0;
+  font-size: clamp(3.2rem, 6vw, 6.2rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  white-space: pre-line;
+}
+.hi-display-num {
+  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 88%), var(--hi-a2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hi-title {
+  max-width: 34rem;
+  margin: 1.6rem 0 0;
+  color: var(--hi-soft);
+  font-size: clamp(1.1rem, 1.35vw, 1.3rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.55;
+}
+.hi-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 2.2rem;
+}
+.hi-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 3.1rem;
+  padding: 0 1.6rem;
+  border: 1px solid var(--hi-hair);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  transition:
+    background-color 0.25s,
+    border-color 0.25s,
+    transform 0.25s;
+}
+.hi-btn:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
+  transform: translateY(-1px);
+}
+.hi-btn.is-main {
+  border-color: transparent;
+  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85%), var(--hi-a2));
+  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 10%);
+  font-weight: 600;
+}
+
+/* ---- the seal ---- */
+.hi-side {
+  display: grid;
+  justify-items: center;
+  gap: 1.3rem;
+  animation: hi-up 1s 0.2s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hi-seal {
+  position: relative;
+  width: min(21rem, 26vw, 36vh);
+  aspect-ratio: 1;
+}
+.hi-ring {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+.hi-ring-track,
+.hi-ring-draw {
+  fill: none;
+  stroke-linecap: round;
+}
+.hi-ring-track {
+  stroke: var(--hi-hair);
+  stroke-width: 1.5;
+}
+.hi-ring-draw {
+  stroke: var(--hi-a);
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: hi-draw 2.2s 0.4s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+@keyframes hi-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.hi-year {
+  opacity: 0;
+  animation: hi-fade 0.5s calc(0.5s + var(--i) * 0.24s) ease-out forwards;
+}
+.hi-year circle {
+  fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 10%);
+  stroke: var(--hi-a);
+  stroke-width: 1.5;
+}
+.hi-year[data-last="true"] circle {
+  fill: var(--hi-a);
+}
+.hi-year text {
+  fill: var(--hi-soft);
+  font-size: 15px;
+  font-weight: 500;
+}
+.hi-year[data-last="true"] text {
+  fill: #fff;
+  font-weight: 600;
+}
+@keyframes hi-fade {
+  to {
+    opacity: 1;
+  }
+}
+.hi-seal-in {
+  position: absolute;
+  inset: 18%;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  border: 1px solid var(--hi-hair);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 16% / 0.7), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.7));
+}
+.hi-seal-num {
+  background-image: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 82%) 55%, var(--hi-a2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(5.5rem, 9vw, 8.6rem);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+}
+.hi-seal-cap {
+  margin-top: 0.4rem;
+  color: var(--hi-soft);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* ---- the recognitions ---- */
+.hi-rec {
+  width: min(27rem, 100%);
+  text-align: center;
+}
+.hi-rec-t {
+  margin: 0 0 0.75rem;
+  color: var(--hi-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.hi-rec ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hi-rec li {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 0.9rem 0.7rem;
+  border: 1px solid var(--hi-hair);
+  border-radius: 18px;
+  background: var(--hi-card);
+}
+.hi-rec img {
+  display: block;
+  width: auto;
+  height: 2.7rem;
+  max-width: 100%;
+  object-fit: contain;
+}
+.hi-rec span {
+  color: var(--hi-soft);
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+/* ---- the facts ("At a glance") ---- */
+.hi-facts {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--hi-hair);
+}
+.hi-facts-t {
+  margin: 0 0 0.7rem;
+  color: var(--hi-a);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.hi-facts dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  margin: 0;
+}
+.hi-facts dl > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  padding: 0.2rem 1.2rem;
+  border-left: 1px solid var(--hi-hair);
+  animation: hi-up 0.8s calc(0.5s + var(--i) * 0.07s) cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hi-facts dl > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.hi-facts dd {
+  margin: 0;
+  font-size: clamp(1.9rem, 2.6vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+.hi-facts dt {
+  color: var(--hi-soft);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hi-copy > *,
+  .hi-side,
+  .hi-facts dl > div {
+    animation: none;
+  }
+  .hi-ring-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .hi-year {
+    animation: none;
+    opacity: 1;
+  }
+}

@@ -23,7 +23,7 @@ const ACCENTS = ["hsl(calc(var(--th) + 76) calc(81.25% * var(--ts)) 87.45%)", "h
 // dropping in (PE_END of the whole track); the rest of the track is the walk of the little guide along the services.
 const FIRST_VH = 110;
 const WALK_VH = 130; // about 100 px of scroll (one flick of the wheel) for every service
-const PE_END = FIRST_VH / (FIRST_VH + WALK_VH);
+// (the share of the track that is the first part = FIRST_VH / (FIRST_VH + WALK_VH); computed in the component, it is 0 in servicesOnly mode)
 // scroll progress (of that first part) at which the particle blast is over (the sphere finishes its own 0..1 animation here)
 const BLAST_END = 0.4;
 // once the last box has dropped in (the boxes finish at about 0.84), the rail and the lines of the first service come down together;
@@ -55,7 +55,11 @@ const parseSubs = (raw: string) =>
 // section scrolls up as normal.
 //   progress p (0 → 1) is smoothed; pe (its first part) goes to the canvas ("hero-progress" event) and to the boxes (CSS
 //   variable --p); w (its second part) moves the guide.
-export function HeroScene({ mark, above, below, cards }: { mark: string; above: string; below: string; cards: Card[] }) {
+//   servicesOnly (home page since 2026-10-24, under the new first screen home-intro.tsx): no particle ball at all (no canvas is made); the boxes,
+//   the rail and the first service are there from the start and the whole track is the walk of the guide along the services.
+export function HeroScene({ mark, above, below, cards, servicesOnly = false }: { mark: string; above: string; below: string; cards: Card[]; servicesOnly?: boolean }) {
+  const introVh = servicesOnly ? 0 : FIRST_VH;
+  const peEnd = introVh / (introVh + WALK_VH);
   const trackRef = useRef<HTMLElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -64,9 +68,9 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
   const peRef = useRef(0);
   const wRef = useRef(0);
   const hoverRef = useRef<number | null>(null); // a box the visitor points at: the guide goes there until the next scroll
-  const [ready, setReady] = useState(false); // boxes are visible enough to be used
-  const [chatOn, setChatOn] = useState(false); // the AI chat bar has faded in
-  const [stageIn, setStageIn] = useState(false); // the rail and the lines of the first service have come down
+  const [ready, setReady] = useState(servicesOnly); // boxes are visible enough to be used
+  const [chatOn, setChatOn] = useState(servicesOnly); // the AI chat bar has faded in
+  const [stageIn, setStageIn] = useState(servicesOnly); // the rail and the lines of the first service have come down
   const [active, setActive] = useState<number | null>(null); // the service that is open (the one the guide stands under)
 
   useEffect(() => {
@@ -93,9 +97,9 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
       target = distance > 0 ? clamp(-r.top / distance) : 0;
     };
     const apply = () => {
-      const pe = Math.min(1, p / PE_END);
+      const pe = peEnd > 0 ? Math.min(1, p / peEnd) : 1;
       peRef.current = pe;
-      wRef.current = clamp((p - PE_END) / (1 - PE_END));
+      wRef.current = clamp((p - peEnd) / (1 - peEnd));
       if (Math.abs(p - lastP) > 0.0008) hoverRef.current = null; // scrolling takes the guide over again
       lastP = p;
       const pStr = pe.toFixed(4);
@@ -104,8 +108,10 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
         scene.style.setProperty("--p", pStr);
       }
       // the particle blast (ball + 7) plays during the first part of the scroll only; the boxes come after it has finished
-      window.dispatchEvent(new CustomEvent("hero-progress", { detail: clamp(pe / BLAST_END) }));
-      window.dispatchEvent(new CustomEvent("hero-raw", { detail: pe })); // the particles feel every scroll
+      if (!servicesOnly) {
+        window.dispatchEvent(new CustomEvent("hero-progress", { detail: clamp(pe / BLAST_END) }));
+        window.dispatchEvent(new CustomEvent("hero-raw", { detail: pe })); // the particles feel every scroll
+      }
       const nowReady = pe > 0.45;
       if (nowReady !== isReady) {
         isReady = nowReady;
@@ -122,21 +128,29 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
         setChatOn(nowChat);
       }
     };
+    // the glide only runs while the scroll position is being caught up (it stops when it has arrived; a scroll starts it again)
     const loop = (now: number) => {
-      raf = requestAnimationFrame(loop);
+      raf = 0;
       const dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
       last = now;
       if (p === target) return;
       p = Math.abs(target - p) < 0.0004 ? target : p + (target - p) * (reduceMotion ? 1 : 1 - Math.exp(-dt / 0.22));
       apply();
+      raf = requestAnimationFrame(loop);
+    };
+    const onScroll = () => {
+      read();
+      if (!raf && p !== target) {
+        last = 0;
+        raf = requestAnimationFrame(loop);
+      }
     };
 
     read();
     p = target; // start in the right state (also when the page is reloaded half-way down)
     apply();
-    window.addEventListener("scroll", read, { passive: true });
-    window.addEventListener("resize", read);
-    raf = requestAnimationFrame(loop);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
 
     if (process.env.NODE_ENV !== "production") {
       // development helper: jump to a scroll position of the whole track (hidden browser panes do not run animation frames)
@@ -151,10 +165,10 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", read);
-      window.removeEventListener("resize", read);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [peEnd, servicesOnly]);
 
   // The guide: walks along the row under the boxes. Where it stands decides which service is open.
   useEffect(() => {
@@ -318,19 +332,21 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
   };
 
   return (
-    <section ref={trackRef} id="hero" style={{ height: `${FIRST_VH + WALK_VH}vh` }} className="relative">
+    <section ref={trackRef} id={servicesOnly ? "services" : "hero"} style={{ height: `${introVh + WALK_VH + (servicesOnly ? 100 : 0)}vh` }} className="relative" data-pause-off>
       <div
         ref={sceneRef}
         data-ready={ready}
         data-active={active !== null}
         data-in={stageIn}
-        style={{ "--p": 0 } as CSSProperties}
+        style={{ "--p": servicesOnly ? 1 : 0 } as CSSProperties}
         className="group/scene sticky top-0 h-screen overflow-hidden"
       >
         {/* the particles: once the services are open they have all faded away, so the canvas is taken off the screen */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 group-data-[in=true]/scene:invisible">
-          <ParticleSphere mark={mark} above={above} below={below} scale={0.78} />
-        </div>
+        {!servicesOnly && (
+          <div aria-hidden className="pointer-events-none absolute inset-0 group-data-[in=true]/scene:invisible">
+            <ParticleSphere mark={mark} above={above} below={below} scale={0.78} />
+          </div>
+        )}
 
         <div className="hub" data-active={active !== null} inert={!ready}>
           <ul className="hub-row">
@@ -459,15 +475,17 @@ export function HeroScene({ mark, above, below, cards }: { mark: string; above: 
         </div>
 
         {/* Small bobbing arrow: a hint to scroll. Fades away as soon as you start. */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-28 flex justify-center" style={{ opacity: "clamp(0, calc(1 - var(--p) * 10), 1)" }}>
-          <svg viewBox="0 0 24 24" className="animate-bob size-5 fill-none stroke-violet/70" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M6 9l6 6 6-6" />
-          </svg>
-        </div>
+        {!servicesOnly && (
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-28 flex justify-center" style={{ opacity: "clamp(0, calc(1 - var(--p) * 10), 1)" }}>
+            <svg viewBox="0 0 24 24" className="animate-bob size-5 fill-none stroke-violet/70" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+        )}
       </div>
 
-      {/* Anchor for the "Services" menu link: lands where all the boxes are in place */}
-      <span id="services" aria-hidden className="absolute left-0 block size-px" style={{ top: `${Math.round(FIRST_VH * 0.9)}vh` }} />
+      {/* Anchor for the "Services" menu link: lands where all the boxes are in place (servicesOnly: the section itself is #services) */}
+      {!servicesOnly && <span id="services" aria-hidden className="absolute left-0 block size-px" style={{ top: `${Math.round(FIRST_VH * 0.9)}vh` }} />}
     </section>
   );
 }

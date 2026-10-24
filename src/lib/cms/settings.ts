@@ -52,6 +52,56 @@ export const SITE_FIELDS: Field[] = [
   },
   { kind: "list", key: "social", label: "Social links (LinkedIn, Instagram, …)", itemLabel: "Link", max: 6, fields: linkFields },
   { kind: "text", key: "copyright", label: "Copyright line", max: 140 },
+  // the colour picker of the visitors ("Make this website yours", components/site/theme-picker.tsx)
+  {
+    kind: "group",
+    key: "picker",
+    label: "Colour picker (\"Make this website yours\")",
+    fields: [
+      {
+        kind: "choice",
+        key: "show",
+        label: "When does the colour card open by itself?",
+        options: [
+          { value: "first", label: "Once, on the first visit of a person (then only the round button)" },
+          { value: "session", label: "Once in every new visit (every time the browser is opened again)" },
+          { value: "button", label: "Never by itself: only when the round colour button is clicked" },
+          { value: "off", label: "Off: no card and no button, everybody sees the normal colour of the website" },
+        ],
+      },
+      {
+        kind: "choice",
+        key: "when",
+        label: "When it opens by itself, after",
+        options: [
+          { value: "1.4", label: "1.4 seconds (the page is already on the screen)" },
+          { value: "4", label: "4 seconds" },
+          { value: "8", label: "8 seconds" },
+          { value: "scroll", label: "The first scroll of the visitor" },
+        ],
+      },
+      {
+        kind: "choice",
+        key: "free",
+        label: "Can visitors make their own colour too?",
+        options: [
+          { value: "yes", label: "Yes: the colours below, plus the colour code and the strength slider" },
+          { value: "no", label: "No: only the colours below" },
+        ],
+      },
+      {
+        kind: "list",
+        key: "colors",
+        label: "The colours of the card (empty = the 18 colours of the design)",
+        itemLabel: "Colour",
+        max: 18,
+        fields: [
+          { kind: "text", key: "name", label: "Name (read out to screen readers)", max: 30 },
+          { kind: "text", key: "hex", label: "Colour code, like #D387FF", max: 7, hint: "The first 12 colours make the big outer ring, the next 6 the small inner ring." },
+        ],
+      },
+    ],
+  },
 ];
 
 export const SITE_DEFAULTS = {
@@ -128,6 +178,7 @@ export const SITE_DEFAULTS = {
     { label: "Instagram", href: "https://www.instagram.com/we3vision_private_limited/" },
   ],
   copyright: "Copyright © 2026 We3Vision Private Limited. All Rights Reserved.",
+  picker: { show: "first", when: "1.4", free: "yes", colors: [] as { name: string; hex: string }[] },
 };
 
 export type SiteSettings = typeof SITE_DEFAULTS;

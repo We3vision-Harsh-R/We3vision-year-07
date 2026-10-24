@@ -42,11 +42,18 @@
   --px: 16px;
   --py: 12px;
 }
-/* the blur sits on every piece (small areas) and not on a whole layer, so that it stays cheap */
+/* SPEED: the blur sits only on the STILL drawing inside a moving piece (painted once, then only moved); a filter on a moving or fading piece
+   would be redone by the graphics card every frame. The fading of the distance is the opacity of each piece. */
 .fo-it {
   position: absolute;
-  filter: blur(var(--bl, 0));
   opacity: var(--op, 1);
+}
+.fo-d[data-z="0"] .fo-lant svg {
+  filter: blur(var(--bl));
+}
+.fo-d[data-z="1"] .fo-kandil svg,
+.fo-d[data-z="1"] .fo-toran .fs-tg > svg:first-child {
+  filter: blur(var(--bl));
 }
 
 /* ---- far: fireworks over the top wall ---- */
@@ -115,12 +122,22 @@
 .fo-lant {
   width: 36px;
   line-height: 0;
-  filter: blur(var(--bl)) drop-shadow(0 0 14px rgba(251, 146, 60, 0.55));
   opacity: 0;
   animation: fo-lant var(--t) linear infinite;
   animation-delay: var(--d);
 }
+.fo-lant::before {
+  content: "";
+  position: absolute;
+  left: -60%;
+  top: -40%;
+  width: 220%;
+  height: 180%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(251, 146, 60, 0.4), transparent);
+}
 .fo-lant svg {
+  position: relative;
   display: block;
   width: 100%;
   height: auto;
@@ -153,7 +170,6 @@
   flex-direction: column;
   align-items: center;
   transform-origin: 50% 0;
-  filter: blur(var(--bl)) drop-shadow(0 6px 12px rgba(251, 146, 60, 0.5));
   translate: -50% 0;
   animation: fo-swing 5s ease-in-out infinite alternate;
   animation-delay: var(--d);
@@ -204,7 +220,6 @@
 .fo-rangoli {
   line-height: 0;
   opacity: 0.5;
-  filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.5));
 }
 .fo-rangoli.is-bl {
   left: -64px;
@@ -269,5 +284,38 @@
   }
   .fo-d {
     transition: none;
+  }
+}
+
+/* SPEED: the rays of a firework stand still at full length; the whole firework (rays + flash) grows and fades: one moving layer, not seventeen */
+.fo-fw b,
+.fo-fw u {
+  animation: none;
+}
+.fo-fw u {
+  opacity: 1;
+  transform: rotate(var(--a)) translateY(-86px);
+}
+.fo-fw b {
+  opacity: 0.7;
+}
+.fo-fw {
+  opacity: 0;
+  animation: fo-fw 8s ease-out infinite;
+  animation-delay: var(--d);
+}
+@keyframes fo-fw {
+  0%,
+  4% {
+    opacity: 0;
+    scale: 0.2;
+  }
+  6% {
+    opacity: 0.7;
+  }
+  30%,
+  100% {
+    opacity: 0;
+    scale: 1;
   }
 }

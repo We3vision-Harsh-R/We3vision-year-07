@@ -458,3 +458,67 @@ html[data-fest="diwali"] .st .dw-diyas {
     opacity: 0;
   }
 }
+
+/* SPEED (2026-10-24): every moving piece is a layer of its own for the browser, and an animation INSIDE an SVG repaints the whole picture.
+   So: the rings of the rangoli no longer turn inside the picture; the rays of a sparkler and of a chakri stand still and their group flickers
+   (the chakri group already spins); the rays of a firework stand at full length and the whole burst grows and fades (one layer, not 14). */
+.dw-rg-a,
+.dw-rg-b,
+.dw-sparks.is-star i,
+.dw-sparks.is-wheel i {
+  animation: none;
+}
+.dw-sparks.is-star {
+  animation: dw-star 0.42s ease-in-out infinite alternate;
+}
+@keyframes dw-star {
+  from {
+    opacity: 0.55;
+    scale: 0.75;
+  }
+  to {
+    opacity: 1;
+    scale: 1.1;
+  }
+}
+.dw-rays {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  animation: dw-rays 5.4s cubic-bezier(0.15, 0.75, 0.3, 1) infinite;
+  animation-delay: calc(var(--k) * -0.9s);
+}
+.dw-rays i {
+  opacity: 1;
+  transform: rotate(var(--ang)) translateY(-24px);
+  animation: none;
+}
+@keyframes dw-rays {
+  0%,
+  23% {
+    opacity: 0;
+    scale: 0.15;
+  }
+  27% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 1;
+    scale: 1;
+  }
+  72%,
+  100% {
+    opacity: 0;
+    scale: 1.25;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dw-sparks.is-star,
+  .dw-rays {
+    animation: none;
+  }
+}

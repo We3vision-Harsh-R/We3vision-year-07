@@ -78,6 +78,11 @@
   scale: 0.52;
   transform-origin: 50% 100%;
 }
+/* the sparks of the tiny figures stay still here (each moving spark would be a layer of its own; at this size the flicker is not seen) */
+.fs-brand .dw-sparks i,
+.fs-brand .dw-fig::after {
+  animation: none;
+}
 /* tiny rockets: climb, then burst */
 .fs-bg-rocket {
   position: absolute;
@@ -210,7 +215,6 @@
   flex-direction: column;
   align-items: center;
   transform-origin: 50% 0;
-  filter: drop-shadow(0 6px 12px rgba(251, 146, 60, 0.5));
   animation: fs-swing 5s ease-in-out infinite alternate;
   animation-delay: var(--d);
 }
@@ -234,7 +238,6 @@
   position: absolute;
   line-height: 0;
   opacity: 0;
-  filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.45));
   transition: opacity 0.9s 0.4s;
 }
 .mm[data-open="true"] .fs-menu-rangoli {
@@ -343,5 +346,37 @@ html[data-fest-fx~="menu"] .mm-login {
   }
   .fs-menu-sparks {
     display: none;
+  }
+}
+
+/* SPEED: the rays of the tiny rockets stand still at full length; the whole burst grows and fades (one moving layer per rocket, not ten) */
+.fs-bg-burst {
+  opacity: 0;
+  animation: fs-bg-burst 5.2s ease-out infinite;
+  animation-delay: inherit;
+}
+.fs-bg-rocket .fs-bg-burst u {
+  opacity: 1;
+  transform: rotate(var(--a)) translateY(-17px);
+  animation: none;
+}
+@keyframes fs-bg-burst {
+  0%,
+  31% {
+    opacity: 0;
+    scale: 0.2;
+  }
+  34% {
+    opacity: 1;
+  }
+  52%,
+  100% {
+    opacity: 0;
+    scale: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fs-bg-burst {
+    animation: none;
   }
 }

@@ -97,18 +97,22 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   teamValues: TeamValues,
 };
 
-type AnyRenderer = ComponentType<{ data: Record<string, unknown>; site: SiteSettings; sectionId?: string; skin?: Skin; page?: string; projects?: ProjectView[] }>;
+type AnyRenderer = ComponentType<{ data: Record<string, unknown>; site: SiteSettings; sectionId?: string; skin?: Skin; page?: string; projects?: ProjectView[]; glance?: Record<string, unknown> }>;
 
 /** Renders the sections of a page (used by the live pages AND the admin draft preview). */
 export async function PageSections({ sections, site, skin = "classic", page }: { sections: PageSection[]; site: SiteSettings; skin?: Skin; page?: string }) {
   // the projects of the admin panel are only read when a section of this page shows them
   const needsProjects = sections.some((x) => x.type === "projects" || (x.type === "archGallery" && typeof x.data.group === "string" && x.data.group !== ""));
   const projects = needsProjects ? await getProjects() : undefined;
+  // home page: the hero and "At a glance" are one first screen (home-intro.tsx); the facts of the glance section go to the hero and the glance
+  // section itself is not drawn again (both stay separate sections in the admin panel, so they are edited as before)
+  const glance = page === "home" && sections.some((x) => x.type === "hero") ? sections.find((x) => x.type === "highlights") : undefined;
   return (
     <>
       {sections.map((section) => {
+        if (section === glance) return null;
         const Component = RENDERERS[section.type] as unknown as AnyRenderer;
-        return <Component key={section.id} data={section.data} site={site} sectionId={section.id} skin={skin} page={page} projects={projects} />;
+        return <Component key={section.id} data={section.data} site={site} sectionId={section.id} skin={skin} page={page} projects={projects} glance={section.type === "hero" ? glance?.data : undefined} />;
       })}
     </>
   );

@@ -6,6 +6,8 @@ import { useEffect } from "react";
 // About page alone has ~100). Their parts are SVG shapes, so every one of those animations is worked out on the main thread on every frame, also for
 // the people nobody can see. This pauses the animations of every figure that is off the screen (and starts them again when it comes back), which
 // keeps the scroll smooth. Nothing changes for what the visitor can see: a paused figure stands exactly where its cycle stopped.
+// The same for any element marked data-pause-off (a big animated section: the services of the home page, the tech space, the footer, the festival
+// overlay of an office): while it is off the screen all the animations inside it are paused (globals.css), so they cost nothing.
 export function PauseOffscreen() {
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
@@ -17,7 +19,7 @@ export function PauseOffscreen() {
     );
     const seen = new WeakSet<Element>();
     const scan = () => {
-      document.querySelectorAll(".ch").forEach((el) => {
+      document.querySelectorAll(".ch, [data-pause-off]").forEach((el) => {
         if (seen.has(el)) return;
         seen.add(el);
         io.observe(el);

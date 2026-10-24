@@ -173,7 +173,7 @@ export function TechSpace({ items }: { items: string[] }) {
       <p className="ts-hint">
         <span aria-hidden>✦</span> Hover a planet to open the technologies inside it
       </p>
-      <div ref={stageRef} className="ts-stage" data-pause={!!pop}>
+      <div ref={stageRef} className="ts-stage" data-pause={!!pop} data-pause-off>
         <div className="ts-system">
           {groups.map(([cat, names], k) => {
             const { f, a0, dur } = layout[k];

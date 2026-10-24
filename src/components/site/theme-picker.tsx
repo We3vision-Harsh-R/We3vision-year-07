@@ -27,13 +27,36 @@ import {
 // big petals, 6 soft ones, a centre button) inside a ring in the chosen colour, with a curved slider at its right side.
 // The colours are NOT a rainbow: every petal is the brand's own colour (same lightness and glow as our violet) in another hue,
 // so every choice looks like our design.
+// Admin > Settings > "Colour picker" decides (PickerConfig): when the card opens by itself (first visit / every visit / never / off), after how long
+// (seconds or the first scroll), which colours the petals are (empty = the 18 of the design) and whether visitors may also type their own colour.
 
-const OUTER = Array.from({ length: 12 }, (_, i) => (BASE_HUE + 30 * i) % 360); // theme hues of the 12 big petals
-const INNER = Array.from({ length: 6 }, (_, i) => (BASE_HUE + 15 + 60 * i) % 360); // ... and of the 6 soft ones
 const INNER_S = 0.62;
 // yellows and greens look harsher than violet at the same strength (and tint the dark surfaces olive), so their petals start a bit softer
 const outerS = (ph: number) => (ph >= 40 && ph <= 170 ? 0.82 : 1);
 const HUE_SHIFT = 278 - BASE_HUE; // the brand accent sits 6 degrees before the theme hue
+
+/** what Admin > Settings > "Colour picker" says (lib/cms/settings.ts) */
+export type PickerConfig = { show: string; when: string; free: string; colors: { name: string; hex: string }[] };
+type Petal = { ph: number; ps: number; name?: string };
+type Petals = { outer: Petal[]; inner: Petal[] };
+/** the 18 colours of the design: 12 big petals round the hue circle and 6 soft ones between them */
+const DESIGN_PETALS: Petals = {
+  outer: Array.from({ length: 12 }, (_, i) => {
+    const ph = (BASE_HUE + 30 * i) % 360;
+    return { ph, ps: outerS(ph) };
+  }),
+  inner: Array.from({ length: 6 }, (_, i) => ({ ph: (BASE_HUE + 15 + 60 * i) % 360, ps: INNER_S })),
+};
+/** the petals from the colours of the admin panel (a colour code becomes a theme hue + strength); nothing valid = the design's 18 */
+function petalsFrom(colors: PickerConfig["colors"] | undefined): Petals {
+  const list: Petal[] = [];
+  for (const c of colors ?? []) {
+    const hsl = hexToHsl(c.hex.startsWith("#") ? c.hex : `#${c.hex}`);
+    if (hsl) list.push({ ph: mod(hsl.h - HUE_SHIFT, 360), ps: clampS(hsl.s / 100 || 1), name: c.name || undefined });
+  }
+  if (list.length === 0) return DESIGN_PETALS;
+  return { outer: list.slice(0, 12), inner: list.slice(12, 18) };
+}
 const RING = 14; // arc of the slider, degrees on each side of the horizontal
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 const hueDist = (a: number, b: number) => Math.abs(((a - b + 540) % 360) - 180);
@@ -55,7 +78,9 @@ function Pencil({ className = "" }: { className?: string }) {
 }
 
 /** The colour picker widget (swatch + hex, flower, slider). Calls onChange for every change, so the page repaints live. */
-function ColorPicker({ h, s, onChange }: { h: number; s: number; onChange: (h: number, s: number) => void }) {
+function ColorPicker({ h, s, onChange, petals, free }: { h: number; s: number; onChange: (h: number, s: number) => void; petals: Petals; free: boolean }) {
+  const OUTER = petals.outer;
+  const INNER = petals.inner;
   const [open, setOpen] = useState(true);
   const [hexText, setHexText] = useState(() => accentHex(h, s));
   const [editing, setEditing] = useState(false);
@@ -91,19 +116,21 @@ function ColorPicker({ h, s, onChange }: { h: number; s: number; onChange: (h: n
 
   const nearest = useMemo(() => {
     let best: { kind: "o" | "i"; i: number; d: number } = { kind: "o", i: 0, d: 999 };
-    OUTER.forEach((ph, i) => {
-      const d = hueDist(ph, h) + Math.abs(s - outerS(ph)) * 60;
+    OUTER.forEach((pt, i) => {
+      const d = hueDist(pt.ph, h) + Math.abs(s - pt.ps) * 60;
       if (d < best.d) best = { kind: "o", i, d };
     });
-    INNER.forEach((ph, i) => {
-      const d = hueDist(ph, h) + Math.abs(s - INNER_S) * 60;
+    INNER.forEach((pt, i) => {
+      const d = hueDist(pt.ph, h) + Math.abs(s - pt.ps) * 60;
       if (d < best.d) best = { kind: "i", i, d };
     });
     return best.d < 22 ? best : null;
-  }, [h, s]);
+  }, [h, s, OUTER, INNER]);
 
-  const petal = (kind: "o" | "i", i: number, ph: number, ps: number, r: number, size: number, idx: number) => {
-    const a = ((-90 + (kind === "o" ? 30 : 60) * i + (kind === "i" ? 15 : 0)) * Math.PI) / 180;
+  const petal = (kind: "o" | "i", i: number, pt: Petal, r: number, size: number, idx: number) => {
+    const { ph, ps } = pt;
+    const step = 360 / Math.max(1, kind === "o" ? OUTER.length : INNER.length);
+    const a = ((-90 + step * i + (kind === "i" ? step / 2 : 0)) * Math.PI) / 180;
     const sel = nearest?.kind === kind && nearest.i === i;
     return (
       <button
@@ -111,7 +138,7 @@ function ColorPicker({ h, s, onChange }: { h: number; s: number; onChange: (h: n
         type="button"
         className="tp-petal"
         data-sel={sel}
-        aria-label={`${hueName(mod(ph + HUE_SHIFT, 360))}${kind === "i" ? ", soft" : ""}`}
+        aria-label={pt.name ?? `${hueName(mod(ph + HUE_SHIFT, 360))}${kind === "i" ? ", soft" : ""}`}
         aria-pressed={sel}
         tabIndex={open ? 0 : -1}
         onClick={() => pickPetal(ph, ps)}
@@ -120,7 +147,7 @@ function ColorPicker({ h, s, onChange }: { h: number; s: number; onChange: (h: n
           top: 150 + r * Math.sin(a) - size / 2,
           width: size,
           height: size,
-          background: kind === "o" ? cssAccent(ph, ps, 66) : cssAccent(ph, 0.7, 86),
+          background: kind === "o" ? cssAccent(ph, ps, 66) : cssAccent(ph, Math.max(0.6, ps), 86),
           animationDelay: `${60 + idx * 28}ms`,
         }}
       />
@@ -130,7 +157,7 @@ function ColorPicker({ h, s, onChange }: { h: number; s: number; onChange: (h: n
   return (
     <div className="tp-picker" style={{ "--pc": cssAccent(h, s) } as React.CSSProperties}>
       {/* closed: the swatch and the hex; the swatch blooms into the flower */}
-      <div className="tp-row" data-open={open} aria-hidden={open}>
+      <div className="tp-row" data-open={open} aria-hidden={open} hidden={!free}>
         <button type="button" className="tp-swatch" aria-label="Open the colour wheel" tabIndex={open ? -1 : 0} onClick={() => setOpen(true)} />
         <label className="tp-hex">
           <input
@@ -162,13 +189,13 @@ function ColorPicker({ h, s, onChange }: { h: number; s: number; onChange: (h: n
 
       <div ref={stageRef} className="tp-stage" data-open={open} aria-hidden={!open}>
         <div className="tp-disc" />
-        {OUTER.map((ph, i) => petal("o", i, ph, outerS(ph), 92, 56, i))}
-        {INNER.map((ph, i) => petal("i", i, ph, INNER_S, 46, 52, 12 + i))}
-        <button type="button" className="tp-centre" aria-label="Done with the wheel" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>
+        {OUTER.map((pt, i) => petal("o", i, pt, 92, 56, i))}
+        {INNER.map((pt, i) => petal("i", i, pt, 46, 52, 12 + i))}
+        <button type="button" className="tp-centre" aria-label="Done with the wheel" tabIndex={open ? 0 : -1} onClick={() => free && setOpen(false)}>
           <Check className="size-5" />
         </button>
 
-        <svg className="tp-arc" viewBox="0 0 330 300" aria-hidden>
+        {free && (<><svg className="tp-arc" viewBox="0 0 330 300" aria-hidden>
           <defs>
             <linearGradient id="tp-arc-g" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor={cssAccent(h, S_MAX, 84)} />
@@ -204,14 +231,14 @@ function ColorPicker({ h, s, onChange }: { h: number; s: number; onChange: (h: n
             if (e.key === "ArrowUp" || e.key === "ArrowRight") onChange(h, clampS(s + 0.05));
             if (e.key === "ArrowDown" || e.key === "ArrowLeft") onChange(h, clampS(s - 0.05));
           }}
-        />
+        /></>)}
       </div>
     </div>
   );
 }
 
 /** The card: the picker, the name field and the buttons. */
-function ThemeCard({ first, saved, onDone, onCancel }: { first: boolean; saved: Theme | null; onDone: (t: Theme) => void; onCancel: () => void }) {
+function ThemeCard({ first, saved, onDone, onCancel, petals, free }: { first: boolean; saved: Theme | null; onDone: (t: Theme) => void; onCancel: () => void; petals: Petals; free: boolean }) {
   const start = saved ?? DEFAULT_THEME;
   const [h, setH] = useState(start.h);
   const [s, setS] = useState(start.s);
@@ -248,7 +275,7 @@ function ThemeCard({ first, saved, onDone, onCancel }: { first: boolean; saved: 
       </h2>
       <p className="tp-sub">Pick a colour. The whole site changes with it, and it stays that way next time you visit.</p>
 
-      <ColorPicker h={h} s={s} onChange={change} />
+      <ColorPicker h={h} s={s} onChange={change} petals={petals} free={free} />
 
       <label className="tp-name">
         <span>What should we call you?</span>
@@ -277,8 +304,11 @@ function ThemeCard({ first, saved, onDone, onCancel }: { first: boolean; saved: 
   );
 }
 
-/** Mounted once in the site layout: asks a first-time visitor, and holds the small button that reopens the card. */
-export function ThemeProvider() {
+/** Mounted once in the site layout: asks a visitor (as Admin > Settings says), and holds the small button that reopens the card. */
+export function ThemeProvider({ config }: { config?: PickerConfig }) {
+  const show = config?.show ?? "first";
+  const free = config?.free !== "no";
+  const petals = useMemo(() => petalsFrom(config?.colors), [config?.colors]);
   const [open, setOpen] = useState(false);
   const [first, setFirst] = useState(false);
   const [saved, setSaved] = useState<Theme | null>(null);
@@ -299,8 +329,13 @@ export function ThemeProvider() {
     };
   }, []);
 
-  // restore the saved colour (the page script has usually done it already) and ask first-time visitors
+  // restore the saved colour (the page script has usually done it already) and ask the visitor when the admin panel says so
   useEffect(() => {
+    if (show === "off") {
+      // the picker is switched off: everybody sees the colour of the design (a colour saved earlier is not used)
+      applyTheme(DEFAULT_THEME.h, DEFAULT_THEME.s, "");
+      return;
+    }
     const t = loadTheme();
     if (t) {
       applyTheme(t.h, t.s, t.name);
@@ -308,8 +343,9 @@ export function ThemeProvider() {
       setSaved(t);
       setAccent(t.h);
       setSat(t.s);
-      return;
     }
+    if (show === "button") return;
+    if (show === "first" && t) return; // asked before (a colour is saved)
     let seen = false;
     try {
       seen = sessionStorage.getItem("we3.theme.seen") === "1";
@@ -317,12 +353,22 @@ export function ThemeProvider() {
       // ignore
     }
     if (seen) return;
-    const timer = window.setTimeout(() => {
-      setFirst(true);
+    const ask = () => {
+      setFirst(!t);
       setOpen(true);
-    }, 1400);
+    };
+    const when = config?.when ?? "1.4";
+    if (when === "scroll") {
+      const onScroll = () => {
+        window.removeEventListener("scroll", onScroll);
+        window.setTimeout(ask, 300);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    }
+    const timer = window.setTimeout(ask, (Number(when) || 1.4) * 1000);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [show, config?.when]);
 
   // the corner button shows the colour that is on the page now
   useEffect(() => {
@@ -362,6 +408,7 @@ export function ThemeProvider() {
     if (open) document.documentElement.classList.add("tp-open");
   }, [open]);
 
+  if (show === "off") return null;
   return (
     <>
       <button
@@ -380,7 +427,7 @@ export function ThemeProvider() {
       </button>
       {open && (
         <div className="tp-overlay" data-first={first}>
-          <ThemeCard first={first} saved={first ? null : saved} onDone={done} onCancel={cancel} />
+          <ThemeCard first={first} saved={first ? null : saved} onDone={done} onCancel={cancel} petals={petals} free={free} />
         </div>
       )}
     </>

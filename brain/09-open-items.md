@@ -217,3 +217,9 @@
 - Defaults after save: everything on except embers, petals, rangoli corners, anar, and the diya / petal trail / bloom / chakri pointer effects (owner can switch them on in Admin > Fest). Nothing shows until a festival is switched on for the site or for pages.
 - The "Login" button in the mega menu goes to /admin/login (the only login that exists). Public member accounts are still a separate open task (spec: member accounts, blog submission).
 - Not seen on the live site with a real admin save; checked in a local production build with `?festtest`. Check on a real laptop: weak GPUs may need the "Light" amount (Admin > Fest > How much is drawn).
+
+## Task 120 (2026-10-24)
+- The floating nav "Services" link (/#services) lands on the services section again (its section id is `services`).
+- The home Diwali street still lives in the services section (home-street.tsx); it is not lazy (small).
+- Speed numbers are headless (software-heavy) and only for comparing; check on a real laptop. Home without festival is still the heaviest page (industries road + services street); the 3D road is the next candidate if the owner wants more.
+- Colour picker settings: not tried with a real admin save (login-gated); defaults keep the old behaviour (first visit, 1.4 s, the 18 design colours, free colour on).

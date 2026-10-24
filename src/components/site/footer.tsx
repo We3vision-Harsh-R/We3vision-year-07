@@ -30,7 +30,7 @@ function SocialIcon({ label, href }: { label: string; href: string }) {
  */
 export function Footer({ site }: { site: SiteSettings }) {
   return (
-    <footer className="ft">
+    <footer className="ft" data-pause-off>
       <div className="ft-in">
         {/* 1. the sentence and the button */}
         <div className="ft-top-row">

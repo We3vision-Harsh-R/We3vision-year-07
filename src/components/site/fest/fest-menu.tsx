@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/fest.css";
+import "@/styles/fest-places.css";
 import type { CSSProperties } from "react";
 import { Kandil, Rangoli, ToranGarland } from "./fest-art";
 

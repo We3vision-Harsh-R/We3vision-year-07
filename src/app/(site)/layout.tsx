@@ -1,6 +1,6 @@
 import "../globals.css";
 import { Background } from "@/components/site/background";
-import { FestLayer } from "@/components/site/fest/fest-layer";
+import { LazyFestLayer } from "@/components/site/fest/lazy";
 import { FloatingNav } from "@/components/site/floating-nav";
 import { Footer } from "@/components/site/footer";
 import { LateExtras } from "@/components/site/late-extras";
@@ -16,21 +16,24 @@ import { RootShell, baseMetadata } from "@/lib/root-shell";
 // LateExtras (cursor, colour picker, pause of off-screen figures) is loaded after the first paint (optimize branch).
 export const metadata = baseMetadata;
 
+// the colour picker is switched off in Admin > Settings: a colour a visitor saved earlier is not put on the page before the first paint
+const PICKER_OFF_BOOT = `(function(){var r=document.documentElement.style;r.removeProperty("--th");r.removeProperty("--ts");})();`;
+
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [site, fest] = await Promise.all([getSiteSettings(), getFestConfig()]);
   const festOn = anyFest(fest);
   return (
-    <RootShell boot={festOn ? festBootScript(fest) : undefined}>
+    <RootShell boot={[festOn ? festBootScript(fest) : "", site.picker.show === "off" ? PICKER_OFF_BOOT : ""].join("") || undefined}>
       <div className="relative overflow-x-clip">
         <a href="#main-content" className="skp-link">
           Skip to content
         </a>
         <SmoothScroll />
         <SiteScrollbar />
-        <LateExtras />
+        <LateExtras picker={site.picker} />
         <Background />
         {/* a festival theme (Admin > Fest): RootShell puts it on <html> before the first paint (boot), these are its decorations. While developing, FestLayer is always there: an address with ?festtest shows every effect (the check is removed from the production build) */}
-        {(festOn || process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_FEST_PREVIEW === "1") && <FestLayer cfg={fest} />}
+        {(festOn || process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_FEST_PREVIEW === "1") && <LazyFestLayer cfg={fest} />}
         <LogoMark name={site.name} />
         <main id="main-content" tabIndex={-1}>
           {children}

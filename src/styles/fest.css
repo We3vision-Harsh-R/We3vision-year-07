@@ -8,7 +8,7 @@
 .fs-top,
 .fs-pointer,
 .fs-ftdiyas {
-  animation: fs-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fs-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) backwards; /* (not "both": once it has come in nothing of the animation stays on the layer) */
 }
 @keyframes fs-in {
   from {
@@ -37,14 +37,26 @@
   position: absolute;
   inset: 0;
 }
-/* the blur of the distance is on the whole layer: one filter, not one for every piece */
+/* SPEED: no filter, blend or opacity on a whole layer (the graphics card would redo the full screen every frame while anything in it moves).
+   The distance is given per piece instead: --dop (how faded) is used by the pieces themselves, and the blur sits only on the STILL drawing
+   inside a moving piece (it is painted once, then only moved around). */
 .fs-depth[data-z="0"] {
-  filter: blur(3.2px);
-  opacity: 0.62;
+  --dop: 0.62;
 }
 .fs-depth[data-z="1"] {
-  filter: blur(1.3px);
-  opacity: 0.86;
+  --dop: 0.86;
+}
+.fs-depth[data-z="0"] .fs-lantern svg,
+.fs-depth[data-z="0"] .fs-kandil svg,
+.fs-depth[data-z="0"] .fs-toran .fs-tg > svg:first-child {
+  filter: blur(2.4px);
+}
+.fs-depth[data-z="1"] .fs-lantern svg,
+.fs-depth[data-z="1"] .fs-kandil svg {
+  filter: blur(1px);
+}
+.fs-depth[data-z="0"] .fs-diya svg {
+  filter: blur(1.2px);
 }
 .fs-cv {
   position: absolute;
@@ -73,7 +85,6 @@
 .fs-glow {
   position: absolute;
   inset: 0;
-  mix-blend-mode: screen;
 }
 .fs-glow-l,
 .fs-glow-r {
@@ -102,10 +113,15 @@
   width: 96vmax;
   height: 96vmax;
   margin-left: -48vmax;
+  animation: fs-turn 150s linear infinite, fs-breathe 10s ease-in-out infinite alternate;
+}
+/* the rays themselves are a still picture inside the turning element (a mask on a moving element would be redone every frame) */
+.fs-rays > i {
+  position: absolute;
+  inset: 0;
   background: repeating-conic-gradient(from 0deg, rgba(253, 224, 71, 0.085) 0 4.5deg, transparent 4.5deg 13deg);
   -webkit-mask-image: radial-gradient(closest-side, #000 18%, transparent 68%);
   mask-image: radial-gradient(closest-side, #000 18%, transparent 68%);
-  animation: fs-turn 150s linear infinite, fs-breathe 10s ease-in-out infinite alternate;
 }
 @keyframes fs-breathe {
   to {
@@ -127,15 +143,33 @@
   width: clamp(24px, 2.4vw, 42px);
   opacity: 0;
   scale: var(--s);
-  filter: drop-shadow(0 0 14px rgba(251, 146, 60, 0.65));
-  animation: fs-rise var(--t) linear infinite;
-  animation-delay: var(--d);
+  /* rise and sway are both on this element (transform + rotate: the graphics card moves it); the drawing inside stays still */
+  animation:
+    fs-rise var(--t) linear infinite,
+    fs-sway 5s ease-in-out infinite alternate;
+  animation-delay: var(--d), calc(var(--d) * 0.3);
+}
+/* the warm glow around the lantern: a soft light painted once (instead of a drop-shadow filter that moves with it) */
+.fs-lantern::before {
+  content: "";
+  position: absolute;
+  left: -60%;
+  top: -40%;
+  width: 220%;
+  height: 180%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(251, 146, 60, 0.42), transparent);
+}
+/* the fading of the distance sits on the still pieces inside (a CSS variable inside the keyframes would keep the animation off the graphics card) */
+.fs-lantern svg,
+.fs-lantern::before {
+  opacity: var(--dop, 1);
 }
 .fs-lantern svg {
+  position: relative;
   display: block;
   width: 100%;
   height: auto;
-  animation: fs-sway 5s ease-in-out infinite alternate;
 }
 @keyframes fs-rise {
   0% {
@@ -173,7 +207,7 @@
   flex-direction: column;
   align-items: center;
   transform-origin: 50% 0;
-  filter: drop-shadow(0 6px 14px rgba(251, 146, 60, 0.45));
+  opacity: var(--dop, 1);
   animation: fs-swing 5.5s ease-in-out infinite alternate;
   animation-delay: var(--d);
 }
@@ -188,9 +222,6 @@
   width: 100%;
   height: auto;
 }
-.fs-kandil-core {
-  animation: fs-core 2.2s ease-in-out infinite alternate;
-}
 @keyframes fs-swing {
   from {
     rotate: -5deg;
@@ -199,69 +230,55 @@
     rotate: 5deg;
   }
 }
-@keyframes fs-core {
-  from {
-    opacity: 0.65;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
 /* ---- toran: a garland of marigolds and bulbs along the top edge ---- */
 .fs-toran {
   position: absolute;
-  left: 0;
-  right: 0;
   display: flex;
   justify-content: center;
   overflow: hidden;
   line-height: 0;
 }
+/* short and close to the top edge, so it never lies over the logo, the recognitions or the page */
 .fs-toran.is-near {
-  top: -6px;
+  top: -12px;
+}
+/* the shadow sits on the still garland only, not on the twinkling bulbs */
+.fs-toran.is-near .fs-tg > svg:first-child {
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
 }
 .fs-toran.is-far {
-  top: 6px;
+  top: -4px;
 }
-.fs-bulb {
-  fill: #fde047;
-  animation: fs-bulb 4.8s linear infinite;
-  animation-delay: calc(var(--k) * -0.31s);
+.fs-toran.is-far .fs-tg > svg:first-child,
+.fs-toran.is-far .fs-tb g {
+  opacity: var(--dop, 1);
 }
-@keyframes fs-bulb {
-  0% {
-    fill: #fde047;
+/* a garland (fest-art.tsx ToranGarland): the still picture + two still sets of bulbs that fade in and out one after the other */
+.fs-tg {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  line-height: 0;
+}
+.fs-tg > svg {
+  display: block;
+}
+.fs-tb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: fs-tw 1.4s ease-in-out infinite alternate;
+}
+.fs-tb.is-b {
+  animation-delay: -1.4s;
+}
+@keyframes fs-tw {
+  from {
     opacity: 1;
   }
-  12% {
-    opacity: 0.4;
-  }
-  25% {
-    fill: #fb923c;
-    opacity: 1;
-  }
-  37% {
-    opacity: 0.4;
-  }
-  50% {
-    fill: #f87171;
-    opacity: 1;
-  }
-  62% {
-    opacity: 0.4;
-  }
-  75% {
-    fill: #86efac;
-    opacity: 1;
-  }
-  87% {
-    opacity: 0.4;
-  }
-  100% {
-    fill: #fde047;
-    opacity: 1;
+  to {
+    opacity: 0.2;
   }
 }
 
@@ -298,8 +315,22 @@
   height: calc(var(--w) * 2.4);
   transform: translateX(-50%);
   background: radial-gradient(closest-side, rgba(251, 191, 36, 0.42), transparent);
+  opacity: var(--dop, 1);
   animation: fs-glimmer 1.7s ease-in-out infinite alternate;
   animation-delay: calc(var(--k) * -0.37s);
+}
+/* the far and middle rows: the glow is still (fewer moving layers), the pieces are faded by distance */
+.fs-depth[data-z="0"] .fs-diya::before,
+.fs-depth[data-z="1"] .fs-diya::before,
+.fs-depth[data-z="0"] .fs-diya b,
+.fs-depth[data-z="1"] .fs-diya b {
+  animation: none; /* (every moving piece is a layer of its own: only the near row flickers) */
+}
+.fs-depth[data-z="0"] .fs-diya svg,
+.fs-depth[data-z="1"] .fs-diya svg,
+.fs-depth[data-z="0"] .fs-diya b,
+.fs-depth[data-z="1"] .fs-diya b {
+  opacity: var(--dop, 1);
 }
 .fs-diya svg {
   position: relative;
@@ -340,12 +371,26 @@
 .fs-rangoli {
   position: absolute;
   line-height: 0;
-  opacity: 0.55;
-  filter: drop-shadow(0 0 22px rgba(251, 146, 60, 0.5));
+  opacity: 0.38;
 }
+/* its warm glow: a soft light painted once (a drop-shadow filter on a turning element would be redone every frame) */
+.fs-rangoli::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(251, 146, 60, 0.32), transparent);
+}
+.fs-rangoli svg {
+  position: relative;
+}
+.fs-depth[data-z="0"] .fs-rangoli svg {
+  filter: blur(2px);
+}
+/* mostly outside the window: only a quarter of it shows in the corner */
 .fs-rangoli.is-bl {
-  left: -7vmin;
-  bottom: -7vmin;
+  left: -12vmin;
+  bottom: -12vmin;
   animation: fs-turn 100s linear infinite;
 }
 .fs-rangoli.is-tr {
@@ -354,15 +399,7 @@
   opacity: 0.4;
   animation: fs-turn 150s linear infinite reverse;
 }
-.fs-rg-a,
-.fs-rg-b {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: fs-turn 36s linear infinite;
-}
-.fs-rg-b {
-  animation-direction: reverse;
-}
+/* (the rings inside a rangoli do not turn on their own: an animation inside an SVG repaints the whole picture every frame; the rangoli turns as one) */
 
 /* ---- the pointer effects ---- */
 .fs-pointer {
@@ -507,15 +544,11 @@ html[data-fest-fx~="ind-roofs"] .cm-win .cm-rt::after {
   .fs-glow-l,
   .fs-glow-r,
   .fs-rays,
-  .fs-lantern svg,
   .fs-kandil,
-  .fs-kandil-core,
-  .fs-bulb,
+  .fs-tb,
   .fs-diya::before,
   .fs-diya b,
   .fs-rangoli,
-  .fs-rg-a,
-  .fs-rg-b,
   .fs-ftdiyas b {
     animation: none;
   }

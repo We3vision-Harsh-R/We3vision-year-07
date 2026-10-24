@@ -9,7 +9,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { AiChat } from "./ai-chat";
-import { FestMenuDecor } from "./fest/fest-menu";
+import { LazyFestMenu } from "./fest/lazy";
 import { useFest } from "./fest/use-fest";
 import { GlowEdge } from "./glow-edge";
 import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS } from "../../lib/site-menu";
@@ -128,7 +128,7 @@ export function MegaMenu({
         {/* the border glow of the cards: it follows the pointer along the edge of the pop-up */}
         <GlowEdge />
         <span className="mm-bridge" aria-hidden />
-        {festMenu && <FestMenuDecor />}
+        {festMenu && <LazyFestMenu />}
         <div className="mm-in mm-in2" data-lenis-prevent>
           {/* the title and text of the menu stay in the page for search engines and screen readers; the design shows the links */}
           <h2 className="sr-only">{data.title}</h2>
@@ -187,22 +187,22 @@ export function MegaMenu({
               {group({ label: "Explore", items: EXPLORE_LINKS }, 2, "mm-col")}
               <div className="mm-end mm-r" style={r()}>
                 {recognised}
-                {data.social.length > 0 && (
-                  <div className="mm-follow">
-                    <p className="mm-follow-t">Follow us</p>
-                    <ul>
-                      {data.social.map((l) => (
-                        <li key={l.href}>
-                          <a href={l.href} target="_blank" rel="noopener noreferrer" aria-label={l.label} title={l.label}>
-                            <SocialGlyph label={l.label} />
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {/* sign in: the admin login (there is no public sign-up yet) */}
-                <div className="mm-account">
+                {/* follow us, and on the same line (at its right end) the sign-in: the admin login (there is no public sign-up yet) */}
+                <div className="mm-follow">
+                  {data.social.length > 0 && (
+                    <>
+                      <p className="mm-follow-t">Follow us</p>
+                      <ul>
+                        {data.social.map((l) => (
+                          <li key={l.href}>
+                            <a href={l.href} target="_blank" rel="noopener noreferrer" aria-label={l.label} title={l.label}>
+                              <SocialGlyph label={l.label} />
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                   <a href="/admin/login" className="mm-login">
                     <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 8l4 4-4 4M14 12H4" />

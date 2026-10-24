@@ -109,7 +109,6 @@
   line-height: 0;
   opacity: 0.88;
   transform: translateZ(3px);
-  filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.5));
   animation: rf-turn 110s linear infinite;
 }
 @keyframes rf-turn {
@@ -329,6 +328,16 @@
   }
 }
 
+/* SPEED: the road is a 3D world with hundreds of pieces; every moving piece in it is a 3D layer the browser has to sort every frame. So the
+   bulbs, the lamp flames and the little figures stay still here (they glow); only the rockets, the lanterns and the sparks of the car move. */
+.rf-b,
+.rf-flame::before,
+.rf-fig *,
+.rf-fig *::before,
+.rf-fig *::after {
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rf-b,
   .rf-flame::before,
@@ -346,5 +355,32 @@
   .rf-sparks,
   .rf-lant {
     display: none;
+  }
+}
+
+/* SPEED: the rays of a burst stand still at full length; the whole burst grows and fades (one moving 3D layer per rocket, not fourteen) */
+.rf-burst {
+  opacity: 0;
+  animation: rf-burst 9s ease-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.rf-burst u {
+  opacity: 1;
+  transform: rotate(var(--a)) translateY(-44px);
+  animation: none;
+}
+@keyframes rf-burst {
+  0%,
+  30% {
+    opacity: 0;
+    scale: 0.2;
+  }
+  32% {
+    opacity: 1;
+  }
+  52%,
+  100% {
+    opacity: 0;
+    scale: 1;
   }
 }

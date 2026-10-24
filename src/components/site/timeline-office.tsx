@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { BOARDS } from "./timeline-boards";
 import { PersonTop } from "./timeline-art";
-import { OfficeFest } from "./fest/office-fest";
+import { LazyOfficeFest } from "./fest/lazy";
 
 // The last screen of the timeline: the office of 2027, a full screen seen from above. The seven departments of the company (one
 // per service) each have their own corner, all built the same way and lined up in two columns: a team that works at a long table,
@@ -383,7 +383,7 @@ export function OfficeStage({ teams, finalYear, goalTitle, goalText, names }: { 
       </div>
 
       {/* Diwali in the office (Admin > Fest, "About page office"): lies over the floor, takes no click */}
-      <OfficeFest effect="about" />
+      <LazyOfficeFest effect="about" />
     </div>
   );
 }

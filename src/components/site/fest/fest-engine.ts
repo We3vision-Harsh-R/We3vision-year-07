@@ -1,16 +1,24 @@
-// The particle engine of the festival layer: three canvases lie over the whole page, one for each distance (far, middle, near). The far one
-// is drawn smaller, slower and softly blurred by CSS, the near one sharp and big, so fireworks, embers and petals fill a real 3D space.
+// The particle engine of the festival layer. Particles live at three distances (far, middle, near) but are drawn on only TWO canvases over the
+// whole page: the far and the middle ones on a "back" canvas that has half the pixels (stretched by CSS, so it is naturally soft = the blur of the
+// distance, without a CSS filter and at a quarter of the cost), the near ones sharp on the "front" canvas. The far ones are also smaller, slower
+// and dimmer, so fireworks, embers and petals still fill a 3D space.
 // Everything that flies is a particle with a position, a speed, gravity and a life; the loop runs only while something is alive or an
-// ambient effect (fireworks, embers, petals, anar fountains) is on, and it stops while the tab is hidden.
+// ambient effect (fireworks, embers, petals, anar fountains) is on, and it stops while the tab is hidden. A canvas that has nothing on it is
+// not cleared again (no work for the graphics card), and the engine watches its own frame time: on a slow computer it lowers the amount
+// of particles by itself (and raises it again when there is room), so the page stays smooth with every effect on.
 // No React in here: the layer (fest-top.tsx) creates the engine, the pointer effects (fest-pointer.tsx) and the places call burst() / rocket().
 
 export type Depth = 0 | 1 | 2; // far, middle, near
-/** scale of sizes and speeds, blur (px, applied by CSS) and opacity of the three distances */
+/** scale of sizes and speeds, opacity, and the canvas of the three distances (0 = the soft back canvas, 1 = the sharp front canvas) */
 export const DEPTHS = [
-  { k: 0.42, blur: 3.2, a: 0.55 },
-  { k: 0.7, blur: 1.3, a: 0.82 },
-  { k: 1, blur: 0, a: 1 },
+  { k: 0.42, a: 0.6, cv: 0 },
+  { k: 0.7, a: 0.85, cv: 0 },
+  { k: 1, a: 1, cv: 1 },
 ] as const;
+/** the resolution of the back canvas (a fraction of a CSS pixel): fewer pixels = softer and cheaper */
+const BACK_RES = 0.5;
+/** the most particles one distance may hold at full quality */
+const CAP = 700;
 
 export type BurstType = "peony" | "willow" | "ring" | "chrysanthemum" | "crackle";
 export const BURST_TYPES: BurstType[] = ["peony", "willow", "ring", "chrysanthemum", "crackle"];
@@ -40,7 +48,8 @@ type P = {
 type Flash = { x: number; y: number; r: number; life: number; max: number; h: number };
 type Rocket = { x: number; y0: number; y: number; ty: number; t: number; dur: number; h: number; type: BurstType; scale: number; trailT: number };
 type Fountain = { x: number; y: number; until: number; acc: number; depth: Depth };
-type Layer = { canvas: HTMLCanvasElement; ctx: CanvasRenderingContext2D; w: number; h: number; ps: P[]; flashes: Flash[]; rockets: Rocket[] };
+type Layer = { ps: P[]; flashes: Flash[]; rockets: Rocket[] };
+type Surface = { canvas: HTMLCanvasElement; ctx: CanvasRenderingContext2D; w: number; h: number; drawn: boolean };
 
 /** festival colours as [hue, saturation %, lightness %] */
 const COLORS: [number, number, number][] = [
@@ -62,7 +71,13 @@ export type Ambient = { fireworks: boolean; embers: boolean; petals: boolean; an
 
 export class FestEngine {
   private layers: Layer[];
+  private surfaces: Surface[];
+  private w = 0;
+  private h = 0;
   private density = 1;
+  /** 0.3 .. 1: lowered by itself when the frames get slow */
+  private quality = 1;
+  private slow = 0;
   private raf = 0;
   private last = 0;
   private time = 0;
@@ -77,20 +92,22 @@ export class FestEngine {
   };
   private onResize = () => this.resize();
 
+  /** canvases: [back, front] */
   constructor(canvases: HTMLCanvasElement[], density: EngineDensity = "normal") {
     this.density = DENSITY[density];
-    this.layers = canvases.map((canvas) => ({ canvas, ctx: canvas.getContext("2d") as CanvasRenderingContext2D, w: 0, h: 0, ps: [], flashes: [], rockets: [] }));
+    this.layers = [0, 1, 2].map(() => ({ ps: [], flashes: [], rockets: [] }));
+    this.surfaces = canvases.map((canvas) => ({ canvas, ctx: canvas.getContext("2d") as CanvasRenderingContext2D, w: 0, h: 0, drawn: false }));
     this.resize();
     window.addEventListener("resize", this.onResize);
     document.addEventListener("visibilitychange", this.onVisibility);
   }
 
   destroy() {
-    cancelAnimationFrame(this.raf);
+    if (this.raf > 0) cancelAnimationFrame(this.raf);
     this.raf = 0;
     window.removeEventListener("resize", this.onResize);
     document.removeEventListener("visibilitychange", this.onVisibility);
-    for (const l of this.layers) l.ctx.clearRect(0, 0, l.canvas.width, l.canvas.height);
+    for (const sf of this.surfaces) sf.ctx.clearRect(0, 0, sf.w, sf.h);
   }
 
   setDensity(d: EngineDensity) {
@@ -105,14 +122,17 @@ export class FestEngine {
   private resize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    this.layers.forEach((l, i) => {
-      // the blurred far layers do not need the sharp pixels of a retina screen
-      const dpr = i === 2 ? Math.min(window.devicePixelRatio || 1, 1.5) : 1;
-      l.w = w;
-      l.h = h;
-      l.canvas.width = Math.round(w * dpr);
-      l.canvas.height = Math.round(h * dpr);
-      l.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.w = w;
+    this.h = h;
+    this.surfaces.forEach((sf, i) => {
+      // the back canvas is soft on purpose (half the pixels); the front one is sharp, but a retina screen gets at most 1.25x
+      const res = i === 0 ? BACK_RES : Math.min(window.devicePixelRatio || 1, 1.25);
+      sf.w = w;
+      sf.h = h;
+      sf.canvas.width = Math.max(1, Math.round(w * res));
+      sf.canvas.height = Math.max(1, Math.round(h * res));
+      sf.ctx.setTransform(res, 0, 0, res, 0, 0);
+      sf.drawn = true; // cleared once on the next frame
     });
   }
 
@@ -133,7 +153,7 @@ export class FestEngine {
   private add(depth: Depth, p: Partial<P> & Pick<P, "kind" | "x" | "y">) {
     const L = this.layers[depth];
     if (!L) return;
-    const cap = 1400;
+    const cap = Math.round(CAP * this.quality);
     if (L.ps.length > cap) L.ps.splice(0, L.ps.length - cap);
     const c = pick(COLORS);
     L.ps.push({ vx: 0, vy: 0, ay: 0, drag: 0, delay: 0, life: 1, max: 1, size: 1.6, h: c[0], s: c[1], l: c[2], rot: 0, vr: 0, ph: Math.random() * 6.28, trail: false, ...p });
@@ -200,7 +220,8 @@ export class FestEngine {
     const R = rnd(120, 190) * (o.scale ?? 1) * k; // how far the sparks fly (px)
     const col = COLORS[(o.color ?? Math.floor(Math.random() * COLORS.length)) % COLORS.length];
     const col2 = pick(COLORS);
-    const n = Math.round((type === "ring" ? 46 : type === "willow" ? 54 : 74) * this.density * (0.55 + 0.45 * k));
+    const q = this.density * this.quality;
+    const n = Math.round((type === "ring" ? 46 : type === "willow" ? 54 : 74) * q * (0.55 + 0.45 * k));
     const drag = type === "willow" ? 1.25 : 1.7;
     this.flash(depth, x, y, R * 1.15, col[0]);
     for (let i = 0; i < n; i++) {
@@ -229,7 +250,7 @@ export class FestEngine {
       });
     }
     // the crackle: tiny white glitter that twinkles after the bang
-    const g = Math.round((type === "crackle" ? 60 : 22) * this.density * k);
+    const g = Math.round((type === "crackle" ? 60 : 22) * q * k);
     for (let i = 0; i < g; i++) {
       const a = rnd(0, 6.2832);
       const sp = R * rnd(0.2, 0.75);
@@ -257,21 +278,36 @@ export class FestEngine {
   // ------------------------------------------------------------------ the loop
 
   private frame = (now: number) => {
-    this.raf = 0;
-    if (document.hidden) return;
-    const dt = this.last ? Math.min(0.05, (now - this.last) / 1000) : 0.016;
+    // -1 = "inside a frame": the particles added while this frame runs call kick(), which must NOT ask for another frame (only the line at the
+    // end does). Without this every frame asked for two, the loops doubled every frame and the page stopped.
+    this.raf = -1;
+    if (document.hidden) {
+      this.raf = 0;
+      return;
+    }
+    const raw = this.last ? (now - this.last) / 1000 : 0.016;
+    const dt = Math.min(0.05, raw);
     this.last = now;
+    this.tune(raw);
     this.time += dt;
     this.step(dt);
     this.draw();
-    if (this.busy()) this.raf = requestAnimationFrame(this.frame);
+    this.raf = this.busy() ? requestAnimationFrame(this.frame) : 0;
   };
 
+  /** the self-tuning: frames slower than ~24 ms (under ~40 fps) for a while lower the quality, quick frames raise it again */
+  private tune(raw: number) {
+    if (raw > 0.2) return; // the tab came back, or a one-off stall: not the effects
+    this.slow = this.slow * 0.94 + raw * 0.06;
+    if (this.slow > 0.024) this.quality = Math.max(0.3, this.quality - 0.01);
+    else if (this.slow < 0.0185) this.quality = Math.min(1, this.quality + 0.002);
+  }
+
   private step(dt: number) {
-    const w = this.layers[2]?.w ?? window.innerWidth;
-    const h = this.layers[2]?.h ?? window.innerHeight;
+    const w = this.w || window.innerWidth;
+    const h = this.h || window.innerHeight;
     const a = this.ambient;
-    const dens = this.density;
+    const dens = this.density * this.quality;
 
     // ambient fireworks: a rocket rises from the bottom to a place in the sky and bursts, at a random distance
     if (a.fireworks && this.time >= this.nextFirework) {
@@ -319,7 +355,7 @@ export class FestEngine {
     }
     this.fountains = this.fountains.filter((f) => f.until > this.time);
 
-    for (const L of this.layers) {
+    for (const [depth, L] of this.layers.entries()) {
       // rockets: they slow down as they climb, trailing sparks, and burst at the top
       for (const r of L.rockets) {
         r.t += dt;
@@ -328,17 +364,16 @@ export class FestEngine {
         const prev = r.y;
         r.y = r.y0 + (r.ty - r.y0) * e;
         r.trailT += dt;
-        const depth = this.layers.indexOf(L) as Depth;
         const k = DEPTHS[depth].k;
         const steps = Math.max(1, Math.round(Math.abs(prev - r.y) / 5));
         for (let i = 0; i < steps; i++) {
-          if (Math.random() < 0.9) {
+          if (Math.random() < 0.9 * this.quality) {
             const yy = prev + ((r.y - prev) * i) / steps;
-            this.add(depth, { kind: "trail", x: r.x + rnd(-1.5, 1.5), y: yy, vx: rnd(-14, 14), vy: rnd(10, 40) * k, ay: 60, drag: 1, life: rnd(0.35, 0.75), max: 0.75, size: rnd(1.1, 2.2) * (0.6 + 0.4 * k), h: rnd(24, 44), s: 100, l: rnd(60, 80) });
+            this.add(depth as Depth, { kind: "trail", x: r.x + rnd(-1.5, 1.5), y: yy, vx: rnd(-14, 14), vy: rnd(10, 40) * k, ay: 60, drag: 1, life: rnd(0.35, 0.75), max: 0.75, size: rnd(1.1, 2.2) * (0.6 + 0.4 * k), h: rnd(24, 44), s: 100, l: rnd(60, 80) });
           }
         }
         if (p >= 1) {
-          this.burst(r.x, r.y, { depth, type: r.type, scale: r.scale });
+          this.burst(r.x, r.y, { depth: depth as Depth, type: r.type, scale: r.scale });
           r.dur = -1;
         }
       }
@@ -363,18 +398,29 @@ export class FestEngine {
         p.vy = p.vy * dr + p.ay * dt;
         p.x += p.vx * dt;
         p.y += p.vy * dt;
-        if (p.trail && p.life > 0.2 && Math.random() < 0.35) {
+        if (p.trail && p.life > 0.2 && Math.random() < 0.3 * this.quality) {
           L.ps.push({ kind: "trail", x: p.x, y: p.y, vx: 0, vy: 8, ay: 20, drag: 1, delay: 0, life: 0.4, max: 0.4, size: p.size * 0.7, h: p.h, s: p.s, l: p.l, rot: 0, vr: 0, ph: 0, trail: false });
         }
       }
-      L.ps = L.ps.filter((p) => p.life > 0 && p.y < L.h + 40 && p.y > -80 && p.x > -60 && p.x < L.w + 60);
+      L.ps = L.ps.filter((p) => p.life > 0 && p.y < h + 40 && p.y > -80 && p.x > -60 && p.x < w + 60);
     }
   }
 
   private draw() {
-    this.layers.forEach((L, i) => {
-      const { ctx, w, h } = L;
-      ctx.clearRect(0, 0, w, h);
+    this.surfaces.forEach((sf, si) => {
+      const depths = ([0, 1, 2] as Depth[]).filter((d) => DEPTHS[d].cv === si);
+      const busy = depths.some((d) => this.layers[d].ps.length || this.layers[d].flashes.length || this.layers[d].rockets.length);
+      // an empty canvas that is already clear costs nothing: do not touch it
+      if (!busy && !sf.drawn) return;
+      sf.ctx.clearRect(0, 0, sf.w, sf.h);
+      sf.drawn = busy;
+      for (const d of depths) this.drawLayer(sf.ctx, d);
+    });
+  }
+
+  private drawLayer(ctx: CanvasRenderingContext2D, i: Depth) {
+    {
+      const L = this.layers[i];
       const DA = DEPTHS[i].a;
       // warm light where a firework burst
       ctx.globalCompositeOperation = "lighter";
@@ -451,7 +497,7 @@ export class FestEngine {
         ctx.fill();
         ctx.restore();
       }
-    });
+    }
   }
 }
 

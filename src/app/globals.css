@@ -11708,3 +11708,10 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
     opacity: 1;
   }
 }
+
+/* big animated sections that are off the screen pause everything inside them (data-pause-off, components/site/pause-offscreen.tsx) */
+[data-pause-off][data-off="true"] *,
+[data-pause-off][data-off="true"] *::before,
+[data-pause-off][data-off="true"] *::after {
+  animation-play-state: paused !important;
+}

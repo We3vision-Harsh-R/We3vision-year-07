@@ -67,7 +67,7 @@ export function OfficeFest({ effect }: { effect: "about" | "team" }) {
 
   if (!on) return null;
   return (
-    <div ref={ref} className="fo" aria-hidden>
+    <div ref={ref} className="fo" aria-hidden data-pause-off>
       {/* far: blurred */}
       <div className="fo-d" data-z="0">
         {FIREWORKS.map((f, i) => (

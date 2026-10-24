@@ -132,10 +132,25 @@
   left: 3%;
   right: 3%;
   height: 1px;
-  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0 7px, transparent 7px 17px);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  animation: hub-dash 1.8s linear infinite;
+  overflow: hidden;
+}
+/* the dashes drift by a transform (the graphics card moves them), not by moving the background (that repaints the line every frame) */
+.hub-dash::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -17px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0 7px, transparent 7px 17px);
+  animation: hub-dash-x 1.8s linear infinite;
+}
+@keyframes hub-dash-x {
+  to {
+    transform: translateX(-17px);
+  }
 }
 .hub-pulse {
   position: absolute;
@@ -182,6 +197,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
 .hub-dash,
+.hub-dash::before,
 .hub-pulse {
     animation: none;
   }
@@ -441,6 +457,7 @@
   }
 .hub-av,
 .hub-dash,
+.hub-dash::before,
 .hub-pulse,
 .hub-tick,
 .hub-rail::before {
