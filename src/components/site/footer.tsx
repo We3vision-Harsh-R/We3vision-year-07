@@ -82,6 +82,8 @@ export function Footer({ site }: { site: SiteSettings }) {
             </nav>
           ))}
         </div>
+        {/* 3. a place for the festival (Admin > Fest, "Family at home in the footer"): empty and without height when no festival is on */}
+        <div className="ft-home-slot" />
       </div>
 
       {/* 4. the big name */}

@@ -4,6 +4,7 @@ import "@/styles/fest.css";
 import "@/styles/fest-office.css";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { Diya, Kandil, Rangoli, SkyLantern, ToranGarland } from "./fest-art";
+import { OfficeFloor, type Spot } from "./office-floor";
 import { useFest } from "./use-fest";
 
 // THE OFFICES IN DIWALI (Admin > Fest, "Places": "About page office" and "Team page office"): one overlay that both offices put as the last child of
@@ -34,7 +35,14 @@ const KANDILS = [
   { x: 92, w: 52, d: -2.4 },
 ];
 
-export function OfficeFest({ effect }: { effect: "about" | "team" }) {
+// where rangolis may lie on the floor of each office, in % of the floor (the aisles: never under the big year, the card of the goal or the desks)
+const SPOTS: Record<"about" | "team" | "metaverse", Spot[]> = {
+  about: [[23, 14], [28, 22], [24, 37], [30, 51], [22, 62], [29, 71], [24, 84], [31, 91], [77, 14], [72, 22], [76, 37], [70, 51], [78, 62], [71, 71], [76, 84], [69, 91]],
+  team: [[23, 14], [28, 22], [24, 37], [30, 51], [22, 62], [29, 71], [24, 84], [31, 91], [77, 14], [72, 22], [76, 37], [70, 51], [78, 62], [71, 71], [76, 84], [69, 91]],
+  metaverse: [[24, 50], [18, 62], [28, 72], [22, 85], [30, 93], [76, 50], [82, 62], [72, 72], [78, 85], [70, 93], [35, 57], [65, 57]],
+};
+
+export function OfficeFest({ effect }: { effect: "about" | "team" | "metaverse" }) {
   const fest = useFest();
   const on = fest?.has(effect) ?? false;
   const ref = useRef<HTMLDivElement>(null);
@@ -67,6 +75,8 @@ export function OfficeFest({ effect }: { effect: "about" | "team" }) {
 
   if (!on) return null;
   return (
+    <>
+      <OfficeFloor spots={SPOTS[effect]} />
     <div ref={ref} className="fo" aria-hidden data-pause-off>
       {/* far: blurred */}
       <div className="fo-d" data-z="0">
@@ -120,5 +130,6 @@ export function OfficeFest({ effect }: { effect: "about" | "team" }) {
         ))}
       </div>
     </div>
+    </>
   );
 }

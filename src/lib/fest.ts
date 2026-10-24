@@ -23,7 +23,7 @@ export const FEST_GROUPS = [
   { id: "site", title: "Whole-website effects", blurb: "Drawn on a layer above every page. The far pieces are small and softly blurred, the near ones big and sharp, like a real 3D space." },
   { id: "industry", title: "Industries road", blurb: "The decoration of the road in the Industries section (the road with the districts and the car)." },
   { id: "pointer", title: "Pointer effects", blurb: "What the mouse does. A click on an empty part of a page (no text, no button) can launch a rocket." },
-  { id: "places", title: "Places", blurb: "The big menu, the ground next to the company name, and the two offices." },
+  { id: "places", title: "Places", blurb: "The big menu, the ground next to the company name, and the three offices." },
 ] as const;
 export type FestGroupId = (typeof FEST_GROUPS)[number]["id"];
 
@@ -62,9 +62,12 @@ export const FEST_EFFECTS = [
   fx({ key: "chakri", group: "pointer", label: "Chakri spinner", hint: "A spinning fire wheel follows the mouse and throws sparks", on: false }),
   // ---- places (4) ----
   fx({ key: "menu", group: "places", label: "Big menu theme", hint: "The pop-up menu wears a toran, hanging lamps and a rangoli, with sparks on its links", on: true }),
+  fx({ key: "menu-people", group: "places", label: "People with crackers in the big menu", hint: "In the empty spaces under the short lists of the big menu a boy, a girl and a couple burst sparklers and an anar and enjoy, on a small floor", on: true }),
+  fx({ key: "footer", group: "places", label: "Family at home in the footer", hint: "A little home between the footer columns and the big name: a mandir with the family at the puja, the grandparents, children with crackers and a cat. It only takes the room there is: fewer people on narrower windows, none on a small one", on: true }),
   fx({ key: "brand", group: "places", label: "Ground next to the company name", hint: "A small festive ground beside the logo where people enjoy crackers", on: true }),
-  fx({ key: "about", group: "places", label: "About page office", hint: "String lights, diyas, a rangoli and fireworks at the office of the About page", on: true }),
-  fx({ key: "team", group: "places", label: "Team page office", hint: "Lights, lanterns, a rangoli and fireworks in the office of the Team page", on: true }),
+  fx({ key: "about", group: "places", label: "About page office", hint: "String lights, diyas, fireworks and rangolis on the floor that colleagues draw, at the office of the About page", on: true }),
+  fx({ key: "team", group: "places", label: "Team page office", hint: "Lights, lanterns, fireworks and rangolis on the floor that colleagues draw, in the office of the Team page", on: true }),
+  fx({ key: "metaverse", group: "places", label: "Metaverse page office", hint: "Lights, lanterns, rangolis and fireworks in the office of the Metaverse page", on: true }),
 ] as const;
 export type FestEffect = (typeof FEST_EFFECTS)[number]["key"];
 export const FEST_EFFECT_KEYS = FEST_EFFECTS.map((e) => e.key) as FestEffect[];

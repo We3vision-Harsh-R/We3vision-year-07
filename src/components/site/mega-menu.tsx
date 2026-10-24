@@ -9,7 +9,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { AiChat } from "./ai-chat";
-import { LazyFestMenu } from "./fest/lazy";
+import { LazyFestMenu, LazyMenuScene } from "./fest/lazy";
 import { useFest } from "./fest/use-fest";
 import { GlowEdge } from "./glow-edge";
 import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS } from "../../lib/site-menu";
@@ -177,6 +177,7 @@ export function MegaMenu({
                         </li>
                       ))}
                     </ul>
+                    {festMenu && <LazyMenuScene gi={gi} />}
                   </div>
                 ))}
               </div>

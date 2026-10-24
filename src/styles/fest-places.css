@@ -380,3 +380,284 @@ html[data-fest-fx~="menu"] .mm-login {
     animation: none;
   }
 }
+
+/* ---- the big menu: people with crackers in the empty space under the short lists (fest-menu.tsx, FestMenuScene) ---- */
+html[data-fest-fx~="menu-people"] .mm-in2 .mm-sub {
+  display: flex;
+  flex-direction: column;
+}
+.fs-ms {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  margin-top: 0.3rem;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fs-ms i,
+.fs-ms b {
+  display: block;
+  font-style: normal;
+}
+/* the floor: a soft warm patch with a thin gold edge, like a little stage */
+.fs-ms-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 16px;
+  border-radius: 10px 10px 0 0;
+  border-top: 1px solid rgba(251, 191, 36, 0.4);
+  background: linear-gradient(180deg, rgba(251, 146, 60, 0.2), rgba(251, 146, 60, 0.03));
+}
+.fs-ms-diya {
+  position: absolute;
+  bottom: 5px;
+  width: 10px;
+  translate: -50% 0;
+  line-height: 0;
+}
+.fs-ms-diya b {
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(253, 224, 71, 0.85), transparent);
+  animation: fs-ms-flick 1.4s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k) * -0.4s);
+}
+.fs-ms-fig {
+  position: absolute;
+  bottom: 8px;
+  translate: -50% 0;
+  scale: 0.68;
+  transform-origin: 50% 100%;
+  animation: fs-ms-hop 1.8s ease-in-out infinite;
+  animation-delay: calc(var(--k) * -0.5s);
+}
+@keyframes fs-ms-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes fs-ms-flick {
+  to {
+    opacity: 0.45;
+    scale: 0.8;
+  }
+}
+/* while the menu is shut nothing moves */
+.mm[data-open="false"] .fs-ms *,
+.mm[data-open="false"] .fs-ms {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fs-ms-fig,
+  .fs-ms-diya b {
+    animation: none;
+  }
+}
+
+/* ---- the little home in the footer (fest-home.tsx). The slot is a size container: the strip shows as many people as the room allows ---- */
+.ft-home-slot {
+  container-type: inline-size;
+  container-name: fhs;
+}
+.fh {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.4rem;
+  height: 150px;
+  margin-top: 2.4rem;
+  padding: 0 clamp(0px, 2cqw, 28px) 12px;
+  pointer-events: none;
+}
+.fh i,
+.fh b {
+  display: block;
+  font-style: normal;
+}
+.fh-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18px;
+  border-top: 1px solid rgba(251, 191, 36, 0.38);
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(180deg, rgba(251, 146, 60, 0.18), rgba(251, 146, 60, 0.02));
+}
+.fh-g {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+.fh-p {
+  line-height: 0;
+}
+.fh-p svg {
+  display: block;
+  overflow: visible;
+}
+.fh-mandir-w {
+  margin-right: 8px;
+}
+.fh-rg {
+  opacity: 0.85;
+  scale: 1 0.3;
+  transform-origin: 50% 100%;
+  margin: 0 -6px -2px;
+}
+.fh-diya {
+  position: absolute;
+  bottom: 5px;
+  z-index: 0;
+  width: 11px;
+  translate: -50% 0;
+  line-height: 0;
+}
+.fh-diya b {
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(253, 224, 71, 0.85), transparent);
+  animation: fs-ms-flick 1.4s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k) * -0.4s);
+}
+/* the sparks of the children follow the street animation of home-diwali; the little scene keeps them (a few layers only) */
+.fh-hop {
+  animation: fh-hop 2s ease-in-out infinite;
+  animation-delay: calc(var(--k, 0) * -0.6s);
+}
+@keyframes fh-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+.fh-bell {
+  transform-origin: 76px 52px;
+  animation: fh-bell 2.6s ease-in-out infinite;
+}
+@keyframes fh-bell {
+  0%,
+  100% {
+    transform: rotate(-9deg);
+  }
+  50% {
+    transform: rotate(9deg);
+  }
+}
+.fh-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: fh-flame 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k, 0) * -0.3s);
+}
+@keyframes fh-flame {
+  to {
+    transform: scale(0.82, 1.14);
+    opacity: 0.8;
+  }
+}
+.fh-glow {
+  animation: fh-breathe 3.4s ease-in-out infinite alternate;
+}
+@keyframes fh-breathe {
+  to {
+    opacity: 0.85;
+  }
+}
+.fh-smoke,
+.fh-steam {
+  animation: fh-smoke 3.2s ease-in-out infinite;
+}
+@keyframes fh-smoke {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  40% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.fh-tail {
+  transform-box: fill-box;
+  transform-origin: 0 100%;
+  animation: fh-tail 2.4s ease-in-out infinite alternate;
+}
+@keyframes fh-tail {
+  to {
+    transform: rotate(-14deg);
+  }
+}
+/* the room it has: everybody on a wide window, fewer on a narrower one, nothing (and no height) on a small one */
+@container fhs (max-width: 1099px) {
+  .fh [data-t="3"] {
+    display: none;
+  }
+}
+@container fhs (max-width: 759px) {
+  .fh [data-t="2"] {
+    display: none;
+  }
+  .fh {
+    justify-content: flex-start;
+  }
+}
+@container fhs (max-width: 479px) {
+  .fh {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fh-hop,
+  .fh-bell,
+  .fh-flame,
+  .fh-glow,
+  .fh-smoke,
+  .fh-steam,
+  .fh-tail,
+  .fh-diya b {
+    animation: none;
+  }
+}
+/* the more room, the bigger the little people (zoom: the drawings are fixed-size pictures) */
+@container fhs (min-width: 1100px) {
+  .fh {
+    height: 190px;
+  }
+  .fh-p {
+    zoom: 1.3;
+  }
+}
+@container fhs (min-width: 760px) and (max-width: 1099px) {
+  .fh {
+    height: 165px;
+  }
+  .fh-p {
+    zoom: 1.12;
+  }
+}

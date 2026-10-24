@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 54,
+    date: "2026-10-24",
+    title: "Fest: rangolis drawn on the office floors, crackers in the menu, family at home in the footer",
+    notes: [
+      "About, Team and Metaverse offices: rangolis lie on the floor at random free places and two colleagues walk over and draw new ones, walking round the pattern while it grows; the oldest fades.",
+      "Big menu: in the empty space under the short service lists a boy with a sparkler, a girl with an anar and a couple with sparklers enjoy on a small floor (switch: People with crackers in the big menu).",
+      "Footer: a little home with a mandir and the family at the puja, the grandparents, children with crackers and a cat; it shows as many people as the window has room for and none on a small window (switch: Family at home in the footer).",
+      "New switches in Admin > Fest: Metaverse page office, People with crackers in the big menu, Family at home in the footer. Nothing was removed.",
+    ],
+  },
+  {
     v: 53,
     date: "2026-10-24",
     title: "Fest: a click launches a fan of rockets",

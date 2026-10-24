@@ -319,3 +319,121 @@
     scale: 1;
   }
 }
+
+/* ---- the floor: rangolis on the ground that colleagues draw (office-floor.tsx). Lies UNDER the tables and the people (z 1). ---- */
+.fo-fl {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint;
+}
+.fo-fl i,
+.fo-fl u {
+  display: block;
+  font-style: normal;
+  text-decoration: none;
+}
+.fo-rg {
+  position: absolute;
+  width: calc(var(--p) * 74); /* the same 74 as DIAM in office-floor.tsx */
+  height: calc(var(--p) * 74);
+  margin: calc(var(--p) * -37) 0 0 calc(var(--p) * -37);
+  rotate: var(--r);
+  opacity: 0.9;
+  transition: opacity 2.2s ease;
+}
+.fo-rg[data-fading="true"] {
+  opacity: 0;
+}
+.fo-rg svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* a finished one gets its own colour shift (a still picture); the one that is being drawn keeps its colours, so nothing is filtered while it moves */
+.fo-rg[data-fresh="false"] svg {
+  filter: hue-rotate(var(--h));
+}
+.fo-rg-p {
+  transform-origin: 60px 60px;
+  transform: scale(0);
+  opacity: 0;
+  animation: fo-rg-in 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.25) var(--t, 0s) forwards;
+}
+.fo-rg-d {
+  opacity: 0;
+  animation: fo-rg-dot 0.35s ease var(--t, 0s) forwards;
+}
+.fo-rg-ring {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: fo-rg-line 1.3s ease-in-out var(--t, 0s) forwards;
+}
+.fo-rg[data-fresh="false"] :is(.fo-rg-p, .fo-rg-d, .fo-rg-ring) {
+  animation: none;
+  transform: none;
+  opacity: 1;
+  stroke-dashoffset: 0;
+}
+@keyframes fo-rg-in {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes fo-rg-dot {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fo-rg-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+/* the bowls of coloured powder next to the pattern that is being drawn */
+.fo-bowl {
+  position: absolute;
+  left: calc(var(--p) * -9);
+  bottom: calc(var(--p) * 2);
+  width: calc(var(--p) * 8);
+  height: calc(var(--p) * 8);
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 38%, #fbbf24 0 34%, #f97316 35% 58%, #4a2410 59%);
+  box-shadow: 0 calc(var(--p) * 1) calc(var(--p) * 2) rgb(0 0 0 / 0.45);
+  animation: fo-bowl-out 0.8s ease 9.6s forwards;
+}
+.fo-bowl-b {
+  left: auto;
+  right: calc(var(--p) * -9);
+  bottom: calc(var(--p) * 7);
+  background: radial-gradient(circle at 42% 38%, #f9a8d4 0 34%, #ec4899 35% 58%, #4a1030 59%);
+}
+@keyframes fo-bowl-out {
+  to {
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+/* the colleagues that draw: they walk over the floor (left / top move) and round the pattern */
+.fo-mk {
+  visibility: hidden;
+  transition-property: left, top;
+  transition-timing-function: linear;
+  transition-duration: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fo-mk {
+    display: none;
+  }
+  .fo-rg-p,
+  .fo-rg-d,
+  .fo-rg-ring {
+    animation: none;
+    transform: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}

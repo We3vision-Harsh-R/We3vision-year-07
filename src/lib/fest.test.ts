@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { DEFAULT_FEST, DENSITIES, FEST_EFFECTS, FEST_GROUPS, FEST_TEST, anyFest, cleanFest, festBootScript, festFor } from "./fest";
 
 describe("the festival effects list", () => {
-  it("has 10 whole-website, 10 industry, 6 pointer and 4 place effects, each key once", () => {
+  it("has 10 whole-website, 10 industry, 6 pointer and 7 place effects, each key once", () => {
     const count = (g: string) => FEST_EFFECTS.filter((e) => e.group === g).length;
-    expect([count("site"), count("industry"), count("pointer"), count("places")]).toEqual([10, 10, 6, 4]);
+    expect([count("site"), count("industry"), count("pointer"), count("places")]).toEqual([10, 10, 6, 7]);
     expect(new Set(FEST_EFFECTS.map((e) => e.key)).size).toBe(FEST_EFFECTS.length);
     for (const e of FEST_EFFECTS) expect(FEST_GROUPS.some((g) => g.id === e.group)).toBe(true);
   });

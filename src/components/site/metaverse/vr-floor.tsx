@@ -10,6 +10,7 @@ import { GlowEdge } from "../glow-edge";
 import { METAVERSE_BOARDS } from "../timeline-boards";
 import { Corner } from "../timeline-office";
 import { PersonTop } from "../timeline-art";
+import { LazyOfficeFest } from "../fest/lazy";
 import { GovOutside } from "./vr-gov";
 
 // The office of the metaverse team, seen from above, drawn exactly like the office of 2027 on the About page (same floor, walls, people,
@@ -791,6 +792,9 @@ export function VrFloor({ heading, hint, name, tipTitle, tipText, industriesTitl
               {WIDE.map((z, i) => hit(i, { top: `${z.top}%`, left: z.side === "l" ? "3.5%" : "calc(96.5% - 300px * var(--zs))" }))}
             </div>
             <div className="of-tall-only">{TALL.map((z, i) => hit(i, { top: `${z.top}%`, left: z.left }))}</div>
+
+            {/* Diwali in the office (Admin > Fest, "Metaverse page office"): lies over the floor, takes no click */}
+            <LazyOfficeFest effect="metaverse" />
 
             {/* the rest of the office goes out of focus (the card is the only sharp thing): strongest round the card, weaker towards the edges */}
             <div className="vfo-blur" aria-hidden onPointerDown={() => setOpen(-1)}>

@@ -4,6 +4,7 @@ import "@/styles/fest.css";
 import "@/styles/fest-places.css";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type CSSProperties } from "react";
+import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { FEST_TEST, type FestConfig, festFor } from "@/lib/fest";
 import { DiyaShape } from "./fest-art";
@@ -44,6 +45,9 @@ function FooterDiyas() {
   );
 }
 
+// the family of the footer is its own chunk, fetched only when its switch is on
+const FooterHome = dynamic(() => import("./fest-home").then((m) => m.FooterHome), { ssr: false });
+
 export function FestLayer({ cfg }: { cfg: FestConfig }) {
   const path = usePathname() || "/";
   const [test, setTest] = useState(false);
@@ -83,6 +87,7 @@ export function FestLayer({ cfg }: { cfg: FestConfig }) {
       {pointer && <FestPointer fx={fx} />}
       {fx.has("brand") && <FestBrand />}
       <FooterDiyas />
+      {fx.has("footer") && <FooterHome />}
     </>
   );
 }
