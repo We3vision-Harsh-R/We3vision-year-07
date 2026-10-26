@@ -381,9 +381,10 @@
   border-radius: 18px;
   font-size: 0.95rem;
   line-height: 1.55;
-  white-space: pre-wrap;
+  white-space: normal;      /* was: pre-wrap */
   word-break: break-word;
 }
+.pd-msg pre { white-space: pre; }
 .pd-msg strong,
 .pd-msg b {
   font-weight: 600;

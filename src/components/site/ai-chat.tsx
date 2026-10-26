@@ -9,13 +9,32 @@ import remarkGfm from "remark-gfm";
 const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How can I get a quote?"];
 
 function normalizeMarkdown(text: string): string {
-  return text
+  let t = text
     .replace(/&lt;br\s*\/?&gt;/gi, "\n")
     .replace(/<br\s*\/?>/gi, "\n")
     .replace(/\\n/g, "\n")
     .replace(/\r\n?/g, "\n")
-    // API responses sometimes escape Markdown syntax: \*\*bold\*\* -> **bold**
-    .replace(/\\([\\`*_{}\[\]()#+.!>|~-])/g, "$1")
+    // unescape markdown: \*\*bold\*\* -> **bold**
+    .replace(/\\([\\`*_{}\[\]()#+.!>|~-])/g, "$1");
+
+  // Only repair when the response looks flattened (headings/tables inline, few newlines)
+  const looksFlat = !/\n/.test(t.trim()) || /\S\s+#{1,6}\s/.test(t) || /\|\s*\|?-{3,}/.test(t);
+  if (looksFlat) {
+    t = t
+      // headings: put on their own line (### before ##, so match 1-6 hashes together)
+      .replace(/\s*(#{1,6})\s+(?=[A-Za-z0-9*])/g, "\n\n$1 ")
+      // table separator row: |---|---| should start on a new line
+      .replace(/\|\s*(\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|)/g, "|\n$1")
+      // table rows: "| |" boundary = end of row + start of next row
+      .replace(/\|\s+\|(?=\s*[^\s|-])/g, "|\n|")
+      // bullet items inline: " - Item" / " * Item" after sentence end
+      .replace(/([.:!?])\s+([-*])\s+(?=[A-Z*])/g, "$1\n$2 ")
+      // numbered items inline
+      .replace(/([.:!?])\s+(\d+\.)\s+(?=[A-Z*])/g, "$1\n$2 ")
+      .replace(/([^\n|])\n?(\|[^\n]*\|\n\|\s*:?-{3,})/g, "$1\n\n$2");
+  }
+
+  return t
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
