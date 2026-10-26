@@ -377,30 +377,10 @@
 .pd-msg {
   max-width: min(86%, 46rem);
   margin: 0;
-  padding: 10px 14px;
+  padding: 9px 14px;
   border-radius: 18px;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-.pd-msg strong,
-.pd-msg b {
-  font-weight: 600;
-  color: #fff;
-}
-.pd-msg-heading {
-  display: block;
-  font-weight: 600;
-  color: #fff;
-  margin-top: 6px;
-  margin-bottom: 2px;
-}
-.pd-msg-divider {
-  display: block;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.12);
-  margin: 8px 0;
+  font-size: 1rem;
+  line-height: 1.45;
 }
 .pd-msg[data-role="assistant"] {
   align-self: flex-start;
