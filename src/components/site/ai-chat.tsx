@@ -9,11 +9,22 @@ const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How ca
 function renderMessageText(text: string): React.ReactNode {
   if (!text) return null;
 
-  const lines = text.split("\n");
+  // Normalize: ensure dividers, headings, and bullet lists break into separate lines even if squashed
+  const normalized = text
+    .replace(/\s*(?:---|___|\*\*\*)\s*/g, "\n---\n")
+    .replace(/([^\n])\s*(#{1,6}\s+)/g, "$1\n\n$2")
+    .replace(/([^\n])\s+([0-9]+\.\s+[A-Z])/g, "$1\n\n$2")
+    .replace(/([^\n])\s*-\s+([A-Z])/g, "$1\n- $2");
+
+  const lines = normalized.split("\n");
   const nodes: React.ReactNode[] = [];
 
   lines.forEach((rawLine, lineIndex) => {
     const trimmed = rawLine.trim();
+    if (!trimmed) {
+      nodes.push(<span key={`sp-${lineIndex}`} className="block h-2" />);
+      return;
+    }
 
     // Horizontal divider (---, ***, ___)
     if (/^[-*_]{3,}$/.test(trimmed)) {
@@ -22,9 +33,9 @@ function renderMessageText(text: string): React.ReactNode {
     }
 
     // Markdown heading (### Heading, ## Heading, # Heading)
-    const headingMatch = rawLine.match(/^#{1,6}\s+(.+)$/);
+    const headingMatch = rawLine.match(/^\s*#{1,6}\s+(.+)$/);
     const isHeading = !!headingMatch;
-    const lineToParse = isHeading ? headingMatch[1] : rawLine;
+    const lineToParse = isHeading ? headingMatch[1] : rawLine.replace(/#{1,6}\s*/g, "");
 
     // Convert leading bullet asterisk (* item) into clean bullet dot (• item)
     const bulletFormatted = lineToParse.replace(/^(\s*)\*\s+/g, "$1• ");
