@@ -99,3 +99,65 @@ export function fieldProblem(key: string, value: string): string {
       return "";
   }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------------------------
+// THE CONTACT FORMS (Get a free quote / Start a project): the same rules in the forms and in the server action submitLead.
+
+/** the name of a contact form: letters, single spaces between names, hyphens and apostrophes only; 2 to 100 characters; the spaces round it are cut */
+export function leadNameProblem(v: string): string {
+  const n = v.trim();
+  if (!n) return "Please enter your full name.";
+  if (n.length < 2) return "Your name needs at least 2 letters.";
+  if (n.length > 100) return "Please use 100 characters at most.";
+  return /^[\p{L}\p{M}][\p{L}\p{M}\s'’-]*$/u.test(n) ? "" : "Please use letters, spaces, hyphens and apostrophes only (no numbers or symbols).";
+}
+
+/** what is allowed in the phone field while typing: digits (and a + at the start), at most 10 digits for an Indian number, 12 with 91 in front, 15 with another country code */
+export function limitPhone(v: string): string {
+  const plus = v.trim().startsWith("+");
+  let d = v.replace(/\D/g, "");
+  d = d.slice(0, plus ? (d.startsWith("91") ? 12 : 15) : d.startsWith("91") && d.length > 10 ? 12 : 10);
+  return (plus ? "+" : "") + d;
+}
+
+/** the name as it is stored: trimmed, and one space between the names */
+export const cleanLeadName = (v: string) => v.trim().replace(/\s+/g, " ");
+
+/**
+ * the phone number of a contact form. An Indian number is 10 digits starting with 6, 7, 8 or 9; "+91", "91" or a 0 in front, spaces, dashes and
+ * brackets are taken away. A number with another country code (+44 ...) is accepted with 10 to 15 digits.
+ * Returns the number in one form ("+91 9876543210") or the problem.
+ */
+export function leadPhone(v: string): { ok: true; value: string } | { ok: false; problem: string } {
+  const raw = v.trim();
+  if (!raw) return { ok: false, problem: "Please enter your mobile number." };
+  if (!/^\+?[\d\s().-]+$/.test(raw)) return { ok: false, problem: "Use digits only: for example 98765 43210." };
+  const digits = raw.replace(/\D/g, "");
+  const abroad = raw.startsWith("+") && !digits.startsWith("91");
+  if (abroad) return digits.length >= 10 && digits.length <= 15 ? { ok: true, value: `+${digits}` } : { ok: false, problem: "Please enter a valid number with its country code, 10 to 15 digits." };
+  let local = digits;
+  if (local.length === 12 && local.startsWith("91")) local = local.slice(2);
+  else if (local.length === 11 && local.startsWith("0")) local = local.slice(1);
+  return /^[6-9]\d{9}$/.test(local) ? { ok: true, value: `+91 ${local}` } : { ok: false, problem: "Please enter a valid 10-digit mobile number (it starts with 6, 7, 8 or 9)." };
+}
+
+export type LeadValues = { name: string; email: string; phone: string; message: string };
+export type LeadProblems = Partial<Record<keyof LeadValues, string>>;
+
+/** every problem of a contact form by field. `phone` is checked when it is filled in, and always when `phoneRequired`; `messageRequired` likewise. */
+export function leadProblems(v: LeadValues, o: { phoneRequired?: boolean; messageRequired?: boolean } = {}): LeadProblems {
+  const out: LeadProblems = {};
+  const name = leadNameProblem(v.name);
+  if (name) out.name = name;
+  if (!v.email.trim()) out.email = "Please enter your email.";
+  else if (!isValidEmail(v.email)) out.email = "Please enter a valid email, like name@example.com.";
+  if (v.phone.trim() || o.phoneRequired) {
+    const p = leadPhone(v.phone);
+    if (!p.ok) out.phone = p.problem;
+  }
+  const m = v.message.trim();
+  if (m && /[<>{}\[\]\\|^~`*=$]/.test(m)) out.message = "Please use normal text: letters, numbers and basic punctuation (. , ! ? ' - : ; ( ) / & @) only.";
+  else if (!m && o.messageRequired !== false) out.message = "Please tell us about your project.";
+  else if (m && m.length < 10 && o.messageRequired !== false) out.message = "Please write a few more words (at least 10 characters).";
+  return out;
+}

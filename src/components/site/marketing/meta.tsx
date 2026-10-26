@@ -35,15 +35,14 @@ const Ico = ({ n }: { n: keyof typeof I }) => <svg viewBox="0 0 24 24" className
 
 /** a feed post, a story or a reel (a concept, with a made-up brand) */
 function Post({ head, text, cta, art, tone, place }: { head: string; text: string; cta: string; art: string; tone: number; place: number }) {
-  const tall = place > 0;
   return (
     <div className={`mtb-post p-${place}`} style={v({ "--tn": tone * 14 })}>
       {place === 1 && <div className="mtb-bars" aria-hidden="true"><i className="is-on" /><i /><i /></div>}
       <div className="mtb-ph"><span className="mtb-av" aria-hidden="true" /><span><b>Your Brand</b><small>Sponsored · concept</small></span><Ico n="more" /></div>
-      <div className="mtb-media"><Art kind={art} />{tall && <p className="mtb-over">{head}</p>}</div>
+      <div className="mtb-media"><Art kind={art} /></div>
       {place === 2 && <div className="mtb-side" aria-hidden="true"><Ico n="heart" /><Ico n="comment" /><Ico n="send" /><Ico n="more" /></div>}
       {place === 0 && <div className="mtb-act" aria-hidden="true"><Ico n="heart" /><Ico n="comment" /><Ico n="send" /><Ico n="save" /></div>}
-      <div className="mtb-cap"><b>Your Brand</b> {place === 0 ? text : head}{place === 2 && <small><Ico n="music" /> Original audio (concept)</small>}</div>
+      <div className="mtb-cap">{place === 0 ? <><b>Your Brand</b> {text}</> : <><strong className="mtb-hl">{head}</strong><span className="mtb-ds">{text}</span></>}{place === 2 && <small><Ico n="music" /> Original audio (concept)</small>}</div>
       <div className="mtb-cta"><span>yourbrand.example</span><u>{cta} ›</u></div>
     </div>
   );

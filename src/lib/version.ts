@@ -16,6 +16,21 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 61,
+    date: "2026-10-27",
+    title: "Team bug list part 4: forms, PANDA, industries arrows, ad preview, clock, step counter",
+    notes: [
+      "Contact forms (Get a free quote / Start a project): name, email, mobile (10 digits starting 6-9, or a number with its country code) and message are checked while the visitor works, with a red border and a clear line under the field, a spinner on Sending and the same rules on the server; the typed text stays light also when the browser fills a field in.",
+      "Home: the arrows of the Built for every industry panel work again (the wide floating menu bar was covering them and took the click).",
+      "PANDA: the blur behind its window no longer covers a whole screen of content, and it closes by itself when the cursor leaves it, also after a question was asked.",
+      "About: the reasons cards glide between positions instead of jumping.",
+      "Brand development: the walker turns round and walks back when the page is scrolled up.",
+      "Meta marketing: the story and reel ad previews show the headline once and the description under it, no overlapping text.",
+      "SEO: the 1 of 7 counter in the ring stands one under the other. Phone clock: the dial is drawn in one picture with the hands and numbers.",
+      "A laptop no longer keeps the phone version because of an old ?view=mobile.",
+    ],
+  },
+  {
     v: 60,
     date: "2026-10-26",
     title: "Team bug list part 3: Why-us card, no public version, CRM stepper, safe job form",

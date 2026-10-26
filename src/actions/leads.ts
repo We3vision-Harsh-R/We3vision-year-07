@@ -2,21 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
-import { z } from "zod";
 import { alertFailure, notifyNewLead } from "@/lib/alerts";
 import { requireAdmin } from "@/lib/auth";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
+import { cleanLeadName, leadPhone, leadProblems } from "@/lib/contact-validation";
 import { clientIp } from "@/lib/request";
 
 export type LeadState = { status: "idle" | "success" | "error"; message?: string };
 
-const leadSchema = z.object({
-  name: z.string().trim().min(2, "Please enter your name.").max(100),
-  email: z.email("Please enter a valid email.").max(200),
-  phone: z.string().trim().max(30).default(""),
-  message: z.string().trim().min(10, "Please write a few more words (10+ characters).").max(2000),
-});
 
 /** Public contact form. Spam protection: hidden honeypot field + 5 messages per IP per hour. */
 export async function submitLead(_prev: LeadState, formData: FormData): Promise<LeadState> {
@@ -25,13 +19,14 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
   if (!rateLimit(`lead:${await clientIp()}`, 5, 60 * 60_000)) {
     return { status: "error", message: "Too many messages. Please try again later." };
   }
-  const parsed = leadSchema.safeParse({
-    name: formData.get("name"),
-    email: formData.get("email"),
-    phone: formData.get("phone") ?? "",
-    message: formData.get("message"),
-  });
-  if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message ?? "Please check the form." };
+  const str = (k: string, max: number) => (typeof formData.get(k) === "string" ? String(formData.get(k)).slice(0, max) : "");
+  const input = { name: str("name", 200), email: str("email", 300).trim(), phone: str("phone", 40), message: str("message", 3000) };
+  // the same rules as the form (lib/contact-validation.ts); a form that asks for the phone sends phoneRequired=1
+  const problems = leadProblems(input, { phoneRequired: formData.get("phoneRequired") === "1" });
+  const first = (["name", "email", "phone", "message"] as const).map((k) => problems[k]).find(Boolean);
+  if (first) return { status: "error", message: first };
+  const phone = input.phone.trim() ? (() => { const p = leadPhone(input.phone); return p.ok ? p.value : ""; })() : "";
+  const parsed = { success: true as const, data: { name: cleanLeadName(input.name), email: input.email.toLowerCase(), phone, message: input.message.trim().slice(0, 2000) } };
   if (!hasDb) return { status: "error", message: "The form is not available right now. Please email us instead." };
 
   try {

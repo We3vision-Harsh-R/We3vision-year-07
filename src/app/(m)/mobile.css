@@ -940,3 +940,7 @@
   .lnc-mn, .lnc-emn { animation: none; }
   .lnc .lnc-wid { transition: none; }
 }
+
+/* the clock widget: the ticks are drawn in the same 162 x 162 picture as the hands, on ONE circle round the pivot, so the dial, the numbers and the hands share one centre (the two tick pictures of the design file were not square and sat off the centre) */
+.lnc-fc .lnc-ticks line { stroke: #fff; stroke-opacity: 0.45; stroke-width: 1.1; stroke-linecap: round; }
+.lnc-fc .lnc-ticks line.is-h { stroke-opacity: 0.9; stroke-width: 1.8; }

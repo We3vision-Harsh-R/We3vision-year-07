@@ -358,3 +358,7 @@
   font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
   font-variant-numeric: tabular-nums;
 }
+
+/* the walker turns round when the page is scrolled up, so he walks back along the road instead of moonwalking */
+.bdv-walker-svg { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); transform-origin: 50% 100%; }
+.bdv-walker[data-dir="back"] .bdv-walker-svg { transform: scaleX(-1); }

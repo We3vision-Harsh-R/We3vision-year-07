@@ -43,7 +43,11 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
 
   // ?view=desktop or ?view=mobile: the visitor chooses by hand (remembered in a cookie)
   const asked = request.nextUrl.searchParams.get("view");
-  const choice = asked === "desktop" || asked === "mobile" ? asked : request.cookies.get(VIEW_COOKIE)?.value;
+  // (a saved "mobile" choice is not kept for a real desktop browser: a laptop must not get the phone app because of an old ?view=mobile; the browser says it is a desktop with Sec-CH-UA-Mobile ?0 and a desktop platform)
+  const saved = request.cookies.get(VIEW_COOKIE)?.value;
+  const platform = request.headers.get("sec-ch-ua-platform") ?? "";
+  const desktopBrowser = request.headers.get("sec-ch-ua-mobile") === "?0" && /Windows|macOS|Linux|Chrome OS/i.test(platform);
+  const choice = asked === "desktop" || asked === "mobile" ? asked : saved === "mobile" && desktopBrowser ? undefined : saved;
 
   const target = wantsMobile(request.headers, choice) ? mobilePathFor(pathname) : null;
   let res: NextResponse;
@@ -54,7 +58,9 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   } else {
     res = NextResponse.next();
   }
-  if (asked === "desktop" || asked === "mobile") res.cookies.set(VIEW_COOKIE, asked, { path: "/", maxAge: 60 * 60 * 24 * 30, sameSite: "lax" });
+  // "desktop" is remembered for 30 days; "mobile" only until the browser is closed
+  if (asked === "desktop") res.cookies.set(VIEW_COOKIE, asked, { path: "/", maxAge: 60 * 60 * 24 * 30, sameSite: "lax" });
+  else if (asked === "mobile") res.cookies.set(VIEW_COOKIE, asked, { path: "/", sameSite: "lax" });
   // the same address gives a different page to a phone and to a laptop: caches (CDN, Google) must know
   res.headers.set("Vary", "User-Agent, Sec-CH-UA-Mobile");
   return res;

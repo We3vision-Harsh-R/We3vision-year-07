@@ -58,17 +58,22 @@ function ClockInner() {
   return (
     <div className="lnc-fc" aria-hidden="true">
       <i className="lnc-fc-face" />
-      {/* the two rings of ticks come from the Figma file (Lock Screen Widget 2x2 Clock Big) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="lnc-fc-ta" src="/mobile/clock-ticks-a.svg" alt="" width={140} height={140} />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="lnc-fc-tb" src="/mobile/clock-ticks-b.svg" alt="" width={140} height={140} />
       {Array.from({ length: 12 }, (_, i) => {
         const n = i === 0 ? 12 : i;
         const r = (i * Math.PI) / 6;
-        return <b key={n} style={{ left: `${((81 + 53 * Math.sin(r)) / 162) * 100}%`, top: `${((81.5 - 53 * Math.cos(r)) / 162) * 100}%` }}>{n}</b>;
+        return <b key={n} style={{ left: `${((81 + 53 * Math.sin(r)) / 162) * 100}%`, top: `${((81 - 53 * Math.cos(r)) / 162) * 100}%` }}>{n}</b>;
       })}
       <svg viewBox="0 0 162 162">
+        {/* the dial: 60 ticks on one circle round the pivot (81, 81), a longer and brighter one every five minutes */}
+        <g className="lnc-ticks">
+          {Array.from({ length: 60 }, (_, i) => {
+            const a = (i * Math.PI) / 30;
+            const long = i % 5 === 0;
+            const r1 = 72;
+            const r2 = long ? 65.5 : 69;
+            return <line key={i} x1={81 + Math.sin(a) * r1} y1={81 - Math.cos(a) * r1} x2={81 + Math.sin(a) * r2} y2={81 - Math.cos(a) * r2} className={long ? "is-h" : undefined} />;
+          })}
+        </g>
         <g ref={hr} className="lnc-hand"><rect x="77.8" y="45" width="6.4" height="42" rx="3.2" /></g>
         <g ref={mn} className="lnc-hand"><rect x="78.1" y="22" width="5.8" height="65" rx="2.9" /></g>
         <g ref={sc} className="lnc-hand lnc-s"><rect x="80.2" y="20" width="1.6" height="76" rx="0.8" /></g>

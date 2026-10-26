@@ -170,3 +170,18 @@
 .mtb-hw { grid-template-columns: 48px 1fr 200px; }
 .mtb-hw .mtb-post { max-width: 180px; }
 }
+
+/* the ad preview, story and reel: ONE vertical order (brand line, picture, headline, description, link) and no second copy of the headline on top of the picture (it was drawn twice and the copies overlapped); the text wraps inside the preview */
+.mtb-post { min-width: 0; }
+.mtb-post.p-1 .mtb-media svg,
+.mtb-post.p-2 .mtb-media svg { max-height: 40%; }
+.mtb-cap { min-width: 0; overflow-wrap: anywhere; }
+.mtb-cap .mtb-hl { display: block; margin: 0 0 4px; color: #fff; font-size: 1.05rem; font-weight: 600; line-height: 1.25; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); }
+.mtb-cap .mtb-ds { display: -webkit-box; overflow: hidden; font-size: 0.875rem; line-height: 1.4; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+.mtb-post.p-2 .mtb-cap { padding-right: 52px; }
+.mtb-post.p-1 .mtb-cap,
+.mtb-post.p-2 .mtb-cap { padding-top: 10px; background: linear-gradient(180deg, transparent, rgba(8, 3, 20, 0.62) 40%); }
+.mtb-side { bottom: 132px; }
+.mtb-cta { min-width: 0; }
+.mtb-cta span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mtb-cta u { flex: none; white-space: nowrap; }

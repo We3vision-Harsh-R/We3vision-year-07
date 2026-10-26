@@ -55,3 +55,41 @@ describe("the application fields", () => {
     expect(fieldProblem("unknownKey", "<>")).toBe("");
   });
 });
+
+import { cleanLeadName, leadNameProblem, leadPhone, leadProblems } from "./contact-validation";
+
+describe("contact forms (lead)", () => {
+  it("name: letters, spaces, - and ' only", () => {
+    for (const n of ["Harsh Ramoliya", "Anne-Marie", "O'Neil", "ગૌતમ શાહ"]) expect(leadNameProblem(n)).toBe("");
+    for (const n of ["", "   ", "A", "R2D2", "John@Doe", "Jo.hn", "<script>", "x".repeat(101)]) expect(leadNameProblem(n)).not.toBe("");
+    expect(cleanLeadName("  Harsh    Ramoliya ")).toBe("Harsh Ramoliya");
+  });
+  it("phone: an Indian mobile of 10 digits starting with 6-9", () => {
+    for (const p of ["9876543210", "+91 98765 43210", "98765-43210", "09876543210", "91 9876543210"]) expect(leadPhone(p)).toEqual({ ok: true, value: "+91 9876543210" });
+    for (const p of ["", "1234567890", "5876543210", "98765", "98765abc10", "+91 12345"]) expect(leadPhone(p).ok).toBe(false);
+  });
+  it("a number with another country code is fine", () => {
+    expect(leadPhone("+44 7700 900123")).toEqual({ ok: true, value: "+447700900123" });
+    expect(leadPhone("+44 77").ok).toBe(false);
+  });
+  it("problems by field", () => {
+    expect(leadProblems({ name: "Asha", email: "a@b.co", phone: "9876543210", message: "I need a CRM for sales" }, { phoneRequired: true })).toEqual({});
+    const bad = leadProblems({ name: "A1", email: "x", phone: "", message: "   " }, { phoneRequired: true });
+    expect(Object.keys(bad).sort()).toEqual(["email", "message", "name", "phone"]);
+    expect(leadProblems({ name: "Asha", email: "a@b.co", phone: "", message: "I need a CRM for sales" })).toEqual({});
+  });
+});
+
+import { limitPhone } from "./contact-validation";
+
+describe("limitPhone", () => {
+  it("keeps digits only and at most 10 (12 with 91, 15 with a country code)", () => {
+    expect(limitPhone("98a76-54321 0999")).toBe("9876543210");
+    expect(limitPhone("+91 98765 43210 77")).toBe("+919876543210");
+    expect(limitPhone("")).toBe("");
+  });
+  it("a message with symbols is refused, normal punctuation is fine", () => {
+    expect(leadProblems({ name: "Asha", email: "a@b.co", phone: "", message: "Hello! Need a CRM, 2 users (sales) - ASAP?" }).message).toBeUndefined();
+    expect(leadProblems({ name: "Asha", email: "a@b.co", phone: "", message: "Hello <b>bold</b> {x} [y] \\ | ^ ~" }).message).toBeDefined();
+  });
+});

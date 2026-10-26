@@ -39,6 +39,9 @@ export function ReasonsStack({ chip, heading, intro, items }: { chip: string; he
     let io: IntersectionObserver | null = null;
 
     // pinned: the scroll moves the cards, from the top to the bottom
+    let target = 0;
+    let shownF = -1;
+    let anim = 0;
     const place = () => {
       raf = 0;
       const r = track.getBoundingClientRect();
@@ -48,23 +51,38 @@ export function ReasonsStack({ chip, heading, intro, items }: { chip: string; he
       const i = Math.min(Math.max(0, n - 2), Math.floor(seg));
       // every reason rests in the middle for a while, then the next one comes down
       const f = n < 2 ? 0 : p >= 1 ? n - 1 : i + smooth((seg - i - 0.2) / 0.6);
-      col.style.setProperty("--f", f.toFixed(4));
+      target = f; // the cards do not jump to the scroll position: they glide towards it (see glide)
+      if (!anim) anim = requestAnimationFrame(glide);
+    };
+    // the position the cards show follows the scroll position with a little inertia (each frame it covers 14% of the distance), so a quick wheel
+    // or a jump of the scroll bar becomes one soft movement instead of a jerk, in both directions
+    const show = (v: number) => {
+      col.style.setProperty("--f", v.toFixed(4));
       cards.current.forEach((el, k) => {
         if (!el) return;
-        const a = Math.min(1, Math.abs(k - f));
+        const a = Math.min(1, Math.abs(k - v));
         el.style.opacity = String((1 - a * 0.68).toFixed(3));
         el.style.transform = `scale(${(1 - a * 0.045).toFixed(4)})`;
       });
-      const idx = Math.round(f);
+      const idx = Math.round(v);
       if (idx !== last) {
         last = idx;
         setActive(idx);
       }
     };
+    const glide = () => {
+      anim = 0;
+      if (shownF < 0) shownF = target;
+      shownF += (target - shownF) * 0.14;
+      if (Math.abs(target - shownF) < 0.002) shownF = target;
+      show(shownF);
+      if (shownF !== target) anim = requestAnimationFrame(glide);
+    };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(place);
     };
     const clearStyles = () => {
+      shownF = -1;
       col.style.removeProperty("--f");
       cards.current.forEach((el) => {
         if (el) {
@@ -101,6 +119,7 @@ export function ReasonsStack({ chip, heading, intro, items }: { chip: string; he
       window.removeEventListener("resize", setup);
       if (io) io.disconnect();
       if (raf) cancelAnimationFrame(raf);
+      if (anim) cancelAnimationFrame(anim);
     };
   }, [n]);
 

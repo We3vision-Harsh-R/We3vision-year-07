@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";
+import { leadProblems, type LeadProblems } from "@/lib/contact-validation";
 import { GlowEdge } from "./glow-edge";
 
 // The contact section as a short conversation instead of a plain form: 1. what do you want to make (tiles you can pick), 2. when would you like to
@@ -71,6 +72,7 @@ export function ContactFlow({ buttonLabel }: Props) {
   const [size, setSize] = useState(1);
   const [sized, setSized] = useState(false);
   const [name, setName] = useState("");
+  const [errs, setErrs] = useState<LeadProblems>({});
 
   // the sketch canvas can put a first message into the form ("Send to our artist")
   useEffect(() => {
@@ -223,21 +225,38 @@ export function ContactFlow({ buttonLabel }: Props) {
         )}
 
         {step === 3 && (
-          <form key="s3" action={action} className="cf-pane">
+          <form
+            key="s3"
+            action={action}
+            noValidate
+            className="cf-pane"
+            onSubmit={(e) => {
+              const f = new FormData(e.currentTarget);
+              const p = leadProblems({ name: String(f.get("name") ?? ""), email: String(f.get("email") ?? ""), phone: String(f.get("phone") ?? ""), message: "x".repeat(10) });
+              if (p.name || p.email || p.phone) {
+                e.preventDefault();
+                setErrs({ name: p.name, email: p.email, phone: p.phone });
+                e.currentTarget.querySelector<HTMLElement>(p.name ? "[name=name]" : p.email ? "[name=email]" : "[name=phone]")?.focus();
+              }
+            }}
+          >
             <h3 className="cf-q">How can we reach you?</h3>
             <p className="cf-hint">We answer ourselves, usually the same day.</p>
             <div className="cf-fields">
               <label className="cf-fld">
                 <span className="cf-lab">Full name</span>
-                <input name="name" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} maxLength={100} autoComplete="name" className={`cf-in${ios}`} placeholder="Your full name…" />
+                <input name="name" value={name} onChange={(e) => { setName(e.target.value); setErrs((x) => ({ ...x, name: undefined })); }} maxLength={100} autoComplete="name" aria-invalid={errs.name ? true : undefined} aria-describedby={errs.name ? "cf-name-err" : undefined} className={`cf-in${ios}${errs.name ? " cfx-bad" : ""}`} placeholder="Your full name…" />
+                {errs.name && <em id="cf-name-err" role="alert" className="cfx-err">{errs.name}</em>}
               </label>
               <label className="cf-fld">
                 <span className="cf-lab">Email</span>
-                <input name="email" type="email" inputMode="email" spellCheck={false} required maxLength={200} autoComplete="email" className={`cf-in${ios}`} placeholder="you@example.com" />
+                <input name="email" type="email" inputMode="email" spellCheck={false} maxLength={200} autoComplete="email" aria-invalid={errs.email ? true : undefined} aria-describedby={errs.email ? "cf-email-err" : undefined} onChange={() => setErrs((x) => ({ ...x, email: undefined }))} className={`cf-in${ios}${errs.email ? " cfx-bad" : ""}`} placeholder="you@example.com" />
+                {errs.email && <em id="cf-email-err" role="alert" className="cfx-err">{errs.email}</em>}
               </label>
               <label className="cf-fld cf-wide">
                 <span className="cf-lab">Phone (optional)</span>
-                <input name="phone" type="tel" inputMode="tel" maxLength={30} autoComplete="tel" className={`cf-in${ios}`} placeholder="+91 …" />
+                <input name="phone" type="tel" inputMode="tel" maxLength={20} autoComplete="tel" aria-invalid={errs.phone ? true : undefined} aria-describedby={errs.phone ? "cf-phone-err" : undefined} onChange={() => setErrs((x) => ({ ...x, phone: undefined }))} className={`cf-in${ios}${errs.phone ? " cfx-bad" : ""}`} placeholder="+91 …" />
+                {errs.phone && <em id="cf-phone-err" role="alert" className="cfx-err">{errs.phone}</em>}
               </label>
               <label className="cf-fld cf-wide">
                 <span className="cf-lab">Message (optional)</span>

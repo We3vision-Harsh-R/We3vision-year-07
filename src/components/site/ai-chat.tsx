@@ -96,7 +96,16 @@ export function AiChat() {
       onPointerLeave={(e) => {
         if (e.pointerType !== "mouse") return;
         window.clearTimeout(timer.current);
-        timer.current = window.setTimeout(() => setHover(false), 300);
+        const root = e.currentTarget;
+        // the cursor left the whole chat (window, field and list): after a short moment PANDA closes, also when the field still has the focus
+        timer.current = window.setTimeout(() => {
+          const on = document.activeElement;
+          if (on instanceof HTMLElement && root.contains(on)) on.blur();
+          setServicePickerOpen(false);
+          setServiceSearch("");
+          setFocused(false);
+          setHover(false);
+        }, 350);
       }}
       onFocus={() => setFocused(true)}
       onBlur={(e) => {

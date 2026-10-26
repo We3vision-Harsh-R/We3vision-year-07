@@ -11765,3 +11765,54 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* contact forms: a field with a problem (red border, a line under it) and the spinner of "Sending…" (contact-form.tsx, contact-flow.tsx) */
+.cfx-bad,
+.cfx-bad:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.45);
+}
+.cfx-err {
+  display: block;
+  margin-top: 6px;
+  color: #fda4af;
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: 1.4;
+}
+.cfx-spin {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: cfx-turn 0.7s linear infinite;
+}
+@keyframes cfx-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* the floating menu bar: its wide wrapper let no click through (the arrows of the industries panel and anything else behind it could not be pressed); only the bar itself takes clicks */
+.fn-root {
+  pointer-events: none;
+}
+.fn-root nav,
+.fn-root nav * {
+  pointer-events: auto;
+}
+
+/* the contact form fields: the typed text is always light, also when the browser fills the field in (Chrome paints autofilled fields with a pale background and black text) */
+.cfx-in {
+  color: #f5f3ff;
+  caret-color: #f5f3ff;
+}
+.cfx-in:-webkit-autofill,
+.cfx-in:-webkit-autofill:hover,
+.cfx-in:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f5f3ff;
+  caret-color: #f5f3ff;
+  box-shadow: 0 0 0 1000px hsl(calc(var(--th) + 348.73) calc(60% * var(--ts)) 10.78%) inset;
+  transition: background-color 9999s ease-out 0s;
+}

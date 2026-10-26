@@ -160,6 +160,8 @@ export function BrandDevPage({ d }: { d: TechData }) {
               if (walker) {
                 walker.style.transform = `translate3d(${(self.progress * rw - 31).toFixed(1)}px, 0, 0)`;
                 walker.classList.add("is-walking");
+                // scrolling up: he turns round and walks back along the road (the position already follows the scroll in both directions)
+                if (self.direction !== 0) walker.dataset.dir = self.direction < 0 ? "back" : "fwd";
                 window.clearTimeout(stopT);
                 stopT = window.setTimeout(() => walker.classList.remove("is-walking"), 150);
               }

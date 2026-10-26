@@ -684,3 +684,8 @@
 #sxo-flow .mkt-pin-in > .mkt-q-pill { display: none; }
 #mtb-fun .mkt-note { display: none; }
 }
+
+/* the step counter in the ring: the number and "of 7" stand one UNDER the other, both centred (the small text was positioned on top of the number) */
+.sxo-pl-ring { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+.sxo-pl-ring b, .sxo-pl-ring small { position: relative; z-index: 1; text-align: center; }
+.sxo-pl-ring small { position: relative; bottom: auto; line-height: 1; }
