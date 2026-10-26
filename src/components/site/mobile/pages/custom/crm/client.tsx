@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 
 /** the interactive parts of /crm (styles: (m)/m/crm/page.css, "mp-crm-") */
@@ -127,9 +128,15 @@ export function CrmPipeline({ steps, label }: { steps: CrmStep[]; label: string 
           <button type="button" className="ma-btn ma-btn-glass" onClick={() => go(k - 1)} disabled={k === 0}>
             Back
           </button>
-          <button type="button" className="ma-btn ma-btn-fill" onClick={() => go(k + 1)} disabled={k === n - 1}>
-            Next
-          </button>
+          {k === n - 1 ? (
+            <Link href="/m/contact" className="ma-btn ma-btn-fill">
+              Start your CRM project
+            </Link>
+          ) : (
+            <button type="button" className="ma-btn ma-btn-fill" onClick={() => go(k + 1)}>
+              Next
+            </button>
+          )}
         </div>
       </div>
     </div>

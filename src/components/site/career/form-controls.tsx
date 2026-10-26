@@ -327,7 +327,7 @@ export function ResumeBox({ file, busy, error, onFile, onClear, disabled }: { fi
             <small>Drop a PDF, DOC or DOCX here, or click to choose (up to 5 MB)</small>
           </button>
         )}
-        <input ref={input} type="file" accept=".pdf,.doc,.docx,application/pdf" hidden onChange={(e) => {
+        <input ref={input} type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden onChange={(e) => {
             const f = e.target.files?.[0];
             e.target.value = "";
             onFile(f);

@@ -1,7 +1,6 @@
 import type { SiteSettings } from "@/lib/cms/settings";
 import Image from "next/image";
 import { FooterWord, ToTop } from "./footer-word";
-import { SITE_VERSION } from "@/lib/version";
 import { SmartLink } from "./smart-link";
 
 function SocialIcon({ label, href }: { label: string; href: string }) {
@@ -90,10 +89,7 @@ export function Footer({ site }: { site: SiteSettings }) {
       <FooterWord text={site.name} />
 
       <div className="ft-in ft-bottom">
-        <p>
-          {site.copyright}
-          <span className="ft-ver">v{SITE_VERSION}</span>
-        </p>
+        <p>{site.copyright}</p>
         <ToTop />
       </div>
     </footer>

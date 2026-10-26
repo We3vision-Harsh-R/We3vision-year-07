@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { applyForJob } from "@/actions/jobs";
+import { fieldProblem } from "@/lib/contact-validation";
+import { resumeNameProblem } from "@/lib/resume-check";
 import { CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, type CareerQuestionView } from "@/lib/careers-shared";
 import { Dropdown } from "./dropdown";
 
@@ -25,6 +27,11 @@ export function JobApplyForm({ roleId, roleTitle, questions }: { roleId: string;
 
   const upload = async (file: File | undefined) => {
     if (!file) return;
+    const bad = resumeNameProblem(file.name, file.size);
+    if (bad) {
+      setUploadErr(bad);
+      return;
+    }
     setUploadBusy(true);
     setUploadErr("");
     try {
@@ -43,8 +50,14 @@ export function JobApplyForm({ roleId, roleTitle, questions }: { roleId: string;
 
   const send = async () => {
     setError("");
+    // the same rules as the laptop form and the server (lib/contact-validation.ts)
+    const bad = ["name", "email", "phone", "city", "linkedin", "experience", "about"].map((k) => fieldProblem(k, f[k] ?? "")).find(Boolean);
+    if (bad) {
+      setError(bad);
+      return;
+    }
     setBusy(true);
-    const res = await applyForJob({ roleId, fields: f, resume: resume?.url ?? "", custom, website });
+    const res = await applyForJob({ roleId, fields: f, resume: resume?.url ?? "", custom, website }).catch(() => ({ ok: false as const, error: "No connection. Please check your internet and try again." }));
     setBusy(false);
     if (res.ok) setSent(true);
     else setError(res.error);
@@ -70,7 +83,7 @@ export function JobApplyForm({ roleId, roleTitle, questions }: { roleId: string;
     >
       <label className="ma-field">
         <span>Full name *</span>
-        <input className="ma-input" value={f.name ?? ""} maxLength={100} autoComplete="name" onChange={(e) => set("name", e.target.value)} />
+        <input className="ma-input" value={f.name ?? ""} maxLength={50} autoComplete="name" placeholder="Your full name" onChange={(e) => set("name", e.target.value)} />
       </label>
       <label className="ma-field">
         <span>Email *</span>
@@ -86,7 +99,7 @@ export function JobApplyForm({ roleId, roleTitle, questions }: { roleId: string;
       </label>
       <div className="ma-field">
         <span>Current career status</span>
-        <Dropdown options={CURRENT_STATUS_SUGGESTIONS} value={pick(f.currentStatus, CURRENT_STATUS_SUGGESTIONS)} placeholder="Choose" onChange={(i) => set("currentStatus", CURRENT_STATUS_SUGGESTIONS[i])} />
+        <Dropdown options={CURRENT_STATUS_SUGGESTIONS} value={pick(f.currentStatus, CURRENT_STATUS_SUGGESTIONS)} placeholder="Select your current status or level" onChange={(i) => set("currentStatus", CURRENT_STATUS_SUGGESTIONS[i])} />
       </div>
       <label className="ma-field">
         <span>Total experience</span>
@@ -94,7 +107,7 @@ export function JobApplyForm({ roleId, roleTitle, questions }: { roleId: string;
       </label>
       <div className="ma-field">
         <span>Notice period</span>
-        <Dropdown options={NOTICE_PERIODS} value={pick(f.noticePeriod, NOTICE_PERIODS)} placeholder="How soon can you join?" onChange={(i) => set("noticePeriod", NOTICE_PERIODS[i])} />
+        <Dropdown options={NOTICE_PERIODS} value={pick(f.noticePeriod, NOTICE_PERIODS)} placeholder="Select your expected notice period" onChange={(i) => set("noticePeriod", NOTICE_PERIODS[i])} />
       </div>
       <label className="ma-field">
         <span>LinkedIn or portfolio link</span>
@@ -103,7 +116,7 @@ export function JobApplyForm({ roleId, roleTitle, questions }: { roleId: string;
       <div className="ma-field">
         <span>Your resume * (or a link to your work above)</span>
         <label className="ma-file">
-          <input type="file" accept=".pdf,.doc,.docx,application/pdf" onChange={(e) => void upload(e.target.files?.[0])} />
+          <input type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={(e) => void upload(e.target.files?.[0])} />
           <span className="ma-file-b">{uploadBusy ? "Uploading…" : resume ? resume.name : "Choose a file"}</span>
         </label>
         {resume && (
@@ -128,7 +141,7 @@ export function JobApplyForm({ roleId, roleTitle, questions }: { roleId: string;
             {q.kind === "textarea" ? (
               <textarea className="ma-input" rows={3} value={custom[q.id] ?? ""} maxLength={1000} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })} />
             ) : q.kind === "select" || q.kind === "yesno" ? (
-              <Dropdown options={opts} value={pick(custom[q.id], opts)} placeholder="Choose" onChange={(i) => setCustom({ ...custom, [q.id]: opts[i] })} />
+              <Dropdown options={opts} value={pick(custom[q.id], opts)} placeholder="Choose an option" onChange={(i) => setCustom({ ...custom, [q.id]: opts[i] })} />
             ) : (
               <input className="ma-input" value={custom[q.id] ?? ""} maxLength={300} aria-label={q.label} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })} />
             )}

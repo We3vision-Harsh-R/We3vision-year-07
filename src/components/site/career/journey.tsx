@@ -7,7 +7,9 @@ import "@/styles/careers.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { bookSeat, completeTicket } from "@/actions/careers";
 import { setCareer } from "@/lib/career-store";
-import { emailProblem, isValidEmail, isValidPhone, phoneProblem } from "@/lib/contact-validation";
+import { fieldProblem } from "@/lib/contact-validation";
+import { resumeNameProblem } from "@/lib/resume-check";
+import { ToastView, useToast } from "./cj-toast";
 import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, type CareerQuestionView, type CareerRoleView } from "@/lib/careers-shared";
 import { Combo, DatePick, Dropdown, ResumeBox, SlotPick } from "./form-controls";
 import { LocationPicker } from "./location-picker";
@@ -63,10 +65,11 @@ export function CareerJourney({
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const { toast, notify, close: closeToast } = useToast();
   const [fields, setFields] = useState<Record<string, string>>({});
   const [custom, setCustom] = useState<Record<string, string>>({});
   const [website, setWebsite] = useState("");
-  const [nudge, setNudge] = useState(0); // how many times the visitor tried to scroll before the city was chosen
+  const [nudge] = useState(0); // how many times the visitor tried to scroll before the city was chosen
   const [missed, setMissed] = useState(false);
   const detailsRef = useRef<HTMLDivElement>(null);
   const warned = useRef(false);
@@ -83,48 +86,7 @@ export function CareerJourney({
     setCareer({ city, step, steps: 7, summoned: Boolean(city), passenger: Boolean(city), role: role?.title ?? "", name: fields.name ?? "" });
   }, [city, step, role?.title, fields.name]);
 
-  // nothing below the ticket office can be reached before the visitor has said where they are
-  useEffect(() => {
-    if (city) return;
-    const html = document.documentElement;
-    const lenis = (window as unknown as { __lenis?: { stop?: () => void; start?: () => void; scrollTo: (y: number, o?: object) => void } }).__lenis;
-    const was = html.style.overflow;
-    html.style.overflow = "hidden";
-    lenis?.stop?.();
-    window.scrollTo(0, 0);
-    const bump = () => setNudge((n) => n + 1);
-    const block = (e: Event) => {
-      e.preventDefault();
-      bump();
-    };
-    const typing = (t: EventTarget | null) => t instanceof HTMLElement && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName));
-    const key = (e: KeyboardEvent) => {
-      if (typing(e.target)) return;
-      if ([" ", "PageDown", "PageUp", "End", "Home", "ArrowDown", "ArrowUp"].includes(e.key)) {
-        e.preventDefault();
-        bump();
-      }
-    };
-    // (the scroll bar of the site, a link, anything else that moves the page: it goes back)
-    const back = () => {
-      if (window.scrollY <= 0) return;
-      if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
-      else window.scrollTo(0, 0);
-      bump();
-    };
-    window.addEventListener("wheel", block, { passive: false });
-    window.addEventListener("touchmove", block, { passive: false });
-    window.addEventListener("keydown", key);
-    window.addEventListener("scroll", back);
-    return () => {
-      window.removeEventListener("wheel", block);
-      window.removeEventListener("touchmove", block);
-      window.removeEventListener("keydown", key);
-      window.removeEventListener("scroll", back);
-      html.style.overflow = was;
-      lenis?.start?.();
-    };
-  }, [city]);
+  // (until 2026-10-26 the page was locked here until the visitor chose a city: the scroll was blocked and sent back to the top. The team found it broken, so the page now scrolls freely; the booking form still opens only after a city is chosen.)
 
   // the page is open, but the seat is not booked: when the visitor goes on down the page the train leaves without them
   useEffect(() => {
@@ -150,11 +112,19 @@ export function CareerJourney({
     setCareer({ stage: done ? "departing" : booked ? "booked" : "idle" });
   }, [booked, done]);
 
-  const passengerOk = (fields.name ?? "").trim().length >= 2 && isValidEmail(fields.email ?? "") && isValidPhone(fields.phone ?? "") && (fields.skills ?? "").trim().length >= 2;
+  // every field of the passenger form is valid (the same rules as on the server, lib/contact-validation.ts) and the needed ones are filled in
+  const problems = Object.fromEntries(COMMON_FIELDS.map((c) => [c.key, fieldProblem(c.key, fields[c.key] ?? "")]));
+  const firstProblem = Object.values(problems).find(Boolean) ?? "";
+  const passengerOk = COMMON_FIELDS.every((c) => !c.required || (fields[c.key] ?? "").trim().length >= (c.key === "skills" || c.key === "name" ? 2 : 1)) && !firstProblem;
   const customOk = questions.every((q) => !q.required || (custom[q.id] ?? "").trim());
 
   const upload = async (file: File | undefined) => {
     if (!file) return;
+    const bad = resumeNameProblem(file.name, file.size);
+    if (bad) {
+      setUploadErr(bad);
+      return;
+    }
     setUploadBusy(true);
     setUploadErr("");
     try {
@@ -194,16 +164,20 @@ export function CareerJourney({
   const confirm = async () => {
     setError("");
     if (!passengerOk || !customOk) {
-      setError(passengerOk ? "Please answer the questions marked with *." : emailProblem(fields.email ?? "") || phoneProblem(fields.phone ?? "") || "Please fill in your name, email, phone and skills.");
+      const msg = passengerOk ? "Please answer the questions marked with *." : firstProblem || "Please fill in your name, email, phone and skills.";
+      setError(msg);
+      notify("err", msg);
       return;
     }
     setBusy(true);
-    const res = await completeTicket({ id: ticketId, fields, custom, website });
+    const res = await completeTicket({ id: ticketId, fields, custom, website }).catch(() => ({ ok: false as const, error: "No connection. Please check your internet and try again." }));
     setBusy(false);
     if (!res.ok) {
       setError(res.error);
+      notify("err", res.error);
       return;
     }
+    notify("ok", "Your ticket is confirmed. The train is leaving for Surat Junction.");
     setDone(true);
     window.setTimeout(() => {
       // (to the platform, which is at the end of the station: the list of the jobs is beside it)
@@ -357,28 +331,33 @@ export function CareerJourney({
                         {f.required && <em> *</em>}
                       </span>
                       {f.kind === "textarea" ? (
-                        <textarea className="cj-in" rows={2} value={fields[f.key] ?? ""} placeholder={f.placeholder} maxLength={800} disabled={done} onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })} />
+                        <textarea
+                          className="cj-in"
+                          rows={2}
+                          value={fields[f.key] ?? ""}
+                          placeholder={f.placeholder}
+                          maxLength={800}
+                          disabled={done}
+                          aria-invalid={Boolean(problems[f.key])}
+                          onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })}
+                        />
                       ) : (
                         <input
                           className="cj-in"
                           type={f.kind}
-                          inputMode={f.key === "phone" ? "tel" : f.key === "email" ? "email" : undefined}
+                          inputMode={f.key === "phone" ? "tel" : f.key === "email" ? "email" : f.key === "currentCtc" || f.key === "expectedCtc" ? "decimal" : undefined}
+                          autoComplete={f.key === "name" ? "name" : f.key === "email" ? "email" : f.key === "phone" ? "tel" : "off"}
                           value={fields[f.key] ?? ""}
                           placeholder={f.placeholder}
-                          maxLength={200}
+                          maxLength={f.key === "name" ? 50 : f.key === "phone" ? 20 : 200}
                           disabled={done}
-                          aria-invalid={f.key === "email" ? Boolean(emailProblem(fields.email ?? "")) : f.key === "phone" ? Boolean(phoneProblem(fields.phone ?? "")) : undefined}
+                          aria-invalid={Boolean(problems[f.key])}
                           onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })}
                         />
                       )}
-                      {f.key === "email" && emailProblem(fields.email ?? "") && (
+                      {problems[f.key] && (
                         <small className="cj-ferr" role="alert">
-                          {emailProblem(fields.email ?? "")}
-                        </small>
-                      )}
-                      {f.key === "phone" && phoneProblem(fields.phone ?? "") && (
-                        <small className="cj-ferr" role="alert">
-                          {phoneProblem(fields.phone ?? "")}
+                          {problems[f.key]}
                         </small>
                       )}
                     </label>
@@ -451,6 +430,7 @@ export function CareerJourney({
           </div>
         </div>
       )}
+      <ToastView toast={toast} onClose={closeToast} />
     </section>
   );
 }

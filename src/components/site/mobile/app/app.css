@@ -892,3 +892,9 @@ details.ma-acc[open] > summary { font-weight: 500; }
   .ma-large .ma-title, .ma-title, .ma-hero .ma-title2 { font-size: 40px; }
   .ma-h2 { font-size: 32px; }
 }
+
+/* dropdowns: the open one floats above the fields after it (they all have the same layer, the later one used to cover the open menu), and an empty one shows its hint clearly */
+.ma-dd.is-open { z-index: 60; }
+.ma-dd.is-open .ma-dd-menu { z-index: 61; }
+.ma-dd-val.is-empty { color: var(--ma-text2); opacity: 0.9; }
+.ma-input::placeholder { color: hsl(240 5% 65%); opacity: 1; } /* zinc-400 on the dark page */

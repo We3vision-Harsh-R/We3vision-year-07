@@ -1,6 +1,7 @@
 import { alertFailure } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
+import { resumeContentProblem, resumeNameProblem } from "@/lib/resume-check";
 import { clientIp } from "@/lib/request";
 
 // A visitor of the Careers page uploads a resume (PDF, DOC or DOCX, 5 MB at most). It is kept in the table Media and the application gets
@@ -22,9 +23,15 @@ export async function POST(req: Request) {
     const file = form.get("file");
     if (!(file instanceof File)) return Response.json({ error: "No file." }, { status: 400 });
     if (file.size > MAX) return Response.json({ error: "The file is too big (5 MB at most)." }, { status: 413 });
+    // the name (only .pdf / .doc / .docx, no program name in a double extension such as xyz.exe.pdf)
+    const nameBad = resumeNameProblem(file.name, file.size);
+    if (nameBad) return Response.json({ error: nameBad }, { status: 415 });
     const bytes = new Uint8Array(await file.arrayBuffer());
     const k = kind(bytes);
     if (!k) return Response.json({ error: "Please upload a PDF, DOC or DOCX file." }, { status: 415 });
+    // the content: a PDF without scripts or attachments, a DOCX that is a real Word file without macros
+    const contentBad = resumeContentProblem(bytes, k.ext as "pdf" | "doc" | "docx");
+    if (contentBad) return Response.json({ error: contentBad }, { status: 415 });
     const base = file.name.replace(/\.[^.]+$/, "").replace(/[^\w .-]+/g, "").slice(0, 80) || "resume";
     const row = await db.media.create({ data: { name: `${base}.${k.ext}`, mime: k.mime, size: bytes.length, data: bytes }, select: { id: true } });
     return Response.json({ url: `/media/${row.id}`, name: `${base}.${k.ext}` });

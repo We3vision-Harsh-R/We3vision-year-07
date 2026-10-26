@@ -7,7 +7,7 @@ import { requireAdmin } from "@/lib/auth";
 import { WORK_MODES, WORK_TYPES, slugify } from "@/lib/careers-shared";
 import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
-import { isValidEmail, isValidPhone } from "@/lib/contact-validation";
+import { fieldProblem, isValidEmail, isValidPhone } from "@/lib/contact-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
 import type { Prisma } from "@/generated/prisma/client";
@@ -49,6 +49,10 @@ export async function applyForJob(input: ApplyInput): Promise<ActionResult> {
   if (!emailRule.safeParse(email).success || !isValidEmail(email)) return { ok: false, error: "Please enter a valid email, like name@example.com." };
   if (!isValidPhone(phone)) return { ok: false, error: "Please enter a valid phone number: 7 to 15 digits, for example +91 98765 43210." };
   if (city.length < 2) return { ok: false, error: "Please tell us the city where you live." };
+  for (const [key, label, value] of [["name", "Full name", name], ["city", "City", city], ["linkedin", "Link", linkedin], ["about", "Why do you want to join", para(input.fields?.about, 1000)]] as const) {
+    const bad = fieldProblem(key, value);
+    if (bad) return { ok: false, error: `${label}: ${bad}` };
+  }
   if (!resume && !linkedin) return { ok: false, error: "Please upload your resume, or add a link to your work." };
 
   try {

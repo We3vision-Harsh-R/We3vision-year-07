@@ -16,6 +16,29 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 60,
+    date: "2026-10-26",
+    title: "Team bug list part 3: Why-us card, no public version, CRM stepper, safe job form",
+    notes: [
+      "The featured Experienced mobile developers card (and every featured Why us card) has a small app-screen picture in the middle instead of an empty hollow; it shows only where the card is two rows high.",
+      "The footer no longer shows the version number; it stays in the admin panel (sidebar and Admin > Versions).",
+      "CRM on the phone: the disabled Back button has no spinner on step 1, and the last step has a Start your CRM project button instead of a stuck Next.",
+      "Job application on the phone: only one dropdown is open at a time and the open one floats above the fields; hints are readable; the resume is checked before upload (name, size, double extension) and on the server (no scripts in a PDF, a real Word file without macros).",
+      "The chatbot goes through the website to the real server (ai-chatbot-lghb on Render) and answers.",
+    ],
+  },
+  {
+    v: 59,
+    date: "2026-10-26",
+    title: "Chatbot through our server, PANDA dropdown, careers scroll and strict forms",
+    notes: [
+      "Chatbot: the browser now talks to this website (/api/chat), which calls the chatbot server itself, so the CORS block and the \"Failed to fetch\" error are gone; a sleeping server gives a friendly message.",
+      "PANDA: the All services dropdown always opens (arrow button, click on the field, outside click closes it); if the chatbot server does not answer it shows the services of the website.",
+      "Careers page: the page scrolls freely again (the lock that sent it back to the top until a city was chosen was removed).",
+      "Careers forms: name, email, phone (10 to 15 digits), links (https), experience, salaries and texts are checked in the form with a message and a red border under each field, a toast tells success or error, and the same rules run on the server.",
+    ],
+  },
+  {
     v: 58,
     date: "2026-10-26",
     title: "Team bug list: process steps, LinkedIn, hero buttons, careers validation, brief overflow",

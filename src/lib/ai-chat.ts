@@ -1,5 +1,7 @@
 export type ChatServiceLink = { title: string; url: string };
 export type ChatMessage = { role: "user" | "assistant"; text: string; links?: ChatServiceLink[] };
+import { FALLBACK_SERVICES } from "./chat-fallback-services";
+
 export type ChatService = { id: string; title: string; category: string; url: string };
 
 /** Repairs Markdown that arrives flattened onto one line or with squashed formatting so ReactMarkdown can render it cleanly like ChatGPT. */
@@ -106,7 +108,8 @@ export function normalizeMarkdown(text: string): string {
     .trim();
 }
 
-const API_URL = process.env.NEXT_PUBLIC_CHATBOT_API_URL?.replace(/\/+$/, "");
+// the chatbot is reached through this website (/api/chat, see lib/chat-upstream.ts): same origin, so the browser never blocks it (CORS)
+const API_URL = "";
 
 function persistentId(key: string): string {
   try {
@@ -121,12 +124,16 @@ function persistentId(key: string): string {
 }
 
 export async function getChatServices(): Promise<ChatService[]> {
-  if (!API_URL) throw new Error("The chatbot backend URL is not configured.");
-  const response = await fetch(`${API_URL}/api/chat/services`, { cache: "no-store" });
+  let response: Response;
+  try {
+    response = await fetch(`${API_URL}/api/chat/services`, { cache: "no-store" });
+  } catch {
+    return FALLBACK_SERVICES; // no connection: the dropdown still opens, with the services of the website
+  }
   const data: unknown = await response.json().catch(() => null);
-  if (!response.ok) throw new Error("Could not load chatbot services.");
+  if (!response.ok) return FALLBACK_SERVICES;
   const result = data && typeof data === "object" ? data as Record<string, unknown> : null;
-  return Array.isArray(result?.services)
+  const list = Array.isArray(result?.services)
     ? result.services.filter((item): item is ChatService =>
         !!item && typeof item === "object" &&
         typeof (item as ChatService).id === "string" &&
@@ -135,6 +142,7 @@ export async function getChatServices(): Promise<ChatService[]> {
         typeof (item as ChatService).url === "string",
       )
     : [];
+  return list.length > 0 ? list : FALLBACK_SERVICES;
 }
 
 export async function askBot(
@@ -143,20 +151,26 @@ export async function askBot(
 ): Promise<{ answer: string; serviceLinks: ChatServiceLink[] }> {
   const message = [...history].reverse().find((item) => item.role === "user")?.text.trim();
   if (!message) throw new Error("Please enter a message.");
-  if (!API_URL) throw new Error("The chatbot backend URL is not configured.");
 
   const userId = persistentId("we3vision_user_id");
   const sessionId = persistentId("webot_session_id");
-  const response = await fetch(`${API_URL}/api/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      message,
-      user_id: userId,
-      session_id: sessionId,
-      selected_service_id: selectedServiceId || null,
-    }),
-  });
+  // a service of the website's own list ("menu:...") is not an id of the chatbot server: it goes into the question instead
+  const own = selectedServiceId?.startsWith("menu:") ? FALLBACK_SERVICES.find((s) => s.id === selectedServiceId) : undefined;
+  let response: Response;
+  try {
+    response = await fetch(`${API_URL}/api/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: own ? `${message} (about: ${own.title})` : message,
+        user_id: userId,
+        session_id: sessionId,
+        selected_service_id: own ? null : selectedServiceId || null,
+      }),
+    });
+  } catch {
+    throw new Error("No connection. Please check your internet and try again.");
+  }
 
   const data: unknown = await response.json().catch(() => null);
   if (!response.ok) {

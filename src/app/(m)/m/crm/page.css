@@ -135,3 +135,7 @@
   .ma-root .mp-crm-hero > *, .ma-root .mp-crm-flow u, .ma-root .mp-crm-panel, .ma-root .mp-crm-chk li, .ma-root .mp-crm-stage-in, .ma-root .mp-crm-qa details p { animation: none; }
   .ma-root .mp-crm-seg i, .ma-root .mp-crm-rail i, .ma-root .mp-crm-track button { transition: none; }
 }
+
+/* a Back / Next button that is switched off is just dimmed: the round spinner of ".ma-btn[disabled]" is for a button that is busy, not for the first or last step */
+.ma-root .mp-crm-nav .ma-btn[disabled]::after { content: none; display: none; }
+.ma-root .mp-crm-nav a.ma-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }

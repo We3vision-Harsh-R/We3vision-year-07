@@ -525,3 +525,114 @@ a.md-rel-card:hover .md-rel-go {
   margin-right: auto;
   margin-left: auto;
 }
+
+/* the featured card of "Why us": a small picture of an app screen fills the middle (only where the card is two rows high), so it is not an empty hollow */
+.md-why-viz {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .md-why-card[data-big="true"] .md-why-viz {
+    position: relative;
+    display: grid;
+    flex: 1 1 auto;
+    align-self: stretch;
+    min-height: 0;
+    place-items: center;
+    padding: 18px 0;
+  }
+  .md-why-card[data-big="true"] h3 {
+    margin-top: 0;
+  }
+  .md-why-viz i {
+    display: block;
+    font-style: normal;
+  }
+  .mv-win {
+    position: relative;
+    display: grid !important;
+    gap: 10px;
+    width: min(100%, 300px);
+    padding: 16px 18px 18px;
+    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
+    border-radius: 18px;
+    background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.8);
+    box-shadow: 0 24px 50px -22px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.5);
+  }
+  .mv-win b {
+    display: block;
+    border-radius: 99px;
+  }
+  .mv-dots {
+    width: 46px;
+    height: 8px;
+    background: radial-gradient(circle at 4px 4px, #f87171 3.5px, transparent 4px), radial-gradient(circle at 23px 4px, #fbbf24 3.5px, transparent 4px), radial-gradient(circle at 42px 4px, #4ade80 3.5px, transparent 4px);
+  }
+  .mv-l {
+    height: 9px;
+    background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.2);
+  }
+  .mv-l1 {
+    width: 70%;
+  }
+  .mv-l2 {
+    width: 45%;
+  }
+  .mv-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 9px;
+    height: 74px;
+    margin-top: 6px;
+  }
+  .mv-bars u {
+    flex: 1;
+    border-radius: 6px 6px 3px 3px;
+    background: linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%), hsl(calc(var(--th) + 330) calc(85% * var(--ts)) 62%));
+    transform-origin: 50% 100%;
+    animation: mv-grow 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .mv-bars u:nth-child(1) { height: 38%; animation-delay: 0.1s; }
+  .mv-bars u:nth-child(2) { height: 62%; animation-delay: 0.2s; }
+  .mv-bars u:nth-child(3) { height: 48%; animation-delay: 0.3s; }
+  .mv-bars u:nth-child(4) { height: 84%; animation-delay: 0.4s; }
+  .mv-bars u:nth-child(5) { height: 100%; animation-delay: 0.5s; }
+  @keyframes mv-grow {
+    from {
+      transform: scaleY(0);
+    }
+  }
+  .mv-chip {
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
+    border-radius: 16px;
+    background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 12% / 0.9);
+  }
+  .mv-chip::after {
+    content: "";
+    position: absolute;
+    inset: 17px;
+    border-radius: 50%;
+    border: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
+  }
+  .mv-c1 {
+    top: 10%;
+    right: 6%;
+  }
+  .mv-c2 {
+    bottom: 8%;
+    left: 4%;
+    width: 44px;
+    height: 44px;
+  }
+  .mv-c2::after {
+    inset: 13px;
+    border-radius: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mv-bars u {
+    animation: none;
+  }
+}

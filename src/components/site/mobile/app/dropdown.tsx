@@ -13,6 +13,7 @@ export function Dropdown({ label, options, value, onChange, placeholder }: { lab
   const uid = useId();
   const btn = useRef<HTMLButtonElement>(null);
   const list = useRef<HTMLUListElement>(null);
+  const box = useRef<HTMLDivElement>(null);
 
   const close = (focus = true) => {
     setOpen(false);
@@ -24,6 +25,23 @@ export function Dropdown({ label, options, value, onChange, placeholder }: { lab
     const t = window.setTimeout(() => setLeaving(false), 200);
     return () => window.clearTimeout(t);
   }, [leaving]);
+
+  // only ONE dropdown is open at a time: when another one opens, this one closes; a tap outside closes it too
+  useEffect(() => {
+    const other = (e: Event) => {
+      if ((e as CustomEvent<string>).detail !== uid) setOpen(false);
+    };
+    window.addEventListener("ma-dd-open", other);
+    return () => window.removeEventListener("ma-dd-open", other);
+  }, [uid]);
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: PointerEvent) => {
+      if (box.current && !box.current.contains(e.target as Node)) close(false);
+    };
+    document.addEventListener("pointerdown", away);
+    return () => document.removeEventListener("pointerdown", away);
+  }, [open]);
 
   // when it opens: the chosen row is in view and gets the keyboard focus
   useEffect(() => {
@@ -37,6 +55,7 @@ export function Dropdown({ label, options, value, onChange, placeholder }: { lab
   const show = () => {
     const r = btn.current?.getBoundingClientRect();
     if (r && r.top > 130) window.scrollBy({ top: r.top - 110, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    window.dispatchEvent(new CustomEvent("ma-dd-open", { detail: uid }));
     setOpen(true);
   };
   const pick = (i: number) => {
@@ -59,7 +78,7 @@ export function Dropdown({ label, options, value, onChange, placeholder }: { lab
   };
 
   return (
-    <div className={`ma-dd${open ? " is-open" : ""}`}>
+    <div ref={box} className={`ma-dd${open ? " is-open" : ""}`}>
       {label && <span className="ma-dd-label" id={`${uid}-l`}>{label}</span>}
       <button ref={btn} type="button" className="ma-dd-btn" aria-haspopup="listbox" aria-expanded={open} aria-labelledby={label ? `${uid}-l ${uid}-b` : undefined} onClick={() => (open ? close() : show())}>
         <span id={`${uid}-b`} className={`ma-dd-val${value < 0 ? " is-empty" : ""}`}>{options[value] ?? placeholder ?? ""}</span>

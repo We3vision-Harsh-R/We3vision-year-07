@@ -23,6 +23,7 @@ export function AiChat() {
   const [serviceSearch, setServiceSearch] = useState("");
   const [busy, setBusy] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const pickerRef = useRef<HTMLLabelElement>(null);
   const timer = useRef(0);
   const open = hover || focused;
   const selectedService = services.find((service) => service.id === selectedServiceId);
@@ -41,6 +42,18 @@ export function AiChat() {
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages, busy]);
   useEffect(() => () => window.clearTimeout(timer.current), []);
+  // a click anywhere outside the dropdown closes it
+  useEffect(() => {
+    if (!servicePickerOpen) return;
+    const away = (e: PointerEvent) => {
+      if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
+        setServicePickerOpen(false);
+        setServiceSearch("");
+      }
+    };
+    document.addEventListener("pointerdown", away);
+    return () => document.removeEventListener("pointerdown", away);
+  }, [servicePickerOpen]);
   useEffect(() => {
     let active = true;
     getChatServices()
@@ -108,6 +121,7 @@ export function AiChat() {
           </div>
         </header>
         <label
+          ref={pickerRef}
           className="pd-service-picker"
           onBlur={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
@@ -124,10 +138,12 @@ export function AiChat() {
               aria-autocomplete="list"
               aria-expanded={servicePickerOpen}
               aria-controls="panda-service-options"
+              aria-haspopup="listbox"
               aria-busy={servicesLoading}
               placeholder={servicesLoading ? "Loading services…" : "All services"}
               value={servicePickerOpen ? serviceSearch : selectedService?.title ?? ""}
-              disabled={servicesLoading || services.length === 0 || busy}
+              disabled={busy}
+              onClick={() => setServicePickerOpen(true)}
               onFocus={() => { setServicePickerOpen(true); setServiceSearch(""); }}
               onChange={(event) => { setServiceSearch(event.target.value); setServicePickerOpen(true); }}
               onKeyDown={(event) => {
@@ -142,7 +158,21 @@ export function AiChat() {
                 }
               }}
             />
-            {servicePickerOpen && !servicesLoading && services.length > 0 && (
+            <button
+              type="button"
+              className="pd-service-chev"
+              aria-label={servicePickerOpen ? "Close the list of services" : "Open the list of services"}
+              aria-expanded={servicePickerOpen}
+              tabIndex={-1}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                setServicePickerOpen((v) => !v);
+                setServiceSearch("");
+              }}
+            >
+              <span aria-hidden>⌄</span>
+            </button>
+            {servicePickerOpen && (
               <div
                 id="panda-service-options"
                 className="pd-service-options"
@@ -169,7 +199,8 @@ export function AiChat() {
                     ))}
                   </div>
                 ))}
-                {filteredServices.length === 0 && <p className="pd-service-empty">No matching services</p>}
+                {servicesLoading && <p className="pd-service-empty">Loading services…</p>}
+                {!servicesLoading && filteredServices.length === 0 && <p className="pd-service-empty">No matching services</p>}
               </div>
             )}
           </div>

@@ -281,15 +281,26 @@
   position: relative;
   min-width: 0;
 }
-.pd-service-combobox-wrap::after {
-  content: "⌄";
+.pd-service-chev {
   position: absolute;
-  top: 7px;
-  right: 12px;
-  color: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 84% / 0.8);
+  top: 0;
+  right: 0;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 0;
+  background: none;
+  color: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 84% / 0.85);
   font-size: 1.1rem;
   line-height: 1;
-  pointer-events: none;
+  cursor: pointer;
+}
+.pd-service-chev span {
+  transition: transform 0.25s;
+}
+.pd-service-chev[aria-expanded="true"] span {
+  transform: rotate(180deg);
 }
 .pd-service-combobox {
   display: block;

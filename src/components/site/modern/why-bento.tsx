@@ -30,6 +30,24 @@ export function WhyBento({ items }: { items: Item[] }) {
             {two(i + 1)}
           </span>
           <IconTile index={i + 2} large />
+          {i === 0 && items.length >= 4 && (
+            <span className="md-why-viz" aria-hidden>
+              <i className="mv-win">
+                <b className="mv-dots" />
+                <b className="mv-l mv-l1" />
+                <b className="mv-l mv-l2" />
+                <span className="mv-bars">
+                  <u />
+                  <u />
+                  <u />
+                  <u />
+                  <u />
+                </span>
+              </i>
+              <i className="mv-chip mv-c1" />
+              <i className="mv-chip mv-c2" />
+            </span>
+          )}
           <h3>{it.title}</h3>
           <p>{it.description}</p>
         </article>

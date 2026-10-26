@@ -2464,3 +2464,65 @@ a.rt-row:hover {
 .cj-in[aria-invalid="true"] {
   border-color: rgba(251, 113, 133, 0.7);
 }
+
+/* the toast of the application forms (cj-toast.tsx) */
+.cj-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  z-index: 90000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(92vw, 520px);
+  padding: 12px 14px 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  background: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 10% / 0.96);
+  box-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.4;
+  translate: -50% 0;
+  animation: cj-toast-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cj-toast p {
+  margin: 0;
+}
+.cj-toast > span {
+  display: grid;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+.cj-toast[data-kind="ok"] {
+  border-color: rgba(74, 222, 128, 0.55);
+}
+.cj-toast[data-kind="ok"] > span {
+  background: #16a34a;
+}
+.cj-toast[data-kind="err"] {
+  border-color: rgba(251, 113, 133, 0.65);
+}
+.cj-toast[data-kind="err"] > span {
+  background: #e11d48;
+}
+.cj-toast button {
+  flex: none;
+  padding: 0 4px;
+  background: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+@keyframes cj-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
