@@ -8,81 +8,16 @@ import remarkGfm from "remark-gfm";
 
 const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How can I get a quote?"];
 
-function renderMessageText(text: string): React.ReactNode {
-  if (!text) return null;
-
-  // Normalize: ensure dividers, headings, and bullet lists break into separate lines even if squashed
-  const normalized = text
-    .replace(/\s*(?:---|___|\*\*\*)\s*/g, "\n---\n")
-    .replace(/([^\n])\s*(#{1,6}\s+)/g, "$1\n\n$2")
-    .replace(/([^\n])\s+([0-9]+\.\s+[A-Z])/g, "$1\n\n$2")
-    .replace(/([^\n])\s*-\s+([A-Z])/g, "$1\n- $2");
-
-  const lines = normalized.split("\n");
-  const nodes: React.ReactNode[] = [];
-
-  lines.forEach((rawLine, lineIndex) => {
-    const trimmed = rawLine.trim();
-    if (!trimmed) {
-      nodes.push(<span key={`sp-${lineIndex}`} className="block h-2" />);
-      return;
-    }
-
-    // Horizontal divider (---, ***, ___)
-    if (/^[-*_]{3,}$/.test(trimmed)) {
-      nodes.push(<span key={`hr-${lineIndex}`} className="pd-msg-divider" aria-hidden />);
-      return;
-    }
-
-    // Markdown heading (### Heading, ## Heading, # Heading)
-    const headingMatch = rawLine.match(/^\s*#{1,6}\s+(.+)$/);
-    const isHeading = !!headingMatch;
-    const lineToParse = isHeading ? headingMatch[1] : rawLine.replace(/#{1,6}\s*/g, "");
-
-    // Convert leading bullet asterisk (* item) into clean bullet dot (• item)
-    const bulletFormatted = lineToParse.replace(/^(\s*)\*\s+/g, "$1• ");
-
-    // Parse inline bold (**bold**)
-    const parts = bulletFormatted.split(/(\*\*[^*]+\*\*)/g);
-    const formattedParts = parts.map((part, partIndex) => {
-      if (part.startsWith("**") && part.endsWith("**") && part.length >= 4) {
-        return (
-          <strong key={partIndex} className="font-semibold text-white">
-            {part.slice(2, -2)}
-          </strong>
-        );
-      }
-      return part;
-    });
-
-    if (isHeading) {
-      nodes.push(
-        <span key={`h-${lineIndex}`} className="pd-msg-heading">
-          {formattedParts}
-        </span>,
-      );
-    } else {
-      nodes.push(
-        <span key={`l-${lineIndex}`}>
-          {formattedParts}
-          {lineIndex < lines.length - 1 && "\n"}
-        </span>,
-      );
-    }
-  });
-
-  return nodes;
-}
-
 function normalizeMarkdown(text: string): string {
   return text
-    // Convert HTML and escaped HTML line breaks
     .replace(/&lt;br\s*\/?&gt;/gi, "\n")
     .replace(/<br\s*\/?>/gi, "\n")
-    // Convert literal escaped newlines
     .replace(/\\n/g, "\n")
-    // Normalize Windows line endings
     .replace(/\r\n?/g, "\n")
+    // API responses sometimes escape Markdown syntax: \*\*bold\*\* -> **bold**
+    .replace(/\\([\\`*_{}\[\]()#+.!>|~-])/g, "$1")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
 
@@ -275,15 +210,25 @@ export function AiChat() {
             </div>
           ) : (
             messages.map((m, i) => (
-              <div className="pd-msg" data-role={m.role}>
-  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-    {normalizeMarkdown(m.text)}
-  </ReactMarkdown>
-</div>
+              <div key={`${m.role}-${i}`} className="pd-message-group" data-role={m.role}>
+                <div className="pd-msg" data-role={m.role}>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      a: ({ ...props }) => (
+                        <a {...props} target="_blank" rel="noopener noreferrer" />
+                      ),
+                    }}
+                  >
+                    {normalizeMarkdown(m.text)}
+                  </ReactMarkdown>
+                </div>
                 {m.role === "assistant" && m.links?.length ? (
                   <div className="pd-service-links" aria-label="Related service pages">
                     {m.links.map((link) => (
-                      <a key={link.url} href={link.url}>{link.title} details <span aria-hidden>↗</span></a>
+                      <a key={link.url} href={link.url}>
+                        {link.title} details <span aria-hidden>↗</span>
+                      </a>
                     ))}
                   </div>
                 ) : null}
