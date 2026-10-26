@@ -198,18 +198,24 @@ export function AiChat() {
           ) : (
             messages.map((m, i) => (
               <div key={`${m.role}-${i}`} className="pd-message-group" data-role={m.role}>
-                <div className="pd-msg" data-role={m.role}>
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      a: ({ ...props }) => (
-                        <a {...props} target="_blank" rel="noopener noreferrer" />
-                      ),
-                    }}
-                  >
-                    {normalizeMarkdown(m.text)}
-                  </ReactMarkdown>
-                </div>
+                
+<div className="pd-msg" data-role={m.role}>
+  {m.role === "assistant" ? (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        a: ({ ...props }) => (
+          <a {...props} target="_blank" rel="noopener noreferrer" />
+        ),
+      }}
+    >
+      {normalizeMarkdown(m.text)}
+    </ReactMarkdown>
+  ) : (
+    m.text
+  )}
+</div>
+
                 {m.role === "assistant" && m.links?.length ? (
                   <div className="pd-service-links" aria-label="Related service pages">
                     {m.links.map((link) => (
