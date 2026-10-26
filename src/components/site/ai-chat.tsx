@@ -6,6 +6,61 @@ import { PandaMini } from "./about/panda-mini";
 
 const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How can I get a quote?"];
 
+function renderMessageText(text: string): React.ReactNode {
+  if (!text) return null;
+
+  const lines = text.split("\n");
+  const nodes: React.ReactNode[] = [];
+
+  lines.forEach((rawLine, lineIndex) => {
+    const trimmed = rawLine.trim();
+
+    // Horizontal divider (---, ***, ___)
+    if (/^[-*_]{3,}$/.test(trimmed)) {
+      nodes.push(<span key={`hr-${lineIndex}`} className="pd-msg-divider" aria-hidden />);
+      return;
+    }
+
+    // Markdown heading (### Heading, ## Heading, # Heading)
+    const headingMatch = rawLine.match(/^#{1,6}\s+(.+)$/);
+    const isHeading = !!headingMatch;
+    const lineToParse = isHeading ? headingMatch[1] : rawLine;
+
+    // Convert leading bullet asterisk (* item) into clean bullet dot (• item)
+    const bulletFormatted = lineToParse.replace(/^(\s*)\*\s+/g, "$1• ");
+
+    // Parse inline bold (**bold**)
+    const parts = bulletFormatted.split(/(\*\*[^*]+\*\*)/g);
+    const formattedParts = parts.map((part, partIndex) => {
+      if (part.startsWith("**") && part.endsWith("**") && part.length >= 4) {
+        return (
+          <strong key={partIndex} className="font-semibold text-white">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      return part;
+    });
+
+    if (isHeading) {
+      nodes.push(
+        <span key={`h-${lineIndex}`} className="pd-msg-heading">
+          {formattedParts}
+        </span>,
+      );
+    } else {
+      nodes.push(
+        <span key={`l-${lineIndex}`}>
+          {formattedParts}
+          {lineIndex < lines.length - 1 && "\n"}
+        </span>,
+      );
+    }
+  });
+
+  return nodes;
+}
+
 // PANDA: Professional AI Navigation & Digital Assistant. The chat of the site, kept very simple: a slim bar at the bottom (a little
 // panda, a field and a send button). Pointing at it or tapping it opens a small chat window just above the bar; the bar itself never
 // changes size, only the window fades and slides in, so it stays light and smooth. The conversation is kept while it is closed.
@@ -196,7 +251,7 @@ export function AiChat() {
           ) : (
             messages.map((m, i) => (
               <div key={i} className="pd-message-group" data-role={m.role}>
-                <p className="pd-msg" data-role={m.role}>{m.text}</p>
+                <p className="pd-msg" data-role={m.role}>{renderMessageText(m.text)}</p>
                 {m.role === "assistant" && m.links?.length ? (
                   <div className="pd-service-links" aria-label="Related service pages">
                     {m.links.map((link) => (
