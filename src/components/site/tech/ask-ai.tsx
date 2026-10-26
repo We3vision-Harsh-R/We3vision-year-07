@@ -4,7 +4,9 @@ import "@/styles/panda-chat.css";
 
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { askBot, getChatServices, type ChatMessage, type ChatService } from "@/lib/ai-chat";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService } from "@/lib/ai-chat";
 import { GlassSelect } from "../glass-select";
 import { oneLine, type TechData } from "./data";
 
@@ -90,7 +92,11 @@ export function AskAi({ d }: { d: TechData }) {
         <p className="hl-ai-msg" data-role="assistant">Hi! Which part of our {topic.toLowerCase()} would you like to know about?</p>
         {messages.map((m, i) => (
           <div key={i} className="hl-ai-group" data-role={m.role}>
-            <p className="hl-ai-msg" data-role={m.role}>{m.text}</p>
+            <div className="hl-ai-msg hl-ai-md" data-role={m.role}>
+              <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ a: (props) => <a {...props} target="_blank" rel="noopener noreferrer" /> }}>
+                {normalizeMarkdown(m.text)}
+              </ReactMarkdown>
+            </div>
             {m.role === "assistant" && m.links?.length ? (
               <div className="hl-ai-links" aria-label="Related service pages">
                 {m.links.map((l) => <a key={l.url} href={l.url}>{l.title} details <span aria-hidden="true">↗</span></a>)}
