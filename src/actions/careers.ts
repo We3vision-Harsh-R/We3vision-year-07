@@ -7,6 +7,7 @@ import { requireAdmin } from "@/lib/auth";
 import { COMMON_FIELDS } from "@/lib/careers-shared";
 import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
+import { isValidEmail, isValidPhone } from "@/lib/contact-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
 import type { Prisma } from "@/generated/prisma/client";
@@ -85,8 +86,8 @@ export async function completeTicket(input: PassengerInput): Promise<ActionResul
   const phone = f("phone", 30);
   const skills = para(input.fields?.skills, 800);
   if (name.length < 2) return { ok: false, error: "Please enter your full name." };
-  if (!emailRule.safeParse(email).success) return { ok: false, error: "Please enter a valid email." };
-  if (phone.replace(/\D/g, "").length < 6) return { ok: false, error: "Please enter your phone number." };
+  if (!emailRule.safeParse(email).success || !isValidEmail(email)) return { ok: false, error: "Please enter a valid email, like name@example.com." };
+  if (!isValidPhone(phone)) return { ok: false, error: "Please enter a valid phone number: 7 to 15 digits, for example +91 98765 43210." };
   if (skills.length < 2) return { ok: false, error: "Please tell us your skills." };
 
   try {

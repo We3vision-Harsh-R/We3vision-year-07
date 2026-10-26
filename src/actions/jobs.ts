@@ -7,6 +7,7 @@ import { requireAdmin } from "@/lib/auth";
 import { WORK_MODES, WORK_TYPES, slugify } from "@/lib/careers-shared";
 import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
+import { isValidEmail, isValidPhone } from "@/lib/contact-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
 import type { Prisma } from "@/generated/prisma/client";
@@ -45,8 +46,8 @@ export async function applyForJob(input: ApplyInput): Promise<ActionResult> {
   const linkedin = f("linkedin", 300);
   const resume = typeof input.resume === "string" && /^\/media\/[a-z0-9]{10,40}$/i.test(input.resume) ? input.resume : "";
   if (name.length < 2) return { ok: false, error: "Please enter your full name." };
-  if (!emailRule.safeParse(email).success) return { ok: false, error: "Please enter a valid email." };
-  if (phone.replace(/\D/g, "").length < 6) return { ok: false, error: "Please enter your phone number." };
+  if (!emailRule.safeParse(email).success || !isValidEmail(email)) return { ok: false, error: "Please enter a valid email, like name@example.com." };
+  if (!isValidPhone(phone)) return { ok: false, error: "Please enter a valid phone number: 7 to 15 digits, for example +91 98765 43210." };
   if (city.length < 2) return { ok: false, error: "Please tell us the city where you live." };
   if (!resume && !linkedin) return { ok: false, error: "Please upload your resume, or add a link to your work." };
 

@@ -11727,3 +11727,41 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   border-radius: 999px;
   font-size: 0.875rem;
 }
+
+/* hero buttons (wdh-cta): each text on ONE line, both buttons the same height, the width grows with the text (a fixed 236px made "Discuss your animation project" wrap onto two lines) */
+.wdh-cta {
+  align-items: stretch;
+}
+.wdh-cta > a {
+  width: auto;
+  min-width: 236px;
+  height: auto;
+  min-height: 3rem;
+  padding: 0.75rem 1.6rem;
+  text-align: center;
+  white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .wdh-cta > a {
+    width: 100%;
+    white-space: normal;
+  }
+}
+
+/* mission brief of the contact flow: a long name or text never leaves its box */
+.cf-brief {
+  min-width: 0;
+  overflow: hidden;
+}
+.cf-brief-row > span,
+.cf-brief-row > div,
+.cf-tk-note {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.cf-brief-row > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

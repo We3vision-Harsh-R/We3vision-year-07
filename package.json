@@ -17,7 +17,11 @@
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate",
-    "test": "vitest run"
+    "test": "vitest run",
+    "git:status": "node tools/git-sync.mjs status",
+    "git:pull": "node tools/git-sync.mjs pull",
+    "git:save": "node tools/git-sync.mjs save",
+    "git:push": "node tools/git-sync.mjs push"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",

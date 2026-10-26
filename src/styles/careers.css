@@ -2452,3 +2452,15 @@ a.rt-row:hover {
 .cj-dd-list [role="option"]:hover, .cj-dd-list [role="option"][data-hi="true"] { background: hsl(0 0% 100% / 0.14); border-radius: 14px; }
 .cj-dd-list [role="option"][data-on="true"] { background: none; color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%); font-weight: 700; }
 @media (prefers-reduced-motion: reduce) { .cj-dd-list { animation: none; } }
+
+/* the message under an email or phone field that is not valid (journey.tsx, job-apply.tsx) */
+.cj-ferr {
+  display: block;
+  margin-top: 6px;
+  color: #fda4af;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.cj-in[aria-invalid="true"] {
+  border-color: rgba(251, 113, 133, 0.7);
+}

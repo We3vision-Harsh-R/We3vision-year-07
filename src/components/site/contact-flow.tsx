@@ -54,6 +54,12 @@ function Rocket({ className }: { className?: string }) {
 
 type Props = { buttonLabel: string };
 
+/** the first word of the name for the brief, cut at 18 characters so a very long name or a run of symbols never leaves its box */
+const briefName = (n: string) => {
+  const w = n.trim().split(" ")[0] ?? "";
+  return w.length > 18 ? `${w.slice(0, 18)}…` : w;
+};
+
 export function ContactFlow({ buttonLabel }: Props) {
   // the fields get the iPhone look on every page except the Home page (it keeps its own look)
   const ios = usePathname() === "/" ? "" : " ios-in";
@@ -314,7 +320,7 @@ export function ContactFlow({ buttonLabel }: Props) {
         </div>
         {(name.trim() || text.trim()) && (
           <div className="cf-brief-row">
-            <span>{name.trim() ? `From ${name.trim().split(" ")[0]}` : "Note"}</span>
+            <span>{name.trim() ? `From ${briefName(name)}` : "Note"}</span>
             {text.trim() && (
               <p className="cf-tk-note">
                 &ldquo;{text.trim().slice(0, 90)}

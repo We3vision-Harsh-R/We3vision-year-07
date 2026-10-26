@@ -174,7 +174,7 @@ export const SITE_DEFAULTS = {
     { title: "Germany", lines: "Zum Lahnberg 64, Marburg, 35037\ngermany@we3vision.com\n+49 1516 2774145" },
   ],
   social: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/company/we3visioninfotech/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/we3visionprivatelimited/" },
     { label: "Instagram", href: "https://www.instagram.com/we3vision_private_limited/" },
   ],
   copyright: "Copyright © 2026 We3Vision Private Limited. All Rights Reserved.",
@@ -183,7 +183,13 @@ export const SITE_DEFAULTS = {
 
 export type SiteSettings = typeof SITE_DEFAULTS;
 
+/** the official LinkedIn company page of We3vision */
+export const LINKEDIN_URL = "https://www.linkedin.com/company/we3visionprivatelimited/";
+
 export function normalizeSite(input: unknown): SiteSettings {
   const merged = { ...SITE_DEFAULTS, ...(typeof input === "object" && input !== null ? input : {}) };
-  return normalize(SITE_FIELDS, merged) as SiteSettings;
+  const site = normalize(SITE_FIELDS, merged) as SiteSettings;
+  // the old LinkedIn page of the company is gone ("This LinkedIn Page isn't available"): a saved old address is replaced by the real one
+  site.social = site.social.map((l) => (l.href.toLowerCase().includes("linkedin.com/company/we3visioninfotech") ? { ...l, href: LINKEDIN_URL } : l));
+  return site;
 }

@@ -1,320 +1,323 @@
-/* The first screen of the home page (laptop / desktop): src/components/site/home-intro.tsx. Prefix "hi-".
-   One calm screen instead of the old particle scene: big type on the left, the anniversary seal with the two recognitions on the right, the facts
-   of "At a glance" as one row at the bottom. Theme colours only (--th / --ts), Poppins, paragraphs >= 16px, labels >= 14px. Nothing loops:
-   the pieces fade in once and the ring of the seal draws itself once. */
+/* The first screen of the home page (laptop / desktop): src/components/site/home-intro.tsx. Prefix "hi-" (hero) and "hy-" (At a glance).
+   An editorial page: tight big type, hairlines, one huge numeral cut by the edge of the screen, a year ruler. No cards, no glass, no glows.
+   Theme colours only (--th / --ts), Poppins, paragraphs >= 16px, labels >= 14px. Nothing loops: the pieces rise once, the ruler draws once. */
 
-.hi {
-  --hi-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+section.hi,
+section.hy {
+  --hi-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
   --hi-a2: hsl(calc(var(--th) + 348) calc(72% * var(--ts)) 67%);
-  --hi-soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.8);
-  --hi-hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
-  --hi-card: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 12% / 0.55);
+  --hi-soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.78);
+  --hi-hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.18);
+  color: #fff;
+}
+
+/* ================= 1. the hero ================= */
+/* a poster: the heading as wide as the screen, and along the bottom one long line of years (2019 ... now) with the big 7 at its start */
+section.hi {
   position: relative;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  justify-content: center;
-  gap: clamp(1.6rem, 3.6vh, 3.2rem);
+  justify-content: flex-end;
+  gap: clamp(2.2rem, 7vh, 5rem);
+  overflow: hidden;
   /* (the bottom keeps clear of the menu bar that floats at the bottom of the window) */
-  padding: clamp(6.5rem, 12.5vh, 9rem) clamp(1.5rem, 6vw, 7rem) clamp(6.5rem, 12.5vh, 8rem);
-  color: #fff;
-}
-
-/* ---- the two columns ---- */
-.hi-main {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  align-items: center;
-  gap: clamp(2rem, 5vw, 6rem);
-  width: 100%;
-  max-width: 1320px;
-  margin: 0 auto;
+  padding: clamp(7rem, 15vh, 10rem) clamp(1.5rem, 5vw, 6rem) clamp(6rem, 12vh, 8.5rem);
 }
 .hi-copy > * {
-  animation: hi-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation: hi-up 1s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 .hi-copy > :nth-child(2) {
-  animation-delay: 0.08s;
-}
-.hi-copy > :nth-child(3) {
-  animation-delay: 0.16s;
-}
-.hi-copy > :nth-child(4) {
-  animation-delay: 0.24s;
+  animation-delay: 0.1s;
 }
 @keyframes hi-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(26px);
   }
 }
 .hi-eyebrow {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  margin: 0 0 1rem;
+  gap: 1rem;
+  margin: 0 0 clamp(1.2rem, 3vh, 2.2rem);
   color: var(--hi-a);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
 }
-.hi-eyebrow::before {
-  content: "";
-  width: 2.6rem;
-  height: 1.5px;
+.hi-eyebrow i {
+  display: block;
+  width: 3.4rem;
+  height: 1px;
   background: currentColor;
+  transform-origin: 0 50%;
+  animation: hi-rule 1.1s 0.25s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
-.hi-display {
+@keyframes hi-rule {
+  from {
+    transform: scaleX(0);
+  }
+}
+.hi-title {
   margin: 0;
-  font-size: clamp(3.2rem, 6vw, 6.2rem);
+  max-width: 17em;
+  font-size: clamp(2.8rem, min(6.4vw, 11.5vh), 7.4rem);
   font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1.02;
-  white-space: pre-line;
-}
-.hi-display-num {
-  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 88%), var(--hi-a2));
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+  text-wrap: balance;
+  background: linear-gradient(180deg, #fff 40%, hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 84%));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-.hi-title {
-  max-width: 34rem;
-  margin: 1.6rem 0 0;
-  color: var(--hi-soft);
-  font-size: clamp(1.1rem, 1.35vw, 1.3rem);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.55;
+.hi-base {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(2rem, 6vw, 7rem);
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--hi-hair);
+  animation: hi-up 1.1s 0.3s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 .hi-cta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.9rem;
-  margin-top: 2.2rem;
+  align-items: center;
+  gap: 1.2rem 2.2rem;
 }
 .hi-btn {
   display: inline-flex;
   align-items: center;
-  height: 3.1rem;
-  padding: 0 1.6rem;
-  border: 1px solid var(--hi-hair);
+  gap: 0.9rem;
+  height: 3.5rem;
+  padding: 0 1.5rem 0 1.9rem;
   border-radius: 999px;
+  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 86%), var(--hi-a2));
+  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 10%);
+  font-size: 1rem;
+  font-weight: 600;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s;
+}
+.hi-btn svg {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hi-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px -14px hsl(calc(var(--th) + 348) calc(72% * var(--ts)) 67% / 0.7);
+}
+.hi-btn:hover svg {
+  transform: translateX(5px);
+}
+.hi-link {
+  position: relative;
+  padding: 0.5rem 0;
   color: #fff;
   font-size: 1rem;
   font-weight: 500;
-  transition:
-    background-color 0.25s,
-    border-color 0.25s,
-    transform 0.25s;
 }
-.hi-btn:hover {
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
-  transform: translateY(-1px);
+.hi-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--hi-a);
+  transform-origin: 0 50%;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.hi-btn.is-main {
-  border-color: transparent;
-  background-image: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 85%), var(--hi-a2));
-  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 10%);
-  font-weight: 600;
+.hi-link:hover::after {
+  transform: scaleX(0.35);
 }
 
-/* ---- the seal ---- */
-.hi-side {
+/* the track: "7 Years of We3vision" and one tick for every year since the company was founded, drawn once, the last year lit */
+.hi-track {
   display: grid;
-  justify-items: center;
-  gap: 1.3rem;
-  animation: hi-up 1s 0.2s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(1.5rem, 3vw, 3.4rem);
 }
-.hi-seal {
-  position: relative;
-  width: min(21rem, 26vw, 36vh);
-  aspect-ratio: 1;
+.hi-years {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin: 0;
 }
-.hi-ring {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-}
-.hi-ring-track,
-.hi-ring-draw {
-  fill: none;
-  stroke-linecap: round;
-}
-.hi-ring-track {
-  stroke: var(--hi-hair);
-  stroke-width: 1.5;
-}
-.hi-ring-draw {
-  stroke: var(--hi-a);
-  stroke-width: 2;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: hi-draw 2.2s 0.4s cubic-bezier(0.45, 0, 0.2, 1) forwards;
-}
-@keyframes hi-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-.hi-year {
-  opacity: 0;
-  animation: hi-fade 0.5s calc(0.5s + var(--i) * 0.24s) ease-out forwards;
-}
-.hi-year circle {
-  fill: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 10%);
-  stroke: var(--hi-a);
-  stroke-width: 1.5;
-}
-.hi-year[data-last="true"] circle {
-  fill: var(--hi-a);
-}
-.hi-year text {
-  fill: var(--hi-soft);
-  font-size: 15px;
-  font-weight: 500;
-}
-.hi-year[data-last="true"] text {
-  fill: #fff;
-  font-weight: 600;
-}
-@keyframes hi-fade {
-  to {
-    opacity: 1;
-  }
-}
-.hi-seal-in {
-  position: absolute;
-  inset: 18%;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  border: 1px solid var(--hi-hair);
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 35%, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 16% / 0.7), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.7));
-}
-.hi-seal-num {
-  background-image: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 82%) 55%, var(--hi-a2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-size: clamp(5.5rem, 9vw, 8.6rem);
+.hi-years b {
+  font-size: clamp(4.4rem, min(8vw, 14vh), 8.6rem);
   font-weight: 700;
   letter-spacing: -0.06em;
-  line-height: 0.9;
+  line-height: 0.82;
+  color: transparent;
+  -webkit-text-stroke: 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.8);
 }
-.hi-seal-cap {
-  margin-top: 0.4rem;
+.hi-years span {
+  max-width: 6.4rem;
+  padding-bottom: 0.2rem;
   color: var(--hi-soft);
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   font-weight: 500;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
+  line-height: 1.5;
   text-transform: uppercase;
 }
-
-/* ---- the recognitions ---- */
-.hi-rec {
-  width: min(27rem, 100%);
-  text-align: center;
+.hi-line {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0 0 0 0;
+  list-style: none;
 }
-.hi-rec-t {
-  margin: 0 0 0.75rem;
+.hi-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.9rem;
+  height: 1px;
+  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.4);
+  transform-origin: 0 50%;
+  animation: hi-rule 1.6s 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hi-line li {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 0.7rem;
+  color: var(--hi-soft);
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  animation: hi-tick 0.7s calc(0.7s + var(--i) * 0.1s) cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hi-line li i {
+  display: block;
+  width: 1px;
+  height: 1.9rem;
+  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.5);
+}
+.hi-line li[data-last="true"] {
+  color: #fff;
+  font-weight: 600;
+}
+.hi-line li[data-last="true"] i {
+  width: 2px;
+  height: 2.6rem;
+  margin-top: -0.7rem;
+  background: var(--hi-a);
+  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.7);
+}
+@keyframes hi-tick {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* ================= 2. At a glance ================= */
+section.hy {
+  padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 6vw, 7rem) clamp(4rem, 10vh, 8rem);
+}
+.hy-in {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.hy-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.6rem 3rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--hi-hair);
+}
+.hy-chip {
+  margin: 0;
+  color: var(--hi-a);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+.hy-rec {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+.hy-rec p {
+  margin: 0;
   color: var(--hi-soft);
   font-size: 0.875rem;
-  font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-.hi-rec ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  gap: 0.75rem;
+.hy-rec ul {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.hi-rec li {
-  display: grid;
-  justify-items: center;
-  gap: 0.6rem;
-  padding: 0.8rem 0.9rem 0.7rem;
-  border: 1px solid var(--hi-hair);
-  border-radius: 18px;
-  background: var(--hi-card);
-}
-.hi-rec img {
-  display: block;
-  width: auto;
-  height: 2.7rem;
-  max-width: 100%;
-  object-fit: contain;
-}
-.hi-rec span {
-  color: var(--hi-soft);
-  font-size: 0.875rem;
-  line-height: 1.35;
-}
-
-/* ---- the facts ("At a glance") ---- */
-.hi-facts {
-  width: 100%;
-  max-width: 1320px;
-  margin: 0 auto;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--hi-hair);
-}
-.hi-facts-t {
-  margin: 0 0 0.7rem;
-  color: var(--hi-a);
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-.hi-facts dl {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-  margin: 0;
-}
-.hi-facts dl > div {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-  gap: 0.3rem;
-  padding: 0.2rem 1.2rem;
+.hy-rec li {
+  padding-left: 1.8rem;
   border-left: 1px solid var(--hi-hair);
-  animation: hi-up 0.8s calc(0.5s + var(--i) * 0.07s) cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
-.hi-facts dl > div:first-child {
+.hy-rec li:first-child {
   padding-left: 0;
   border-left: 0;
 }
-.hi-facts dd {
-  margin: 0;
-  font-size: clamp(1.9rem, 2.6vw, 2.5rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
+.hy-rec img {
+  display: block;
+  width: auto;
+  height: 2.9rem;
+  max-width: 11rem;
+  object-fit: contain;
 }
-.hi-facts dt {
+.hy-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  margin: 0;
+}
+.hy-facts > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  padding: clamp(1.6rem, 4vh, 2.8rem) 1.6rem clamp(1.6rem, 4vh, 2.8rem) 0;
+  border-bottom: 1px solid var(--hi-hair);
+}
+.hy-facts > div + div {
+  padding-left: 1.8rem;
+  border-left: 1px solid var(--hi-hair);
+}
+.hy-facts dd {
+  margin: 0;
+  font-size: clamp(2.6rem, 4.6vw, 4.6rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  background: linear-gradient(180deg, #fff 30%, hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 84%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hy-facts dt {
   color: var(--hi-soft);
   font-size: 1rem;
   line-height: 1.4;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .hi-copy > *,
-  .hi-side,
-  .hi-facts dl > div {
+  .hi-eyebrow i,
+  .hi-base,
+  .hi-line::before,
+  .hi-line li {
     animation: none;
-  }
-  .hi-ring-draw {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-  .hi-year {
-    animation: none;
-    opacity: 1;
   }
 }

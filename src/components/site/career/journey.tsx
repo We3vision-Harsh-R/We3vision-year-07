@@ -7,6 +7,7 @@ import "@/styles/careers.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { bookSeat, completeTicket } from "@/actions/careers";
 import { setCareer } from "@/lib/career-store";
+import { emailProblem, isValidEmail, isValidPhone, phoneProblem } from "@/lib/contact-validation";
 import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, type CareerQuestionView, type CareerRoleView } from "@/lib/careers-shared";
 import { Combo, DatePick, Dropdown, ResumeBox, SlotPick } from "./form-controls";
 import { LocationPicker } from "./location-picker";
@@ -149,7 +150,7 @@ export function CareerJourney({
     setCareer({ stage: done ? "departing" : booked ? "booked" : "idle" });
   }, [booked, done]);
 
-  const passengerOk = (fields.name ?? "").trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((fields.email ?? "").trim()) && (fields.phone ?? "").replace(/\D/g, "").length >= 6 && (fields.skills ?? "").trim().length >= 2;
+  const passengerOk = (fields.name ?? "").trim().length >= 2 && isValidEmail(fields.email ?? "") && isValidPhone(fields.phone ?? "") && (fields.skills ?? "").trim().length >= 2;
   const customOk = questions.every((q) => !q.required || (custom[q.id] ?? "").trim());
 
   const upload = async (file: File | undefined) => {
@@ -193,7 +194,7 @@ export function CareerJourney({
   const confirm = async () => {
     setError("");
     if (!passengerOk || !customOk) {
-      setError(passengerOk ? "Please answer the questions marked with *." : "Please fill in your name, email, phone and skills.");
+      setError(passengerOk ? "Please answer the questions marked with *." : emailProblem(fields.email ?? "") || phoneProblem(fields.phone ?? "") || "Please fill in your name, email, phone and skills.");
       return;
     }
     setBusy(true);
@@ -358,7 +359,27 @@ export function CareerJourney({
                       {f.kind === "textarea" ? (
                         <textarea className="cj-in" rows={2} value={fields[f.key] ?? ""} placeholder={f.placeholder} maxLength={800} disabled={done} onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })} />
                       ) : (
-                        <input className="cj-in" type={f.kind} value={fields[f.key] ?? ""} placeholder={f.placeholder} maxLength={200} disabled={done} onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })} />
+                        <input
+                          className="cj-in"
+                          type={f.kind}
+                          inputMode={f.key === "phone" ? "tel" : f.key === "email" ? "email" : undefined}
+                          value={fields[f.key] ?? ""}
+                          placeholder={f.placeholder}
+                          maxLength={200}
+                          disabled={done}
+                          aria-invalid={f.key === "email" ? Boolean(emailProblem(fields.email ?? "")) : f.key === "phone" ? Boolean(phoneProblem(fields.phone ?? "")) : undefined}
+                          onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })}
+                        />
+                      )}
+                      {f.key === "email" && emailProblem(fields.email ?? "") && (
+                        <small className="cj-ferr" role="alert">
+                          {emailProblem(fields.email ?? "")}
+                        </small>
+                      )}
+                      {f.key === "phone" && phoneProblem(fields.phone ?? "") && (
+                        <small className="cj-ferr" role="alert">
+                          {phoneProblem(fields.phone ?? "")}
+                        </small>
                       )}
                     </label>
                   ))}

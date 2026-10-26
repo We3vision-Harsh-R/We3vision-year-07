@@ -7,6 +7,7 @@ import "@/styles/careers.css";
 import Link from "next/link";
 import { useState } from "react";
 import { applyForJob } from "@/actions/jobs";
+import { emailProblem, phoneProblem } from "@/lib/contact-validation";
 import { CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, type CareerQuestionView } from "@/lib/careers-shared";
 import { Combo, Dropdown, ResumeBox } from "./form-controls";
 
@@ -48,6 +49,11 @@ export function JobApply({ roleId, roleTitle, questions }: { roleId: string; rol
 
   const send = async () => {
     setError("");
+    const bad = emailProblem(f.email ?? "") || phoneProblem(f.phone ?? "");
+    if (bad) {
+      setError(bad);
+      return;
+    }
     setBusy(true);
     const res = await applyForJob({ roleId, fields: f, resume: resume?.url ?? "", custom, website });
     setBusy(false);
@@ -89,13 +95,23 @@ export function JobApply({ roleId, roleTitle, questions }: { roleId: string; rol
           <span>
             Email<em> *</em>
           </span>
-          <input className="cj-in" type="email" value={f.email ?? ""} maxLength={200} autoComplete="email" placeholder="you@example.com" onChange={(e) => set("email", e.target.value)} />
+          <input className="cj-in" type="email" inputMode="email" value={f.email ?? ""} maxLength={200} autoComplete="email" placeholder="you@example.com" aria-invalid={Boolean(emailProblem(f.email ?? ""))} onChange={(e) => set("email", e.target.value)} />
+          {emailProblem(f.email ?? "") && (
+            <small className="cj-ferr" role="alert">
+              {emailProblem(f.email ?? "")}
+            </small>
+          )}
         </label>
         <label className="cj-field">
           <span>
             Phone / WhatsApp<em> *</em>
           </span>
-          <input className="cj-in" type="tel" value={f.phone ?? ""} maxLength={30} autoComplete="tel" placeholder="+91 …" onChange={(e) => set("phone", e.target.value)} />
+          <input className="cj-in" type="tel" inputMode="tel" value={f.phone ?? ""} maxLength={30} autoComplete="tel" placeholder="+91 …" aria-invalid={Boolean(phoneProblem(f.phone ?? ""))} onChange={(e) => set("phone", e.target.value)} />
+          {phoneProblem(f.phone ?? "") && (
+            <small className="cj-ferr" role="alert">
+              {phoneProblem(f.phone ?? "")}
+            </small>
+          )}
         </label>
         <label className="cj-field">
           <span>
