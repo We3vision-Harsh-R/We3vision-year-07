@@ -569,3 +569,43 @@
 .pd-msg table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
 .pd-msg th, .pd-msg td { padding: 0.35rem 0.55rem; border: 1px solid rgba(255,255,255,0.18); text-align: left; }
 .pd-msg hr { margin: 0.75rem 0; border: 0; border-top: 1px solid rgba(255,255,255,0.15); }
+
+.pd-msg h1,
+.pd-msg h2,
+.pd-msg h3 {
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 12px 0 6px;
+}
+
+.pd-msg p {
+  margin: 8px 0;
+}
+
+.pd-msg ul,
+.pd-msg ol {
+  margin: 8px 0;
+  padding-left: 24px;
+}
+
+.pd-msg ul {
+  list-style: disc;
+}
+
+.pd-msg ol {
+  list-style: decimal;
+}
+
+.pd-msg table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+}
+
+.pd-msg th,
+.pd-msg td {
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: left;
+  vertical-align: top;
+}
