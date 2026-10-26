@@ -18,11 +18,19 @@ export function normalizeMarkdown(text: string): string {
   // Fix squashed sentence boundaries: "provider.It delivers" -> "provider.\n\nIt delivers"
   t = t.replace(/([a-z0-9][.:!?])([A-Z])/g, "$1\n\n$2");
 
-  // Headings in the middle of a line: "...text ## Title" -> "\n\n## Title"
+  // Horizontal rules/dividers in middle of line: "---"
+  t = t.replace(/(?<=\S)[ \t]+(---+)[ \t]*/g, "\n\n$1\n\n");
+  t = t.replace(/^[ \t]*(---+)[ \t]+(?=\S)/gm, "$1\n\n");
+
+  // Headings in the middle of a line: "...text ### Title" -> "\n\n### Title"
   t = t.replace(/(?<=\S)[ \t]+(#{1,6}[ \t]+)/g, "\n\n$1");
 
   // Heading without space: "##Title" -> "## Title"
   t = t.replace(/^(#{1,6})[ \t]*(?=[^\s#])/gm, "$1 ");
+
+  // Heading followed directly by a bullet item on the same line:
+  // e.g. "#### 1. Design & Creative – 6 Services - Brand Identity..." -> "#### 1. Design & Creative – 6 Services\n\n- Brand Identity..."
+  t = t.replace(/^(#{1,6}[ \t]+[^\n]+?)[ \t]+[-*][ \t]+(?=[A-Za-z0-9])/gm, "$1\n\n- ");
 
   // Heading ending in ? or : followed by body text on the same line
   t = t.replace(/^(#{1,6}[ \t]+[^\n?:]+?[?:])[ \t]+([A-Z])/gm, "$1\n\n$2");
@@ -51,15 +59,23 @@ export function normalizeMarkdown(text: string): string {
   // Bullets inline after colon or sentence: "with: - **Branding..." -> "with:\n\n- **Branding..."
   t = t.replace(/([.:!?])[ \t]+[-*][ \t]+(?=\*\*|[A-Za-z0-9])/g, "$1\n\n- ");
 
-  // Bullets inline after previous bullet item description:
+  // Bullets inline after previous bullet item ending with a period or closing parenthesis:
   // "...animation. - **Web..." -> "...animation.\n- **Web..."
+  // "(/brand-identity) - Graphics..." -> "(/brand-identity)\n- Graphics..."
   t = t.replace(/([a-z0-9\)])\.[ \t]+[-*][ \t]+(?=\*\*|[A-Za-z0-9])/g, "$1.\n- ");
+  t = t.replace(/(\(\/[a-z0-9_-]+\))[ \t]+[-*][ \t]+(?=\*\*|[A-Za-z0-9])/gi, "$1\n- ");
+
+  // Any other inline bullet between words: " - " followed by uppercase or bold:
+  t = t.replace(/(?<=[^\n])[ \t]+[-*][ \t]+(?=\*\*[A-Z]|[A-Z][a-z]+)/g, "\n- ");
 
   // Numbered list items inline: "1. Foo 2. Bar" -> "1. Foo\n2. Bar"
   t = t.replace(/([.:!?])[ \t]+(\d{1,2}\.)[ \t]+(?=[A-Z*])/g, "$1\n$2 ");
 
   // Blank line before lists
   t = t.replace(/([^\n])\n([-*][ \t]+|\d{1,2}\.[ \t]+)/g, "$1\n\n$2");
+
+  // Blank line after lists (before regular text or dividers)
+  t = t.replace(/(\n[-*][ \t]+[^\n]+)\n([A-Z*])/g, "$1\n\n$2");
 
   // Tables: only lines where the separator row is NOT already on its own line are flattened and need repair.
   const sepRe = /\|[ \t]*:?-{3,}:?(?:[ \t]*\|[ \t]*:?-{3,}:?)*[ \t]*\|/;

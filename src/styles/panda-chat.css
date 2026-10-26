@@ -547,150 +547,174 @@
 
 
 /* PANDA Markdown response formatting (ChatGPT-style) */
-.pd-msg > :first-child { margin-top: 0; }
-.pd-msg > :last-child { margin-bottom: 0; }
+.pd-msg > :first-child { margin-top: 0 !important; }
+.pd-msg > :last-child { margin-bottom: 0 !important; }
 
-.pd-msg p {
-  margin: 0 0 10px;
-  line-height: 1.6;
+.pd-msg[data-role="user"] {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
 }
 
-.pd-msg h1,
-.pd-msg h2,
-.pd-msg h3,
-.pd-msg h4,
-.pd-msg h5,
-.pd-msg h6 {
-  display: block;
-  color: #fff;
-  font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
+.pd-msg[data-role="assistant"] {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
-.pd-msg h1 {
-  font-size: 1.18rem;
-  margin: 16px 0 8px;
+.pd-msg p,
+.pd-msg .pd-msg-p {
+  display: block !important;
+  margin: 0 0 10px !important;
+  line-height: 1.6 !important;
 }
 
-.pd-msg h2 {
-  font-size: 1.08rem;
-  margin: 14px 0 6px;
+.pd-msg h1, .pd-msg .pd-msg-h1,
+.pd-msg h2, .pd-msg .pd-msg-h2,
+.pd-msg h3, .pd-msg .pd-msg-h3,
+.pd-msg h4, .pd-msg .pd-msg-h4,
+.pd-msg h5, .pd-msg h6 {
+  display: block !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.01em !important;
 }
 
-.pd-msg h3,
-.pd-msg h4,
-.pd-msg h5,
-.pd-msg h6 {
-  font-size: 0.98rem;
-  margin: 10px 0 4px;
+.pd-msg h1, .pd-msg .pd-msg-h1 {
+  font-size: 1.18rem !important;
+  margin: 16px 0 8px !important;
 }
 
-.pd-msg ul,
-.pd-msg ol {
-  margin: 8px 0 12px;
-  padding-left: 22px;
+.pd-msg h2, .pd-msg .pd-msg-h2 {
+  font-size: 1.08rem !important;
+  margin: 14px 0 6px !important;
 }
 
-.pd-msg ul {
-  list-style-type: disc;
+.pd-msg h3, .pd-msg .pd-msg-h3,
+.pd-msg h4, .pd-msg .pd-msg-h4,
+.pd-msg h5, .pd-msg h6 {
+  font-size: 0.98rem !important;
+  margin: 10px 0 4px !important;
 }
 
-.pd-msg ol {
-  list-style-type: decimal;
+.pd-msg ul, .pd-msg .pd-msg-ul,
+.pd-msg ol, .pd-msg .pd-msg-ol {
+  display: block !important;
+  margin: 8px 0 12px !important;
+  padding-left: 22px !important;
 }
 
-.pd-msg li {
-  margin: 4px 0;
-  padding-left: 2px;
-  line-height: 1.55;
+.pd-msg ul, .pd-msg .pd-msg-ul {
+  list-style-type: disc !important;
 }
 
-.pd-msg li > p {
-  margin: 0;
-  display: inline;
+.pd-msg ol, .pd-msg .pd-msg-ol {
+  list-style-type: decimal !important;
 }
 
-.pd-msg li::marker {
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+.pd-msg li, .pd-msg .pd-msg-li {
+  display: list-item !important;
+  margin: 4px 0 !important;
+  padding-left: 2px !important;
+  line-height: 1.55 !important;
 }
 
-.pd-msg strong,
-.pd-msg b {
-  font-weight: 650;
-  color: #fff;
+.pd-msg li > p, .pd-msg .pd-msg-li > p {
+  margin: 0 !important;
+  display: inline !important;
 }
 
-.pd-msg a {
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+.pd-msg li::marker, .pd-msg .pd-msg-li::marker {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%) !important;
 }
 
-.pd-msg a:hover {
-  color: #fff;
+.pd-msg strong, .pd-msg b, .pd-msg .pd-msg-strong {
+  font-weight: 650 !important;
+  color: #fff !important;
 }
 
-.pd-msg code {
-  padding: 2px 6px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.12);
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
-  font-size: 0.88em;
+.pd-msg a, .pd-msg .pd-msg-a {
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
 }
 
-.pd-msg pre {
-  max-width: 100%;
-  margin: 10px 0;
-  padding: 10px 14px;
-  overflow-x: auto;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.4);
+.pd-msg a:hover, .pd-msg .pd-msg-a:hover {
+  color: #fff !important;
 }
 
-.pd-msg pre code {
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
-  color: #fff;
-  font-family: ui-monospace, monospace;
-  font-size: 0.85rem;
+.pd-msg code, .pd-msg .pd-msg-code {
+  padding: 2px 6px !important;
+  border-radius: 5px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%) !important;
+  font-size: 0.88em !important;
+  font-family: ui-monospace, monospace !important;
+}
+
+.pd-msg pre, .pd-msg .pd-msg-pre {
+  display: block !important;
+  max-width: 100% !important;
+  margin: 10px 0 !important;
+  padding: 10px 14px !important;
+  overflow-x: auto !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  white-space: pre !important;
+}
+
+.pd-msg pre code, .pd-msg .pd-msg-pre code {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-family: ui-monospace, monospace !important;
+  font-size: 0.85rem !important;
 }
 
 .pd-msg blockquote {
-  margin: 10px 0;
-  padding: 4px 0 4px 12px;
-  border-left: 3px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
-  color: rgba(255, 255, 255, 0.82);
+  margin: 10px 0 !important;
+  padding: 4px 0 4px 12px !important;
+  border-left: 3px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6) !important;
+  color: rgba(255, 255, 255, 0.82) !important;
 }
 
-.pd-msg table {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  margin: 12px 0;
-  overflow-x: auto;
-  border-collapse: collapse;
+.pd-msg table, .pd-msg .pd-msg-table {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 12px 0 !important;
+  overflow-x: auto !important;
+  border-collapse: collapse !important;
 }
 
-.pd-msg th,
-.pd-msg td {
-  padding: 6px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  font-size: 0.88rem;
-  text-align: left;
-  vertical-align: top;
+.pd-msg-table-wrap {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  margin: 12px 0 !important;
 }
 
-.pd-msg th {
-  background: rgba(255, 255, 255, 0.08);
-  font-weight: 650;
-  color: #fff;
+.pd-msg th, .pd-msg td, .pd-msg .pd-msg-table th, .pd-msg .pd-msg-table td {
+  padding: 6px 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  font-size: 0.88rem !important;
+  text-align: left !important;
+  vertical-align: top !important;
 }
 
-.pd-msg hr {
-  margin: 14px 0;
-  border: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+.pd-msg th, .pd-msg .pd-msg-table th {
+  background: rgba(255, 255, 255, 0.08) !important;
+  font-weight: 650 !important;
+  color: #fff !important;
+}
+
+.pd-msg hr, .pd-msg-divider {
+  display: block !important;
+  height: 1px !important;
+  border: 0 !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  margin: 14px 0 !important;
 }

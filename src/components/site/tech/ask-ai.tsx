@@ -92,8 +92,26 @@ export function AskAi({ d }: { d: TechData }) {
         <p className="hl-ai-msg" data-role="assistant">Hi! Which part of our {topic.toLowerCase()} would you like to know about?</p>
         {messages.map((m, i) => (
           <div key={i} className="hl-ai-group" data-role={m.role}>
-            <div className="hl-ai-msg hl-ai-md" data-role={m.role}>
-              <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ a: (props) => <a {...props} target="_blank" rel="noopener noreferrer" /> }}>
+            <div className="hl-ai-msg hl-ai-md pd-msg" data-role={m.role}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  a: ({ ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" className="pd-msg-a" />,
+                  h1: ({ ...props }) => <h1 {...props} className="pd-msg-h1" />,
+                  h2: ({ ...props }) => <h2 {...props} className="pd-msg-h2" />,
+                  h3: ({ ...props }) => <h3 {...props} className="pd-msg-h3" />,
+                  h4: ({ ...props }) => <h4 {...props} className="pd-msg-h4" />,
+                  p: ({ ...props }) => <p {...props} className="pd-msg-p" />,
+                  ul: ({ ...props }) => <ul {...props} className="pd-msg-ul" />,
+                  ol: ({ ...props }) => <ol {...props} className="pd-msg-ol" />,
+                  li: ({ ...props }) => <li {...props} className="pd-msg-li" />,
+                  strong: ({ ...props }) => <strong {...props} className="pd-msg-strong" />,
+                  hr: () => <hr className="pd-msg-divider" />,
+                  pre: ({ ...props }) => <pre {...props} className="pd-msg-pre" />,
+                  code: ({ ...props }) => <code {...props} className="pd-msg-code" />,
+                  table: ({ ...props }) => <div className="pd-msg-table-wrap"><table {...props} className="pd-msg-table" /></div>,
+                }}
+              >
                 {normalizeMarkdown(m.text)}
               </ReactMarkdown>
             </div>
