@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, getChatServices, type ChatMessage, type ChatService } from "../../lib/ai-chat";
 import { PandaMini } from "./about/panda-mini";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How can I get a quote?"];
 
@@ -262,7 +264,11 @@ export function AiChat() {
           ) : (
             messages.map((m, i) => (
               <div key={i} className="pd-message-group" data-role={m.role}>
-                <p className="pd-msg" data-role={m.role}>{renderMessageText(m.text)}</p>
+                <div className="pd-msg" data-role={m.role}>
+  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+    {m.text}
+  </ReactMarkdown>
+</div>
                 {m.role === "assistant" && m.links?.length ? (
                   <div className="pd-service-links" aria-label="Related service pages">
                     {m.links.map((link) => (
