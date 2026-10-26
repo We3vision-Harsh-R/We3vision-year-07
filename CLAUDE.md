@@ -10,3 +10,6 @@
 
 ## Project skills (saved in .claude/skills, no downloads)
 - `we3-lean-start` (read less), `we3-fest-map` (where everything of the Fest is), `we3-verify-ui` (headless Chrome: tools/shot.mjs), `we3-release` (version, checks, build, tag, push). Use them instead of searching or re-writing test scripts.
+
+## Git (two people on main)
+- Read `brain/21-git-workflow.md`. Use `npm run git:status` / `git:pull` / `git:push -- "message"` (tools/git-sync.mjs): it merges the team code safely, never forces. Pull before work.
