@@ -74,6 +74,18 @@ function renderMessageText(text: string): React.ReactNode {
   return nodes;
 }
 
+function normalizeMarkdown(text: string): string {
+  return text
+    // Convert HTML and escaped HTML line breaks
+    .replace(/&lt;br\s*\/?&gt;/gi, "\n")
+    .replace(/<br\s*\/?>/gi, "\n")
+    // Convert literal escaped newlines
+    .replace(/\\n/g, "\n")
+    // Normalize Windows line endings
+    .replace(/\r\n?/g, "\n")
+    .trim();
+}
+
 // PANDA: Professional AI Navigation & Digital Assistant. The chat of the site, kept very simple: a slim bar at the bottom (a little
 // panda, a field and a send button). Pointing at it or tapping it opens a small chat window just above the bar; the bar itself never
 // changes size, only the window fades and slides in, so it stays light and smooth. The conversation is kept while it is closed.
@@ -263,10 +275,9 @@ export function AiChat() {
             </div>
           ) : (
             messages.map((m, i) => (
-              <div key={i} className="pd-message-group" data-role={m.role}>
-                <div className="pd-msg" data-role={m.role}>
+              <div className="pd-msg" data-role={m.role}>
   <ReactMarkdown remarkPlugins={[remarkGfm]}>
-    {m.text}
+    {normalizeMarkdown(m.text)}
   </ReactMarkdown>
 </div>
                 {m.role === "assistant" && m.links?.length ? (
