@@ -3,8 +3,23 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, getChatServices, type ChatMessage, type ChatService } from "../../lib/ai-chat";
 import { PandaMini } from "./about/panda-mini";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How can I get a quote?"];
+
+function normalizeMarkdown(text: string): string {
+  return text
+    .replace(/&lt;br\s*\/?&gt;/gi, "\n")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/\\n/g, "\n")
+    .replace(/\r\n?/g, "\n")
+    // API responses sometimes escape Markdown syntax: \*\*bold\*\* -> **bold**
+    .replace(/\\([\\`*_{}\[\]()#+.!>|~-])/g, "$1")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
 
 // PANDA: Professional AI Navigation & Digital Assistant. The chat of the site, kept very simple: a slim bar at the bottom (a little
 // panda, a field and a send button). Pointing at it or tapping it opens a small chat window just above the bar; the bar itself never
@@ -195,12 +210,25 @@ export function AiChat() {
             </div>
           ) : (
             messages.map((m, i) => (
-              <div key={i} className="pd-message-group" data-role={m.role}>
-                <p className="pd-msg" data-role={m.role}>{m.text}</p>
+              <div key={`${m.role}-${i}`} className="pd-message-group" data-role={m.role}>
+                <div className="pd-msg" data-role={m.role}>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      a: ({ ...props }) => (
+                        <a {...props} target="_blank" rel="noopener noreferrer" />
+                      ),
+                    }}
+                  >
+                    {normalizeMarkdown(m.text)}
+                  </ReactMarkdown>
+                </div>
                 {m.role === "assistant" && m.links?.length ? (
                   <div className="pd-service-links" aria-label="Related service pages">
                     {m.links.map((link) => (
-                      <a key={link.url} href={link.url}>{link.title} details <span aria-hidden>↗</span></a>
+                      <a key={link.url} href={link.url}>
+                        {link.title} details <span aria-hidden>↗</span>
+                      </a>
                     ))}
                   </div>
                 ) : null}
