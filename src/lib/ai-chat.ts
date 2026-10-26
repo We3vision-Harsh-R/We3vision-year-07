@@ -2,9 +2,11 @@ export type ChatServiceLink = { title: string; url: string };
 export type ChatMessage = { role: "user" | "assistant"; text: string; links?: ChatServiceLink[] };
 export type ChatService = { id: string; title: string; category: string; url: string };
 
-/** Repairs Markdown that arrives flattened onto one line (## headings, **bold**, | tables |, bullets) so ReactMarkdown can render it. */
+/** Repairs Markdown that arrives flattened onto one line or with squashed formatting so ReactMarkdown can render it cleanly like ChatGPT. */
 export function normalizeMarkdown(text: string): string {
-  let t = String(text ?? "")
+  if (!text || typeof text !== "string") return "";
+
+  let t = text
     .replace(/[\u00a0\u2007\u202f]/g, " ")
     .replace(/[\u200b\u200c\u200d\ufeff]/g, "")
     .replace(/&lt;br\s*\/?&gt;/gi, "\n")
@@ -12,6 +14,52 @@ export function normalizeMarkdown(text: string): string {
     .replace(/\\n/g, "\n")
     .replace(/\r\n?/g, "\n")
     .replace(/\\([\\`*_{}\[\]()#+.!>|~-])/g, "$1");
+
+  // Fix squashed sentence boundaries: "provider.It delivers" -> "provider.\n\nIt delivers"
+  t = t.replace(/([a-z0-9][.:!?])([A-Z])/g, "$1\n\n$2");
+
+  // Headings in the middle of a line: "...text ## Title" -> "\n\n## Title"
+  t = t.replace(/(?<=\S)[ \t]+(#{1,6}[ \t]+)/g, "\n\n$1");
+
+  // Heading without space: "##Title" -> "## Title"
+  t = t.replace(/^(#{1,6})[ \t]*(?=[^\s#])/gm, "$1 ");
+
+  // Heading ending in ? or : followed by body text on the same line
+  t = t.replace(/^(#{1,6}[ \t]+[^\n?:]+?[?:])[ \t]+([A-Z])/gm, "$1\n\n$2");
+
+  // Specific title phrases followed by body text on the same line:
+  t = t.replace(
+    /^(#{1,6}[ \t]+(?:Overview of What [A-Za-z0-9]+ Does|About [A-Za-z0-9]+|Introduction to [A-Za-z0-9]+|What [A-Za-z0-9]+ Does))[ \t]+([A-Z])/gm,
+    "$1\n\n$2",
+  );
+
+  // General heading followed directly by body text on the same line:
+  t = t.replace(
+    /^(#{1,6}[ \t]+[A-Z][A-Za-z0-9\s/&,–—'-]+?\b(?:Does|About|Services|Solutions|Overview|Guide|Locations|Details|Catalogue|Snapshot|Summary|FAQ))\s+([A-Z])/gm,
+    "$1\n\n$2",
+  );
+
+  // Ensure any heading line is followed by an empty line
+  t = t.replace(/^(#{1,6}[ \t]+[^\n]+)\n(?!\n|#{1,6}[ \t])/gm, "$1\n\n");
+
+  // Convert bullet characters (•, ●, ▪) to standard markdown dash
+  t = t.replace(/[ \t]*[•●▪][ \t]*/g, "\n- ");
+
+  // En-dash or em-dash used as bullet:
+  t = t.replace(/^([ \t]*)[–—][ \t]+/gm, "$1- ");
+
+  // Bullets inline after colon or sentence: "with: - **Branding..." -> "with:\n\n- **Branding..."
+  t = t.replace(/([.:!?])[ \t]+[-*][ \t]+(?=\*\*|[A-Za-z0-9])/g, "$1\n\n- ");
+
+  // Bullets inline after previous bullet item description:
+  // "...animation. - **Web..." -> "...animation.\n- **Web..."
+  t = t.replace(/([a-z0-9\)])\.[ \t]+[-*][ \t]+(?=\*\*|[A-Za-z0-9])/g, "$1.\n- ");
+
+  // Numbered list items inline: "1. Foo 2. Bar" -> "1. Foo\n2. Bar"
+  t = t.replace(/([.:!?])[ \t]+(\d{1,2}\.)[ \t]+(?=[A-Z*])/g, "$1\n$2 ");
+
+  // Blank line before lists
+  t = t.replace(/([^\n])\n([-*][ \t]+|\d{1,2}\.[ \t]+)/g, "$1\n\n$2");
 
   // Tables: only lines where the separator row is NOT already on its own line are flattened and need repair.
   const sepRe = /\|[ \t]*:?-{3,}:?(?:[ \t]*\|[ \t]*:?-{3,}:?)*[ \t]*\|/;
@@ -27,10 +75,6 @@ export function normalizeMarkdown(text: string): string {
         : line,
     )
     .join("\n")
-    // headings in the middle of a line
-    .replace(/(?<=\S)[ \t]+(#{1,6})[ \t]+(?=[A-Za-z0-9*])/g, "\n\n$1 ")
-    // "##Title" -> "## Title"
-    .replace(/^(#{1,6})[ \t]*(?=[^\s#])/gm, "$1 ")
     .split("\n")
     // blank line before a table (header row followed by a separator row)
     .flatMap((line, i, all) => {
@@ -40,17 +84,10 @@ export function normalizeMarkdown(text: string): string {
     })
     .join("\n");
 
-  // bullets inside table cells cannot be line breaks: use a dot separator there, real list items elsewhere
-  t = t
-    .split("\n")
-    .map((line) => (line.trimStart().startsWith("|") ? line.replace(/[ \t]*[•●▪]\s*/g, " · ").replace(/^(\|[^|]*\|)\s*·\s*/, "$1 ") : line))
-    .join("\n")
-    .replace(/[ \t]+[•●▪][ \t]+/g, "\n- ")
-    .replace(/^[ \t]*[•●▪][ \t]+/gm, "- ")
-    .replace(/([.:!?])[ \t]+([-*])[ \t]+(?=[A-Z*])/g, "$1\n$2 ")
-    .replace(/([.:!?])[ \t]+(\d{1,2}\.)[ \t]+(?=[A-Z*])/g, "$1\n$2 ");
-
-  return t.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  return t
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 const API_URL = process.env.NEXT_PUBLIC_CHATBOT_API_URL?.replace(/\/+$/, "");
