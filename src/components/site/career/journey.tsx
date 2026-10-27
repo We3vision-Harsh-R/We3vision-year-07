@@ -66,6 +66,7 @@ export function CareerJourney({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const { toast, notify, close: closeToast } = useToast();
+  const [tried, setTried] = useState(false);
   const [fields, setFields] = useState<Record<string, string>>({});
   const [custom, setCustom] = useState<Record<string, string>>({});
   const [website, setWebsite] = useState("");
@@ -113,7 +114,7 @@ export function CareerJourney({
   }, [booked, done]);
 
   // every field of the passenger form is valid (the same rules as on the server, lib/contact-validation.ts) and the needed ones are filled in
-  const problems = Object.fromEntries(COMMON_FIELDS.map((c) => [c.key, fieldProblem(c.key, fields[c.key] ?? "")]));
+  const problems = Object.fromEntries(COMMON_FIELDS.map((c) => [c.key, fieldProblem(c.key, fields[c.key] ?? "") || (tried && c.required && !(fields[c.key] ?? "").trim() ? "This field is needed." : "")]));
   const firstProblem = Object.values(problems).find(Boolean) ?? "";
   const passengerOk = COMMON_FIELDS.every((c) => !c.required || (fields[c.key] ?? "").trim().length >= (c.key === "skills" || c.key === "name" ? 2 : 1)) && !firstProblem;
   const customOk = questions.every((q) => !q.required || (custom[q.id] ?? "").trim());
@@ -164,9 +165,10 @@ export function CareerJourney({
   const confirm = async () => {
     setError("");
     if (!passengerOk || !customOk) {
-      const msg = passengerOk ? "Please answer the questions marked with *." : firstProblem || "Please fill in your name, email, phone and skills.";
-      setError(msg);
-      notify("err", msg);
+      // every field that is wrong shows its own message and a red border (no box at the bottom)
+      setTried(true);
+      if (passengerOk) setError("Please answer the questions marked with *.");
+      window.setTimeout(() => document.querySelector<HTMLElement>(".cj-pd [aria-invalid=true]")?.focus(), 60);
       return;
     }
     setBusy(true);
@@ -174,7 +176,6 @@ export function CareerJourney({
     setBusy(false);
     if (!res.ok) {
       setError(res.error);
-      notify("err", res.error);
       return;
     }
     notify("ok", "Your ticket is confirmed. The train is leaving for Surat Junction.");

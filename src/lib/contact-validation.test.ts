@@ -17,7 +17,7 @@ describe("email", () => {
 
 describe("phone", () => {
   it("accepts numbers with 10 to 15 digits and the usual signs", () => {
-    for (const p of ["9876543210", "+91 98765 43210", "(079) 2345-6789", "+1 415.555.2671"]) expect(isValidPhone(p)).toBe(true);
+    for (const p of ["9876543210", "+91 98765 43210", "+1 415.555.2671"]) expect(isValidPhone(p)).toBe(true);
   });
   it("rejects letters, too few or too many digits and a plus in the middle", () => {
     for (const p of ["", "12345", "123456789", "abcdefghij", "98765abc10", "1234567890123456", "98+7654321", "<>*:]}{(*&^%$#@!"]) expect(isValidPhone(p)).toBe(false);
@@ -30,8 +30,8 @@ describe("phone", () => {
 
 describe("the application fields", () => {
   it("name: letters and spaces, 2 to 50", () => {
-    for (const n of ["Harsh Ramoliya", "Anne-Marie O'Neil", "ગૌતમ શાહ", "Zoë"]) expect(nameProblem(n)).toBe("");
-    for (const n of ["A", "R2D2", "<>*:]}{(*&^%$#@!", "x".repeat(51)]) expect(nameProblem(n)).not.toBe("");
+    for (const n of ["Harsh Ramoliya", "ગૌતમ શાહ", "Zoë"]) expect(nameProblem(n)).toBe("");
+    for (const n of ["A", "R2D2", "Anne-Marie", "O'Neil", "<>*:]}{(*&^%$#@!", "x".repeat(51)]) expect(nameProblem(n)).not.toBe("");
   });
   it("links must be https", () => {
     expect(urlProblem("")).toBe("");
@@ -39,8 +39,8 @@ describe("the application fields", () => {
     for (const u of ["http://x.com", "javascript:alert(1)", "linkedin.com/in/x", "https://nodot", "not a link"]) expect(urlProblem(u)).not.toBe("");
   });
   it("money and experience are numbers", () => {
-    for (const m of ["", "600000", "6,00,000", "5.5"]) expect(moneyProblem(m)).toBe("");
-    for (const m of ["abc", "5 lakh", "<>"]) expect(moneyProblem(m)).not.toBe("");
+    for (const m of ["", "600000", "45000"]) expect(moneyProblem(m)).toBe("");
+    for (const m of ["abc", "5 lakh", "<>", "6,00,000", "5.5", "-3"]) expect(moneyProblem(m)).not.toBe("");
     for (const e of ["", "Fresher", "2", "2.5", "2 years", "2 years 6 months", "10 yrs"]) expect(experienceProblem(e)).toBe("");
     for (const e of ["a lot", "<script>", "2 apples"]) expect(experienceProblem(e)).not.toBe("");
   });
@@ -91,5 +91,20 @@ describe("limitPhone", () => {
   it("a message with symbols is refused, normal punctuation is fine", () => {
     expect(leadProblems({ name: "Asha", email: "a@b.co", phone: "", message: "Hello! Need a CRM, 2 users (sales) - ASAP?" }).message).toBeUndefined();
     expect(leadProblems({ name: "Asha", email: "a@b.co", phone: "", message: "Hello <b>bold</b> {x} [y] \\ | ^ ~" }).message).toBeDefined();
+  });
+});
+
+import { aboutProblem, isLinkQuestion } from "./contact-validation";
+
+describe("job form extras", () => {
+  it("about: at least 20 characters when written", () => {
+    expect(aboutProblem("")).toBe("");
+    expect(aboutProblem("short one")).not.toBe("");
+    expect(aboutProblem("I like building apps that people use every day.")).toBe("");
+    expect(aboutProblem("<script>alert(1)</script> and more words here")).not.toBe("");
+  });
+  it("a question about a link is checked as a link", () => {
+    expect(isLinkQuestion("Link to your best work (optional)")).toBe(true);
+    expect(isLinkQuestion("Are you able to work from our Surat office?")).toBe(false);
   });
 });

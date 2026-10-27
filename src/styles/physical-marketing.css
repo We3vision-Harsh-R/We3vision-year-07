@@ -105,3 +105,8 @@
 .phy-flow li > button { padding: 8px 20px; }
 .phy-flow-b p { margin-bottom: 8px; }
 }
+
+/* the event layout: the map and the card are one balanced pair, and the bottom of the section keeps clear of the floating menu bar (it used to be cut by it) */
+.phy-evt { padding-bottom: clamp(76px, 13vh, 130px); }
+.phy-evt .mkt-panel { min-width: 0; align-self: center; }
+.phy-zone.is-on rect { stroke-width: 2.2; }

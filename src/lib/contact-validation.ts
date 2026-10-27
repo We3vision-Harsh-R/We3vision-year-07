@@ -10,10 +10,7 @@ export function isValidEmail(v: string): boolean {
 
 /** a phone number: only digits, spaces and + ( ) - . (a + only at the start), with 10 to 15 digits (a mobile number, with or without a country code; 15 is the longest number in the world, E.164) */
 export function isValidPhone(v: string): boolean {
-  const p = v.trim();
-  if (!/^\+?[\d\s().-]+$/.test(p)) return false;
-  const digits = p.replace(/\D/g, "").length;
-  return digits >= 10 && digits <= 15;
+  return leadPhone(v).ok;
 }
 
 /** the message under an email field ("" = fine). An empty value is not an error here (a required field is checked by the form). */
@@ -25,7 +22,8 @@ export function emailProblem(v: string): string {
 /** the message under a phone field ("" = fine) */
 export function phoneProblem(v: string): string {
   if (!v.trim()) return "";
-  return isValidPhone(v) ? "" : "Please enter a valid phone number: 10 to 15 digits, for example +91 98765 43210.";
+  const p = leadPhone(v);
+  return p.ok ? "" : p.problem;
 }
 
 /** a person's name: letters, spaces and . ' - only, 2 to 50 characters */
@@ -34,7 +32,7 @@ export function nameProblem(v: string): string {
   if (!n) return "";
   if (n.length < 2) return "Please enter at least 2 letters.";
   if (n.length > 50) return "Please use 50 characters at most.";
-  return /^[\p{L}][\p{L}\p{M}\s.'’-]*$/u.test(n) ? "" : "Please use letters and spaces only.";
+  return /^[\p{L}][\p{L}\p{M}\s]*$/u.test(n) ? "" : "Full name can only contain letters and spaces.";
 }
 
 /** a link: a real https address (optional field: empty is fine) */
@@ -44,10 +42,10 @@ export function urlProblem(v: string): string {
   try {
     const u = new URL(t);
     if (u.protocol !== "https:") return "Please use a link that starts with https://";
-    if (!u.hostname.includes(".") || /\s/.test(t)) return "Please enter a valid link, like https://linkedin.com/in/yourname";
+    if (!u.hostname.includes(".") || /\s/.test(t)) return "Please enter a valid https:// link, like https://linkedin.com/in/yourname";
     return "";
   } catch {
-    return "Please enter a valid link, like https://linkedin.com/in/yourname";
+    return "Please enter a valid https:// link, like https://linkedin.com/in/yourname";
   }
 }
 
@@ -55,7 +53,7 @@ export function urlProblem(v: string): string {
 export function moneyProblem(v: string): string {
   const t = v.trim().replace(/\s/g, "");
   if (!t) return "";
-  return /^\d[\d,]{0,14}(\.\d{1,2})?$/.test(t) ? "" : "Numbers only, for example 600000.";
+  return /^\d{1,12}$/.test(t) ? "" : "Numbers only (digits), for example 600000.";
 }
 
 /** experience: Fresher, or a number of years and months such as 2, 2.5, 2 years or 2 years 6 months (optional field) */
@@ -75,6 +73,17 @@ export function textProblem(v: string): string {
   return s.length >= 4 && words / s.length < 0.5 ? "Please write in words, without a row of symbols." : "";
 }
 
+/** "Why do you want to join": when it is written, at least 20 characters, and plain text */
+export function aboutProblem(v: string): string {
+  const t = v.trim();
+  if (!t) return "";
+  if (t.length < 20) return "Please write at least 20 characters about why you want to join.";
+  return textProblem(v);
+}
+
+/** a question of the form that asks for a link ("Link to your best work"): the answer must be an https link */
+export const isLinkQuestion = (label: string) => /\b(link|url|portfolio|website)\b/i.test(label);
+
 /** the problem of one field of the application forms, by its key ("" = fine); the same rules run in the form and on the server */
 export function fieldProblem(key: string, value: string): string {
   switch (key) {
@@ -93,8 +102,9 @@ export function fieldProblem(key: string, value: string): string {
     case "expectedCtc":
       return moneyProblem(value);
     case "skills":
-    case "about":
       return textProblem(value);
+    case "about":
+      return aboutProblem(value);
     default:
       return "";
   }

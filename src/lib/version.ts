@@ -16,6 +16,27 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 63,
+    date: "2026-10-27",
+    title: "Phone launcher locked; the home page works on every screen",
+    notes: [
+      "The phone launcher (the app-style home screen) is locked: phones and tablets get the same home page as the laptop, made to fit small screens.",
+      "Home on a phone: the hero, At a glance (two facts in a row, recognitions that wrap) and the service tabs (one row that slides sideways) fit the width.",
+    ],
+  },
+  {
+    v: 62,
+    date: "2026-10-27",
+    title: "Job forms: a message under every field; event layout; laptop never gets the phone app",
+    notes: [
+      "Job application forms (the job page and the ticket on /careers): every field that is wrong has a red border and its own message under it, a field that is needed says so after the first try to send, and the box at the bottom and the popup over the button are gone.",
+      "Rules: full name letters and spaces only; email; mobile exactly 10 digits starting 6-9 (or a number with its country code); salaries digits only; links must be https; why-join at least 20 characters and no tags; a question that asks for a link is checked as a link.",
+      "The label of a field stays above the floating particles.",
+      "Physical marketing, Turn Brand Moments Into Brand Memories: the five zones are evenly spaced with room at both ends, the names fit their boxes, and the bottom of the section clears the menu bar.",
+      "A laptop no longer gets the phone launcher: pages that have a phone twin are not kept in a shared cache, and a desktop browser that lands on the phone page goes to the desktop site of the same address.",
+    ],
+  },
+  {
     v: 61,
     date: "2026-10-27",
     title: "Team bug list part 4: forms, PANDA, industries arrows, ad preview, clock, step counter",

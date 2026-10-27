@@ -146,17 +146,17 @@ export function PhysicalPage({ d }: { d: TechData }) {
       {/* ------------------------------------------------------------ 06 event map */}
       <Sec n="06" title={"Turn Brand Moments\nInto Brand Memories."} intro="A conceptual event layout, not a real venue plan. Choose a zone to see how branding connects it." id="phy-evt" pin={{ count: 5, onChange: setZone }}>
         <div className="phy-evt mkt-rv">
-          <svg viewBox="0 0 560 300" className="phy-map" role="group" aria-label="Conceptual event layout">
-            <rect className="phy-hall" x="10" y="10" width="540" height="280" rx="14" />
-            <path className="phy-walk" d="M60 150H500" />
+          <svg viewBox="0 0 590 300" className="phy-map" role="group" aria-label="Conceptual event layout">
+            <rect className="phy-hall" x="8" y="10" width="574" height="280" rx="14" />
+            <path className="phy-walk" d="M70 150H520" />
             {PHY_EVENT.map((e, i) => {
-              const x = 62 + i * 109;
+              const x = 79 + i * 108; // five zones, the same distance apart, the same room at both ends of the hall
               return (
                 <g key={e.t} className={`phy-zone ${zone === i ? "is-on" : ""}`} tabIndex={0} role="button" aria-pressed={zone === i} aria-label={e.t} onClick={() => setZone(i)} onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setZone(i); } }}>
-                  <rect x={x - 46} y={i % 2 ? 160 : 70} width="92" height="68" rx="10" />
+                  <rect x={x - 51} y={i % 2 ? 164 : 66} width="102" height="70" rx="10" />
                   <circle cx={x} cy="150" r="9" className="phy-dot" />
-                  <text x={x} y={i % 2 ? 200 : 110} textAnchor="middle">{i + 1}</text>
-                  <text x={x} y={i % 2 ? 222 : 130} textAnchor="middle" className="phy-zt">{e.t.split(" ")[0]}</text>
+                  <text x={x} y={i % 2 ? 196 : 98} textAnchor="middle">{i + 1}</text>
+                  <text x={x} y={i % 2 ? 220 : 122} textAnchor="middle" className="phy-zt">{e.t.split(" ")[0]}</text>
                 </g>
               );
             })}

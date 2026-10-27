@@ -2526,3 +2526,15 @@ a.rt-row:hover {
     transform: translateY(18px);
   }
 }
+
+/* a field of the application forms with a problem: a red border, the message under it (the message is written under the field, not in a box at the bottom) */
+.cj-in[aria-invalid="true"],
+.cj-in[aria-invalid="true"]:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.45);
+}
+/* the label of a field stays above the floating particles of the page */
+.cj-field > span {
+  position: relative;
+  z-index: 2;
+}

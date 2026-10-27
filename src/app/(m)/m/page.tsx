@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+import { LAUNCHER_UNLOCKED } from "@/lib/launcher-lock";
 import { Launcher } from "@/components/site/mobile/launcher";
 import type { Contact } from "@/components/site/mobile/launcher-widgets";
 import { getSiteSettings } from "@/lib/cms/queries";
@@ -6,6 +8,8 @@ import { getSiteSettings } from "@/lib/cms/queries";
 export const revalidate = 600;
 
 export default async function MobileHome() {
+  // the launcher is locked (src/lib/launcher-lock.ts): /m goes to the normal home page
+  if (!LAUNCHER_UNLOCKED) redirect("/");
   // the widgets that help a visitor to reach us (call, WhatsApp, mail, map, social) use the real details from the site settings (Admin > Settings)
   const site = await getSiteSettings();
   const lines = site.contactCards.flatMap((c) => c.lines.split("\n").map((l) => l.trim()));

@@ -14,9 +14,13 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "We3vision" },
 };
 
+// A laptop must never stay in the phone app (a shared cache can hand the phone page to anybody, an old cookie can too): a browser with a mouse, a wide window and a desktop user agent
+// goes once to the desktop site of the same address (?view=desktop remembers it). ?view=mobile (on purpose) is left alone.
+const DESKTOP_GUARD = "(function(){try{if(/[?&]view=mobile/.test(location.search))return;var d=matchMedia(\"(pointer:fine) and (hover:hover)\").matches&&innerWidth>=900&&!/Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent);if(!d||sessionStorage.getItem(\"w3v-dg\"))return;sessionStorage.setItem(\"w3v-dg\",\"1\");location.replace(location.pathname.replace(/^\/m(\/|$)/,\"/\")+\"?view=desktop\"+location.hash)}catch(e){}})();";
+
 export default function MobileLayout({ children }: { children: React.ReactNode }) {
   return (
-    <RootShell htmlClass={fontVars}>
+    <RootShell htmlClass={fontVars} boot={DESKTOP_GUARD}>
       <div className="m-root">{children}</div>
     </RootShell>
   );

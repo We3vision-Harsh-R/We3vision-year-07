@@ -1050,3 +1050,12 @@
     transition: none;
   }
 }
+
+/* the service tabs on a phone: ONE row that slides sideways (every name in one or two lines, nothing pushes the street scene below it) */
+@media (max-width: 699px) {
+  .hub-row { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scroll-snap-type: x proximity; padding: 0 2px 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .hub-row::-webkit-scrollbar { display: none; }
+  .hub-item { flex: 0 0 148px; scroll-snap-align: start; }
+  .hub-box { height: 58px; padding: 0 10px; }
+  .hub-name { white-space: normal; overflow: visible; line-height: 1.2; }
+}

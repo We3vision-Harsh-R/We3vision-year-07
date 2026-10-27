@@ -1,6 +1,7 @@
 // DEVICE ROUTING. A phone or tablet gets the separate mobile site (src/app/(m)/m/...), a laptop gets the desktop site (src/app/(site)/...).
 // The visitor always sees the SAME address (we3vision.com/seo); src/proxy.ts rewrites it inside the server, so there is one URL for SEO and a phone
 // never downloads the desktop code. Keep this file free of server-only imports (the proxy uses it).
+import { LAUNCHER_UNLOCKED } from "./launcher-lock";
 import { MOBILE_PAGES } from "./mobile-ready.generated";
 
 /** cookie that lets a visitor choose a view by hand: "desktop" or "mobile" (set with ?view=desktop / ?view=mobile) */
@@ -11,7 +12,8 @@ export const VIEW_COOKIE = "we3.view";
  * desktop page, so nothing breaks while the mobile site grows. The list is generated: add a folder src/app/(m)/m/<path>/page.tsx, then run
  * `node tools/sync-mobile-ready.mjs`.
  */
-export const MOBILE_READY: ReadonlySet<string> = new Set(["/", ...MOBILE_PAGES]);
+// ("/" is the launcher: it is in the list only while the launcher is unlocked, see launcher-lock.ts)
+export const MOBILE_READY: ReadonlySet<string> = new Set([...(LAUNCHER_UNLOCKED ? ["/"] : []), ...MOBILE_PAGES]);
 
 const MOBILE_UA = /Android|iPhone|iPad|iPod|Mobile|Windows Phone|IEMobile|Opera Mini|BlackBerry|webOS/i;
 

@@ -62,7 +62,9 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   if (asked === "desktop") res.cookies.set(VIEW_COOKIE, asked, { path: "/", maxAge: 60 * 60 * 24 * 30, sameSite: "lax" });
   else if (asked === "mobile") res.cookies.set(VIEW_COOKIE, asked, { path: "/", sameSite: "lax" });
   // the same address gives a different page to a phone and to a laptop: caches (CDN, Google) must know
-  res.headers.set("Vary", "User-Agent, Sec-CH-UA-Mobile");
+  res.headers.set("Vary", "User-Agent, Sec-CH-UA-Mobile, Sec-CH-UA-Platform");
+  // a page that has a phone twin is NOT kept in a shared cache (a CDN that ignores Vary would give the phone page to a laptop, and the laptop page to a phone)
+  if (mobilePathFor(pathname)) res.headers.set("Cache-Control", "private, no-cache, must-revalidate");
   return res;
 }
 

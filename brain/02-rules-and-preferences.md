@@ -87,3 +87,7 @@ These are standing instructions. They override defaults. When a rule and a task 
 ## Version numbers (owner, 2026-10-24: "from today the version runs from 51")
 - The website has a version number. One list in `src/lib/version.ts` (`VERSION_LOG`, newest first); the first entry is the live version. It is shown in the website footer (`v51`), in the admin sidebar (`Admin panel · v51`) and listed in Admin > Versions.
 - EVERY finished update adds ONE new entry at the top with the next number (52, 53 ...): date, short title, plain notes. Then commit; after the push make the git tag `git tag v<N> && git push origin v<N>` so any version can be found or restored.
+
+## Phone launcher: LOCKED (owner, 2026-10-27)
+- `src/lib/launcher-lock.ts` `LAUNCHER_UNLOCKED = false`. While false, "/" is never sent to the launcher (`lib/device.ts` MOBILE_READY has no "/") and `/m` redirects to "/". Phones get the normal home page, which is responsive. The launcher code (`components/site/mobile/launcher*.tsx`, `(m)/m/page.tsx`) is kept untouched. DO NOT unlock it, call it or change the flag unless the owner says exactly "unlock launcher"; then only flip the flag.
+- The other phone pages (`(m)/m/...`) still exist and are served to phones for their own addresses; they reach each other through their tab bar / Apps sheet.

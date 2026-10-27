@@ -5,7 +5,7 @@ import "@/styles/careers.css";
 import Link from "next/link";
 import { useState } from "react";
 import { applyForJob } from "@/actions/jobs";
-import { fieldProblem } from "@/lib/contact-validation";
+import { fieldProblem, isLinkQuestion, urlProblem } from "@/lib/contact-validation";
 import { resumeNameProblem } from "@/lib/resume-check";
 import { ToastView, useToast } from "./cj-toast";
 import {
@@ -39,6 +39,24 @@ export function JobApply({
   const [error, setError] = useState("");
   const { toast, notify, close: closeToast } = useToast();
   const [sent, setSent] = useState(false);
+  const [tried, setTried] = useState(false);
+
+  // the problem of a field: its rule while it is written, and "needed" for an empty required one after the first try to send
+  const NEEDED = ["name", "email", "phone", "city"];
+  const prob = (k: string) => fieldProblem(k, f[k] ?? "") || (tried && NEEDED.includes(k) && !(f[k] ?? "").trim() ? "This field is needed." : "");
+  const qProb = (q: CareerQuestionView) => {
+    const v = custom[q.id] ?? "";
+    if (isLinkQuestion(q.label) && q.kind !== "select" && q.kind !== "yesno") return urlProblem(v);
+    return tried && q.required && !v.trim() ? "This field is needed." : "";
+  };
+  const hasProblems = () => ["name", "email", "phone", "city", "linkedin", "about"].some((k) => prob(k)) || questions.some((q) => qProb(q));
+  const msg = (id: string, text: string) =>
+    text ? (
+      <small id={id} className="cj-ferr" role="alert">
+        {text}
+      </small>
+    ) : null;
+  const aria = (id: string, text: string) => ({ "aria-invalid": text ? (true as const) : undefined, "aria-describedby": text ? id : undefined });
 
   const set = (k: string, v: string) => setF((x) => ({ ...x, [k]: v }));
 
@@ -75,12 +93,8 @@ export function JobApply({
 
   const send = async () => {
     setError("");
-    const bad = ["name", "email", "phone", "city", "linkedin", "about"]
-      .map((k) => fieldProblem(k, f[k] ?? ""))
-      .find(Boolean);
-    if (bad) {
-      setError(bad);
-      notify("err", bad);
+    if (hasProblems()) {
+      setTried(true);
       return;
     }
     setBusy(true);
@@ -100,7 +114,6 @@ export function JobApply({
       notify("ok", "Your application is sent. Our HR team will write to you.");
     } else {
       setError(res.error);
-      notify("err", res.error);
     }
   };
 
@@ -144,14 +157,10 @@ export function JobApply({
               value={f.name ?? ""}
               maxLength={50}
               autoComplete="name"
-              aria-invalid={Boolean(fieldProblem("name", f.name ?? ""))}
+              {...aria("jb-name-err", prob("name"))}
               onChange={(e) => set("name", e.target.value)}
             />
-            {fieldProblem("name", f.name ?? "") && (
-              <small className="cj-ferr" role="alert">
-                {fieldProblem("name", f.name ?? "")}
-              </small>
-            )}
+            {msg("jb-name-err", prob("name"))}
           </label>
           <label className="cj-field">
             <span>
@@ -165,14 +174,10 @@ export function JobApply({
               maxLength={200}
               autoComplete="email"
               placeholder="you@example.com"
-              aria-invalid={Boolean(fieldProblem("email", f.email ?? ""))}
+              {...aria("jb-email-err", prob("email"))}
               onChange={(e) => set("email", e.target.value)}
             />
-            {fieldProblem("email", f.email ?? "") && (
-              <small className="cj-ferr" role="alert">
-                {fieldProblem("email", f.email ?? "")}
-              </small>
-            )}
+            {msg("jb-email-err", prob("email"))}
           </label>
           <label className="cj-field">
             <span>
@@ -186,14 +191,10 @@ export function JobApply({
               maxLength={20}
               autoComplete="tel"
               placeholder="+91 …"
-              aria-invalid={Boolean(fieldProblem("phone", f.phone ?? ""))}
+              {...aria("jb-phone-err", prob("phone"))}
               onChange={(e) => set("phone", e.target.value)}
             />
-            {fieldProblem("phone", f.phone ?? "") && (
-              <small className="cj-ferr" role="alert">
-                {fieldProblem("phone", f.phone ?? "")}
-              </small>
-            )}
+            {msg("jb-phone-err", prob("phone"))}
           </label>
           <label className="cj-field">
             <span>
@@ -202,11 +203,13 @@ export function JobApply({
             <input
               className="cj-in"
               value={f.city ?? ""}
+              {...aria("jb-city-err", prob("city"))}
               maxLength={120}
               autoComplete="address-level2"
               placeholder="e.g. Surat"
               onChange={(e) => set("city", e.target.value)}
             />
+            {msg("jb-city-err", prob("city"))}
           </label>
           <div className="cj-field">
             <span>Current career status</span>
@@ -223,10 +226,12 @@ export function JobApply({
             <input
               className="cj-in"
               value={f.experience ?? ""}
+              {...aria("jb-experience-err", prob("experience"))}
               maxLength={80}
               placeholder="e.g. 2 years 6 months, or Fresher"
               onChange={(e) => set("experience", e.target.value)}
             />
+            {msg("jb-experience-err", prob("experience"))}
           </label>
           <div className="cj-field">
             <span>Notice period</span>
@@ -243,10 +248,12 @@ export function JobApply({
             <input
               className="cj-in"
               value={f.linkedin ?? ""}
+              {...aria("jb-linkedin-err", prob("linkedin"))}
               maxLength={300}
               placeholder="https://…"
               onChange={(e) => set("linkedin", e.target.value)}
             />
+            {msg("jb-linkedin-err", prob("linkedin"))}
           </label>
           <div className="cj-field jb-wide">
             <span>
@@ -267,10 +274,12 @@ export function JobApply({
               className="cj-in"
               rows={3}
               value={f.about ?? ""}
+              {...aria("jb-about-err", prob("about"))}
               maxLength={1000}
               placeholder="A few lines are enough"
               onChange={(e) => set("about", e.target.value)}
             />
+            {msg("jb-about-err", prob("about"))}
           </label>
           {questions.map((q) => (
             <div
@@ -307,11 +316,13 @@ export function JobApply({
                   value={custom[q.id] ?? ""}
                   maxLength={300}
                   aria-label={q.label}
+                  {...aria(`jb-q-${q.id}-err`, qProb(q))}
                   onChange={(e) =>
                     setCustom({ ...custom, [q.id]: e.target.value })
                   }
                 />
               )}
+              {msg(`jb-q-${q.id}-err`, qProb(q))}
             </div>
           ))}
         </div>
