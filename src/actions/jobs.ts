@@ -7,7 +7,7 @@ import { requireAdmin } from "@/lib/auth";
 import { WORK_MODES, WORK_TYPES, slugify } from "@/lib/careers-shared";
 import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
-import { fieldProblem, isValidEmail, isValidPhone } from "@/lib/contact-validation";
+import { fieldProblem, isValidEmail, isValidPhone, leadPhone } from "@/lib/contact-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
 import type { Prisma } from "@/generated/prisma/client";
@@ -47,7 +47,7 @@ export async function applyForJob(input: ApplyInput): Promise<ActionResult> {
   const resume = typeof input.resume === "string" && /^\/media\/[a-z0-9]{10,40}$/i.test(input.resume) ? input.resume : "";
   if (name.length < 2) return { ok: false, error: "Please enter your full name." };
   if (!emailRule.safeParse(email).success || !isValidEmail(email)) return { ok: false, error: "Please enter a valid email, like name@example.com." };
-  if (!isValidPhone(phone)) return { ok: false, error: "Please enter a valid phone number: 7 to 15 digits, for example +91 98765 43210." };
+  if (!isValidPhone(phone)) { const p = leadPhone(phone); return { ok: false, error: p.ok ? "Please enter a valid phone number." : p.problem }; }
   if (city.length < 2) return { ok: false, error: "Please tell us the city where you live." };
   for (const [key, label, value] of [["name", "Full name", name], ["city", "City", city], ["linkedin", "Link", linkedin], ["about", "Why do you want to join", para(input.fields?.about, 1000)]] as const) {
     const bad = fieldProblem(key, value);
