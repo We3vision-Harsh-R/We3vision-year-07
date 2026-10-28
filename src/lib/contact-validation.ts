@@ -171,3 +171,45 @@ export function leadProblems(v: LeadValues, o: { phoneRequired?: boolean; messag
   else if (m && m.length < 10 && o.messageRequired !== false) out.message = "Please write a few more words (at least 10 characters).";
   return out;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+// The seat of the Careers page (current status, city, day of joining): short answers, nothing more than they need.
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+/** what may stand in "current career status" while it is typed: letters, spaces and . - / & ( ) , only, at most 80 characters, no double spaces */
+export function cleanStatus(v: string): string {
+  return v.replace(/[^\p{L}\p{M}\s.\-/&(),]/gu, "").replace(/\s{2,}/g, " ").replace(/^\s+/, "").slice(0, 80);
+}
+
+/** the problem of the current career status ("" = fine or empty; it is not required) */
+export function statusProblem(v: string): string {
+  const t = v.trim();
+  if (!t) return "";
+  if (t.length < 2) return "Please write at least 2 letters, like Fresher or Developer.";
+  if (t.length > 80) return "Please use 80 characters at most.";
+  if (!/^[\p{L}\p{M}\s.\-/&(),]+$/u.test(t) || !/\p{L}/u.test(t)) return "Please use letters only (a . - / & ( ) , is fine), like Fresher or Sr. Project Manager.";
+  return "";
+}
+
+/** the city of the seat ("Surat, India"): letters, spaces and . ' - , only */
+export function cityProblem(v: string): string {
+  const t = v.trim();
+  if (!t) return "Please choose your location first.";
+  if (t.length > 120 || !/^[\p{L}\p{M}\s.'’,-]+$/u.test(t)) return "Please choose your location from the list.";
+  return "";
+}
+
+/** the day of joining (YYYY-MM-DD): a real day from today to one year ahead ("" = not given, fine) */
+export function joinDateProblem(v: string, now: Date = new Date()): string {
+  if (!v) return "";
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return "Please choose the date from the calendar.";
+  const [y, m, d] = v.split("-").map(Number);
+  const day = new Date(y, m - 1, d);
+  if (day.getFullYear() !== y || day.getMonth() !== m - 1 || day.getDate() !== d) return "Please choose a real date.";
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const last = new Date(today);
+  last.setFullYear(last.getFullYear() + 1);
+  if (day < today) return "The day you can join cannot be in the past.";
+  if (day > last) return "Please choose a day within the next year.";
+  return "";
+}

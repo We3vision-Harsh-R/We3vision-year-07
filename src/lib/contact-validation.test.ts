@@ -108,3 +108,24 @@ describe("job form extras", () => {
     expect(isLinkQuestion("Are you able to work from our Surat office?")).toBe(false);
   });
 });
+
+import { cityProblem, cleanStatus, joinDateProblem, statusProblem } from "./contact-validation";
+
+describe("career seat", () => {
+  it("status: letters and a few marks only", () => {
+    for (const s of ["", "Fresher", "Sr. Project Manager", "UI/UX designer (freelance)"]) expect(statusProblem(s)).toBe("");
+    for (const s of ["A", "<script>", "dev123", "!!!", "x".repeat(81)]) expect(statusProblem(s)).not.toBe("");
+    expect(cleanStatus("  De<v>el0per!!  ")).toBe("Develper ");
+  });
+  it("city", () => {
+    expect(cityProblem("Surat, India")).toBe("");
+    for (const c of ["", "Surat<b>", "x".repeat(121), "12345"]) expect(cityProblem(c)).not.toBe("");
+  });
+  it("join date: a real day, today to a year ahead", () => {
+    const now = new Date(2026, 9, 28);
+    expect(joinDateProblem("", now)).toBe("");
+    expect(joinDateProblem("2026-10-28", now)).toBe("");
+    expect(joinDateProblem("2027-10-28", now)).toBe("");
+    for (const d of ["2026-10-27", "2027-10-29", "2026-02-30", "28-10-2026", "abc"]) expect(joinDateProblem(d, now)).not.toBe("");
+  });
+});

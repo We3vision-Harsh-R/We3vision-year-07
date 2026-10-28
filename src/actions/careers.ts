@@ -4,10 +4,10 @@ import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
-import { COMMON_FIELDS } from "@/lib/careers-shared";
+import { COMMON_FIELDS, NOTICE_PERIODS, callSlots } from "@/lib/careers-shared";
 import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
-import { fieldProblem, isValidEmail, isValidPhone, leadPhone } from "@/lib/contact-validation";
+import { cityProblem, fieldProblem, isValidEmail, isValidPhone, joinDateProblem, leadPhone, statusProblem } from "@/lib/contact-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
 import type { Prisma } from "@/generated/prisma/client";
@@ -35,21 +35,32 @@ export type BookInput = {
 export async function bookSeat(input: BookInput): Promise<{ ok: true; id: string } | { ok: false; error: string }> {
   if (!hasDb) return { ok: false, error: "Booking is not available right now. Please email hr@we3vision.com." };
   if (!rateLimit(`career-book:${await clientIp()}`, 12, 60 * 60_000)) return { ok: false, error: "Too many tries. Please wait a little and try again." };
+  // every answer of the seat is checked here too (the page checks the same rules): nothing more than the form can give is stored
   const city = line(input.city, 120);
-  if (!city) return { ok: false, error: "Please choose your location first." };
-  const resume = typeof input.resume === "string" && /^\/media\/[a-z0-9]{10,40}$/i.test(input.resume) ? input.resume : "";
-  const joinDate = typeof input.joinDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(input.joinDate) ? input.joinDate : "";
+  const cityBad = cityProblem(city);
+  if (cityBad) return { ok: false, error: cityBad };
+  const currentStatus = line(input.currentStatus, 80);
+  const statusBad = statusProblem(currentStatus);
+  if (statusBad) return { ok: false, error: `Current career status: ${statusBad}` };
+  const joinDate = typeof input.joinDate === "string" ? input.joinDate : "";
+  const dateBad = joinDateProblem(joinDate);
+  if (dateBad) return { ok: false, error: `When can you join: ${dateBad}` };
+  const noticePeriod = line(input.noticePeriod, 40);
+  if (noticePeriod && !NOTICE_PERIODS.includes(noticePeriod)) return { ok: false, error: "Arrival time: please choose one of the options." };
+  const callSlot = line(input.callSlot, 60);
+  if (callSlot && !callSlots(new Date(Date.now() - 86_400_000), 8).some((d) => d.times.some((t) => `${d.label}, ${t}` === callSlot))) return { ok: false, error: "A call with HR: please choose a slot from the list." };
+  if (input.resume && !(typeof input.resume === "string" && /^\/media\/[a-z0-9]{10,40}$/i.test(input.resume))) return { ok: false, error: "Please upload your resume again." };
+  const resume = typeof input.resume === "string" ? input.resume : "";
   try {
     let roleTitle = "";
     let roleId = "";
-    if (typeof input.roleId === "string" && /^[a-z0-9]{10,40}$/i.test(input.roleId)) {
-      const role = await db.careerRole.findUnique({ where: { id: input.roleId }, select: { id: true, title: true } });
-      if (role) {
-        roleId = role.id;
-        roleTitle = role.title;
-      }
+    if (input.roleId) {
+      const role = typeof input.roleId === "string" && /^[a-z0-9]{10,40}$/i.test(input.roleId) ? await db.careerRole.findUnique({ where: { id: input.roleId }, select: { id: true, title: true } }) : null;
+      if (!role) return { ok: false, error: "Your destination: please choose an open position from the list." };
+      roleId = role.id;
+      roleTitle = role.title;
     }
-    const data = { city, currentStatus: line(input.currentStatus, 80), roleId, roleTitle, joinDate, noticePeriod: line(input.noticePeriod, 40), callSlot: line(input.callSlot, 60), resume };
+    const data = { city, currentStatus, roleId, roleTitle, joinDate, noticePeriod, callSlot, resume };
     if (typeof input.id === "string" && /^[a-z0-9]{10,40}$/i.test(input.id)) {
       const hit = await db.careerApplication.updateMany({ where: { id: input.id, stage: "booked" }, data });
       if (hit.count > 0) return { ok: true, id: input.id };

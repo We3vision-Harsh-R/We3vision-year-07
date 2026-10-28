@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 65,
+    date: "2026-10-28",
+    title: "Careers seat: every answer is checked",
+    notes: [
+      "Careers (Book your seat): current status takes letters only (special characters and digits are removed as you type), the join date must be a real day from today to one year ahead, the notice period, destination and HR call slot must come from the lists.",
+      "The server checks the same rules, so a request that skips the page is stopped too.",
+    ],
+  },
+  {
     v: 64,
     date: "2026-10-27",
     title: "New home hero: one big rounded panel",

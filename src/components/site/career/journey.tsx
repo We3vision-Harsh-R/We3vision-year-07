@@ -7,7 +7,7 @@ import "@/styles/careers.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { bookSeat, completeTicket } from "@/actions/careers";
 import { setCareer } from "@/lib/career-store";
-import { fieldProblem } from "@/lib/contact-validation";
+import { cleanStatus, fieldProblem, statusProblem } from "@/lib/contact-validation";
 import { resumeNameProblem } from "@/lib/resume-check";
 import { ToastView, useToast } from "./cj-toast";
 import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, type CareerQuestionView, type CareerRoleView } from "@/lib/careers-shared";
@@ -145,6 +145,11 @@ export function CareerJourney({
   // the seat: the city is the only thing that has to be there
   const book = async () => {
     setError("");
+    const bad = statusProblem(status);
+    if (bad) {
+      setError(`Current career status: ${bad}`);
+      return;
+    }
     setBusy(true);
     const res = await bookSeat({ id: ticketId || undefined, city, currentStatus: status, roleId, joinDate, noticePeriod: notice, callSlot: slot, resume: resume?.url ?? "" });
     setBusy(false);
@@ -220,7 +225,12 @@ export function CareerJourney({
                   Current career status
                   <small>Type it yourself or pick one, like Fresher or Sr. Project Manager</small>
                 </span>
-                <Combo value={status} suggestions={CURRENT_STATUS_SUGGESTIONS} placeholder="Your current career status" label="Current career status" onChange={setStatus} />
+                <Combo value={status} suggestions={CURRENT_STATUS_SUGGESTIONS} placeholder="Your current career status" label="Current career status" onChange={(v) => setStatus(cleanStatus(v))} />
+                {statusProblem(status) && (
+                  <small id="cj-status-err" className="cj-ferr" role="alert">
+                    {statusProblem(status)}
+                  </small>
+                )}
               </div>
               <div className="cj-cell">
                 <span className="cj-lab">
