@@ -1,4 +1,5 @@
 import "../globals.css";
+import "@/styles/home-mobile.css";
 import { Background } from "@/components/site/background";
 import { FestLive } from "@/components/site/fest/fest-live";
 import { FloatingNav } from "@/components/site/floating-nav";

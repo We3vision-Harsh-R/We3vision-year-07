@@ -12,12 +12,10 @@ import { clamp } from "./anim-utils";
 import { ICONS } from "./icons";
 import { Street } from "./home-street";
 import { ParticleSphere } from "./particle-sphere";
+import { ACCENTS, oneLine, parseSubs, type ServiceCard } from "./service-data";
 import { SmartLink } from "./smart-link";
 
-type Card = { title: string; href: string; summary: string; subs: string };
-
-// Accent colour of each service (taken from the old site's pastel palette and the violet of the new design)
-const ACCENTS = ["hsl(calc(var(--th) + 76) calc(81.25% * var(--ts)) 87.45%)", "hsl(calc(var(--th) + 316) calc(66.15% * var(--ts)) 87.25%)", "hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47%)", "hsl(calc(var(--th) + 358) calc(100% * var(--ts)) 92.16%)", "hsl(calc(var(--th) + 339.48) calc(100% * var(--ts)) 77.45%)", "hsl(calc(var(--th) + 40) calc(40.82% * var(--ts)) 80.78%)", "hsl(calc(var(--th) + 339.6) calc(100% * var(--ts)) 82.55%)"];
+type Card = ServiceCard;
 
 // The first 110vh of the scroll (about two flicks of the wheel) are the ball, the blast, the dots fading away and the boxes
 // dropping in (PE_END of the whole track); the rest of the track is the walk of the little guide along the services.
@@ -31,20 +29,6 @@ const BLAST_END = 0.4;
 const REVEAL_PE = 0.86;
 const ENTER_W = 0.004;
 const WALK_SPEED = 380; // top speed of the guide, px per second
-
-const oneLine = (t: string) => t.replace(/\s*\n\s*/g, " ").trim();
-
-// "Name | short description" per line (up to 4 lines); the sub-services have no page, they are only a list
-const parseSubs = (raw: string) =>
-  raw
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean)
-    .slice(0, 4)
-    .map((l) => {
-      const [name = "", desc = ""] = l.split("|").map((x) => x.trim());
-      return { name, desc };
-    });
 
 // The hero is a tall "track" with a screen-sized scene pinned (sticky) inside it. While you scroll along the track the
 // page does NOT move: the ball, the 7 and the two texts break into particles (a few of them settle in small heaps at the
@@ -332,7 +316,7 @@ export function HeroScene({ mark, above, below, cards, servicesOnly = false }: {
   };
 
   return (
-    <section ref={trackRef} id={servicesOnly ? "services" : "hero"} style={{ height: `${introVh + WALK_VH + (servicesOnly ? 100 : 0)}vh` }} className="relative" data-pause-off>
+    <section ref={trackRef} id={servicesOnly ? undefined : "hero"} style={{ height: `${introVh + WALK_VH + (servicesOnly ? 100 : 0)}vh` }} className="relative" data-pause-off>
       <div
         ref={sceneRef}
         data-ready={ready}

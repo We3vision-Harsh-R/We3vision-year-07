@@ -116,8 +116,7 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 110 | Software Development page redesign: developer workspace (editor, git workflow, toolbox) | done |
 | 111 | Software page v2: centred, VS Code / Git / AWS / zero-gravity interactive | done |
 | 115 | AI content integration (MCP server + approval queue) | done |
-| 118 | Admin panel: new look from the owner's attendance-portal screenshot (floating glass sidebar, capsule top bar, pink active pill, dashboard with ring + count cards + rows) | done |
 | 116 | Home: services tabs section redesign (laptop) | done |
-| 119 | Fest v2: 30 Diwali effects in 4 groups (whole site, industries road, pointer incl. rocket on click, places: menu + login, logo ground, About + Team office), all switchable in Admin > Fest | done |
-| 120 | Festival speed fix + lazy loading + nothing hidden; new home first screen (hero + glance, Startup India/MSME), services back without particles; login in follow-us line; colour picker settings in the admin | done |
-| 121 | Fest panel changes show on the open website at once (no reload): /api/fest + BroadcastChannel + FestLive | done |
+| 118 | Admin panel: new look from the owner screenshot (glass sidebar, capsule top bar, dashboard) | done |
+| 138 | Home page phone + tablet redesign: every section, mega menu, footer (laptop unchanged) | done |
+| 138 | Home page phone + tablet redesign (swipe rows, menu accordion, footer), laptop unchanged | done |

@@ -29,7 +29,7 @@ export const Contact: SectionComponent<"contact"> = ({ data, site }) => (
     </div>
     <Wide>
       {site.contactCards.length > 0 && (
-        <div className="mt-20 grid gap-5 md:grid-cols-3">
+        <div className="hm-addr mt-20 grid gap-5 md:grid-cols-3">
           {site.contactCards.map((card, i) => (
             <Reveal key={card.title} delay={i * 90} className="h-full">
               <address className="bglow card-glass h-full rounded-[19px] border border-violet/[0.08] p-6 not-italic">

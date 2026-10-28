@@ -1,0 +1,912 @@
+/* =================================================================================================================================
+   PHONE + TABLET (owner, 2026-10-29: the home page must be responsive and designed for the phone, minimum scroll, the mega menu proper,
+   the tablet too). Loaded by app/(site)/layout.tsx after globals.css.
+
+   - Everything is inside max-width media queries: a screen of 1024px and wider (laptop, desktop, a tablet held sideways) is NOT touched.
+     Tablet = 700-1023px, phone = up to 699px.
+   - New pieces use the prefix "hm-" (services-rail.tsx, the address row of the contact section). The rest are overrides of existing
+     classes; they start with ":root" or ".hx ~" so that they win over the component CSS files that load later.
+   - ".hx ~ #id" = that section on the HOME page only (section.hx, the first screen, exists only there). The footer, the big menu and the
+     festival pieces are on every page.
+   - Long lists become one row of cards that you swipe sideways (CSS scroll snap, the next card peeks in so the swipe is visible).
+   - Theme colours only (--th / --ts, the void / violet / orchid tokens), Poppins, paragraphs >= 16px, labels >= 14px, taps >= 40px.
+   ================================================================================================================================= */
+
+/* ---------- 0. which services view: the laptop scene or the phone / tablet rail ---------- */
+.hm-rail {
+  display: none;
+}
+@media (max-width: 1023.98px) {
+  :root .hm-desk {
+    display: none;
+  }
+  :root .hm-rail {
+    display: block;
+  }
+  :root {
+    --hm-pad: 1.15rem;
+    --hm-gap: 0.75rem;
+    --hm-hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+    --hm-card: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 9% / 0.92);
+    --hm-soft: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 84%);
+    --hm-col: min(82%, 21rem);
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  :root {
+    --hm-pad: 2rem;
+    --hm-gap: 1rem;
+    --hm-col: min(43%, 22rem);
+  }
+}
+
+/* ---------- 1. services rail (services-rail.tsx) ---------- */
+@media (max-width: 1023.98px) {
+  .hm-rail {
+    padding: 3.2rem 0 2.6rem;
+  }
+  .hm-rail-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-inline: var(--hm-pad);
+  }
+  .hm-rail-head h2 {
+    margin: 0;
+    background: linear-gradient(180deg, #fff 30%, var(--color-violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+  }
+  .hm-rail-count {
+    margin: 0 0 0.3rem;
+    color: var(--hm-soft);
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .hm-rail-count b {
+    color: #fff;
+    font-weight: 600;
+  }
+  .hm-rail-row {
+    position: relative;
+    display: grid;
+    grid-auto-columns: var(--hm-col);
+    grid-auto-flow: column;
+    gap: var(--hm-gap);
+    margin: 1.3rem 0 0;
+    padding: 0.2rem var(--hm-pad) 0.4rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--hm-pad);
+    scrollbar-width: none;
+    list-style: none;
+  }
+  .hm-rail-row::-webkit-scrollbar {
+    display: none;
+  }
+  .hm-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1.3rem 1.2rem 1.1rem;
+    overflow: hidden;
+    border: 1px solid var(--hm-hair);
+    border-radius: 22px;
+    background:
+      linear-gradient(165deg, color-mix(in srgb, var(--ac) 15%, transparent), transparent 48%),
+      var(--hm-card);
+    scroll-snap-align: start;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hm-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 1.2rem;
+    left: 1.2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--ac);
+    opacity: 0.75;
+  }
+  .hm-card:active {
+    transform: scale(0.985);
+  }
+  .hm-card-ico {
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
+    place-items: center;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--ac) 16%, transparent);
+    color: var(--ac);
+  }
+  .hm-card-t {
+    margin: 1rem 0 0;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+  .hm-card-p {
+    display: -webkit-box;
+    margin: 0.5rem 0 0;
+    overflow: hidden;
+    color: var(--hm-soft);
+    font-size: 1rem;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  .hm-card-subs {
+    margin: 0.9rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hm-card-subs li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--hm-hair);
+    color: rgb(255 255 255 / 0.9);
+    font-size: 0.9375rem;
+    line-height: 1.35;
+  }
+  .hm-card-subs li::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--ac);
+  }
+  .hm-card-go {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    color: var(--ac);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .hm-card-go::after {
+    /* the whole card opens the page */
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .hm-card-go:focus-visible {
+    outline: none;
+  }
+  .hm-card:has(.hm-card-go:focus-visible) {
+    outline: 2px solid var(--ac);
+    outline-offset: 2px;
+  }
+  .hm-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.8rem;
+  }
+  .hm-dot {
+    position: relative;
+    width: 24px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .hm-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 6px;
+    background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.3);
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.3s,
+      background 0.3s;
+  }
+  .hm-dot[aria-current="true"]::before {
+    width: 18px;
+    background: var(--color-violet);
+  }
+  .hm-dot:focus-visible {
+    outline: 2px solid var(--color-violet);
+    outline-offset: -4px;
+    border-radius: 10px;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  .hm-rail {
+    padding: 4rem 0 3rem;
+  }
+  .hm-dots {
+    display: none;
+  }
+}
+
+/* ---------- 2. first screen (home-intro.tsx: .hx hero panel, .hy at a glance) ---------- */
+@media (max-width: 699.98px) {
+  :root section.hx {
+    padding: 6px;
+  }
+  :root .hx-panel {
+    min-height: calc(100svh - 12px);
+    gap: 1.6rem;
+    padding: 5.2rem 1.15rem 5.8rem;
+    border-radius: 22px;
+  }
+  :root .hx-top {
+    gap: 1.1rem;
+  }
+  :root .hx-title {
+    font-size: clamp(2rem, 8.8vw, 2.6rem);
+    line-height: 1.06;
+  }
+  :root .hx-text {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  :root .hx-cta {
+    flex-wrap: nowrap;
+    gap: 0.6rem;
+  }
+  :root .hx-btn {
+    height: 3rem;
+    flex: 1 1 0;
+    justify-content: center;
+    padding: 0 1rem;
+    white-space: nowrap;
+  }
+  :root .hx-bottom {
+    gap: 1.2rem;
+  }
+  :root .hx-list {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  :root .hx-list li {
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    border-radius: 999px;
+    font-size: 0.875rem;
+  }
+  :root .hx-list li::before {
+    display: none;
+  }
+  :root .hx-rec p {
+    margin-bottom: 0.6rem;
+    font-size: 0.875rem;
+  }
+  :root .hx-rec ul {
+    gap: 0.8rem 1.6rem;
+  }
+  :root .hx-rec img {
+    height: 2.3rem;
+  }
+  :root section.hy {
+    padding: 2rem var(--hm-pad) 1.2rem;
+  }
+  :root .hy-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  :root .hy-facts > div,
+  :root .hy-facts > div + div {
+    gap: 0.4rem;
+    padding: 1rem 0.5rem 1rem 0;
+    border-left: 0;
+  }
+  :root .hy-facts dd {
+    font-size: clamp(1.7rem, 7.6vw, 2.3rem);
+  }
+  :root .hy-facts dt {
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  :root section.hx {
+    padding: 10px;
+  }
+  :root .hx-panel {
+    min-height: min(calc(100svh - 20px), 62rem);
+    padding: 6.2rem 2.2rem 6.6rem;
+  }
+  :root .hx-top,
+  :root .hx-bottom {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.6rem;
+  }
+  :root .hx-title {
+    max-width: 18em;
+    font-size: clamp(2.8rem, 6.6vw, 3.8rem);
+  }
+  :root .hx-side {
+    max-width: 34rem;
+  }
+  :root .hx-list {
+    flex-direction: row;
+  }
+  :root section.hy {
+    padding: 2.6rem var(--hm-pad) 1.6rem;
+  }
+  :root .hy-facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  :root .hy-facts > div,
+  :root .hy-facts > div + div {
+    padding: 1.3rem 1rem 1.3rem 0;
+    border-left: 0;
+  }
+}
+
+/* ---------- 3. home sections: shorter gaps, headings on the left ---------- */
+@media (max-width: 1023.98px) {
+  .hx ~ #industries,
+  .hx ~ #advantages,
+  .hx ~ #contact {
+    padding-block: 3.2rem 2.6rem;
+  }
+  .hx ~ #reach {
+    padding-block: 2.6rem 2rem;
+  }
+  .hx ~ section .text-center,
+  .hx ~ section .sh-center,
+  .hx ~ #tools .ts-head {
+    text-align: left;
+  }
+  .hx ~ section .text-center > *,
+  .hx ~ #tools .ts-head > * {
+    margin-inline: 0;
+  }
+  .hx ~ section .text-center h2,
+  .hx ~ section h2.sh,
+  .hx ~ #tools .ts-head h2 {
+    margin-top: 0.9rem;
+    font-size: clamp(1.9rem, 7.4vw, 2.7rem);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+  }
+  .hx ~ section .text-center p,
+  .hx ~ #tools .ts-head p {
+    margin-top: 0.7rem;
+    max-width: 36rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .hx ~ #industries .cm-head > div,
+  .hx ~ #contact > div:first-child,
+  .hx ~ #tools .ts-head {
+    padding-inline: var(--hm-pad);
+  }
+}
+
+/* ---------- 4. industries: two rows of cards to swipe (industries-road.tsx shows the list below 1024px) ---------- */
+@media (max-width: 1023.98px) {
+  .hx ~ #industries > .mt-16 {
+    margin-top: 0;
+  }
+  .hx ~ #industries .cm-list {
+    display: grid;
+    grid-auto-columns: var(--hm-col);
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, auto);
+    gap: var(--hm-gap);
+    max-width: none;
+    margin: 1.4rem 0 0;
+    padding: 0.2rem var(--hm-pad) 0.4rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--hm-pad);
+    scrollbar-width: none;
+  }
+  .hx ~ #industries .cm-list::-webkit-scrollbar {
+    display: none;
+  }
+  .hx ~ #industries .cm-list > li,
+  .hx ~ #industries .cm-list > li:last-child {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: 0.8rem;
+    padding: 1.1rem 1.1rem 1.2rem;
+    border: 1px solid var(--hm-hair);
+    border-radius: 20px;
+    background: var(--hm-card);
+    scroll-snap-align: start;
+  }
+  .hx ~ #industries .cm-l-ico {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 14px;
+  }
+  .hx ~ #industries .cm-list h3 {
+    font-size: 1.125rem;
+  }
+  .hx ~ #industries .cm-list p {
+    margin-top: 0.35rem;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+}
+
+/* ---------- 5. technologies (tech-space.tsx): small planet tiles, two columns on a phone, three on a tablet ---------- */
+@media (max-width: 1023.98px) {
+  .hx ~ #tools.ts {
+    min-height: 0;
+    padding: 3.2rem 0 2.6rem;
+  }
+  .hx ~ #tools .ts-hint {
+    margin: 0.9rem 0 0;
+    padding-inline: var(--hm-pad);
+    font-size: 0.875rem;
+    text-align: left;
+  }
+  .hx ~ #tools .ts-stage {
+    padding-inline: var(--hm-pad);
+  }
+  .hx ~ #tools .ts-sun {
+    display: none;
+  }
+  .hx ~ #tools .ts-system {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin-top: 1.2rem;
+  }
+  .hx ~ #tools .ts-planet {
+    min-height: 3.75rem;
+    gap: 0.7rem;
+    padding: 0.7rem 0.75rem;
+    border-radius: 16px;
+  }
+  .hx ~ #tools .ts-sphere {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+  .hx ~ #tools .ts-pl-name b {
+    font-size: 0.9375rem;
+    line-height: 1.25;
+  }
+  .hx ~ #tools .ts-pl-name small {
+    font-size: 0.875rem;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  .hx ~ #tools .ts-system {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+}
+
+/* ---------- 6. why choose us (reasons-stack.tsx): the reasons in one row to swipe ---------- */
+@media (max-width: 1023.98px) {
+  .hx ~ #advantages .rs {
+    gap: 1.3rem;
+    padding-inline: 0;
+  }
+  .hx ~ #advantages .rs-side {
+    padding-inline: var(--hm-pad);
+  }
+  .hx ~ #advantages .rs-title {
+    margin-top: 0.9rem;
+    font-size: clamp(1.9rem, 7.4vw, 2.7rem);
+    line-height: 1.1;
+  }
+  .hx ~ #advantages .rs-intro {
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .hx ~ #advantages .rs-count {
+    margin-top: 0.8rem;
+    font-size: 1rem;
+  }
+  .hx ~ #advantages .rs-cards {
+    grid-auto-columns: var(--hm-col);
+    grid-auto-flow: column;
+    gap: var(--hm-gap);
+    padding: 0.2rem var(--hm-pad) 0.4rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--hm-pad);
+    scrollbar-width: none;
+  }
+  .hx ~ #advantages .rs-cards::-webkit-scrollbar {
+    display: none;
+  }
+  .hx ~ #advantages .rs-card {
+    padding: 1.2rem 1.15rem 1.4rem;
+    border-radius: 22px;
+    scroll-snap-align: start;
+  }
+  .hx ~ #advantages .rs-card h3 {
+    margin-top: 1rem;
+    font-size: 1.3rem;
+  }
+  .hx ~ #advantages .rs-card p {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .hx ~ #advantages .rs-no {
+    font-size: 5rem;
+  }
+}
+
+/* ---------- 7. global reach: smaller globe ---------- */
+@media (max-width: 1023.98px) {
+  .hx ~ #reach > div {
+    padding-inline: var(--hm-pad);
+  }
+  .hx ~ #reach h2 {
+    margin-top: 0.9rem;
+    font-size: clamp(1.9rem, 7.4vw, 2.7rem);
+  }
+  .hx ~ #reach p.text-lg {
+    margin-top: 0.8rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .hx ~ #reach .mt-9 {
+    margin-top: 1.3rem;
+  }
+  .hx ~ #reach .mt-10 {
+    margin-top: 1.4rem;
+  }
+  .hx ~ #reach .mt-12 {
+    margin-top: 1.2rem;
+  }
+  .hx ~ #reach canvas {
+    max-width: min(68vw, 300px);
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  .hx ~ #reach canvas {
+    max-width: 100%;
+  }
+}
+
+/* ---------- 8. contact: the steps without the brief on a phone, the offices in one row ---------- */
+@media (max-width: 1023.98px) {
+  .hx ~ #contact > div.mt-14 {
+    margin-top: 1.4rem;
+    padding-inline: var(--hm-pad);
+  }
+  .hx ~ #contact .cf {
+    gap: 1.4rem;
+  }
+  .hx ~ #contact .cf-tiles {
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+  }
+  .hx ~ #contact .cf-tile {
+    gap: 0.5rem;
+    padding: 0.85rem 0.85rem 0.9rem;
+    border-radius: 16px;
+    font-size: 1rem;
+  }
+  .hx ~ #contact .cf-ic {
+    width: 24px;
+    height: 24px;
+  }
+  .hx ~ #contact .hm-addr {
+    display: grid;
+    grid-auto-columns: var(--hm-col);
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    gap: var(--hm-gap);
+    margin: 2rem calc(-1 * var(--hm-pad)) 0;
+    padding: 0.2rem var(--hm-pad) 0.4rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--hm-pad);
+    scrollbar-width: none;
+  }
+  .hx ~ #contact .hm-addr::-webkit-scrollbar {
+    display: none;
+  }
+  .hx ~ #contact .hm-addr > * {
+    scroll-snap-align: start;
+  }
+  .hx ~ #contact .hm-addr address {
+    padding: 1.15rem 1.1rem;
+  }
+  .hx ~ #contact > div:last-child {
+    padding-inline: var(--hm-pad);
+  }
+}
+@media (max-width: 699.98px) {
+  .hx ~ #contact .cf-brief {
+    display: none;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  .hx ~ #contact .cf {
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: 2rem;
+  }
+  .hx ~ #contact .cf-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hx ~ #contact .hm-addr {
+    grid-auto-columns: minmax(0, 1fr);
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+}
+
+/* ---------- 9. footer (every page) ---------- */
+@media (max-width: 1023.98px) {
+  :root .ft {
+    padding: 3.4rem 0 6.4rem;
+  }
+  :root .ft-in {
+    padding-inline: var(--hm-pad);
+  }
+  :root .ft-top-row {
+    gap: 1.2rem;
+    padding-bottom: 2rem;
+  }
+  :root .ft-big {
+    margin-top: 0.6rem;
+    font-size: clamp(2.1rem, 9vw, 3.6rem);
+  }
+  :root .ft-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.8rem 1.2rem;
+    margin-top: 2rem;
+  }
+  :root .ft-brand {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.8rem 1.1rem;
+  }
+  :root .ft-brand img {
+    width: 5.4rem;
+  }
+  :root .ft-brand-t {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  :root .ft-brand .ft-socs {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+  :root .ft-col {
+    grid-column: 1 / -1;
+  }
+  :root .ft-col-t {
+    margin-bottom: 0.5rem;
+  }
+  :root .ft-col ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1rem;
+  }
+  :root .ft-link {
+    padding: 0.42rem 0;
+    font-size: 0.9375rem;
+  }
+  :root .ft-note {
+    margin-top: 0.6rem;
+    max-width: none;
+  }
+  :root .ft-word {
+    margin-top: 2rem;
+  }
+  :root .ft-bottom {
+    margin-top: 1.4rem;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  :root .ft-col:first-of-type ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- 10. the big menu (mega-menu.tsx) on a phone and a tablet: one column, the service groups fold open ---------- */
+@media (max-width: 1023.98px) {
+  :root .mm-pop {
+    width: calc(100vw - 16px);
+    max-height: calc(100svh - var(--pop-bottom) - 10px);
+    border-radius: 26px;
+  }
+  :root .mm-in.mm-in2 {
+    padding: 1.1rem 1.1rem 1.3rem;
+  }
+  :root .mm-top {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.9rem;
+  }
+  :root .mm-top > .mm-chat {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+  :root .mm-top .mm-logo img {
+    width: 118px;
+  }
+  :root .mm-top .rp-cta {
+    height: 2.75rem;
+    padding: 0 1.1rem;
+    font-size: 0.9375rem;
+  }
+  :root .mm-nav {
+    gap: 1.4rem;
+    margin-top: 1.2rem;
+  }
+  :root .mm-in2 .mm-svc-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-top: 0.3rem;
+  }
+  :root .mm-in2 .mm-sub {
+    padding: 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  :root .mm-acc {
+    display: flex;
+    width: 100%;
+    min-height: 3.1rem;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #fff;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+  }
+  :root .mm-acc > i {
+    color: var(--a);
+    font-size: 0.875rem;
+    font-style: normal;
+  }
+  :root .mm-acc-n {
+    margin-left: auto;
+    color: var(--soft);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  :root .mm-acc-ch {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.2;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  :root .mm-acc[aria-expanded="true"] {
+    color: var(--a);
+  }
+  :root .mm-acc[aria-expanded="true"] .mm-acc-ch {
+    transform: rotate(180deg);
+  }
+  :root .mm-acc:focus-visible {
+    outline: 2px solid var(--a);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+  :root .mm-sub[data-acc="false"] > .mm-li {
+    display: none;
+  }
+  :root .mm-in2 .mm-sub .mm-li {
+    gap: 0;
+    padding: 0 0 0.7rem 1.6rem;
+  }
+  :root .mm-in2 .mm-sub .mm-li a,
+  :root .mm-row3 .mm-li a {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+  :root .mm-row3 {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.4rem;
+  }
+  :root .mm-row3 .mm-li {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1rem;
+    padding: 0.6rem 0 0;
+  }
+  :root .mm-row3 .mm-li li::before,
+  :root .mm-row3 .mm-li li::after {
+    display: none;
+  }
+  :root .mm-end .mm-rec {
+    margin-top: 0;
+    padding: 0.8rem 1rem;
+  }
+  :root .mm-end .mm-rec img {
+    height: 2.4rem;
+  }
+  :root .mm-end .mm-follow {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  :root .mm-end .mm-follow > * {
+    display: revert;
+  }
+  :root .mm-end .mm-follow ul {
+    display: flex;
+  }
+  /* the festival in the menu: only the garland stays (the lamps and rangolis sat on the links) */
+  :root .mm .fs-menu-kandil,
+  :root .mm .fs-menu-rangoli,
+  :root .mm .fs-menu-sparks,
+  :root .mm .fs-ms {
+    display: none;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  :root .mm-pop {
+    width: min(760px, calc(100vw - 32px));
+  }
+  :root .mm-in.mm-in2 {
+    padding: 1.5rem 1.8rem 1.6rem;
+  }
+  :root .mm-in2 .mm-sub .mm-li {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.4rem;
+  }
+  :root .mm-row3 {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  }
+  :root .mm-row3 .mm-col:first-child .mm-li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :root .mm-row3 > .mm-end {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- 11. festival decorations on a phone / tablet: nothing may sit on the text ---------- */
+@media (max-width: 1023.98px) {
+  /* the little festive ground next to the logo follows the logo down the page and covered the headings */
+  :root .fs-brand {
+    display: none;
+  }
+}
+@media (max-width: 699.98px) {
+  /* the row of diyas at the bottom of the screen covered the last lines of text */
+  :root .fs-diyaline {
+    display: none;
+  }
+}
+
+.mm-acc {
+  display: none;
+}
+@media (max-width: 1023.98px) {
+  :root .mm-in2 .mm-sub > .mm-sub-t {
+    display: none;
+  }
+}

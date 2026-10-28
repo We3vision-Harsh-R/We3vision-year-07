@@ -2,6 +2,7 @@ import type { SectionData } from "@/lib/cms/sections";
 import { HeroBadges } from "../hero-badges";
 import { HomeIntro } from "../home-intro";
 import { HeroScene } from "../lazy";
+import { ServicesRail } from "../services-rail";
 import type { SectionProps } from "./shared";
 
 // The hero of the home page. Since 2026-10-24 (owner) the laptop / desktop home starts with one calm first screen (home-intro.tsx): big type,
@@ -22,8 +23,15 @@ export function Hero({ data, site, page, glance }: SectionProps<"hero"> & { glan
           badges={site.badges}
           services={data.cards.map((c) => c.title.replace(/\s+/g, " ").trim()).filter(Boolean)}
         />
-        {/* the services (owner, 2026-10-24: "service nu section pachu lav"): the same boxes, guide and split board, without the particle ball */}
-        <HeroScene mark={data.mark} above={data.above} below={data.below} cards={data.cards} servicesOnly />
+        {/* the services (owner, 2026-10-24: "service nu section pachu lav"): the same boxes, guide and split board, without the particle ball.
+            Phone and tablet (below 1024px, owner 2026-10-29) get a row of cards to swipe instead; styles/home-mobile.css shows one of the two.
+            The wrapper is the anchor "#services" for both. */}
+        <div id="services" className="hm-svc">
+          <ServicesRail cards={data.cards} />
+          <div className="hm-desk">
+            <HeroScene mark={data.mark} above={data.above} below={data.below} cards={data.cards} servicesOnly />
+          </div>
+        </div>
       </>
     );
   }

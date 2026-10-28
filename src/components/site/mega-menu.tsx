@@ -4,7 +4,7 @@ import "@/styles/panda-chat.css";
 import "@/styles/mega-menu.css";
 
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
@@ -72,6 +72,8 @@ export function MegaMenu({
   );
   const pathname = usePathname();
   const festMenu = useFest()?.has("menu") ?? false; // Diwali on the menu (Admin > Fest)
+  // phone / tablet: which service group is folded open (the laptop shows all of them; styles/home-mobile.css decides)
+  const [acc, setAcc] = useState(0);
 
   useEffect(() => {
     if (!open) return;
@@ -163,11 +165,19 @@ export function MegaMenu({
               </p>
               <div className="mm-svc-grid">
                 {SERVICE_GROUPS.map((g, gi) => (
-                  <div key={g.label} className="mm-sub">
+                  <div key={g.label} className="mm-sub" data-acc={acc === gi}>
                     <p className="mm-sub-t">
                       <i>{String(gi + 1).padStart(2, "0")}</i>
                       {g.label}
                     </p>
+                    <button type="button" className="mm-acc" aria-expanded={acc === gi} onClick={() => setAcc(acc === gi ? -1 : gi)}>
+                      <i>{String(gi + 1).padStart(2, "0")}</i>
+                      {g.label}
+                      <span className="mm-acc-n">{g.items.length}</span>
+                      <svg viewBox="0 0 24 24" className="mm-acc-ch" aria-hidden>
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </button>
                     <ul className="mm-li">
                       {g.items.map((l) => (
                         <li key={g.label + l.label}>
