@@ -20,6 +20,7 @@ export function Hero({ data, site, page, glance }: SectionProps<"hero"> & { glan
           chip={glance?.chip ?? ""}
           facts={glance?.items ?? []}
           badges={site.badges}
+          services={data.cards.map((c) => c.title.replace(/\s+/g, " ").trim()).filter(Boolean)}
         />
         {/* the services (owner, 2026-10-24: "service nu section pachu lav"): the same boxes, guide and split board, without the particle ball */}
         <HeroScene mark={data.mark} above={data.above} below={data.below} cards={data.cards} servicesOnly />

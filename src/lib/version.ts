@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 64,
+    date: "2026-10-27",
+    title: "New home hero: one big rounded panel",
+    notes: [
+      "The first screen of the home page is one big rounded dark panel: heading (last words softer) on the left, one sentence and two buttons on the right, three services and the recognition logos along the bottom.",
+      "Phone/tablet: the panel stacks in one column. Phone launcher stays locked.",
+    ],
+  },
+  {
     v: 63,
     date: "2026-10-27",
     title: "Phone launcher locked; the home page works on every screen",
