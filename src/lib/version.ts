@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 70,
+    date: "2026-10-29",
+    title: "Less empty space between sections on phone and tablet",
+    notes: [
+      "On phone and tablet the gap between sections is about half as tall on every page (the big 96-128px paddings are shortened); the laptop pages are unchanged.",
+      "Home page sections (industries, technology, why us, reach, contact) sit closer together.",
+    ],
+  },
+  {
     v: 69,
     date: "2026-10-29",
     title: "Smoother service wheel, quieter bottom bar, app-style menu",

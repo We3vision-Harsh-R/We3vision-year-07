@@ -123,3 +123,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 139 | Phone + tablet: sticky top nav bar (logo, Contact, Menu) instead of the round button | done |
 | 140 | Phone + tablet: glass bottom bar + service wheel (replaces the top bar of task 139) | done |
 | 141 | Phone + tablet: smooth service wheel (own physics), minimal Apple bottom bar, app-style menu sheet without services | done |
+| 142 | Phone + tablet: less empty space between sections on every page (laptop unchanged) | done |

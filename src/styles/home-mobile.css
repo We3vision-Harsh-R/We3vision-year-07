@@ -361,10 +361,10 @@
   .hx ~ #industries,
   .hx ~ #advantages,
   .hx ~ #contact {
-    padding-block: 3.2rem 2.6rem;
+    padding-block: 2.4rem 2rem;
   }
   .hx ~ #reach {
-    padding-block: 2.6rem 2rem;
+    padding-block: 2rem 1.6rem;
   }
   .hx ~ section .text-center,
   .hx ~ section .sh-center,
@@ -450,7 +450,7 @@
 @media (max-width: 1023.98px) {
   .hx ~ #tools.ts {
     min-height: 0;
-    padding: 3.2rem 0 2.6rem;
+    padding: 2.4rem 0 2rem;
   }
   .hx ~ #tools .ts-hint {
     margin: 0.9rem 0 0;
@@ -908,5 +908,29 @@
 @media (max-width: 1023.98px) {
   :root .mm-in2 .mm-sub > .mm-sub-t {
     display: none;
+  }
+}
+
+/* ---------- 12. whitespace between sections (owner 2026-10-29): Tailwind's py-24 / py-32 (96-128px) is far too tall on a phone, so every page shrinks it ---------- */
+@media (max-width: 1023.98px) {
+  main section[class*="py-24"],
+  main section[class*="py-32"] {
+    padding-block: clamp(2.4rem, 8vw, 3.4rem);
+  }
+  main section[class*="pt-24"],
+  main section[class*="pt-32"] {
+    padding-top: clamp(2.4rem, 8vw, 3.4rem);
+  }
+  main section[class*="pb-24"],
+  main section[class*="pb-32"] {
+    padding-bottom: clamp(2.4rem, 8vw, 3.4rem);
+  }
+  main section[class*="py-16"],
+  main section[class*="py-20"] {
+    padding-block: clamp(2rem, 6.5vw, 2.8rem);
+  }
+  main section [class*="mt-16"],
+  main section [class*="mt-14"] {
+    margin-top: clamp(1.4rem, 5vw, 2rem);
   }
 }
