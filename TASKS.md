@@ -120,3 +120,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 118 | Admin panel: new look from the owner screenshot (glass sidebar, capsule top bar, dashboard) | done |
 | 138 | Home page phone + tablet redesign: every section, mega menu, footer (laptop unchanged) | done |
 | 138 | Home page phone + tablet redesign (swipe rows, menu accordion, footer), laptop unchanged | done |
+| 139 | Phone + tablet: sticky top nav bar (logo, Contact, Menu) instead of the round button | done |

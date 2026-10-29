@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 67,
+    date: "2026-10-29",
+    title: "Top navigation bar on phone and tablet",
+    notes: [
+      "Below 1024px the floating round menu button is replaced by a bar that stays at the top: logo, Contact and Menu.",
+      "The Menu button opens the same big menu; the laptop pill is unchanged.",
+    ],
+  },
+  {
     v: 66,
     date: "2026-10-29",
     title: "Home page redesigned for phone and tablet",

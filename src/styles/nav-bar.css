@@ -1,0 +1,86 @@
+/* nb- : the top bar of phone + tablet (owner 2026-10-29). Below 1024px it replaces the floating pill / round button and the floating logo: it stays at the top
+   (logo left, Contact and Menu right) and the Menu button opens the big menu. From 1024px up nothing here applies (the laptop keeps its pill). */
+.nb {
+  display: none;
+}
+@media (max-width: 1023.98px) {
+  .nb {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 58px;
+    padding: 0 max(14px, env(safe-area-inset-right)) 0 max(14px, env(safe-area-inset-left));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(180deg, hsl(calc(var(--th) + 254) calc(55% * var(--ts)) 9% / 0.82), hsl(calc(var(--th) + 254) calc(55% * var(--ts)) 7% / 0.7));
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    backdrop-filter: blur(18px) saturate(1.5);
+  }
+  .nb-logo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: auto;
+    height: 44px;
+  }
+  .nb-mark,
+  .nb-text {
+    width: auto;
+    max-width: none;
+  }
+  .nb-mark {
+    height: 30px;
+  }
+  .nb-text {
+    height: 30px;
+  }
+  .nb-cta {
+    display: inline-flex;
+    align-items: center;
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .nb-menu {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 16px 0 13px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(110deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%), hsl(calc(var(--th) + 334) calc(85% * var(--ts)) 68%));
+    color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+  }
+  .nb-menu .fn-ham i {
+    background: currentColor;
+  }
+  /* the floating pieces of the laptop are not needed here */
+  .lm,
+  .fn-root > nav,
+  .fn-root > .fn-round {
+    display: none !important;
+  }
+  /* the bar is on the page, not over it: the content starts below it */
+  #main-content {
+    padding-top: 58px;
+  }
+  html {
+    scroll-padding-top: 70px;
+  }
+}
+@media (max-width: 380px) {
+  .nb-cta {
+    display: none;
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import type { MegaData } from "./mega-menu";
 import { SmartLink } from "./smart-link";
@@ -178,6 +179,21 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
   if (items.length === 0) return null;
 
   return (
+    <>
+      {/* phone + tablet (below 1024px, owner 2026-10-29): a bar that stays at the top (logo, Menu); the pill and round button below are hidden there (styles/nav-bar.css) */}
+      <header className="nb" data-open={menuOpen}>
+        <SmartLink href="/" onClick={closeMenu} className="nb-logo" aria-label="We3vision home">
+          <Image src="/brand/logo-white.webp" alt="" width={600} height={468} unoptimized className="nb-mark" />
+          <Image src="/brand/logo-text-white.webp" alt="We3vision Private Limited" width={700} height={277} unoptimized className="nb-text" />
+        </SmartLink>
+        <SmartLink href="/contact" onClick={closeMenu} className="nb-cta">
+          Contact
+        </SmartLink>
+        <button type="button" className="nb-menu" aria-expanded={menuOpen} onClick={toggleMenu} onTouchStart={loadMega}>
+          <Hamburger open={menuOpen} />
+          <span>Menu</span>
+        </button>
+      </header>
     <div
       ref={rootRef}
       onPointerEnter={loadMega}
@@ -246,12 +262,13 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
       </nav>
 
       {/* Phones: always the round button; it opens the big menu */}
-      <div className="relative sm:hidden">
+      <div className="fn-round relative sm:hidden">
         <button type="button" aria-label="Open menu" onClick={toggleMenu} className={`grid place-items-center rounded-full ${GLASS}`} style={{ width: SIZE, height: SIZE }}>
           <Hamburger />
         </button>
       </div>
       {Mega && <Mega open={menuOpen} sticky={sticky} onClose={closeMenu} onEnter={openMenu} onLeave={leaveMenu} data={mega} />}
     </div>
+    </>
   );
 }
