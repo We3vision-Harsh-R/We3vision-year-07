@@ -1,5 +1,6 @@
 import { dateLabel, parseContent, tileOf, type BlogEntry } from "@/lib/blog-shared";
 import type { JobView } from "@/lib/careers-shared";
+import type { ProjectView } from "@/lib/projects";
 import type { DraftData } from "./types";
 
 // A draft in the shape the real public components use, so the approval screen can show it with the SAME components as the live page
@@ -29,6 +30,20 @@ export function draftToBlogEntry(d: DraftData, slug: string): BlogEntry {
     faq,
     sortOrder: 0,
     published: true,
+  };
+}
+
+export function draftToProjectView(d: DraftData, slug: string): ProjectView {
+  return {
+    id: "preview",
+    slug,
+    title: str(d.title),
+    category: str(d.category),
+    summary: str(d.summary),
+    content: str(d.content),
+    cover: str(d.cover),
+    images: strings(d.images),
+    group: str(d.group) || "brand",
   };
 }
 

@@ -1,6 +1,6 @@
 # 20 — AI integration (MCP server + approval queue) — task 115
 
-AI tools (Claude, Claude Code, Cursor, ChatGPT …) create **blog articles** and **job openings** through a private MCP server at `/api/mcp`.
+AI tools (Claude, Claude Code, Cursor, ChatGPT …) create **blog articles**, **job openings** and **portfolio projects / case studies** (type `portfolio` = the Projects of the admin panel, `definitions/portfolio.ts`, published with `createProject`, preview `components/site/project-article.tsx`) through a private MCP server at `/api/mcp`.
 **Nothing goes live by itself**: a draft arrives in Admin > AI Submissions as "Pending approval"; an admin previews, edits, approves or rejects it.
 User manual (setup per client, prompts, Inspector commands, troubleshooting): `docs/MCP_SETUP.md`. Built on branch `claude/we3vision-mcp-integration-8b949d`
 in 4 commits (registry, MCP server, OAuth + AI Integrations, approval queue) + security/docs.

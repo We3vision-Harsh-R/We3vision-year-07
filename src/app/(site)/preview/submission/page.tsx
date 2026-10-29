@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogPost } from "@/components/site/blog-post";
 import { JobPage } from "@/components/site/career/job-page";
-import { draftToBlogEntry, draftToJobView } from "@/lib/ai-content/preview-data";
+import { ProjectArticle } from "@/components/site/project-article";
+import { draftToBlogEntry, draftToJobView, draftToProjectView } from "@/lib/ai-content/preview-data";
 import { CONTENT_TYPE_KEYS, getContentType, validateDraft, type ContentTypeKey } from "@/lib/ai-content/registry";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -20,6 +21,9 @@ const RENDER: Record<ContentTypeKey, (data: Record<string, unknown>, slug: strin
   async career(data, slug) {
     const { questions } = await getCareerSetup();
     return <JobPage job={draftToJobView(data, slug)} questions={questions} />;
+  },
+  async portfolio(data, slug) {
+    return <ProjectArticle p={draftToProjectView(data, slug)} />;
   },
 };
 

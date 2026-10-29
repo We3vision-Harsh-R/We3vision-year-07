@@ -4,6 +4,7 @@ import { CONTENT_TYPES, getContentType, jsonSchemaOf, validateDraft } from "./re
 
 const blog = getContentType("blog")!;
 const career = getContentType("career")!;
+const portfolio = getContentType("portfolio")!;
 
 describe("registry entries", () => {
   it.each(CONTENT_TYPES.map((t) => [t.key, t] as const))("%s: its own example is a valid draft", (_k, def) => {
@@ -115,6 +116,25 @@ describe("mapping to the admin panel's own save action", () => {
     expect(String(live.responsibilities).split("\n")).toHaveLength(3);
     expect(live.active).toBe(true);
     expect(career.toAdminInput(r.data, false).active).toBe(false);
+  });
+
+  it("portfolio: images stay a list, publish decides published, the address is /portfolio/<slug>", () => {
+    const r = validateDraft(portfolio, { ...portfolio.example, images: ["/media/abc123", "https://example.com/a.jpg"] });
+    if (!r.ok) throw new Error("example must be valid");
+    const live = portfolio.toAdminInput(r.data, true);
+    expect(live.images).toEqual(["/media/abc123", "https://example.com/a.jpg"]);
+    expect(live.published).toBe(true);
+    expect(portfolio.toAdminInput(r.data, false).published).toBe(false);
+    expect(portfolio.livePath(portfolio.slugOf(r.data))).toBe("/portfolio/nirmal-jewellers-brand-identity");
+  });
+
+  it("portfolio: limits are not above the limits of createProject", () => {
+    const action = readFileSync("src/actions/projects.ts", "utf8");
+    const max = (n: string) => (portfolio.fields.find((x) => x.name === n) as { max: number }).max;
+    expect(action).toContain("text(input.title, " + max("title") + ")");
+    expect(action).toContain("text(input.category, " + max("category") + ")");
+    expect(action).toContain("text(input.summary, " + max("summary") + ")");
+    expect(action).toContain("text(input.content, " + max("content") + ",");
   });
 
   it("slugs: lowercase, dashes, no odd characters", () => {

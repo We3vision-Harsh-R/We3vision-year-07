@@ -2,7 +2,7 @@
 
 **How to use:** open the chat of the other project (AIRC), and paste everything under the line `=== PROMPT START ===` down to `=== PROMPT END ===`. The new chat reads the finished system of the We3vision website from this computer, asks you a few questions, and builds the same thing for your other site, part by part. At the first step it will ask permission to read the folder of the We3vision project: say yes.
 
-The reference system is in the We3vision repository (already deployed at 07.we3vision.com):
+The reference system is in the We3vision repository (already deployed at www.we3vision.com):
 `D:\zz Loom\We3vision Private Limited\We3vision Website - 2026\We3vision-year-07`
 
 === PROMPT START ===

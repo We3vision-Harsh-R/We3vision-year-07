@@ -7,7 +7,7 @@
 - Services: Web development, Mobile apps, AI development, Metaverse (AR/VR/MR/XR), UI/UX, CRM, 2D/3D animation, graphic design,
   3D modeling, SEO, Brand identity, plus technology pages (headless CMS, WordPress, Shopify, WooCommerce, Shopify app, WP plugin).
 - Goal: a production-grade redesign of www.we3vision.com ("year 07" edition) that looks unique, polished and "smart" (not template/AI
-  looking), with every page editable from an admin panel. The staging/target host is `07.we3vision.com`.
+  looking), with every page editable from an admin panel. The live address is `www.we3vision.com` (it was `07.we3vision.com` until 2026-10-29).
 - Content source: the old site **https://www.we3vision.com** (client-side React SPA; hash routes like `/#/about`; sitemap
   `/sitemap.xml`). The old site has **no** statistics, testimonials or process section — never invent them.
 

@@ -152,7 +152,7 @@ curl -s https://www.we3vision.com/api/mcp \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 
-## 5. Add a new content type (portfolio, case study, testimonial, event …)
+## 5. Add a new content type (testimonial, event …; portfolio / case study is already there as `portfolio`)
 
 The registry is the single source of truth. A new type needs **one registry entry plus three small mappings**; the MCP tools, JSON Schemas, validation, queue and previews pick it up by themselves. TypeScript refuses to compile until every mapping exists.
 

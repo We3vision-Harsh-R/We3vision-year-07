@@ -37,6 +37,10 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
+  // the old staging address (07.we3vision.com) is replaced by www.we3vision.com: old links go to the same page of the real site
+  async redirects() {
+    return [{ source: "/:path*", has: [{ type: "host", value: "07.we3vision.com" }], destination: "https://www.we3vision.com/:path*", permanent: true }];
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },

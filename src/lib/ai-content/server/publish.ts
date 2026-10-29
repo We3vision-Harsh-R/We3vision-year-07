@@ -1,6 +1,7 @@
 import "server-only";
 import { createBlogPost, type BlogInput } from "@/actions/blog";
 import { saveJob, type JobInput } from "@/actions/jobs";
+import { createProject, type ProjectInput } from "@/actions/projects";
 import { db } from "@/lib/db";
 import type { ContentTypeKey } from "../registry";
 
@@ -23,5 +24,12 @@ export const PUBLISHERS: Record<ContentTypeKey, (input: Record<string, unknown>)
     if (!r.ok) return { ok: false, error: r.error };
     if (!r.id || !r.slug) return { ok: false, error: "The job was not saved." };
     return { ok: true, id: r.id, slug: r.slug };
+  },
+  async portfolio(input) {
+    const r = await createProject(input as ProjectInput);
+    if (!r.ok) return { ok: false, error: r.error };
+    if (!r.id) return { ok: false, error: "The project was not saved." };
+    const row = await db.project.findUnique({ where: { id: r.id }, select: { slug: true } });
+    return { ok: true, id: r.id, slug: row?.slug ?? "" };
   },
 };

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { createProject, deleteProject, updateProject } from "@/actions/projects";
 import { PROJECT_GROUPS } from "@/lib/project-groups";
+import type { ActionResult } from "@/actions/types";
 import { GalleryField } from "./gallery-field";
 import { ImageField } from "./image-field";
 import { btnDanger, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
@@ -22,8 +23,11 @@ export type ProjectData = {
 
 export const EMPTY_PROJECT: ProjectData = { title: "", category: "", summary: "", content: "", cover: "", images: [], group: "brand", published: true };
 
-/** The editor of one project: name, small label, short text, long text, pictures, where it is shown. Saving updates the website at once. */
-export function ProjectForm({ id, initial, slug }: { id?: string; initial: ProjectData; slug?: string }) {
+/**
+ * The editor of one project: name, small label, short text, long text, pictures, where it is shown. Saving updates the website at once.
+ * Optional `onSave`: the AI Submissions screen uses the same form, but "Save" then keeps the changes in the submission instead of creating the project.
+ */
+export function ProjectForm({ id, initial, slug, onSave, backHref }: { id?: string; initial: ProjectData; slug?: string; onSave?: (values: ProjectData) => Promise<ActionResult>; backHref?: string }) {
   const router = useRouter();
   const [v, setV] = useState<ProjectData>(initial);
   const [dirty, setDirty] = useState(false);
@@ -37,6 +41,12 @@ export function ProjectForm({ id, initial, slug }: { id?: string; initial: Proje
 
   const save = () =>
     start(async () => {
+      if (onSave) {
+        const res = await onSave(v);
+        setMsg(res.ok ? { ok: true, text: res.message } : { ok: false, text: res.error });
+        if (res.ok) setDirty(false);
+        return;
+      }
       if (id) {
         const res = await updateProject(id, v);
         setMsg(res.ok ? { ok: true, text: res.message } : { ok: false, text: res.error });
@@ -116,16 +126,16 @@ export function ProjectForm({ id, initial, slug }: { id?: string; initial: Proje
               View live ↗
             </a>
           )}
-          {id && (
+          {id && !onSave && (
             <button type="button" className={btnDanger} onClick={remove} disabled={pending}>
               Delete
             </button>
           )}
-          <Link href="/admin/projects" className={btnSecondary}>
+          <Link href={backHref ?? "/admin/projects"} className={btnSecondary}>
             Back
           </Link>
-          <button type="button" className={btnPrimary} onClick={save} disabled={pending || (id ? !dirty : false)}>
-            {pending ? "Saving…" : id ? "Save changes" : "Add project"}
+          <button type="button" className={btnPrimary} onClick={save} disabled={pending || (id || onSave ? !dirty : false)}>
+            {pending ? "Saving…" : id || onSave ? "Save changes" : "Add project"}
           </button>
         </div>
       </div>

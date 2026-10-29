@@ -50,4 +50,21 @@ export const ADAPTERS: Record<ContentTypeKey, Adapter> = {
       }));
     },
   },
+  portfolio: {
+    async listExisting(query, limit) {
+      const rows = await db.project.findMany({
+        where: contains(query),
+        orderBy: [{ createdAt: "desc" }],
+        take: limit,
+        select: { title: true, slug: true, category: true, group: true, published: true },
+      });
+      return rows.map((r) => ({
+        title: r.title,
+        slug: r.slug,
+        url: `/portfolio/${r.slug}`,
+        status: r.published ? "live" : "hidden",
+        details: [r.category, r.group].filter(Boolean).join(" · "),
+      }));
+    },
+  },
 };

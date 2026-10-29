@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 71,
+    date: "2026-10-29",
+    title: "New domain www.we3vision.com, and portfolio projects through the AI (MCP) connection",
+    notes: [
+      "The site address is now www.we3vision.com everywhere: the MCP and sign-in links, the sitemap and the canonical links all read NEXT_PUBLIC_SITE_URL, and the old 07.we3vision.com address sends visitors to the same page of the new one.",
+      "AI tools can now send portfolio projects and case studies (name, story, cover and more pictures) to Admin > AI Submissions, with a preview of the real project page and an Edit screen; nothing goes live before an admin approves it.",
+    ],
+  },
+  {
     v: 70,
     date: "2026-10-29",
     title: "Less empty space between sections on phone and tablet",
