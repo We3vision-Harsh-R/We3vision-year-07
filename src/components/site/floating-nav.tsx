@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import type { MegaData } from "./mega-menu";
+import { MobileDock } from "./mobile-dock";
 import { SmartLink } from "./smart-link";
 
 type Item = { label: string; href: string };
@@ -42,6 +42,12 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
   const [Mega, setMega] = useState<typeof import("./mega-menu").MegaMenu | null>(null);
   const loadMega = () => {
     void import("./mega-menu").then((m) => setMega(() => m.MegaMenu));
+  };
+  // the service wheel of phone + tablet (opened by the Services tab or by the big menu): its own small chunk, loaded when it is first wanted
+  const [wheel, setWheel] = useState(false);
+  const [Wheel, setWheelC] = useState<typeof import("./service-wheel").ServiceWheel | null>(null);
+  const loadWheel = () => {
+    void import("./service-wheel").then((m) => setWheelC(() => m.ServiceWheel));
   };
   const armed = useRef(true); // the mouse opens the menu again only after it has left the pill once (not right after a click closed it)
   const openMenu = () => {
@@ -180,20 +186,26 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
 
   return (
     <>
-      {/* phone + tablet (below 1024px, owner 2026-10-29): a bar that stays at the top (logo, Menu); the pill and round button below are hidden there (styles/nav-bar.css) */}
-      <header className="nb" data-open={menuOpen}>
-        <SmartLink href="/" onClick={closeMenu} className="nb-logo" aria-label="We3vision home">
-          <Image src="/brand/logo-white.webp" alt="" width={600} height={468} unoptimized className="nb-mark" />
-          <Image src="/brand/logo-text-white.webp" alt="We3vision Private Limited" width={700} height={277} unoptimized className="nb-text" />
-        </SmartLink>
-        <SmartLink href="/contact" onClick={closeMenu} className="nb-cta">
-          Contact
-        </SmartLink>
-        <button type="button" className="nb-menu" aria-expanded={menuOpen} onClick={toggleMenu} onTouchStart={loadMega}>
-          <Hamburger open={menuOpen} />
-          <span>Menu</span>
-        </button>
-      </header>
+      {/* phone + tablet (below 1024px, owner 2026-10-29): a glass bar at the bottom; the pill and round button below are hidden there (styles/nav-bar.css) */}
+      <MobileDock
+        menuOpen={menuOpen}
+        wheelOpen={wheel}
+        onWarm={loadMega}
+        onPage={() => {
+          closeMenu();
+          setWheel(false);
+        }}
+        onServices={() => {
+          if (menuOpen) closeMenu();
+          loadWheel();
+          setWheel((w) => !w);
+        }}
+        onMenu={() => {
+          setWheel(false);
+          toggleMenu();
+        }}
+      />
+      {Wheel && <Wheel open={wheel} onClose={() => setWheel(false)} />}
     <div
       ref={rootRef}
       onPointerEnter={loadMega}
@@ -267,7 +279,21 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
           <Hamburger />
         </button>
       </div>
-      {Mega && <Mega open={menuOpen} sticky={sticky} onClose={closeMenu} onEnter={openMenu} onLeave={leaveMenu} data={mega} />}
+      {Mega && (
+        <Mega
+          open={menuOpen}
+          sticky={sticky}
+          onClose={closeMenu}
+          onEnter={openMenu}
+          onLeave={leaveMenu}
+          onServices={() => {
+            closeMenu();
+            loadWheel();
+            setWheel(true);
+          }}
+          data={mega}
+        />
+      )}
     </div>
     </>
   );

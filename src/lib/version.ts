@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 68,
+    date: "2026-10-29",
+    title: "Glass bottom bar and service wheel on phone and tablet",
+    notes: [
+      "Phone and tablet get a floating glass bar at the bottom (Home, Services, Work, Contact, Menu) with a lit pill that slides between the tabs; the top bar of the last version is gone.",
+      "Services opens a wheel: every service on an arc at the right edge, scroll up and down, tap the lit one to open it. The big menu has a Browse all button for it.",
+      "The big menu opens above the bar with a stronger glass look; the laptop pill is unchanged.",
+    ],
+  },
+  {
     v: 67,
     date: "2026-10-29",
     title: "Top navigation bar on phone and tablet",
