@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 69,
+    date: "2026-10-29",
+    title: "Smoother service wheel, quieter bottom bar, app-style menu",
+    notes: [
+      "The service wheel is driven by the finger itself (momentum and a spring), so it moves smoothly; only an up or down drag moves it, sideways does nothing. Group buttons at the top jump to a group and a counter shows where you are.",
+      "The bottom bar is smaller and quieter, plain glass with one lit pill.",
+      "On phone and tablet the menu is a sheet that slides up with grouped lists and no services (they have the wheel).",
+    ],
+  },
+  {
     v: 68,
     date: "2026-10-29",
     title: "Glass bottom bar and service wheel on phone and tablet",

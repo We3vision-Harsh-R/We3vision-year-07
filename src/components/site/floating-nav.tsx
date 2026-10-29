@@ -279,21 +279,7 @@ export function FloatingNav({ items, mega }: { items: Item[]; mega: MegaData }) 
           <Hamburger />
         </button>
       </div>
-      {Mega && (
-        <Mega
-          open={menuOpen}
-          sticky={sticky}
-          onClose={closeMenu}
-          onEnter={openMenu}
-          onLeave={leaveMenu}
-          onServices={() => {
-            closeMenu();
-            loadWheel();
-            setWheel(true);
-          }}
-          data={mega}
-        />
-      )}
+      {Mega && <Mega open={menuOpen} sticky={sticky} onClose={closeMenu} onEnter={openMenu} onLeave={leaveMenu} data={mega} />}
     </div>
     </>
   );

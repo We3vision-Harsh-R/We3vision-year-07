@@ -56,7 +56,6 @@ export function MegaMenu({
   onClose,
   onEnter,
   onLeave,
-  onServices,
   data,
 }: {
   open: boolean;
@@ -64,7 +63,6 @@ export function MegaMenu({
   onClose: () => void;
   onEnter: () => void;
   onLeave: () => void;
-  onServices?: () => void;
   data: MegaData;
 }) {
   const mounted = useSyncExternalStore(
@@ -165,11 +163,6 @@ export function MegaMenu({
               <p className="mm-col-t">
                 <i>01</i> Services
               </p>
-              {onServices && (
-                <button type="button" className="mm-wheel-go" onClick={onServices}>
-                  Browse all
-                </button>
-              )}
               <div className="mm-svc-grid">
                 {SERVICE_GROUPS.map((g, gi) => (
                   <div key={g.label} className="mm-sub" data-acc={acc === gi}>
