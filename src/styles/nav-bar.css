@@ -655,3 +655,161 @@
     animation: none;
   }
 }
+
+/* ---------- the service wheel, taller, blurred edges, smaller names (owner 2026-10-30) ---------- */
+@media (max-width: 1023.98px) {
+  /* the page behind is blurred (it stands still while the wheel is open, so one blur costs nothing) */
+  :root .sw .sw-back {
+    -webkit-backdrop-filter: blur(22px) saturate(1.5);
+    backdrop-filter: blur(22px) saturate(1.5);
+    background: rgba(8, 6, 16, 0.58);
+  }
+  /* taller: the list runs down to the bottom bar, and the top gap is smaller */
+  :root .sw-panel {
+    inset: 0 0 calc(64px + env(safe-area-inset-bottom)) 0;
+  }
+  :root .sw-head {
+    padding-top: max(14px, env(safe-area-inset-top));
+  }
+  /* the top and the bottom of the list melt away */
+  :root .sw-list {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 20%, #000 80%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0, #000 20%, #000 80%, transparent 100%);
+  }
+  /* the names of the services: smaller */
+  :root .sw-t {
+    font-size: 15px;
+  }
+  :root .sw-ic {
+    height: 38px;
+    border-radius: 12px;
+  }
+}
+
+/* ---------- the service wheel, version 3 (owner 2026-10-30): everything smaller, the bar folds to the Home icon at the left, the groups as plain iOS-style tabs ---------- */
+@media (max-width: 1023.98px) {
+  /* smaller rows (the row height 46 is also ITEM in service-wheel.tsx) */
+  :root .sw-li {
+    top: calc(50% - 23px);
+    height: 46px;
+  }
+  :root .sw-t {
+    font-size: 14px;
+  }
+  :root .sw-ic {
+    width: calc(34px + 12px * var(--h));
+    height: 34px;
+    border-radius: 11px;
+  }
+  :root .sw-ic svg {
+    width: 18px;
+    height: 18px;
+  }
+  :root .sw-li a {
+    gap: 12px;
+  }
+  :root .sw-title h2 {
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  :root .sw-count {
+    font-size: 14px;
+  }
+  :root .sw-title {
+    padding: 0 24px;
+  }
+
+  /* the groups: no boxes, only words; the chosen one is white with a thin line under it */
+  :root .sw-chips {
+    gap: 22px;
+    margin-top: 12px;
+    padding: 0 24px 4px;
+  }
+  :root .sw-chip {
+    position: relative;
+    height: 34px;
+    padding: 0;
+    gap: 5px;
+    border: 0;
+    background: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  :root .sw-chip i {
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 14px;
+  }
+  :root .sw-chip::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: #fff;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.45s var(--ap);
+  }
+  :root .sw-chip[aria-selected="true"] {
+    background: none;
+    color: #fff;
+  }
+  :root .sw-chip[aria-selected="true"] i {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  :root .sw-chip[aria-selected="true"]::after {
+    transform: none;
+  }
+
+  /* the bottom: the "Open" button stands to the right of the Home circle (the bar has folded into it) */
+  :root .sw-panel {
+    inset: 0 0 calc(14px + env(safe-area-inset-bottom)) 0;
+  }
+  :root .sw-go {
+    height: 62px;
+    margin: 6px 20px 0 94px;
+    padding: 0 18px;
+    font-size: 15px;
+  }
+
+  /* the bar folds to the Home icon, at the left, while the wheel is open (a width + position change, once) */
+  :root .dk {
+    transition:
+      width 0.55s var(--ap),
+      left 0.55s var(--ap),
+      transform 0.55s var(--ap);
+  }
+  :root .dk[data-wheel="true"] {
+    left: 20px;
+    width: 62px;
+    transform: none;
+  }
+  :root .dk[data-wheel="true"] .dk-ul {
+    display: block;
+  }
+  :root .dk .dk-ul li:nth-child(n + 2) {
+    transition:
+      opacity 0.25s,
+      transform 0.5s var(--ap);
+  }
+  :root .dk[data-wheel="true"] .dk-ul li:nth-child(n + 2) {
+    position: absolute;
+    opacity: 0;
+    transform: translateX(-30px);
+    pointer-events: none;
+  }
+  :root .dk[data-wheel="true"] .dk-ul li:first-child,
+  :root .dk[data-wheel="true"] .dk-b {
+    width: 100%;
+    height: 100%;
+  }
+  :root .dk[data-wheel="true"] .dk-b span {
+    display: none;
+  }
+  :root .dk[data-wheel="true"] .dk-pill {
+    opacity: 0;
+  }
+}

@@ -50,6 +50,7 @@ export function MobileDock({
     <nav
       className="dk"
       aria-label="Main"
+      data-wheel={wheelOpen}
       style={{ "--i": Math.max(active, 0), "--on": active >= 0 ? 1 : 0 } as React.CSSProperties}
       onTouchStart={onWarm}
       onPointerEnter={onWarm}>

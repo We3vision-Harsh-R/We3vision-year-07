@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 74,
+    date: "2026-10-30",
+    title: "Phone: calmer service wheel",
+    notes: [
+      "The service wheel on a phone is taller, with soft top and bottom edges, a blurred page behind it and smaller names.",
+      "The groups are plain tabs, and the bottom bar folds into the Home icon while the wheel is open.",
+    ],
+  },
+  {
     v: 73,
     date: "2026-10-30",
     title: "Phone: new menu, one hero for service pages, lighter",

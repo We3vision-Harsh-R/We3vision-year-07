@@ -11,7 +11,7 @@ import { SmartLink } from "./smart-link";
 // middle), with momentum and a spring that settles on a row; one animation loop places every row on the arc. The row in the middle is lit
 // continuously (the nearer to the middle, the more lit), so nothing jumps. Tap the lit row (or the button) to open it, tap another row to bring it to the
 // middle. The group buttons at the top jump to a group. It opens from the Services tab. Looks: styles/nav-bar.css (sw-).
-const ITEM = 52; // px, the height of one row (the same number is in the CSS)
+const ITEM = 46; // px, the height of one row (the same number is in the CSS)
 const R = 420; // px, the radius of the arc
 const STIFF = 170; // spring: critically damped (26 * 26 = 4 * 170)
 const DAMP = 26;
@@ -55,6 +55,9 @@ export function ServiceWheel({ open, onClose }: { open: boolean; onClose: () => 
       li.style.transform = `translate3d(${(R - Math.sqrt(R * R - a * a) + (1 - e) * 90).toFixed(1)}px,${d.toFixed(1)}px,0) scale(${Math.max(0.88, 1 - ad / 1500).toFixed(3)})`;
       li.style.opacity = String((Math.max(0.42, 1 - ad / (ITEM * 8.5)) * e).toFixed(3));
       li.style.setProperty("--h", Math.max(0, 1 - ad / ITEM).toFixed(3));
+      // the rows far from the middle go soft (a little blur), the ones near it stay sharp
+      const bl = ad > ITEM * 3 ? Math.min(3, (ad - ITEM * 3) / ITEM * 0.8) : 0;
+      li.style.filter = bl > 0.05 ? `blur(${bl.toFixed(1)}px)` : "";
     }
     const near = Math.round(clamp(st.pos));
     if (near !== st.shown) {
