@@ -1,0 +1,58 @@
+/* The first screen of the service pages on a phone / tablet (owner 2026-10-30): one landing hero for all of them, like the home hero.
+   Only below 1024px (the laptop keeps its own heroes). Prefix shm-. Targets .phz-hero (page-hero.tsx and the Web / CRM / 3D / Animation / UI-UX / App heroes). */
+@media (max-width: 1023.98px) {
+  :root section.phz-hero {
+    min-height: 100svh;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 7.2rem 1.3rem 8.5rem;
+    text-align: left;
+  }
+  /* the recognitions stay in the two top corners at the height of the logo; the page content starts under them */
+  :root section.phz-hero > .relative.mx-auto,
+  :root section.phz-hero .wdh {
+    width: 100%;
+    max-width: 34rem;
+    margin-inline: 0;
+  }
+  /* one column: the words first, the drawing of the laptop version is left out on a phone */
+  :root section.phz-hero .wdh {
+    display: block;
+  }
+  :root section.phz-hero .wdh > :not(.wdh-copy) {
+    display: none;
+  }
+  :root section.phz-hero .wdh-h1,
+  :root section.phz-hero .phz-h1 {
+    margin: 1.1rem 0 0;
+    font-size: clamp(2.3rem, 9.4vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    text-align: left;
+  }
+  :root section.phz-hero .wdh-p,
+  :root section.phz-hero .relative.mx-auto > p {
+    max-width: none;
+    margin: 1.2rem 0 0;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    text-align: left;
+  }
+  /* the two buttons: stacked, full width, like the home hero */
+  :root section.phz-hero .wdh-cta,
+  :root section.phz-hero .relative.mx-auto > div:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+  }
+  :root section.phz-hero .wdh-cta a,
+  :root section.phz-hero .relative.mx-auto > div:last-child a {
+    justify-content: center;
+    width: 100%;
+    min-height: 3.2rem;
+    border-radius: 999px;
+  }
+}

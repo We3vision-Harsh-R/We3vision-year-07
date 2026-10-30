@@ -8,6 +8,8 @@ import "lenis/dist/lenis.css";
 export function SmoothScroll() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // a phone / tablet scrolls natively (no JS loop on every frame): smoother and cooler; the callers of window.__lenis all check that it exists
+    if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1024) return;
     let lenis: Lenis | undefined;
     let frame = 0;
     let stopped = false;

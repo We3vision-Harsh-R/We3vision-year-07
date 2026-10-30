@@ -26,3 +26,4 @@ npm-debug.log*
 
 # local revert tool (tools/tasks.mjs): patches stay on this computer
 .task-log/
+tmp-shots/

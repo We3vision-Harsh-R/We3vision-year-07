@@ -1,0 +1,42 @@
+/* Whitespace of the phone + tablet (owner 2026-10-30, after the airy app designs he sent): an even side gutter, calm gaps between blocks, soft round cards.
+   Only below 1024px (laptop untouched). Prefix: sp-. Loaded after home-mobile.css. Rules that fix a squeezed row name the row they fix. */
+@media (max-width: 1023.98px) {
+  :root {
+    --sp-gutter: 20px;
+    --sp-gap: 16px;
+    --sp-radius: 24px;
+  }
+
+  /* the numbered "why" rows (number | title | text) were three squeezed columns: number and title on one line, the text under them */
+  :root .vw-ls-rows li {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 6px 14px;
+    padding: 20px 4px;
+    align-items: start;
+  }
+  :root .vw-ls-rows li > :nth-child(n + 3) {
+    grid-column: 2;
+  }
+
+  /* section headings get a calm gap to what follows (the reference designs keep about 16-24px under a title) */
+  main section h2 + p {
+    margin-top: 0.9rem;
+  }
+
+  /* three squeezed columns (about 107px each) become one column of cards (text-heavy grids) or two (tiles) on a phone */
+  :root .vp-bd-cols,
+  :root .vf-fl-grid,
+  :root .vw-tl-grid,
+  :root .phy-cols,
+  :root .sxo-meas {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-gap);
+  }
+  :root .vt-mx-grid,
+  :root .woo-like,
+  :root .pfb-grid,
+  :root .bdv-plates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}

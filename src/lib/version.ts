@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 73,
+    date: "2026-10-30",
+    title: "Phone: new menu, one hero for service pages, lighter",
+    notes: [
+      "The big menu on a phone has product tiles, two columns of page pills and a glass strip at the end.",
+      "Every service page starts with one landing hero on a phone, and squeezed three-column blocks became cards.",
+      "The festival is lighter on a phone (no big lanterns on the text) and the page scrolls natively and with less blur.",
+    ],
+  },
+  {
     v: 72,
     date: "2026-10-30",
     title: "The database is kept awake (no more paused Supabase project)",

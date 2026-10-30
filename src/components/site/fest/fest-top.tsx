@@ -57,7 +57,10 @@ export function FestTop({ fx, density }: Props) {
   const [vw, setVw] = useState(1440);
   const [still, setStill] = useState(false);
   const engine = useRef<FestEngine | null>(null);
-  const dens = D[density];
+  // a phone / tablet gets the light amount (fewer pieces, a lighter canvas) and no big pieces in front: nothing may sit on the text or make the page lag
+  const phone = vw < 1024;
+  const eff: FestDensity = phone ? "low" : density;
+  const dens = D[eff];
 
   const needCanvas = ["fireworks", "embers", "petals", "anar", "sparkler", "rocket", "petaltrail", "chakri", "bloom"].some((k) => fx.has(k));
 
@@ -82,7 +85,7 @@ export function FestTop({ fx, density }: Props) {
     if (!canvasOn) return;
     const els = cv.map((r) => r.current);
     if (els.some((e) => !e)) return;
-    const e = new FestEngine(els as HTMLCanvasElement[], density);
+    const e = new FestEngine(els as HTMLCanvasElement[], eff);
     engine.current = e;
     setFestEngine(e);
     return () => {
@@ -96,10 +99,10 @@ export function FestTop({ fx, density }: Props) {
   useEffect(() => {
     const e = engine.current;
     if (!e) return;
-    e.setDensity(density);
+    e.setDensity(eff);
     e.setAmbient({ fireworks: fx.has("fireworks"), embers: fx.has("embers"), petals: fx.has("petals"), anar: fx.has("anar") });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- ambientKey stands for the four switches
-  }, [canvasOn, ambientKey, density]);
+  }, [canvasOn, ambientKey, eff]);
 
   // the layers lean against the mouse: far a little, near more (set as two numbers on the root, applied by CSS)
   useEffect(() => {
@@ -125,13 +128,13 @@ export function FestTop({ fx, density }: Props) {
     };
   }, [still]);
 
-  const diyaGap = density === "low" ? 150 : density === "rich" ? 84 : 112;
+  const diyaGap = eff === "low" ? 150 : eff === "rich" ? 84 : 112;
 
   // the DOM pieces of one distance
   const layer = (z: 0 | 1 | 2) => (
     <div className="fs-lay" data-z={z}>
       {fx.has("skylanterns") &&
-        LANTERN_SETS.filter((l) => l.z === z).flatMap((set) =>
+        LANTERN_SETS.filter((l) => l.z === z && !(phone && z === 2)).flatMap((set) =>
           Array.from({ length: Math.max(1, Math.round(set.n * dens)) }, (_, i) => (
             <i
               key={`l${z}${i}`}
@@ -143,7 +146,7 @@ export function FestTop({ fx, density }: Props) {
           )),
         )}
       {fx.has("kandils") &&
-        KANDILS.filter((k) => k.z === z).map((k, i) => (
+        KANDILS.filter((k) => k.z === z && !(phone && z === 2)).map((k, i) => (
           <i key={`k${z}${i}`} className="fs-kandil" style={{ "--x": `${k.x}%`, "--s": k.s, "--len": `${k.len}px`, "--d": `${-hash(i, z + 2) * 4}s` } as CSSProperties}>
             <u className="fs-cord" />
             <Kandil />

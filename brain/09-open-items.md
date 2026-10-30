@@ -239,3 +239,18 @@
 - Phone/tablet (task 138): only the home page, the big menu and the footer are redesigned; other inner pages still use their old responsive/(m) versions. Contact brief panel is hidden on phones. Not checked on a real phone; tablet landscape (>=1024) uses the laptop design.
 - (2026-10-29, task 143) Live: set `NEXT_PUBLIC_SITE_URL=https://www.we3vision.com` in Hostinger env and redeploy; re-add the MCP connector with `https://www.we3vision.com/api/mcp`; Search Console property + sitemap for the new domain; check `https://www.we3vision.com/.well-known/oauth-protected-resource` answers 200 JSON. Separate `case_study` type with its own page/table is NOT built (portfolio covers it).
 - (2026-10-30, task 144) Owner: enable GitHub Actions for the repo, run 'Keep database alive' once by hand (Actions tab); consider Supabase Pro (no auto-pause, backups). Optional second ping: Hostinger hPanel > Cron Jobs > every 6 hours `curl -s https://www.we3vision.com/api/health`.
+
+## PHONE TASKS (owner 2026-10-30, latest order: run them in PARALLEL, finish all; if the PC stops resume the unchecked ones)
+Rules: only inside max-width 1023.98px (laptop untouched); change no other code; one item finished + checked at 390px before the next.
+- [x] 1 Festival on the phone: effects light, visible and not on top of text (menu + pages); `?festtest` check at 390
+- [x] 2 Redesign the big menu (mega-menu.tsx, nav-bar.css / home-mobile.css) for the phone
+- [ ] 3 Service pages (all of them): remove the old page heading/header block on the phone and give ONE proper hero (landing look like the home hero); keep every other section as it is
+- [ ] 4 Smoothness: less lag on the phone (blur, canvas, animations)
+- [ ] 5 Whitespace like the owner's reference phone UIs (airy padding, rounded soft cards, even gaps) on every phone section (file: src/styles/phone-space.css)
+
+### HOLD (owner went home, 2026-10-30) - where I stopped, resume from here
+- Done: 1 fest light on phone (fest-top.tsx `phone` -> low density, no big lanterns/kandils); 2 big menu v2 (end of nav-bar.css: tiles, pills, glass strip); tsc + eslint clean for these.
+- Written but NOT checked (no tsc/eslint/390px render yet): smoothness fork = src/styles/phone-speed.css + smooth-scroll.tsx (Lenis off on touch/<1024) + import in (site)/layout.tsx.
+- Service hero fork (src/styles/service-hero-mobile.css, prefix shm-): status unknown, check the file + shots /webdev /ai /crm at 390.
+- Whitespace (src/styles/phone-space.css): only the "why" rows + h2 gap done. Audit of narrow grids per page is in tmp-shots/audit.log (e.g. software-development: .sdv-vs-b, .sdv-gf-cols, .sdv-board, .sdv-grid; webdev lists; .cf-progress, .cf-tile); fix those inside max-width 1023.98px only.
+- Before any push: remove tmp-shots/ from git (commit ca165db "responsive design" contains screenshots, not pushed), tsc, eslint, build, version v73 + task note in brain/08, ask the owner.
