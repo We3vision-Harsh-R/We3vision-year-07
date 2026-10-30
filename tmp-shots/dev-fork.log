@@ -1,0 +1,39 @@
+▲ Next.js 16.3.8 (Turbopack)
+- Local:         http://localhost:1010
+- Network:       http://10.106.7.188:1010
+- Environments: .env
+✓ Ready in 2.6s
+✓ Running next.config.ts took 199ms
+- Experiments (use with caution):
+  · cpus: 2
+  ✓ globalNotFound
+  ✓ workerThreads
+
+○ Compiling /brand-video-production ...
+ GET / 200 in 11.7s (next.js: 7.8s, proxy.ts: 26ms, application-code: 3.8s)
+ GET / 200 in 1114ms (next.js: 49ms, proxy.ts: 122ms, application-code: 944ms)
+ GET /brand-video-production 200 in 31.9s (next.js: 18.9s, proxy.ts: 1578ms, application-code: 11.4s)
+ GET / 200 in 3.7s (next.js: 51ms, proxy.ts: 38ms, application-code: 3.6s)
+○ Compiling /webdev ...
+ GET /webdev 200 in 22.0s (next.js: 11.6s, proxy.ts: 64ms, application-code: 10.4s)
+ GET /zero-to-n-brand-development 200 in 24.2s (next.js: 20.5s, proxy.ts: 32ms, application-code: 3.6s)
+ GET /webdev 200 in 12.0s (next.js: 2.1s, proxy.ts: 162ms, application-code: 9.8s)
+ GET /api/fest 200 in 1302ms (next.js: 673ms, application-code: 630ms)
+○ Compiling /seo ...
+ GET /seo 200 in 28.7s (next.js: 23.8s, proxy.ts: 57ms, application-code: 4.9s)
+○ Compiling /meta-marketing-services ...
+ GET /meta-marketing-services 200 in 19.8s (next.js: 15.2s, proxy.ts: 49ms, application-code: 4.5s)
+○ Compiling /physical-marketing-services ...
+ GET /physical-marketing-services 200 in 25.3s (next.js: 18.1s, proxy.ts: 47ms, application-code: 7.2s)
+ GET /ai 200 in 5.4s (next.js: 433ms, proxy.ts: 115ms, application-code: 4.8s)
+ GET /api/fest 200 in 948ms (next.js: 38ms, application-code: 909ms)
+○ Compiling /crm ...
+ GET / 200 in 6.5s (next.js: 302ms, proxy.ts: 39ms, application-code: 6.2s)
+ GET /api/chat/services 503 in 211ms (next.js: 151ms, application-code: 60ms)
+ GET /api/chat/services 503 in 41ms (next.js: 12ms, application-code: 29ms)
+ GET / 200 in 8.7s (next.js: 2.3s, proxy.ts: 55ms, application-code: 6.3s)
+ GET /api/chat/services 503 in 75ms (next.js: 19ms, application-code: 55ms)
+ GET /api/chat/services 503 in 67ms (next.js: 17ms, application-code: 50ms)
+ GET / 200 in 7.5s (next.js: 60ms, proxy.ts: 106ms, application-code: 7.3s)
+ GET /api/chat/services 503 in 34ms (next.js: 13ms, application-code: 20ms)
+ GET /api/chat/services 503 in 26ms (next.js: 7ms, application-code: 19ms)

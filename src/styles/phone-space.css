@@ -1,0 +1,9 @@
+/* Whitespace of the phone + tablet (owner 2026-10-30, after the airy app designs he sent): an even side gutter, calm gaps between blocks, soft round cards.
+   Only below 1024px (laptop untouched). Prefix: sp-. Loaded after home-mobile.css, so it wins by order. */
+@media (max-width: 1023.98px) {
+  :root {
+    --sp-gutter: 20px;
+    --sp-gap: 16px;
+    --sp-radius: 24px;
+  }
+}

@@ -1,0 +1,35 @@
+/* Lighter paint on a phone / tablet (owner 2026-10-30: "badhu smooth nai chaltu"). Only below 1024px; the laptop is untouched. Prefix: ps-.
+   A blur behind a big glass sheet is redone by the graphics card on every frame while anything under it moves; on a phone that is the main cause
+   of a stuttering scroll. So the sheets keep their look with a smaller blur and a more solid tint, and the background lights stand still. */
+@media (max-width: 1023.98px) {
+  :root .mm-back {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(8, 6, 16, 0.72);
+  }
+  :root .mm-pop {
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    background-color: rgba(22, 18, 36, 0.93);
+    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.7);
+  }
+  :root .sw-back {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(8, 6, 16, 0.82);
+  }
+  :root .dk {
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    backdrop-filter: blur(16px) saturate(1.5);
+  }
+  /* the soft gradient lights of the background are big blurred layers: they keep their colour but stop drifting while the page scrolls */
+  :root .au-l {
+    transition: none;
+    will-change: auto;
+  }
+  /* the twinkle of the stars is a never-ending animation over the whole screen */
+  :root canvas.animate-twinkle {
+    animation: none;
+    opacity: 0.7;
+  }
+}

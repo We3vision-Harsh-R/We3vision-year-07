@@ -481,3 +481,177 @@
     animation: none;
   }
 }
+
+/* ---------- the big menu on a phone, version 2 (owner 2026-10-30): tiles for the products, two columns of pills for the pages, a glass strip at the end.
+   Only below 1024px; same markup as the laptop menu (mega-menu.tsx), so the laptop does not change. Prefix: mm2 (animation names). ---------- */
+@media (max-width: 1023.98px) {
+  :root .mm-pop {
+    border-radius: 32px;
+    background:
+      radial-gradient(90% 40% at 100% 0, hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 55% / 0.2), transparent 70%),
+      radial-gradient(80% 36% at 0 100%, hsl(calc(var(--th) + 20) calc(70% * var(--ts)) 50% / 0.14), transparent 70%),
+      rgba(22, 18, 36, 0.8);
+  }
+  :root .mm-in.mm-in2 {
+    padding: 0.9rem 1rem 1.4rem;
+  }
+  :root .mm-top {
+    align-items: center;
+  }
+  /* the Panda search bar: a rounded glass field */
+  :root .mm-top > .mm-chat {
+    margin-top: 0.1rem;
+  }
+  :root .mm-nav {
+    gap: 1.5rem;
+    margin-top: 1.3rem;
+  }
+  :root .mm .mm-row3 {
+    gap: 1.5rem;
+  }
+  :root .mm .mm-row3 .mm-col-t {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0.2rem 0.7rem;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  :root .mm .mm-row3 .mm-col-t::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), transparent);
+  }
+
+  /* the products: four tiles, each with its own colour, the name at the bottom, an arrow at the top right */
+  :root .mm .mm-row3 .mm-col:first-child .mm-li {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+  }
+  :root .mm .mm-row3 .mm-col:first-child .mm-li li {
+    border: 0;
+  }
+  :root .mm .mm-row3 .mm-col:first-child .mm-li a {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    min-height: 92px;
+    padding: 0.9rem 0.95rem;
+    border-radius: 22px;
+    background:
+      linear-gradient(160deg, hsl(calc(var(--th) + 344 + var(--k, 0) * 16) calc(78% * var(--ts)) 46% / 0.5), hsl(calc(var(--th) + 330 + var(--k, 0) * 16) calc(60% * var(--ts)) 20% / 0.55));
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    transition: transform 0.35s var(--ap);
+  }
+  :root .mm .mm-row3 .mm-col:first-child .mm-li li:nth-child(2) a { --k: 1; }
+  :root .mm .mm-row3 .mm-col:first-child .mm-li li:nth-child(3) a { --k: 2; }
+  :root .mm .mm-row3 .mm-col:first-child .mm-li li:nth-child(4) a { --k: 3; }
+  :root .mm .mm-row3 .mm-col:first-child .mm-li a:active {
+    transform: scale(0.96);
+  }
+  :root .mm .mm-row3 .mm-col:first-child .mm-li a i {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.95rem;
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+  }
+  :root .mm .mm-row3 .mm-col:first-child .mm-li a::after {
+    position: absolute;
+    top: 0.95rem;
+    right: 0.95rem;
+    margin: 0;
+  }
+
+  /* the pages: two columns of rounded pills */
+  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+  }
+  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li li {
+    border: 0;
+  }
+  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a {
+    min-height: 54px;
+    padding: 0 0.9rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.16);
+    font-size: 16px;
+    transition:
+      transform 0.3s var(--ap),
+      background-color 0.3s;
+  }
+  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a:active {
+    transform: scale(0.96);
+    background: rgba(255, 255, 255, 0.16);
+  }
+  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a[aria-current="page"] {
+    background: hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 55% / 0.32);
+    color: #fff;
+  }
+
+  /* the end: recognitions, follow us and login in one glass strip */
+  :root .mm-end {
+    display: grid;
+    gap: 0.8rem;
+    padding: 0.9rem 1rem;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.16);
+  }
+  :root .mm-end .mm-rec {
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  :root .mm-end .mm-follow {
+    margin-top: 0;
+    padding-top: 0.8rem;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.14);
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  /* the tiles and pills rise one after the other when the sheet opens (transform + opacity only) */
+  :root .mm[data-open="true"] .mm-row3 .mm-li li,
+  :root .mm[data-open="true"] .mm-end {
+    animation: mm2-rise 0.6s var(--ap) backwards;
+  }
+  :root .mm[data-open="true"] .mm-row3 .mm-li li:nth-child(2) { animation-delay: 0.05s; }
+  :root .mm[data-open="true"] .mm-row3 .mm-li li:nth-child(3) { animation-delay: 0.1s; }
+  :root .mm[data-open="true"] .mm-row3 .mm-li li:nth-child(4) { animation-delay: 0.15s; }
+  :root .mm[data-open="true"] .mm-row3 .mm-li li:nth-child(n + 5) { animation-delay: 0.2s; }
+  :root .mm[data-open="true"] .mm-end { animation-delay: 0.25s; }
+}
+@keyframes mm2-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@media (max-width: 1023.98px) and (prefers-reduced-motion: reduce) {
+  :root .mm[data-open="true"] .mm-row3 .mm-li li,
+  :root .mm[data-open="true"] .mm-end {
+    animation: none;
+  }
+}

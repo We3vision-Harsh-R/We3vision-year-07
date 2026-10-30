@@ -1,6 +1,9 @@
 import "../globals.css";
 import "@/styles/home-mobile.css";
+import "@/styles/phone-space.css";
+import "@/styles/service-hero-mobile.css";
 import "@/styles/nav-bar.css";
+import "@/styles/phone-speed.css";
 import { Background } from "@/components/site/background";
 import { FestLive } from "@/components/site/fest/fest-live";
 import { FloatingNav } from "@/components/site/floating-nav";
