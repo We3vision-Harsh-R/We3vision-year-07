@@ -1,0 +1,24 @@
+# Keeps the Supabase database awake (a free project is paused after 7 days without activity) and checks that the site and the database answer.
+# It opens https://www.we3vision.com/api/health every 6 hours. If it fails, GitHub e-mails the repository owner. Run it by hand: Actions > Keep database alive > Run workflow.
+name: Keep database alive
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Open the health address (3 tries)
+        run: |
+          for i in 1 2 3; do
+            code=$(curl -s -o /tmp/health.json -w "%{http_code}" --max-time 40 https://www.we3vision.com/api/health || true)
+            echo "try $i: HTTP $code"; cat /tmp/health.json 2>/dev/null; echo
+            if [ "$code" = "200" ]; then exit 0; fi
+            sleep 30
+          done
+          echo "The site or the database did not answer. If the Supabase project is paused, open supabase.com > the project > Restore, and check the Hostinger site." >&2
+          exit 1

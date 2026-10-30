@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 72,
+    date: "2026-10-30",
+    title: "The database is kept awake (no more paused Supabase project)",
+    notes: [
+      "New address /api/health makes one tiny database read and answers ok (or 503 when the database is down).",
+      "A scheduled GitHub job opens it every 6 hours, so the Supabase project never counts as idle and is not paused; if it ever fails, GitHub e-mails the owner.",
+    ],
+  },
+  {
     v: 71,
     date: "2026-10-29",
     title: "New domain www.we3vision.com, and portfolio projects through the AI (MCP) connection",
