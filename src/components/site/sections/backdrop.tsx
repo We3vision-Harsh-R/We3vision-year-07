@@ -1,4 +1,4 @@
-import { SevenBackdrop } from "../seven-backdrop";
+import { SevenBackdrop } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 // Page background only: two huge interlocking "7"s. Put it first on a page; it stays fixed behind the content.

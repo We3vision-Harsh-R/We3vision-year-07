@@ -1,4 +1,4 @@
-import { VrDevices } from "../metaverse/vr-devices";
+import { VrDevices } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The wall of devices and platforms (see metaverse/vr-devices.tsx). */

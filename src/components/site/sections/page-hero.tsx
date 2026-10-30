@@ -1,7 +1,7 @@
 import { ContactReception } from "../lazy";
 import { HeroBadges } from "../hero-badges";
 import { AiHeroBg } from "../modern/ai-hero-bg";
-import CursorGrid from "../modern/cursor-grid";
+import { CursorGrid } from "../lazy";
 import { HeroGradient } from "../modern/hero-gradient";
 import { AnimationHero } from "../modern/animation-hero";
 import { CrmHero } from "../modern/crm-hero";

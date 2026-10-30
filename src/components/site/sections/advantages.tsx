@@ -1,4 +1,4 @@
-import { ReasonsStack } from "../reasons-stack";
+import { ReasonsStack } from "../lazy";
 import { WhyBento } from "../modern/why-bento";
 import { WhyVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";

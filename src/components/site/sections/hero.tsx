@@ -3,7 +3,7 @@ import { HeroBadges } from "../hero-badges";
 import { HomeIntro } from "../home-intro";
 import { HeroScene } from "../lazy";
 import { ServicesRail } from "../services-rail";
-import { ServicesStage } from "../services-stage";
+import { ServicesStage } from "../lazy";
 import type { SectionProps } from "./shared";
 
 // The hero of the home page. Since 2026-10-24 (owner) the laptop / desktop home starts with one calm first screen (home-intro.tsx): big type,

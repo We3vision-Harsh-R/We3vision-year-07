@@ -1,5 +1,5 @@
 import { Globe } from "../globe";
-import { ReachPlaces } from "../reach-places";
+import { ReachPlaces } from "../lazy";
 import { Reveal } from "../reveal";
 import { SmartLink } from "../smart-link";
 import { SplitHeading } from "../modern/split-heading";

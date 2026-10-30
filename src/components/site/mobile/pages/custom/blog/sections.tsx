@@ -4,7 +4,8 @@ import { BlogsSection } from "../../sections/blogs";
 import type { MobileSection } from "../../types";
 import { AppLink, Section } from "../../../app";
 import { Lines } from "../../../app/text";
-import { BlogBrowser, type BlogStory } from "./client";
+import { type BlogStory } from "./client";
+import { BlogBrowser } from "../../../../lazy";
 
 // /blog as Apple News: a quiet masthead (Large Title, regular text), then topics you can pick, the top story and open headline rows.
 // Articles from Admin > Blog (the laptop does the same); the section's own items only when there is no article. Styles: (m)/m/blog/page.css.

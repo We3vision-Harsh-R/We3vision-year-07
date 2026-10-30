@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import createGlobe from "cobe";
 
 type Place = { lat: number; lng: number };
 
@@ -63,6 +62,8 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
         color: i === 0 ? gold : violet,
       }));
 
+    // the library (cobe, ~5 KB gzip) is fetched only when a globe is really on the page, not with every page
+    const start = (createGlobe: typeof import("cobe").default): (() => void) | undefined => {
     let phi = phiOf(origin.lng);
     let theta = 0.3;
     let globe: ReturnType<typeof createGlobe>;
@@ -153,6 +154,16 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
       cancelAnimationFrame(frame);
       observer.disconnect();
       globe.destroy();
+    };
+    };
+    let cleanup: (() => void) | undefined;
+    let cancelled = false;
+    void import("cobe").then(({ default: createGlobe }) => {
+      if (!cancelled) cleanup = start(createGlobe);
+    });
+    return () => {
+      cancelled = true;
+      cleanup?.();
     };
   }, [places, box]);
 

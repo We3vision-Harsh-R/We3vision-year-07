@@ -1,5 +1,5 @@
 import "@/styles/panda-chat.css";
-import { AfterEffects } from "../after-effects";
+import { AfterEffects } from "../lazy";
 import { AiBuddy } from "../lazy";
 import { BrandBoard } from "../brand-board";
 import { FigmaStudio } from "../lazy";

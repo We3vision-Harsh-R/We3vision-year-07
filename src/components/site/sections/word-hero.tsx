@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { LiveClock, RotatingWord } from "../rotating-word";
+import { LiveClock, RotatingWord } from "../lazy";
 import { HeroBadges } from "../hero-badges";
 import { SmartLink } from "../smart-link";
 import { ButtonLink } from "../ui";

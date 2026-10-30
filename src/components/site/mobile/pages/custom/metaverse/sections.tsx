@@ -3,7 +3,7 @@ import type { MobileSection } from "../../types";
 import { AppLink, Button, Carousel, Cloud, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, lines, oneLine, pairs } from "../../../app/text";
-import { CabinPicker, DeviceRow, RealityQuiz } from "./interactive";
+import { CabinPicker, DeviceRow, RealityQuiz } from "../../../../lazy";
 
 // /metaverse as a visionOS-style screen (iOS 27 kit, brain/16): one spatial glass window on top, glass only where it groups a tool
 // (cabin picker, projects, devices, quiz), everything else open lists with hairlines. Regular type; 500 row titles, 600 headings.

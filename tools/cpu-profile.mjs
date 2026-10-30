@@ -1,5 +1,5 @@
 // CPU PROFILE (read-only): which scripts and functions use the main thread while a page loads and idles.
-//   node tools/cpu-profile.mjs http://localhost:3000 /path [--cpu=4] [--seconds=8] [--device=desktop|phone|tablet]
+//   node tools/cpu-profile.mjs http://localhost:3000 /path [--cpu=4] [--seconds=8] [--device=desktop|phone|tablet] [--mouse]
 // Run it on `next dev --webpack` (not on a production build): the dev build keeps file names and function names, a production build is minified.
 // Numbers are for finding the heavy code, not for comparing with production times. Prints the biggest scripts and functions by SELF time (ms,
 // at the CPU slowdown given). Needs Chrome (CHROME_PATH or the default Windows install) and Node 22+.
@@ -39,7 +39,15 @@ await send("Profiler.enable");
 await send("Profiler.setSamplingInterval", { interval: 500 });
 await send("Profiler.start");
 await load();
-await new Promise((r) => setTimeout(r, seconds * 1000));
+if (args.includes("--mouse")) {
+  // a synthetic mouse draws wide zig-zags over the page while the profiler runs (find what the pointer makes expensive)
+  const t0 = Date.now();
+  while (Date.now() - t0 < seconds * 1000) {
+    const s = (Date.now() - t0) / 1000;
+    await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 80 + ((Math.sin(s * 2.2) + 1) / 2) * 1280, y: 80 + ((Math.cos(s * 1.3) + 1) / 2) * 740, buttons: 0 });
+    await new Promise((r) => setTimeout(r, 8));
+  }
+} else await new Promise((r) => setTimeout(r, seconds * 1000));
 const { result } = await send("Profiler.stop");
 const prof = result.profile;
 const byId = new Map(prof.nodes.map((n) => [n.id, n]));

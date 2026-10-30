@@ -14,7 +14,7 @@ import { Blogs } from "./blogs";
 import { CareerDestinationSection, CareerHelpDeskSection, CareerJourneySection, CareerOpeningsSection, CareerTeamsSection, CareerValuesSection } from "./career";
 import { Contact } from "./contact";
 import { Faq } from "../lazy";
-import { Flow } from "./flow";
+import { Flow } from "../lazy";
 import { Guide } from "./guide";
 import { Hero } from "./hero";
 import { Highlights } from "./highlights";

@@ -1,5 +1,5 @@
-import { ProcessFloor } from "../process-floor";
-import { ProcessRail } from "../modern/process-rail";
+import { ProcessFloor } from "../lazy";
+import { ProcessRail } from "../lazy";
 import { ProcessVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
 import { SectionHead } from "../ui";

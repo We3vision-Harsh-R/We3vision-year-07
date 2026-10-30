@@ -3,7 +3,7 @@ import type { MobileSection } from "../../types";
 import { AppLink, Button, Clamp, GroupedList, ListRow, Points, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
-import { Ask, Flip, Prompt, RunSlider } from "./client";
+import { Ask, Flip, Prompt, RunSlider } from "../../../../lazy";
 
 // /ai as an intelligence app (the look of Siri and Apple Intelligence): a glowing orb, a run that ticks off its steps, a switch between
 // problem and answer, questions you tap, and a prompt box for the contact. Same CMS words as the laptop. Styles: (m)/m/ai/page.css ("mp-ai-").

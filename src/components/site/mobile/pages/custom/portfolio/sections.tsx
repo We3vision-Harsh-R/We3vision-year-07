@@ -2,7 +2,7 @@ import type { MobileSection } from "../../types";
 import { AppLink, Section } from "../../../app";
 import { Lines } from "../../../app/text";
 import { coverOf } from "@/lib/projects";
-import { PortfolioBrowser } from "./client";
+import { PortfolioBrowser } from "../../../../lazy";
 
 // /portfolio as Apple Photos: a quiet library header (Large Title, regular text, two buttons side by side), albums per category that filter
 // the photo grid of every project (Admin > Projects, the same list as the laptop). Each photo opens the project. Styles: (m)/m/portfolio/page.css ("mp-pf-").

@@ -1,7 +1,8 @@
 import { getBlogEntries } from "@/lib/blog";
 import { feedOf, readMinutes } from "@/lib/blog-select";
 import { type MasonryItem } from "../modern/blog-masonry";
-import { BlogShelf, type ShelfLabels } from "../modern/blog-shelf";
+import { type ShelfLabels } from "../modern/blog-shelf";
+import { BlogShelf } from "../lazy";
 import { ButtonLink, SectionHead } from "../ui";
 import type { SectionComponent } from "./shared";
 

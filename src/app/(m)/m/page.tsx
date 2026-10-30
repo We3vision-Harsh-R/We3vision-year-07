@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { LAUNCHER_UNLOCKED } from "@/lib/launcher-lock";
-import { Launcher } from "@/components/site/mobile/launcher";
+import { Launcher } from "../../../components/site/lazy";
 import type { Contact } from "@/components/site/mobile/launcher-widgets";
 import { getSiteSettings } from "@/lib/cms/queries";
 

@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink, Section } from "../../../app";
-import { TapSheet, TodayCard, Typing, YearPicker } from "../../../app/apple";
+import { TapSheet, TodayCard, Typing, YearPicker } from "../../../../lazy";
 import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine } from "../../../app/text";
 import { Pando, StoryPlayer } from "./client";

@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import type { MobileSectionProps } from "../../types";
 import { AppLink, Section } from "../../../app";
 import { IcChevron } from "../../../app/icons";
-import { TapSheet } from "../../../app/apple";
+import { TapSheet } from "../../../../lazy";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import "./store.css";
 

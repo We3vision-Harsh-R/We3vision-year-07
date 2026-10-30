@@ -6,10 +6,10 @@ import { getSiteSettings } from "@/lib/cms/queries";
 import type { JobView } from "@/lib/careers-shared";
 import { coverOf, getProjectBySlug } from "@/lib/projects";
 import { AppScreen, Accordion, Button, Card, LeadForm, Pic, Points, Section, contactFrom } from "../app";
-import { JobApplyForm } from "../app/job-apply";
+import { JobApplyForm } from "../../lazy";
 import type { NavTab, OutlineItem } from "../app/nav-types";
 import { APPS } from "../launcher-data";
-import { ShareButton } from "./custom/blog/client";
+import { ShareButton } from "../../lazy";
 import "./detail.css";
 
 // The mobile twins of the three "one item" pages: an article (/blog/<slug>), a project (/portfolio/<slug>) and a job (/careers/<slug>).

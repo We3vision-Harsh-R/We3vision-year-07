@@ -8,7 +8,7 @@ import { Glyph } from "../../../glyph";
 import { SiteBuilder } from "./builder";
 import { PaperForm } from "./paper";
 import { IndustryWheel } from "./wheel";
-import { ServiceTiles } from "./tiles";
+import { ServiceTiles } from "../../../../lazy";
 
 // /webdev and /mobile as one iOS 27 app screen (brain/16): open lists with hairlines, Apple type scale (regular text, 500 for row titles,
 // 600 for headings only), Liquid Glass only where it groups a tool (the builder, the service tiles, the paper form, the wheel band).

@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink } from "../../../app";
-import { TodayCard } from "../../../app/apple";
+import { TodayCard } from "../../../../lazy";
 import { Lines, oneLine } from "../../../app/text";
 
 // /products top as the App Store "Today" tab: the chip as the date line, the page heading as the Large Title (the page's h1), then a Today card

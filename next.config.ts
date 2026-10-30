@@ -25,6 +25,8 @@ const nextConfig: NextConfig = {
   // the webpack hook below is only used by the production build (`next build --webpack`); this empty block tells the Turbopack dev server that this is fine
   turbopack: {},
   webpack(config, { isServer }) {
+    // `NO_MINIFY=1 NEXT_DIST_DIR=.next-nm npm run build` makes a readable build (function and file names kept) for tools/cpu-profile.mjs
+    if (process.env.NO_MINIFY && !isServer) config.optimization.minimize = false;
     if (process.env.ANALYZE_STATS && !isServer) {
       config.plugins.push({
         apply(compiler: { hooks: { done: { tap: (n: string, f: (s: { toJson: (o: object) => unknown }) => void) => void } } }) {

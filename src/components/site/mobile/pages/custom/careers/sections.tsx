@@ -2,7 +2,7 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink, LeadForm, Section } from "../../../app";
-import { SwipeDeck, TapSheet } from "../../../app/apple";
+import { SwipeDeck, TapSheet } from "../../../../lazy";
 import { IcChevron, IcPin } from "../../../app/icons";
 import { Lines, lines } from "../../../app/text";
 import { JobBoard } from "./client";

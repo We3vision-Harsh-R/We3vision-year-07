@@ -1,4 +1,4 @@
-import { VrQuiz } from "../metaverse/vr-quiz";
+import { VrQuiz } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The quiz "which reality fits your idea" (see metaverse/vr-quiz.tsx). */
