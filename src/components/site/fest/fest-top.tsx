@@ -104,29 +104,10 @@ export function FestTop({ fx, density }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- ambientKey stands for the four switches
   }, [canvasOn, ambientKey, eff]);
 
-  // the layers lean against the mouse: far a little, near more (set as two numbers on the root, applied by CSS)
-  useEffect(() => {
-    const el = root.current;
-    if (!el || still || !window.matchMedia("(pointer: fine)").matches) return;
-    let raf = 0;
-    let mx = 0;
-    let my = 0;
-    const apply = () => {
-      raf = 0;
-      el.style.setProperty("--mx", mx.toFixed(3));
-      el.style.setProperty("--my", my.toFixed(3));
-    };
-    const move = (e: PointerEvent) => {
-      mx = (e.clientX / window.innerWidth) * 2 - 1;
-      my = (e.clientY / window.innerHeight) * 2 - 1;
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-    window.addEventListener("pointermove", move, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", move);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [still]);
+  // NOTE (round 5): a pointer handler used to write --mx/--my on the root here (layers leaning against the mouse, fest.css .fs-lay). It never had an
+  // effect: globals.css registers --mx as <length-percentage>, so the unit-less number was invalid and the layers stayed where they are. The writes
+  // only made the browser recalculate the style of every lantern and diya on every mouse move, so they are gone (the look is the same). To make the
+  // layers lean for real, write a NEW number property (registered inherits:false, like --rcx in contact.css) on the three .fs-lay elements.
 
   const diyaGap = eff === "low" ? 150 : eff === "rich" ? 84 : 112;
 

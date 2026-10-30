@@ -2,7 +2,7 @@
 
 import "@/styles/fest.css";
 import "@/styles/fest-office.css";
-import { useEffect, useRef, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import { Diya, Kandil, Rangoli, SkyLantern, ToranGarland } from "./fest-art";
 import { OfficeFloor, type Spot } from "./office-floor";
 import { useFest } from "./use-fest";
@@ -45,39 +45,15 @@ const SPOTS: Record<"about" | "team" | "metaverse", Spot[]> = {
 export function OfficeFest({ effect }: { effect: "about" | "team" | "metaverse" }) {
   const fest = useFest();
   const on = fest?.has(effect) ?? false;
-  const ref = useRef<HTMLDivElement>(null);
 
-  // the layers lean against the mouse while it is over the floor
-  useEffect(() => {
-    const el = ref.current;
-    const floor = el?.parentElement;
-    if (!on || !el || !floor || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let raf = 0;
-    let nx = 0;
-    let ny = 0;
-    const apply = () => {
-      raf = 0;
-      el.style.setProperty("--mx", nx.toFixed(3));
-      el.style.setProperty("--my", ny.toFixed(3));
-    };
-    const move = (e: PointerEvent) => {
-      const r = floor.getBoundingClientRect();
-      nx = (e.clientX - r.left) / Math.max(1, r.width) - 0.5;
-      ny = (e.clientY - r.top) / Math.max(1, r.height) - 0.5;
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-    floor.addEventListener("pointermove", move, { passive: true });
-    return () => {
-      floor.removeEventListener("pointermove", move);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [on]);
+  // (the pointer handler that wrote --mx/--my here never had an effect: --mx is registered as <length-percentage> in globals.css, so the layers
+  // never leaned; see fest-top.tsx. It only cost a style recalculation of the whole floor on every mouse move, so it was removed.)
 
   if (!on) return null;
   return (
     <>
       <OfficeFloor spots={SPOTS[effect]} />
-    <div ref={ref} className="fo" aria-hidden data-pause-off>
+    <div className="fo" aria-hidden data-pause-off>
       {/* far: blurred */}
       <div className="fo-d" data-z="0">
         {FIREWORKS.map((f, i) => (

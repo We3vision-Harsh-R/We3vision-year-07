@@ -1,13 +1,13 @@
 "use client";
 
 import "@/styles/contact.css";
-
-
-
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ReceptionAvatar } from "./reception-avatar";
 import { Chip } from "./ui";
+
+// the layers that move with the pointer (their transforms are in contact.css and read --rcx / --rcy)
+const LAYERS = ".rc-wall, .rc-windows, .rc-sign, .rc-lights, .rc-shelf-l, .rc-shelf-r, .rc-glow, .rc-avatar, .rc-counter, .rc-fore-l, .rc-fore-r, .ra-iris-g, .ra-head";
 
 // The first screen of the Contact page: a receptionist at the reception desk of the office. She welcomes the visitor ("two minutes of your
 // time?"), asks what they would like to know about We3vision and offers five answers (services, work, their problem, joining the team,
@@ -140,8 +140,14 @@ export function ContactReception({
     let py = 0;
     const apply = () => {
       raf = 0;
-      root.style.setProperty("--px", px.toFixed(3));
-      root.style.setProperty("--py", py.toFixed(3));
+      // written on the moving layers themselves (contact.css registers --rcx/--rcy as not inherited): writing it on the root made the browser
+      // recalculate the style of every element in the room on every pointer move
+      const x = px.toFixed(3);
+      const y = py.toFixed(3);
+      root.querySelectorAll<HTMLElement>(LAYERS).forEach((el) => {
+        el.style.setProperty("--rcx", x);
+        el.style.setProperty("--rcy", y);
+      });
     };
     const move = (e: PointerEvent) => {
       if (e.pointerType === "touch") return;

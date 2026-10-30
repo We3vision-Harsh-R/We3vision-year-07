@@ -214,7 +214,7 @@
   background:
     linear-gradient(90deg, transparent 0 24.5%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.07) 24.5% 25%, transparent 25% 49.5%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.07) 49.5% 50%, transparent 50% 74.5%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.07) 74.5% 75%, transparent 75%),
     linear-gradient(180deg, hsl(calc(var(--th) + 347) calc(56% * var(--ts)) 8%), hsl(calc(var(--th) + 352) calc(54% * var(--ts)) 16%) 70%, hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 12%));
-  transform: translate(calc(var(--px, 0) * -4px), calc(var(--py, 0) * -2px));
+  transform: translate(calc(var(--rcx, 0) * -4px), calc(var(--rcy, 0) * -2px));
 }
 .rc-windows {
   top: 6%;
@@ -224,7 +224,7 @@
   justify-content: space-between;
   height: 46%;
   filter: blur(3px);
-  transform: translate(calc(var(--px, 0) * -8px), calc(var(--py, 0) * -3px));
+  transform: translate(calc(var(--rcx, 0) * -8px), calc(var(--rcy, 0) * -3px));
 }
 .rc-windows i {
   width: 22%;
@@ -247,7 +247,7 @@
   white-space: nowrap;
   opacity: 0.85;
   filter: blur(1px);
-  transform: translate(calc(-50% + var(--px, 0) * -10px), calc(var(--py, 0) * -4px));
+  transform: translate(calc(-50% + var(--rcx, 0) * -10px), calc(var(--rcy, 0) * -4px));
 }
 .rc-lights {
   top: 0;
@@ -257,7 +257,7 @@
   justify-content: space-around;
   padding: 0 14%;
   filter: blur(9px);
-  transform: translate(calc(var(--px, 0) * -12px), calc(var(--py, 0) * -5px));
+  transform: translate(calc(var(--rcx, 0) * -12px), calc(var(--rcy, 0) * -5px));
 }
 .rc-lights i {
   width: 150px;
@@ -273,11 +273,11 @@
 }
 .rc-shelf-l {
   left: 7%;
-  transform: translate(calc(var(--px, 0) * -16px), calc(var(--py, 0) * -6px));
+  transform: translate(calc(var(--rcx, 0) * -16px), calc(var(--rcy, 0) * -6px));
 }
 .rc-shelf-r {
   right: 7%;
-  transform: translate(calc(var(--px, 0) * -16px), calc(var(--py, 0) * -6px));
+  transform: translate(calc(var(--rcx, 0) * -16px), calc(var(--rcy, 0) * -6px));
 }
 .rc-shelf b {
   position: absolute;
@@ -315,7 +315,7 @@
   width: 56%;
   height: 100%;
   background: radial-gradient(closest-side, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 72% / 0.3), transparent);
-  transform: translate(calc(-50% + var(--px, 0) * -6px), calc(var(--py, 0) * -3px));
+  transform: translate(calc(-50% + var(--rcx, 0) * -6px), calc(var(--rcy, 0) * -3px));
 }
 .rc-avatar {
   --avh: min(470px, calc(100% - 20px));
@@ -323,7 +323,7 @@
   bottom: calc(168px - var(--avh) * 0.196);
   height: var(--avh);
   aspect-ratio: 480 / 560;
-  transform: translate(calc(-50% + var(--px, 0) * 5px), calc(var(--py, 0) * 2px));
+  transform: translate(calc(-50% + var(--rcx, 0) * 5px), calc(var(--rcy, 0) * 2px));
 }
 .rc-avatar-hit {
   display: block;
@@ -345,7 +345,7 @@
   box-shadow:
     inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.45),
     0 -24px 70px -26px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.5);
-  transform: translate(calc(-50% + var(--px, 0) * 9px), calc(var(--py, 0) * 3px));
+  transform: translate(calc(-50% + var(--rcx, 0) * 9px), calc(var(--rcy, 0) * 3px));
 }
 .rc-logo {
   position: absolute;
@@ -429,11 +429,11 @@
 }
 .rc-fore-l {
   left: -4%;
-  transform: translate(calc(var(--px, 0) * -26px), calc(var(--py, 0) * -8px));
+  transform: translate(calc(var(--rcx, 0) * -26px), calc(var(--rcy, 0) * -8px));
 }
 .rc-fore-r {
   right: -4%;
-  transform: translate(calc(var(--px, 0) * -26px), calc(var(--py, 0) * -8px));
+  transform: translate(calc(var(--rcx, 0) * -26px), calc(var(--rcy, 0) * -8px));
 }
 .rc-face {
   flex: none;
@@ -583,7 +583,7 @@
   stroke-linecap: round;
 }
 .ra-iris-g {
-  transform: translate(calc(var(--px, 0) * 6px), calc(var(--py, 0) * 4px));
+  transform: translate(calc(var(--rcx, 0) * 6px), calc(var(--rcy, 0) * 4px));
   transition: transform 0.25s ease-out;
 }
 .ra-nose {
@@ -708,7 +708,7 @@
 }
 .ra-head {
   transform-origin: 240px 300px;
-  transform: translate(calc(var(--px, 0) * 8px), calc(var(--py, 0) * 5px)) rotate(calc(var(--px, 0) * 2.6deg));
+  transform: translate(calc(var(--rcx, 0) * 8px), calc(var(--rcy, 0) * 5px)) rotate(calc(var(--rcx, 0) * 2.6deg));
   transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ra-arm {
@@ -777,4 +777,17 @@
 .rc-dots i {
     animation: none;
   }
+}
+
+/* pointer parallax of the reception (contact-reception.tsx): --rcx / --rcy (-1..1) are set on each moving layer itself and are NOT inherited, so a
+   mouse move recalculates the styles of ~13 layers, not of the hundreds of elements inside the room (the old --px/--py on the root did that) */
+@property --rcx {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --rcy {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
 }

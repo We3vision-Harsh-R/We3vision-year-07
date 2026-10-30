@@ -1,5 +1,5 @@
 // POINTER RUN (read-only): how smooth the page stays while a mouse moves over it.
-//   node tools/pointer-run.mjs http://localhost:1010 [/path ...] [--cpu=1] [--seconds=4] [--returning] [--idle] [--ablate="name=css;name2=css"] [--json]
+//   node tools/pointer-run.mjs http://localhost:1010 [/path ...] [--menu] [--cpu=1] [--seconds=4] [--returning] [--idle] [--ablate="name=css;name2=css"] [--json]
 // A headless Chrome (1440x900) loads the page cold, waits 2.5 s, then a synthetic mouse draws wide zig-zags over the page at 125 events per second
 // for `seconds` seconds. Measured with requestAnimationFrame and the Event Timing API (the numbers behind "Interaction to Next Paint"):
 // --idle keeps the mouse still (the same measurement without pointer events): the difference to the normal run is what the POINTER costs.
@@ -73,11 +73,14 @@ for (const p of paths) for (const sc of scenarios) {
   await ev(FRAMES);
   const m0 = await metrics();
   // wide zig-zags: 125 events per second, the mouse crosses the page left-right while going down and up
+  // the mouse stays 150 px above the bottom edge (the floating menu sits there: touching it opens the big menu, which is a different test: --menu)
+  const innerH = Number(await ev("innerHeight"));
+  const spanY = args.includes("--menu") ? 740 : Math.max(200, innerH - 80 - 150);
   const t0 = Date.now(); let k = 0;
   while (Date.now() - t0 < seconds * 1000) {
     const t = (Date.now() - t0) / 1000;
     const x = 80 + ((Math.sin(t * 2.2) + 1) / 2) * 1280;
-    const y = 80 + ((Math.cos(t * 1.3) + 1) / 2) * 740;
+    const y = 80 + ((Math.cos(t * 1.3) + 1) / 2) * spanY;
     if (!args.includes("--idle")) await send("Input.dispatchMouseEvent", { type: "mouseMoved", x, y, buttons: 0 });
     k++;
     await new Promise((r) => setTimeout(r, 8));
