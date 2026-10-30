@@ -3,6 +3,7 @@ import { HeroBadges } from "../hero-badges";
 import { HomeIntro } from "../home-intro";
 import { HeroScene } from "../lazy";
 import { ServicesRail } from "../services-rail";
+import { ServicesStage } from "../services-stage";
 import type { SectionProps } from "./shared";
 
 // The hero of the home page. Since 2026-10-24 (owner) the laptop / desktop home starts with one calm first screen (home-intro.tsx): big type,
@@ -29,7 +30,7 @@ export function Hero({ data, site, page, glance }: SectionProps<"hero"> & { glan
         <div id="services" className="hm-svc">
           <ServicesRail cards={data.cards} />
           <div className="hm-desk">
-            <HeroScene mark={data.mark} above={data.above} below={data.below} cards={data.cards} servicesOnly />
+            <ServicesStage cards={data.cards} />
           </div>
         </div>
       </>

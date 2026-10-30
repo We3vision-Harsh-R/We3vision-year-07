@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 75,
+    date: "2026-10-31",
+    title: "Home services: one animated stage",
+    notes: [
+      "The services of the home page on a laptop are now a list and one animated stage (a drawing for AI, web, app, metaverse, UI/UX, CRM and brand) that changes by itself and by click.",
+      "The walking guide on the road is gone from the home page; phone and tablet keep the swipe cards.",
+    ],
+  },
+  {
     v: 74,
     date: "2026-10-30",
     title: "Phone: calmer service wheel",
