@@ -57,6 +57,28 @@ export function VrOffice({ heading, text, hint, captions }: { heading: string; t
       const dist = Math.max(1, r.height - window.innerHeight);
       return clamp(-r.top / dist);
     };
+    // the scroll position is measured only after the page moved (scroll / resize) or at most once a second; measuring in every frame forced the
+    // browser to bring the style of the page up to date right after the previous frame had written the captions
+    let pValue = 0;
+    let pAt = -1e9;
+    let pDirty = true;
+    const markDirty = () => {
+      pDirty = true;
+    };
+    const progressNow = (now: number) => {
+      if (pDirty || now - pAt > 1000) {
+        pValue = progress();
+        pAt = now;
+        pDirty = false;
+      }
+      return pValue;
+    };
+    window.addEventListener("scroll", markDirty, { passive: true });
+    window.addEventListener("resize", markDirty);
+    cleanups.push(() => {
+      window.removeEventListener("scroll", markDirty);
+      window.removeEventListener("resize", markDirty);
+    });
     const overlays = (p: number, dark: number) => {
       if (blackRef.current) blackRef.current.style.opacity = String(dark);
       if (hintRef.current) hintRef.current.style.opacity = String(1 - smooth(p / 0.04));
@@ -77,7 +99,7 @@ export function VrOffice({ heading, text, hint, captions }: { heading: string; t
       }
       const dt = now - last;
       last = now;
-      const p = progress();
+      const p = progressNow(now);
       scene.setProgress(p);
       scene.render(dt);
       overlays(p, scene.dark);

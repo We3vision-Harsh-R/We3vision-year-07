@@ -62,7 +62,10 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
         color: i === 0 ? gold : violet,
       }));
 
-    // the library (cobe, ~5 KB gzip) is fetched only when a globe is really on the page, not with every page
+    // the library (cobe, ~5 KB gzip) is fetched, and the WebGL globe made (its context and the 16000-point map cost the main thread ~100 ms), only when
+    // the globe comes near the screen, not while the page loads. The timeline (lines going out, the wave) is counted from when the card was mounted, as
+    // it always was, so the globe looks exactly as if it had been running all the time (it never turned while it was off the screen anyway).
+    const mountedAt = performance.now();
     const start = (createGlobe: typeof import("cobe").default): (() => void) | undefined => {
     let phi = phiOf(origin.lng);
     let theta = 0.3;
@@ -98,7 +101,7 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
     let frame = 0;
     let visible = true;
     let last = performance.now();
-    const start = last;
+    const start = mountedAt;
     let shown = 0; // how many lines are on the globe
     let waveAt = -1; // the country lit now
     const pulse: number[] = dest.map(() => 0);
@@ -158,11 +161,20 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
     };
     let cleanup: (() => void) | undefined;
     let cancelled = false;
-    void import("cobe").then(({ default: createGlobe }) => {
-      if (!cancelled) cleanup = start(createGlobe);
-    });
+    const near = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        near.disconnect();
+        void import("cobe").then(({ default: createGlobe }) => {
+          if (!cancelled) cleanup = start(createGlobe);
+        });
+      },
+      { rootMargin: "500px 0px" },
+    );
+    near.observe(canvas);
     return () => {
       cancelled = true;
+      near.disconnect();
       cleanup?.();
     };
   }, [places, box]);
