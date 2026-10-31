@@ -28,7 +28,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   const [site, fest] = await Promise.all([getSiteSettings(), getFestConfig()]);
   const festOn = anyFest(fest);
   return (
-    <RootShell boot={[festOn ? festBootScript(fest) : "", site.picker.show === "off" ? PICKER_OFF_BOOT : ""].join("") || undefined}>
+    <RootShell htmlClass="sb-pre" boot={[festOn ? festBootScript(fest) : "", site.picker.show === "off" ? PICKER_OFF_BOOT : ""].join("") || undefined}>
       <div className="relative overflow-x-clip">
         <a href="#main-content" className="skp-link">
           Skip to content

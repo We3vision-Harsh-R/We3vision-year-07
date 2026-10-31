@@ -11816,3 +11816,16 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   box-shadow: 0 0 0 1000px hsl(calc(var(--th) + 348.73) calc(60% * var(--ts)) 10.78%) inset;
   transition: background-color 9999s ease-out 0s;
 }
+
+/* ---- sb-pre: the native scroll bar is hidden from the FIRST paint on the laptop site (a mouse device) ----
+   site-scrollbar.tsx hides it by adding html.has-sb after hydration, ~1-2 s after the page appeared: until then the page was 15 px narrower, and when the
+   class arrived the whole page (everything centred, the fixed lights) jumped 7-9 px sideways = layout shift on every page. (site)/layout.tsx puts
+   sb-pre on <html> in the server HTML; the component still adds has-sb and its glass thumb. Touch screens keep their own bar (media query). */
+@media (hover: hover) and (pointer: fine) {
+  html.sb-pre {
+    scrollbar-width: none;
+  }
+  html.sb-pre::-webkit-scrollbar {
+    display: none;
+  }
+}
