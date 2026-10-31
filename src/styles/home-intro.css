@@ -3,8 +3,7 @@
    (2) a dark panel with frosted glass number tiles that run sideways and count up. Theme colours only (--th / --ts), Poppins, paragraphs >= 16px,
    labels >= 14px. Only transform and opacity move (the number count is one integer property on a few elements). */
 
-section.hx,
-section.hgn {
+section.hx {
   --hi-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
   --hi-soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.78);
   --hi-hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
@@ -14,6 +13,8 @@ section.hgn {
 
 /* ================= 1. the hero ================= */
 .hx-panel {
+  /* one unit that follows the screen: 14.4px at 1440 x 900; the rings scale with it, so any laptop or a 1920 x 1080 screen shows the same picture */
+  --u: min(1vw, 1.6vh);
   position: relative;
   z-index: 0;
   display: flex;
@@ -30,7 +31,7 @@ section.hgn {
 .hx-head {
   position: relative;
   z-index: 20;
-  max-width: 40rem;
+  max-width: calc(var(--u) * 42);
 }
 .hx-head > * {
   animation: hx-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
@@ -55,7 +56,7 @@ section.hgn {
 }
 .hx-title {
   margin: 0;
-  font-size: clamp(2.4rem, 3.7vw, 3.5rem);
+  font-size: max(2.4rem, calc(var(--u) * 3.6));
   font-weight: 500;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -64,10 +65,10 @@ section.hgn {
   color: rgb(255 255 255 / 0.55);
 }
 .hx-text {
-  max-width: 30rem;
+  max-width: calc(var(--u) * 31);
   margin: 1.6rem 0 0;
   color: var(--hi-soft);
-  font-size: 1.0625rem;
+  font-size: max(1.0625rem, calc(var(--u) * 1.2));
   line-height: 1.65;
 }
 
@@ -86,23 +87,24 @@ section.hgn {
   top: 0;
   left: 0;
   z-index: 11;
-  width: 1500px;
-  height: 1500px;
-  margin: -750px 0 0 -750px;
+  width: calc(var(--u) * 90);
+  height: calc(var(--u) * 90);
+  margin: calc(var(--u) * -45) 0 0 calc(var(--u) * -45);
   border-radius: 50%;
-  background:
-    radial-gradient(circle, hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 72% / 0.55) 0, hsl(calc(var(--th) + 336) calc(90% * var(--ts)) 60% / 0.18) 14%, transparent 34%),
-    repeating-conic-gradient(from 0deg, transparent 0deg, hsl(calc(var(--th) + 340) calc(100% * var(--ts)) 78% / 0.2) 5deg, transparent 10deg 24deg);
-  -webkit-mask-image: radial-gradient(circle, #000 0, rgb(0 0 0 / 0.55) 30%, transparent 62%);
-  mask-image: radial-gradient(circle, #000 0, rgb(0 0 0 / 0.55) 30%, transparent 62%);
-  opacity: 0.6;
+  /* an eased falloff (many stops) so there is no visible edge: it just fades into the page colour */
+  background: radial-gradient(
+    circle,
+    hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 74% / 0.5) 0%,
+    hsl(calc(var(--th) + 336) calc(95% * var(--ts)) 68% / 0.38) 8%,
+    hsl(calc(var(--th) + 336) calc(90% * var(--ts)) 62% / 0.25) 17%,
+    hsl(calc(var(--th) + 338) calc(85% * var(--ts)) 56% / 0.14) 28%,
+    hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 50% / 0.06) 40%,
+    hsl(calc(var(--th) + 342) calc(75% * var(--ts)) 45% / 0.02) 52%,
+    transparent 64%
+  );
+  filter: blur(18px);
+  opacity: 0.7;
   transition: opacity 0.7s;
-  animation: hx-spin 70s linear infinite;
-}
-@keyframes hx-spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 .hx-orbit {
   transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -112,8 +114,8 @@ section.hgn {
   top: 0;
   left: 0;
   z-index: calc(10 - var(--k)); /* the big rings lie under the small ones */
-  width: calc(300px + var(--k) * 140px);
-  height: calc(150px + var(--k) * 125px);
+  width: calc(var(--u) * (20.8 + var(--k) * 9.7));
+  height: calc(var(--u) * (10.4 + var(--k) * 8.7));
   border-radius: 999px;
   background: hsl(calc(var(--th) + 336 + var(--k) * 3) calc((90% - var(--k) * 4%) * var(--ts)) calc(62% - var(--k) * 9.1%)); /* the last ring is the page colour: the light ends in the background */
   transform: translate(-50%, -50%);
@@ -177,245 +179,48 @@ section.hgn {
   opacity: 1;
 }
 
-/* ================= 2. At a glance: frosted glass tiles ================= */
-section.hgn {
-  padding-top: 0;
-  padding-bottom: clamp(3rem, 6vw, 5rem);
-}
-.hgn-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 32px;
-  background:
-    radial-gradient(55% 70% at 8% 0%, hsl(calc(var(--th) + 338) calc(85% * var(--ts)) 46% / 0.55), transparent 70%),
-    radial-gradient(45% 60% at 100% 10%, hsl(calc(var(--th) + 352) calc(80% * var(--ts)) 40% / 0.28), transparent 70%),
-    linear-gradient(hsl(calc(var(--th) + 350) 60% 80% / 0.045) 1px, transparent 1px) 0 0 / 46px 46px,
-    linear-gradient(90deg, hsl(calc(var(--th) + 350) 60% 80% / 0.045) 1px, transparent 1px) 0 0 / 46px 46px,
-    hsl(calc(var(--th) + 352) calc(55% * var(--ts)) 7%);
-  padding: clamp(3rem, 6vw, 4.6rem) 0 clamp(1.6rem, 3vw, 2.4rem);
-}
-.hgn-head {
-  margin-bottom: clamp(2rem, 4vw, 3rem);
-  padding: 0 1.5rem;
-  text-align: center;
-}
-.hgn-chip {
-  margin: 0 0 1rem;
-  color: var(--hi-a);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-}
-.hgn-head h2 {
-  margin: 0;
-  font-size: clamp(2rem, 3.5vw, 3.2rem);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.12;
-  background: linear-gradient(180deg, #fff 30%, hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 82%));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.hgn-head h2 span {
-  opacity: 0.62;
-}
-.hgn-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  overflow: hidden;
-  /* the sides and the last row fade away like in the reference */
-  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-}
-.hgn-track {
-  display: flex;
-  width: max-content;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  animation: hgn-run 48s linear infinite;
-  animation-play-state: paused;
-}
-.hgn-row.is-1 .hgn-track {
-  animation-duration: 60s;
-  animation-direction: reverse;
-}
-.hgn[data-play="true"] .hgn-track {
-  animation-play-state: running;
-}
-@keyframes hgn-run {
-  to {
-    transform: translateX(-50%);
-  }
-}
-/* the glass tile: a violet pane, lighter at the top left, a bright edge on top. A number tile shows only its big number; a year tile always shows year + text; the words and the glow come when
-   the cursor is on it (the row stops while it is). Only transform and opacity move. */
-.hgn-tile {
-  position: relative;
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 15.5rem;
-  height: 9.5rem;
-  margin-right: 20px;
-  overflow: hidden;
-  border: 1px solid hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.24);
-  border-radius: 30px;
-  background: linear-gradient(150deg, hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 56% / 0.5), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.72) 72%);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.38),
-    inset 0 0 36px hsl(calc(var(--th) + 330) calc(90% * var(--ts)) 72% / 0.14),
-    0 18px 40px -20px rgb(0 0 0 / 0.7);
-}
-/* a year tile always shows its year and its milestone text; hover only adds the glow */
-.hgn-tile.is-yr {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 0.7rem;
-  width: 21rem;
-  height: 12rem;
-  padding: 1.4rem 1.5rem;
-}
-.hgn-tile.is-yr .hgn-num {
-  font-size: 2.6rem;
-}
-.hgn-num {
-  grid-area: 1 / 1;
-  font-size: clamp(2.8rem, 4vw, 3.8rem);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  white-space: nowrap;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.hgn-tile em {
-  position: absolute;
-  right: 1.3rem;
-  bottom: 1.1rem;
-  left: 1.3rem;
-  color: var(--hi-soft);
-  font-size: 1rem;
-  font-style: normal;
-  line-height: 1.4;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.45s,
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.hgn-tile.is-yr em {
-  position: static;
-  text-align: left;
-  opacity: 1;
-  transform: none;
-}
-/* the glow: a bright violet ring and a soft light from inside */
-.hgn-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(80% 90% at 50% 0%, hsl(calc(var(--th) + 336) calc(95% * var(--ts)) 70% / 0.45), transparent 70%);
-  box-shadow:
-    inset 0 0 0 1px hsl(calc(var(--th) + 340) calc(100% * var(--ts)) 85% / 0.7),
-    inset 0 0 40px hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 70% / 0.35);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.45s;
-}
-.hgn-tile:hover .hgn-glow {
-  opacity: 1;
-}
-.hgn-tile.is-num:hover .hgn-num {
-  transform: translateY(-1.3rem) scale(0.92);
-}
-.hgn-tile.is-yr:hover .hgn-num {
-  transform: none;
-}
-.hgn-tile:hover em {
-  opacity: 1;
-  transform: none;
-}
-/* the row stops while the cursor is on it, so a tile can be read */
-.hgn-row:hover .hgn-track {
-  animation-play-state: paused;
-}
-
-/* the count: an integer property runs from 0 to the value (set as --to on the number) the first time the panel is seen */
-@property --hgn-n {
-  syntax: "<integer>";
-  inherits: false;
-  initial-value: 0;
-}
-.hgn-num u {
-  --hgn-n: var(--to);
-  text-decoration: none;
-  counter-reset: hgn var(--hgn-n);
-}
-.hgn-num u::after {
-  content: counter(hgn);
-}
-.hgn[data-count="true"] .hgn-num u {
-  animation: hgn-count 1.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-}
-@keyframes hgn-count {
-  from {
-    --hgn-n: 0;
-  }
-}
-
-.hgn-rec {
+/* the two recognitions (Startup India, MSME) under the sentence, as frosted glass pills */
+.hx-rec {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1.4rem;
-  margin-top: clamp(1.6rem, 3vw, 2.4rem);
-  padding: 0 1.5rem;
+  gap: 1.2rem;
+  margin-top: clamp(1.4rem, 3vh, 2.2rem);
 }
-.hgn-rec p {
+.hx-rec p {
   margin: 0;
   color: var(--hi-soft);
   font-size: 0.875rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.hgn-rec ul {
+.hx-rec ul {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.9rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.hgn-rec li {
+.hx-rec li {
   display: grid;
   place-items: center;
-  padding: 0.7rem 1.4rem;
+  padding: 0.6rem 1.3rem;
   border: 1px solid hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.24);
   border-radius: 999px;
   background: linear-gradient(150deg, hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 56% / 0.34), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.6));
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.34), inset 0 0 24px hsl(calc(var(--th) + 330) calc(90% * var(--ts)) 72% / 0.12);
 }
-.hgn-rec img {
+.hx-rec img {
   display: block;
   width: auto;
-  height: 2.6rem;
-  max-width: 9rem;
+  height: 2.4rem;
+  max-width: 8.5rem;
   object-fit: contain;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hx-halo {
-    animation: none;
-  }
   .hx-head > *,
-  .hx-ring,
-  .hgn-track,
-  .hgn-num u {
+  .hx-ring {
     animation: none !important;
   }
 }
@@ -437,7 +242,7 @@ section.hgn {
   .hx-title {
     font-size: clamp(2.2rem, 8.6vw, 3.4rem);
   }
-  .hgn-rec {
+  .hx-rec {
     flex-wrap: wrap;
   }
 }

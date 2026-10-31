@@ -10,7 +10,7 @@ import type { SectionProps } from "./shared";
 // the anniversary seal, the Startup India + MSME logos and the facts of "At a glance" (handed over by PageSections as `glance`). Under it come the
 // services of hero-scene.tsx (boxes, walking guide, split board) in "servicesOnly" mode: the particle ball is gone. Other pages with a hero
 // section keep the full old scene.
-export function Hero({ data, site, page, glance }: SectionProps<"hero"> & { glance?: SectionData<"highlights"> }) {
+export function Hero({ data, site, page }: SectionProps<"hero"> & { glance?: SectionData<"highlights"> }) {
   if (page === "home") {
     return (
       <>
@@ -19,9 +19,8 @@ export function Hero({ data, site, page, glance }: SectionProps<"hero"> & { glan
           above={data.above}
           mark={data.mark}
           below={data.below}
-          chip={glance?.chip ?? ""}
-          facts={glance?.items ?? []}
-          badges={site.badges}        />
+          badges={site.badges}
+        />
         {/* the services (owner, 2026-10-24: "service nu section pachu lav"): the same boxes, guide and split board, without the particle ball.
             Phone and tablet (below 1024px, owner 2026-10-29) get a row of cards to swipe instead; styles/home-mobile.css shows one of the two.
             The wrapper is the anchor "#services" for both. */}

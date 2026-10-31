@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 79,
+    date: "2026-10-31",
+    title: "Hero: soft glow, logos, any screen size",
+    notes: [
+      "The light behind the Start a project button is now a soft blurred glow that fades into the page colour (no rays).",
+      "The At a glance panel under the hero is removed; the Startup India and MSME logos now sit in the hero as glass pills.",
+      "The hero scales with the screen, so a 1920 x 1080 screen and small laptops show one full first screen.",
+    ],
+  },
+  {
     v: 78,
     date: "2026-10-31",
     title: "Numbers and journey, hero light, fest hanging",
