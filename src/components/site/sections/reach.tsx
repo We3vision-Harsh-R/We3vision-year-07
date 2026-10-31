@@ -1,4 +1,4 @@
-import { Globe } from "../globe";
+import { Globe } from "../lazy";
 import { ReachPlaces } from "../lazy";
 import { Reveal } from "../reveal";
 import { SmartLink } from "../smart-link";

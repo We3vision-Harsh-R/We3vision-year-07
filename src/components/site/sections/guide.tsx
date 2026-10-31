@@ -1,9 +1,9 @@
 import "@/styles/panda-chat.css";
 import { AfterEffects } from "../lazy";
 import { AiBuddy } from "../lazy";
-import { BrandBoard } from "../brand-board";
+import { GuideBrandBoard as BrandBoard } from "../lazy";
 import { FigmaStudio } from "../lazy";
-import { SeoLab } from "../seo-lab";
+import { SeoLab } from "../lazy";
 import { GuideScene } from "../lazy";
 import { OfficeBuilder } from "../lazy";
 import { Reveal } from "../reveal";

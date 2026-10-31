@@ -4,7 +4,7 @@ import { getCareerSetup, getOpenJobs } from "@/lib/careers";
 import { GlowEdge } from "../glow-edge";
 import { ContactFlow } from "../lazy";
 import { CareerRailway } from "../lazy";
-import { CareerDestination } from "../career/destination";
+import { CareerDestination } from "../lazy";
 import { CareerJourney } from "../lazy";
 import { Reveal } from "../reveal";
 import { SectionHead, Wide } from "../ui";

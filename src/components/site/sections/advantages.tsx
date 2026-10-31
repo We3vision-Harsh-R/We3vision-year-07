@@ -1,5 +1,5 @@
 import { ReasonsStack } from "../lazy";
-import { WhyBento } from "../modern/why-bento";
+import { WhyBento } from "../lazy";
 import { WhyVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
 import { SectionHead } from "../ui";

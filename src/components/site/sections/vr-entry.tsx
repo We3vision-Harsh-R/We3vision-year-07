@@ -1,4 +1,4 @@
-import { VrOffice } from "../metaverse/vr-office";
+import { VrOffice } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The 3D office walk that opens the Metaverse page. */

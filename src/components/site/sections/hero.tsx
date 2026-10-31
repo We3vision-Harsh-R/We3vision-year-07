@@ -2,7 +2,7 @@ import type { SectionData } from "@/lib/cms/sections";
 import { HeroBadges } from "../hero-badges";
 import { HomeIntro } from "../home-intro";
 import { HeroScene } from "../lazy";
-import { ServicesRail } from "../services-rail";
+import { ServicesRail } from "../lazy";
 import { ServicesStage } from "../lazy";
 import type { SectionProps } from "./shared";
 

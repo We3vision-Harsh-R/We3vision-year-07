@@ -1,6 +1,6 @@
 import { coverOf } from "@/lib/projects";
 import { SectionHead, Wide } from "../ui";
-import { ProjectsBoard } from "./projects-board";
+import { ProjectsBoard } from "../lazy";
 import type { SectionComponent } from "./shared";
 
 /** The projects of the admin panel: a board with filters (category chips + search) and a bento grid of cards; every card opens the page of the project. */

@@ -83,3 +83,11 @@ export const WoocommercePage = dynamic(() => import("./tech/woocommerce").then((
 export const WordpressPage = dynamic(() => import("./tech/wordpress").then((m) => m.WordpressPage));
 export const YearPicker = dynamic(() => import("./mobile/app/apple").then((m) => m.YearPicker));
 export const CursorGrid = dynamic(() => import("./modern/cursor-grid"));
+export const CareerDestination = dynamic(() => import("./career/destination").then((m) => m.CareerDestination));
+export const Globe = dynamic(() => import("./globe").then((m) => m.Globe));
+export const GuideBrandBoard = dynamic(() => import("./brand-board").then((m) => m.BrandBoard));
+export const ProjectsBoard = dynamic(() => import("./sections/projects-board").then((m) => m.ProjectsBoard));
+export const SeoLab = dynamic(() => import("./seo-lab").then((m) => m.SeoLab));
+export const ServicesRail = dynamic(() => import("./services-rail").then((m) => m.ServicesRail));
+export const VrOffice = dynamic(() => import("./metaverse/vr-office").then((m) => m.VrOffice));
+export const WhyBento = dynamic(() => import("./modern/why-bento").then((m) => m.WhyBento));
