@@ -126,3 +126,5 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 142 | Phone + tablet: less empty space between sections on every page (laptop unchanged) | done |
 | 143 | New domain www.we3vision.com (env template, redirect from 07.we3vision.com, docs) + MCP content type: portfolio project / case study | done |
 | 144 | Keep the Supabase database awake: /api/health + GitHub cron every 6 hours | done |
+| 148 | Home services: redesigned stage (list rail + plate + spec strip) with a fixed (pinned) scroll that picks the service | done |
+| 149 | Home hero (rings + one button), animated glass number tiles, glass cards site-wide | done |

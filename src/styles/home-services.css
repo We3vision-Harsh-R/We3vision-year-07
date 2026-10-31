@@ -1,23 +1,44 @@
 /* The services of the home page on a laptop (components/site/services-stage.tsx). Prefix: sv-. Theme colours only (--th / --ts), Poppins, paragraphs >= 16px,
-   labels >= 14px. Only transform and opacity move; every loop plays only while the section is on the screen (data-play) and stops with reduce motion. */
+   labels >= 14px. One hairline frame in three flat cells (list | words + plate | spec strip): hairlines, one accent per service, no glow, no cards in cards.
+   Only transform and opacity move; every loop plays only while the section is on the screen (data-play) and stops with reduce motion. */
 .sv {
-  --sv-bg: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8% / 0.62);
-  --sv-line: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
-  --sv-soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.74);
+  --sv-bg: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 7% / 0.66);
+  --sv-plate: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 5% / 0.6);
+  --sv-line: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+  --sv-line2: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.09);
+  --sv-soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.78);
+  --sv-dim: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 90% / 0.58);
   position: relative;
-  padding: clamp(3.5rem, 6vw, 5.5rem) 0;
+  padding: clamp(2.5rem, 4vw, 3.6rem) 0;
   color: #fff;
 }
 .sv-in {
   width: min(1240px, calc(100vw - 6rem));
   margin-inline: auto;
 }
+/* FIXED SCROLL (laptop, with motion): services-stage.tsx makes the section a track (STEP screens higher for every service) and pins the stage under the
+   logo while the page scroll picks the service; after the last one the section goes up. The gap above and below moves from padding to margin because the
+   track must be exactly as high as the pinned stage plus the scroll distance. */
+.sv[data-pin="true"] {
+  margin: clamp(2.5rem, 4vw, 3.6rem) 0;
+  padding: 0;
+}
+.sv[data-pin="true"] .sv-sticky {
+  position: sticky;
+  top: 78px;
+}
+
+/* ---------- the heading and the two round buttons ---------- */
 .sv-head {
-  margin-bottom: clamp(1.6rem, 3vw, 2.6rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: clamp(1.1rem, 1.8vw, 1.6rem);
 }
 .sv-eyebrow {
   display: inline-block;
-  margin: 0 0 1rem;
+  margin: 0 0 0.8rem;
   padding: 0.4rem 1rem;
   border: 1px solid var(--sv-line);
   border-radius: 999px;
@@ -28,55 +49,131 @@
 }
 .sv-head h2 {
   margin: 0;
-  max-width: 14em;
-  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-size: clamp(1.9rem, 2.8vw, 2.6rem);
   font-weight: 600;
   letter-spacing: -0.03em;
-  line-height: 1.1;
+  line-height: 1.12;
 }
 .sv-head h2 span {
   color: var(--ac);
 }
-.sv-grid {
+.sv-ctl {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.9rem;
+  padding-bottom: 0.3rem;
+}
+.sv-count {
+  min-width: 4.4rem;
+  color: var(--sv-dim);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.sv-count b {
+  color: var(--ac);
+  font-weight: 600;
+}
+.sv-nav {
   display: grid;
-  grid-template-columns: minmax(250px, 0.34fr) minmax(0, 1fr);
-  gap: clamp(1rem, 2vw, 1.6rem);
-  align-items: stretch;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border: 1px solid var(--sv-line);
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background-color 0.35s,
+    color 0.35s,
+    border-color 0.35s,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sv-nav svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sv-nav:hover {
+  border-color: transparent;
+  background: var(--ac);
+  color: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 9%);
+}
+.sv-nav:active {
+  transform: scale(0.94);
+}
+.sv-nav:focus-visible,
+.sv-row:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: -2px;
+}
+
+/* ---------- the frame: list | stage ---------- */
+.sv-frame {
+  display: grid;
+  grid-template-columns: 310px minmax(0, 1fr);
+  min-height: 37.5rem; /* every service fills the same frame, so the page does not jump when the service changes */
+  overflow: hidden;
+  border: 1px solid var(--sv-line);
+  border-radius: 28px;
+  background: var(--sv-bg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 /* ---------- the list ---------- */
 .sv-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  border-right: 1px solid var(--sv-line);
 }
 .sv-row {
   position: relative;
   display: flex;
+  flex: 1;
   align-items: center;
-  gap: 0.9rem;
-  width: 100%;
+  gap: 1rem;
   min-height: 3.6rem;
-  padding: 0 1rem 0 1.1rem;
+  padding: 0 1.3rem 0 1.5rem;
   overflow: hidden;
-  border: 1px solid transparent;
-  border-radius: 18px;
+  border: 0;
+  border-bottom: 1px solid var(--sv-line2);
   background: transparent;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--sv-dim);
   font: inherit;
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   font-weight: 500;
+  line-height: 1.25;
   text-align: left;
   cursor: pointer;
   transition:
     background-color 0.4s,
-    color 0.4s,
-    border-color 0.4s,
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    color 0.4s;
+}
+.sv-row:last-child {
+  border-bottom: 0;
+}
+/* the accent bar of the chosen service grows from the bottom */
+.sv-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: var(--ac);
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .sv-row i {
-  min-width: 1.6rem;
-  color: rgba(255, 255, 255, 0.4);
+  min-width: 1.5rem;
+  color: var(--sv-dim);
   font-size: 0.875rem;
   font-style: normal;
   font-variant-numeric: tabular-nums;
@@ -88,6 +185,7 @@
 .sv-row svg {
   width: 1.1rem;
   height: 1.1rem;
+  flex: none;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
@@ -100,13 +198,15 @@
     transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .sv-row:hover {
+  background: rgba(255, 255, 255, 0.035);
   color: #fff;
-  background: rgba(255, 255, 255, 0.05);
 }
 .sv-row[aria-selected="true"] {
-  border-color: var(--sv-line);
-  background: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 80% / 0.1);
+  background: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 80% / 0.08);
   color: #fff;
+}
+.sv-row[aria-selected="true"]::before {
+  transform: none;
 }
 .sv-row[aria-selected="true"] i {
   color: var(--ac);
@@ -115,18 +215,13 @@
   opacity: 1;
   transform: none;
 }
-.sv-row:focus-visible {
-  outline: 2px solid var(--ac);
-  outline-offset: 2px;
-}
 /* the thin line under the chosen service: it fills in SECONDS seconds (services-stage.tsx), then the next service is chosen */
 .sv-prog {
   position: absolute;
-  right: 1rem;
+  right: 0;
   bottom: 0;
-  left: 1rem;
+  left: 4px;
   height: 2px;
-  border-radius: 2px;
   background: var(--ac);
   transform: scaleX(0);
   transform-origin: 0 50%;
@@ -140,52 +235,16 @@
   }
 }
 
-/* ---------- the stage ---------- */
+/* ---------- the stage: words | plate, then the spec strip ---------- */
 .sv-stage {
-  position: relative;
   display: flex;
+  min-width: 0;
   flex-direction: column;
-  min-height: 520px;
-  overflow: hidden;
-  border: 1px solid var(--sv-line);
-  border-radius: 32px;
-  background:
-    radial-gradient(80% 70% at 85% 0, hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 62% / 0.16), transparent 70%),
-    var(--sv-bg);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-.sv:not([data-play="true"]) .sv-glow {
-  animation-play-state: paused;
-}
-.sv-glow {
-  position: absolute;
-  top: -30%;
-  left: 30%;
-  width: 60%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, var(--ac), transparent);
-  opacity: 0.16;
-  pointer-events: none;
-  animation: sv-breathe 7s ease-in-out infinite alternate;
-}
-@keyframes sv-breathe {
-  from {
-    transform: scale(0.9);
-    opacity: 0.1;
-  }
-  to {
-    transform: scale(1.1);
-    opacity: 0.2;
-  }
-}
-.sv-art {
-  position: relative;
+.sv-top {
   display: grid;
-  flex: none;
-  height: 210px;
-  place-items: center;
-  animation: sv-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 @keyframes sv-in {
   from {
@@ -193,37 +252,40 @@
     transform: translateY(14px) scale(0.97);
   }
 }
+@keyframes sv-fade {
+  from {
+    opacity: 0;
+  }
+}
 .sv-body {
-  position: relative;
-  display: grid;
-  flex: 1;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-  gap: clamp(1.4rem, 3vw, 2.6rem);
-  align-items: start;
-  padding: 0.4rem clamp(1.6rem, 3vw, 2.6rem) clamp(1.8rem, 3vw, 2.6rem);
-  animation: sv-in 0.7s 0.08s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.2rem clamp(1.6rem, 2.6vw, 2.4rem);
+  animation: sv-in 0.7s 0.05s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 .sv-ico {
   display: grid;
-  width: 2.8rem;
-  height: 2.8rem;
+  width: 2.9rem;
+  height: 2.9rem;
   place-items: center;
-  margin-bottom: 0.9rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid var(--sv-line);
   border-radius: 14px;
-  background: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 80% / 0.12);
   color: var(--ac);
 }
-.sv-copy h3 {
+.sv-body h3 {
   margin: 0;
-  font-size: clamp(1.7rem, 2.3vw, 2.2rem);
+  font-size: clamp(1.8rem, 2.4vw, 2.3rem);
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.12;
 }
-.sv-copy p {
-  margin: 0.8rem 0 0;
+.sv-body p {
+  margin: 0.9rem 0 0;
   color: var(--sv-soft);
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.6;
 }
 .sv-go {
@@ -231,13 +293,14 @@
   align-items: center;
   gap: 0.6rem;
   height: 2.9rem;
-  margin-top: 1.4rem;
+  margin-top: 1.6rem;
   padding: 0 1.4rem;
   border-radius: 999px;
   background: var(--ac);
   color: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 9%);
   font-size: 1rem;
   font-weight: 600;
+  white-space: nowrap;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .sv-go svg {
@@ -256,52 +319,129 @@
 .sv-go:hover svg {
   transform: translateX(4px);
 }
+
+/* the plate: a dotted sheet with four accent corner marks; the drawing of the service sits on it */
+.sv-plate {
+  position: relative;
+  display: grid;
+  min-height: 330px;
+  place-items: center;
+  overflow: hidden;
+  border-left: 1px solid var(--sv-line);
+  background:
+    radial-gradient(circle, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 88% / 0.17) 1px, transparent 1.7px) 0 0 / 24px 24px,
+    var(--sv-plate);
+  animation: sv-fade 0.6s ease-out backwards;
+}
+.sv-cn {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 0 solid var(--ac);
+  opacity: 0.85;
+  pointer-events: none;
+}
+.sv-cn.is-a {
+  top: 18px;
+  left: 18px;
+  border-width: 2px 0 0 2px;
+  border-top-left-radius: 6px;
+}
+.sv-cn.is-b {
+  top: 18px;
+  right: 18px;
+  border-width: 2px 2px 0 0;
+  border-top-right-radius: 6px;
+}
+.sv-cn.is-c {
+  bottom: 18px;
+  left: 18px;
+  border-width: 0 0 2px 2px;
+  border-bottom-left-radius: 6px;
+}
+.sv-cn.is-d {
+  right: 18px;
+  bottom: 18px;
+  border-width: 0 2px 2px 0;
+  border-bottom-right-radius: 6px;
+}
+.sv-fig {
+  position: absolute;
+  top: 16px;
+  left: 48px;
+  color: var(--sv-dim);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* the spec strip: the parts of the service, one column each, divided by hairlines */
 .sv-subs {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
   margin: 0;
   padding: 0;
+  border-top: 1px solid var(--sv-line);
   list-style: none;
 }
 .sv-subs li {
-  padding: 1rem 1.1rem 1.1rem;
-  border: 1px solid var(--sv-line);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.04);
-  animation: sv-in 0.6s calc(0.18s + var(--k) * 0.07s) cubic-bezier(0.22, 1, 0.36, 1) backwards;
-  transition:
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.4s;
+  position: relative;
+  padding: 1rem 1.35rem 1.2rem;
+  border-left: 1px solid var(--sv-line2);
+  animation: sv-in 0.6s calc(0.15s + var(--k) * 0.07s) cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  transition: background-color 0.4s;
+}
+.sv-subs li:first-child {
+  border-left: 0;
+}
+/* a thin accent line on the top edge opens from the left when the pointer is on a part */
+.sv-subs li::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: var(--ac);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .sv-subs li:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.08);
+  background: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 80% / 0.05);
+}
+.sv-subs li:hover::before {
+  transform: none;
 }
 .sv-subs i {
   color: var(--ac);
   font-size: 0.875rem;
   font-style: normal;
+  font-variant-numeric: tabular-nums;
 }
 .sv-subs b {
   display: block;
-  margin-top: 0.3rem;
+  margin-top: 0.35rem;
   font-size: 1.0625rem;
   font-weight: 600;
   line-height: 1.25;
 }
 .sv-subs p {
-  margin: 0.4rem 0 0;
+  margin: 0.5rem 0 0;
   color: var(--sv-soft);
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
 /* ---------- the drawings (one per kind of service) ---------- */
+/* the drawings are made 300 x 180 and shown bigger on the plate (zoom keeps the lines sharp) */
 .sv-sc {
   position: relative;
-  width: min(300px, 80%);
+  width: 300px;
   height: 180px;
+  zoom: 1.4;
+  animation: sv-in 0.7s 0.1s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 .sv:not([data-play="true"]) .sv-sc *,
 .sv:not([data-play="true"]) .sv-sc {
@@ -755,15 +895,20 @@
   }
 }
 
+@media (max-width: 1320px) {
+  .sv-sc {
+    zoom: 1.3;
+  }
+}
 @media (max-width: 1200px) {
   .sv-in {
     width: calc(100vw - 4rem);
   }
-  .sv-grid {
-    grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
+  .sv-frame {
+    grid-template-columns: 250px minmax(0, 1fr);
   }
-  .sv-body {
-    grid-template-columns: minmax(0, 1fr);
+  .sv-sc {
+    zoom: 1.25;
   }
 }
 @media (prefers-reduced-motion: reduce) {

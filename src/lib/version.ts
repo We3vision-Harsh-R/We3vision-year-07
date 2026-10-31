@@ -16,6 +16,25 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 77,
+    date: "2026-10-31",
+    title: "Home hero, numbers and glass cards",
+    notes: [
+      "New home hero: a calm heading and sentence on the left, glowing rounded rings on the right with one Start a project button.",
+      "The At a glance numbers are now a panel of frosted glass number tiles that run sideways and count up, with the Startup India / MSME recognitions. Cards across the site share one glass look.",
+    ],
+  },
+  {
+    v: 76,
+    date: "2026-10-31",
+    title: "Home services: redesigned stage",
+    notes: [
+      "The services of the home page on a laptop are one calm frame: the list on the left, the words and a bigger animated drawing on the right, and the four parts of the service in a row under them.",
+      "Fixed scroll: the stage stays on the screen while you scroll and the scroll opens the services one after the other (it settles on one when you stop); round arrow buttons, a click and the arrow keys scroll to a service.",
+      "The frame keeps one size so the page does not jump, and it fits one laptop screen.",
+    ],
+  },
+  {
     v: 75,
     date: "2026-10-31",
     title: "Home services: one animated stage",

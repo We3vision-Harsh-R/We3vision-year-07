@@ -5,13 +5,12 @@
       "name": "dev",
       "runtimeExecutable": "node",
       "runtimeArgs": [
-        "D:/zz Loom/We3vision Private Limited/We3vision Website - 2026/We3vision-year-07/node_modules/next/dist/bin/next",
+        "node_modules/next/dist/bin/next",
         "dev",
         "-H",
         "0.0.0.0",
         "-p",
-        "1010",
-        "D:/zz Loom/We3vision Private Limited/We3vision Website - 2026/We3vision-year-07"
+        "1010"
       ],
       "port": 1010
     }

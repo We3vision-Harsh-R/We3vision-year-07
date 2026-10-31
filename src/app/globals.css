@@ -11829,3 +11829,20 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   GLASS CARDS for the whole site (owner 2026-10-31, from a reference of frosted violet panels): every card that carries the shared card classes
+   (.bglow = the border-glow card used in 31 files, .card-glass, .go-card, .sy-card) gets the same pane: a violet fill that is lighter at the top left
+   and darker at the bottom right, a bright thin edge on top, a soft glow inside and a long soft shadow. Theme colours only (--th / --ts). The shape
+   (radius, padding, layout) of each card is NOT touched. To go back, delete this block (prefix: glass-card). */
+:root:root :is(.bglow, .card-glass, .go-card, .sy-card) {
+  background:
+    linear-gradient(150deg, hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 58% / 0.3) 0%, hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.58) 55%, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 12% / 0.72) 100%),
+    hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 8%);
+  border-color: hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.22);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.34),
+    inset 0 0 34px hsl(calc(var(--th) + 330) calc(90% * var(--ts)) 72% / 0.1),
+    0 22px 44px -26px rgb(0 0 0 / 0.75);
+  --card-bg: hsl(calc(var(--th) + 348) calc(55% * var(--ts)) 13%);
+}
