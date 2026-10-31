@@ -207,52 +207,6 @@
   transform: none;
   transition-delay: 0.3s;
 }
-.fs-menu-kandil {
-  position: absolute;
-  top: 0;
-  width: 46px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform-origin: 50% 0;
-  animation: fs-swing 5s ease-in-out infinite alternate;
-  animation-delay: var(--d);
-}
-.fs-menu-kandil.is-l {
-  left: 26px;
-}
-.fs-menu-kandil.is-r {
-  right: 26px;
-}
-.fs-menu-kandil u {
-  width: 1.4px;
-  height: 26px;
-  background: linear-gradient(#3b2f2a, #92400e);
-}
-.fs-menu-kandil svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.fs-menu-rangoli {
-  position: absolute;
-  line-height: 0;
-  opacity: 0;
-  transition: opacity 0.9s 0.4s;
-}
-.mm[data-open="true"] .fs-menu-rangoli {
-  opacity: 0.34;
-}
-.fs-menu-rangoli.is-br {
-  right: -70px;
-  bottom: -90px;
-  animation: fs-turn 110s linear infinite;
-}
-.fs-menu-rangoli.is-bl {
-  left: -56px;
-  bottom: -70px;
-  animation: fs-turn 150s linear infinite reverse;
-}
 /* sparks that rise from the bottom while the menu is open */
 .fs-menu-sparks {
   position: absolute;
@@ -339,8 +293,6 @@ html[data-fest-fx~="menu"] .mm-login {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fs-menu-kandil,
-  .fs-menu-rangoli,
   .fs-menu-sparks s {
     animation: none;
   }
@@ -660,4 +612,67 @@ html[data-fest-fx~="menu-people"] .mm-in2 .mm-sub {
   .fh-p {
     zoom: 1.12;
   }
+}
+
+/* ---- the big menu, the Explore row (fest-menu.tsx, FestMenuExplore): crackers couple on the line above, three pendulum kandils below it ---- */
+.mm-row3:has(> .fs-mx) {
+  position: relative;
+}
+.fs-mx {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.fs-mx-people {
+  position: absolute;
+  left: 49.5%;
+  top: 2.05rem;
+  translate: -50% -100%;
+  scale: 0.62;
+  transform-origin: 50% 100%;
+  line-height: 0;
+}
+.fs-mx-kandil {
+  position: absolute;
+  top: 2.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  translate: -50% 0;
+  transform-origin: 50% 0;
+  font-style: normal;
+  animation: fs-swing var(--T, 3s) ease-in-out infinite alternate;
+  animation-delay: var(--d);
+}
+.fs-mx-kandil u {
+  width: 1.4px;
+  height: var(--len);
+  background: linear-gradient(#3b2f2a, #92400e);
+}
+.fs-mx-kandil svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.mm[data-open="false"] .fs-mx-kandil {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fs-mx-kandil {
+    animation: none;
+  }
+}
+@media (max-width: 1023.98px) {
+  .fs-mx {
+    display: none;
+  }
+}
+
+/* while the big menu is open the lamps of the page hide, so none hangs over the pop-up (owner, 2026-10-31) */
+.fs-kandil {
+  transition: opacity 0.4s;
+}
+html:has(.mm[data-open="true"]) .fs-top .fs-kandil {
+  opacity: 0;
 }

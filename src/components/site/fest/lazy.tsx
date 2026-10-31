@@ -18,7 +18,7 @@ const RoadChunk = dynamic(() => import("./industries-fest").then((m) => m.RoadFe
 const CarChunk = dynamic(() => import("./industries-fest").then((m) => m.CarFest), { ssr: false });
 const OfficeChunk = dynamic(() => import("./office-fest").then((m) => m.OfficeFest), { ssr: false });
 const MenuChunk = dynamic(() => import("./fest-menu").then((m) => m.FestMenuDecor), { ssr: false });
-const SceneChunk = dynamic(() => import("./fest-menu").then((m) => m.FestMenuScene), { ssr: false });
+const ExploreChunk = dynamic(() => import("./fest-menu").then((m) => m.FestMenuExplore), { ssr: false });
 
 /** the decorations of the whole site: fetched when the browser is idle after the first paint */
 export function LazyFestLayer({ cfg }: { cfg: FestConfig }) {
@@ -53,7 +53,8 @@ export function LazyFestMenu() {
   return useFest()?.has("menu") ? <MenuChunk /> : null;
 }
 
-/** the people with crackers under the short lists of the big menu: only when their switch is on */
-export function LazyMenuScene({ gi }: { gi: number }) {
-  return useFest()?.has("menu-people") ? <SceneChunk gi={gi} /> : null;
+/** the crackers couple and the hanging kandils in the empty place of the Explore row of the big menu: with the menu switch (the people with their own switch) */
+export function LazyMenuExplore() {
+  const fest = useFest();
+  return fest?.has("menu") ? <ExploreChunk people={fest.has("menu-people")} /> : null;
 }

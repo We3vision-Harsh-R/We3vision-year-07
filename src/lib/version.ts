@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 80,
+    date: "2026-10-31",
+    title: "Big menu: Diwali touch-up",
+    notes: [
+      "The big menu lost the corner lamps, the rangolis and the people under the service lists; the flower garland on top stays.",
+      "In the Explore row two colleagues burst crackers on the line and three lamps hang below it, each swinging like a real pendulum.",
+      "The lamps of the page hide while the menu is open.",
+    ],
+  },
+  {
     v: 79,
     date: "2026-10-31",
     title: "Hero: soft glow, logos, any screen size",
