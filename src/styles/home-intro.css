@@ -80,6 +80,33 @@ section.hgn {
   height: 0;
   pointer-events: none;
 }
+/* the light of the button: soft rays that run out from the centre and fade into the page colour (mask), over the rings, under the button */
+.hx-halo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  width: 1500px;
+  height: 1500px;
+  margin: -750px 0 0 -750px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 72% / 0.55) 0, hsl(calc(var(--th) + 336) calc(90% * var(--ts)) 60% / 0.18) 14%, transparent 34%),
+    repeating-conic-gradient(from 0deg, transparent 0deg, hsl(calc(var(--th) + 340) calc(100% * var(--ts)) 78% / 0.2) 5deg, transparent 10deg 24deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0, rgb(0 0 0 / 0.55) 30%, transparent 62%);
+  mask-image: radial-gradient(circle, #000 0, rgb(0 0 0 / 0.55) 30%, transparent 62%);
+  opacity: 0.6;
+  transition: opacity 0.7s;
+  animation: hx-spin 70s linear infinite;
+}
+@keyframes hx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hx-orbit {
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
 .hx-ring {
   position: absolute;
   top: 0;
@@ -88,7 +115,7 @@ section.hgn {
   width: calc(300px + var(--k) * 140px);
   height: calc(150px + var(--k) * 125px);
   border-radius: 999px;
-  background: hsl(calc(var(--th) + 336 + var(--k) * 3) calc((90% - var(--k) * 4%) * var(--ts)) calc(64% - var(--k) * 8.2%));
+  background: hsl(calc(var(--th) + 336 + var(--k) * 3) calc((90% - var(--k) * 4%) * var(--ts)) calc(62% - var(--k) * 9.1%)); /* the last ring is the page colour: the light ends in the background */
   transform: translate(-50%, -50%);
   animation: hx-ring 6s calc(var(--k) * -0.7s) ease-in-out infinite alternate;
 }
@@ -122,11 +149,32 @@ section.hgn {
     transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.4s;
 }
-.hx-go:hover {
+.hx-go::after {
+  content: "→";
+  margin-left: 0.9rem;
+  font-size: 1.1rem;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hx-go:hover,
+.hx-go:focus-visible {
   box-shadow:
-    0 18px 46px -6px rgb(0 0 0 / 0.5),
+    0 0 0 8px hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 80% / 0.2),
+    0 0 64px 6px hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 70% / 0.65),
     inset 0 0 0 1px #fff;
-  transform: translate(50%, calc(50% - 3px));
+  transform: translate(50%, 50%) scale(1.05);
+}
+.hx-go:hover::after,
+.hx-go:focus-visible::after {
+  transform: translateX(5px);
+}
+/* while the button is hovered the rings breathe outward and the rays brighten: the light comes out of the button */
+.hx-panel:has(.hx-go:hover) .hx-orbit,
+.hx-panel:has(.hx-go:focus-visible) .hx-orbit {
+  transform: scale(1.06);
+}
+.hx-panel:has(.hx-go:hover) .hx-halo,
+.hx-panel:has(.hx-go:focus-visible) .hx-halo {
+  opacity: 1;
 }
 
 /* ================= 2. At a glance: frosted glass tiles ================= */
@@ -181,11 +229,6 @@ section.hgn {
   /* the sides and the last row fade away like in the reference */
   mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
-.hgn-row.is-2 {
-  opacity: 0.38;
-  transform: perspective(900px) rotateX(38deg) scale(0.97);
-  transform-origin: 50% 0;
-}
 .hgn-track {
   display: flex;
   width: max-content;
@@ -199,9 +242,6 @@ section.hgn {
   animation-duration: 60s;
   animation-direction: reverse;
 }
-.hgn-row.is-2 .hgn-track {
-  animation-duration: 72s;
-}
 .hgn[data-play="true"] .hgn-track {
   animation-play-state: running;
 }
@@ -210,41 +250,101 @@ section.hgn {
     transform: translateX(-50%);
   }
 }
-/* the glass tile: a violet pane that is lighter at the top left, a bright edge on top, a soft glow inside */
+/* the glass tile: a violet pane, lighter at the top left, a bright edge on top. A number tile shows only its big number; a year tile always shows year + text; the words and the glow come when
+   the cursor is on it (the row stops while it is). Only transform and opacity move. */
 .hgn-tile {
-  display: flex;
+  position: relative;
+  display: grid;
   flex: none;
-  align-items: center;
-  gap: 1.3rem;
-  min-width: 21rem;
+  place-items: center;
+  width: 15.5rem;
+  height: 9.5rem;
   margin-right: 20px;
-  padding: 1.7rem 2rem;
+  overflow: hidden;
   border: 1px solid hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.24);
   border-radius: 30px;
-  background:
-    linear-gradient(150deg, hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 56% / 0.5), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.72) 72%);
+  background: linear-gradient(150deg, hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 56% / 0.5), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.72) 72%);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.38),
     inset 0 0 36px hsl(calc(var(--th) + 330) calc(90% * var(--ts)) 72% / 0.14),
     0 18px 40px -20px rgb(0 0 0 / 0.7);
 }
+/* a year tile always shows its year and its milestone text; hover only adds the glow */
+.hgn-tile.is-yr {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  width: 21rem;
+  height: 12rem;
+  padding: 1.4rem 1.5rem;
+}
+.hgn-tile.is-yr .hgn-num {
+  font-size: 2.6rem;
+}
 .hgn-num {
-  font-size: clamp(2.6rem, 4vw, 3.6rem);
+  grid-area: 1 / 1;
+  font-size: clamp(2.8rem, 4vw, 3.8rem);
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1;
   white-space: nowrap;
-}
-.hgn-num.hgn-txt {
-  font-size: clamp(2rem, 3vw, 2.6rem);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .hgn-tile em {
-  max-width: 8.5rem;
+  position: absolute;
+  right: 1.3rem;
+  bottom: 1.1rem;
+  left: 1.3rem;
   color: var(--hi-soft);
   font-size: 1rem;
   font-style: normal;
-  line-height: 1.35;
+  line-height: 1.4;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.45s,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
+.hgn-tile.is-yr em {
+  position: static;
+  text-align: left;
+  opacity: 1;
+  transform: none;
+}
+/* the glow: a bright violet ring and a soft light from inside */
+.hgn-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(80% 90% at 50% 0%, hsl(calc(var(--th) + 336) calc(95% * var(--ts)) 70% / 0.45), transparent 70%);
+  box-shadow:
+    inset 0 0 0 1px hsl(calc(var(--th) + 340) calc(100% * var(--ts)) 85% / 0.7),
+    inset 0 0 40px hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 70% / 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s;
+}
+.hgn-tile:hover .hgn-glow {
+  opacity: 1;
+}
+.hgn-tile.is-num:hover .hgn-num {
+  transform: translateY(-1.3rem) scale(0.92);
+}
+.hgn-tile.is-yr:hover .hgn-num {
+  transform: none;
+}
+.hgn-tile:hover em {
+  opacity: 1;
+  transform: none;
+}
+/* the row stops while the cursor is on it, so a tile can be read */
+.hgn-row:hover .hgn-track {
+  animation-play-state: paused;
+}
+
 /* the count: an integer property runs from 0 to the value (set as --to on the number) the first time the panel is seen */
 @property --hgn-n {
   syntax: "<integer>";
@@ -286,14 +386,19 @@ section.hgn {
 .hgn-rec ul {
   display: flex;
   align-items: center;
-  gap: 1.6rem;
+  gap: 1rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.hgn-rec li + li {
-  padding-left: 1.6rem;
-  border-left: 1px solid var(--hi-hair);
+.hgn-rec li {
+  display: grid;
+  place-items: center;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.24);
+  border-radius: 999px;
+  background: linear-gradient(150deg, hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 56% / 0.34), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.6));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.34), inset 0 0 24px hsl(calc(var(--th) + 330) calc(90% * var(--ts)) 72% / 0.12);
 }
 .hgn-rec img {
   display: block;
@@ -304,6 +409,9 @@ section.hgn {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hx-halo {
+    animation: none;
+  }
   .hx-head > *,
   .hx-ring,
   .hgn-track,
@@ -328,10 +436,6 @@ section.hgn {
   }
   .hx-title {
     font-size: clamp(2.2rem, 8.6vw, 3.4rem);
-  }
-  .hgn-tile {
-    min-width: 17rem;
-    padding: 1.2rem 1.4rem;
   }
   .hgn-rec {
     flex-wrap: wrap;

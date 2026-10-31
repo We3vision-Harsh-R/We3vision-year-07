@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 78,
+    date: "2026-10-31",
+    title: "Numbers and journey, hero light, fest hanging",
+    notes: [
+      "At a glance is now two rows of glass tiles: company numbers on top and the years 2019 to 2026 below, with their milestone text always shown on the year tiles; a number tile shows its words and glows when the cursor is on it.",
+      "The hero rings fade into the page colour and the Start a project button sends out soft rays and a glow on hover.",
+      "Fest: the toran hangs from the very top pixel and sways, the kandils swing like real pendulums, and the ground next to the logo is gone.",
+    ],
+  },
+  {
     v: 77,
     date: "2026-10-31",
     title: "Home hero, numbers and glass cards",

@@ -208,7 +208,8 @@
   align-items: center;
   transform-origin: 50% 0;
   opacity: var(--dop, 1);
-  animation: fs-swing 5.5s ease-in-out infinite alternate;
+  /* a pendulum: one swing takes pi * sqrt(L / g) seconds (--T, set from the length of the cord), so a long cord swings slower, like a real one */
+  animation: fs-swing var(--T, 3s) ease-in-out infinite alternate;
   animation-delay: var(--d);
 }
 .fs-cord {
@@ -239,16 +240,34 @@
   overflow: hidden;
   line-height: 0;
 }
+/* the garland hangs from the very first pixel of the window and sways in the wind: it stays tied at the top (origin top), the lower part leans a little
+   one way and the other; the two distances have other periods, so they never move together */
+.fs-toran .fs-tg {
+  transform-origin: 50% 0;
+  animation: fs-wind var(--W, 4.6s) ease-in-out infinite alternate;
+}
+.fs-toran.is-far .fs-tg {
+  --W: 5.8s;
+  animation-delay: -2.1s;
+}
+@keyframes fs-wind {
+  from {
+    transform: skewX(-1.6deg);
+  }
+  to {
+    transform: skewX(1.6deg);
+  }
+}
 /* short and close to the top edge, so it never lies over the logo, the recognitions or the page */
 .fs-toran.is-near {
-  top: -12px;
+  top: 0;
 }
 /* the shadow sits on the still garland only, not on the twinkling bulbs */
 .fs-toran.is-near .fs-tg > svg:first-child {
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
 }
 .fs-toran.is-far {
-  top: -4px;
+  top: 0;
 }
 .fs-toran.is-far .fs-tg > svg:first-child,
 .fs-toran.is-far .fs-tb g {

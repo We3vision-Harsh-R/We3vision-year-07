@@ -44,6 +44,7 @@ export function HomeIntro({
       <section className="hx" aria-labelledby="hx-title">
         <div className="hx-panel">
           <div className="hx-orbit" aria-hidden>
+            <i className="hx-halo" />
             {Array.from({ length: RINGS }, (_, k) => (
               <i key={k} className="hx-ring" style={{ "--k": k } as CSSProperties} />
             ))}

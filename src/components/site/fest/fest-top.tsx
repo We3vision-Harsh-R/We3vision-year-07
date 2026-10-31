@@ -128,7 +128,7 @@ export function FestTop({ fx, density }: Props) {
         )}
       {fx.has("kandils") &&
         KANDILS.filter((k) => k.z === z && !(phone && z === 2)).map((k, i) => (
-          <i key={`k${z}${i}`} className="fs-kandil" style={{ "--x": `${k.x}%`, "--s": k.s, "--len": `${k.len}px`, "--d": `${-hash(i, z + 2) * 4}s` } as CSSProperties}>
+          <i key={`k${z}${i}`} className="fs-kandil" style={{ "--x": `${k.x}%`, "--s": k.s, "--len": `${k.len}px`, "--T": `${(Math.PI * Math.sqrt((k.len + 52 * k.s) / 60 / 9.8)).toFixed(2)}s`, "--d": `${-hash(i, z + 2) * 4}s` } as CSSProperties}>
             <u className="fs-cord" />
             <Kandil />
           </i>

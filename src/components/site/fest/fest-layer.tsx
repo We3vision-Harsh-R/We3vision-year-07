@@ -8,7 +8,6 @@ import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { FEST_TEST, type FestConfig, festFor } from "@/lib/fest";
 import { DiyaShape } from "./fest-art";
-import { FestBrand } from "./fest-brand";
 import { FestPointer } from "./fest-pointer";
 import { FestTop } from "./fest-top";
 
@@ -85,7 +84,6 @@ export function FestLayer({ cfg }: { cfg: FestConfig }) {
     <>
       {(site || pointer) && <FestTop fx={fx} density={density} />}
       {pointer && <FestPointer fx={fx} />}
-      {fx.has("brand") && <FestBrand />}
       <FooterDiyas />
       {fx.has("footer") && <FooterHome />}
     </>
