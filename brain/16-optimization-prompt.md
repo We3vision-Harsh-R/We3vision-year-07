@@ -48,6 +48,22 @@ B. Admin panel (it must be fast too and must never load the public site's code):
    - Measure it like the public site (build-weight per admin route, perf-run on the logged-in screens if possible; ask me for a test login if needed, never use a real one).
 C. Phone and tablet (if the project has a separate mobile app or responsive pages): perf-run/trace-summary/smooth-run with --device=phone and --device=tablet,
    find what is heavy (script, layout, paint, backdrop-filter / blur layers, big images, long tasks), fix only what keeps the look identical, report fps while scrolling.
+E. Look for these first (each one was a real, invisible win on a Next.js project; they are cheap to check):
+   - A client file that imports a module which itself imports big server data (all page texts, menus, content files) ships that data to every visitor. Find them with
+     a chunk report (which source files are inside the first-load chunks), move the small thing a client needs into its own small module, keep a re-export for the server.
+   - A SERVER file that statically imports heavy client components ships them to every page that can reach that server file (a section/registry file used by all pages).
+     Put such components behind a "use client" wrapper file with next/dynamic (still server-rendered, same HTML). If a generator/codemod does this, check name clashes by hand.
+   - Libraries and WebGL/canvas that are created while the page loads although they are far below the screen: create them when they come near the viewport (keep the
+     animation timeline so it looks the same).
+   - Mouse smoothness: measure a mouse run AND an idle run of the same page (the difference is what the pointer costs); look at style-recalculation %, not only fps. A
+     pointer handler that writes a CSS variable on a big root restyles the whole subtree on every move: register the property (@property, inherits: false) and write it only on
+     the few moving layers. Also check that the variable really works (a global @property of the same name once made a whole "lean with the mouse" effect do nothing).
+   - Layout shift after hydration: something that changes the page width late (hiding the native scroll bar with a class added by a client effect) moves everything
+     sideways; put that class on <html> in the server HTML.
+   - Do not trust one run: a software-rendered or busy PC varies by 2-3x between runs of the same build. Claim only deterministic numbers (bytes per page, number of layout reads,
+     style-recalc %, CLS, requests) or A/B repeated 5+ times alternating; say clearly what could not be proven.
+   - One command at the end: a speed-check script (budget of the biggest page AND the average, load numbers on laptop/tablet/phone, mouse run, optional look compare of an
+     older server), added as an npm script, so the project "keeps running properly" after the optimization.
 D. Finish: update this project's brain/docs with a copy of the handbook adapted to this project (method, what was used, ledger of what was changed on which page, numbers
    before/after, gotchas), commit on the `optimize` branch and push that branch only. Tell me the exact commands to merge when I decide.
 
@@ -60,4 +76,5 @@ DELIVERABLE FOR EACH PHASE: changed files, before/after numbers, proof that the 
 - Aa prompt bija project na Claude ma pehla message tarike paste karo. Claude pehla project jove (read-only), baseline table ane plan aapse, pachhi tamari "haa" par j phase karse.
 - Bija project ma Next.js na hoy (bija framework ma hoy) to prompt ni method same che, pan tools ma thodu adjust karvu padse (Claude e kari dese ke kahe).
 - Admin panel mate khas dhyan: admin ne public site no CSS/JS na jaay (alag root layout), ane bhaaru editor/chart sirf je screen ma joiye tyaj load thay. Prompt ma e lakhyu che.
+- Last ma `npm run speed:check` jevo ek command banavi aapse (budget + load + mouse + look compare), jethi pachhi pan khabar pade ke site halki che ke nai.
 - "Branch optimize ma j push" ane "main ma tamari haa vagar nahi" prompt ma che.
