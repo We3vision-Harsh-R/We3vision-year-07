@@ -1,5 +1,5 @@
 /* The first screen of the home page: src/components/site/home-intro.tsx. Prefix "hx-" (hero panel) and "hy-" (At a glance).
-   Theme colours only (--th / --ts), Poppins, paragraphs >= 16px, labels >= 14px. Nothing loops: the pieces rise once. */
+   Theme colours only (--th / --ts), Poppins, paragraphs >= 16px, labels >= 14px.  The headline words and the pieces rise once; the brand mark art (section 1b at the end) turns and floats slowly. */
 
 section.hx,
 section.hy {
@@ -37,7 +37,7 @@ section.hx {
   gap: 3rem clamp(2rem, 6vw, 7rem);
   align-items: start;
 }
-.hx-head > *,
+.hx-head > .hx-tag,
 .hx-side > *,
 .hx-bottom > * {
   animation: hx-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
@@ -68,7 +68,7 @@ section.hx {
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
-.hx-title span {
+.hx-title .hx-tail {
   color: var(--hx-dim);
 }
 .hx-side {
@@ -277,4 +277,147 @@ section.hy {
   .hy-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hy-facts > div, .hy-facts > div + div { padding: 1.3rem 0.9rem 1.3rem 0; border-left: 0; }
   .hy-facts dd { font-size: clamp(2.2rem, 10vw, 3.4rem); }
+}
+
+/* ================= 1b. the creative hero (2026-10-31): words that rise one by one + the brand mark in the middle =================
+   Only transform and opacity move. The mark art is hidden below 1024px (the phone layout is unchanged) and pauses off screen (data-pause-off). */
+.hx-top,
+.hx-bottom {
+  position: relative;
+  z-index: 1;
+}
+.hx-w {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.hx-wi {
+  display: inline-block;
+  animation: hx-word 1.05s cubic-bezier(0.22, 1, 0.36, 1) calc(0.1s + var(--i, 0) * 0.075s) backwards;
+}
+@keyframes hx-word {
+  from {
+    opacity: 0;
+    transform: translateY(112%) rotate(5deg);
+  }
+}
+.hx-mid {
+  position: relative;
+  height: clamp(10rem, calc(100vh - 590px), 27rem);
+  margin-top: 1.6rem;
+}
+.hx-art {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  animation: hx-art-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.25s backwards;
+}
+@keyframes hx-art-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+}
+.hx-glow {
+  position: absolute;
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3), hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 60% / 0.1) 55%, transparent 74%);
+  animation: hx-breathe 7s ease-in-out infinite alternate;
+}
+@keyframes hx-breathe {
+  from {
+    opacity: 0.55;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+.hx-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.28);
+}
+.hx-ring-a {
+  inset: 0;
+  animation: hx-spin 70s linear infinite;
+}
+.hx-ring-b {
+  inset: 15%;
+  border-color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.18);
+  animation: hx-spin 110s linear infinite reverse;
+}
+.hx-ring-c {
+  inset: 31%;
+  border-style: solid;
+  border-color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.1);
+}
+@keyframes hx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hx-orb {
+  position: absolute;
+  inset: 0;
+  transform: rotate(calc(var(--i) * 360deg / var(--n)));
+}
+.hx-dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  box-shadow: 0 0 14px 2px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
+  transform: translate(-50%, -50%);
+}
+.hx-orb:first-child .hx-dot {
+  width: 0.95rem;
+  height: 0.95rem;
+  background: #fff;
+}
+.hx-mark-pos {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  transform: translate3d(calc(-50% + var(--hxx, 0) * -16px), calc(-50% + var(--hxy, 0) * -11px), 0);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hx-mark {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 34px rgb(0 0 0 / 0.45));
+  animation: hx-float 6s ease-in-out infinite alternate;
+}
+@keyframes hx-float {
+  from {
+    transform: translateY(-3%) rotate(-2deg);
+  }
+  to {
+    transform: translateY(3%) rotate(2deg);
+  }
+}
+@media (max-width: 1023.98px) {
+  .hx-mid {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hx-wi,
+  .hx-art,
+  .hx-glow,
+  .hx-ring-a,
+  .hx-ring-b,
+  .hx-mark {
+    animation: none;
+  }
 }

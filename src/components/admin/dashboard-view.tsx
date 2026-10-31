@@ -7,7 +7,6 @@ import type { AdminBadges } from "@/lib/admin-badges";
 // (.ads-dash*, .ads-donut*, .ads-row*).
 
 export type DashStat = { label: string; value: number; hint: string; href: string; tone: "brand" | "sky" | "amber" | "rose"; icon: IconName };
-export type DashPage = { slug: string; title: string; path: string; status: "published" | "changes" | "demo" };
 export type DashLead = { id: string; name: string; message: string; when: string; isRead: boolean };
 export type DashboardData = {
   adminName: string;
@@ -15,53 +14,9 @@ export type DashboardData = {
   stats: DashStat[];
   projects: number;
   leadsTotal: number;
-  pages: DashPage[];
   latest: DashLead[];
   badges: AdminBadges;
 };
-
-const STATUS_LABEL = { published: "Published", changes: "Unpublished changes", demo: "Demo content" } as const;
-
-/** A ring made of the page counts (published / with unpublished changes / still the built-in demo text). */
-function Donut({ pages }: { pages: DashPage[] }) {
-  const counts = { published: 0, changes: 0, demo: 0 };
-  for (const p of pages) counts[p.status] += 1;
-  const total = pages.length || 1;
-  const R = 78;
-  const C = 2 * Math.PI * R;
-  let offset = 0;
-  const parts = (Object.keys(counts) as (keyof typeof counts)[])
-    .filter((k) => counts[k] > 0)
-    .map((k) => {
-      const len = (counts[k] / total) * C;
-      const gap = Object.values(counts).filter(Boolean).length > 1 ? 5 : 0;
-      const seg = { k, dash: `${Math.max(len - gap, 1)} ${C}`, offset: -offset };
-      offset += len;
-      return seg;
-    });
-  return (
-    <div className="ads-donut">
-      <svg viewBox="0 0 200 200" role="img" aria-label={`${pages.length} pages: ${counts.published} published, ${counts.changes} with unpublished changes, ${counts.demo} demo`}>
-        <circle className="ads-donut-track" cx="100" cy="100" r={R} />
-        {parts.map((s) => (
-          <circle key={s.k} className="ads-donut-seg" data-k={s.k} cx="100" cy="100" r={R} strokeDasharray={s.dash} strokeDashoffset={s.offset} transform="rotate(-90 100 100)" />
-        ))}
-      </svg>
-      <div className="ads-donut-mid">
-        <b>{pages.length}</b>
-        <span>Pages</span>
-      </div>
-      <ul className="ads-donut-legend">
-        {(["published", "changes", "demo"] as const).map((k) => (
-          <li key={k} data-k={k}>
-            <i />
-            {STATUS_LABEL[k]} <b>{counts[k]}</b>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 export function DashboardView({ data }: { data: DashboardData }) {
   const waiting = data.badges.submissions;
@@ -81,10 +36,6 @@ export function DashboardView({ data }: { data: DashboardData }) {
       </header>
 
       <div className="ads-hero-grid">
-        <section className="ads-card ads-card-donut">
-          <h2>Pages status</h2>
-          <Donut pages={data.pages} />
-        </section>
         {data.stats.map((s) => (
           <Link key={s.label} href={s.href} className="ads-stat" data-tone={s.tone} data-hot={s.value > 0}>
             <span className="ads-stat-label">{s.label}</span>
@@ -163,33 +114,6 @@ export function DashboardView({ data }: { data: DashboardData }) {
         </section>
       ))}
 
-      <section className="ads-card">
-        <div className="ads-card-head">
-          <h2>Pages</h2>
-          <Link href="/admin/pages" className="ads-card-link">
-            Edit pages
-            <AdminIcon name="chevron" size={16} />
-          </Link>
-        </div>
-        <ul className="ads-rows">
-          {data.pages.map((p) => (
-            <li key={p.slug}>
-              <Link href={`/admin/pages/${p.slug}`} className="ads-row">
-                <span className="ads-row-icon" data-on={p.status !== "published"}>
-                  <AdminIcon name="pages" size={20} />
-                </span>
-                <span className="ads-row-text">
-                  <b>{p.title}</b>
-                  <small>{p.path}</small>
-                </span>
-                <span className="ads-pill" data-tone={p.status === "published" ? "ok" : p.status === "changes" ? "warn" : "quiet"}>
-                  {STATUS_LABEL[p.status]}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
     </div>
   );
 }

@@ -31,7 +31,6 @@ export const ADMIN_GROUPS: AdminGroup[] = [
     title: "Website content",
     blurb: "What visitors read and see",
     items: [
-      { href: "/admin/pages", label: "Pages", hint: "Text and pictures of every page", icon: "pages" },
       { href: "/admin/projects", label: "Projects", hint: "Portfolio projects with pictures", icon: "projects" },
       { href: "/admin/blog", label: "Blog", hint: "Write and publish articles", icon: "blog" },
       { href: "/admin/team", label: "Team", hint: "People on the About and Team pages", icon: "team" },

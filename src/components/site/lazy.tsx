@@ -91,3 +91,4 @@ export const SeoLab = dynamic(() => import("./seo-lab").then((m) => m.SeoLab));
 export const ServicesRail = dynamic(() => import("./services-rail").then((m) => m.ServicesRail));
 export const VrOffice = dynamic(() => import("./metaverse/vr-office").then((m) => m.VrOffice));
 export const WhyBento = dynamic(() => import("./modern/why-bento").then((m) => m.WhyBento));
+export const HeroTilt = dynamic(() => import("./hero-tilt").then((m) => m.HeroTilt));

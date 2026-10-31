@@ -96,3 +96,6 @@ restart dev server.
 ## Data flow of a public request
 `(site)/<route>/page.tsx` → `renderPage(slug)` → `getPublishedPage(slug)` + `getSiteSettings()` → `PageSections` → renderer per
 section → client components for animation. Sections that need projects (`projects`, `archGallery` with a group) trigger `getProjects()`.
+
+## 2026-10-31 — THE PAGE TEXT EDITOR WAS REMOVED (owner decision, branch `static-site`)
+The text of every page now lives ONLY in the code (`src/lib/cms/content/*`, shown through `src/lib/cms/pages.ts`). `getPublishedPage()` (`src/lib/cms/queries.ts`) no longer reads the database. Removed: Admin > Pages (list + editor + drafts + versions + live preview), `src/actions/pages.ts`, `/preview/[slug]`, `/m/preview/[slug]`, `lib/cms/preview.ts`, the page-status cards of the dashboard. The `Page` / `PageVersion` tables stay in the database schema, unused (nothing deleted from the database). STILL editable in the admin and unchanged: Projects, Blog, Careers (jobs, applications, setup), Team, Site settings (menu, footer, contact), Fest, AI submissions, Leads. To change the words of a page now: edit the content file and deploy (git push to main). Sections that need data (blog list, jobs, projects) still read their tables.

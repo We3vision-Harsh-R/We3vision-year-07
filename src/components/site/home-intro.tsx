@@ -1,6 +1,7 @@
 import "@/styles/home-intro.css";
 import Image from "next/image";
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
+import { HeroTilt } from "./lazy";
 import { SmartLink } from "./smart-link";
 
 type Badge = { label: string; image: string };
@@ -33,8 +34,20 @@ export function HomeIntro({
   // the heading: the last three words are shown softer
   const words = title.trim().split(/\s+/);
   const cut = words.length > 4 ? words.length - 3 : words.length;
-  const lead = words.slice(0, cut).join(" ");
-  const tail = words.slice(cut).join(" ");
+  const leadWords = words.slice(0, cut);
+  const tailWords = words.slice(cut);
+  // every word rises out of its own mask one after the other (hx-w / hx-wi in home-intro.css); the text of the h1 stays the same
+  const rise = (list: string[], from: number) =>
+    list.map((w, i) => (
+      <Fragment key={from + i}>
+        {i > 0 || from > 0 ? " " : null}
+        <span className="hx-w">
+          <span className="hx-wi" style={{ "--i": from + i } as CSSProperties}>
+            {w}
+          </span>
+        </span>
+      </Fragment>
+    ));
   // the sentence beside the buttons: about the company, from the page "About us"
   const text = "Since 2019 we have been at the forefront of digital innovation, delivering cutting-edge solutions that empower businesses and individuals alike.";
   const logos = badges.filter((b) => b.image);
@@ -51,8 +64,8 @@ export function HomeIntro({
                 </p>
               )}
               <h1 id="hx-title" className="hx-title">
-                {lead}
-                {tail && <span> {tail}</span>}
+                {rise(leadWords, 0)}
+                {tailWords.length > 0 && <span className="hx-tail">{rise(tailWords, leadWords.length)}</span>}
               </h1>
             </div>
             <div className="hx-side">
@@ -64,6 +77,25 @@ export function HomeIntro({
                 <SmartLink href="/portfolio" className="hx-btn hx-btn-soft">
                   See our work
                 </SmartLink>
+              </div>
+              {/* the brand mark: the logo floats in the middle of rings that turn slowly, one dot on the outer ring for each of our services (laptop only) */}
+              <div className="hx-mid" aria-hidden>
+                <div className="hx-art" data-pause-off style={{ "--n": Math.max(services.length, 1) } as CSSProperties}>
+                  <span className="hx-glow" />
+                  <span className="hx-ring hx-ring-a">
+                    {services.map((n, i) => (
+                      <span key={n} className="hx-orb" style={{ "--i": i } as CSSProperties}>
+                        <i className="hx-dot" />
+                      </span>
+                    ))}
+                  </span>
+                  <span className="hx-ring hx-ring-b" />
+                  <span className="hx-ring hx-ring-c" />
+                  <span className="hx-mark-pos">
+                    <Image className="hx-mark" src="/brand/logo-mark.webp" alt="" width={480} height={395} unoptimized />
+                  </span>
+                </div>
+                <HeroTilt />
               </div>
             </div>
           </div>

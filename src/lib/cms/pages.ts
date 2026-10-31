@@ -31,7 +31,6 @@ import { normalize } from "./fields";
 import { SECTIONS, isSectionType } from "./sections";
 
 import type { PageContent, PageSection } from "./page-types";
-export { newSection } from "./page-types";
 export type { PageContent, PageSection } from "./page-types";
 
 // Every editable page of the website. The admin "Pages" list is built from this.

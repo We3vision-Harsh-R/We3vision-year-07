@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getBlogEntries } from "@/lib/blog";
 import { getOpenJobs } from "@/lib/careers";
-import { getPageStatuses } from "@/lib/cms/queries";
 import { PAGES } from "@/lib/cms/pages";
 import { getProjects } from "@/lib/projects";
 
@@ -12,17 +11,16 @@ export const revalidate = 3600;
 const KEY_PAGES = new Set(["/", "/about", "/portfolio", "/contact", "/products"]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [projects, posts, jobs, status] = await Promise.all([
+  const [projects, posts, jobs] = await Promise.all([
     getProjects().catch(() => []),
     getBlogEntries().catch(() => []),
     getOpenJobs().catch(() => []),
-    getPageStatuses().catch(() => ({}) as Record<string, { publishedAt: Date | null }>),
   ]);
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:1010").replace(/\/$/, "");
   const now = new Date();
-  const pages: MetadataRoute.Sitemap = Object.entries(PAGES).map(([slug, page]) => ({
+  const pages: MetadataRoute.Sitemap = Object.values(PAGES).map((page) => ({
     url: `${base}${page.path === "/" ? "" : page.path}` || base,
-    lastModified: status[slug]?.publishedAt ?? now,
+    lastModified: now,
     changeFrequency: page.path === "/blog" || page.path === "/portfolio" ? "weekly" : "monthly",
     priority: page.path === "/" ? 1 : KEY_PAGES.has(page.path) ? 0.9 : 0.8,
   }));
