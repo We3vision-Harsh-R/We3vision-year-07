@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { discardDraft, publish, restoreVersion, saveDraft } from "@/actions/pages";
 import type { ActionResult } from "@/actions/types";
-import { newSection, type PageSection } from "@/lib/cms/pages";
+import { newSection, type PageSection } from "@/lib/cms/page-types";
 import { SECTIONS, SECTION_TYPES, type SectionType } from "@/lib/cms/sections";
 import { FieldsEditor } from "./fields-editor";
 import { LivePreview } from "./live-preview";

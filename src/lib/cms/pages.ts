@@ -27,11 +27,12 @@ import {
 } from "./content/services";
 import { SHOPIFYPLUGIN_SECTIONS, SHOPIFYPLUGIN_SEO, SOFTWARE_SECTIONS, SOFTWARE_SEO, BRANDDEV_SECTIONS, BRANDDEV_SEO, BRANDKIT_SECTIONS, BRANDKIT_SEO, BRANDVIDEO_SECTIONS, BRANDVIDEO_SEO, ZERO_SECTIONS, ZERO_SEO, META_SECTIONS, META_SEO, PHYSICAL_SECTIONS, PHYSICAL_SEO } from "./content/new-services";
 import { PRODUCTS_SECTIONS, PRODUCTS_SEO, WEBUGMATE_SECTIONS, WEBUGMATE_SEO, WEJOBS_SECTIONS, WEJOBS_SEO, WETHINK_SECTIONS, WETHINK_SEO, WEPRESENT_SECTIONS, WEPRESENT_SEO } from "./content/products";
-import { emptyValue, normalize } from "./fields";
-import { SECTIONS, isSectionType, type SectionType } from "./sections";
+import { normalize } from "./fields";
+import { SECTIONS, isSectionType } from "./sections";
 
-export type PageSection = { id: string; type: SectionType; data: Record<string, unknown> };
-export type PageContent = { sections: PageSection[] };
+import type { PageContent, PageSection } from "./page-types";
+export { newSection } from "./page-types";
+export type { PageContent, PageSection } from "./page-types";
 
 // Every editable page of the website. The admin "Pages" list is built from this.
 // `defaultContent` is what visitors see until the first publish (real content, taken from the old site).
@@ -266,10 +267,6 @@ export const PAGES = {
 
 export type PageSlug = keyof typeof PAGES;
 export const isPageSlug = (v: unknown): v is PageSlug => typeof v === "string" && Object.hasOwn(PAGES, v);
-
-export function newSection(type: SectionType): PageSection {
-  return { id: crypto.randomUUID(), type, data: emptyValue(SECTIONS[type].fields) };
-}
 
 /** Sanitises untrusted/stored JSON into valid page content. Missing keys fall back to the section defaults. */
 export function normalizeContent(input: unknown): PageContent {
