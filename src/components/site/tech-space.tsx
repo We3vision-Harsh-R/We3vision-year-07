@@ -171,7 +171,11 @@ export function TechSpace({ items }: { items: string[] }) {
   return (
     <div className="ts-wrap">
       <p className="ts-hint">
-        <span aria-hidden>✦</span> Hover a planet to open the technologies inside it
+        <span aria-hidden>✦</span>
+        <span>
+          <span className="ts-h-fine">Hover</span>
+          <span className="ts-h-touch">Tap</span> a planet to open the technologies inside it
+        </span>
       </p>
       <div ref={stageRef} className="ts-stage" data-pause={!!pop} data-pause-off>
         <div className="ts-system">

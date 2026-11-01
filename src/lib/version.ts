@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 81,
+    date: "2026-11-01",
+    title: "Phone and tablet: hero button, tech stack, tap crackers",
+    notes: [
+      "On phones and tablets the Start a project button is a violet pill with a round arrow and a slow ping ring; the rings only glow softly at the back.",
+      "The tech stack at the bottom of the home page has a sun, glass tiles with an arrow, a Tap hint, and four columns on a tablet.",
+      "On a phone or tablet a tap anywhere (not on a link or button) launches the festival crackers, like a click on a laptop.",
+      "The Explore decoration of the big menu now appears only after the menu has opened.",
+    ],
+  },
+  {
     v: 80,
     date: "2026-10-31",
     title: "Big menu: Diwali touch-up",

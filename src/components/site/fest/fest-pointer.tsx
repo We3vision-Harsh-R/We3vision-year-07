@@ -12,7 +12,8 @@ import { festEngine } from "./fest-engine";
 //   petaltrail  marigold petals fall from the mouse as it moves      (engine particles)
 //   bloom       a click draws a small rangoli that opens and fades
 //   chakri      a spinning fire wheel follows the mouse and throws sparks
-// Only for a real mouse (pointer: fine) and without reduced motion. The particles are drawn by the engine of fest-top.tsx (they appear on its
+// The mouse effects (sparkler, diya, petal trail, chakri) are only for a real mouse (pointer: fine). On a phone or tablet (touch) a TAP launches
+// the same volley of rockets (and the bloom): anywhere that is not a link, a button or a field. None of it runs with reduced motion. The particles are drawn by the engine of fest-top.tsx (they appear on its
 // near layer); the diya and the chakri are two small DOM pieces. Nothing takes a click away from the page.
 
 const rnd = (a: number, b: number) => a + Math.random() * (b - a);
@@ -50,7 +51,8 @@ export function FestPointer({ fx }: { fx: ReadonlySet<string> }) {
   const key = ["sparkler", "rocket", "diya", "petaltrail", "bloom", "chakri"].map((k) => (want(k) ? 1 : 0)).join("");
 
   useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const touch = !window.matchMedia("(pointer: fine)").matches;
     const on = (k: string) => fx.has(k);
     let x = -200;
     let y = -200;
@@ -122,7 +124,8 @@ export function FestPointer({ fx }: { fx: ReadonlySet<string> }) {
     const click = (e: MouseEvent) => {
       if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
       const eng = festEngine();
-      const empty = isEmptyArea(e.target);
+      // with a finger most of the screen is text, so a tap anywhere except a control counts as empty
+      const empty = touch ? !(e.target instanceof Element && e.target.closest(INTERACTIVE)) : isEmptyArea(e.target);
       const cx = e.clientX;
       const cy = e.clientY;
       if (on("rocket") && eng && empty) {
@@ -149,10 +152,12 @@ export function FestPointer({ fx }: { fx: ReadonlySet<string> }) {
       }
     };
 
-    window.addEventListener("pointermove", move, { passive: true });
-    document.documentElement.addEventListener("pointerleave", leave);
+    if (!touch) {
+      window.addEventListener("pointermove", move, { passive: true });
+      document.documentElement.addEventListener("pointerleave", leave);
+      if (on("diya") || on("chakri")) raf = requestAnimationFrame(loop);
+    }
     window.addEventListener("click", click);
-    if (on("diya") || on("chakri")) raf = requestAnimationFrame(loop);
     return () => {
       window.removeEventListener("pointermove", move);
       document.documentElement.removeEventListener("pointerleave", leave);

@@ -225,24 +225,101 @@ section.hx {
   }
 }
 
-/* ================= phones and tablets: the pieces simply stack ================= */
+/* ================= phones and tablets (owner, 2026-11-01) =================
+   The rings only glow softly at the back (a smaller picture of the laptop one) and the button is not inside them: it is a violet pill with a round
+   arrow, full width on a phone, fitted on a tablet, that sits above the bottom bar with a slow ping ring. The text uses the full width. */
 @media (max-width: 1023.98px) {
   :root .hx-panel {
-    padding: 6rem 1.3rem 17rem;
+    --u: 7px;
+    min-height: calc(100svh - 24px);
+    padding: 6.2rem var(--hm-pad, 1.3rem) 11.8rem;
   }
-  .hx-orbit,
-  .hx-go {
-    right: 50%;
-    bottom: 7rem;
+  :root .hx-orbit {
+    top: 36%;
+    right: -4%;
+    bottom: auto;
+    opacity: 0.5;
   }
-  .hx-ring {
-    width: calc(180px + var(--k) * 120px);
-    height: calc(100px + var(--k) * 100px);
+  :root .hx-head {
+    max-width: none;
   }
-  .hx-title {
+  :root .hx-title {
     font-size: clamp(2.2rem, 8.6vw, 3.4rem);
+  }
+  :root .hx-text {
+    max-width: 34rem;
+    font-size: 1.0625rem;
   }
   .hx-rec {
     flex-wrap: wrap;
+    row-gap: 0.7rem;
+  }
+  :root .hx-go {
+    right: var(--hm-pad, 1.3rem);
+    bottom: 6.6rem;
+    left: var(--hm-pad, 1.3rem);
+    justify-content: space-between;
+    height: 3.6rem;
+    padding: 0 0.5rem 0 1.7rem;
+    background: linear-gradient(120deg, hsl(calc(var(--th) + 338) calc(92% * var(--ts)) 66%), hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 46%));
+    box-shadow:
+      0 14px 34px -10px hsl(calc(var(--th) + 338) calc(100% * var(--ts)) 60% / 0.8),
+      inset 0 1px 0 rgb(255 255 255 / 0.45);
+    color: #fff;
+    transform: none;
+  }
+  :root .hx-go::before {
+    position: absolute;
+    inset: -5px;
+    border: 1px solid hsl(calc(var(--th) + 340) calc(100% * var(--ts)) 80% / 0.55);
+    border-radius: 999px;
+    content: "";
+    animation: hx-ping 2.6s ease-out infinite;
+    pointer-events: none;
+  }
+  :root .hx-go::after {
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-left: 1rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    color: hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 30%);
+    font-size: 1.2rem;
+  }
+  :root .hx-go:hover,
+  :root .hx-go:focus-visible {
+    transform: none;
+  }
+  :root .hx-go:active {
+    transform: scale(0.97);
+  }
+  :root .hx-panel:has(.hx-go:hover) .hx-orbit {
+    transform: none;
+  }
+}
+@keyframes hx-ping {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.12, 1.5);
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  :root .hx-panel {
+    --u: 11px;
+  }
+  :root .hx-go {
+    right: auto;
+    padding-left: 2rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root .hx-go::before {
+    animation: none;
   }
 }
