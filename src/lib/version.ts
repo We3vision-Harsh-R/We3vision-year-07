@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 83,
+    date: "2026-11-01",
+    title: "Home page: one colour",
+    notes: [
+      "The hero (rings, glow, pills, button, tech stack tiles on a phone) used a bluer pink-violet; it now uses the same violet as the other sections of the home page, so all of them match and follow the theme colour.",
+    ],
+  },
+  {
     v: 82,
     date: "2026-11-01",
     title: "Fest: separate settings for phone and tablet",

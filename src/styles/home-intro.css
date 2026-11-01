@@ -94,12 +94,12 @@ section.hx {
   /* an eased falloff (many stops) so there is no visible edge: it just fades into the page colour */
   background: radial-gradient(
     circle,
-    hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 74% / 0.5) 0%,
-    hsl(calc(var(--th) + 336) calc(95% * var(--ts)) 68% / 0.38) 8%,
-    hsl(calc(var(--th) + 336) calc(90% * var(--ts)) 62% / 0.25) 17%,
-    hsl(calc(var(--th) + 338) calc(85% * var(--ts)) 56% / 0.14) 28%,
-    hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 50% / 0.06) 40%,
-    hsl(calc(var(--th) + 342) calc(75% * var(--ts)) 45% / 0.02) 52%,
+    hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 74% / 0.5) 0%,
+    hsl(calc(var(--th) + 354) calc(95% * var(--ts)) 68% / 0.38) 8%,
+    hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 62% / 0.25) 17%,
+    hsl(calc(var(--th) + 354) calc(85% * var(--ts)) 56% / 0.14) 28%,
+    hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 50% / 0.06) 40%,
+    hsl(calc(var(--th) + 353) calc(75% * var(--ts)) 45% / 0.02) 52%,
     transparent 64%
   );
   filter: blur(18px);
@@ -117,7 +117,7 @@ section.hx {
   width: calc(var(--u) * (20.8 + var(--k) * 9.7));
   height: calc(var(--u) * (10.4 + var(--k) * 8.7));
   border-radius: 999px;
-  background: hsl(calc(var(--th) + 336 + var(--k) * 3) calc((90% - var(--k) * 4%) * var(--ts)) calc(62% - var(--k) * 9.1%)); /* the last ring is the page colour: the light ends in the background */
+  background: hsl(calc(var(--th) + 352 + var(--k) * 0.3) calc((90% - var(--k) * 4%) * var(--ts)) calc(62% - var(--k) * 9.1%)); /* the last ring is the page colour: the light ends in the background */
   transform: translate(-50%, -50%);
   animation: hx-ring 6s calc(var(--k) * -0.7s) ease-in-out infinite alternate;
 }
@@ -160,8 +160,8 @@ section.hx {
 .hx-go:hover,
 .hx-go:focus-visible {
   box-shadow:
-    0 0 0 8px hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 80% / 0.2),
-    0 0 64px 6px hsl(calc(var(--th) + 336) calc(100% * var(--ts)) 70% / 0.65),
+    0 0 0 8px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.2),
+    0 0 64px 6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.65),
     inset 0 0 0 1px #fff;
   transform: translate(50%, 50%) scale(1.05);
 }
@@ -205,10 +205,10 @@ section.hx {
   display: grid;
   place-items: center;
   padding: 0.6rem 1.3rem;
-  border: 1px solid hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.24);
+  border: 1px solid hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 88% / 0.24);
   border-radius: 999px;
-  background: linear-gradient(150deg, hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 56% / 0.34), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.6));
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.34), inset 0 0 24px hsl(calc(var(--th) + 330) calc(90% * var(--ts)) 72% / 0.12);
+  background: linear-gradient(150deg, hsl(calc(var(--th) + 354) calc(75% * var(--ts)) 56% / 0.34), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.6));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.34), inset 0 0 24px hsl(calc(var(--th) + 352) calc(90% * var(--ts)) 72% / 0.12);
 }
 .hx-rec img {
   display: block;
@@ -261,9 +261,9 @@ section.hx {
     justify-content: space-between;
     height: 3.6rem;
     padding: 0 0.5rem 0 1.7rem;
-    background: linear-gradient(120deg, hsl(calc(var(--th) + 338) calc(92% * var(--ts)) 66%), hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 46%));
+    background: linear-gradient(120deg, hsl(calc(var(--th) + 354) calc(92% * var(--ts)) 66%), hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 46%));
     box-shadow:
-      0 14px 34px -10px hsl(calc(var(--th) + 338) calc(100% * var(--ts)) 60% / 0.8),
+      0 14px 34px -10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.8),
       inset 0 1px 0 rgb(255 255 255 / 0.45);
     color: #fff;
     transform: none;
@@ -271,7 +271,7 @@ section.hx {
   :root .hx-go::before {
     position: absolute;
     inset: -5px;
-    border: 1px solid hsl(calc(var(--th) + 340) calc(100% * var(--ts)) 80% / 0.55);
+    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
     border-radius: 999px;
     content: "";
     animation: hx-ping 2.6s ease-out infinite;
