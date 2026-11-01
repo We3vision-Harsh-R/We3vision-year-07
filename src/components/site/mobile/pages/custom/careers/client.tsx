@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { centreChip } from "../../../app/centre";
 
 /** the interactive part of /careers: filter the open jobs by team (a sideways row of capsules), the list crossfades to the picked team */
 export function JobBoard({ jobs, allLabel }: { jobs: { id: string; team: string; row: ReactNode }[]; allLabel: string }) {
@@ -11,7 +12,7 @@ export function JobBoard({ jobs, allLabel }: { jobs: { id: string; team: string;
     const j = Math.max(0, Math.min(teams.length - 1, i));
     setK(j);
     const b = row.current?.children[j] as HTMLElement | undefined;
-    b?.scrollIntoView({ inline: "center", block: "nearest", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    centreChip(row.current, b, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth");
     if (focus) b?.focus({ preventScroll: true });
   };
   const key = (e: KeyboardEvent, i: number) => {

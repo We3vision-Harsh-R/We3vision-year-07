@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { centreChip } from "../../../app/centre";
 
 /** the interactive parts of /crm (styles: (m)/m/crm/page.css, "mp-crm-") */
 
@@ -22,7 +23,7 @@ export function CrmPicker({ items, label }: { items: CrmKind[]; label: string })
     const j = (i + n) % n;
     setK(j);
     const b = row.current?.children[j] as HTMLElement | undefined;
-    b?.scrollIntoView({ inline: "center", block: "nearest", behavior: calmNow() ? "auto" : "smooth" });
+    centreChip(row.current, b, calmNow() ? "auto" : "smooth");
     if (focus) b?.focus({ preventScroll: true });
   };
   const key = (e: KeyboardEvent, i: number) => {
@@ -91,7 +92,7 @@ export function CrmPipeline({ steps, label }: { steps: CrmStep[]; label: string 
     const j = Math.max(0, Math.min(n - 1, i));
     setK(j);
     const b = row.current?.querySelectorAll("button")[j] as HTMLElement | undefined;
-    b?.scrollIntoView({ inline: "center", block: "nearest", behavior: calmNow() ? "auto" : "smooth" });
+    centreChip(row.current, b, calmNow() ? "auto" : "smooth");
     if (focus) b?.focus({ preventScroll: true });
   };
   const key = (e: KeyboardEvent, i: number) => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { centreChip } from "../../app/centre";
 
 // The interactive parts of the shared iOS 27 sections (prefix "ma-ia-"). Every panel stays in the page (hidden ones use `hidden`), so search
 // engines and screen readers still read all the words; the picker only chooses which one is on the screen.
@@ -16,7 +17,7 @@ export function IaPicker({ tabs, panels, label }: { tabs: string[]; panels: Reac
     const j = Math.max(0, Math.min(tabs.length - 1, i));
     setK(j);
     const b = row.current?.children[j] as HTMLElement | undefined;
-    b?.scrollIntoView({ inline: "center", block: "nearest", behavior: calm() ? "auto" : "smooth" });
+    centreChip(row.current, b, calm() ? "auto" : "smooth");
     if (focus) b?.focus({ preventScroll: true });
   };
   const key = (e: KeyboardEvent, i: number) => {

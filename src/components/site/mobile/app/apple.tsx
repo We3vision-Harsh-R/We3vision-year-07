@@ -15,6 +15,7 @@ import { createPortal } from "react-dom";
 import { haptic } from "../haptics";
 import { AppLink } from "./link";
 import { useSheet } from "./use-sheet";
+import { centreChip } from "./centre";
 
 // Interactions of Apple's own apps for the phone pages (styles: apple.css, prefix "ma-ap-"). Words always come from the CMS; these only arrange them.
 //   TapSheet      a row / card that opens an iOS sheet with its details (Settings, App Store "more", Contacts card)
@@ -587,11 +588,7 @@ export function YearPicker({
     if (j === at) return;
     setDir(j > at ? 1 : -1);
     setAt(j);
-    (row.current?.children[j] as HTMLElement | undefined)?.scrollIntoView({
-      inline: "center",
-      block: "nearest",
-      behavior: calm() ? "auto" : "smooth",
-    });
+    centreChip(row.current, row.current?.children[j] as HTMLElement | undefined, calm() ? "auto" : "smooth");
   };
   const cur = years[at];
   if (!cur) return null;

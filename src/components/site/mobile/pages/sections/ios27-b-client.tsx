@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent } from "react";
+import { centreChip } from "../../app/centre";
 
 // Interactive parts of the shared sections (iOS 27 pass, "ma-s27-"). Styles: app/ios27-sections.css.
 
@@ -12,8 +13,8 @@ export function IndustryPicker({ id, items }: { id: string; items: { name: strin
     const n = (i + items.length) % items.length;
     setOn(n);
     const b = tabs.current[n];
-    b?.focus();
-    b?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+    b?.focus({ preventScroll: true });
+    centreChip(b?.parentElement, b, "smooth");
   };
   const keys = (e: KeyboardEvent) => {
     if (e.key === "ArrowRight") pick(on + 1);

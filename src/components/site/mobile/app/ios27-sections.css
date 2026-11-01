@@ -150,3 +150,8 @@
   .ma-root .ma-s27-caps button, .ma-root .ma-s27-work, .ma-root .ma-s27-qa summary i, .ma-root .ma-s27-qa summary i::after, .ma-root .ma-s27-more summary i, .ma-root .ma-s27-more summary i::after { transition: none; }
   .ma-root .ma-s27-caps button:active, .ma-root a.ma-s27-work:active { transform: none; }
 }
+
+/* the tools of a page (TagsSection): one chip per tool, a name never splits */
+.ma-root .ma-s27-line.ma-tgx { display: flex; flex-wrap: wrap; gap: 10px; font-size: 16px; line-height: 1.3; letter-spacing: -0.2px; }
+.ma-root .ma-s27-line.ma-tgx span { padding: 9px 15px; border: 1px solid hsl(var(--ma-h) calc(80% * var(--ts)) 80% / 0.2); border-radius: 999px; background: linear-gradient(150deg, hsl(var(--ma-h) calc(70% * var(--ts)) 56% / 0.22), hsl(var(--ma-h) calc(50% * var(--ts)) 20% / 0.5)); color: #fff; white-space: nowrap; }
+.ma-root .ma-s27-line.ma-tgx span + span::before { content: none; }

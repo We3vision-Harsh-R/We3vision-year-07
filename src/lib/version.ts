@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 85,
+    date: "2026-11-02",
+    title: "Phone: picker shift, tool chips, technologies list",
+    notes: [
+      "On the phone pages the chip rows (industries, categories, steps) now scroll only the row; before, picking the last chip pushed the whole section to the left and cut the first letters.",
+      "The tools of a page (for example The Tools We Design With) are glass chips, so a name never breaks in the middle.",
+      "The technologies on the home page are one list on a phone: every row has the same height and every name stays on one line.",
+    ],
+  },
+  {
     v: 84,
     date: "2026-11-01",
     title: "Footer: tidy columns",

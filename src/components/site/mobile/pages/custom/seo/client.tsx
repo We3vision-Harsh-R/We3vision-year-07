@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { centreChip } from "../../../app/centre";
 
 /** the interactive parts of /seo: climb the search results by switching on the services, and pick an industry to see its search result */
 
@@ -116,7 +117,7 @@ export function SeoIndustries({ items, plain }: { items: { name: string; descrip
     const j = (i + n) % n;
     setK(j);
     const b = row.current?.children[j] as HTMLElement | undefined;
-    b?.scrollIntoView({ inline: "center", block: "nearest", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    centreChip(row.current, b, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth");
     if (focus) b?.focus({ preventScroll: true });
   };
   const it = items[k];

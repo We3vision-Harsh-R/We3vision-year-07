@@ -4,6 +4,7 @@
 import { useRef, useState } from "react";
 import { AppLink } from "../../../app/link";
 import { openShare } from "../../../app/share-sheet";
+import { centreChip } from "../../../app/centre";
 
 /** the interactive parts of /blog (and the Share button of an article or a project) */
 
@@ -30,7 +31,7 @@ export function BlogBrowser({ stories, topics = true, labels = { all: "All", mor
     setK(j);
     setShown(STEP);
     const b = row.current?.children[j] as HTMLElement | undefined;
-    b?.scrollIntoView({ inline: "center", block: "nearest", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    centreChip(row.current, b, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth");
     if (focus) b?.focus({ preventScroll: true });
   };
   const key = (e: React.KeyboardEvent, i: number) => {
