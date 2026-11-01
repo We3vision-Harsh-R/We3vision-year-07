@@ -3,12 +3,12 @@
 import { useMemo, useState, useTransition } from "react";
 import { saveFest } from "@/actions/fest";
 import type { ActionResult } from "@/actions/types";
-import { DENSITIES, FEST_EFFECTS, FEST_GROUPS, FESTIVALS, type FestConfig, type FestId } from "@/lib/fest";
+import { DENSITIES, FEST_EFFECTS, FEST_GROUPS, FESTIVALS, MOBILE_EFFECTS, type FestConfig, type FestId } from "@/lib/fest";
 import { btnPrimary, btnSecondary, card, inputClass } from "./ui";
 
 // Admin > Fest: the festival themes. Per festival: one switch for the whole website, how much is drawn (light / normal / rich), the 30 effects in
 // four groups (whole website, industries road, pointer, places) each with its own switch and an all on / all off, and a switch for every page (or a
-// group of pages such as all blog articles). Nothing is on = the normal theme of the website, exactly as it is. Laptop / desktop site only.
+// group of pages such as all blog articles). Nothing is on = the normal theme of the website, exactly as it is. The laptop / desktop list (1024px and wider) and the phone / tablet list (under 1024px) are separate.
 
 export type FestPage = { path: string; title: string; group: string };
 
@@ -100,7 +100,7 @@ export function FestManager({ initial, pages }: { initial: FestConfig; pages: Fe
             <div className="flex items-center justify-between gap-4 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3">
               <div>
                 <p className="font-medium text-zinc-900">The whole website</p>
-                <p className="text-sm text-zinc-500">Every page of the laptop and desktop website gets the {f.name} theme.</p>
+                <p className="text-sm text-zinc-500">Every page gets the {f.name} theme (what shows on a laptop and on a phone is set below).</p>
               </div>
               <Switch on={r.site} label={`${f.name} on the whole website`} onChange={(v) => change(f.id, (x) => ({ ...x, site: v }))} />
             </div>
@@ -124,6 +124,11 @@ export function FestManager({ initial, pages }: { initial: FestConfig; pages: Fe
                   </button>
                 ))}
               </div>
+            </div>
+
+            <div className="rounded-xl bg-amber-50 px-4 py-2.5">
+              <h3 className="text-sm font-semibold text-amber-900">Laptop and desktop</h3>
+              <p className="text-xs text-amber-800">For screens 1024px wide and more. Every effect is here.</p>
             </div>
 
             {FEST_GROUPS.map((g) => {
@@ -162,6 +167,42 @@ export function FestManager({ initial, pages }: { initial: FestConfig; pages: Fe
                 </div>
               );
             })}
+            <div className="rounded-xl bg-amber-50 px-4 py-2.5">
+              <h3 className="text-sm font-semibold text-amber-900">Phone and tablet</h3>
+              <p className="text-xs text-amber-800">One setting for both, for screens under 1024px. Only what a touch screen can show is here. Anything not here is off on a phone and a tablet.</p>
+            </div>
+            {(() => {
+              const onCount = MOBILE_EFFECTS.filter((e) => r.mobile[e.key]).length;
+              const setAll = (v: boolean) => change(f.id, (x) => ({ ...x, mobile: { ...x.mobile, ...Object.fromEntries(MOBILE_EFFECTS.map((e) => [e.key, v])) } }));
+              return (
+                <div>
+                  <div className="flex flex-wrap items-end justify-between gap-3">
+                    <h3 className="text-sm font-semibold text-zinc-800">
+                      Phone and tablet effects <span className="font-normal text-zinc-400">· {onCount} of {MOBILE_EFFECTS.length} on</span>
+                    </h3>
+                    <div className="flex gap-2">
+                      <button type="button" className="rounded-lg border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-50 disabled:opacity-40" disabled={onCount === MOBILE_EFFECTS.length} onClick={() => setAll(true)}>
+                        All on
+                      </button>
+                      <button type="button" className="rounded-lg border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-50 disabled:opacity-40" disabled={onCount === 0} onClick={() => setAll(false)}>
+                        All off
+                      </button>
+                    </div>
+                  </div>
+                  <ul className="mt-2 divide-y divide-zinc-100 rounded-xl border border-zinc-200">
+                    {MOBILE_EFFECTS.map((e) => (
+                      <li key={e.key} className="flex items-center justify-between gap-4 px-4 py-3">
+                        <span>
+                          <span className="block text-sm font-medium text-zinc-900">{e.label}</span>
+                          <span className="block text-xs text-zinc-500">{e.hint}</span>
+                        </span>
+                        <Switch on={r.mobile[e.key]} label={`${e.label} (phone and tablet)`} onChange={(v) => change(f.id, (x) => ({ ...x, mobile: { ...x.mobile, [e.key]: v } }))} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })()}
             <p className="-mt-2 text-xs text-zinc-400">
               The street of the home page and the diyas of the footer always come with the festival. The effects only show on the pages where the festival is on (below).
             </p>

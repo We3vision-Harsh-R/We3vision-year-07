@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 82,
+    date: "2026-11-01",
+    title: "Fest: separate settings for phone and tablet",
+    notes: [
+      "Admin Fest has two lists now: Laptop and desktop (every effect, as before) and Phone and tablet (one shared list for screens under 1024px).",
+      "The phone list has the layer above the page (lanterns, fireworks, kandils, toran, diyas, glow and more) and what a tap does (crackers, rangoli bloom).",
+      "Old saved settings keep working: the phone list starts from what the laptop list had.",
+    ],
+  },
+  {
     v: 81,
     date: "2026-11-01",
     title: "Phone and tablet: hero button, tech stack, tap crackers",

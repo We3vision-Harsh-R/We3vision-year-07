@@ -3,15 +3,15 @@
 import "@/styles/fest.css";
 import "@/styles/fest-places.css";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
-import { FEST_TEST, type FestConfig, festFor } from "@/lib/fest";
+import { FEST_TEST, MOBILE_QUERY, type FestConfig, festFor } from "@/lib/fest";
 import { DiyaShape } from "./fest-art";
 import { FestPointer } from "./fest-pointer";
 import { FestTop } from "./fest-top";
 
-// The festival theme on the laptop website (Admin > Fest). It keeps html[data-fest] (the festival), html[data-fest-fx] (the switches that are on) and
+// The festival theme on the website (Admin > Fest): laptop and desktop use the full list, phone and tablet (under 1024px) the shorter list of their own. It keeps html[data-fest] (the festival), html[data-fest-fx] (the switches that are on) and
 // html[data-fest-density] right while the visitor moves between pages (the boot script in the site layout sets them before the first paint) and
 // draws the pieces that belong to no section:
 //   fest-top.tsx      the layer above the whole page (lanterns, kandils, toran, diyas, rangoli, glow, fireworks, embers, petals, anar)
@@ -22,6 +22,16 @@ import { FestTop } from "./fest-top";
 // and Team pages. Styles: src/styles/fest.css and fest-places.css ("fs-"). Nothing here moves layout; everything is pointer-events: none.
 // While developing, an address with ?festtest shows every effect (the code is removed from the production build, unless it is built with
 // NEXT_PUBLIC_FEST_PREVIEW=1 to look at the effects in a local production build; the real deploy never sets it).
+
+/** true on a phone or tablet (under 1024px): the festival then uses the phone list of Admin > Fest */
+const subscribeMobile = (cb: () => void) => {
+  const mq = window.matchMedia(MOBILE_QUERY);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+function useMobile() {
+  return useSyncExternalStore(subscribeMobile, () => window.matchMedia(MOBILE_QUERY).matches, () => false);
+}
 
 /** a row of diyas on the top edge of the footer (put into the footer, which is drawn by the server) */
 function FooterDiyas() {
@@ -56,7 +66,8 @@ export function FestLayer({ cfg }: { cfg: FestConfig }) {
       return () => window.clearTimeout(t);
     }
   }, []);
-  const fest = festFor(test ? FEST_TEST : cfg, path);
+  const mobile = useMobile();
+  const fest = festFor(test ? FEST_TEST : cfg, path, mobile);
   const fxList = fest ? Object.entries(fest.effects).filter(([, on]) => on).map(([k]) => k) : [];
   const fxKey = fxList.join(" ");
   const id = fest?.id ?? "";

@@ -1,4 +1,4 @@
-// FESTIVAL THEMES (Admin > Fest): a festival can dress the whole laptop website or only some pages, on top of the normal theme (which stays
+// FESTIVAL THEMES (Admin > Fest): a festival can dress the whole website (laptop and desktop with every effect, phone and tablet with a shorter list of their own) or only some pages, on top of the normal theme (which stays
 // exactly as it is when no festival is on). Shared by the admin panel, the boot script of the site layout and the decorations (no server imports).
 // To add a festival later: add it to FESTIVALS, give it its decorations (components/site/fest) and its CSS under html[data-fest="<id>"].
 //
@@ -72,6 +72,30 @@ export const FEST_EFFECTS = [
 export type FestEffect = (typeof FEST_EFFECTS)[number]["key"];
 export const FEST_EFFECT_KEYS = FEST_EFFECTS.map((e) => e.key) as FestEffect[];
 
+// PHONES AND TABLETS (under 1024px) HAVE THEIR OWN LIST (owner, 2026-11-01): one setting for phone + tablet, while the list above is for laptop + desktop.
+// Only what a touch screen can show is in it: the layer above the page, and what a tap does. Each key is one of the keys above, so every piece of the
+// site (which reads html[data-fest-fx]) works unchanged: on a phone that attribute simply holds the phone list.
+type Mx = { key: Extract<FestEffect, "skylanterns" | "fireworks" | "embers" | "petals" | "kandils" | "toran" | "diyaline" | "rangoli" | "glow" | "anar" | "rocket" | "bloom">; label: string; hint: string; on: boolean };
+const mx = <const T extends Mx>(e: T) => e;
+export const MOBILE_EFFECTS = [
+  mx({ key: "skylanterns", label: "Sky lanterns", hint: "Paper lanterns rise slowly", on: true }),
+  mx({ key: "fireworks", label: "Fireworks", hint: "Bursts of fireworks in the sky", on: true }),
+  mx({ key: "embers", label: "Golden embers", hint: "Warm sparks drift up from the bottom", on: false }),
+  mx({ key: "petals", label: "Marigold petals", hint: "Petals tumble down the page", on: false }),
+  mx({ key: "kandils", label: "Akash kandils", hint: "Star-shaped lanterns swing from the top", on: true }),
+  mx({ key: "toran", label: "Toran and fairy lights", hint: "A garland of marigolds and twinkling bulbs along the top edge", on: true }),
+  mx({ key: "diyaline", label: "Diya line", hint: "A row of flickering diyas along the bottom edge", on: false }),
+  mx({ key: "rangoli", label: "Rangoli corners", hint: "Slowly turning rangoli patterns in two corners", on: false }),
+  mx({ key: "glow", label: "Golden glow and light rays", hint: "A warm light from the corners", on: true }),
+  mx({ key: "anar", label: "Anar fountains", hint: "Fountains of sparks rise from the bottom corners now and then", on: false }),
+  mx({ key: "rocket", label: "Crackers on tap", hint: "A tap on an empty part (not on a link or button) launches rockets that burst", on: true }),
+  mx({ key: "bloom", label: "Rangoli bloom on tap", hint: "A tap draws a small rangoli that opens and fades", on: false }),
+] as const;
+export type MobileEffect = (typeof MOBILE_EFFECTS)[number]["key"];
+export const MOBILE_KEYS = MOBILE_EFFECTS.map((e) => e.key) as MobileEffect[];
+/** the width under which the phone list is used (the same as the 1023.98px of the mobile CSS) */
+export const MOBILE_QUERY = "(max-width: 1023.98px)";
+
 export const DENSITIES = [
   { id: "low", label: "Light", hint: "Fewer pieces: good for slow computers" },
   { id: "normal", label: "Normal", hint: "The usual amount" },
@@ -84,17 +108,21 @@ export type FestRule = {
   site: boolean;
   /** on for these pages only: an exact path ("/about") or a group ("/blog/*") */
   pages: string[];
+  /** laptop + desktop (1024px and wider): every effect */
   effects: Record<FestEffect, boolean>;
+  /** phone + tablet (under 1024px): the shorter list */
+  mobile: Record<MobileEffect, boolean>;
   density: FestDensity;
 };
 export type FestConfig = Record<FestId, FestRule>;
 
 const DEFAULT_EFFECTS = Object.fromEntries(FEST_EFFECTS.map((e) => [e.key, e.on])) as Record<FestEffect, boolean>;
-export const DEFAULT_FEST: FestConfig = Object.fromEntries(FEST_IDS.map((id) => [id, { site: false, pages: [], effects: { ...DEFAULT_EFFECTS }, density: "normal" }])) as unknown as FestConfig;
+const DEFAULT_MOBILE = Object.fromEntries(MOBILE_EFFECTS.map((e) => [e.key, e.on])) as Record<MobileEffect, boolean>;
+export const DEFAULT_FEST: FestConfig = Object.fromEntries(FEST_IDS.map((id) => [id, { site: false, pages: [], effects: { ...DEFAULT_EFFECTS }, mobile: { ...DEFAULT_MOBILE }, density: "normal" }])) as unknown as FestConfig;
 
 /** the config with every effect on (a test switch of the development server: add ?festtest to an address) */
 export const FEST_TEST: FestConfig = Object.fromEntries(
-  FEST_IDS.map((id) => [id, { site: true, pages: [], effects: Object.fromEntries(FEST_EFFECT_KEYS.map((k) => [k, true])), density: "normal" }]),
+  FEST_IDS.map((id) => [id, { site: true, pages: [], effects: Object.fromEntries(FEST_EFFECT_KEYS.map((k) => [k, true])), mobile: Object.fromEntries(MOBILE_KEYS.map((k) => [k, true])), density: "normal" }]),
 ) as unknown as FestConfig;
 
 const PATH = /^\/[a-zA-Z0-9\-_/]*(\/\*)?$/;
@@ -114,10 +142,15 @@ export function cleanFest(v: unknown): FestConfig {
       const old = legacy[e.key];
       effects[e.key] = typeof own === "boolean" ? own : typeof old === "boolean" ? old : e.on;
     }
+    // a saved value from before the phone list existed: the phone starts from what the laptop had
+    const storedM = (r.mobile && typeof r.mobile === "object" ? r.mobile : {}) as Record<string, unknown>;
+    const mobile = {} as Record<MobileEffect, boolean>;
+    for (const k of MOBILE_KEYS) mobile[k] = typeof storedM[k] === "boolean" ? (storedM[k] as boolean) : r.mobile ? DEFAULT_MOBILE[k] : effects[k];
     out[id] = {
       site: r.site === true,
       pages: Array.isArray(r.pages) ? [...new Set(r.pages.filter((p): p is string => typeof p === "string" && p.length <= 120 && PATH.test(p)))].slice(0, 200) : [],
       effects,
+      mobile,
       density: DENSITIES.some((d) => d.id === r.density) ? (r.density as FestDensity) : "normal",
     };
   }
@@ -126,11 +159,19 @@ export function cleanFest(v: unknown): FestConfig {
 
 const matches = (page: string, path: string) => (page.endsWith("/*") ? path.startsWith(page.slice(0, -1)) : path === page || path === `${page}/`);
 
-/** the festival of a page (the first one that is on for it), or null = the normal theme */
-export function festFor(cfg: FestConfig, path: string): { id: FestId; effects: Record<FestEffect, boolean>; density: FestDensity } | null {
+/** the effects that count on this kind of screen: the whole list on a laptop, the phone list (everything else off) on a phone or tablet */
+export function effectsFor(r: FestRule, mobile: boolean): Record<FestEffect, boolean> {
+  if (!mobile) return r.effects;
+  const out = Object.fromEntries(FEST_EFFECT_KEYS.map((k) => [k, false])) as Record<FestEffect, boolean>;
+  for (const k of MOBILE_KEYS) out[k] = r.mobile[k];
+  return out;
+}
+
+/** the festival of a page (the first one that is on for it), or null = the normal theme; mobile = a phone or tablet */
+export function festFor(cfg: FestConfig, path: string, mobile = false): { id: FestId; effects: Record<FestEffect, boolean>; density: FestDensity } | null {
   for (const id of FEST_IDS) {
     const r = cfg[id];
-    if (r && (r.site || r.pages.some((p) => matches(p, path)))) return { id, effects: r.effects, density: r.density };
+    if (r && (r.site || r.pages.some((p) => matches(p, path)))) return { id, effects: effectsFor(r, mobile), density: r.density };
   }
   return null;
 }
@@ -138,7 +179,7 @@ export function festFor(cfg: FestConfig, path: string): { id: FestId; effects: R
 /** the script that puts the festival on <html> before the first paint (no flash of the normal theme), the same rule as festFor */
 export function festBootScript(cfg: FestConfig) {
   const data = JSON.stringify(cfg).replace(/</g, "\\u003c");
-  return `(function(){try{var c=${data},p=location.pathname,h=document.documentElement;for(var id in c){var r=c[id],on=r.site;for(var i=0;!on&&i<r.pages.length;i++){var g=r.pages[i];on=g.slice(-2)==="/*"?p.indexOf(g.slice(0,-1))===0:(p===g||p===g+"/");}if(on){h.setAttribute("data-fest",id);var f=[];for(var k in r.effects){if(r.effects[k])f.push(k);}h.setAttribute("data-fest-fx",f.join(" "));h.setAttribute("data-fest-density",r.density||"normal");return;}}}catch(e){}})();`;
+  return `(function(){try{var c=${data},p=location.pathname,h=document.documentElement;for(var id in c){var r=c[id],on=r.site;for(var i=0;!on&&i<r.pages.length;i++){var g=r.pages[i];on=g.slice(-2)==="/*"?p.indexOf(g.slice(0,-1))===0:(p===g||p===g+"/");}if(on){h.setAttribute("data-fest",id);var f=[],e=window.matchMedia("${MOBILE_QUERY}").matches?r.mobile:r.effects;for(var k in e){if(e[k])f.push(k);}h.setAttribute("data-fest-fx",f.join(" "));h.setAttribute("data-fest-density",r.density||"normal");return;}}}catch(e){}})();`;
 }
 
 /** any festival on at all (the site layout skips everything when none is) */

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_FEST, DENSITIES, FEST_EFFECTS, FEST_GROUPS, FEST_TEST, anyFest, cleanFest, festBootScript, festFor } from "./fest";
+import { DEFAULT_FEST, DENSITIES, FEST_EFFECTS, FEST_GROUPS, FEST_TEST, MOBILE_KEYS, anyFest, cleanFest, festBootScript, festFor } from "./fest";
 
 describe("the festival effects list", () => {
   it("has 10 whole-website, 10 industry, 6 pointer and 7 place effects, each key once", () => {
@@ -94,5 +94,32 @@ describe("the boot script and the test config", () => {
   it("the test config has every effect on for every page", () => {
     expect(Object.values(FEST_TEST.diwali.effects).every(Boolean)).toBe(true);
     expect(festFor(FEST_TEST, "/x")?.id).toBe("diwali");
+  });
+});
+
+describe("the phone and tablet list", () => {
+  it("is a short list of keys that exist in the laptop list", () => {
+    for (const k of MOBILE_KEYS) expect(FEST_EFFECTS.some((e) => e.key === k)).toBe(true);
+    expect(DEFAULT_FEST.diwali.mobile.rocket).toBe(true);
+    expect(DEFAULT_FEST.diwali.mobile.embers).toBe(false);
+  });
+
+  it("a phone gets its own switches and nothing outside its list", () => {
+    const c = cleanFest({ diwali: { site: true, effects: { fireworks: true, menu: true }, mobile: { fireworks: false, rocket: true } } });
+    expect(festFor(c, "/", false)?.effects.fireworks).toBe(true);
+    expect(festFor(c, "/", true)?.effects.fireworks).toBe(false);
+    expect(festFor(c, "/", true)?.effects.rocket).toBe(true);
+    expect(festFor(c, "/", false)?.effects.menu).toBe(true);
+    expect(festFor(c, "/", true)?.effects.menu).toBe(false);
+  });
+
+  it("a value saved before the phone list existed starts from the laptop switches", () => {
+    const c = cleanFest({ diwali: { site: true, effects: { fireworks: false, embers: true } } });
+    expect(c.diwali.mobile.fireworks).toBe(false);
+    expect(c.diwali.mobile.embers).toBe(true);
+  });
+
+  it("the boot script picks the list by the screen width", () => {
+    expect(festBootScript(DEFAULT_FEST)).toContain("max-width: 1023.98px");
   });
 });
