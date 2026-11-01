@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 84,
+    date: "2026-11-01",
+    title: "Footer: tidy columns",
+    notes: [
+      "The footer columns got widths that fit their links (Technology is the widest), so no link wraps and the gaps between the lists look even.",
+      "More room between the logo, the text and the social buttons.",
+    ],
+  },
+  {
     v: 83,
     date: "2026-11-01",
     title: "Home page: one colour",

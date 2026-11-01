@@ -7009,8 +7009,10 @@ html.has-sb::-webkit-scrollbar {
 
 
   .ft-grid {
-    grid-template-columns: 1.3fr 1fr 1.2fr 0.9fr;
-    gap: 3rem;
+    /* every list gets the room its longest link needs (Technology is the widest), so the links do not wrap and the gaps look the same */
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 0.85fr);
+    gap: 3rem 2.6rem;
+    align-items: start;
   }}
 
 
@@ -7024,8 +7026,8 @@ html.has-sb::-webkit-scrollbar {
   letter-spacing: -0.02em;
 }
 .ft-brand-t {
-  margin: 0.7rem 0 0;
-  max-width: 24rem;
+  margin: 1.5rem 0 0;
+  max-width: 22rem;
   color: var(--soft);
   font-size: 1rem;
   line-height: 1.65;
@@ -7033,7 +7035,7 @@ html.has-sb::-webkit-scrollbar {
 .ft-socs {
   display: flex;
   gap: 10px;
-  margin-top: 1.4rem;
+  margin-top: 1.8rem;
 }
 .ft-soc {
   display: grid;
