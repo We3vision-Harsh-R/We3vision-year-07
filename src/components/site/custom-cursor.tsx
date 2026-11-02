@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useSyncExternalStore } from "react";
+import { NAME_KEY } from "@/lib/presence";
 import { THEME_EVENT, loadTheme } from "@/lib/theme";
 
 // Same structure as the template's cursor: one 8px box centred on the mouse that holds
@@ -13,9 +14,20 @@ const CLICKABLE = 'a[href], button:not(:disabled), [role="button"], [role="tab"]
 
 const subscribeName = (cb: () => void) => {
   window.addEventListener(THEME_EVENT, cb);
-  return () => window.removeEventListener(THEME_EVENT, cb);
+  window.addEventListener("we3-name", cb);
+  return () => {
+    window.removeEventListener(THEME_EVENT, cb);
+    window.removeEventListener("we3-name", cb);
+  };
 };
-const readName = () => loadTheme()?.name || "You";
+// the name of the picker, else the name given on the first visit (components/site/presence.tsx), else "You"
+const readName = () => {
+  let own = "";
+  try {
+    own = localStorage.getItem(NAME_KEY) || "";
+  } catch {}
+  return loadTheme()?.name || own || "You";
+};
 
 /** Custom mouse cursor. Only on devices with a real mouse; elsewhere the normal cursor is untouched. */
 export function CustomCursor() {

@@ -9,12 +9,12 @@ import type { PickerConfig } from "./theme-picker";
  * `picker` is what Admin > Settings > "Colour picker" says (when the card opens, which colours).
  */
 export function LateExtras({ picker }: { picker?: PickerConfig }) {
-  const [parts, setParts] = useState<{ Cursor: ComponentType; Theme: ComponentType<{ config?: PickerConfig }>; Pause: ComponentType } | null>(null);
+  const [parts, setParts] = useState<{ Cursor: ComponentType; Theme: ComponentType<{ config?: PickerConfig }>; Pause: ComponentType; Presence: ComponentType } | null>(null);
   useEffect(() => {
     let off = false;
     const load = () => {
-      void Promise.all([import("./custom-cursor"), import("./theme-picker"), import("./pause-offscreen")]).then(([cursor, theme, pause]) => {
-        if (!off) setParts({ Cursor: cursor.CustomCursor, Theme: theme.ThemeProvider, Pause: pause.PauseOffscreen });
+      void Promise.all([import("./custom-cursor"), import("./theme-picker"), import("./pause-offscreen"), import("./presence")]).then(([cursor, theme, pause, presence]) => {
+        if (!off) setParts({ Cursor: cursor.CustomCursor, Theme: theme.ThemeProvider, Pause: pause.PauseOffscreen, Presence: presence.PresenceLive });
       });
     };
     const w = window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (h: number) => void };
@@ -26,12 +26,13 @@ export function LateExtras({ picker }: { picker?: PickerConfig }) {
     };
   }, []);
   if (!parts) return null;
-  const { Cursor, Theme, Pause } = parts;
+  const { Cursor, Theme, Pause, Presence } = parts;
   return (
     <>
       <Cursor />
       <Theme config={picker} />
       <Pause />
+      <Presence />
     </>
   );
 }

@@ -16,6 +16,7 @@ import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { anyFest, festBootScript } from "@/lib/fest";
 import { getFestConfig } from "@/lib/fest-server";
+import { getPresenceConfig } from "@/lib/presence-server";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
 
 // ROOT LAYOUT of the laptop website (see src/lib/root-shell.tsx): the only one that loads globals.css and the desktop scenes.
@@ -26,7 +27,9 @@ export const metadata = baseMetadata;
 const PICKER_OFF_BOOT = `(function(){var r=document.documentElement.style;r.removeProperty("--th");r.removeProperty("--ts");})();`;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const [site, fest] = await Promise.all([getSiteSettings(), getFestConfig()]);
+  const [site, fest, presence] = await Promise.all([getSiteSettings(), getFestConfig(), getPresenceConfig()]);
+  // a first-time visitor is asked for a name only (components/site/presence.tsx): the colour card then opens only from its small round button
+  const picker = presence.askName && site.picker.show !== "off" ? { ...site.picker, show: "button" } : site.picker;
   const festOn = anyFest(fest);
   return (
     <RootShell htmlClass="sb-pre" boot={[festOn ? festBootScript(fest) : "", site.picker.show === "off" ? PICKER_OFF_BOOT : ""].join("") || undefined}>
@@ -37,7 +40,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         </a>
         <SmoothScroll />
         <SiteScrollbar />
-        <LateExtras picker={site.picker} />
+        <LateExtras picker={picker} />
         <Background />
         {/* a festival theme (Admin > Fest): RootShell puts it on <html> before the first paint (boot); FestLive keeps the settings fresh (a change in
             the admin panel shows without a reload) and loads the decorations only once a festival is on. While developing (or in a preview build)

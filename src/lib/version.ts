@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 87,
+    date: "2026-11-02",
+    title: "Visitor name, live cursors, Admin Visitors",
+    notes: [
+      "A first-time visitor of the laptop website is asked for one thing after the welcome message: a name. The name is the label of their cursor.",
+      "Visitors on the same page see each other as live cursors with names, in one colour that is never their own. Admin > Visitors sets how many cursors one visitor sees; the visitors who came in first are shown first.",
+      "Admin > Visitors lists who opened the website: name, first visit, last seen, visits, device and last page.",
+    ],
+  },
+  {
     v: 86,
     date: "2026-11-02",
     title: "Welcome message before the site opens",
