@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./mobile.css";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
 import { fontVars } from "./fonts";
+import { WelcomeGate } from "@/components/site/welcome-gate";
 
 // THE MOBILE SITE: its own ROOT layout (route group "(m)", internal address /m/...). A phone or tablet is sent here by src/proxy.ts for every
 // page listed in MOBILE_READY (src/lib/device.ts); the address in the browser stays the normal one. It loads ONLY mobile.css (never globals.css)
@@ -21,6 +22,7 @@ const DESKTOP_GUARD = "(function(){try{if(/[?&]view=mobile/.test(location.search
 export default function MobileLayout({ children }: { children: React.ReactNode }) {
   return (
     <RootShell htmlClass={fontVars} boot={DESKTOP_GUARD}>
+      <WelcomeGate />
       <div className="m-root">{children}</div>
     </RootShell>
   );

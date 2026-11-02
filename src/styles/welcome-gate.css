@@ -1,0 +1,144 @@
+/* The welcome message (src/components/site/welcome-gate.tsx), prefix "wg-". Self-contained: the phone site does not load globals.css.
+   Theme colours only (--th / --ts), Poppins, text >= 16px, labels >= 14px. Only transform and opacity move. */
+.wg {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(60% 50% at 50% 38%, hsl(calc(var(--th, 270) + 352) calc(70% * var(--ts, 1)) 18%), transparent 75%),
+    hsl(calc(var(--th, 270) + 352) calc(55% * var(--ts, 1)) 5%);
+  color: #fff;
+  font-family: var(--font-poppins), system-ui, sans-serif;
+  transition: opacity 0.8s ease;
+}
+.wg-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.wg-seen .wg {
+  display: none;
+}
+.wg-lock,
+.wg-lock body {
+  overflow: hidden;
+}
+.wg-card {
+  position: relative;
+  display: grid;
+  max-width: 34rem;
+  justify-items: center;
+  gap: 1.6rem;
+  text-align: center;
+  animation: wg-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@keyframes wg-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+.wg-tag {
+  margin: 0;
+  padding: 0.4rem 1rem;
+  border: 1px solid hsl(calc(var(--th, 270) + 354) calc(60% * var(--ts, 1)) 85% / 0.2);
+  border-radius: 999px;
+  color: hsl(calc(var(--th, 270) + 354) calc(100% * var(--ts, 1)) 78%);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.wg-t {
+  margin: 0;
+  font-size: clamp(1.7rem, 4.6vw, 2.6rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.wg-btn {
+  position: relative;
+  height: 3.6rem;
+  padding: 0 2.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(120deg, hsl(calc(var(--th, 270) + 354) calc(92% * var(--ts, 1)) 66%), hsl(calc(var(--th, 270) + 350) calc(80% * var(--ts, 1)) 46%));
+  box-shadow:
+    0 14px 40px -10px hsl(calc(var(--th, 270) + 354) calc(100% * var(--ts, 1)) 60% / 0.8),
+    inset 0 1px 0 rgb(255 255 255 / 0.45);
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wg-btn::before {
+  position: absolute;
+  inset: -5px;
+  border: 1px solid hsl(calc(var(--th, 270) + 354) calc(100% * var(--ts, 1)) 80% / 0.55);
+  border-radius: 999px;
+  content: "";
+  animation: wg-ping 2.6s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes wg-ping {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.12, 1.5);
+  }
+}
+.wg-btn:hover,
+.wg-btn:focus-visible {
+  transform: scale(1.05);
+}
+.wg-btn:active {
+  transform: scale(0.97);
+}
+/* the burst when the button is clicked */
+.wg-burst {
+  position: absolute;
+  bottom: 1.8rem;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.wg-burst i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th, 270) + 340 + var(--k) * 18) calc(100% * var(--ts, 1)) 72%);
+  animation: wg-spark 0.9s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+}
+@keyframes wg-spark {
+  from {
+    opacity: 1;
+    transform: rotate(var(--a)) translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: rotate(var(--a)) translateX(var(--d)) scale(0.4);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wg-card,
+  .wg-btn::before,
+  .wg-burst i {
+    animation: none;
+  }
+  .wg {
+    transition: none;
+  }
+}

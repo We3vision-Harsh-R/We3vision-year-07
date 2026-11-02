@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 86,
+    date: "2026-11-02",
+    title: "Welcome message before the site opens",
+    notes: [
+      "Every visitor first sees a message: for the best experience open the site on a laptop, with one button Click and celebrate.",
+      "The click opens the site with a small burst. It shows once per browser tab, on the laptop site and on the phone and tablet site.",
+    ],
+  },
+  {
     v: 85,
     date: "2026-11-02",
     title: "Phone: picker shift, tool chips, technologies list",

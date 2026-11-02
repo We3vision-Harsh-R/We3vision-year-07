@@ -11,6 +11,7 @@ import { Footer } from "@/components/site/footer";
 import { LateExtras } from "@/components/site/late-extras";
 import { LogoMark } from "@/components/site/logo-mark";
 import { SiteScrollbar } from "@/components/site/site-scrollbar";
+import { WelcomeGate } from "@/components/site/welcome-gate";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { anyFest, festBootScript } from "@/lib/fest";
@@ -30,6 +31,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <RootShell htmlClass="sb-pre" boot={[festOn ? festBootScript(fest) : "", site.picker.show === "off" ? PICKER_OFF_BOOT : ""].join("") || undefined}>
       <div className="relative overflow-x-clip">
+        <WelcomeGate />
         <a href="#main-content" className="skp-link">
           Skip to content
         </a>
