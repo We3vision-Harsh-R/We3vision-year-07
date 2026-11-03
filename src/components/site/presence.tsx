@@ -11,7 +11,7 @@ import { NAME_KEY, VID_KEY, cleanName, type OtherCursor } from "@/lib/presence";
 //    Visitors says how many are shown (the ones who came in first are shown first). They wear one colour, never the colour of the visitor's own cursor.
 export const NAME_EVENT = "we3-name";
 const SKIP_KEY = "w3v-name-skip";
-const TICK_MS = 350;
+const TICK_MS = 600;
 
 const read = (k: string) => {
   try {

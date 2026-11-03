@@ -8,6 +8,7 @@ import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
 import { isSafeHref } from "@/lib/cms/fields";
 import { parseFaq, parseTags, tileOf } from "@/lib/blog-shared";
+import { bumpContentVersion, editorLocked } from "@/lib/content-version";
 import type { ActionResult } from "./types";
 
 // The articles of the blog (Blog in the admin panel). Every action first checks that the admin is logged in, and cleans the input.
@@ -76,6 +77,7 @@ async function freeSlug(title: string, ignoreId?: string) {
 /** The Blog page, the articles and the sitemap must be built again (the pages are kept ready for speed). */
 function refresh() {
   revalidatePath("/", "layout");
+  void bumpContentVersion();
 }
 
 /** Puts an article at a place of the list (1 = first) and numbers the whole list again. */
@@ -99,6 +101,8 @@ const fail = (error: unknown): ActionResult => ({
 
 export async function createBlogPost(input: BlogInput): Promise<ActionResult & { id?: string }> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const data = clean(input);
     const last = await db.blogPost.aggregate({ _max: { sortOrder: true } });
@@ -114,6 +118,8 @@ export async function createBlogPost(input: BlogInput): Promise<ActionResult & {
 
 export async function updateBlogPost(id: string, input: BlogInput): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const data = clean(input);
     const old = await db.blogPost.findUnique({ where: { id }, select: { title: true, slug: true } });
@@ -132,6 +138,8 @@ export async function updateBlogPost(id: string, input: BlogInput): Promise<Acti
 
 export async function deleteBlogPost(id: string): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     await db.blogPost.delete({ where: { id } });
     refresh();
@@ -144,6 +152,8 @@ export async function deleteBlogPost(id: string): Promise<ActionResult> {
 /** Moves an article one place up or down in the list of the Blog page. */
 export async function moveBlogPost(id: string, direction: "up" | "down"): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const list = await db.blogPost.findMany({ orderBy: [{ sortOrder: "asc" }, { publishedAt: "desc" }], select: { id: true } });
     const i = list.findIndex((p) => p.id === id);
@@ -160,6 +170,8 @@ export async function moveBlogPost(id: string, direction: "up" | "down"): Promis
 
 export async function setBlogPostPublished(id: string, published: boolean): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const post = await db.blogPost.update({ where: { id }, data: { published }, select: { slug: true } });
     refresh();

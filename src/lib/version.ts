@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 88,
+    date: "2026-11-03",
+    title: "Content version and Lock editor",
+    notes: [
+      "The content of the website now has one version number that goes up with every publish (pages, site settings, blog, projects, team).",
+      "The open pages ask only that small number every 15 seconds, never the content, and load the new content once when it changed. A reload always checks first.",
+      "A Lock editor button in the top bar of the admin panel (like Publish) makes the content final: nothing can be published until Unlock editor, and the pages stop asking.",
+    ],
+  },
+  {
     v: 87,
     date: "2026-11-02",
     title: "Visitor name, live cursors, Admin Visitors",

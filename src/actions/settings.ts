@@ -6,14 +6,18 @@ import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/generated/prisma/client";
 import { normalizeSite } from "@/lib/cms/settings";
+import { bumpContentVersion, editorLocked } from "@/lib/content-version";
 import type { ActionResult } from "./types";
 
 export async function saveSiteSettings(input: unknown): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const value = normalizeSite(input);
     await db.setting.upsert({ where: { key: "site" }, create: { key: "site", value: value as unknown as Prisma.InputJsonValue }, update: { value: value as unknown as Prisma.InputJsonValue } });
     revalidatePath("/", "layout"); // header + footer appear on every page
+    await bumpContentVersion();
     return { ok: true, message: "Settings saved. The live website is updated." };
   } catch (error) {
     console.error("saveSiteSettings failed", error);

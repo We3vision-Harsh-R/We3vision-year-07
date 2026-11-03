@@ -8,6 +8,7 @@ import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
 import { isSafeHref } from "@/lib/cms/fields";
 import { PROJECT_GROUPS } from "@/lib/project-groups";
+import { bumpContentVersion, editorLocked } from "@/lib/content-version";
 import type { ActionResult } from "./types";
 
 // The portfolio projects (Projects in the admin panel). Every action first checks that the admin is logged in, and cleans the input.
@@ -71,10 +72,13 @@ async function freeSlug(title: string, ignoreId?: string) {
 /** Everything that shows projects must be built again (the pages are kept ready for speed). */
 function refresh() {
   revalidatePath("/", "layout");
+  void bumpContentVersion();
 }
 
 export async function createProject(input: ProjectInput): Promise<ActionResult & { id?: string }> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const data = clean(input);
     const last = await db.project.aggregate({ where: { group: data.group }, _max: { sortOrder: true } });
@@ -88,6 +92,8 @@ export async function createProject(input: ProjectInput): Promise<ActionResult &
 
 export async function updateProject(id: string, input: ProjectInput): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const data = clean(input);
     const old = await db.project.findUnique({ where: { id }, select: { title: true, slug: true } });
@@ -104,6 +110,8 @@ export async function updateProject(id: string, input: ProjectInput): Promise<Ac
 
 export async function deleteProject(id: string): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     await db.project.delete({ where: { id } });
     refresh();
@@ -116,6 +124,8 @@ export async function deleteProject(id: string): Promise<ActionResult> {
 /** Moves a project one place up or down inside its group (the order of the slider and of the Portfolio page). */
 export async function moveProject(id: string, direction: "up" | "down"): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const me = await db.project.findUnique({ where: { id }, select: { group: true } });
     if (!me) return { ok: false, error: "This project does not exist any more." };
@@ -134,6 +144,8 @@ export async function moveProject(id: string, direction: "up" | "down"): Promise
 
 export async function setProjectPublished(id: string, published: boolean): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const project = await db.project.update({ where: { id }, data: { published }, select: { slug: true } });
     refresh();

@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminIcon } from "@/components/admin/admin-icons";
 import { ADMIN_GROUPS } from "@/components/admin/admin-menu";
+import { LockButton } from "@/components/admin/lock-button";
 
 // The top bar of the admin panel: the name of the open screen (found from the menu list, the longest matching address), the day and date, and
 // the bell that opens the Alerts (with the number of unread alerts). The look is in styles/admin-shell.css (.ads-top*).
 const ITEMS = ADMIN_GROUPS.flatMap((g) => g.items.map((i) => ({ ...i, group: g.title })));
 
-export function AdminTopbar({ weekday, date, alerts, siteName, pathOverride }: { weekday: string; date: string; alerts: number; siteName: string; pathOverride?: string }) {
+export function AdminTopbar({ weekday, date, alerts, siteName, pathOverride, lock }: { weekday: string; date: string; alerts: number; siteName: string; pathOverride?: string; lock?: { locked: boolean; version: number } }) {
   const livePath = usePathname();
   const pathname = pathOverride ?? livePath;
   const hit = ITEMS.filter((i) => (i.exact ? pathname === i.href : pathname === i.href || pathname.startsWith(`${i.href}/`))).sort((a, b) => b.href.length - a.href.length)[0];
@@ -23,6 +24,7 @@ export function AdminTopbar({ weekday, date, alerts, siteName, pathOverride }: {
         </h2>
       </div>
       <div className="ads-top-right">
+        {lock && <LockButton locked={lock.locked} version={lock.version} />}
         <p className="ads-top-date">
           <b>{weekday}</b>
           <span>{date}</span>

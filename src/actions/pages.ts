@@ -9,6 +9,7 @@ import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
 import { PAGES, isPageSlug, normalizeContent, type PageContent } from "@/lib/cms/pages";
+import { bumpContentVersion, editorLocked } from "@/lib/content-version";
 import type { ActionResult } from "./types";
 
 const MAX_VERSIONS = 10;
@@ -30,6 +31,8 @@ function parse(slug: string, payload: PagePayload) {
 /** Saves the work-in-progress version. Visitors do NOT see this until it is published. */
 export async function saveDraft(slug: string, payload: PagePayload): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const { content, seoTitle, seoDescription, ...rest } = parse(slug, payload);
     await db.page.upsert({
@@ -48,6 +51,8 @@ export async function saveDraft(slug: string, payload: PagePayload): Promise<Act
 /** Saves and makes the content live. Also keeps a version snapshot so it can be restored. */
 export async function publish(slug: string, payload: PagePayload): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   try {
     const { content, seoTitle, seoDescription, ...rest } = parse(slug, payload);
     await db.$transaction(async (tx) => {
@@ -68,6 +73,7 @@ export async function publish(slug: string, payload: PagePayload): Promise<Actio
     revalidatePath(PAGES[rest.slug].path);
     // the phone/tablet twin (/m/<path>, served at the same address) is a page of its own: refresh it too, so phones see the change at once
     if (PAGES[rest.slug].path !== "/") revalidatePath(`/m${PAGES[rest.slug].path}`);
+    await bumpContentVersion();
     after(() => notifySearchEngines([PAGES[rest.slug].path]));
     return { ok: true, message: "Published. The live website is updated." };
   } catch (error) {
@@ -80,6 +86,8 @@ export async function publish(slug: string, payload: PagePayload): Promise<Actio
 /** Throws away unpublished changes (draft goes back to what is live). */
 export async function discardDraft(slug: string): Promise<ActionResult> {
   await requireAdmin();
+  const locked = await editorLocked();
+  if (locked) return locked;
   if (!isPageSlug(slug)) return { ok: false, error: "Unknown page" };
   try {
     const page = await db.page.findUnique({ where: { slug }, select: { published: true } });
@@ -95,6 +103,7 @@ export async function discardDraft(slug: string): Promise<ActionResult> {
 /** Form action: loads an old published version into the draft (does NOT publish it). */
 export async function restoreVersion(formData: FormData) {
   await requireAdmin();
+  if (await editorLocked()) redirect("/admin/pages");
   const id = String(formData.get("versionId") ?? "");
   const version = await db.pageVersion.findUnique({ where: { id }, include: { page: { select: { slug: true } } } });
   if (!version) redirect("/admin/pages");
