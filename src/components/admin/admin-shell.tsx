@@ -30,15 +30,12 @@ export function AdminShell({
   badges,
   siteName = "We3vision",
   pathOverride,
-  lock,
   children,
 }: {
   admin: { name: string; email: string };
   badges: AdminBadges;
   siteName?: string;
   pathOverride?: string;
-  /** the content lock of the editor (lib/content-version.ts); the design sandbox shows none */
-  lock?: { locked: boolean; version: number };
   children: React.ReactNode;
 }) {
   const { weekday, date } = todayIst();
@@ -76,7 +73,7 @@ export function AdminShell({
         </div>
       </aside>
       <div className="ads-main">
-        <AdminTopbar weekday={weekday} date={date} alerts={badges.alerts} siteName={siteName} pathOverride={pathOverride} lock={lock} />
+        <AdminTopbar weekday={weekday} date={date} alerts={badges.alerts} siteName={siteName} pathOverride={pathOverride} />
         <div className="ads-content">{children}</div>
       </div>
     </div>

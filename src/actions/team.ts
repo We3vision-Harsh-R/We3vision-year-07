@@ -5,14 +5,11 @@ import { requireAdmin } from "@/lib/auth";
 import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 import { cleanPeople } from "@/lib/team-shared";
-import { bumpContentVersion, editorLocked } from "@/lib/content-version";
 import type { ActionResult } from "./types";
 
 /** Saves the whole list of people of the office (the order of the list is the order in the office). The Team page is updated at once. */
 export async function saveTeam(input: unknown): Promise<ActionResult> {
   await requireAdmin();
-  const locked = await editorLocked();
-  if (locked) return locked;
   const people = cleanPeople(input);
   try {
     await db.$transaction([
@@ -21,7 +18,6 @@ export async function saveTeam(input: unknown): Promise<ActionResult> {
     ]);
     revalidatePath("/team");
     revalidatePath("/admin/team");
-    await bumpContentVersion();
     return { ok: true, message: `Saved. ${people.length} ${people.length === 1 ? "person is" : "people are"} in the office on the live Team page.` };
   } catch (error) {
     console.error("saveTeam failed", error);

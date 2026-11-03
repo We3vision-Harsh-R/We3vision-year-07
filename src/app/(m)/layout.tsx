@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import "./mobile.css";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
 import { fontVars } from "./fonts";
-import { ContentWatch } from "@/components/site/content-watch";
 import { WelcomeGate } from "@/components/site/welcome-gate";
-import { getContentState } from "@/lib/content-version";
 
 // THE MOBILE SITE: its own ROOT layout (route group "(m)", internal address /m/...). A phone or tablet is sent here by src/proxy.ts for every
 // page listed in MOBILE_READY (src/lib/device.ts); the address in the browser stays the normal one. It loads ONLY mobile.css (never globals.css)
@@ -21,12 +19,10 @@ export const metadata: Metadata = {
 // goes once to the desktop site of the same address (?view=desktop remembers it). ?view=mobile (on purpose) is left alone.
 const DESKTOP_GUARD = "(function(){try{if(/[?&]view=mobile/.test(location.search))return;var d=matchMedia(\"(pointer:fine) and (hover:hover)\").matches&&innerWidth>=900&&!/Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent);if(!d||sessionStorage.getItem(\"w3v-dg\"))return;sessionStorage.setItem(\"w3v-dg\",\"1\");location.replace(location.pathname.replace(/^\/m(\/|$)/,\"/\")+\"?view=desktop\"+location.hash)}catch(e){}})();";
 
-export default async function MobileLayout({ children }: { children: React.ReactNode }) {
-  const content = await getContentState();
+export default function MobileLayout({ children }: { children: React.ReactNode }) {
   return (
     <RootShell htmlClass={fontVars} boot={DESKTOP_GUARD}>
       <WelcomeGate />
-      <ContentWatch built={content.v} />
       <div className="m-root">{children}</div>
     </RootShell>
   );

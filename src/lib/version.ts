@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 89,
+    date: "2026-11-03",
+    title: "Lock editor and content version removed",
+    notes: [
+      "The Lock editor button and the content version number are removed from the admin panel and the website.",
+      "The website no longer asks for a version number every 15 seconds, so it runs lighter. Only the festival theme still updates live.",
+    ],
+  },
+  {
     v: 88,
     date: "2026-11-03",
     title: "Content version and Lock editor",
