@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 90,
+    date: "2026-11-04",
+    title: "Pages editor removed",
+    notes: [
+      "The Pages text editor is removed from the admin panel (menu, dashboard card, editor, save and publish). The website keeps showing the text it shows now.",
+      "Team, Careers, Blog, Projects, Site settings, Fest and the AI tools are not changed.",
+    ],
+  },
+  {
     v: 89,
     date: "2026-11-03",
     title: "Lock editor and content version removed",
