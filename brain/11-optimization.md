@@ -128,3 +128,6 @@ an automated visual-regression + perf budget script in `tools/` that fails when 
 - 2026-10-16 — ROUND 4: two oversized pictures resized (−90 KB images on every page), dead CSS removed (−14 KB raw), tools cpu-profile.mjs + image-audit.mjs, Lighthouse + Hostinger + CPU findings in brain/15 section 10. First-load JS/CSS average unchanged (JS ~200, CSS ~86 KB gz).
 - 2026-10-17 — PHONE/TABLET round: measured the separate mobile app (floor-level weight: ~161 KB JS + ~21 KB CSS per page; inner pages LCP 0.9–1.0 s on 4G), launcher filled in steps (first paint −10–20 %), tools got --device=phone|tablet + trace-summary + smooth-run. Details: brain/15 section 11.
 - 2026-10-31 — ROUND 5 phase 0-2 (branch optimize): site-menu no longer ships all page texts to every visitor, lazy.tsx refreshed, cobe + cursor-grid lazy. Average JS 283 -> 190 KB gz, CSS 72 -> 62 KB gz, look identical (style-diff). New tools pointer-run, layers-audit. Details: brain/15 section 12.
+
+## Latest numbers (2026-11-04, live site, details in 15 section 13)
+Home LCP 2012 ms (perf-run, 4g profile) / 1272 ms (real Chrome trace), CLS 0.001, TBT 331 ms; /about LCP 286 ms (trace). Average first-load JS 185 KB gz, CSS 61 KB gz. Budget now checked inside `npm run git:push` (v92) and in `.github/workflows/check.yml`.

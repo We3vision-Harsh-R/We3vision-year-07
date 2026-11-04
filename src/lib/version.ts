@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 92,
+    date: "2026-11-04",
+    title: "Size budget before every push",
+    notes: [
+      "The push command now checks the size budget of the last build and refuses a push when a page got heavier than allowed.",
+      "A GitHub check (types, lint, build, size budget) runs on every push. No change on the website.",
+    ],
+  },
+  {
     v: 91,
     date: "2026-11-04",
     title: "Less polling",

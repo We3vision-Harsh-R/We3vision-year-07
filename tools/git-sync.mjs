@@ -14,6 +14,7 @@
 //   - after a pull, if package.json / package-lock.json changed it runs `npm install`
 //   - before a push it runs the type check; a push deploys to Hostinger, so a broken build must not go
 import { execFileSync, spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
 
 const git = (...a) => execFileSync("git", a, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trimEnd();
 const run = (cmd, args, opts = {}) => spawnSync(cmd, args, { stdio: "inherit", shell: process.platform === "win32" && /^np[mx]$/.test(cmd), ...opts }); // only npm / npx need the shell on Windows (a shell would split a commit message at the spaces)
@@ -99,6 +100,11 @@ function push() {
   say("checking the types before the push (a push deploys the site)");
   const t = run("npx", ["tsc", "--noEmit"]);
   if (t.status !== 0) stop("The type check failed, so nothing was pushed. Fix the errors above, then run push again.");
+  // the size budget (tools/perf-budget.json) of the last `npm run build`: a page that got heavier must not be deployed by accident
+  if (existsSync(".next/BUILD_ID")) {
+    const bg = run("node", ["tools/perf-budget.mjs"]);
+    if (bg.status === 1) stop("A page is over the size budget (tools/perf-budget.json), so nothing was pushed. Make it lighter, or ask the owner before the budget is raised.");
+  }
   const { ahead } = counts();
   if (!ahead) return say("nothing to push");
   say(`pushing ${ahead} commit(s) to main`);

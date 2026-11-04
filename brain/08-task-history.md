@@ -211,3 +211,7 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 
 ### v81-v89 (2026-11-03) summary
 - v86 welcome message (3 s, no button, blur out). v87 first-visit name, live cursors with names, Admin Visitors. v88 content version + Lock editor, then REMOVED in v89 at the owner request (website smoother, only the fest theme updates live). The Setting row content-lock may stay in the database; nothing reads it.
+- v89 (2026-11-03) Lock editor + content version removed (owner: smoother site, only the fest theme updates live).
+- v90 (2026-11-04) Admin > Pages text editor removed; live text unchanged (still read from the database).
+- v91 (2026-11-04) less polling: live cursors 3 s when alone and still, fest check 30 s.
+- v92 (2026-11-04) budget check inside git:push, GitHub Actions check.yml, brain/15 section 13 (rules of top developers, numbers, honest not-done list).
