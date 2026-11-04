@@ -68,6 +68,7 @@ export const SoftwarePage = dynamic(() => import("./software/software").then((m)
 export const SwipeDeck = dynamic(() => import("./mobile/app/apple").then((m) => m.SwipeDeck));
 export const TapSheet = dynamic(() => import("./mobile/app/apple").then((m) => m.TapSheet));
 export const TeamOffice = dynamic(() => import("./modern/team-office").then((m) => m.TeamOffice));
+export const HomeStack = dynamic(() => import("./home-stack").then((m) => m.HomeStack));
 export const TechSpace = dynamic(() => import("./tech-space").then((m) => m.TechSpace));
 export const Timeline = dynamic(() => import("./sections/timeline").then((m) => m.Timeline));
 export const TodayCard = dynamic(() => import("./mobile/app/apple").then((m) => m.TodayCard));

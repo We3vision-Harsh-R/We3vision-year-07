@@ -262,3 +262,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - OPEN (owner): on the live site check Admin > Visitors (v87). The Lock editor / content version (v88) is removed in v89 on purpose; do not add it again without asking.
 - OPEN (owner, 2026-11-04): measure INP and a Lighthouse performance run on the owner's own laptop (DevTools); set Brotli/cache in the Hostinger panel (Home comes gzip, TTFB ~1.4 s); then run `MSYS_NO_PATHCONV=1 node tools/perf-run.mjs https://www.we3vision.com / /about /contact --profile=4g` again for the after-numbers. If the GitHub push of `.github/workflows/check.yml` is refused, the token needs the "workflow" scope.
 - DONE (v90): Admin > Pages editor is gone on purpose; do not add it again without asking. DB table Page/PageVersion still exists and is still read by the site.
+
+- Phone buttons: only the home page was unified (v93). The inner /m/* pages use .ma-btn-fill (violet) and should get the same look if the owner wants it.

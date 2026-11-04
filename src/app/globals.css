@@ -11848,3 +11848,74 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
     0 22px 44px -26px rgb(0 0 0 / 0.75);
   --card-bg: hsl(calc(var(--th) + 348) calc(55% * var(--ts)) 13%);
 }
+
+/* ---- hs-: the technology stack of the home page (owner 2026-11-04): minimal, hairline rows, plain words, one caption line. Theme colours only. ---- */
+.hs-wrap {
+  width: 100%;
+  max-width: 980px;
+  margin: 3rem auto 0;
+  padding-inline: 1.5rem;
+}
+.hs-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid hsl(calc(var(--th) + 340) calc(60% * var(--ts)) 80% / 0.16);
+}
+.hs-row {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  align-items: baseline;
+  gap: 2rem;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid hsl(calc(var(--th) + 340) calc(60% * var(--ts)) 80% / 0.16);
+}
+.hs-cat {
+  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 78% / 0.7);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hs-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.9rem;
+}
+.hs-name {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 90% / 0.62);
+  font: inherit;
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  cursor: default;
+  transition: color 0.25s ease;
+}
+.hs-names:hover .hs-name:not(:hover) {
+  color: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 90% / 0.4);
+}
+.hs-name:hover,
+.hs-name:focus-visible,
+.hs-name[data-on="true"] {
+  color: #fff;
+  outline: none;
+}
+.hs-note {
+  display: flex;
+  min-height: 3.2rem;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 1.4rem 0 0;
+  color: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 90% / 0.5);
+  font-size: 1rem;
+}
+.hs-note b {
+  color: #fff;
+  font-weight: 600;
+}
+.hs-note[data-on="true"] span {
+  color: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 92% / 0.85);
+}

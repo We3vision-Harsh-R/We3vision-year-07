@@ -215,3 +215,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v90 (2026-11-04) Admin > Pages text editor removed; live text unchanged (still read from the database).
 - v91 (2026-11-04) less polling: live cursors 3 s when alone and still, fest check 30 s.
 - v92 (2026-11-04) budget check inside git:push, GitHub Actions check.yml, brain/15 section 13 (rules of top developers, numbers, honest not-done list).
+
+- v93 (2026-11-04): Home Technology section redesigned as a quiet hairline list (src/components/site/home-stack.tsx, .hs-* in globals.css; the planets TechSpace stays on service pages). Phone/tablet home: hx-go, rp-cta, ft-top share one button design (.mbt- block at end of src/styles/home-mobile.css). Inner phone pages (/m/*) still use .ma-btn; not unified yet.

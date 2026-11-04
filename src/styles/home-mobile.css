@@ -1023,3 +1023,44 @@
     white-space: nowrap;
   }
 }
+
+/* ---- mbt-: one button design on the phone and tablet home page (owner 2026-11-04): the first-screen button, the "Start your project" buttons of the
+   contact block and the menu, the hero buttons and "Back to top" all get the same height, shape, text and light gradient (the look of .rp-cta). ---- */
+@media (max-width: 1023.98px) {
+  :root:root :is(.hx-go, .rp-cta, .hx-btn, .ft-top) {
+    display: inline-flex;
+    height: 3.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0 1.75rem;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, hsl(calc(var(--th) + 76) calc(81% * var(--ts)) 87%), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%) 70%);
+    box-shadow:
+      0 12px 34px -10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.7),
+      inset 0 1px 0 rgb(255 255 255 / 0.5);
+    color: hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 12%);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  :root:root .hx-go::before {
+    display: none;
+  }
+  :root:root .hx-go::after {
+    display: inline;
+    width: auto;
+    height: auto;
+    margin: 0;
+    background: none;
+    color: inherit;
+    font-size: 1.2rem;
+  }
+  :root:root :is(.hx-go, .rp-cta, .hx-btn, .ft-top):active {
+    transform: scale(0.97);
+  }
+}

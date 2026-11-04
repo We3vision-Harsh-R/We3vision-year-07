@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 93,
+    date: "2026-11-04",
+    title: "Quiet tech stack, one phone button",
+    notes: [
+      "Home page: the Technology section is now a quiet list of groups with the technologies as plain words and one line about the one you hover. The planets stay on the service pages.",
+      "Phone and tablet home page: the first-screen button, Start your project buttons and Back to top now share one button design.",
+    ],
+  },
+  {
     v: 92,
     date: "2026-11-04",
     title: "Size budget before every push",
