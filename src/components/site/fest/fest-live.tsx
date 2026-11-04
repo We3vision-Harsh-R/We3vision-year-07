@@ -7,11 +7,11 @@ import { LazyFestLayer } from "./lazy";
 // A CHANGE IN ADMIN > FEST SHOWS ON THE OPEN WEBSITE WITHOUT A RELOAD (owner, 2026-10-24). This tiny piece is always on the laptop site; it
 // holds the festival settings of the page and keeps them fresh:
 //   - at once when the admin panel saves in the same browser (it says so on the channel "we3-fest", see components/admin/fest-manager.tsx);
-//   - otherwise it asks /api/fest every 10 seconds while the tab is on the screen, and at once when the visitor comes back to the tab.
+//   - otherwise it asks /api/fest every 30 seconds while the tab is on the screen, and at once when the visitor comes back to the tab.
 // The festival layer (lazy.tsx -> fest-layer.tsx) is loaded only once a festival is on; it then follows every change (switches on <html>,
 // effects, density) and takes everything away when the festival is switched off.
 export const FEST_CHANNEL = "we3-fest";
-const EVERY_MS = 10000;
+const EVERY_MS = 30000;
 
 export function FestLive({ initial, force = false }: { initial: FestConfig; force?: boolean }) {
   const [cfg, setCfg] = useState(initial);

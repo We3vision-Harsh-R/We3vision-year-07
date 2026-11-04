@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 91,
+    date: "2026-11-04",
+    title: "Less polling",
+    notes: [
+      "Live cursors: a visitor who is alone on the site with a still pointer now asks the server every 3 seconds instead of every 0.6 seconds. With another visitor or a moving pointer it is as fast as before.",
+      "The festival settings check of the open pages runs every 30 seconds instead of every 10 seconds (a change in Admin > Fest in the same browser still shows at once).",
+    ],
+  },
+  {
     v: 90,
     date: "2026-11-04",
     title: "Pages editor removed",

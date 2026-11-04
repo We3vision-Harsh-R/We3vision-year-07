@@ -12,6 +12,9 @@ import { NAME_KEY, VID_KEY, cleanName, type OtherCursor } from "@/lib/presence";
 export const NAME_EVENT = "we3-name";
 const SKIP_KEY = "w3v-name-skip";
 const TICK_MS = 600;
+// alone on the site and the pointer still: nobody can see a difference, so ask less often (a newcomer shows within this time)
+const QUIET_MS = 3000;
+const STILL_AFTER_MS = 5000;
 
 const read = (k: string) => {
   try {
@@ -55,7 +58,10 @@ export function PresenceLive() {
       sessionStorage.setItem("w3v-tab", "1");
     } catch {}
     let off = false;
+    let lastMove = Date.now();
+    let seen = 0;
     const move = (e: PointerEvent) => {
+      lastMove = Date.now();
       me.current.x = Math.round((e.clientX / innerWidth) * 10000) / 10000;
       me.current.y = Math.round((e.clientY / innerHeight) * 10000) / 10000;
     };
@@ -77,6 +83,7 @@ export function PresenceLive() {
         const data = (await res.json()) as { cursors: boolean; askName: boolean; others: OtherCursor[] };
         m.hi = false;
         m.askName = data.askName;
+        seen = data.cursors ? data.others.length : 0;
         setOthers(data.cursors ? data.others : []);
         if (hi && data.askName && !read(NAME_KEY) && !read(SKIP_KEY)) {
           // wait until the welcome message has gone
@@ -91,8 +98,14 @@ export function PresenceLive() {
         /* offline: the next tick tries again */
       }
     };
-    void tick();
-    const iv = window.setInterval(() => void tick(), TICK_MS);
+    let iv = 0;
+    const loop = async () => {
+      await tick();
+      if (off) return;
+      const quiet = seen === 0 && Date.now() - lastMove > STILL_AFTER_MS;
+      iv = window.setTimeout(() => void loop(), quiet ? QUIET_MS : TICK_MS);
+    };
+    void loop();
     const onName = () => {
       me.current.name = cleanName(read(NAME_KEY));
       me.current.hi = true; // tell the server (and the visitor log) the name now
@@ -100,7 +113,7 @@ export function PresenceLive() {
     window.addEventListener(NAME_EVENT, onName);
     return () => {
       off = true;
-      window.clearInterval(iv);
+      window.clearTimeout(iv);
       window.removeEventListener("pointermove", move);
       window.removeEventListener(NAME_EVENT, onName);
     };
