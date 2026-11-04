@@ -1,5 +1,5 @@
 import { Reveal } from "../reveal";
-import { HomeStack, TechSpace } from "../lazy";
+import { TechBoard, TechSpace } from "../lazy";
 import { ToolsVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
 import type { SectionComponent } from "./shared";
@@ -27,7 +27,7 @@ export const Tags: SectionComponent<"tags"> = ({ data, page }) => {
           <h2 className="text-vfade mx-auto mt-5 max-w-[900px] whitespace-pre-line pb-1 text-[2rem] font-semibold leading-[1.1] tracking-[-0.04em] sm:text-[2.6rem] lg:text-[3.25rem]">{data.heading}</h2>
           {data.intro && <p className="mx-auto mt-4 max-w-[560px] text-base leading-relaxed text-orchid">{data.intro}</p>}
         </Reveal>
-        <HomeStack items={items} />
+        <TechBoard items={items} />
       </section>
     );
   }

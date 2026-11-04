@@ -1,6 +1,8 @@
 import "@/styles/home-intro.css";
+import "@/styles/panda-chat.css";
 import type { CSSProperties } from "react";
 import Image from "next/image";
+import { HeroAi } from "./hero-ai";
 import { SmartLink } from "./smart-link";
 
 type Badge = { label: string; image: string };
@@ -49,10 +51,6 @@ export function HomeIntro({
             />
           ))}
         </div>
-        <SmartLink href="/contact" className="hx-go">
-          Start a project
-        </SmartLink>
-
         <div className="hx-head">
           {above && mark && (
             <p className="hx-tag">
@@ -64,6 +62,9 @@ export function HomeIntro({
             {tail && <span> {tail}</span>}
           </h1>
           <p className="hx-text">{text}</p>
+          <SmartLink href="/contact" className="hx-go">
+            Start a project
+          </SmartLink>
           {logos.length > 0 && (
             <div className="hx-rec">
               <p>Recognised by</p>
@@ -83,6 +84,14 @@ export function HomeIntro({
             </div>
           )}
         </div>
+        {/* the AI of the site (PANDA, the one of the big menu) open on the first screen: a card with a few questions to start with */}
+        <aside className="hx-ai" aria-label="Ask PANDA, the AI of We3vision">
+          <p className="hx-ai-t">
+            <span aria-hidden />
+            Ask our AI anything
+          </p>
+          <HeroAi />
+        </aside>
       </div>
     </section>
   );

@@ -16,6 +16,18 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 94,
+    date: "2026-11-04",
+    title: "Home page redesign",
+    notes: [
+      "Services: one pinned screen with a list and a stage, the scroll walks through all seven (an accordion on a phone).",
+      "First screen: the AI of the big menu (PANDA) is open next to the heading, on a laptop and on a phone.",
+      "Industries: one flick of the mouse wheel moves to the next industry.",
+      "Technology: a board with groups, tiles and a detail card. Global reach: a pinned globe that turns to every country while you scroll.",
+      "Footer: a small console to play with, a live clock of Surat, a spotlight that follows the mouse and a bigger headline.",
+    ],
+  },
+  {
     v: 93,
     date: "2026-11-04",
     title: "Quiet tech stack, one phone button",

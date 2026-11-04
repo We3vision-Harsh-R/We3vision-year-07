@@ -1,9 +1,9 @@
+import "@/styles/home-redesign.css";
 import type { SectionData } from "@/lib/cms/sections";
 import { HeroBadges } from "../hero-badges";
 import { HomeIntro } from "../home-intro";
 import { HeroScene } from "../lazy";
-import { ServicesRail } from "../lazy";
-import { ServicesStage } from "../lazy";
+import { ServicesDeck } from "../lazy";
 import type { SectionProps } from "./shared";
 
 // The hero of the home page. Since 2026-10-24 (owner) the laptop / desktop home starts with one calm first screen (home-intro.tsx): big type,
@@ -21,14 +21,9 @@ export function Hero({ data, site, page }: SectionProps<"hero"> & { glance?: Sec
           below={data.below}
           badges={site.badges}
         />
-        {/* the services (owner, 2026-10-24: "service nu section pachu lav"): the same boxes, guide and split board, without the particle ball.
-            Phone and tablet (below 1024px, owner 2026-10-29) get a row of cards to swipe instead; styles/home-mobile.css shows one of the two.
-            The wrapper is the anchor "#services" for both. */}
-        <div id="services" className="hm-svc">
-          <ServicesRail cards={data.cards} />
-          <div className="hm-desk">
-            <ServicesStage cards={data.cards} />
-          </div>
+        {/* the services (redesign 2026-11-04): one pinned screen on a laptop, an accordion on a phone (services-deck.tsx); the wrapper is the anchor "#services" */}
+        <div id="services">
+          <ServicesDeck cards={data.cards} />
         </div>
       </>
     );

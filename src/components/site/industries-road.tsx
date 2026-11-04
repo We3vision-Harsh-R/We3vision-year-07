@@ -261,13 +261,38 @@ export function IndustriesRoad({
         raf = requestAnimationFrame(frame);
       }
     };
+    // ONE flick of the mouse wheel moves the car to the next industry (the way a slide show goes): while the city is pinned, a wheel turn is not
+    // a few pixels of scroll but "next district" / "previous district". At the first district going up and at the last one going down the page
+    // scrolls on as usual. A lock keeps a long flick (the wheel keeps sending turns) from jumping over several districts.
+    let lockUntil = 0;
+    const onWheel = (e: WheelEvent) => {
+      if (!mq.matches || n < 2 || Math.abs(e.deltaY) < 4 || e.ctrlKey) return;
+      const r = track.getBoundingClientRect();
+      const top = parseFloat(getComputedStyle(sticky).top) || 0;
+      const dist = Math.max(1, r.height - sticky.offsetHeight);
+      if (r.top > top + 2 || r.bottom < sticky.offsetHeight + top - 2) return; // not pinned
+      const at = Math.min(n - 1, Math.max(0, Math.round(Math.min(1, Math.max(0, (top - r.top) / dist)) * (n - 1))));
+      const to = at + (e.deltaY > 0 ? 1 : -1);
+      if (to < 0 || to > n - 1) return; // the ends: let the page scroll
+      e.preventDefault();
+      e.stopPropagation();
+      const now = performance.now();
+      if (now < lockUntil) return;
+      lockUntil = now + 1100;
+      const y = r.top + window.scrollY - top + (to / (n - 1)) * dist;
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
+      if (lenis) lenis.scrollTo(y, { duration: 1 });
+      else window.scrollTo({ top: y, behavior: "smooth" });
+    };
     place(0);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    window.addEventListener("wheel", onWheel, { passive: false, capture: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.removeEventListener("wheel", onWheel, { capture: true });
       if (raf) cancelAnimationFrame(raf);
     };
   }, [geo, n, ang, zoom, rx, breathe, signs]);

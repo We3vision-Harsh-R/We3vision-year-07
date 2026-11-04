@@ -1,5 +1,7 @@
+import "@/styles/footer-redesign.css";
 import type { SiteSettings } from "@/lib/cms/settings";
 import Image from "next/image";
+import { FooterConsole, FooterGlow } from "./footer-console";
 import { FooterWord, ToTop } from "./footer-word";
 import { SmartLink } from "./smart-link";
 
@@ -31,6 +33,7 @@ function SocialIcon({ label, href }: { label: string; href: string }) {
 export function Footer({ site }: { site: SiteSettings }) {
   return (
     <footer className="ft" data-pause-off>
+      <FooterGlow>
       <div className="ft-in">
         {/* 1. the sentence and the button */}
         <div className="ft-top-row">
@@ -50,10 +53,11 @@ export function Footer({ site }: { site: SiteSettings }) {
           </SmartLink>
         </div>
 
-        {/* 2. the brand and the link columns (the offices are in the contact section, not repeated here) */}
-        <div className="ft-grid">
-          <div className="ft-brand">
-            <Image src="/brand/logo-stacked-dark.webp" alt={site.name} width={600} height={642} className="h-auto w-36" unoptimized />
+        {/* 1b. the console: a small terminal to play with, and next to it the brand */}
+        <div className="fx-row">
+          <FooterConsole menus={site.menus} />
+          <div className="fx-side">
+            <Image src="/brand/logo-stacked-dark.webp" alt={site.name} width={600} height={642} className="h-auto w-32" unoptimized />
             <p className="ft-brand-t">{site.tagline}</p>
             {site.social.length > 0 && (
               <div className="ft-socs">
@@ -63,6 +67,10 @@ export function Footer({ site }: { site: SiteSettings }) {
               </div>
             )}
           </div>
+        </div>
+
+        {/* 2. the link columns (the offices are in the contact section, not repeated here) */}
+        <div className="ft-grid">
           {site.menus.map((menu, index) => (
             <nav key={menu.label} aria-label={menu.label} className="ft-col">
               <p className="ft-col-t">
@@ -92,6 +100,7 @@ export function Footer({ site }: { site: SiteSettings }) {
         <p>{site.copyright}</p>
         <ToTop />
       </div>
+      </FooterGlow>
     </footer>
   );
 }

@@ -1,4 +1,4 @@
-import { Globe } from "../lazy";
+import { Globe, ReachStage } from "../lazy";
 import { ReachPlaces } from "../lazy";
 import { Reveal } from "../reveal";
 import { SmartLink } from "../smart-link";
@@ -15,6 +15,34 @@ export const Reach: SectionComponent<"reach"> = ({ data, page }) => {
     .map((p) => ({ label: p.label, lat: Number(p.lat), lng: Number(p.lng) }))
     .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng) && Math.abs(p.lat) <= 90 && Math.abs(p.lng) <= 180);
 
+  if (page === "home" && places.length > 0) {
+    return (
+      <section id="reach" className="gr">
+        <ReachStage
+          places={places}
+          text={data.text}
+          head={
+            <>
+              <Chip>{data.chip}</Chip>
+              <SplitHeading text={data.heading} className="gr-h mt-6 pb-1 text-[2.2rem] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[3rem] lg:text-[3.4rem]" />
+            </>
+          }
+          button={
+            data.buttonLabel ? (
+              <div className="gr-cta">
+                <SmartLink href={data.buttonHref || "#contact"} className="rp-cta">
+                  <span>{data.buttonLabel}</span>
+                  <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </SmartLink>
+              </div>
+            ) : undefined
+          }
+        />
+      </section>
+    );
+  }
   return (
     <section id="reach" className="py-16 sm:py-24">
       <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-8 lg:px-12">

@@ -11,7 +11,7 @@ const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How ca
 // PANDA: Professional AI Navigation & Digital Assistant. The chat of the site, kept very simple: a slim bar at the bottom (a little
 // panda, a field and a send button). Pointing at it or tapping it opens a small chat window just above the bar; the bar itself never
 // changes size, only the window fades and slides in, so it stays light and smooth. The conversation is kept while it is closed.
-export function AiChat() {
+export function AiChat({ hero = false }: { hero?: boolean }) {
   const [hover, setHover] = useState(false);
   const [focused, setFocused] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -25,7 +25,7 @@ export function AiChat() {
   const bodyRef = useRef<HTMLDivElement>(null);
   const pickerRef = useRef<HTMLLabelElement>(null);
   const timer = useRef(0);
-  const open = hover || focused;
+  const open = hero || hover || focused;
   const selectedService = services.find((service) => service.id === selectedServiceId);
   const filteredServices = services.filter((service) =>
     `${service.title} ${service.category}`.toLowerCase().includes(serviceSearch.trim().toLowerCase()),
@@ -86,7 +86,7 @@ export function AiChat() {
 
   return (
     <div
-      className="pd"
+      className={hero ? "pd pd-hero" : "pd"}
       data-open={open}
       onPointerEnter={(e) => {
         if (e.pointerType !== "mouse") return;

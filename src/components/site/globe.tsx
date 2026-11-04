@@ -22,8 +22,13 @@ const SPIN = 0.16; // how fast the globe turns (radians per second)
  * world. The countries light up one after the other (a wave) in step with the names next to the globe. Visitors who prefer less motion get
  * the globe standing still with all the lines on it.
  */
-export function Globe({ places, label }: { places: Place[]; label: string }) {
+export function Globe({ places, label, focus }: { places: Place[]; label: string; focus?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // a place chosen from outside (the scroll of the reach section, a tap on a name): 0 = head office, 1.. = the countries; undefined = the globe goes round by itself
+  const focusRef = useRef<number | undefined>(focus);
+  useEffect(() => {
+    focusRef.current = focus;
+  }, [focus]);
   const [box, setBox] = useState(0); // the width of the globe on the screen (in steps of 40 px), so that it is drawn again when the window changes size
 
   useEffect(() => {
@@ -118,8 +123,16 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
       const t = now - start;
-      phi += SPIN * dt;
-      theta += (0.3 - theta) * (1 - Math.exp(-dt * 2));
+      const f = focusRef.current;
+      const fp = f === undefined || f < 0 ? undefined : places[Math.min(places.length - 1, f)];
+      if (fp) {
+        // chosen from outside: turn to that place and keep it lit
+        phi += wrap180((phiOf(fp.lng) - phi) / DEG) * DEG * (1 - Math.exp(-dt * 3.2));
+        theta += (0.3 + fp.lat * 0.006 - theta) * (1 - Math.exp(-dt * 3));
+      } else {
+        phi += SPIN * dt;
+        theta += (0.3 - theta) * (1 - Math.exp(-dt * 2));
+      }
       const update: Parameters<typeof globe.update>[0] = { phi, theta };
       // the lines go out from the head office one after the other, then they all stay
       const want = Math.min(dest.length, Math.floor(t / DRAW) + 1);
@@ -129,7 +142,19 @@ export function Globe({ places, label }: { places: Place[]; label: string }) {
       }
       // a wave of light goes round the countries (when all the lines are out)
       let changed = false;
-      if (shown === dest.length) {
+      if (fp && shown === dest.length) {
+        const k = (f as number) - 1;
+        if (k >= 0 && k !== waveAt) {
+          waveAt = k;
+          announce(k);
+        }
+        if (k < 0 && waveAt !== -1) {
+          waveAt = -1;
+          announce(-1);
+        }
+        for (let i = 0; i < pulse.length; i++) pulse[i] = i === k ? 1 : Math.max(0, pulse[i] - dt * 2);
+        update.markers = markersAt(pulse);
+      } else if (shown === dest.length) {
         const k = Math.floor((t - dest.length * DRAW) / WAVE) % dest.length;
         if (k >= 0 && k !== waveAt) {
           waveAt = k;

@@ -264,3 +264,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - DONE (v90): Admin > Pages editor is gone on purpose; do not add it again without asking. DB table Page/PageVersion still exists and is still read by the site.
 
 - Phone buttons: only the home page was unified (v93). The inner /m/* pages use .ma-btn-fill (violet) and should get the same look if the owner wants it.
+
+- v94 not checked by the owner yet: wheel-snap in Industries (tested with a synthetic wheel event only, not a real mouse), pinned Services/Reach scroll feel on a real laptop, hero AI card height on 1280x720, phone check of tablet width (700-1023).

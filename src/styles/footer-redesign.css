@@ -1,0 +1,217 @@
+/* THE FOOTER REDESIGN (owner 2026-11-04): the console (fx-) and the new columns. Loaded by footer.tsx (every page). Theme colours only. */
+
+:root {
+  --rd-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+  --rd-soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.8);
+  --rd-dim: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 90% / 0.45);
+  --rd-hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+  --rd-glass: linear-gradient(150deg, hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 58% / 0.24), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 20% / 0.55) 60%, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 10% / 0.7));
+}
+
+@keyframes tb-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+}
+
+/* ================= 5. footer ================= */
+.fx-glow {
+  position: relative;
+}
+.fx-glow::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(34rem circle at var(--gx, 70%) var(--gy, 10%), hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 55% / 0.14), transparent 70%);
+  content: "";
+  pointer-events: none;
+}
+.fx-glow > * {
+  position: relative;
+  z-index: 1;
+}
+.fx-row {
+  display: grid;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+.fx-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.fx-term {
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.2);
+  border-radius: 24px;
+  background: var(--rd-glass);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 30px 60px -30px rgb(0 0 0 / 0.8);
+  color: #fff;
+}
+.fx-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--rd-hair);
+  font-size: 0.875rem;
+}
+.fx-bar b {
+  flex: 1;
+  color: var(--rd-soft);
+  font-weight: 500;
+}
+.fx-bar time {
+  color: var(--rd-a);
+  font-variant-numeric: tabular-nums;
+}
+.fx-dots {
+  display: flex;
+  gap: 0.4rem;
+}
+.fx-dots i {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.22);
+}
+.fx-body {
+  display: flex;
+  height: 12.5rem;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.2rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 0.25) transparent;
+}
+.fx-line,
+.fx-res {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.fx-line span {
+  color: var(--rd-a);
+  font-weight: 600;
+}
+.fx-line kbd {
+  padding: 0.05rem 0.5rem;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.1);
+  font: inherit;
+}
+.fx-res {
+  padding-left: 1rem;
+  color: var(--rd-soft);
+}
+.fx-out {
+  animation: tb-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.fx-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+}
+.fx-links a {
+  padding: 0.15rem 0.7rem;
+  border: 1px solid var(--rd-hair);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: border-color 0.25s ease;
+}
+.fx-links a:hover {
+  border-color: var(--rd-a);
+}
+.fx-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.2rem 1.2rem 1rem;
+}
+.fx-chips button {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--rd-hair);
+  border-radius: 999px;
+  background: none;
+  color: var(--rd-soft);
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fx-chips button:hover {
+  background: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 66% / 0.2);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.fx-in {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 1.2rem;
+  border-top: 1px solid var(--rd-hair);
+}
+.fx-in label {
+  color: var(--rd-a);
+  font-weight: 600;
+}
+.fx-in input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  outline: none;
+}
+.fx-in input::placeholder {
+  color: var(--rd-dim);
+}
+.fx-in button {
+  padding: 0.4rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 66% / 0.25);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+.ft .ft-grid {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 900px) {
+  .ft .ft-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 0.85fr);
+  }
+}
+@media (min-width: 1024px) {
+  .fx-row {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    gap: 3rem;
+    margin-top: 3.5rem;
+  }
+  .fx-body {
+    height: 15rem;
+  }
+  .ft .ft-big {
+    font-size: clamp(3rem, 7.6vw, 7rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-out {
+    animation: none !important;
+  }
+}
