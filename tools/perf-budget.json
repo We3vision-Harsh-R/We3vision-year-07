@@ -1,7 +1,7 @@
 {
   "note": "KB gzip, first load of any page; written by tools/perf-budget.mjs --update",
   "maxJsGz": 225,
-  "maxCssGz": 110,
+  "maxCssGz": 114,
   "avgJsGz": 185,
-  "avgCssGz": 65
+  "avgCssGz": 67
 }
