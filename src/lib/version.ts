@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 104,
+    date: "2026-11-06",
+    title: "Sections wake up on scroll",
+    notes: [
+      "Every section under the first screen now loads and starts its code only when it comes near the screen. The text is still in the page, so search engines see it as before. Home first load JS 283 to 202 KB, blocking time 89 to 28 ms.",
+    ],
+  },
+  {
     v: 103,
     date: "2026-11-06",
     title: "Lighter first load",

@@ -1,3 +1,4 @@
+import { LazyHydrate } from "../lazy-hydrate";
 import type { ComponentType } from "react";
 import type { PageSection } from "@/lib/cms/pages";
 import type { SectionType } from "@/lib/cms/sections";
@@ -109,10 +110,12 @@ export async function PageSections({ sections, site, skin = "classic", page }: {
   const glance = page === "home" && sections.some((x) => x.type === "hero") ? sections.find((x) => x.type === "highlights") : undefined;
   return (
     <>
-      {sections.map((section) => {
+      {sections.map((section, i) => {
         if (section === glance) return null;
         const Component = RENDERERS[section.type] as unknown as AnyRenderer;
-        return <Component key={section.id} data={section.data} site={site} sectionId={section.id} skin={skin} page={page} projects={projects} glance={section.type === "hero" ? glance?.data : undefined} />;
+        const node = <Component key={section.id} data={section.data} site={site} sectionId={section.id} skin={skin} page={page} projects={projects} glance={section.type === "hero" ? glance?.data : undefined} />;
+        // the first section is the first screen; every other one wakes up (hydrates) when it comes near the screen
+        return i === 0 ? node : <LazyHydrate key={section.id}>{node}</LazyHydrate>;
       })}
     </>
   );

@@ -282,3 +282,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - v102: Global Reach no longer pins on scroll and the list is not clickable by owner order; do not bring the pin back unless asked.
 
 - Phase 8 is on branch optimize (not merged). Open question for the owner: load every home section chunk on scroll (client-only, text not in the page source) or keep server HTML.
+
+- Phase 9 on branch optimize: a NEW below-the-fold client component must be added to lazy.tsx with late(); a first-screen one with dynamic(. Not yet compared with style-diff against main; do that before the owner merges.

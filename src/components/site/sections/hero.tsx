@@ -2,6 +2,7 @@ import "@/styles/home-redesign.css";
 import type { SectionData } from "@/lib/cms/sections";
 import { HeroBadges } from "../hero-badges";
 import { HomeIntro } from "../home-intro";
+import { LazyHydrate } from "../lazy-hydrate";
 import { HeroScene } from "../lazy";
 import { ServicesDeck } from "../lazy";
 import type { SectionProps } from "./shared";
@@ -23,7 +24,9 @@ export function Hero({ data, site, page }: SectionProps<"hero"> & { glance?: Sec
         />
         {/* the services (redesign 2026-11-04): one pinned screen on a laptop, an accordion on a phone (services-deck.tsx); the wrapper is the anchor "#services" */}
         <div id="services">
-          <ServicesDeck cards={data.cards} />
+          <LazyHydrate>
+            <ServicesDeck cards={data.cards} />
+          </LazyHydrate>
         </div>
       </>
     );
