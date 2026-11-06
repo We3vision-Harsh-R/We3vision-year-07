@@ -237,3 +237,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v105 (2026-11-06): footer: console full width (fx-row single column on laptop), brand row under it, the Services/Technology/Company grid REMOVED (a visually hidden nav keeps the links). Owner tried a version with the links inside the console and rejected it: keep the chat-style console with chips. Version numbers 103-104 live on branch optimize (version.ts conflict expected).
 
 - v106 (2026-11-06): footer console: MORE_GROUPS in footer.tsx (brand, marketing, software, products, home, social) are extra commands/chips; external links open in a new tab. Add a new page to the matching group there.
+
+- v107 (2026-11-06): footer console: guide text while empty, chips grouped (Pages with counts / For fun), did-you-mean answer, window cleared on every route change (state reset during render on pathname change) and on refresh.

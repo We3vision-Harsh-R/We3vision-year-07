@@ -135,6 +135,40 @@
   gap: 0.5rem;
   padding: 0.2rem 1.2rem 1rem;
 }
+.fx-cap {
+  flex-basis: 100%;
+  margin-top: 0.2rem;
+  color: var(--rd-dim);
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.fx-chips small {
+  margin-left: 0.4rem;
+  color: var(--rd-a);
+  font-size: 0.8125rem;
+}
+.fx-guide ol {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.fx-guide li {
+  padding: 0.2rem 0;
+  color: var(--rd-soft);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.fx-guide li b {
+  margin-right: 0.5rem;
+  color: var(--rd-a);
+}
+.fx-guide kbd {
+  padding: 0.05rem 0.5rem;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.1);
+  font: inherit;
+}
 .fx-chips button {
   padding: 0.4rem 0.9rem;
   border: 1px solid var(--rd-hair);
@@ -209,7 +243,7 @@
     margin: 0;
   }
   .fx-body {
-    height: 11rem;
+    height: 12.5rem;
   }
   .ft .ft-big {
     font-size: clamp(3rem, 7.6vw, 7rem);

@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 107,
+    date: "2026-11-06",
+    title: "Footer console is easier to understand",
+    notes: [
+      "The footer console explains itself: a short 3-step guide in the window, buttons grouped as Pages (with the number of pages) and For fun, a clearer input hint and a helpful answer when a word is not known.",
+      "The window starts empty again on a refresh and also on every new page.",
+    ],
+  },
+  {
     v: 106,
     date: "2026-11-06",
     title: "More footer commands",
