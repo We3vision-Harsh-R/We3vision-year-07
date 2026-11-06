@@ -235,3 +235,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v101-v102 (2026-11-06): hero logo pills box removed; tb- technology board redesigned (rail, pointer light, ghost monogram, staggered card; tech-board.tsx + home-redesign.css); Global Reach un-pinned (reach-stage.tsx rewritten: no scroll pin, no click-to-focus, globe free-spins, list follows REACH_EVENT).
 
 - v105 (2026-11-06): footer: console full width (fx-row single column on laptop), brand row under it, the Services/Technology/Company grid REMOVED (a visually hidden nav keeps the links). Owner tried a version with the links inside the console and rejected it: keep the chat-style console with chips. Version numbers 103-104 live on branch optimize (version.ts conflict expected).
+
+- v106 (2026-11-06): footer console: MORE_GROUPS in footer.tsx (brand, marketing, software, products, home, social) are extra commands/chips; external links open in a new tab. Add a new page to the matching group there.

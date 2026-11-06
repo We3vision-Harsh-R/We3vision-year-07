@@ -5,6 +5,57 @@ import { FooterConsole, FooterGlow } from "./footer-console";
 import { FooterWord, ToTop } from "./footer-word";
 import { SmartLink } from "./smart-link";
 
+// More command groups of the footer console, next to the three menus of the admin panel (services, technology, company): the other pages and the
+// sections of the home page, so that every page of the site can be found from the footer. Real pages only.
+const MORE_GROUPS = [
+  {
+    label: "Brand",
+    items: [
+      { label: "Brand Identity", href: "/brand-identity" },
+      { label: "Brand Development", href: "/brand-development-services" },
+      { label: "Zero to N Brand Development", href: "/zero-to-n-brand-development" },
+      { label: "Brand Kit Design", href: "/brand-kit-design" },
+      { label: "Brand Video Production", href: "/brand-video-production" },
+    ],
+  },
+  {
+    label: "Marketing",
+    items: [
+      { label: "SEO", href: "/seo" },
+      { label: "Meta Marketing", href: "/meta-marketing-services" },
+      { label: "Physical Marketing", href: "/physical-marketing-services" },
+    ],
+  },
+  {
+    label: "Software",
+    items: [
+      { label: "Software Development", href: "/software-development-services" },
+      { label: "Shopify Plugin Development", href: "/shopify-plugin-development-services" },
+      { label: "WordPress Plugin Development", href: "/wordpress-plugin-development-company" },
+    ],
+  },
+  {
+    label: "Products",
+    items: [
+      { label: "All products", href: "/products" },
+      { label: "WeThink", href: "/products/wethink" },
+      { label: "WePresent", href: "/products/wepresent" },
+      { label: "WeJobs", href: "/products/wejobs" },
+      { label: "WeBugMate", href: "/products/webugmate" },
+    ],
+  },
+  {
+    label: "Home",
+    items: [
+      { label: "Services", href: "/#services" },
+      { label: "Industries", href: "/#industries" },
+      { label: "Tools & Technologies", href: "/#tools" },
+      { label: "Global Reach", href: "/#reach" },
+      { label: "Contact", href: "/#contact" },
+    ],
+  },
+];
+
 function SocialIcon({ label, href }: { label: string; href: string }) {
   const name = label.toLowerCase();
   return (
@@ -31,6 +82,8 @@ function SocialIcon({ label, href }: { label: string; href: string }) {
  * under it and, at the very bottom, the big name of the company that lights up where the mouse is.
  */
 export function Footer({ site }: { site: SiteSettings }) {
+  const social = site.social.filter((s) => s.href.startsWith("http")).map((s) => ({ label: s.label, href: s.href }));
+  const groups = [...site.menus, ...MORE_GROUPS, ...(social.length ? [{ label: "Social", items: social }] : [])];
   return (
     <footer className="ft" data-pause-off>
       <FooterGlow>
@@ -55,7 +108,7 @@ export function Footer({ site }: { site: SiteSettings }) {
 
         {/* 1b. the console: a small terminal to play with, and next to it the brand */}
         <div className="fx-row">
-          <FooterConsole menus={site.menus} />
+          <FooterConsole menus={groups} />
           <div className="fx-side">
             <Image src="/brand/logo-stacked-dark.webp" alt={site.name} width={600} height={642} className="h-auto w-32" unoptimized />
             <p className="ft-brand-t">{site.tagline}</p>
@@ -72,7 +125,7 @@ export function Footer({ site }: { site: SiteSettings }) {
 
         {/* the links of the console as plain links (not drawn): search engines and screen readers still find every page from the footer */}
         <nav className="sr-only" aria-label="All pages">
-          {site.menus.map((menu) => (
+          {groups.filter((g) => g.label !== "Social").map((menu) => (
             <ul key={menu.label} aria-label={menu.label}>
               {menu.items.map((item) => (
                 <li key={item.label + item.href}>

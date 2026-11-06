@@ -54,7 +54,9 @@ export function FooterConsole({ menus }: { menus: Menu[] }) {
       <a
         key={it.href + it.label}
         href={it.href}
+        {...(/^https?:/.test(it.href) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         onClick={(e) => {
+          if (/^https?:/.test(it.href)) return;
           e.preventDefault();
           router.push(it.href);
         }}

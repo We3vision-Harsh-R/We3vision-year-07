@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 106,
+    date: "2026-11-06",
+    title: "More footer commands",
+    notes: [
+      "The footer console has six more commands next to services, technology and company: brand, marketing, software, products, home (the sections of the home page) and social. Each one lists links to the real pages.",
+    ],
+  },
+  {
     v: 105,
     date: "2026-11-06",
     title: "Footer: one wide console",
