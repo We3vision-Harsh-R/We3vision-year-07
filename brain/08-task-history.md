@@ -223,3 +223,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v95 (2026-11-06): hero rings (hx-orbit) and old chat card removed; new AskPanda card (ask-panda.tsx, ap- CSS in home-redesign.css) with pointer border glow (--mx/--my). ai-chat.tsx lost its hero prop (menu chat unchanged).
 
 - v96 (2026-11-06): HOME CELEBRATION (Fest > Places > homecele, laptop list only, default off). home-celebrate.tsx (pill + click on hero, lock) opens fest/home-cele.tsx (full-window SVG scene, own chunk) + styles/home-cele.css (hc-). Only Dhanteras is built; the scene is one component, so Kali Chaudas, Diwali, Bhai Bij and the new year need their own scenes + a day setting (open item).
+
+- v97 (2026-11-06): owner did not like the Dhanteras art: home-cele.tsx cut down to date + title + an empty flat floor (.hc-floor, same look as .fh-floor of the footer). Pill, click, lock and close are unchanged. The next scenes go on that floor.

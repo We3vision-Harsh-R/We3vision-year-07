@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 97,
+    date: "2026-11-06",
+    title: "Home celebration: art removed, floor kept",
+    notes: [
+      "The Dhanteras story, house, people and rockets are gone from the home celebration.",
+      "What is left: the blurred hero, the date, Happy Dhanteras and an empty flat floor like the one in the footer.",
+    ],
+  },
+  {
     v: 96,
     date: "2026-11-06",
     title: "Home celebration: Happy Dhanteras",

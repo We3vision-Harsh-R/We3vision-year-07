@@ -270,3 +270,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - v95: glow checked with a headless mouse only; AI answers could not be tested locally (API offline gives the fallback sentence).
 
 - v96: build the other days of the home celebration (Kali Chaudas, Diwali, Bhai Bij, new year/Bestu Varas) and a day picker (auto by date) in Admin > Fest. Dhanteras scene checked on a laptop only (1440x900); not on a real mouse or other sizes.
+
+- v97: the floor of the home celebration is empty on purpose; the owner will say what goes on it (people, story) and for the other days.
