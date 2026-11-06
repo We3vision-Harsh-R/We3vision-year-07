@@ -1263,3 +1263,169 @@
     margin-top: 1.2rem;
   }
 }
+
+/* ---------- 15. phone and tablet: no technologies section; phone: services as swipe cards, industries as one swipe row, quieter first screen (owner, 2026-11-06) ---------- */
+@media (max-width: 1023.98px) {
+  .hx ~ #tools {
+    display: none;
+  }
+}
+@media (max-width: 699.98px) {
+  /* first screen */
+  :root:root .hx-panel {
+    gap: 0.9rem;
+    padding: 4.4rem 1.15rem 5.4rem;
+  }
+  :root:root .hx-title {
+    font-size: clamp(1.55rem, 6.8vw, 1.85rem);
+    letter-spacing: -0.03em;
+  }
+  :root:root .hx-text {
+    margin-top: 0.8rem;
+    color: rgb(255 255 255 / 0.68);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  :root:root .hx-head .hx-go {
+    height: 2.8rem;
+    margin-top: 1.1rem;
+    font-size: 0.9375rem;
+  }
+  :root:root .hx-rec {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+  }
+  :root:root .hx-rec img {
+    height: 1.7rem;
+  }
+
+  /* services: every service is one card in a row you swipe (the words are the same, they are only laid out differently) */
+  :root:root .sd-sticky {
+    padding: 2.4rem 0 1.6rem;
+  }
+  :root:root .sd-head {
+    padding-inline: var(--hm-pad);
+  }
+  :root:root .sd-head h2 {
+    margin-top: 0.8rem;
+    font-size: 1.6rem;
+  }
+  :root:root .sd-body {
+    margin-top: 1.2rem;
+  }
+  :root:root .sd-list {
+    display: flex;
+    gap: 0.7rem;
+    padding: 0.2rem var(--hm-pad) 0.4rem;
+    overflow-x: auto;
+    border-top: 0;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--hm-pad);
+    scrollbar-width: none;
+  }
+  :root:root .sd-list::-webkit-scrollbar {
+    display: none;
+  }
+  :root:root .sd-row {
+    display: flex;
+    width: min(78%, 17rem);
+    flex: none;
+    flex-direction: column;
+    padding: 1rem 1.05rem 1.05rem;
+    border: 1px solid var(--hm-hair);
+    border-radius: 20px;
+    background: var(--hm-card);
+    scroll-snap-align: start;
+  }
+  :root:root .sd-btn {
+    padding: 0;
+    pointer-events: none;
+    font-size: 1.0625rem;
+    line-height: 1.25;
+  }
+  :root:root .sd-btn i {
+    color: var(--ac);
+    font-size: 0.8125rem;
+  }
+  :root:root .sd-btn span {
+    font-size: 1.0625rem;
+  }
+  :root:root .sd-m,
+  :root:root .sd-m[hidden] {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.6rem 0 0;
+  }
+  :root:root .sd-m p {
+    margin: 0;
+    color: rgb(255 255 255 / 0.66);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  :root:root .sd-m ul {
+    display: none;
+  }
+  :root:root .sd-go {
+    margin-top: auto;
+    font-size: 0.9375rem;
+  }
+  :root:root .sd-go span {
+    display: none;
+  }
+  :root:root .sd-go::before {
+    content: "Explore";
+  }
+
+  /* industries: one row of small cards */
+  .hx ~ #industries {
+    padding-block: 2.2rem 1.6rem;
+  }
+  .hx ~ #industries .cm-list {
+    grid-template-rows: auto;
+    margin-top: 1.1rem;
+    counter-reset: ind;
+  }
+  .hx ~ #industries .cm-list > li,
+  .hx ~ #industries .cm-list > li:last-child {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1rem 1.05rem 1.1rem;
+    border-radius: 20px;
+    counter-increment: ind;
+  }
+  .hx ~ #industries .cm-list > li::after {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.05rem;
+    color: rgb(255 255 255 / 0.28);
+    content: "0" counter(ind);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+  .hx ~ #industries .cm-list p {
+    display: -webkit-box;
+    margin: 0.3rem 0 0;
+    color: rgb(255 255 255 / 0.62);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* quieter sections: a little more air between them, smaller headings */
+  .hx ~ #advantages,
+  .hx ~ #contact {
+    padding-block: 2.2rem 1.6rem;
+  }
+}
