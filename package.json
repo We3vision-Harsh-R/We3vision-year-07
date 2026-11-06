@@ -19,6 +19,8 @@
     "db:seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate",
     "test": "vitest run",
+    "ux:audit": "node tools/ux-audit/run.mjs",
+    "ux:report": "node tools/ux-audit/report.mjs",
     "git:status": "node tools/git-sync.mjs status",
     "git:pull": "node tools/git-sync.mjs pull",
     "git:save": "node tools/git-sync.mjs save",

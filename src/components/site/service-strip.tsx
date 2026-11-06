@@ -196,7 +196,7 @@ export function ServiceStrip({ cards, scroll = false, head }: { cards: Card[]; s
                       </div>
                     )}
                     {card.href && (
-                      <SmartLink href={card.href} className="ss-more">
+                      <SmartLink href={card.href} className="ss-more" aria-label={`Learn more about ${card.title}`}>
                         Learn more
                         <svg viewBox="0 0 24 24" className="size-4 fill-none stroke-current" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                           <path d="M5 12h14M13 6l6 6-6 6" />

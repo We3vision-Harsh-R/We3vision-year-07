@@ -60,7 +60,10 @@ export function AppScreen({
       <ScreenChrome title={title} />
       <Motion />
       <div className="ma-prog" aria-hidden="true" />
-      <main className="ma-screen">
+      <a href="#ma-main" className="ma-skip">
+        Skip to content
+      </a>
+      <main className="ma-screen" id="ma-main" tabIndex={-1}>
         <div className="ma-wrap">
           <header className={`ma-large${title.length > 24 ? " is-long" : ""}`}>
             {glyph && (

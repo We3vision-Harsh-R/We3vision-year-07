@@ -129,7 +129,9 @@ export function Footer({ site }: { site: SiteSettings }) {
             <ul key={menu.label} aria-label={menu.label}>
               {menu.items.map((item) => (
                 <li key={item.label + item.href}>
-                  <SmartLink href={item.href}>{item.label}</SmartLink>
+                  <SmartLink href={item.href} tabIndex={-1}>
+                    {item.label}
+                  </SmartLink>
                 </li>
               ))}
             </ul>

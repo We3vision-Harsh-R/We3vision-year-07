@@ -1,0 +1,46 @@
+/* =====================================================================================================================
+   UX FIXES (laptop), from the UX audit (tools/ux-audit, brain/22-ux-audit.md). Hand-written, site-wide, small. Prefix "uxf-" for any new class.
+   The per-element font-size / contrast / tap-target cures are GENERATED into ux-auto.css (fixgen.mjs): do not repeat them here.
+   ===================================================================================================================== */
+
+/* Contrast: the soft paragraph colour (text-orchid) was 4.0:1 on the dark cards; a little lighter passes 4.5:1. Hue and theme picker are unchanged. */
+:root {
+  --color-orchid: hsl(calc(var(--th) + 353.78) calc(22.69% * var(--ts)) calc(58% + 7% * max(0, cos((var(--th) - 240) * 2.4deg))));
+}
+
+/* No lonely last word: headings are balanced, paragraphs avoid a one-word last line. :where() has no weight, so a rule that already sets text-wrap keeps winning. */
+:where(h1, h2, h3, h4) {
+  text-wrap: balance;
+}
+:where(p, li, figcaption, blockquote, dd) {
+  text-wrap: pretty;
+}
+
+/* Tap target: an e-mail or phone link in a sentence block is at least 24px high (the text and the page layout do not move). */
+html a[href^="mailto:"],
+html a[href^="tel:"] {
+  display: inline-block;
+  padding-block: 2px;
+}
+
+/* A line of 8 words is not shouted in capitals (SEO lab "Featured answer" label). */
+html .sxo-ans small {
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+/* Tap target: the "in / ig" social links in the Brand Identity first screen were 13px wide. */
+html nav[aria-label="Social links"] a {
+  display: inline-block;
+  min-width: 24px;
+  padding-block: 2px;
+  text-align: center;
+}
+
+/* On a phone an e-mail or phone link in a text block is a 44px target. */
+@media (max-width: 767px) {
+  html a[href^="mailto:"],
+  html a[href^="tel:"] {
+    padding-block: 10px;
+  }
+}

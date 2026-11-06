@@ -284,3 +284,10 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Phase 8 is on branch optimize (not merged). Open question for the owner: load every home section chunk on scroll (client-only, text not in the page source) or keep server HTML.
 
 - Phase 9 on branch optimize: a NEW below-the-fold client component must be added to lazy.tsx with late(); a first-screen one with dynamic(. Not yet compared with style-diff against main; do that before the owner merges.
+
+## UX audit leftovers (v110, see brain/22)
+- **Owner content**: brand-identity gallery shows placeholder text ("Project 01..30", "A short description of the project") = 42 problems.
+- **Speed (PERF01/02/03)**: LCP > 2.5 s on 23 pages and layout shift > 0.1 on 11 (headless Chrome, no GPU, so relative): belongs to the `optimize` branch, not done here.
+- **Contrast on mid-tone backgrounds** (brand buttons, WordPress/Shopify mock UIs, scroll-lit words) needs a background change, not a text colour: list in `.task-log/ux-after*/MANUAL.md` (re-run the audit to get it).
+- Left by design: carousel dots (8px), Figma mock eye icon, headings with line-height 1.2-1.3, Ask-PANDA h3 after h1.
+- Not covered locally: blog / portfolio / career detail pages come from the database (the local build has no data); only 3 live pages were sampled.

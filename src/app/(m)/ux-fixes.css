@@ -1,0 +1,26 @@
+/* =====================================================================================================================
+   PHONE UX FIXES (from the UX audit, tools/ux-audit). Prefix "uxm-" for new classes; the rest are small rules on existing "ma-" classes.
+   Loaded by (m)/layout.tsx after mobile.css. Laptop rules live in src/styles/ux-fixes.css.
+   ===================================================================================================================== */
+
+/* skip link: first Tab stop of every app screen, visible only while it has focus */
+.ma-skip {
+  position: fixed;
+  left: 12px;
+  top: -80px;
+  z-index: 100000;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 72%);
+  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.ma-skip:focus-visible {
+  top: 12px;
+}
+#ma-main:focus {
+  outline: none;
+}

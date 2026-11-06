@@ -13,9 +13,9 @@ type P = { cards: Card[] };
 const two = (n: number) => String(n).padStart(2, "0");
 const plain = (s: string) => s.replace(/\s*\n\s*/g, " ");
 
-function Item({ c, className, children }: { c: Card; className: string; children: React.ReactNode }) {
+function Item({ c, className, children, hidden }: { c: Card; className: string; children: React.ReactNode; hidden?: boolean }) {
   return c.href ? (
-    <SmartLink href={c.href} className={className}>
+    <SmartLink href={c.href} className={className} tabIndex={hidden ? -1 : undefined}>
       {children}
     </SmartLink>
   ) : (
@@ -75,7 +75,7 @@ function Marquee({ cards }: P) {
       <ul className="vl-mq-track">
         {all.map((c, i) => (
           <li key={i} aria-hidden={i >= cards.length}>
-            <Item c={c} className="vl-mq-pill">
+            <Item c={c} className="vl-mq-pill" hidden={i >= cards.length}>
               <IconTile index={(i % cards.length) + 1} />
               <span>
                 <b>{plain(c.title)}</b>

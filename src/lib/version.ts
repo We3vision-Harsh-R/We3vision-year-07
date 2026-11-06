@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 110,
+    date: "2026-11-06",
+    title: "UX audit tool and a first round of UI / UX fixes",
+    notes: [
+      "New audit tool (tools/ux-audit): opens every page on a laptop and an iPhone, lists every UI / UX / accessibility problem one per line, counts buttons, links and words per page, and writes the CSS cures.",
+      "Problems found on the local pages fell from 1912 to 414: small text, low contrast, tap targets, lonely last words, invisible keyboard tab stops, missing skip link and share picture on phone pages, and a broken script on every phone page (the desktop guard).",
+    ],
+  },
+  {
     v: 109,
     date: "2026-11-06",
     title: "Contact first screen redesigned",

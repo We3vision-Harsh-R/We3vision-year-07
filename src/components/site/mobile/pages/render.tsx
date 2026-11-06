@@ -7,6 +7,7 @@ import { PAGES, type PageSlug } from "@/lib/cms/pages";
 import { getDraftPage, getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
 import type { SectionType } from "@/lib/cms/sections";
 import { getProjects } from "@/lib/projects";
+import { SHARE_IMAGE } from "@/lib/share-image";
 import { AppScreen, Collapse, contactFrom } from "../app";
 import { APPS, GROUPS } from "../launcher-data";
 import { outlineFor, tabsFor } from "./nav";
@@ -92,7 +93,7 @@ export async function mobileMetadata(slug: PageSlug): Promise<Metadata> {
     title: page.title,
     description: page.description,
     alternates: { canonical: path },
-    openGraph: { type: "website", url: path, siteName: site.legalName || site.name, title: page.title, description: page.description },
-    twitter: { card: "summary_large_image", title: page.title, description: page.description },
+    openGraph: { type: "website", url: path, siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
+    twitter: { card: "summary_large_image", title: page.title, description: page.description, images: [SHARE_IMAGE.url] },
   };
 }

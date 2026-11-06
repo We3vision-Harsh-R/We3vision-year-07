@@ -30,3 +30,4 @@ tmp-shots/
 
 # second build folder used to compare two builds
 /.next-main/
+/.next-audit*/

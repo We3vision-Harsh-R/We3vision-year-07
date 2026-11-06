@@ -358,6 +358,8 @@ export function BrushTown({ kinds, layer, className, onReady }: { kinds: Kind[];
             (brush as any).instance(p);
             p.pixelDensity(Math.min(2, window.devicePixelRatio || 1));
             p.createCanvas(TOWN_W, TOWN_H, p.WEBGL);
+            // both canvases would get the id "defaultCanvas0": an id must be unique on a page
+            (p as unknown as { canvas?: HTMLCanvasElement }).canvas?.setAttribute("id", `town-canvas-${String(layer)}`);
             (brush as any).scaleBrushes(2.4);
             p.noLoop();
           };

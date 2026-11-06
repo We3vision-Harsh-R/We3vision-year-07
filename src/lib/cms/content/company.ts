@@ -80,7 +80,7 @@ export const CONTACT_SECTIONS: PageSection[] = [
 // ---- Careers ----
 export const CAREERS_SEO = {
   title: "Careers at We3vision | Join Our Team in Surat, India",
-  description: "Work with We3vision Private Limited in Surat: web, apps, AI, metaverse, UI/UX, brand design and CRM. Send us your details and tell us what you would like to build.",
+  description: "Work with We3vision Private Limited in Surat: web, apps, AI, metaverse, UI/UX, brand design and CRM. Send your details and tell us what you want to build.",
 };
 export const CAREERS_SECTIONS: PageSection[] = [
   section("careerJourney", {
