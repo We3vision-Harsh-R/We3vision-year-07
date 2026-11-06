@@ -140,11 +140,6 @@ section.hx {
 .hx-rec li {
   display: grid;
   place-items: center;
-  padding: 0.6rem 1.3rem;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 88% / 0.24);
-  border-radius: 999px;
-  background: linear-gradient(150deg, hsl(calc(var(--th) + 354) calc(75% * var(--ts)) 56% / 0.34), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 24% / 0.6));
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.34), inset 0 0 24px hsl(calc(var(--th) + 352) calc(90% * var(--ts)) 72% / 0.12);
 }
 .hx-rec img {
   display: block;
