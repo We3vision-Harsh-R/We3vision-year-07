@@ -38,7 +38,7 @@ const PAGE_FN = `(async () => {
   await new Promise((r) => setTimeout(r, 200));
   const fnv = (s) => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); };
   const out = [];
-  for (const el of [...document.querySelectorAll("body *")].slice(0, 12000)) {
+  for (const el of [...document.querySelectorAll("body *:not([data-lh])")].slice(0, 12000)) {
     const cs = getComputedStyle(el);
     let s = "";
     for (const p of P) s += cs[p] + "|";
@@ -97,7 +97,7 @@ async function snapshot(path, root = base) {
 // inspect: prints the element with this index (the numbers that "compare" prints) so that a difference can be understood
 if (mode === "inspect") {
   await snapshot(pathsArg[0]);
-  const r = await send("Runtime.evaluate", { returnByValue: true, expression: `(() => { const e = [...document.querySelectorAll("body *")][${Number(pathsArg[1])}]; const cs = getComputedStyle(e); return JSON.stringify({ html: e.outerHTML.slice(0, 260), parent: e.parentElement.outerHTML.slice(0, 160), width: cs.width, height: cs.height, display: cs.display, opacity: cs.opacity, rect: e.getBoundingClientRect().toJSON(), all: Object.fromEntries([...cs].map((p) => [p, cs.getPropertyValue(p)])) }, null, 1); })()` });
+  const r = await send("Runtime.evaluate", { returnByValue: true, expression: `(() => { const e = [...document.querySelectorAll("body *:not([data-lh])")][${Number(pathsArg[1])}]; const cs = getComputedStyle(e); return JSON.stringify({ html: e.outerHTML.slice(0, 260), parent: e.parentElement.outerHTML.slice(0, 160), width: cs.width, height: cs.height, display: cs.display, opacity: cs.opacity, rect: e.getBoundingClientRect().toJSON(), all: Object.fromEntries([...cs].map((p) => [p, cs.getPropertyValue(p)])) }, null, 1); })()` });
   console.log(r.result.result.value);
   stop();
   process.exit(0);

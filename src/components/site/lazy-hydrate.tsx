@@ -34,7 +34,7 @@ export function LazyHydrate({ children }: { children: ReactNode }) {
   }, [wake]);
   return (
     <>
-      <span ref={sentinel} aria-hidden style={{ position: "absolute", width: 1, height: 1, pointerEvents: "none" }} />
+      <span ref={sentinel} data-lh aria-hidden style={{ position: "absolute", width: 1, height: 1, pointerEvents: "none" }} />
       <Suspense fallback={null}>
         <Gate wake={wake.promise}>{children}</Gate>
       </Suspense>

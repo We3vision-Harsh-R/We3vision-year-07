@@ -27,8 +27,8 @@ function SocialIcon({ label, href }: { label: string; href: string }) {
 }
 
 /**
- * The footer, not a row of small links: first a big sentence with a button, then the link columns
- * (numbered, every link slides on hover) and, at the very bottom, the big name of the company that lights up where the mouse is.
+ * The footer: a big sentence with a button, then ONE wide console (its buttons and typed commands are the links to every page) with the brand
+ * under it and, at the very bottom, the big name of the company that lights up where the mouse is.
  */
 export function Footer({ site }: { site: SiteSettings }) {
   return (
@@ -59,6 +59,7 @@ export function Footer({ site }: { site: SiteSettings }) {
           <div className="fx-side">
             <Image src="/brand/logo-stacked-dark.webp" alt={site.name} width={600} height={642} className="h-auto w-32" unoptimized />
             <p className="ft-brand-t">{site.tagline}</p>
+            {site.menuNote && <p className="ft-note">{site.menuNote}</p>}
             {site.social.length > 0 && (
               <div className="ft-socs">
                 {site.social.map((s) => (
@@ -69,31 +70,23 @@ export function Footer({ site }: { site: SiteSettings }) {
           </div>
         </div>
 
-        {/* 2. the link columns (the offices are in the contact section, not repeated here) */}
-        <div className="ft-grid">
-          {site.menus.map((menu, index) => (
-            <nav key={menu.label} aria-label={menu.label} className="ft-col">
-              <p className="ft-col-t">
-                <i>{String(index + 1).padStart(2, "0")}</i> {menu.label}
-              </p>
-              <ul>
-                {menu.items.map((item) => (
-                  <li key={item.label + item.href}>
-                    <SmartLink href={item.href} className="ft-link">
-                      <span>{item.label}</span>
-                    </SmartLink>
-                  </li>
-                ))}
-              </ul>
-              {index === site.menus.length - 1 && site.menuNote && <p className="ft-note">{site.menuNote}</p>}
-            </nav>
+        {/* the links of the console as plain links (not drawn): search engines and screen readers still find every page from the footer */}
+        <nav className="sr-only" aria-label="All pages">
+          {site.menus.map((menu) => (
+            <ul key={menu.label} aria-label={menu.label}>
+              {menu.items.map((item) => (
+                <li key={item.label + item.href}>
+                  <SmartLink href={item.href}>{item.label}</SmartLink>
+                </li>
+              ))}
+            </ul>
           ))}
-        </div>
-        {/* 3. a place for the festival (Admin > Fest, "Family at home in the footer"): empty and without height when no festival is on */}
+        </nav>
+        {/* 2. a place for the festival (Admin > Fest, "Family at home in the footer"): empty and without height when no festival is on */}
         <div className="ft-home-slot" />
       </div>
 
-      {/* 4. the big name */}
+      {/* 3. the big name */}
       <FooterWord text={site.name} />
 
       <div className="ft-in ft-bottom">
