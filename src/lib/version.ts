@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 111,
+    date: "2026-11-06",
+    title: "Phone polish: smaller words, compact cards",
+    notes: [
+      "On phones and tablets the AI card of the first screen and the row of group words under Our services (Development, Creatives and so on) are not shown any more. On phones the first screen, the Industries cards and the address cards have smaller words and tighter cards, and the custom scroll line is gone. Laptops are unchanged.",
+    ],
+  },
+  {
     v: 110,
     date: "2026-11-06",
     title: "UX audit tool and a first round of UI / UX fixes",

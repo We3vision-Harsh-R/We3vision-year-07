@@ -291,3 +291,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - **Contrast on mid-tone backgrounds** (brand buttons, WordPress/Shopify mock UIs, scroll-lit words) needs a background change, not a text colour: list in `.task-log/ux-after*/MANUAL.md` (re-run the audit to get it).
 - Left by design: carousel dots (8px), Figma mock eye icon, headings with line-height 1.2-1.3, Ask-PANDA h3 after h1.
 - Not covered locally: blog / portfolio / career detail pages come from the database (the local build has no data); only 3 live pages were sampled.
+
+- Perf budget: CSS of /software-development-services is 112 KB gz (limit 110) after v110/v111; trim CSS next.

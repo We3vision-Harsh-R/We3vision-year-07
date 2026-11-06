@@ -1155,3 +1155,10 @@
     transition: none;
   }
 }
+
+/* hx2- (2026-11-06, owner): the AI card of the first screen is not shown on phones and tablets */
+@media (max-width: 1023.98px) {
+  :root .hx-ai {
+    display: none;
+  }
+}

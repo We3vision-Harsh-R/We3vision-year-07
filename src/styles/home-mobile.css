@@ -1064,3 +1064,97 @@
     transform: scale(0.97);
   }
 }
+
+/* ---------- 12. phone polish (owner, 2026-11-06): smaller words, compact cards, no custom scrollbar, lighter to paint. Prefix "hp-" for new rules ---------- */
+@media (max-width: 1023.98px) {
+  /* the touch screen has its own scroll line; the custom thin bar on the right edge only gets in the way */
+  :root .sb-track {
+    display: none;
+  }
+}
+@media (max-width: 699.98px) {
+  :root {
+    --hm-col: min(74%, 17.5rem);
+  }
+  /* first screen: the AI card is hidden here, so the panel is only as tall as its words (no empty hole above the dock) */
+  :root .hx-panel {
+    min-height: 0;
+    gap: 1.2rem;
+    padding: 5rem 1.15rem 6.6rem;
+  }
+  :root .hx-tag {
+    font-size: 0.875rem;
+  }
+  :root .hx-title {
+    font-size: clamp(1.7rem, 7.4vw, 2.1rem);
+    line-height: 1.12;
+  }
+  :root .hx-text {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  :root .hx-go {
+    height: 3rem;
+    font-size: 1rem;
+  }
+  /* the moving light of the first screen is paint work for nothing on a small phone */
+  :root .hz-aura,
+  :root .hz-aura::before,
+  :root .hz-aura::after {
+    animation: none;
+  }
+
+  /* section headings and intro words */
+  .hx ~ section .text-center h2,
+  .hx ~ section h2.sh,
+  .hx ~ #tools .ts-head h2 {
+    font-size: clamp(1.5rem, 6.4vw, 1.85rem);
+    line-height: 1.15;
+  }
+  .hx ~ section .text-center p,
+  .hx ~ #tools .ts-head p {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  /* industries: a small icon beside the name, two short lines of words */
+  .hx ~ #industries .cm-list > li,
+  .hx ~ #industries .cm-list > li:last-child {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 0.75rem;
+    padding: 0.9rem 0.95rem;
+    border-radius: 18px;
+  }
+  .hx ~ #industries .cm-l-ico {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 12px;
+  }
+  .hx ~ #industries .cm-list h3 {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+  .hx ~ #industries .cm-list p {
+    margin-top: 0.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  /* contact: address cards */
+  .hx ~ #contact .hm-addr address {
+    padding: 0.95rem 1rem;
+    border-radius: 18px;
+  }
+  .hx ~ #contact .hm-addr address > p:first-of-type {
+    font-size: 1.0625rem;
+  }
+  .hx ~ #contact .hm-addr address > div {
+    margin-top: 0.45rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .hx ~ #contact .hm-addr address > div > p {
+    margin: 0;
+  }
+}

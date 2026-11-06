@@ -813,3 +813,10 @@
     opacity: 0;
   }
 }
+
+/* sw2- (2026-11-06, owner): the row of group words under "Our services" is removed on phones and tablets (this whole file is below 1024px) */
+@media (max-width: 1023.98px) {
+  :root .sw-chips {
+    display: none;
+  }
+}
