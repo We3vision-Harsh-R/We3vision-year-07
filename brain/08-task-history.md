@@ -251,3 +251,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v112 (2026-11-06): phone home page shorter: technologies as swipe rows (home-mobile.css 13), hero hole closed (needs :root:root over home-intro.css), services list / reach / contact tighter (14). Page height on phone 9041 -> about 8400 px.
 
 - v113 (2026-11-06): phone: technologies hidden below 1024px (owner: not needed), services as swipe cards, industries one swipe row, hero shorter (home-mobile.css 15). Heights: hero 917->584, services 1056->384, industries 712->490.
+
+- v114 (2026-11-06): phone hero = 100svh - 6.6rem (ends above the dock), words low, Recognised at the bottom (home-mobile.css 16).

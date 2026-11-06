@@ -1429,3 +1429,52 @@
     padding-block: 2.2rem 1.6rem;
   }
 }
+
+/* ---------- 16. phone: the first screen is exactly one screen tall and ends above the bottom menu (owner, 2026-11-06). Room for the logo on top, the words
+   low on the screen, the Recognised logos at the very bottom with some air between them and the button ---------- */
+@media (max-width: 699.98px) {
+  :root:root section.hx {
+    padding: 6px 6px 0;
+  }
+  :root:root .hx-panel {
+    height: calc(100svh - 6.6rem);
+    min-height: 31rem;
+    gap: 0;
+    padding: 6.4rem 1.2rem 1.3rem;
+  }
+  :root:root .hx-head {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+  :root:root .hx-tag {
+    margin: auto 0 0;
+    font-size: 0.8125rem;
+  }
+  :root:root .hx-title {
+    margin: 0.9rem 0 0;
+    font-size: clamp(1.7rem, 7.4vw, 2rem);
+    line-height: 1.12;
+  }
+  :root:root .hx-text {
+    margin: 0.8rem 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  :root:root .hx-head .hx-go {
+    height: 3rem;
+    margin-top: 1.4rem;
+    font-size: 1rem;
+  }
+  :root:root .hx-rec {
+    margin-top: 1.8rem;
+    padding-top: 1rem;
+  }
+  :root:root .hx-rec p {
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+  }
+  :root:root .hx-rec img {
+    height: 1.8rem;
+  }
+}

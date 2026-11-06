@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 114,
+    date: "2026-11-06",
+    title: "Phone first screen fits one screen",
+    notes: [
+      "On phones the first screen is exactly one screen tall and ends above the bottom menu. There is room for the logo on top, the words sit low on the screen, and the Recognised logos are at the bottom with some air above them. Laptops are unchanged.",
+    ],
+  },
+  {
     v: 113,
     date: "2026-11-06",
     title: "Phone home page: premium and light",
