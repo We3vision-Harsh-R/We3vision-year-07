@@ -247,3 +247,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v110 (2026-11-06): UX audit tool `tools/ux-audit` (brain/22) + first fix round. Generated CSS: `src/styles/ux-auto.css`, `ux-auto-phone.css`, `src/app/(m)/ux-auto.css` (do not edit by hand, re-run fixgen); hand rules: `src/styles/ux-fixes.css`, `src/app/(m)/ux-fixes.css`. Code: footer hidden nav tabIndex -1, mobile og:image + skip link, (m) DESKTOP_GUARD regex escape fixed, marquee copies tabIndex -1, Learn more aria-label, p5 canvas ids, careers description 154 chars. Audit 1912 -> 414 problems (1440 + 1280 + 1920 laptop, 390 phone). Revert: git tag v110.
 
 - v111 (2026-11-06): phone polish: hero AI card and service-wheel group words hidden below 1024px, phone-size words and compact Industries and address cards, custom scrollbar off (home-mobile.css section 12). Laptops unchanged.
+
+- v112 (2026-11-06): phone home page shorter: technologies as swipe rows (home-mobile.css 13), hero hole closed (needs :root:root over home-intro.css), services list / reach / contact tighter (14). Page height on phone 9041 -> about 8400 px.

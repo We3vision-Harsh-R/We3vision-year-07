@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 112,
+    date: "2026-11-06",
+    title: "Phone home page takes less space",
+    notes: [
+      "On phones the technologies are one swipe row of small tiles (the group names too) with the card of the chosen one under it. The first screen has no empty hole, the services list, Global Reach and Contact are tighter with smaller words. Laptops are unchanged.",
+    ],
+  },
+  {
     v: 111,
     date: "2026-11-06",
     title: "Phone polish: smaller words, compact cards",
