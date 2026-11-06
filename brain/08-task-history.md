@@ -241,3 +241,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v107 (2026-11-06): footer console: guide text while empty, chips grouped (Pages with counts / For fun), did-you-mean answer, window cleared on every route change (state reset during render on pathname change) and on refresh.
 
 - v108 (2026-11-06): footer console responsive: under 640 px the window height is auto (max 62svh), 768-1023 px the brand is a row. Phones get the /m app pages, which have no footer: the console is only seen on tablets and desktop windows. Checked at 900, 768 and a 400 px iframe.
+
+- v109 (2026-11-06): Contact page first screen REDESIGNED on the owner order: reception-avatar.tsx deleted, contact-reception.tsx rewritten (no receptionist, no chat; five cx- path cards), contact.css replaced (rc-/ra- gone, prefix cx-). Do not bring the avatar back. The phone /m app contact page never had it in the Intro tab.

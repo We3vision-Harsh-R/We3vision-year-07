@@ -21,7 +21,7 @@ export const BUNDLES = [
   { name: "mega-menu", families: ["mm"], files: ["src/components/site/mega-menu.tsx"] },
   { name: "admin", families: ["al","adb"], files: ["src/components/admin/login-screen.tsx","src/components/admin/blog-form.tsx","src/components/admin/blog-preview.tsx"] },
   { name: "blog", families: ["bm"], files: ["src/components/site/modern/blog-masonry.tsx"] },
-  { name: "contact", families: ["rc","ra"], files: ["src/components/site/contact-reception.tsx","src/components/site/reception-avatar.tsx"] },
+  { name: "contact", families: ["cx"], files: ["src/components/site/contact-reception.tsx"] },
   { name: "careers", families: ["cj","rl","ro","rv","rt","rh","jb"], files: ["src/components/site/career/destination.tsx","src/components/site/career/form-controls.tsx","src/components/site/career/job-apply.tsx","src/components/site/career/journey.tsx","src/components/site/career/location-picker.tsx","src/components/site/career/railway.tsx","src/components/site/figma-studio.tsx","src/components/site/sections/career.tsx","src/components/site/career/job-page.tsx"] },
   { name: "animation", families: ["ae"], files: ["src/components/site/after-effects.tsx"] },
   { name: "ui-ux", families: ["fg"], files: ["src/components/site/figma-studio.tsx"] },

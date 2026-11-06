@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 109,
+    date: "2026-11-06",
+    title: "Contact first screen redesigned",
+    notes: [
+      "The receptionist avatar, her chat and the office room are removed from the Contact page. The first screen is now a heading and five path cards (services, work, your problem, join the team, start a project) with a light that follows the pointer. It works the same on a laptop, a tablet and a narrow window.",
+    ],
+  },
+  {
     v: 108,
     date: "2026-11-06",
     title: "Footer console on narrow windows",
