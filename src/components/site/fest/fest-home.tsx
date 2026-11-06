@@ -194,9 +194,14 @@ function Cat() {
 const Boy = DIWALI_ITEM.sparkler;
 const Girl = DIWALI_ITEM.anar;
 
-/** the family itself (the strip with the floor): used in the footer (FooterHome) and by the home celebration (home-cele.tsx) */
-export function FamilyStrip() {
-  return (
+export function FooterHome() {
+  const [host, setHost] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    const t = window.setTimeout(() => setHost(document.querySelector<HTMLElement>(".ft-home-slot")), 0);
+    return () => window.clearTimeout(t);
+  }, []);
+  if (!host) return null;
+  return createPortal(
     <div className="fh" aria-hidden>
       <i className="fh-floor" />
       <div className="fh-g fh-puja">
@@ -241,17 +246,7 @@ export function FamilyStrip() {
           <b />
         </i>
       ))}
-    </div>
+    </div>,
+    host,
   );
-}
-
-export function FooterHome() {
-  const [host, setHost] = useState<HTMLElement | null>(null);
-  useEffect(() => {
-    const t = window.setTimeout(() => setHost(document.querySelector<HTMLElement>(".ft-home-slot")), 0);
-    return () => window.clearTimeout(t);
-  }, []);
-  if (!host) return null;
-  return createPortal(<FamilyStrip />, host);
-
 }

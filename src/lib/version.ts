@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 99,
+    date: "2026-11-06",
+    title: "Home celebration removed",
+    notes: [
+      "The Home celebration switch, the hero button and the full-window screen are removed from the Fest theme (owner's order).",
+    ],
+  },
+  {
     v: 98,
     date: "2026-11-06",
     title: "Home celebration: the footer family, big",

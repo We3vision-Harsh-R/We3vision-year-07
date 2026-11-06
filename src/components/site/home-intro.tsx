@@ -1,7 +1,6 @@
 import "@/styles/home-intro.css";
 import Image from "next/image";
 import { HeroAi } from "./hero-ai";
-import { HomeCelebrate } from "./home-celebrate";
 import { SmartLink } from "./smart-link";
 
 type Badge = { label: string; image: string };
@@ -52,7 +51,6 @@ export function HomeIntro({
           <SmartLink href="/contact" className="hx-go">
             Start a project
           </SmartLink>
-          <HomeCelebrate />
           {logos.length > 0 && (
             <div className="hx-rec">
               <p>Recognised by</p>
