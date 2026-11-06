@@ -276,3 +276,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - v98: other days (Kali Chaudas, Diwali, Bhai Bij, new year) still to do: new title + their own people on the same floor.
 
 - v99: the Home celebration / 5-day Diwali idea is cancelled by the owner; ignore the v96-v98 open items about it.
+
+- v100: hero polish is CSS-only (no new JS); CSS budget is at 109/110 KB, so any new hero CSS must replace old CSS.

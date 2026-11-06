@@ -1,4 +1,5 @@
 import "@/styles/home-intro.css";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { HeroAi } from "./hero-ai";
 import { SmartLink } from "./smart-link";
@@ -37,15 +38,24 @@ export function HomeIntro({
   return (
     <section className="hx" aria-labelledby="hx-title">
       <div className="hx-panel">
+        <span className="hz-aura" aria-hidden />
         <div className="hx-head">
           {above && mark && (
             <p className="hx-tag">
               {above} {mark} {below}
             </p>
           )}
-          <h1 id="hx-title" className="hx-title">
-            {lead}
-            {tail && <span> {tail}</span>}
+          <h1 id="hx-title" className="hx-title" aria-label={title}>
+            {lead.split(" ").map((w, i) => (
+              <span key={i} className="hz-w" style={{ "--i": i } as CSSProperties}>
+                {w}
+              </span>
+            ))}
+            {tail.split(" ").map((w, i) => (
+              <span key={i} className="hz-w hz-t" style={{ "--i": cut + i } as CSSProperties}>
+                {w}
+              </span>
+            ))}
           </h1>
           <p className="hx-text">{text}</p>
           <SmartLink href="/contact" className="hx-go">

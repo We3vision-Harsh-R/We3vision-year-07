@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 100,
+    date: "2026-11-06",
+    title: "Hero polish",
+    notes: [
+      "The first screen is more elegant: a soft slow aurora and a fine grid behind it, a heading that rises word by word with a violet gradient on its last words, a glowing dot in the tag, a hairline above Recognised by and a light sweep on the Start a project button.",
+    ],
+  },
+  {
     v: 99,
     date: "2026-11-06",
     title: "Home celebration removed",

@@ -229,3 +229,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v98 (2026-11-06): home celebration = blank night screen + date + Happy Dhanteras + Esc to exit + the footer family (FamilyStrip, now exported from fest-home.tsx) drawn big on the flat floor (.hc-slot zoom on .fh-p).
 
 - v99 (2026-11-06): the whole Home celebration (v96-v98: homecele switch, hero pill, full-window Dhanteras screen) was REMOVED on the owner's order. Do not rebuild it unless asked.
+
+- v100 (2026-11-06): hero polish (home-intro.tsx + home-intro.css block "hz-"): aurora + grid layer, per-word heading reveal with violet gradient tail, tag dot, hairline over Recognised by, button sheen (laptop only). Content unchanged.
