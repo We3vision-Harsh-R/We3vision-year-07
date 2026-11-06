@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent, type PointerEvent as RPointerEvent } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import dynamic from "next/dynamic";
 import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService } from "../../lib/ai-chat";
 import { PandaMini } from "./about/panda-mini";
+
+// the markdown library (~43 KB gzip) is fetched when the first answer comes, not while the page loads
+const AskMd = dynamic(() => import("./chat-md").then((m) => m.AskMd), { ssr: false });
 
 const STARTERS = [
   { q: "What does We3vision do?", hint: "Our services in one minute" },
@@ -111,9 +113,7 @@ export function AskPanda() {
             {messages.map((m, i) => (
               <div key={`${m.role}-${i}`} className="ap-msg" data-role={m.role}>
                 {m.role === "assistant" ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ a: (p) => <a {...p} target="_blank" rel="noopener noreferrer" /> }}>
-                    {normalizeMarkdown(m.text)}
-                  </ReactMarkdown>
+                  <AskMd text={normalizeMarkdown(m.text)} />
                 ) : (
                   <p>{m.text}</p>
                 )}

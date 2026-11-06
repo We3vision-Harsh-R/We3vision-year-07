@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService } from "../../lib/ai-chat";
 import { PandaMini } from "./about/panda-mini";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import dynamic from "next/dynamic";
+
+const MenuMd = dynamic(() => import("./chat-md").then((m) => m.MenuMd), { ssr: false });
 
 const SUGGESTIONS = ["What does We3vision do?", "Where is your office?", "How can I get a quote?"];
 
@@ -241,27 +242,7 @@ export function AiChat() {
                 
 <div className="pd-msg" data-role={m.role}>
   {m.role === "assistant" ? (
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
-      components={{
-        a: ({ ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" className="pd-msg-a" />,
-        h1: ({ ...props }) => <h1 {...props} className="pd-msg-h1" />,
-        h2: ({ ...props }) => <h2 {...props} className="pd-msg-h2" />,
-        h3: ({ ...props }) => <h3 {...props} className="pd-msg-h3" />,
-        h4: ({ ...props }) => <h4 {...props} className="pd-msg-h4" />,
-        p: ({ ...props }) => <p {...props} className="pd-msg-p" />,
-        ul: ({ ...props }) => <ul {...props} className="pd-msg-ul" />,
-        ol: ({ ...props }) => <ol {...props} className="pd-msg-ol" />,
-        li: ({ ...props }) => <li {...props} className="pd-msg-li" />,
-        strong: ({ ...props }) => <strong {...props} className="pd-msg-strong" />,
-        hr: () => <hr className="pd-msg-divider" />,
-        pre: ({ ...props }) => <pre {...props} className="pd-msg-pre" />,
-        code: ({ ...props }) => <code {...props} className="pd-msg-code" />,
-        table: ({ ...props }) => <div className="pd-msg-table-wrap"><table {...props} className="pd-msg-table" /></div>,
-      }}
-    >
-      {normalizeMarkdown(m.text)}
-    </ReactMarkdown>
+    <MenuMd text={normalizeMarkdown(m.text)} />
   ) : (
     m.text
   )}

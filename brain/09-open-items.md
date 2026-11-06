@@ -280,3 +280,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - v100: hero polish is CSS-only (no new JS); CSS budget is at 109/110 KB, so any new hero CSS must replace old CSS.
 
 - v102: Global Reach no longer pins on scroll and the list is not clickable by owner order; do not bring the pin back unless asked.
+
+- Phase 8 is on branch optimize (not merged). Open question for the owner: load every home section chunk on scroll (client-only, text not in the page source) or keep server HTML.

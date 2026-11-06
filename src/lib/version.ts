@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 103,
+    date: "2026-11-06",
+    title: "Lighter first load",
+    notes: [
+      "The chat answer reader (markdown, about 43 KB) is now downloaded only when the first answer arrives, not while the home page or the menu loads. Home first load JS 283 to 239 KB.",
+    ],
+  },
+  {
     v: 102,
     date: "2026-11-06",
     title: "Technology board and Global Reach",

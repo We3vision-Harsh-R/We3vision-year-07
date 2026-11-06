@@ -131,3 +131,5 @@ an automated visual-regression + perf budget script in `tools/` that fails when 
 
 ## Latest numbers (2026-11-04, live site, details in 15 section 13)
 Home LCP 2012 ms (perf-run, 4g profile) / 1272 ms (real Chrome trace), CLS 0.001, TBT 331 ms; /about LCP 286 ms (trace). Average first-load JS 185 KB gz, CSS 61 KB gz. Budget now checked inside `npm run git:push` (v92) and in `.github/workflows/check.yml`.
+
+- Phase 8 (2026-11-06, branch optimize, owner chose the SAFE plan: text stays server-rendered, heavy libraries load on need): react-markdown + remark (43 KB gz) moved to chat-md.tsx and loaded by next/dynamic (ssr false) only when a chat answer is shown (ask-panda.tsx, ai-chat.tsx). Home first load JS 283 -> 239 KB, TBT 89 -> 46 ms, biggest page 236 -> 225 KB. Already on-view before this: globe (cobe), pause-offscreen loops. NOT done (needs owner OK, SEO trade-off): loading each below-the-fold section chunk only on scroll (about 21 small chunks, ~85 KB, are fetched at hydration).
