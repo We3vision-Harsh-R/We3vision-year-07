@@ -188,22 +188,28 @@
   font-size: 0.9375rem;
   cursor: pointer;
 }
-.ft .ft-grid {
-  grid-template-columns: 1fr;
-}
-@media (min-width: 900px) {
-  .ft .ft-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 0.85fr);
-  }
-}
 @media (min-width: 1024px) {
+  /* one wide console, the brand in a row under it */
   .fx-row {
-    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
-    gap: 3rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.2rem;
     margin-top: 3.5rem;
   }
+  .fx-side {
+    flex-direction: row;
+    align-items: center;
+    gap: 2.4rem;
+  }
+  .fx-side .ft-brand-t {
+    max-width: 34rem;
+    margin: 0;
+  }
+  .fx-side .ft-note {
+    max-width: 17rem;
+    margin: 0;
+  }
   .fx-body {
-    height: 15rem;
+    height: 11rem;
   }
   .ft .ft-big {
     font-size: clamp(3rem, 7.6vw, 7rem);
