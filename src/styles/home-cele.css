@@ -1,0 +1,647 @@
+/* THE HOME CELEBRATION (Admin > Fest > "Home celebration"): src/components/site/fest/home-cele.tsx. Prefix "hc-". Loaded only after the click on the hero.
+   A full-window night scene over a locked page. Festive warm colours (gold, saffron, red) are literal on purpose (they are the festival, not the theme).
+   Only transform / opacity / stroke-dashoffset move. Poppins, paragraphs >= 16px, labels >= 14px. */
+
+html.hc-lock {
+  overflow: hidden !important;
+}
+/* once the scene is opaque nothing else of the page is drawn */
+html.hc-hide body > :not(.hc-root) {
+  visibility: hidden !important;
+}
+
+.hc-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  overflow: hidden;
+  background: #0a0820;
+  color: #fff;
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  --px: 0;
+  --py: 0;
+  animation: hc-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hc-root[data-leaving="true"] {
+  animation: hc-out 0.65s ease forwards;
+}
+@keyframes hc-in {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hc-out {
+  to {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+}
+.hc-veil {
+  position: absolute;
+  inset: 0;
+  background: rgb(10 8 32 / 0.55);
+  backdrop-filter: blur(34px);
+}
+
+/* the stage: always 16:9 and covering the window (like background-size: cover), anchored to the bottom so the floor is always there */
+.hc-stage {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: max(100vw, 177.78vh);
+  height: max(56.25vw, 100vh);
+  container-type: size;
+  transform: translateX(-50%);
+  animation: hc-stage 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes hc-stage {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.06);
+  }
+}
+.hc-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+:where(.hc-svg) :where(g, path, circle, ellipse, text) {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* a transform written on the element itself (rotate, translate) keeps the SVG meaning: it turns round the origin of its parent */
+.hc-svg [transform] {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+/* depth: the far layers move less than the near ones */
+.hc-l0 {
+  transform: translate(calc(var(--px) * -6px), calc(var(--py) * -3px));
+}
+.hc-l1 {
+  transform: translate(calc(var(--px) * -14px), calc(var(--py) * -4px));
+}
+.hc-l3 {
+  transform: translate(calc(var(--px) * -26px), 0);
+}
+
+.hc-star {
+  fill: #fff;
+  opacity: 0.2;
+  animation: hc-tw 3.4s var(--d) ease-in-out infinite alternate;
+}
+@keyframes hc-tw {
+  to {
+    opacity: 0.95;
+  }
+}
+
+/* ---- the title ---- */
+.hc-top {
+  position: absolute;
+  top: clamp(1.4rem, 5vh, 3.4rem);
+  right: 0;
+  left: 0;
+  text-align: center;
+  pointer-events: none;
+}
+.hc-date {
+  margin: 0;
+  color: rgb(255 236 200 / 0.85);
+  font-size: clamp(1rem, 1.35vw + 0.4vh, 1.4rem);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  animation: hc-up 1s 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hc-title {
+  margin: 0.2rem 0 0;
+  font-size: clamp(2.8rem, 3vw + 7.2vh, 7.2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  text-shadow: 0 6px 40px rgb(0 0 0 / 0.45);
+  animation: hc-up 1.1s 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hc-title span {
+  background: linear-gradient(100deg, #fde68a 10%, #f59e0b 45%, #fff3c4 60%, #f59e0b 90%) 0 0 / 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hc-shine 5s linear infinite;
+}
+@keyframes hc-up {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+}
+@keyframes hc-shine {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+/* ---- the story captions: one at a time under the picture, in the same 36 s loop as the pictures ---- */
+.hc-caps {
+  position: absolute;
+  top: 61.5%;
+  left: 50%;
+  width: min(44rem, 46vw);
+  height: 6.8rem;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hc-cap {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  text-align: center;
+  opacity: 0;
+  animation: hc-chap 36s var(--cd) linear infinite;
+}
+.hc-cap b {
+  display: block;
+  color: #fde68a;
+  font-size: clamp(1.1rem, 1.2vw + 0.6vh, 1.5rem);
+  font-weight: 600;
+}
+.hc-cap span {
+  display: block;
+  margin-top: 0.3rem;
+  color: rgb(255 244 224 / 0.92);
+  font-size: clamp(1rem, 0.7vw + 0.6vh, 1.15rem);
+  line-height: 1.5;
+  text-shadow: 0 2px 14px rgb(0 0 0 / 0.7);
+}
+@keyframes hc-chap {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  3%,
+  22% {
+    opacity: 1;
+    transform: none;
+  }
+  25%,
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.hc-ch {
+  opacity: 0;
+  animation: hc-chsvg 36s var(--cd) linear infinite;
+}
+@keyframes hc-chsvg {
+  0% {
+    opacity: 0;
+  }
+  3%,
+  22% {
+    opacity: 1;
+  }
+  25%,
+  100% {
+    opacity: 0;
+  }
+}
+/* things that happen inside a picture start with the picture (the same delay) and hold their last state */
+.hc-rise {
+  animation: hc-rise 36s var(--cd, 0s) linear infinite;
+}
+.hc-pulse {
+  animation: hc-pulse 3.2s ease-in-out infinite alternate;
+}
+@keyframes hc-pulse {
+  from {
+    opacity: 0.7;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+@keyframes hc-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(110px);
+  }
+  1% {
+    opacity: 0;
+  }
+  8%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hc-wave {
+  animation: hc-wave 5s linear infinite;
+}
+.hc-w2 {
+  animation-name: hc-wave2;
+  animation-duration: 3.6s;
+  animation-direction: reverse;
+}
+@keyframes hc-wave {
+  to {
+    transform: translateX(-120px);
+  }
+}
+@keyframes hc-wave2 {
+  to {
+    transform: translateX(-140px);
+  }
+}
+.hc-amrit {
+  animation: hc-spark 2.6s var(--d) ease-out infinite;
+}
+@keyframes hc-spark {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-70px);
+  }
+}
+.hc-coin {
+  animation: hc-coin 2.4s var(--d) ease-in infinite;
+}
+@keyframes hc-coin {
+  0% {
+    opacity: 0;
+    transform: translate(0, -30px);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), 70px);
+  }
+}
+.hc-gold {
+  animation: hc-glint 2.4s var(--d) ease-in-out infinite alternate;
+}
+@keyframes hc-glint {
+  to {
+    filter: brightness(1.35);
+  }
+}
+.hc-note {
+  animation: hc-note 3.2s var(--d) ease-out infinite;
+  opacity: 0;
+}
+@keyframes hc-note {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(26px, -50px);
+  }
+}
+/* Yama comes as a snake, is dazzled and slides away: 9 s per picture, so 0-100 % of 9 s inside the 36 s loop is done with its own 9 s loop whose
+   start is the start of the picture (the delay of the first loop is the delay of the picture) */
+.hc-snake {
+  animation: hc-snake 9s 18s linear infinite backwards;
+}
+@keyframes hc-snake {
+  0% {
+    opacity: 0;
+    transform: translateX(-120px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(40px);
+  }
+  50% {
+    transform: translateX(40px) scaleY(1.15);
+  }
+  85% {
+    opacity: 1;
+    transform: translateX(-190px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-260px);
+  }
+}
+.hc-flame,
+.hc-fl {
+  animation: hc-flick 0.7s var(--d, 0s) ease-in-out infinite alternate;
+  transform-origin: 50% 100%;
+}
+@keyframes hc-flick {
+  from {
+    transform: scale(0.92, 0.88);
+  }
+  to {
+    transform: scale(1.06, 1.12);
+  }
+}
+.hc-glow {
+  animation: hc-glow 36s calc(27s + var(--d)) linear infinite backwards;
+  opacity: 0.2;
+}
+@keyframes hc-glow {
+  0% {
+    opacity: 0;
+  }
+  3%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ---- the house, the people, the floor ---- */
+.hc-bulb {
+  fill: var(--c);
+  animation: hc-bulb 1.6s var(--d) ease-in-out infinite alternate;
+}
+@keyframes hc-bulb {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.hc-win {
+  animation: hc-flick-w 2.6s ease-in-out infinite alternate;
+}
+@keyframes hc-flick-w {
+  to {
+    opacity: 0.82;
+  }
+}
+.hc-arm {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  animation: hc-arm 1.9s ease-in-out infinite alternate;
+}
+@keyframes hc-arm {
+  from {
+    transform: rotate(-9deg);
+  }
+  to {
+    transform: rotate(9deg);
+  }
+}
+.hc-pour {
+  transform-box: view-box;
+  transform-origin: 2px -66px;
+  animation: hc-pour 2.2s ease-in-out infinite alternate;
+}
+@keyframes hc-pour {
+  from {
+    transform: rotate(-7deg);
+  }
+  to {
+    transform: rotate(9deg);
+  }
+}
+.hc-dust {
+  animation: hc-dust 1s var(--d) ease-in infinite;
+}
+@keyframes hc-dust {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+/* the rangoli draws itself, ring by ring, then the petals open, and after a while it starts again */
+.hc-draw {
+  stroke-dashoffset: 1;
+  animation: hc-draw 20s var(--d) linear infinite;
+}
+@keyframes hc-draw {
+  0% {
+    opacity: 1;
+    stroke-dashoffset: 1;
+  }
+  22%,
+  92% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+.hc-pop {
+  opacity: 0;
+  animation: hc-pop 20s var(--d) ease-out infinite;
+}
+@keyframes hc-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  4%,
+  92% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+.hc-ember {
+  animation: hc-ember 0.5s ease-in-out infinite alternate;
+}
+@keyframes hc-ember {
+  to {
+    opacity: 0.4;
+    transform: scale(1.6);
+  }
+}
+/* rockets: rise, then burst, in a 7 s loop each */
+.hc-rk {
+  opacity: 0;
+  animation: hc-rk 7s var(--d) ease-in infinite;
+}
+@keyframes hc-rk {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  2% {
+    opacity: 1;
+  }
+  34% {
+    opacity: 1;
+    transform: translateY(var(--h));
+  }
+  36%,
+  100% {
+    opacity: 0;
+    transform: translateY(var(--h));
+  }
+}
+.hc-bu {
+  opacity: 0;
+  animation: hc-bu 7s var(--d) linear infinite;
+}
+@keyframes hc-bu {
+  0%,
+  35% {
+    opacity: 0;
+  }
+  37% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.hc-bu-i {
+  animation: hc-bui 7s var(--d) cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+@keyframes hc-bui {
+  0%,
+  35% {
+    transform: scale(0.05);
+  }
+  72%,
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.hc-fig {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+.hc-fig .dw-fig {
+  display: block;
+  width: 100%;
+}
+.hc-fig .dw-fig svg {
+  width: 100%;
+  height: auto;
+}
+
+.hc-close {
+  position: absolute;
+  top: clamp(1rem, 3vh, 2rem);
+  right: clamp(1rem, 2.4vw, 2.4rem);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: 2.8rem;
+  padding: 0 1.3rem 0 1rem;
+  border: 1px solid rgb(255 236 200 / 0.4);
+  border-radius: 999px;
+  background: rgb(10 8 32 / 0.5);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+.hc-close span {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.hc-close:hover,
+.hc-close:focus-visible {
+  border-color: #fde68a;
+  background: rgb(253 230 138 / 0.18);
+}
+
+/* ---- the pill on the hero that starts it (home-celebrate.tsx) ---- */
+.hcp {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+  padding: 0.65rem 1.3rem 0.65rem 0.9rem;
+  border: 1px solid rgb(253 224 71 / 0.55);
+  border-radius: 999px;
+  background: linear-gradient(120deg, rgb(251 146 60 / 0.28), rgb(220 38 38 / 0.22));
+  color: #fff4cf;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  animation: hcp-glow 2.4s ease-in-out infinite alternate;
+}
+.hcp svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.hcp .hcp-f {
+  transform-origin: 50% 100%;
+  animation: hc-flick 0.7s ease-in-out infinite alternate;
+}
+@keyframes hcp-glow {
+  from {
+    box-shadow: 0 0 0 0 rgb(253 224 71 / 0.35);
+  }
+  to {
+    box-shadow: 0 0 28px 2px rgb(253 224 71 / 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hc-root,
+  .hc-stage,
+  .hc-top > *,
+  .hc-star,
+  .hc-pulse,
+  .hc-wave,
+  .hc-amrit,
+  .hc-coin,
+  .hc-note,
+  .hc-flame,
+  .hc-fl,
+  .hc-bulb,
+  .hc-arm,
+  .hc-pour,
+  .hc-dust,
+  .hc-rk,
+  .hc-bu-i,
+  .hcp,
+  .hcp .hcp-f {
+    animation: none !important;
+  }
+  .hc-rise,
+  .hc-draw,
+  .hc-pop {
+    animation: none !important;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}

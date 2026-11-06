@@ -268,3 +268,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - v94 not checked by the owner yet: wheel-snap in Industries (tested with a synthetic wheel event only, not a real mouse), pinned Services/Reach scroll feel on a real laptop, hero AI card height on 1280x720, phone check of tablet width (700-1023).
 
 - v95: glow checked with a headless mouse only; AI answers could not be tested locally (API offline gives the fallback sentence).
+
+- v96: build the other days of the home celebration (Kali Chaudas, Diwali, Bhai Bij, new year/Bestu Varas) and a day picker (auto by date) in Admin > Fest. Dhanteras scene checked on a laptop only (1440x900); not on a real mouse or other sizes.

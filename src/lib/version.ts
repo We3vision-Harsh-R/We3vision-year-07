@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 96,
+    date: "2026-11-06",
+    title: "Home celebration: Happy Dhanteras",
+    notes: [
+      "New switch in Admin > Fest > Places: Home celebration. It is off until you turn it on.",
+      "A glowing button on the hero. One click blurs the hero, locks the page and opens a full-window night scene.",
+      "The scene shows today's date, Happy Dhanteras, the story of the day in four pictures, and below it people decorating a house, making a rangoli and bursting crackers.",
+      "It is plain SVG and CSS in its own chunk, fetched only after the click. No library is loaded and nothing else of the page is drawn while it is open.",
+    ],
+  },
+  {
     v: 95,
     date: "2026-11-06",
     title: "New AI card on the first screen",
