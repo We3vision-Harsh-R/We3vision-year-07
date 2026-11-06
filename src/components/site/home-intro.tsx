@@ -1,6 +1,4 @@
 import "@/styles/home-intro.css";
-import "@/styles/panda-chat.css";
-import type { CSSProperties } from "react";
 import Image from "next/image";
 import { HeroAi } from "./hero-ai";
 import { SmartLink } from "./smart-link";
@@ -12,8 +10,6 @@ type Badge = { label: string; image: string };
 //   hero   the heading (CMS), one sentence about the company, the rings and ONE button "Start a project" (right side)
 //   under the sentence the two recognitions (Startup India, MSME) as glass pills; the At a glance panel was removed (owner, 2026-10-31)
 // Styles: src/styles/home-intro.css ("hx-" hero, "hg-" glance). Same content as before: nothing invented.
-
-const RINGS = 7;
 
 export function HomeIntro({
   title,
@@ -41,16 +37,6 @@ export function HomeIntro({
   return (
     <section className="hx" aria-labelledby="hx-title">
       <div className="hx-panel">
-        <div className="hx-orbit" aria-hidden>
-          <i className="hx-halo" />
-          {Array.from({ length: RINGS }, (_, k) => (
-            <i
-              key={k}
-              className="hx-ring"
-              style={{ "--k": k } as CSSProperties}
-            />
-          ))}
-        </div>
         <div className="hx-head">
           {above && mark && (
             <p className="hx-tag">
@@ -85,11 +71,7 @@ export function HomeIntro({
           )}
         </div>
         {/* the AI of the site (PANDA, the one of the big menu) open on the first screen: a card with a few questions to start with */}
-        <aside className="hx-ai" aria-label="Ask PANDA, the AI of We3vision">
-          <p className="hx-ai-t">
-            <span aria-hidden />
-            Ask our AI anything
-          </p>
+        <aside className="hx-ai">
           <HeroAi />
         </aside>
       </div>

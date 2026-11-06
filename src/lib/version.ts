@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 95,
+    date: "2026-11-06",
+    title: "New AI card on the first screen",
+    notes: [
+      "The purple rings behind the first screen are gone and so is the old chat card.",
+      "New PANDA card: a greeting, three ways to start, service chips, the conversation and one field.",
+      "The border of the card glows where the mouse is and fades out when it leaves.",
+    ],
+  },
+  {
     v: 94,
     date: "2026-11-04",
     title: "Home page redesign",

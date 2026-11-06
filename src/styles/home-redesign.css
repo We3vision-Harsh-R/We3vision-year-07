@@ -1,5 +1,5 @@
 /* THE HOME PAGE REDESIGN (owner 2026-11-04). Loaded by app/(site)/layout.tsx after home-mobile.css.
-   Prefixes: sd- services deck, hx-ai / pd-hero the AI on the first screen, tb- technology board, gr- global reach, fx- footer console.
+   Prefixes: sd- services deck, hx-ai / ap- the AI on the first screen, tb- technology board, gr- global reach, fx- footer console.
    Phone first: everything is the stacked version; "min-width: 1024px" adds the pinned laptop version. Theme colours only (--th / --ts), Poppins,
    paragraphs >= 16px, labels >= 14px. Only transform / opacity move. */
 
@@ -276,57 +276,11 @@
   }
 }
 
-/* ================= 2. the AI on the first screen ================= */
+/* ================= 2. the AI on the first screen: see "ap-" at the end of this file ================= */
 .hx-ai {
   position: relative;
   z-index: 20;
   margin-top: 2.2rem;
-}
-.hx-ai-t {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin: 0 0 0.9rem;
-  color: var(--rd-soft);
-  font-size: 0.875rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-.hx-ai-t span {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: var(--rd-a);
-  box-shadow: 0 0 0 0 var(--rd-a);
-  animation: hx-ai-ping 2.4s ease-out infinite;
-}
-@keyframes hx-ai-ping {
-  70%,
-  100% {
-    box-shadow: 0 0 0 0.7rem transparent;
-  }
-}
-.pd.pd-hero {
-  --wc: 100%;
-  --wo: 100%;
-  width: 100%;
-  max-width: none;
-}
-.pd.pd-hero .pd-blur {
-  display: none;
-}
-.pd.pd-hero .pd-panel {
-  position: relative;
-  bottom: auto;
-  left: auto;
-  width: 100%;
-  height: clamp(21rem, 52vh, 30rem);
-  margin-bottom: 0.8rem;
-  translate: none;
-  border-radius: 24px;
-}
-.pd.pd-hero .pd-bar {
-  width: 100%;
 }
 @media (min-width: 1024px) {
   :root .hx-panel {
@@ -335,13 +289,8 @@
     gap: clamp(2rem, 4vw, 5rem);
     padding-bottom: clamp(7rem, 14vh, 9rem);
   }
-  :root .hx-orbit {
-    top: 50%;
-    right: calc(var(--u) * 20);
-    bottom: auto;
-  }
   :root .hx-ai {
-    width: min(calc(var(--u) * 32), 32rem);
+    width: min(calc(var(--u) * 35), 35rem);
     flex: none;
     margin-top: 0;
   }
@@ -755,22 +704,381 @@
   .sd-card,
   .sd-subs li,
   .tb-tiles li,
-  .tb-detail,
-  .hx-ai-t span {
+  .tb-detail {
     animation: none !important;
   }
 }
 
-/* the card of the AI while the chat is still loading (hero-ai.tsx): the same size, so nothing jumps */
-.pd-hero-ph {
-  height: clamp(21rem, 52vh, 30rem);
-  margin-bottom: 0.8rem;
-  border: 1px solid rgb(255 255 255 / 0.13);
-  border-radius: 24px;
-  background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 9% / 0.97);
+/* ================= the AI of the first screen (ask-panda.tsx) =================
+   One glass card. The border lights up where the pointer is (--mx / --my are set by the mouse) and fades out when it leaves. */
+.ap {
+  --mx: 50%;
+  --my: 0%;
+  --ap-a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+  --ap-b: hsl(calc(var(--th) + 330) calc(95% * var(--ts)) 66%);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  height: clamp(24rem, 64vh, 34rem);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.12);
+  border-radius: 26px;
+  background:
+    radial-gradient(120% 70% at 100% 0%, hsl(calc(var(--th) + 340) calc(70% * var(--ts)) 20% / 0.55), transparent 60%),
+    hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 7% / 0.92);
+  box-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.7);
+  color: #fff;
 }
-.pd-hero-ph.pd-hero-bar {
-  height: 54px;
+.ap > :not(.ap-edge, .ap-spot) {
+  position: relative;
+  z-index: 2;
+}
+.ap-edge,
+.ap-spot {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.ap-edge {
+  padding: 2px;
+  background: radial-gradient(260px circle at var(--mx) var(--my), var(--ap-a), var(--ap-b) 38%, transparent 72%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+.ap-spot {
+  background: radial-gradient(380px circle at var(--mx) var(--my), hsl(calc(var(--th) + 350) calc(100% * var(--ts)) 70% / 0.13), transparent 65%);
+}
+.ap:hover .ap-edge,
+.ap:hover .ap-spot,
+.ap:focus-within .ap-edge {
+  opacity: 1;
+}
+.ap:focus-within .ap-spot {
+  opacity: 0.7;
+}
+
+.ap-head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.1rem 1.3rem 0.9rem;
+}
+.ap-face {
+  display: grid;
+  width: 2.7rem;
+  height: 2.7rem;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.07);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+.ap-head b {
+  display: block;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.ap-head span:not(.ap-face) {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--rd-soft);
+  font-size: 0.875rem;
+}
+.ap-head i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--ap-a);
+  animation: ap-live 2.4s ease-out infinite;
+}
+@keyframes ap-live {
+  0% {
+    box-shadow: 0 0 0 0 var(--ap-a);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.6rem transparent;
+  }
+}
+
+.ap-body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.7rem;
+  overflow-y: auto;
+  padding: 0.4rem 1.3rem 0.8rem;
+  scrollbar-color: rgb(255 255 255 / 0.25) transparent;
+  scrollbar-width: thin;
+}
+.ap-hello h3 {
+  margin: 0.3rem 0 1.1rem;
+  font-size: clamp(1.4rem, 1.7vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.ap-hello h3 span {
+  background: linear-gradient(100deg, var(--ap-a), var(--ap-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ap-hello ul {
+  display: grid;
+  gap: 0.55rem;
   margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ap-hello button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 16px;
+  background: rgb(255 255 255 / 0.04);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ap-hello button b {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.ap-hello button em {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--rd-dim);
+  font-size: 0.875rem;
+  font-style: normal;
+}
+.ap-hello button i {
+  color: var(--ap-a);
+  font-style: normal;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ap-hello button:hover,
+.ap-hello button:focus-visible {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.5);
+  background: hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 60% / 0.12);
+  transform: translateX(4px);
+}
+.ap-hello button:hover i {
+  transform: translateX(4px);
+}
+
+.ap-msg {
+  max-width: 92%;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.ap-msg[data-role="user"] {
+  align-self: flex-end;
+  padding: 0.6rem 1rem;
+  border-radius: 18px 18px 4px 18px;
+  background: linear-gradient(120deg, hsl(calc(var(--th) + 354) calc(85% * var(--ts)) 58%), hsl(calc(var(--th) + 336) calc(75% * var(--ts)) 44%));
+}
+.ap-msg[data-role="assistant"] {
+  align-self: flex-start;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgb(255 255 255 / 0.09);
+  border-radius: 18px 18px 18px 4px;
+  background: rgb(255 255 255 / 0.05);
+}
+.ap-msg p {
+  margin: 0;
+}
+.ap-msg p + p,
+.ap-msg ul,
+.ap-msg ol {
+  margin-top: 0.5rem;
+}
+.ap-msg ul,
+.ap-msg ol {
+  margin-bottom: 0;
+  padding-left: 1.2rem;
+}
+.ap-msg a {
+  color: var(--ap-a);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ap-msg h1,
+.ap-msg h2,
+.ap-msg h3,
+.ap-msg h4 {
+  margin: 0.2rem 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+.ap-msg code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.1);
+  font-size: 0.9rem;
+}
+.ap-msg table {
+  display: block;
+  overflow-x: auto;
+  font-size: 0.9375rem;
+}
+.ap-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+}
+.ap-links a {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.4);
   border-radius: 999px;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.ap-dots {
+  display: inline-flex;
+  gap: 5px;
+  padding: 0.35rem 0;
+}
+.ap-dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ap-a);
+  animation: ap-dot 1.1s ease-in-out infinite;
+}
+.ap-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.ap-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes ap-dot {
+  50% {
+    opacity: 0.25;
+    transform: translateY(-3px);
+  }
+}
+
+.ap-topics {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding: 0.3rem 1.3rem 0.7rem;
+  scrollbar-width: none;
+}
+.ap-topics::-webkit-scrollbar {
+  display: none;
+}
+.ap-topics button {
+  flex: none;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 999px;
+  background: none;
+  color: var(--rd-soft);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+.ap-topics button:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.5);
+}
+.ap-topics button[data-on="true"] {
+  border-color: transparent;
+  background: var(--ap-a);
+  color: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 12%);
+  font-weight: 500;
+}
+
+.ap-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0.9rem 0.9rem;
+  padding: 0.35rem 0.4rem 0.35rem 1.2rem;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.06);
+  transition: border-color 0.3s ease;
+}
+.ap-bar:focus-within {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.7);
+}
+.ap-bar input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  outline: none;
+}
+.ap-bar input::placeholder {
+  color: var(--rd-dim);
+}
+.ap-bar button {
+  display: grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex: none;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ap-a), var(--ap-b));
+  color: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 12%);
+  cursor: pointer;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+}
+.ap-bar button:hover:not(:disabled) {
+  transform: scale(1.08);
+}
+.ap-bar button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+@media (max-width: 1023.98px) {
+  .ap {
+    height: clamp(25rem, 62svh, 32rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ap-head i,
+  .ap-dots i {
+    animation: none;
+  }
+  .ap-edge,
+  .ap-spot {
+    transition: none;
+  }
 }

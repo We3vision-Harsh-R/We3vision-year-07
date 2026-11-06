@@ -72,60 +72,6 @@ section.hx {
   line-height: 1.65;
 }
 
-/* the rings: seven stadium shapes round one centre (where the button sits), from a bright pink-violet in the middle to the page colour outside */
-.hx-orbit {
-  position: absolute;
-  right: 15%;
-  bottom: 21%;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-}
-/* the light of the button: soft rays that run out from the centre and fade into the page colour (mask), over the rings, under the button */
-.hx-halo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 11;
-  width: calc(var(--u) * 90);
-  height: calc(var(--u) * 90);
-  margin: calc(var(--u) * -45) 0 0 calc(var(--u) * -45);
-  border-radius: 50%;
-  /* an eased falloff (many stops) so there is no visible edge: it just fades into the page colour */
-  background: radial-gradient(
-    circle,
-    hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 74% / 0.5) 0%,
-    hsl(calc(var(--th) + 354) calc(95% * var(--ts)) 68% / 0.38) 8%,
-    hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 62% / 0.25) 17%,
-    hsl(calc(var(--th) + 354) calc(85% * var(--ts)) 56% / 0.14) 28%,
-    hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 50% / 0.06) 40%,
-    hsl(calc(var(--th) + 353) calc(75% * var(--ts)) 45% / 0.02) 52%,
-    transparent 64%
-  );
-  filter: blur(18px);
-  opacity: 0.7;
-  transition: opacity 0.7s;
-}
-.hx-orbit {
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.hx-ring {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: calc(10 - var(--k)); /* the big rings lie under the small ones */
-  width: calc(var(--u) * (20.8 + var(--k) * 9.7));
-  height: calc(var(--u) * (10.4 + var(--k) * 8.7));
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 352 + var(--k) * 0.3) calc((90% - var(--k) * 4%) * var(--ts)) calc(62% - var(--k) * 9.1%)); /* the last ring is the page colour: the light ends in the background */
-  transform: translate(-50%, -50%);
-  animation: hx-ring 6s calc(var(--k) * -0.7s) ease-in-out infinite alternate;
-}
-@keyframes hx-ring {
-  to {
-    transform: translate(-50%, -50%) scale(1.03);
-  }
-}
 .hx-go {
   position: absolute;
   right: 15%;
@@ -169,16 +115,6 @@ section.hx {
 .hx-go:focus-visible::after {
   transform: translateX(5px);
 }
-/* while the button is hovered the rings breathe outward and the rays brighten: the light comes out of the button */
-.hx-panel:has(.hx-go:hover) .hx-orbit,
-.hx-panel:has(.hx-go:focus-visible) .hx-orbit {
-  transform: scale(1.06);
-}
-.hx-panel:has(.hx-go:hover) .hx-halo,
-.hx-panel:has(.hx-go:focus-visible) .hx-halo {
-  opacity: 1;
-}
-
 /* the two recognitions (Startup India, MSME) under the sentence, as frosted glass pills */
 .hx-rec {
   display: flex;
@@ -219,8 +155,7 @@ section.hx {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hx-head > *,
-  .hx-ring {
+  .hx-head > * {
     animation: none !important;
   }
 }
@@ -233,12 +168,6 @@ section.hx {
     --u: 7px;
     min-height: calc(100svh - 24px);
     padding: 6.2rem var(--hm-pad, 1.3rem) 11.8rem;
-  }
-  :root .hx-orbit {
-    top: 36%;
-    right: -4%;
-    bottom: auto;
-    opacity: 0.5;
   }
   :root .hx-head {
     max-width: none;
@@ -294,9 +223,6 @@ section.hx {
   }
   :root .hx-go:active {
     transform: scale(0.97);
-  }
-  :root .hx-panel:has(.hx-go:hover) .hx-orbit {
-    transform: none;
   }
 }
 @keyframes hx-ping {
