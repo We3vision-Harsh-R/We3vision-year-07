@@ -1478,3 +1478,108 @@
     height: 1.8rem;
   }
 }
+
+/* ---------- 17. phone: the service cards, cleaner (number above the name, a line under it, Explore at the bottom) ---------- */
+@media (max-width: 699.98px) {
+  :root:root .sd-row {
+    width: min(80%, 18rem);
+    gap: 0;
+    padding: 1.1rem 1.15rem 1.15rem;
+  }
+  :root:root .sd-btn {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+  :root:root .sd-btn i {
+    width: auto;
+    letter-spacing: 0.12em;
+  }
+  :root:root .sd-btn span {
+    font-size: 1.1875rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  :root:root .sd-m,
+  :root:root .sd-m[hidden] {
+    gap: 0.9rem;
+    padding-top: 0.7rem;
+    border-top: 0;
+  }
+  :root:root .sd-go {
+    padding-top: 0.2rem;
+    font-weight: 500;
+  }
+}
+
+/* ---------- 18. phone: Services and Industries look like one family (same heading, same card, same number, same spacing) ---------- */
+@media (max-width: 699.98px) {
+  :root:root section.sd .sd-sticky,
+  :root:root .hx ~ #industries {
+    padding-block: 2.4rem 1.4rem;
+  }
+  :root:root .sd-head h2,
+  :root:root .hx ~ #industries h2 {
+    margin-top: 0.8rem;
+    font-size: 1.6rem;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+  :root:root .hx ~ #industries .cm-head p {
+    margin-top: 0.6rem;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  :root:root .sd-body,
+  :root:root .hx ~ #industries .cm-list {
+    margin-top: 1.2rem;
+  }
+  :root:root .sd-row,
+  :root:root .hx ~ #industries .cm-list > li,
+  :root:root .hx ~ #industries .cm-list > li:last-child {
+    width: min(80%, 18rem);
+    min-height: 11.5rem;
+    padding: 1.1rem 1.15rem 1.15rem;
+    border: 1px solid var(--hm-hair);
+    border-radius: 20px;
+    background: var(--hm-card);
+  }
+  :root:root .hx ~ #industries .cm-list > li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  :root:root .hx ~ #industries .cm-l-ico {
+    display: none;
+  }
+  /* the number, in the same place and style on both */
+  :root:root .hx ~ #industries .cm-list > li::before {
+    color: var(--ac, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%));
+    content: "0" counter(ind);
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+  }
+  :root:root .hx ~ #industries .cm-list > li::after {
+    display: none;
+  }
+  :root:root .hx ~ #industries .cm-list h3 {
+    font-size: 1.1875rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  :root:root .hx ~ #industries .cm-list p {
+    margin: 0.2rem 0 0;
+  }
+  :root:root .sd-btn i {
+    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+  }
+}
+@media (max-width: 699.98px) {
+  :root:root .hx ~ #industries .cm-list {
+    grid-auto-columns: min(80%, 18rem);
+  }
+  :root:root .hx ~ #industries .cm-list > li,
+  :root:root .hx ~ #industries .cm-list > li:last-child {
+    width: auto;
+  }
+}

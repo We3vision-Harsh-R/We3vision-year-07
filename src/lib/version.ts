@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 116,
+    date: "2026-11-06",
+    title: "Phone Services and Industries look alike",
+    notes: [
+      "On phones the Services and Industries sections now share one look: same heading size, same swipe cards with a number, a name and a short line, same spacing.",
+    ],
+  },
+  {
     v: 115,
     date: "2026-11-06",
     title: "Technology board fits on a laptop",

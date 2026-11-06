@@ -255,3 +255,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v114 (2026-11-06): phone hero = 100svh - 6.6rem (ends above the dock), words low, Recognised at the bottom (home-mobile.css 16).
 
 - v115 (2026-11-06): laptop tech board: tabs no longer overflow their pill (home-redesign.css .tb-tabs wrap, smaller tabs and tiles).
+
+- v116 (2026-11-06): phone Services and Industries same family (home-mobile.css 17-18).
