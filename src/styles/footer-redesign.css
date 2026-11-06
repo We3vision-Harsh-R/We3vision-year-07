@@ -222,6 +222,25 @@
   font-size: 0.9375rem;
   cursor: pointer;
 }
+/* narrower windows: the window grows with its text (no tiny scrolling box) and the brand sits in a row on a tablet */
+@media (max-width: 639.98px) {
+  .fx-body {
+    height: auto;
+    min-height: 12rem;
+    max-height: 62svh;
+  }
+  .fx-chips {
+    gap: 0.4rem;
+    padding-inline: 1rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .fx-side {
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+  }
+}
 @media (min-width: 1024px) {
   /* one wide console, the brand in a row under it */
   .fx-row {

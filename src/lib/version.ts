@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 108,
+    date: "2026-11-06",
+    title: "Footer console on narrow windows",
+    notes: [
+      "On a narrow window the console grows with its text instead of being a small scrolling box, and on a tablet the logo and the text sit in a row under it.",
+    ],
+  },
+  {
     v: 107,
     date: "2026-11-06",
     title: "Footer console is easier to understand",

@@ -239,3 +239,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v106 (2026-11-06): footer console: MORE_GROUPS in footer.tsx (brand, marketing, software, products, home, social) are extra commands/chips; external links open in a new tab. Add a new page to the matching group there.
 
 - v107 (2026-11-06): footer console: guide text while empty, chips grouped (Pages with counts / For fun), did-you-mean answer, window cleared on every route change (state reset during render on pathname change) and on refresh.
+
+- v108 (2026-11-06): footer console responsive: under 640 px the window height is auto (max 62svh), 768-1023 px the brand is a row. Phones get the /m app pages, which have no footer: the console is only seen on tablets and desktop windows. Checked at 900, 768 and a 400 px iframe.
