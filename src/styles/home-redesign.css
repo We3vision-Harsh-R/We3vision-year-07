@@ -324,7 +324,8 @@
   }
 }
 
-/* ================= 3. technology board ================= */
+/* ================= 3. technology board (redesigned 2026-11-06): a quiet rail of groups, tiles with a light that follows the pointer, and a
+   glass card with a big ghost monogram whose lines rise in one after the other ================= */
 .tb {
   width: 100%;
   max-width: 1120px;
@@ -334,9 +335,12 @@
 .tb-tabs {
   display: flex;
   flex-wrap: nowrap;
-  gap: 0.5rem;
-  padding-bottom: 0.3rem;
+  gap: 0.35rem;
+  padding: 0.35rem;
   overflow-x: auto;
+  border: 1px solid var(--rd-hair);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.03);
   scrollbar-width: none;
 }
 .tb-tabs::-webkit-scrollbar {
@@ -344,8 +348,8 @@
 }
 .tb-tabs button {
   flex: none;
-  padding: 0.6rem 1.15rem;
-  border: 1px solid var(--rd-hair);
+  padding: 0.55rem 1.05rem;
+  border: 0;
   border-radius: 999px;
   background: none;
   color: var(--rd-soft);
@@ -354,21 +358,21 @@
   font-weight: 500;
   cursor: pointer;
   transition:
-    background-color 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease;
+    background-color 0.35s ease,
+    box-shadow 0.35s ease,
+    color 0.25s ease;
 }
 .tb-tabs button sup {
-  margin-left: 0.4rem;
+  margin-left: 0.35rem;
   color: var(--rd-dim);
   font-size: 0.8125rem;
 }
 .tb-tabs button:hover {
-  border-color: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 85% / 0.4);
+  color: #fff;
 }
 .tb-tabs button[data-on="true"] {
-  border-color: transparent;
   background: linear-gradient(135deg, hsl(calc(var(--th) + 76) calc(81% * var(--ts)) 87%), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%));
+  box-shadow: 0 6px 22px -6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.7);
   color: hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 12%);
 }
 .tb-tabs button[data-on="true"] sup {
@@ -384,51 +388,78 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: start;
-  gap: 0.7rem;
+  gap: 0.6rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .tb-tiles li {
-  animation: tb-in 0.5s calc(var(--i) * 40ms) cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: tb-in 0.6s calc(var(--i) * 35ms) cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes tb-in {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.97);
+    transform: translateY(14px);
   }
 }
 .tb-tiles button {
+  position: relative;
   display: flex;
   width: 100%;
   align-items: center;
   gap: 0.8rem;
-  padding: 0.8rem 0.9rem;
+  overflow: hidden;
+  padding: 0.75rem 0.9rem;
   border: 1px solid var(--rd-hair);
-  border-radius: 18px;
-  background: rgb(255 255 255 / 0.03);
-  color: #fff;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 0.025);
+  color: rgb(255 255 255 / 0.8);
   font: inherit;
   font-size: 1rem;
   font-weight: 500;
   text-align: left;
   cursor: pointer;
   transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.25s ease,
-    background-color 0.25s ease;
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 .tb-tiles button:hover {
-  transform: translateY(-3px);
+  border-color: hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 85% / 0.4);
+  background-image: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 70% / 0.22), transparent);
+  color: #fff;
+  transform: translateY(-2px);
 }
 .tb-tiles button[data-on="true"] {
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.6);
-  background: var(--rd-glass);
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.55);
+  background-color: hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 40% / 0.28);
+  color: #fff;
+}
+.tb-tiles button::after {
+  position: absolute;
+  top: 28%;
+  right: 0.9rem;
+  width: 6px;
+  height: 44%;
+  border-radius: 3px;
+  background: var(--rd-a);
+  box-shadow: 0 0 12px var(--rd-a);
+  content: "";
+  opacity: 0;
+  transform: scaleY(0.2);
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tb-tiles button[data-on="true"]::after {
+  opacity: 1;
+  transform: none;
 }
 .tb-tiles i {
   display: grid;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.4rem;
+  height: 2.4rem;
   flex: none;
   place-items: center;
   border-radius: 12px;
@@ -436,15 +467,51 @@
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tb-tiles button:hover i,
+.tb-tiles button[data-on="true"] i {
+  transform: rotate(-6deg) scale(1.08);
 }
 .tb-detail {
+  position: relative;
+  overflow: hidden;
   padding: 1.4rem;
   border: 1px solid hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.2);
   border-radius: 26px;
   background: var(--rd-glass);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.28);
-  animation: tb-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+.tb-ghost {
+  position: absolute;
+  top: -0.6rem;
+  right: 1.2rem;
+  color: transparent;
+  font-size: 8rem;
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  -webkit-text-stroke: 1px hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 85% / 0.2);
+  pointer-events: none;
+  animation: tb-ghost 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes tb-ghost {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+.tb-detail > :not(.tb-ghost) {
+  position: relative;
+  animation: tb-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.tb-detail > :nth-child(3) { animation-delay: 60ms; }
+.tb-detail > :nth-child(4) { animation-delay: 120ms; }
+.tb-detail > :nth-child(5),
+.tb-detail > :nth-child(6) { animation-delay: 180ms; }
+.tb-detail > :nth-child(7),
+.tb-detail > :nth-child(8) { animation-delay: 240ms; }
+.tb-detail > :nth-child(9) { animation-delay: 300ms; }
 .tb-cat {
   margin: 0;
   color: var(--rd-a);
@@ -454,7 +521,7 @@
 }
 .tb-detail h3 {
   margin: 0.5rem 0 0;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 600;
   letter-spacing: -0.03em;
 }
@@ -476,13 +543,23 @@
 .tb-builds {
   margin: 0.5rem 0 0;
   padding: 0;
+  counter-reset: b;
   list-style: none;
 }
 .tb-builds li {
+  display: flex;
+  gap: 0.8rem;
   padding: 0.45rem 0;
   border-bottom: 1px solid var(--rd-hair);
   color: #fff;
   font-size: 1rem;
+  counter-increment: b;
+}
+.tb-builds li::before {
+  color: var(--rd-a);
+  content: "0" counter(b);
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
 .tb-inds {
   display: flex;
@@ -510,8 +587,9 @@
     margin-top: 3.2rem;
   }
   .tb-tabs {
-    flex-wrap: wrap;
-    justify-content: center;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
     overflow: visible;
   }
   .tb-body {
@@ -521,10 +599,10 @@
   }
   .tb-tiles {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.9rem;
+    gap: 0.8rem;
   }
   .tb-tiles button {
-    padding: 1rem 1.1rem;
+    padding: 0.9rem 1.1rem;
     font-size: 1.0625rem;
   }
   .tb-detail {
@@ -582,7 +660,7 @@
   padding: 0;
   list-style: none;
 }
-.gr-list button {
+.gr-list .gr-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -593,7 +671,6 @@
   color: var(--rd-soft);
   font: inherit;
   font-size: 0.9375rem;
-  cursor: pointer;
   transition:
     background-color 0.25s ease,
     border-color 0.25s ease,
@@ -641,15 +718,10 @@
   background: radial-gradient(closest-side, hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 50% / 0.28), transparent);
   filter: blur(24px);
 }
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .gr-track {
-    height: calc(100svh + var(--n) * 55svh);
-  }
+@media (min-width: 1024px) {
   .gr-sticky {
-    position: sticky;
-    top: 0;
     display: grid;
-    height: 100svh;
+    min-height: 100svh;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     align-items: center;
     gap: clamp(2rem, 4vw, 5rem);
@@ -674,7 +746,7 @@
   .gr-list li {
     border-bottom: 1px solid var(--rd-hair);
   }
-  .gr-list button {
+  .gr-list .gr-row {
     width: 100%;
     gap: 0.8rem;
     padding: clamp(0.4rem, 1.2vh, 0.7rem) 0;
@@ -693,7 +765,7 @@
   .gr-list li[data-on="true"] i {
     color: var(--rd-a);
   }
-  .gr-list button {
+  .gr-list .gr-row {
     transition:
       color 0.25s ease,
       transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
@@ -704,7 +776,8 @@
   .sd-card,
   .sd-subs li,
   .tb-tiles li,
-  .tb-detail {
+  .tb-ghost,
+  .tb-detail > * {
     animation: none !important;
   }
 }

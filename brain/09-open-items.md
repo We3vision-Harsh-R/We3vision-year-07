@@ -278,3 +278,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - v99: the Home celebration / 5-day Diwali idea is cancelled by the owner; ignore the v96-v98 open items about it.
 
 - v100: hero polish is CSS-only (no new JS); CSS budget is at 109/110 KB, so any new hero CSS must replace old CSS.
+
+- v102: Global Reach no longer pins on scroll and the list is not clickable by owner order; do not bring the pin back unless asked.

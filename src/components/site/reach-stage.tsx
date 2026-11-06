@@ -1,97 +1,55 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Globe } from "./globe";
+import { useEffect, useState, type ReactNode } from "react";
+import { Globe, REACH_EVENT } from "./globe";
 
 type Place = { label: string; lat: number; lng: number };
 
-// GLOBAL REACH of the home page (redesign 2026-11-04). The globe stays on the screen and the places are a list of big lines next to it, the head
-// office first. On a laptop the section is pinned and the page scroll walks down the list: the globe turns to every country in turn and holds it
-// lit, so a visitor stays here and sees the whole world of the company. A click on a name turns the globe there too. On a phone and a tablet
-// nothing is pinned: the globe is on top, the names are chips under it and a tap turns the globe to that place; until the first tap the globe goes
-// round by itself, as it always did. Without motion (reduced motion) nothing is pinned.
-const stamp = () => Date.now();
+// GLOBAL REACH of the home page. Nothing is pinned to the scroll any more (owner, 2026-11-06): the section scrolls like the others, the globe
+// turns round by itself all the time (smooth, no stops), and the list lights up the country the globe sends its line of light to.
 const pad = (n: number) => String(n).padStart(2, "0");
 
 export function ReachStage({ places, head, text, button }: { places: Place[]; head: ReactNode; text: string; button?: ReactNode }) {
-  const n = places.length;
-  const [at, setAt] = useState<number | undefined>(undefined);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
-  const manual = useRef(0);
-
+  const [lit, setLit] = useState(-1); // index among the countries (the places after the head office)
   useEffect(() => {
-    const track = trackRef.current;
-    const sticky = stickyRef.current;
-    if (!track || !sticky || n < 2) return;
-    const mq = window.matchMedia("(min-width: 1024px) and (prefers-reduced-motion: no-preference)");
-    let raf = 0;
-    const read = () => {
-      raf = 0;
-      if (!mq.matches) return;
-      const r = track.getBoundingClientRect();
-      const dist = Math.max(1, r.height - sticky.offsetHeight);
-      const p = Math.min(1, Math.max(0, -r.top / dist));
-      if (stamp() < manual.current) return;
-      setAt(Math.min(n - 1, Math.floor(p * n)));
-    };
-    const on = () => {
-      if (!raf) raf = requestAnimationFrame(read);
-    };
-    read();
-    window.addEventListener("scroll", on, { passive: true });
-    window.addEventListener("resize", on);
-    return () => {
-      window.removeEventListener("scroll", on);
-      window.removeEventListener("resize", on);
-      cancelAnimationFrame(raf);
-    };
-  }, [n]);
+    const on = (e: Event) => setLit(Number((e as CustomEvent).detail));
+    window.addEventListener(REACH_EVENT, on);
+    return () => window.removeEventListener(REACH_EVENT, on);
+  }, []);
 
-  const pick = (i: number) => {
-    setAt(i);
-    const track = trackRef.current;
-    const sticky = stickyRef.current;
-    if (!track || !sticky || !window.matchMedia("(min-width: 1024px) and (prefers-reduced-motion: no-preference)").matches) return;
-    const dist = Math.max(1, track.offsetHeight - sticky.offsetHeight);
-    const y = track.getBoundingClientRect().top + window.scrollY + ((i + 0.5) / n) * dist;
-    manual.current = stamp() + 1300;
-    const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
-    if (lenis) lenis.scrollTo(y, { duration: 1 });
-    else window.scrollTo({ top: y, behavior: "smooth" });
-  };
-
-  const cur = at === undefined ? undefined : places[at];
   return (
-    <div ref={trackRef} className="gr-track" style={{ "--n": n } as React.CSSProperties}>
-      <div ref={stickyRef} className="gr-sticky">
+    <div className="gr-track">
+      <div className="gr-sticky">
         <div className="gr-copy">
           {head}
           <p className="gr-text">{text}</p>
           {button}
           <ol className="gr-list" aria-label="Where we work">
             {places.map((p, i) => (
-              <li key={p.label} data-on={at === i} data-hq={i === 0}>
-                <button type="button" onClick={() => pick(i)} aria-pressed={at === i}>
+              <li key={p.label} data-on={i > 0 && i - 1 === lit} data-hq={i === 0}>
+                <span className="gr-row">
                   <i>{pad(i + 1)}</i>
                   <span>{p.label}</span>
                   {i === 0 && <em>Head office</em>}
-                </button>
+                </span>
               </li>
             ))}
           </ol>
         </div>
         <div className="gr-globe">
           <div className="gr-halo" aria-hidden />
-          <Globe places={places} focus={at} label={`Globe showing ${places.map((p) => p.label).join(", ")}`} />
-          <p className="gr-now" aria-live="polite" data-on={!!cur}>
-            {cur ? (
+          <Globe places={places} label={`Globe showing ${places.map((p) => p.label).join(", ")}`} />
+          <p className="gr-now" aria-live="polite" data-on={lit >= 0}>
+            {lit >= 0 && places[lit + 1] ? (
               <>
-                <b>{cur.label}</b>
-                <span>{at === 0 ? "Our head office" : "Clients we work with"}</span>
+                <b>{places[lit + 1].label}</b>
+                <span>Clients we work with</span>
               </>
             ) : (
-              <span>Tap a place to turn the globe</span>
+              <>
+                <b>{places[0]?.label}</b>
+                <span>Our head office</span>
+              </>
             )}
           </p>
         </div>

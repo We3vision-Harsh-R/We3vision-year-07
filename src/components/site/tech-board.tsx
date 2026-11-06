@@ -6,7 +6,7 @@ import { techDetail } from "@/lib/cms/content/tech-details";
 // THE TECHNOLOGY OF THE HOME PAGE (redesign 2026-11-04): a board you can play with. Across the top the groups (front end, back end, mobile, ...),
 // under them one tile for every technology; choosing a group filters the tiles, pointing at (or tapping) a tile opens it on the right: what it is,
 // what we build with it, which businesses it suits and why we use it. On a phone the tiles are two columns and the detail comes under them.
-// The words are the ones of tech-details.ts: nothing is invented here. Theme colours only; nothing moves on its own.
+// The words are the ones of tech-details.ts: nothing is invented here. Theme colours only; tiles light up under the pointer and the card writes itself in.
 const initials = (name: string) => {
   const w = name.replace(/\.js$/i, "").split(/[\s./&-]+/).filter(Boolean);
   return (w.length > 1 ? w[0][0] + w[1][0] : name.slice(0, 2)).toUpperCase();
@@ -45,7 +45,19 @@ export function TechBoard({ items }: { items: string[] }) {
         ))}
       </div>
       <div className="tb-body">
-        <ul className="tb-tiles" role="tablist" aria-label="Technologies" key={cat}>
+        <ul
+          className="tb-tiles"
+          role="tablist"
+          aria-label="Technologies"
+          key={cat}
+          onPointerMove={(e) => {
+            const b = (e.target as HTMLElement).closest("button");
+            if (!b) return;
+            const r = b.getBoundingClientRect();
+            b.style.setProperty("--mx", `${e.clientX - r.left}px`);
+            b.style.setProperty("--my", `${e.clientY - r.top}px`);
+          }}
+        >
           {names.map((name, i) => (
             <li key={name} style={{ "--i": i } as React.CSSProperties}>
               <button type="button" role="tab" aria-selected={sel === name} data-on={sel === name} onPointerEnter={(e) => e.pointerType === "mouse" && setSel(name)} onClick={() => setSel(name)} onFocus={() => setSel(name)}>
@@ -56,6 +68,9 @@ export function TechBoard({ items }: { items: string[] }) {
           ))}
         </ul>
         <article key={sel} className="tb-detail" role="tabpanel">
+          <span className="tb-ghost" aria-hidden>
+            {initials(sel)}
+          </span>
           <p className="tb-cat">{d?.cat ?? cat}</p>
           <h3>{sel}</h3>
           {d ? (

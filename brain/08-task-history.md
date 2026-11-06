@@ -231,3 +231,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v99 (2026-11-06): the whole Home celebration (v96-v98: homecele switch, hero pill, full-window Dhanteras screen) was REMOVED on the owner's order. Do not rebuild it unless asked.
 
 - v100 (2026-11-06): hero polish (home-intro.tsx + home-intro.css block "hz-"): aurora + grid layer, per-word heading reveal with violet gradient tail, tag dot, hairline over Recognised by, button sheen (laptop only). Content unchanged.
+
+- v101-v102 (2026-11-06): hero logo pills box removed; tb- technology board redesigned (rail, pointer light, ghost monogram, staggered card; tech-board.tsx + home-redesign.css); Global Reach un-pinned (reach-stage.tsx rewritten: no scroll pin, no click-to-focus, globe free-spins, list follows REACH_EVENT).

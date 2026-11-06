@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 102,
+    date: "2026-11-06",
+    title: "Technology board and Global Reach",
+    notes: [
+      "Technology board redesigned: one calm rail of groups, tiles with a light that follows the pointer, and a glass card with a big outline monogram whose lines rise in one after the other.",
+      "Global Reach is no longer pinned to the scroll: the section scrolls like the others and the globe turns round by itself all the time, smoothly; the list lights up the country the globe is sending light to.",
+      "The box behind the Startup India and MSME logos on the first screen is removed.",
+    ],
+  },
+  {
     v: 100,
     date: "2026-11-06",
     title: "Hero polish",
