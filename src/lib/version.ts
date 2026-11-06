@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 115,
+    date: "2026-11-06",
+    title: "Technology board fits on a laptop",
+    notes: [
+      "On a laptop the group tabs of the Technologies board stay inside their frame and the tabs and tiles are smaller and quieter.",
+    ],
+  },
+  {
     v: 114,
     date: "2026-11-06",
     title: "Phone first screen fits one screen",

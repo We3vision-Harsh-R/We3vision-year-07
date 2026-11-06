@@ -589,8 +589,21 @@
   .tb-tabs {
     width: fit-content;
     max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.2rem;
     margin-inline: auto;
+    padding: 0.3rem;
     overflow: visible;
+    border-radius: 26px;
+  }
+  .tb-tabs button {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.875rem;
+  }
+  .tb-tabs button sup {
+    margin-left: 0.25rem;
+    font-size: 0.75rem;
   }
   .tb-body {
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
@@ -602,8 +615,15 @@
     gap: 0.8rem;
   }
   .tb-tiles button {
-    padding: 0.9rem 1.1rem;
-    font-size: 1.0625rem;
+    gap: 0.65rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9375rem;
+  }
+  .tb-tiles i {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
   }
   .tb-detail {
     position: sticky;

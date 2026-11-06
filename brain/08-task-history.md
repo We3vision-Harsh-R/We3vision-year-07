@@ -253,3 +253,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v113 (2026-11-06): phone: technologies hidden below 1024px (owner: not needed), services as swipe cards, industries one swipe row, hero shorter (home-mobile.css 15). Heights: hero 917->584, services 1056->384, industries 712->490.
 
 - v114 (2026-11-06): phone hero = 100svh - 6.6rem (ends above the dock), words low, Recognised at the bottom (home-mobile.css 16).
+
+- v115 (2026-11-06): laptop tech board: tabs no longer overflow their pill (home-redesign.css .tb-tabs wrap, smaller tabs and tiles).
