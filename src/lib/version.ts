@@ -22,6 +22,9 @@ export const VERSION_LOG: VersionEntry[] = [
     notes: [
       "The footer console is now as wide as the page, with the logo, the sentence and the social icons in a row under it.",
       "The Services, Technology and Company link columns are removed from the footer; the console buttons and commands open the same pages (the links stay in the page for search engines and screen readers).",
+    ],
+  },
+  {
     v: 104,
     date: "2026-11-06",
     title: "Sections wake up on scroll",
