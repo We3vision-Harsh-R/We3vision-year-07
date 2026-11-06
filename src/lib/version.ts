@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 98,
+    date: "2026-11-06",
+    title: "Home celebration: the footer family, big",
+    notes: [
+      "The home celebration screen is blank except for the date, Happy Dhanteras and Esc to exit.",
+      "The same family as in the footer (the puja at the mandir, grandparents, children with crackers, the cat) celebrates on the same flat floor, drawn big.",
+    ],
+  },
+  {
     v: 97,
     date: "2026-11-06",
     title: "Home celebration: art removed, floor kept",

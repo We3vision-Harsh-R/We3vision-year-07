@@ -67,7 +67,7 @@ export const FEST_EFFECTS = [
   fx({ key: "brand", group: "places", label: "Ground next to the company name", hint: "A small festive ground beside the logo where people enjoy crackers", on: true }),
   fx({ key: "about", group: "places", label: "About page office", hint: "String lights, diyas, fireworks and rangolis on the floor that colleagues draw, at the office of the About page", on: true }),
   fx({ key: "team", group: "places", label: "Team page office", hint: "Lights, lanterns, fireworks and rangolis on the floor that colleagues draw, in the office of the Team page", on: true }),
-  fx({ key: "homecele", group: "places", label: "Home celebration (Happy Dhanteras)", hint: "A glowing button on the hero of the home page. One click blurs the hero, locks the page and opens a full-window night screen with today's date, Happy Dhanteras and an empty flat floor (the art comes later). Nothing else of the website is drawn or loaded while it is open", on: false }),
+  fx({ key: "homecele", group: "places", label: "Home celebration (Happy Dhanteras)", hint: "A glowing button on the hero of the home page. One click blurs the hero, locks the page and opens a full-window night screen with today's date, Happy Dhanteras and the same family as in the footer celebrating on a flat floor (Esc to exit). Nothing else of the website is drawn or loaded while it is open", on: false }),
   fx({ key: "metaverse", group: "places", label: "Metaverse page office", hint: "Lights, lanterns, rangolis and fireworks in the office of the Metaverse page", on: true }),
 ] as const;
 export type FestEffect = (typeof FEST_EFFECTS)[number]["key"];

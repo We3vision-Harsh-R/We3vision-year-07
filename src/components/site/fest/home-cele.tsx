@@ -3,11 +3,12 @@
 import "@/styles/home-cele.css";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { FamilyStrip } from "./fest-home";
 
 // THE HOME CELEBRATION (owner, 2026-11-06): one click on the hero of the home page blurs the hero away and the whole window becomes a quiet night
-// screen over a locked page: today's date and "Happy Dhanteras" at the top and, at the bottom, an empty 2D floor (the same flat floor as the family
-// in the footer, .fh-floor). The art (the story, the house, the people, the rockets) was removed on the owner's order the same day; the floor is
-// kept empty so the next scenes can be put on it. Styles: src/styles/home-cele.css (prefix "hc-"). Plain DOM + CSS, no library, own chunk.
+// screen over a locked page: today's date and "Happy Dhanteras" at the top and, at the bottom, the same little family as in the footer (fest-home.tsx,
+// FamilyStrip: the puja at the mandir, the grandparents, the children with crackers, the cat) on the same flat 2D floor, drawn big. The first art (story,
+// house, rockets) was removed on the owner's order the same day. "Esc to exit" is written on the screen. Styles: src/styles/home-cele.css (prefix "hc-"). Plain DOM + CSS, no library, own chunk.
 
 const stamp = () => Date.now();
 
@@ -45,9 +46,11 @@ export function HomeCele({ onClose }: { onClose: () => void }) {
           Happy <span>Dhanteras</span>
         </h2>
       </header>
-      <i className="hc-floor" aria-hidden />
+      <div className="ft-home-slot hc-slot">
+        <FamilyStrip />
+      </div>
       <button ref={closeRef} type="button" className="hc-close" onClick={() => close.current()}>
-        <span aria-hidden>×</span> Back to the website
+        <kbd>Esc</kbd> to exit
       </button>
     </div>,
     document.body,
