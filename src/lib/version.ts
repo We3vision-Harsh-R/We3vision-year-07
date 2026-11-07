@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 128,
+    date: "2026-11-07",
+    title: "Industry cards drift by themselves on phones",
+    notes: [
+      "On phones and tablets the row of industry cards moves sideways by itself, to the end and back, while it is on screen. A touch or a drag takes over and the drift starts again 2.5 seconds later. It stays still for visitors who prefer less motion.",
+    ],
+  },
+  {
     v: 127,
     date: "2026-11-07",
     title: "Phone menu redesigned",

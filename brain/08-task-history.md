@@ -279,3 +279,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v126 (2026-11-07): live cursors default max 5 -> 20 (stored setting without v:2 and max 5 is read as 20; save writes v:2); /api/presence also returns online (all visitors on the site); phones send lite:true every 12 s (counted, no cursors, 30 s expiry); menu shows LiveNow (components/site/live-now.tsx, mm-live in mega-menu.css) fed by window.__we3Online + event we3-online. Tested with 25 fake visitors on the dev API: others capped at 20, online counted. Limit: the live map is in the memory of ONE Node process; if Hostinger runs several processes each sees only its own visitors (see 09).
 
 - v127 (2026-11-07): phone/tablet menu redesign: solid sheet 22px, products = swipe row of tall cards, pages = numbered editorial list (nav-bar.css mm3 block at the end).
+
+- v128 (2026-11-07): phone industries row auto-drifts (effect in industries-road.tsx on .cm-list, 28 px/s ping-pong, pauses 2.5 s after a touch; snap off in home-mobile.css).

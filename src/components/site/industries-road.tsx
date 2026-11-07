@@ -318,6 +318,65 @@ export function IndustriesRoad({
     return () => io.disconnect();
   }, []);
 
+  // phone and tablet: the row of industry cards drifts sideways by itself (to the end, then back), only while it is on screen. A touch or a drag takes over
+  // and the drift starts again 2.5 s after the finger has gone. Not for visitors who prefer less motion.
+  useEffect(() => {
+    const list = trackRef.current?.querySelector<HTMLElement>(".cm-list");
+    if (!list || window.innerWidth >= 1024 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    let last = 0;
+    let dir = 1;
+    let pos = list.scrollLeft;
+    let hold = 0; // the time until which the finger has the row
+    let visible = false;
+    const SPEED = 0.028; // px per ms, about 28 px a second
+    const tick = (t: number) => {
+      raf = 0;
+      if (!visible) return;
+      const dt = Math.min(48, t - (last || t));
+      last = t;
+      if (t > hold) {
+        const max = list.scrollWidth - list.clientWidth;
+        if (max > 0) {
+          pos = Math.min(max, Math.max(0, pos + dir * SPEED * dt));
+          if (pos >= max) dir = -1;
+          else if (pos <= 0) dir = 1;
+          list.scrollLeft = pos;
+        }
+      } else {
+        pos = list.scrollLeft; // follow the finger
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    const start = () => {
+      if (!raf && visible) {
+        last = 0;
+        raf = requestAnimationFrame(tick);
+      }
+    };
+    const grab = () => {
+      hold = performance.now() + 2500;
+    };
+    const io = new IntersectionObserver(
+      ([e]) => {
+        visible = e.isIntersecting;
+        if (visible) start();
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(list);
+    list.addEventListener("pointerdown", grab, { passive: true });
+    list.addEventListener("touchmove", grab, { passive: true });
+    list.addEventListener("wheel", grab, { passive: true });
+    return () => {
+      io.disconnect();
+      list.removeEventListener("pointerdown", grab);
+      list.removeEventListener("touchmove", grab);
+      list.removeEventListener("wheel", grab);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   // jump to a district: scroll the page to the place where the car stops there
   const goTo = (i: number) => {
     const track = trackRef.current;

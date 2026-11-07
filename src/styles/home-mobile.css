@@ -1827,3 +1827,11 @@
     transition: none;
   }
 }
+
+/* the industry row drifts by itself (industries-road.tsx), so it must not snap back to a card edge every moment */
+@media (max-width: 1023.98px) {
+  :root:root .hx ~ #industries .cm-list {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
