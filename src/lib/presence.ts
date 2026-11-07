@@ -13,15 +13,19 @@ export type PresenceConfig = {
   askName: boolean;
 };
 
-export const DEFAULT_PRESENCE: PresenceConfig = { cursors: true, max: 5, askName: true };
+/** 20 visitors see each other's cursors (owner 2026-11-07); the admin can change it (0-50) */
+export const DEFAULT_PRESENCE: PresenceConfig = { cursors: true, max: 20, askName: true };
+/** a setting saved before 2026-11-07 has no `v`: its "5" was only the old default, so it moves to the new default */
+const OLD_DEFAULT_MAX = 5;
 export const MAX_CURSORS = 50;
 
 export function cleanPresence(input: unknown): PresenceConfig {
   const o = (input && typeof input === "object" ? input : {}) as Partial<Record<keyof PresenceConfig, unknown>>;
   const n = Math.round(Number(o.max));
+  const legacy = (o as { v?: unknown }).v !== 2 && n === OLD_DEFAULT_MAX;
   return {
     cursors: typeof o.cursors === "boolean" ? o.cursors : DEFAULT_PRESENCE.cursors,
-    max: Number.isFinite(n) ? Math.min(MAX_CURSORS, Math.max(0, n)) : DEFAULT_PRESENCE.max,
+    max: legacy ? DEFAULT_PRESENCE.max : Number.isFinite(n) ? Math.min(MAX_CURSORS, Math.max(0, n)) : DEFAULT_PRESENCE.max,
     askName: typeof o.askName === "boolean" ? o.askName : DEFAULT_PRESENCE.askName,
   };
 }

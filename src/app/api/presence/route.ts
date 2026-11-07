@@ -23,9 +23,10 @@ export async function POST(req: NextRequest) {
   if (!id) return Response.json({ ok: false }, { status: 400, headers: NO_STORE });
   const name = cleanName(b.n) || "Guest";
   const cfg = await getPresenceConfigLive();
-  const others = cfg.cursors ? reportAndList({ id, name, path, x: num(b.x), y: num(b.y) }, cfg.max) : [];
+  const seen = reportAndList({ id, name, path, x: num(b.x), y: num(b.y), lite: b.lite === true }, cfg.cursors ? cfg.max : 0);
+  const others = cfg.cursors ? seen.others : [];
   if (b.hi === true) void logVisit(id, cleanName(b.n), deviceOf(req.headers.get("user-agent") ?? ""), path, b.tab === true);
-  return Response.json({ ok: true, cursors: cfg.cursors, askName: cfg.askName, others }, { headers: NO_STORE });
+  return Response.json({ ok: true, cursors: cfg.cursors, askName: cfg.askName, others, online: seen.online }, { headers: NO_STORE });
 }
 
 // the settings a page needs before it asks anything (first visit): does it ask for a name, are cursors on

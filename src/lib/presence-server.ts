@@ -26,19 +26,21 @@ export async function getPresenceConfigLive(maxAgeMs = 5000): Promise<PresenceCo
 
 export async function savePresenceConfig(input: unknown) {
   const clean = cleanPresence(input);
-  const value = clean as unknown as Prisma.InputJsonValue;
+  const value = { ...clean, v: 2 } as unknown as Prisma.InputJsonValue;
   await db.setting.upsert({ where: { key: KEY }, update: { value }, create: { key: KEY, value } });
   copy = { at: Date.now(), cfg: clean };
 }
 
 // ---- who is on the site right now (memory of this server process: it is a live picture, not a record) --------------------------------------
-type Live = { id: string; name: string; path: string; x: number; y: number; moved: boolean; joined: number; seen: number };
+type Live = { id: string; name: string; path: string; x: number; y: number; moved: boolean; joined: number; seen: number; lite: boolean };
 const g = globalThis as unknown as { __presence?: Map<string, Live> };
 const live = (g.__presence ??= new Map<string, Live>());
 const GONE_MS = 8000;
+// a phone only says "I am here" every ~12 s (it shows no cursor), so it is kept longer before it counts as gone
+const GONE_LITE_MS = 30000;
 
 function prune(now: number) {
-  for (const [id, v] of live) if (now - v.seen > GONE_MS) live.delete(id);
+  for (const [id, v] of live) if (now - v.seen > (v.lite ? GONE_LITE_MS : GONE_MS)) live.delete(id);
 }
 
 export function liveCount(): number {
@@ -46,8 +48,12 @@ export function liveCount(): number {
   return live.size;
 }
 
-/** a visitor's page reports its pointer; the answer is the cursors of the others on the same page: the first to come in first, at most `max` */
-export function reportAndList(me: { id: string; name: string; path: string; x: number | null; y: number | null }, max: number): OtherCursor[] {
+/** a visitor's page reports its pointer; the answer is the cursors of the others on the same page (the first to come in first, at most `max`) and how many
+ *  visitors are on the whole site right now (the visitor included). `lite` = a phone: it is counted but shows no cursor and sees none. */
+export function reportAndList(
+  me: { id: string; name: string; path: string; x: number | null; y: number | null; lite?: boolean },
+  max: number,
+): { others: OtherCursor[]; online: number } {
   const now = Date.now();
   const prev = live.get(me.id);
   const moved = me.x !== null && me.y !== null;
@@ -60,13 +66,17 @@ export function reportAndList(me: { id: string; name: string; path: string; x: n
     moved: moved || !!prev?.moved,
     joined: prev?.joined ?? now,
     seen: now,
+    lite: !!me.lite,
   });
   prune(now);
-  return [...live.values()]
-    .filter((v) => v.id !== me.id && v.path === me.path && v.moved)
-    .sort((a, b) => a.joined - b.joined)
-    .slice(0, max)
-    .map((v) => ({ id: v.id, name: v.name, x: v.x, y: v.y }));
+  const others = me.lite
+    ? []
+    : [...live.values()]
+        .filter((v) => v.id !== me.id && v.path === me.path && v.moved && !v.lite)
+        .sort((a, b) => a.joined - b.joined)
+        .slice(0, max)
+        .map((v) => ({ id: v.id, name: v.name, x: v.x, y: v.y }));
+  return { others, online: live.size };
 }
 
 // ---- the visitor log ------------------------------------------------------------------------------------------------------------------------

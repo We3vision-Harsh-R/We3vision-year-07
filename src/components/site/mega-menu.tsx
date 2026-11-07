@@ -12,6 +12,7 @@ import { AiChat } from "./ai-chat";
 import { LazyFestMenu, LazyMenuExplore } from "./fest/lazy";
 import { useFest } from "./fest/use-fest";
 import { GlowEdge } from "./glow-edge";
+import { LiveNow } from "./live-now";
 import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS } from "../../lib/site-menu";
 import { SmartLink } from "./smart-link";
 
@@ -196,6 +197,7 @@ export function MegaMenu({
               {group({ label: "Our Products", items: PRODUCT_LINKS }, 1, "mm-col")}
               {group({ label: "Explore", items: EXPLORE_LINKS }, 2, "mm-col")}
               <div className="mm-end mm-r" style={r()}>
+                <LiveNow />
                 {recognised}
                 {/* follow us, and on the same line (at its right end) the sign-in: the admin login (there is no public sign-up yet) */}
                 <div className="mm-follow">

@@ -580,3 +580,45 @@
   transform: translateY(-3px);
   filter: brightness(1.06);
 }
+
+/* mm-live (2026-11-07, owner): "12 people are live on the website", a small green dot and the number, at the top of the last column of the menu */
+.mm-live {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 1rem;
+  color: rgb(255 255 255 / 0.72);
+  font-size: 0.9375rem;
+}
+.mm-live b {
+  color: #fff;
+  font-weight: 600;
+}
+.mm-live i {
+  position: relative;
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: none;
+  border-radius: 50%;
+  background: hsl(150 70% 55%);
+  box-shadow: 0 0 10px hsl(150 70% 55% / 0.8);
+}
+.mm-live i::after {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: hsl(150 70% 55%);
+  content: "";
+  animation: mm-live-ping 2s ease-out infinite;
+}
+@keyframes mm-live-ping {
+  to {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-live i::after {
+    animation: none;
+  }
+}

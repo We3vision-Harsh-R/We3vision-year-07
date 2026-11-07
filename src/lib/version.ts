@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 126,
+    date: "2026-11-07",
+    title: "20 live cursors and the live visitor count in the menu",
+    notes: [
+      "Up to 20 visitors on the same page now see each other's cursors (the old default of 5 moves to 20; Admin > Visitors can still change it). The server holds who is where and sends it to everybody. The menu shows how many people are live on the website right now; phones are counted too (they only say hello every 12 seconds and show no cursor).",
+    ],
+  },
+  {
     v: 125,
     date: "2026-11-07",
     title: "Smoother phone scrolling",

@@ -293,3 +293,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Not covered locally: blog / portfolio / career detail pages come from the database (the local build has no data); only 3 live pages were sampled.
 
 - Perf budget: CSS of /software-development-services is 112 KB gz (limit 110) after v110/v111; trim CSS next.
+
+- Live cursors / live count keep their picture in the memory of the Node process (src/lib/presence-server.ts). If production runs more than one process the numbers split between them; the fix is one shared store (a database row or Redis). Check the live number in the menu with two phones on different networks.

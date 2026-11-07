@@ -15,6 +15,15 @@ const TICK_MS = 600;
 // alone on the site and the pointer still: nobody can see a difference, so ask less often (a newcomer shows within this time)
 const QUIET_MS = 3000;
 const STILL_AFTER_MS = 5000;
+// a phone shows no cursors, it only says "I am here" so that it is counted in the live number of the menu
+const LITE_MS = 12000;
+/** the live number of visitors on the whole site (set from every answer of the server; the menu listens) */
+export const ONLINE_EVENT = "we3-online";
+declare global {
+  interface Window {
+    __we3Online?: number;
+  }
+}
 
 const read = (k: string) => {
   try {
@@ -49,7 +58,7 @@ export function PresenceLive() {
 
   // 1. the poll: where is my pointer, where are the others
   useEffect(() => {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const lite = !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const id = visitorId();
     me.current.name = cleanName(read(NAME_KEY));
     let tab = false;
@@ -65,7 +74,7 @@ export function PresenceLive() {
       me.current.x = Math.round((e.clientX / innerWidth) * 10000) / 10000;
       me.current.y = Math.round((e.clientY / innerHeight) * 10000) / 10000;
     };
-    window.addEventListener("pointermove", move, { passive: true });
+    if (!lite) window.addEventListener("pointermove", move, { passive: true });
     const tick = async () => {
       if (off || document.hidden) return;
       const m = me.current;
@@ -76,12 +85,17 @@ export function PresenceLive() {
         const res = await fetch("/api/presence", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id, n: m.name, p: location.pathname, x: m.x, y: m.y, hi, tab: isTab }),
+          body: JSON.stringify({ id, n: m.name, p: location.pathname, x: m.x, y: m.y, hi, tab: isTab, lite }),
           keepalive: true,
         });
         if (!res.ok || off) return;
-        const data = (await res.json()) as { cursors: boolean; askName: boolean; others: OtherCursor[] };
+        const data = (await res.json()) as { cursors: boolean; askName: boolean; others: OtherCursor[]; online?: number };
         m.hi = false;
+        if (typeof data.online === "number" && data.online !== window.__we3Online) {
+          window.__we3Online = data.online;
+          window.dispatchEvent(new Event(ONLINE_EVENT));
+        }
+        if (lite) return;
         m.askName = data.askName;
         seen = data.cursors ? data.others.length : 0;
         setOthers(data.cursors ? data.others : []);
@@ -103,7 +117,7 @@ export function PresenceLive() {
       await tick();
       if (off) return;
       const quiet = seen === 0 && Date.now() - lastMove > STILL_AFTER_MS;
-      iv = window.setTimeout(() => void loop(), quiet ? QUIET_MS : TICK_MS);
+      iv = window.setTimeout(() => void loop(), lite ? LITE_MS : quiet ? QUIET_MS : TICK_MS);
     };
     void loop();
     const onName = () => {
