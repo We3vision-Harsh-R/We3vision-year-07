@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 131,
+    date: "2026-11-07",
+    title: "Home 2: scroll flies through the door",
+    notes: [
+      "On /home-2 the first screen is now pinned and the scroll moves the camera: it zooms into the centre of the glowing door, passes through the light, comes out of the middle of the disc and pulls back to the About part. Reduced motion shows the parts one after another without the zoom.",
+    ],
+  },
+  {
     v: 130,
     date: "2026-11-07",
     title: "Home 2: a new home page design (not linked)",

@@ -50,14 +50,10 @@ export default function Home2Page() {
       <Home2Fx />
 
       {/* ---------------------------------------------------------------- the first screen */}
-      <section className="hb2-hero" aria-label="We3vision">
-        <div className="hb2-stars" aria-hidden>
-          {STARS.map((s, i) => (
-            <i key={i} style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.s, height: s.s, animationDelay: `${s.d}s` }} />
-          ))}
-        </div>
-
-        <header className="hb2-bar">
+      <div className="hb2-fly">
+        <span id="hb2-about" className="hb2-anchor" aria-hidden />
+        <div className="hb2-pin">
+          <header className="hb2-bar">
           <nav aria-label="Home 2 left">
             {NAV.slice(0, 3).map((l) => (
               <SmartLink key={l.href} href={l.href}>
@@ -77,6 +73,13 @@ export default function Home2Page() {
             </SmartLink>
           </nav>
         </header>
+      <section className="hb2-hero" aria-label="We3vision">
+        <div className="hb2-stars" aria-hidden>
+          {STARS.map((s, i) => (
+            <i key={i} style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.s, height: s.s, animationDelay: `${s.d}s` }} />
+          ))}
+        </div>
+
 
         {/* the glowing door */}
         <div className="hb2-arch" aria-hidden>
@@ -126,10 +129,10 @@ export default function Home2Page() {
       </section>
 
       {/* ---------------------------------------------------------------- 1: the statement and the lit disc */}
-      <section id="hb2-about" className="hb2-s1" aria-labelledby="hb2-t1">
-        <div className="hb2-wrap">
+      <section className="hb2-s1" aria-labelledby="hb2-t1">
+        <div className="hb2-wrap hb2-s1-top">
           <p className="hb2-label">About</p>
-          <h2 id="hb2-t1" data-r>
+          <h2 id="hb2-t1">
             Good software is not loud.
             <br />
             It is <em>clear</em>, fast and made to last.
@@ -142,6 +145,11 @@ export default function Home2Page() {
           ))}
           <span className="hb2-disc-top" />
         </div>
+      </section>
+        </div>
+      </div>
+
+      <section className="hb2-s1b" aria-label="Why We3vision">
         <div className="hb2-wrap">
           <ul className="hb2-points">
             {POINTS.map((p, i) => (

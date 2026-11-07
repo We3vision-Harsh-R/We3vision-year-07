@@ -6,7 +6,12 @@
 
 .hb2 {
   --hp: 0;
-  --dp: 0;
+  --hs: 1;
+  --rs: 1;
+  --ho: 1;
+  --do: 0;
+  --ds: 9;
+  --tx: 0;
   --bg: hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 3.6%);
   --ink: hsl(calc(var(--th) + 8) calc(45% * var(--ts)) 96%);
   --mute: hsl(calc(var(--th) + 6) calc(22% * var(--ts)) 76%);
@@ -32,17 +37,29 @@
 }
 
 /* ---------------------------------------------------------------- the first screen */
-.hb2-hero {
+.hb2-fly {
+  position: relative;
+}
+.hb2-pin {
   position: relative;
   height: max(100vh, 780px);
-  min-height: 780px;
+}
+.hb2-anchor {
+  position: absolute;
+  left: 0;
+  top: 100vh;
+  width: 1px;
+  height: 1px;
+}
+.hb2-hero {
+  position: relative;
+  height: 100%;
   background: radial-gradient(120% 80% at 50% 0%, hsl(calc(var(--th) + 352) calc(60% * var(--ts)) 8%) 0%, var(--bg) 62%);
   overflow: hidden;
 }
 .hb2-stars {
   position: absolute;
   inset: 0;
-  transform: translate3d(0, calc(var(--hp) * 40px), 0);
 }
 .hb2-stars i {
   position: absolute;
@@ -107,8 +124,6 @@
   width: clamp(250px, 19vw, 320px);
   height: clamp(400px, 46vh, 470px);
   margin-left: calc(clamp(250px, 19vw, 320px) / -2);
-  transform: translate3d(0, calc(var(--hp) * -70px), 0) scale(calc(1 + var(--hp) * 0.16));
-  transform-origin: 50% 100%;
 }
 .hb2-arch span {
   position: absolute;
@@ -116,6 +131,7 @@
   bottom: 0;
   border-radius: 999px 999px 0 0;
   transform: translateX(-50%);
+  transform-origin: 50% 100%;
 }
 .hb2-arch-halo {
   width: 230%;
@@ -162,7 +178,6 @@
   width: 100%;
   height: 360px;
   z-index: 3;
-  transform: translate3d(0, calc(var(--hp) * 60px), 0);
 }
 .hb2-d-glow {
   opacity: 0.55;
@@ -173,8 +188,7 @@
   left: max(48px, calc((100% - 1200px) / 2));
   bottom: 138px;
   z-index: 5;
-  transform: translate3d(0, calc(var(--hp) * -34px), 0);
-  opacity: calc(1 - var(--hp) * 1.4);
+  opacity: calc(1 - var(--hp) * 4);
 }
 .hb2-kick {
   font-size: 30px;
@@ -201,8 +215,7 @@
   font-size: 16px;
   line-height: 1.6;
   color: var(--mute);
-  transform: translate3d(0, calc(var(--hp) * -34px), 0);
-  opacity: calc(1 - var(--hp) * 1.4);
+  opacity: calc(1 - var(--hp) * 4);
 }
 .hb2-go {
   position: absolute;
@@ -253,10 +266,15 @@
 /* ---------------------------------------------------------------- 1: statement, disc, four points */
 .hb2-s1 {
   position: relative;
-  padding: 110px 0 150px;
+}
+.hb2-s1b {
+  padding: 40px 0 150px;
+}
+.hb2-s1-top {
+  padding-top: 110px;
 }
 .hb2-s1 h2 {
-  margin: 150px 0 0;
+  margin: 56px 0 0;
   text-align: center;
   font-size: clamp(38px, 3.6vw, 54px);
   font-weight: 500;
@@ -268,10 +286,9 @@
 }
 .hb2-disc {
   position: relative;
-  width: min(760px, 56%);
+  width: min(760px, 56%, calc((max(100vh, 780px) - 430px) * 2.1));
   aspect-ratio: 2.1 / 1;
-  margin: 60px auto 110px;
-  transform: translate3d(0, calc((0.5 - var(--dp)) * 90px), 0) scale(calc(0.86 + var(--dp) * 0.3));
+  margin: 56px auto 0;
 }
 .hb2-disc-glow {
   position: absolute;
@@ -279,7 +296,7 @@
   border-radius: 50%;
   background: radial-gradient(50% 50% at 50% 50%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 58% / 0.5), transparent 70%);
   filter: blur(46px);
-  opacity: calc(0.3 + var(--dp) * 0.6);
+  opacity: 0.85;
 }
 .hb2-disc i {
   position: absolute;
@@ -303,6 +320,55 @@
   background: radial-gradient(50% 50% at 50% 40%, hsl(calc(var(--th) + 4) calc(90% * var(--ts)) 92%), hsl(calc(var(--th) + 2) calc(90% * var(--ts)) 78% / 0.4) 70%, transparent 100%);
   filter: blur(5px);
 }
+/* ---- the fly-through (only when the script runs and motion is allowed; otherwise the first screen and the About part simply follow each other) ---- */
+.hb2[data-fx] .hb2-fly {
+  height: 430vh;
+}
+.hb2[data-fx] .hb2-anchor {
+  top: 297vh;
+}
+.hb2[data-fx] .hb2-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 780px;
+  overflow: hidden;
+}
+.hb2[data-fx] .hb2-hero {
+  position: absolute;
+  inset: 0;
+  transform: scale(var(--hs));
+  transform-origin: 50% calc(100% - 380px);
+  opacity: var(--ho);
+  will-change: transform, opacity;
+}
+.hb2[data-fx] .hb2-stars {
+  opacity: calc(1 - var(--hp) * 3);
+}
+.hb2[data-fx] .hb2-arch-halo,
+.hb2[data-fx] .hb2-arch-o3,
+.hb2[data-fx] .hb2-arch-o2,
+.hb2[data-fx] .hb2-arch-o1 {
+  transform: translateX(-50%) scale(var(--rs));
+}
+.hb2[data-fx] .hb2-s1 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--do);
+}
+.hb2[data-fx] .hb2-s1-top > * {
+  opacity: var(--tx);
+}
+.hb2[data-fx] .hb2-disc {
+  transform: scale(var(--ds));
+  transform-origin: 50% 67%;
+  will-change: transform;
+}
+.hb2[data-fx] .hb2-bar {
+  z-index: 8;
+}
+
 .hb2-points {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
