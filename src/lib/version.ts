@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 130,
+    date: "2026-11-07",
+    title: "Home 2: a new home page design (not linked)",
+    notes: [
+      "A second home page at /home-2 in a new dark design: a glowing arch with dunes and a first screen with our words, then a statement with a lit disc and the four reasons to choose us, then our four products on a hairline grid. It scrolls smoothly and the pieces drift and rise in as you scroll.",
+      "Nothing links to it and search engines skip it. The main home page is unchanged until Home 2 is approved and replaces it. Laptop only.",
+    ],
+  },
+  {
     v: 129,
     date: "2026-11-07",
     title: "Phone project form fits one screen",

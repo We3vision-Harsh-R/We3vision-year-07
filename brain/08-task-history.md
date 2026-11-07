@@ -283,3 +283,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v128 (2026-11-07): phone industries row auto-drifts (effect in industries-road.tsx on .cm-list, 28 px/s ping-pong, pauses 2.5 s after a touch; snap off in home-mobile.css).
 
 - v129 (2026-11-07): phone contact form step 1 compact (home-mobile.css 21): tiles 50px, icon beside name, tick only when chosen; .cf 651 -> 451 px.
+
+- v130 (2026-11-07): Home 2 at /home-2 (own page, noindex, not linked, not in sitemap): src/app/(site)/home-2/page.tsx + components/site/home2/home2-fx.tsx + styles/home-2.css (prefix hb2-). Hero arch + dunes, statement + lit disc + 4 points, products hairline grid. Scroll vars --hp/--dp, Lenis smooth scroll from the layout.

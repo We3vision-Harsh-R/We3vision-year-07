@@ -295,3 +295,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Perf budget: CSS of /software-development-services is 112 KB gz (limit 110) after v110/v111; trim CSS next.
 
 - Live cursors / live count keep their picture in the memory of the Node process (src/lib/presence-server.ts). If production runs more than one process the numbers split between them; the fix is one shared store (a database row or Redis). Check the live number in the menu with two phones on different networks.
+
+- Home 2 (/home-2, v130) waits for the owner approval; when approved it replaces the home page (copy the page body into the home route, keep the JSON-LD of (site)/page.tsx). Not registered in cms/pages.ts on purpose.
