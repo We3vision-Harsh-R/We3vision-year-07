@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 133,
+    date: "2026-11-07",
+    title: "Diwali diyas at the gate of the home page",
+    notes: [
+      "In a Diwali festival the home page shows a row of flickering diyas with a warm glow on the dune on both sides of the glowing door. They zoom in with the door when you scroll.",
+      "A new switch, Diyas at the gate of the home page, is in Admin > Fest, group Places. It is on by default and nothing is downloaded when no festival is on.",
+    ],
+  },
+  {
     v: 132,
     date: "2026-11-07",
     title: "New home page, Services, Portfolio and Contact in the new design",

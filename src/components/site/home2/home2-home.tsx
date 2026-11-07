@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { LazyDoorFest } from "@/components/site/fest/lazy";
 import { Home2Fx } from "@/components/site/home2/home2-fx";
 import { Home2Footer } from "@/components/site/home2/home2-chrome";
 import { Home2More } from "@/components/site/home2/home2-more";
@@ -95,6 +96,8 @@ export async function Home2Home() {
           <path className="hb2-d-glow" d="M0 262 C 200 237 330 274 520 248 C 700 224 820 212 980 182 C 1120 156 1280 132 1440 96" fill="none" stroke="hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 70%)" strokeWidth="18" filter="url(#hb2-blur)" />
           <path className="hb2-d-front" d="M0 262 C 200 237 330 274 520 248 C 700 224 820 212 980 182 C 1120 156 1280 132 1440 96 L1440 360 L0 360 Z" fill="url(#hb2-d1)" />
         </svg>
+        {/* Diwali at the gate (Admin > Fest, switch "door"): diyas on the dune */}
+        <LazyDoorFest />
         </div>
 
         <div className="hb2-copy">

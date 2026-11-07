@@ -23,7 +23,7 @@ export const FEST_GROUPS = [
   { id: "site", title: "Whole-website effects", blurb: "Drawn on a layer above every page. The far pieces are small and softly blurred, the near ones big and sharp, like a real 3D space." },
   { id: "industry", title: "Industries road", blurb: "The decoration of the road in the Industries section (the road with the districts and the car)." },
   { id: "pointer", title: "Pointer effects", blurb: "What the mouse does. A click on an empty part of a page (no text, no button) can launch a rocket." },
-  { id: "places", title: "Places", blurb: "The big menu, the ground next to the company name, and the three offices." },
+  { id: "places", title: "Places", blurb: "The big menu, the ground next to the company name, the three offices, and the gate of the home page." },
 ] as const;
 export type FestGroupId = (typeof FEST_GROUPS)[number]["id"];
 
@@ -68,6 +68,7 @@ export const FEST_EFFECTS = [
   fx({ key: "about", group: "places", label: "About page office", hint: "String lights, diyas, fireworks and rangolis on the floor that colleagues draw, at the office of the About page", on: true }),
   fx({ key: "team", group: "places", label: "Team page office", hint: "Lights, lanterns, fireworks and rangolis on the floor that colleagues draw, in the office of the Team page", on: true }),
   fx({ key: "metaverse", group: "places", label: "Metaverse page office", hint: "Lights, lanterns, rangolis and fireworks in the office of the Metaverse page", on: true }),
+  fx({ key: "door", group: "places", label: "Diyas at the gate of the home page", hint: "A row of flickering diyas with a warm glow on the dune in front of the glowing door of the home page, on both sides of the gate", on: true }),
 ] as const;
 export type FestEffect = (typeof FEST_EFFECTS)[number]["key"];
 export const FEST_EFFECT_KEYS = FEST_EFFECTS.map((e) => e.key) as FestEffect[];

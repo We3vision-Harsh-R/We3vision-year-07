@@ -17,6 +17,7 @@ const LayerChunk = dynamic(() => import("./fest-layer").then((m) => m.FestLayer)
 const RoadChunk = dynamic(() => import("./industries-fest").then((m) => m.RoadFest), { ssr: false });
 const CarChunk = dynamic(() => import("./industries-fest").then((m) => m.CarFest), { ssr: false });
 const OfficeChunk = dynamic(() => import("./office-fest").then((m) => m.OfficeFest), { ssr: false });
+const DoorChunk = dynamic(() => import("./fest-door").then((m) => m.DoorFest), { ssr: false });
 const MenuChunk = dynamic(() => import("./fest-menu").then((m) => m.FestMenuDecor), { ssr: false });
 const ExploreChunk = dynamic(() => import("./fest-menu").then((m) => m.FestMenuExplore), { ssr: false });
 
@@ -57,4 +58,9 @@ export function LazyFestMenu() {
 export function LazyMenuExplore() {
   const fest = useFest();
   return fest?.has("menu") ? <ExploreChunk people={fest.has("menu-people")} /> : null;
+}
+
+/** the diyas on the dune in front of the door of the home page: only when its switch is on */
+export function LazyDoorFest() {
+  return useFest()?.has("door") ? <DoorChunk /> : null;
 }

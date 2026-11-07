@@ -699,3 +699,79 @@ html:has(.mm[data-open="true"]) .fs-top .fs-kandil {
     transform: none;
   }
 }
+
+/* ---- Diwali at the gate of the home page (fdr-): diyas on the dune in front of the glowing door ---- */
+.fdr {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 4;
+  height: 360px;
+  pointer-events: none;
+  transform: translateZ(60px);
+}
+.fdr-d {
+  position: absolute;
+  width: calc(30px * var(--k, 1));
+  height: calc(30px * var(--k, 1));
+  transform: translate(-50%, -78%);
+}
+.fdr-bowl {
+  position: absolute;
+  inset: 52% 0 0;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  background: linear-gradient(to bottom, #f6b04a, #b4501a 70%, #6e2a0c);
+  box-shadow: 0 2px 0 #3a1406, inset 0 2px 3px rgba(255, 224, 150, 0.7);
+}
+.fdr-flame {
+  position: absolute;
+  left: 50%;
+  bottom: 44%;
+  width: 28%;
+  height: 54%;
+  margin-left: -14%;
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 70%, #fff6c8 0%, #ffc94a 45%, #ff7a1a 100%);
+  box-shadow: 0 0 10px 2px rgba(255, 170, 60, 0.85);
+  transform-origin: 50% 100%;
+  animation: fdr-flick 1.3s ease-in-out infinite;
+  animation-delay: var(--dl, 0s);
+}
+.fdr-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 30%;
+  width: 360%;
+  height: 360%;
+  margin-left: -180%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 176, 70, 0.5), rgba(255, 140, 40, 0.18) 38%, transparent 68%);
+  animation: fdr-glow 2.4s ease-in-out infinite;
+  animation-delay: var(--dl, 0s);
+}
+@keyframes fdr-flick {
+  0%,
+  100% {
+    transform: scale(1, 1) rotate(-3deg);
+  }
+  35% {
+    transform: scale(0.9, 1.12) rotate(3deg);
+  }
+  70% {
+    transform: scale(1.05, 0.94) rotate(-2deg);
+  }
+}
+@keyframes fdr-glow {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fdr-flame,
+  .fdr-glow {
+    animation: none;
+  }
+}
