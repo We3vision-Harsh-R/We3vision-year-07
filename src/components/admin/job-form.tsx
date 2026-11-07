@@ -5,7 +5,8 @@ import { useEffect, useState, useTransition } from "react";
 import { saveJob } from "@/actions/jobs";
 import type { ActionResult } from "@/actions/types";
 import { WORK_MODES, WORK_TYPES } from "@/lib/careers-shared";
-import { btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
+import { btnPrimary, card, inputClass, labelClass } from "./ui";
+import { IconBtn } from "./icon-btn";
 
 // Careers > Jobs: one job. Everything that is on the card of the Careers page and on the page of the job (/careers/<address>) is written here.
 
@@ -189,14 +190,10 @@ export function JobForm({ initial, onSave, backHref }: { initial: JobFormValue; 
           {pending ? "Saving…" : onSave ? "Save changes" : v.id ? "Save the job" : "Create the job"}
         </button>
         {backHref && (
-          <a href={backHref} className={btnSecondary}>
-            Back
-          </a>
+          <IconBtn icon="back" label="Back to the list" href={backHref} />
         )}
         {v.slug && v.id && (
-          <a href={`/careers/${v.slug}`} target="_blank" rel="noreferrer" className={btnSecondary}>
-            Open the page of the job ↗
-          </a>
+          <IconBtn icon="external" label="Open the page of the job" href={`/careers/${v.slug}`} external />
         )}
         {result && (
           <p role="status" className={`rounded-lg px-3 py-2 text-sm ${result.ok ? "bg-emerald-50 text-emerald-800" : "bg-rose-50 text-rose-700"}`}>

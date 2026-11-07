@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { deleteJob, duplicateJob, moveJob, setJobOpen } from "@/actions/jobs";
 import type { ActionResult } from "@/actions/types";
-import { btnDanger, btnSecondary, btnIcon, card } from "./ui";
+import { btnIcon, card } from "./ui";
+import { IconBtn } from "./icon-btn";
 
 // Careers > Jobs: the jobs in the order of the Careers page, with how far their applications are (new, in process, hired of the openings).
 // A job can be closed without losing it, copied to start a similar one, moved up or down, and its link copied to share it.
@@ -132,25 +133,13 @@ export function CareersJobs({ rows }: { rows: JobRow[] }) {
                   {r.hired} of {r.openings} hired
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <a href={`/careers/${r.slug}`} target="_blank" rel="noreferrer" className={btnSecondary}>
-                  View ↗
-                </a>
-                <button type="button" className={btnSecondary} onClick={() => share(r)}>
-                  Copy link
-                </button>
-                <Link href={`/admin/careers/jobs/${r.id}`} className={btnSecondary}>
-                  Edit
-                </Link>
-                <button type="button" className={btnSecondary} disabled={pending} onClick={() => copy(r)}>
-                  Duplicate
-                </button>
-                <button type="button" className={btnSecondary} disabled={pending} onClick={() => toggle(r)}>
-                  {r.active ? "Close" : "Open"}
-                </button>
-                <button type="button" className={btnDanger} disabled={pending} onClick={() => remove(r)}>
-                  Remove
-                </button>
+              <div className="flex flex-wrap items-center gap-1">
+                <IconBtn icon="external" label="View on the website" href={`/careers/${r.slug}`} external />
+                <IconBtn icon="copy" label="Copy link" onClick={() => share(r)} />
+                <IconBtn icon="duplicate" label="Duplicate" disabled={pending} onClick={() => copy(r)} />
+                <IconBtn icon={r.active ? "unlock" : "lock"} label={r.active ? "Open: click to close" : "Closed: click to open"} tone={r.active ? "plain" : "accent"} disabled={pending} onClick={() => toggle(r)} />
+                <IconBtn icon="edit" label="Edit" tone="accent" href={`/admin/careers/jobs/${r.id}`} />
+                <IconBtn icon="trash" label="Remove" tone="danger" disabled={pending} onClick={() => remove(r)} />
               </div>
             </li>
           );

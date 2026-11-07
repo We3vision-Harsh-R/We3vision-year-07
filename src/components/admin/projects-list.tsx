@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { moveProject, setProjectPublished } from "@/actions/projects";
 import { PROJECT_GROUPS } from "@/lib/project-groups";
-import { btnIcon, btnSecondary, card } from "./ui";
+import { btnSecondary, card } from "./ui";
+import { IconBtn } from "./icon-btn";
 
 export type ProjectRow = { id: string; title: string; category: string; cover: string; group: string; published: boolean; pictures: number };
 
@@ -61,19 +62,11 @@ export function ProjectsList({ rows }: { rows: ProjectRow[] }) {
                       {!r.published && " · hidden"}
                     </p>
                   </div>
-                  <div className="flex shrink-0 items-center gap-1.5">
-                    <button type="button" className={btnIcon} disabled={pending || i === 0} onClick={() => run(() => moveProject(r.id, "up"))} aria-label="Move up">
-                      ↑
-                    </button>
-                    <button type="button" className={btnIcon} disabled={pending || i === list.length - 1} onClick={() => run(() => moveProject(r.id, "down"))} aria-label="Move down">
-                      ↓
-                    </button>
-                    <button type="button" className={`${btnIcon} !w-auto px-2.5 text-xs`} disabled={pending} onClick={() => run(() => setProjectPublished(r.id, !r.published))}>
-                      {r.published ? "Hide" : "Show"}
-                    </button>
-                    <Link href={`/admin/projects/${r.id}`} className={`${btnSecondary} !px-3 !py-1.5`}>
-                      Edit
-                    </Link>
+                  <div className="flex shrink-0 items-center gap-1">
+                    <IconBtn icon="up" label="Move up" disabled={pending || i === 0} onClick={() => run(() => moveProject(r.id, "up"))} />
+                    <IconBtn icon="down" label="Move down" disabled={pending || i === list.length - 1} onClick={() => run(() => moveProject(r.id, "down"))} />
+                    <IconBtn icon={r.published ? "eye" : "eyeoff"} label={r.published ? "Shown: click to hide" : "Hidden: click to show"} tone={r.published ? "plain" : "accent"} disabled={pending} onClick={() => run(() => setProjectPublished(r.id, !r.published))} />
+                    <IconBtn icon="edit" label="Edit" tone="accent" href={`/admin/projects/${r.id}`} />
                   </div>
                 </li>
               ))}

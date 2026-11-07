@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { createProject, deleteProject, updateProject } from "@/actions/projects";
@@ -8,7 +7,8 @@ import { PROJECT_GROUPS } from "@/lib/project-groups";
 import type { ActionResult } from "@/actions/types";
 import { GalleryField } from "./gallery-field";
 import { ImageField } from "./image-field";
-import { btnDanger, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
+import { btnPrimary, card, inputClass, labelClass } from "./ui";
+import { IconBtn } from "./icon-btn";
 
 export type ProjectData = {
   title: string;
@@ -122,18 +122,12 @@ export function ProjectForm({ id, initial, slug, onSave, backHref }: { id?: stri
             </p>
           )}
           {slug && (
-            <a href={`/portfolio/${slug}`} target="_blank" rel="noreferrer" className={btnSecondary}>
-              View live ↗
-            </a>
+            <IconBtn icon="external" label="View live" href={`/portfolio/${slug}`} external />
           )}
           {id && !onSave && (
-            <button type="button" className={btnDanger} onClick={remove} disabled={pending}>
-              Delete
-            </button>
+            <IconBtn icon="trash" label="Delete this project" tone="danger" onClick={remove} disabled={pending} />
           )}
-          <Link href={backHref ?? "/admin/projects"} className={btnSecondary}>
-            Back
-          </Link>
+          <IconBtn icon="back" label="Back to the list" href={backHref ?? "/admin/projects"} />
           <button type="button" className={btnPrimary} onClick={save} disabled={pending || (id || onSave ? !dirty : false)}>
             {pending ? "Saving…" : id || onSave ? "Save changes" : "Add project"}
           </button>

@@ -2,8 +2,6 @@
 
 import "@/styles/admin.css";
 
-
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { createBlogPost, deleteBlogPost, updateBlogPost } from "@/actions/blog";
@@ -12,7 +10,8 @@ import { TILES, type TileValue } from "@/lib/blog-shared";
 import { BlogPreview } from "./blog-preview";
 import { BlogSeoPanel } from "./blog-seo-panel";
 import { ImageField } from "./image-field";
-import { btnDanger, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
+import { btnPrimary, card, inputClass, labelClass } from "./ui";
+import { IconBtn } from "./icon-btn";
 
 export type BlogData = {
   title: string;
@@ -211,18 +210,12 @@ export function BlogForm({ id, slug, initial, others, onSave, backHref }: { id?:
             </p>
           )}
           {slug && (
-            <a href={`/blog/${slug}`} target="_blank" rel="noreferrer" className={btnSecondary}>
-              View live ↗
-            </a>
+            <IconBtn icon="external" label="View live" href={`/blog/${slug}`} external />
           )}
           {id && (
-            <button type="button" className={btnDanger} onClick={remove} disabled={pending}>
-              Delete
-            </button>
+            <IconBtn icon="trash" label="Delete this article" tone="danger" onClick={remove} disabled={pending} />
           )}
-          <Link href={backHref ?? "/admin/blog"} className={btnSecondary}>
-            Back
-          </Link>
+          <IconBtn icon="back" label="Back to the list" href={backHref ?? "/admin/blog"} />
           <button type="button" className={btnPrimary} onClick={save} disabled={pending || (id || onSave ? !dirty : false)}>
             {pending ? "Saving…" : onSave ? "Save changes" : id ? "Save changes" : "Add article"}
           </button>

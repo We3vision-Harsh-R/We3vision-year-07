@@ -1,7 +1,7 @@
 import type { AdminIconKey } from "@/components/admin/admin-menu";
 
 // One line-icon per admin menu item (24 x 24, drawn with the current text colour), plus a few icons the panel itself uses (bell, check, clock …).
-type ExtraIcon = "check" | "clock" | "cross" | "bell" | "logout" | "chevron" | "arrow" | "external";
+type ExtraIcon = "check" | "clock" | "cross" | "bell" | "logout" | "chevron" | "arrow" | "external" | "edit" | "trash" | "eye" | "eyeoff" | "up" | "down" | "back" | "plus" | "save" | "copy" | "tick" | "duplicate" | "lock" | "unlock";
 const PATHS: Record<AdminIconKey | ExtraIcon, string> = {
   dashboard: "M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z",
   pages: "M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5",
@@ -28,6 +28,21 @@ const PATHS: Record<AdminIconKey | ExtraIcon, string> = {
   chevron: "M9 6l6 6-6 6",
   arrow: "M5 12h14M13 6l6 6-6 6",
   external: "M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5",
+  // the small actions of the lists and forms (icon-only buttons, see icon-btn.tsx)
+  edit: "M4 20h4L19 9l-4-4L4 16zM13 7l4 4",
+  trash: "M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13M10 11v6M14 11v6",
+  eye: "M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z",
+  eyeoff: "M3 3l18 18M10.6 6.2A9.7 9.7 0 0112 6c6 0 10 6 10 6a17 17 0 01-3.2 3.7M6.5 7.6A17 17 0 002 12s4 7 10 7a9.6 9.6 0 004-.9M9.9 9.9a3 3 0 004.2 4.2",
+  up: "M6 14l6-6 6 6",
+  down: "M6 10l6 6 6-6",
+  back: "M19 12H5M11 6l-6 6 6 6",
+  plus: "M12 5v14M5 12h14",
+  save: "M5 4h11l3 3v13H5zM8 4v5h7V4M8 20v-6h8v6",
+  copy: "M9 9h10v11H9zM5 15V4h10",
+  tick: "M5 12.5l4.5 4.5L19 7.5",
+  duplicate: "M8 8h12v12H8zM4 16V4h12",
+  lock: "M6 11h12v9H6zM9 11V8a3 3 0 016 0v3",
+  unlock: "M6 11h12v9H6zM9 11V8a3 3 0 015.6-1.5",
   visitors: "M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM2 20c0-3 2.7-5 6-5s6 2 6 5M14 15.3c.6-.2 1.3-.3 2-.3 3.3 0 6 2 6 5",
   versions: "M12 3v4M12 17v4M3 12h4M17 12h4M12 8a4 4 0 100 8 4 4 0 000-8z",
   fest: "M12 3c2.5 3 2.5 5.5 0 8-2.5-2.5-2.5-5 0-8zM3 14h18c-1.2 4.2-4.6 6.5-9 6.5S4.2 18.2 3 14zM7 14c1 1 3 1.5 5 1.5s4-.5 5-1.5",

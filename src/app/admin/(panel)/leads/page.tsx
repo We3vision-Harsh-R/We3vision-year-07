@@ -1,8 +1,9 @@
 import { deleteLead, markLeadRead } from "@/actions/leads";
-import { btnDanger, btnSecondary, card } from "@/components/admin/ui";
+import { card } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatDate } from "@/lib/format";
+import { IconBtn } from "@/components/admin/icon-btn";
 
 export const metadata = { title: "Leads" };
 
@@ -45,12 +46,12 @@ export default async function LeadsPage() {
               {!lead.isRead && (
                 <form action={markLeadRead}>
                   <input type="hidden" name="id" value={lead.id} />
-                  <button className={btnSecondary}>Mark as read</button>
+                  <IconBtn icon="tick" label="Mark as read" type="submit" />
                 </form>
               )}
               <form action={deleteLead}>
                 <input type="hidden" name="id" value={lead.id} />
-                <button className={btnDanger}>Delete</button>
+                <IconBtn icon="trash" label="Delete" tone="danger" type="submit" />
               </form>
             </div>
           </article>

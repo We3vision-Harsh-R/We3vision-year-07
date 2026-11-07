@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 123,
+    date: "2026-11-07",
+    title: "Admin panel: icon buttons and a denser look",
+    notes: [
+      "In the admin panel the small actions are icon buttons with a tooltip (edit, delete, hide or show, move up or down, view live, copy link, duplicate, open or close a job, mark as read, back). Main actions such as Save and Add keep their words. Cards, fields and buttons are tighter, one control height, and every control has a clear keyboard focus ring.",
+    ],
+  },
+  {
     v: 122,
     date: "2026-11-07",
     title: "Phone services in one card with smooth opening",

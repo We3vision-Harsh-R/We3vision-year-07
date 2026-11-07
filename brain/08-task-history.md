@@ -269,3 +269,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v121 (2026-11-07): dock width = hero box width (100vw - 12px phone, - 20px tablet).
 
 - v122 (2026-11-07): phone services = one card, accordion with max-height transition, entrance via data-ready/data-in set by an IntersectionObserver in services-deck.tsx (home-mobile.css 20). Scroll-driven view() timelines did not draw in the preview browser, so they were not used.
+
+- v123 (2026-11-07): admin panel: IconBtn (components/admin/icon-btn.tsx, icons in admin-icons.tsx) replaces text buttons in blog/projects lists, careers jobs, alerts, leads, blog/project/job forms (Delete, Back, View live, Edit, Hide/Show, Move, Copy, Duplicate, Open/Close, Mark as read); density + focus + tooltip CSS = ads2 block at the end of admin-shell.css. Previewed on a temporary sandbox page (deleted), not with the real login. Other admin screens (settings, team, fest, access, AI pages, submissions) still use text buttons.

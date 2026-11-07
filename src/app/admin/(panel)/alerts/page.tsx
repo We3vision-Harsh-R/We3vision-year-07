@@ -8,6 +8,7 @@ import { type AlertLevel, readAlerts } from "@/lib/alerts";
 import { requireAdmin } from "@/lib/auth";
 import { formatDate } from "@/lib/format";
 import { whatsappProvider } from "@/lib/whatsapp";
+import { IconBtn } from "@/components/admin/icon-btn";
 
 export const metadata = { title: "Alerts" };
 
@@ -156,12 +157,12 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
                 {!a.read && (
                   <form action={markAlertRead}>
                     <input type="hidden" name="id" value={a.id} />
-                    <button className={btnSecondary}>Mark as read</button>
+                    <IconBtn icon="tick" label="Mark as read" type="submit" />
                   </form>
                 )}
                 <form action={deleteAlert}>
                   <input type="hidden" name="id" value={a.id} />
-                  <button className={btnDanger}>Delete</button>
+                  <IconBtn icon="trash" label="Delete" tone="danger" type="submit" />
                 </form>
               </div>
             </article>
