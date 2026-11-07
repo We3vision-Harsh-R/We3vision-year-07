@@ -53,7 +53,7 @@ export function Globe({ places, label, focus }: { places: Place[]; label: string
     const canvas = canvasRef.current;
     if (!canvas || places.length === 0) return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, window.innerWidth < 1024 ? 1.25 : 2); // a phone draws fewer pixels: a smooth spin matters more than the last sharpness
     const size = Math.max(canvas.offsetWidth, 200) * dpr;
     const violet: [number, number, number] = [0.83, 0.53, 1];
     const gold: [number, number, number] = [1, 0.86, 0.6];

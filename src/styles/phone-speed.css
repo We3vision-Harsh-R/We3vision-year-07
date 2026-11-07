@@ -33,3 +33,12 @@
     opacity: 0.7;
   }
 }
+
+/* ps2- (2026-11-07, owner: phone scroll must be smooth): the glass cards of the page keep their tint but not their live blur. A blur behind many cards is redone on
+   every scroll frame; the menu, the bottom bar and the pop-ups (outside main) keep their own lighter blur above. */
+@media (max-width: 1023.98px) {
+  :root main#main-content :is(*, *::before, *::after) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

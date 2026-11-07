@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 125,
+    date: "2026-11-07",
+    title: "Smoother phone scrolling",
+    notes: [
+      "On phones and tablets the glass cards of the page no longer blur what is behind them (the tint stays), the background lights stand still instead of moving on every scroll frame, and the globe draws fewer pixels. The bottom bar and the menus keep their own lighter blur. Laptops are unchanged.",
+    ],
+  },
+  {
     v: 124,
     date: "2026-11-07",
     title: "Admin: icon buttons everywhere, softer laptop scrolling",

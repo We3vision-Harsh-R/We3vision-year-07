@@ -12,6 +12,8 @@ export function ScrollAurora() {
   useEffect(() => {
     const el = ref.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // a phone / tablet: the lights stand still (no work on every scroll frame; owner 2026-11-07: the phone scroll must be smooth)
+    if (window.innerWidth < 1024) return;
     let raf = 0;
     const update = () => {
       raf = 0;
