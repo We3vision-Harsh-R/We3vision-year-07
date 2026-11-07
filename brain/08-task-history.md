@@ -259,3 +259,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v116 (2026-11-06): phone Services and Industries same family (home-mobile.css 17-18).
 
 - v117 (2026-11-07): name prompt (presence.tsx .na): blur 26px + drifting theme glows (presence.css na2). Preview note: the in-app browser does not draw backdrop-filter, a real Chrome does.
+
+- v118 (2026-11-07): hero button (.hx-go) animation removed, hover = glow only (home-intro.css hg- block at the end).

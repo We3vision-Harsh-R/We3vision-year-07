@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 118,
+    date: "2026-11-07",
+    title: "First-screen button: no animation, glow on hover",
+    notes: [
+      "The Start a project button of the first screen has no animation now (no ping ring, no light sweep, no arrow slide, no growing). On hover it only glows.",
+    ],
+  },
+  {
     v: 117,
     date: "2026-11-07",
     title: "Name question: blurred page and theme glow",

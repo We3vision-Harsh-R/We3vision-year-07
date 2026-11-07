@@ -360,3 +360,33 @@ section.hx {
     animation: none !important;
   }
 }
+
+/* hg- (2026-11-07, owner): the first-screen button has no animation any more (no ping ring, no light sweep, no arrow slide, no growing); only a glow on hover */
+:root:root .hx-go,
+:root:root .hx-head .hx-go {
+  transition: box-shadow 0.35s ease;
+}
+:root:root .hx-go::before {
+  display: none;
+  animation: none;
+}
+:root:root .hx-go::after {
+  transition: none;
+}
+:root:root .hx-go:hover,
+:root:root .hx-go:focus-visible,
+:root:root .hx-head .hx-go:hover,
+:root:root .hx-head .hx-go:focus-visible {
+  transform: none;
+  box-shadow:
+    0 0 0 6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.18),
+    0 0 48px 4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6),
+    inset 0 0 0 1px #fff;
+}
+:root:root .hx-go:hover::after,
+:root:root .hx-go:focus-visible::after {
+  transform: none;
+}
+:root:root .hx-go:active {
+  transform: none;
+}
