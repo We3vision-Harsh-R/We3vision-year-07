@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 127,
+    date: "2026-11-07",
+    title: "Phone menu redesigned",
+    notes: [
+      "The menu on phones and tablets is a solid dark sheet with the same curve as the first screen box. The products are a row of tall cards you swipe with a big ghost number, and the pages are one editorial list with a number, a big name and an arrow. Laptops are unchanged.",
+    ],
+  },
+  {
     v: 126,
     date: "2026-11-07",
     title: "20 live cursors and the live visitor count in the menu",

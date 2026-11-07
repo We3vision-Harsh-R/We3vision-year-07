@@ -843,3 +843,105 @@
     border-radius: 24px;
   }
 }
+
+/* mm3- (2026-11-07, owner: "the phone menu: very attractive, solid, different from all the others"): a solid dark sheet with the same 22px curve as the first
+   screen box and the bottom bar; the products are a row of tall cards you swipe (a big ghost number, the name low), the pages are one editorial list
+   (a number, a big name, a thin line between, an arrow). Only below 1024px; same markup as the laptop menu. */
+@media (max-width: 1023.98px) {
+  :root:root .mm-pop {
+    border-radius: 22px;
+    background:
+      radial-gradient(110% 38% at 100% 0, hsl(calc(var(--th) + 350) calc(85% * var(--ts)) 52% / 0.28), transparent 70%),
+      radial-gradient(90% 34% at 0 100%, hsl(calc(var(--th) + 20) calc(75% * var(--ts)) 50% / 0.18), transparent 70%),
+      hsl(calc(var(--th) + 347) calc(55% * var(--ts)) 6.5% / 0.98);
+    border: 1px solid hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 80% / 0.16);
+  }
+  :root:root .mm .mm-row3 .mm-col-t {
+    margin: 0 0 0.9rem;
+    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+    font-size: 0.8125rem;
+    letter-spacing: 0.16em;
+  }
+
+  /* products: a row of tall cards */
+  :root:root .mm .mm-row3 .mm-col:first-child .mm-li {
+    display: flex;
+    gap: 0.65rem;
+    margin-inline: -1rem;
+    padding: 0.2rem 1rem 0.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1rem;
+    scrollbar-width: none;
+  }
+  :root:root .mm .mm-row3 .mm-col:first-child .mm-li::-webkit-scrollbar {
+    display: none;
+  }
+  :root:root .mm .mm-row3 .mm-col:first-child .mm-li li {
+    flex: none;
+    width: 9.4rem;
+    scroll-snap-align: start;
+  }
+  :root:root .mm .mm-row3 .mm-col:first-child .mm-li a {
+    min-height: 8.2rem;
+    padding: 0.9rem 1rem;
+    overflow: hidden;
+    border: 1px solid hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 80% / 0.18);
+    border-radius: 18px;
+    font-size: 1.125rem;
+  }
+  :root:root .mm .mm-row3 .mm-col:first-child .mm-li a i {
+    top: 0.35rem;
+    left: 0.8rem;
+    color: rgb(255 255 255 / 0.2);
+    font-size: 2.6rem;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  /* pages: one editorial list */
+  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li {
+    display: block;
+    counter-reset: ex;
+    border-top: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+  }
+  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li li {
+    border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+    counter-increment: ex;
+  }
+  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a {
+    min-height: 3.3rem;
+    padding: 0 0.1rem;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    font-size: 1.1875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a::before {
+    flex: none;
+    width: 2.2rem;
+    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.75);
+    content: counter(ex, decimal-leading-zero);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a:active {
+    background: hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 55% / 0.14);
+    transform: none;
+  }
+  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a[aria-current="page"] {
+    background: none;
+    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
+    font-weight: 600;
+  }
+  :root:root .mm-end {
+    border: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
+    border-radius: 18px;
+    background: hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12% / 0.7);
+  }
+}
