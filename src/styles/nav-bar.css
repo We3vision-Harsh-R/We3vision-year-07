@@ -820,3 +820,24 @@
     display: none;
   }
 }
+
+/* dk2- (2026-11-07, owner): the bottom bar has the same corner curve as the box of the first screen (a rounded square, not a pill):
+   22px on a phone (the box of the first screen is 22px there), 28px on a tablet (28px there); the lit tab and the tabs follow the inner curve */
+@media (max-width: 699.98px) {
+  :root:root .dk {
+    border-radius: 22px;
+  }
+  :root:root .dk-pill i,
+  :root:root .dk-b {
+    border-radius: 18px;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  :root:root .dk {
+    border-radius: 28px;
+  }
+  :root:root .dk-pill i,
+  :root:root .dk-b {
+    border-radius: 24px;
+  }
+}

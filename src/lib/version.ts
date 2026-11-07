@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 120,
+    date: "2026-11-07",
+    title: "Bottom bar has the same curve as the first screen box",
+    notes: [
+      "On phones and tablets the bottom bar is a rounded square with the same corner curve as the box of the first screen (22px on a phone, 28px on a tablet) instead of a pill. The lit tab follows the inner curve.",
+    ],
+  },
+  {
     v: 119,
     date: "2026-11-07",
     title: "Phone: Home goes to the top, services as one clear list",
