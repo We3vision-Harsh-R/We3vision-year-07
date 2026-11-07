@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 122,
+    date: "2026-11-07",
+    title: "Phone services in one card with smooth opening",
+    notes: [
+      "On phones all seven services sit in one glass card, one line each. A tap opens that service smoothly under its line with what we build and a link to its page, and the card and its lines come in one after the other when the section reaches the screen.",
+    ],
+  },
+  {
     v: 121,
     date: "2026-11-07",
     title: "Bottom bar as wide as the first screen box",

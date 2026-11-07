@@ -21,6 +21,26 @@ export function ServicesDeck({ cards }: { cards: ServiceCard[] }) {
   const stickyRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLSpanElement>(null);
   const manual = useRef(0);
+  const rootRef = useRef<HTMLElement>(null);
+
+  // phone: the card and its lines come in when the section reaches the screen (CSS hides them only after this has marked the section as ready)
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    if (!("IntersectionObserver" in window)) return;
+    el.setAttribute("data-ready", "");
+    const io = new IntersectionObserver(
+      (e) => {
+        if (e.some((x) => x.isIntersecting)) {
+          el.setAttribute("data-in", "");
+          io.disconnect();
+        }
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -70,7 +90,7 @@ export function ServicesDeck({ cards }: { cards: ServiceCard[] }) {
   const Icon = ICONS[at % ICONS.length];
 
   return (
-    <section className="sd" aria-labelledby="sd-title" style={{ "--n": n, "--part": PART } as CSSProperties}>
+    <section ref={rootRef} className="sd" aria-labelledby="sd-title" style={{ "--n": n, "--part": PART } as CSSProperties}>
       <div ref={trackRef} className="sd-track">
         <div ref={stickyRef} className="sd-sticky">
           <header className="sd-head">
@@ -87,7 +107,7 @@ export function ServicesDeck({ cards }: { cards: ServiceCard[] }) {
               {cards.map((c, i) => {
                 const subsI = parseSubs(c.subs);
                 return (
-                  <li key={i} className="sd-row" data-on={at === i} style={{ "--ac": ACCENTS[i % ACCENTS.length] } as CSSProperties}>
+                  <li key={i} className="sd-row" data-on={at === i} style={{ "--ac": ACCENTS[i % ACCENTS.length], "--k": i } as CSSProperties}>
                     <button type="button" className="sd-btn" aria-expanded={at === i} onClick={() => pick(i)} onPointerEnter={(e) => e.pointerType === "mouse" && at !== i && setAt(i)}>
                       <i>{pad(i + 1)}</i>
                       <span>{oneLine(c.title)}</span>

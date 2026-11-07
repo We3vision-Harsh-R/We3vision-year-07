@@ -267,3 +267,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v120 (2026-11-07): dock radius = hero box radius (22px phone, 28px tablet), nav-bar.css dk2 block at the end.
 
 - v121 (2026-11-07): dock width = hero box width (100vw - 12px phone, - 20px tablet).
+
+- v122 (2026-11-07): phone services = one card, accordion with max-height transition, entrance via data-ready/data-in set by an IntersectionObserver in services-deck.tsx (home-mobile.css 20). Scroll-driven view() timelines did not draw in the preview browser, so they were not used.
