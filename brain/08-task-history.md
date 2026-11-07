@@ -265,3 +265,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v119 (2026-11-07): phone Home tab scrolls to top on the home page (mobile-dock.tsx goHome); services deck on phones = one list of 7 rows (home-mobile.css 19). The hidden attribute on .sd-m was removed (a browser UA rule makes it display:none !important, CSS cannot undo it); tablet hides via data-on.
 
 - v120 (2026-11-07): dock radius = hero box radius (22px phone, 28px tablet), nav-bar.css dk2 block at the end.
+
+- v121 (2026-11-07): dock width = hero box width (100vw - 12px phone, - 20px tablet).

@@ -825,6 +825,7 @@
    22px on a phone (the box of the first screen is 22px there), 28px on a tablet (28px there); the lit tab and the tabs follow the inner curve */
 @media (max-width: 699.98px) {
   :root:root .dk {
+    width: calc(100vw - 12px);
     border-radius: 22px;
   }
   :root:root .dk-pill i,
@@ -834,6 +835,7 @@
 }
 @media (min-width: 700px) and (max-width: 1023.98px) {
   :root:root .dk {
+    width: calc(100vw - 20px);
     border-radius: 28px;
   }
   :root:root .dk-pill i,
