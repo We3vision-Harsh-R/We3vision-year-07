@@ -1835,3 +1835,61 @@
     scroll-behavior: auto;
   }
 }
+
+/* ---------- 21. phone: the project form's first step fits ONE screen: eight small tiles (icon beside the name), a short question ---------- */
+@media (max-width: 699.98px) {
+  :root:root .hx ~ #contact .cf-main {
+    gap: 0.5rem;
+  }
+  :root:root .hx ~ #contact .cf-step {
+    margin: 0.8rem 0 0.3rem;
+    font-size: 0.8125rem;
+  }
+  :root:root .hx ~ #contact .cf-q {
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+  :root:root .hx ~ #contact .cf-hint {
+    margin: 0.3rem 0 0.8rem;
+    font-size: 0.9375rem;
+  }
+  :root:root .hx ~ #contact .cf-tiles {
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  :root:root .hx ~ #contact .cf-tile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.55rem;
+    min-height: 0;
+    height: 3.1rem;
+    padding: 0 0.7rem;
+    border-radius: 14px;
+    font-size: 0.9375rem;
+    line-height: 1.15;
+    text-align: left;
+  }
+  :root:root .hx ~ #contact .cf-ic {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+  :root:root .hx ~ #contact .cf-tile > span {
+    min-width: 0;
+    flex: 1;
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+  :root:root .hx ~ #contact .cf-tick {
+    position: static;
+    display: none;
+    width: 16px;
+    height: 16px;
+    flex: none;
+  }
+  :root:root .hx ~ #contact .cf-tile[aria-pressed="true"] .cf-tick {
+    display: block;
+  }
+}

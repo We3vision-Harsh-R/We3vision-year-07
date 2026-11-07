@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 129,
+    date: "2026-11-07",
+    title: "Phone project form fits one screen",
+    notes: [
+      "On phones the first step of the project form (What would you like to make) is much shorter: eight small tiles with the icon beside the name and a short question, so the whole step is visible on one screen. A tick shows on the chosen tiles. Laptops are unchanged.",
+    ],
+  },
+  {
     v: 128,
     date: "2026-11-07",
     title: "Industry cards drift by themselves on phones",

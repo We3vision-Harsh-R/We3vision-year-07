@@ -281,3 +281,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v127 (2026-11-07): phone/tablet menu redesign: solid sheet 22px, products = swipe row of tall cards, pages = numbered editorial list (nav-bar.css mm3 block at the end).
 
 - v128 (2026-11-07): phone industries row auto-drifts (effect in industries-road.tsx on .cm-list, 28 px/s ping-pong, pauses 2.5 s after a touch; snap off in home-mobile.css).
+
+- v129 (2026-11-07): phone contact form step 1 compact (home-mobile.css 21): tiles 50px, icon beside name, tick only when chosen; .cf 651 -> 451 px.
