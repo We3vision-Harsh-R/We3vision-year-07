@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 132,
+    date: "2026-11-07",
+    title: "New home page, Services, Portfolio and Contact in the new design",
+    notes: [
+      "The home page is now the new dark design: a glowing door that the scroll flies through, a lit disc, our four reasons, products, services as seven animated cards (Branding is the hero), a big number, the process, industries, global reach, tools and a contact form.",
+      "A new Services page (/services) shows the seven main services with a picture, what we build and who it is for. The Portfolio page is now a board of project cards with category filters, and the Contact page has the contact cards and a new form with the same checks as before.",
+      "These pages have a new footer in the same design. The menu bar is unchanged. The scroll through the door is lighter and smoother, and Explore glides to the About part. Laptop only; phones keep their own pages.",
+    ],
+  },
+  {
     v: 131,
     date: "2026-11-07",
     title: "Home 2: scroll flies through the door",

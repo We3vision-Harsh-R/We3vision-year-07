@@ -1,33 +1,11 @@
-import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { Home2Fx } from "@/components/site/home2/home2-fx";
+import { Home2Footer } from "@/components/site/home2/home2-chrome";
+import { Home2More } from "@/components/site/home2/home2-more";
+import { Home2Services } from "@/components/site/home2/home2-services";
 import { SmartLink } from "@/components/site/smart-link";
+import { getProjects } from "@/lib/projects";
 import "@/styles/home-2.css";
-
-// HOME 2 (owner, 2026-11-07): a second home page in a new design (a dark glowing arch, a lit disc, hairline grids), kept apart from "/" until the owner
-// says it is final; then it replaces the main home page. Nothing links to it, it is not in the sitemap and search engines are told to skip it.
-// The words are ours (the old site and the home page content); the font is the site font (Poppins). Laptop / desktop only.
-export const metadata: Metadata = {
-  title: "We3vision | Home 2",
-  robots: { index: false, follow: false },
-};
-
-// stars of the first screen: fixed numbers (no random on render), x / y in percent, size in px, a slow twinkle delay
-const STARS = Array.from({ length: 64 }, (_, i) => {
-  const a = Math.sin(i * 12.9898) * 43758.5453;
-  const b = Math.sin(i * 78.233) * 12345.6789;
-  const c = Math.sin(i * 39.346) * 9871.123;
-  const f = (n: number) => n - Math.floor(n);
-  return { x: f(a) * 100, y: f(b) * 62, s: 1 + f(c) * 1.6, d: f(a + b) * 6 };
-});
-
-const NAV = [
-  { label: "Services", href: "/webdev" },
-  { label: "Products", href: "/products" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
-];
 
 const POINTS = [
   { title: "Client-Centric Approach", text: "We put your needs first, ensuring every solution is tailored to your goals." },
@@ -44,49 +22,55 @@ const PRODUCTS = [
   { name: "WePresent", text: "A new software product from We3vision. Coming soon.", href: "/products/wepresent", col: 2, row: 4 },
 ];
 
-export default function Home2Page() {
+// how many real projects (Admin > Projects) belong to each service, and the newest title: each project counts once, by the words of its category
+const KINDS: [string, RegExp][] = [
+  ["crm", /crm/i],
+  ["meta", /metaverse|\b3d\b|\bvr\b|\bar\b|\bxr\b|virtual/i],
+  ["ai", /\bai\b|\bml\b|machine|chatbot|artificial/i],
+  ["brand", /brand|logo|identity|graphic|packag/i],
+  ["soft", /software|\berp\b|saas/i],
+  ["app", /\bapps?\b|mobile|android|\bios\b/i],
+  ["web", /web|site|commerce|shop|wordpress/i],
+];
+async function serviceStats() {
+  const out: Record<string, { n: number; latest: string }> = {};
+  try {
+    for (const pr of await getProjects()) {
+      const k = KINDS.find(([, re]) => re.test(`${pr.category} ${pr.title}`))?.[0];
+      if (!k) continue;
+      const o = (out[k] ??= { n: 0, latest: "" });
+      o.n += 1;
+      o.latest = pr.title;
+    }
+  } catch {
+    // no database: the cards simply show no numbers
+  }
+  return out;
+}
+
+// The home page "/" (design by the owner, 2026-11-07): a dark glowing arch, a lit disc, hairline grids, services, process, industries, tools and a contact form.
+// Laptop / desktop only (phones are sent to /m by the proxy). The words are ours (the old home page content); the font is the site font (Poppins).
+export async function Home2Home() {
+  const stats = await serviceStats();
   return (
     <div className="hb2">
       <Home2Fx />
 
       {/* ---------------------------------------------------------------- the first screen */}
-      <div className="hb2-fly">
+      <div className="hb2-fly" data-pause-off>
         <span id="hb2-about" className="hb2-anchor" aria-hidden />
         <div className="hb2-pin">
-          <header className="hb2-bar">
-          <nav aria-label="Home 2 left">
-            {NAV.slice(0, 3).map((l) => (
-              <SmartLink key={l.href} href={l.href}>
-                {l.label}
-              </SmartLink>
-            ))}
-          </nav>
-          {/* the middle is left free: the logo of the site stays there on every page */}
-          <nav aria-label="Home 2 right">
-            {NAV.slice(3).map((l) => (
-              <SmartLink key={l.href} href={l.href}>
-                {l.label}
-              </SmartLink>
-            ))}
-            <SmartLink href="/contact" className="hb2-bar-cta">
-              Start a project
-            </SmartLink>
-          </nav>
-        </header>
-      <section className="hb2-hero" aria-label="We3vision">
-        <div className="hb2-stars" aria-hidden>
-          {STARS.map((s, i) => (
-            <i key={i} style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.s, height: s.s, animationDelay: `${s.d}s` }} />
-          ))}
-        </div>
+        <section className="hb2-hero" aria-label="We3vision">
+        <div className="hb2-world">
+        <div className="hb2-stars" aria-hidden />
 
 
         {/* the glowing door */}
         <div className="hb2-arch" aria-hidden>
-          <span className="hb2-arch-halo" />
-          <span className="hb2-arch-o3" />
-          <span className="hb2-arch-o2" />
-          <span className="hb2-arch-o1" />
+          <span className="hb2-arch-halo" style={{ "--z": -300 } as CSSProperties} />
+          <span className="hb2-arch-o3" style={{ "--z": -150 } as CSSProperties} />
+          <span className="hb2-arch-o2" style={{ "--z": -90 } as CSSProperties} />
+          <span className="hb2-arch-o1" style={{ "--z": -40 } as CSSProperties} />
           <span className="hb2-arch-door" />
         </div>
 
@@ -111,6 +95,7 @@ export default function Home2Page() {
           <path className="hb2-d-glow" d="M0 262 C 200 237 330 274 520 248 C 700 224 820 212 980 182 C 1120 156 1280 132 1440 96" fill="none" stroke="hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 70%)" strokeWidth="18" filter="url(#hb2-blur)" />
           <path className="hb2-d-front" d="M0 262 C 200 237 330 274 520 248 C 700 224 820 212 980 182 C 1120 156 1280 132 1440 96 L1440 360 L0 360 Z" fill="url(#hb2-d1)" />
         </svg>
+        </div>
 
         <div className="hb2-copy">
           <p className="hb2-kick">We3vision</p>
@@ -139,13 +124,16 @@ export default function Home2Page() {
           </h2>
         </div>
         <div className="hb2-disc" aria-hidden>
+          <div className="hb2-disc-world">
           <span className="hb2-disc-glow" />
           {Array.from({ length: 14 }, (_, k) => (
             <i key={k} style={{ "--k": k } as CSSProperties} />
           ))}
           <span className="hb2-disc-top" />
+          </div>
         </div>
       </section>
+          <div className="hb2-flood" aria-hidden />
         </div>
       </div>
 
@@ -192,6 +180,10 @@ export default function Home2Page() {
           </div>
         </div>
       </section>
+
+      <Home2Services stats={stats} />
+      <Home2More />
+      <Home2Footer />
     </div>
   );
 }

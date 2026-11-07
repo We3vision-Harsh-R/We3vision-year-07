@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageSections } from "@/components/site/sections";
+import { Home2Home } from "@/components/site/home2/home2-home";
 import { getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
 import { SHARE_IMAGE } from "@/lib/share-image";
 
@@ -55,7 +55,7 @@ export default async function HomePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
-      <PageSections sections={page.content.sections} site={site} page="home" />
+      <Home2Home />
     </>
   );
 }
