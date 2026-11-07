@@ -257,3 +257,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v115 (2026-11-06): laptop tech board: tabs no longer overflow their pill (home-redesign.css .tb-tabs wrap, smaller tabs and tiles).
 
 - v116 (2026-11-06): phone Services and Industries same family (home-mobile.css 17-18).
+
+- v117 (2026-11-07): name prompt (presence.tsx .na): blur 26px + drifting theme glows (presence.css na2). Preview note: the in-app browser does not draw backdrop-filter, a real Chrome does.

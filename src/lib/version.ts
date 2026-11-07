@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 117,
+    date: "2026-11-07",
+    title: "Name question: blurred page and theme glow",
+    notes: [
+      "When the site asks What should we call you, the page behind is blurred strongly and two slow glows in the colours of the company theme drift behind it, with a soft breathing light around the question.",
+    ],
+  },
+  {
     v: 116,
     date: "2026-11-06",
     title: "Phone Services and Industries look alike",
