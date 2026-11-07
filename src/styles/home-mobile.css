@@ -1583,3 +1583,89 @@
     width: auto;
   }
 }
+
+/* ---------- 19. phone: the services as one clear list, all seven visible at once (number, name, a short line, an arrow); the whole row opens the service ---------- */
+@media (max-width: 699.98px) {
+  :root:root .sd-list {
+    display: block;
+    padding: 0 var(--hm-pad);
+    overflow: visible;
+    border-top: 1px solid var(--hm-hair);
+    scroll-snap-type: none;
+  }
+  :root:root .sd-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) 1.6rem;
+    column-gap: 0.4rem;
+    align-items: center;
+    width: auto;
+    min-height: 0;
+    padding: 0.95rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--hm-hair);
+    border-radius: 0;
+    background: none;
+  }
+  :root:root .sd-btn,
+  :root:root .sd-m,
+  :root:root .sd-m[hidden] {
+    display: contents;
+  }
+  :root:root .sd-btn i {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    padding-top: 0.2rem;
+    font-size: 0.75rem;
+  }
+  :root:root .sd-btn span {
+    grid-column: 2;
+    grid-row: 1;
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+  :root:root .sd-m p {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0.2rem 0 0;
+    color: rgb(255 255 255 / 0.56);
+    font-size: 0.875rem;
+    line-height: 1.45;
+    -webkit-line-clamp: 2;
+  }
+  :root:root .sd-go {
+    position: static;
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    margin: 0;
+    padding: 0;
+    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
+    font-size: 1.25rem;
+    text-align: right;
+  }
+  :root:root .sd-go::before {
+    content: none;
+  }
+  :root:root .sd-go b {
+    margin: 0;
+    font-weight: 400;
+  }
+  :root:root .sd-go::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+  }
+  :root:root .sd-go span {
+    display: none;
+  }
+}
+/* the service text is not hidden by the hidden attribute any more (a browser never lets CSS undo it): a phone shows every service, a tablet opens only the chosen one */
+@media (min-width: 700px) and (max-width: 1023.98px) {
+  .sd-row[data-on="false"] .sd-m {
+    display: none;
+  }
+}

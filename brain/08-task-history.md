@@ -261,3 +261,5 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - v117 (2026-11-07): name prompt (presence.tsx .na): blur 26px + drifting theme glows (presence.css na2). Preview note: the in-app browser does not draw backdrop-filter, a real Chrome does.
 
 - v118 (2026-11-07): hero button (.hx-go) animation removed, hover = glow only (home-intro.css hg- block at the end).
+
+- v119 (2026-11-07): phone Home tab scrolls to top on the home page (mobile-dock.tsx goHome); services deck on phones = one list of 7 rows (home-mobile.css 19). The hidden attribute on .sd-m was removed (a browser UA rule makes it display:none !important, CSS cannot undo it); tablet hides via data-on.

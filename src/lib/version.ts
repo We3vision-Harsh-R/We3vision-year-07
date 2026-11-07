@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 119,
+    date: "2026-11-07",
+    title: "Phone: Home goes to the top, services as one clear list",
+    notes: [
+      "On a phone, tapping Home in the bottom bar while you are on the home page smooths you back up to the first screen. The services are one clear list on phones: all seven names with a short line and an arrow, each row opens its service page.",
+    ],
+  },
+  {
     v: 118,
     date: "2026-11-07",
     title: "First-screen button: no animation, glow on hover",

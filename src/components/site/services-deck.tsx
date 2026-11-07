@@ -93,7 +93,7 @@ export function ServicesDeck({ cards }: { cards: ServiceCard[] }) {
                       <span>{oneLine(c.title)}</span>
                     </button>
                     {/* phone and tablet: the service opens under its line */}
-                    <div className="sd-m" hidden={at !== i}>
+                    <div className="sd-m">
                       {c.summary && <p>{c.summary}</p>}
                       {subsI.length > 0 && (
                         <ul>

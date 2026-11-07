@@ -46,6 +46,15 @@ export function MobileDock({
   const path = usePathname();
   // which tab is lit: an open pop-up wins, then the page you are on (a service page lights Services)
   const active = menuOpen ? 4 : wheelOpen ? 1 : path === "/" ? 0 : SERVICE_HREFS.has(path) ? 1 : path.startsWith("/portfolio") ? 2 : path.startsWith("/contact") ? 3 : -1;
+  // already on the home page: Home takes the visitor back up to the first screen (the hero); from another page the link opens the home page at its top
+  const goHome = (e: React.MouseEvent) => {
+    onPage();
+    if (path !== "/" || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
+    if (lenis) lenis.scrollTo(0, { duration: 1.1 });
+    else window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <nav
       className="dk"
@@ -59,7 +68,7 @@ export function MobileDock({
       </span>
       <ul className="dk-ul">
         <li data-on={active === 0}>
-          <SmartLink href="/" onClick={onPage} className="dk-b" aria-current={path === "/" ? "page" : undefined}>
+          <SmartLink href="/" onClick={goHome} className="dk-b" aria-current={path === "/" ? "page" : undefined}>
             <Tab icon="home" label="Home" />
           </SmartLink>
         </li>
