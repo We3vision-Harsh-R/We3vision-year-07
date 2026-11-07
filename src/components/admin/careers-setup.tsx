@@ -5,6 +5,7 @@ import { saveCareerSetup } from "@/actions/careers";
 import type { ActionResult } from "@/actions/types";
 import type { QuestionKind } from "@/lib/careers-shared";
 import { btnDanger, btnIcon, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
+import { IconBtn } from "./icon-btn";
 
 // Careers in the admin panel, "Questions of HR": the questions that come after the usual ones, in the passenger details of the ticket and in the
 // apply form of every job. (The positions themselves are written under Careers > Jobs.)
@@ -123,9 +124,7 @@ export function CareersSetup({ initialQuestions }: { initialQuestions: QuestionI
         <button type="button" className={btnPrimary} disabled={pending || !dirty} onClick={save}>
           {pending ? "Saving…" : "Save the questions"}
         </button>
-        <a href="/careers" target="_blank" rel="noreferrer" className={btnSecondary}>
-          Open the Careers page ↗
-        </a>
+        <IconBtn icon="external" label="Open the Careers page" href="/careers" external />
         {result && (
           <p role="status" className={`rounded-lg px-3 py-2 text-sm ${result.ok ? "bg-emerald-50 text-emerald-800" : "bg-rose-50 text-rose-700"}`}>
             {result.ok ? result.message : result.error}

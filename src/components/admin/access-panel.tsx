@@ -6,6 +6,7 @@ import type { ActionResult } from "@/actions/types";
 import { ADMIN_DOMAIN } from "@/lib/admin-access";
 import { ImageField } from "./image-field";
 import { btnDanger, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
+import { IconBtn } from "./icon-btn";
 
 export type AdminRow = { id: string; name: string; email: string; lastLogin: string; isMe: boolean };
 
@@ -49,9 +50,7 @@ export function LoginPictureCard({ current, isDefault }: { current: string; isDe
         <button type="button" className={btnPrimary} disabled={pending} onClick={() => save(value)}>
           {pending ? "Saving…" : "Save picture"}
         </button>
-        <a href="/admin/login" target="_blank" rel="noreferrer" className={btnSecondary}>
-          Open the login page ↗
-        </a>
+        <IconBtn icon="external" label="Open the login page" href="/admin/login" external />
       </div>
     </section>
   );

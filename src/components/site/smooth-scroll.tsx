@@ -16,7 +16,8 @@ export function SmoothScroll() {
     const start = () => {
       void import("lenis").then(({ default: LenisClass }) => {
         if (stopped) return;
-        lenis = new LenisClass({ lerp: 0.1, anchors: true });
+        // lerp 0.075 = a longer glide after the wheel stops; wheelMultiplier 0.9 = a little less distance per notch, so a fast wheel never jumps
+        lenis = new LenisClass({ lerp: 0.075, wheelMultiplier: 0.9, anchors: true });
         (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
         frame = requestAnimationFrame(function raf(time) {
           lenis?.raf(time);

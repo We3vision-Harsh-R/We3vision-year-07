@@ -7,12 +7,18 @@ import { AdminIcon, type IconName } from "./admin-icons";
 type Tone = "plain" | "accent" | "danger";
 type Common = { icon: IconName; label: string; tone?: Tone };
 type AsButton = Common & { href?: undefined; type?: "button" | "submit"; onClick?: () => void; disabled?: boolean };
-type AsLink = Common & { href: string; external?: boolean };
+type AsLink = Common & { href: string; external?: boolean; /** a plain link in the same tab (mailto:, tel:) */ native?: boolean };
 
 export function IconBtn(p: AsButton | AsLink) {
   const { icon, label, tone = "plain" } = p;
   const inner = <AdminIcon name={icon} size={17} />;
   if (p.href !== undefined) {
+    if (p.native)
+      return (
+        <a href={p.href} className="ads-ib" data-tone={tone} data-tip={label} aria-label={label}>
+          {inner}
+        </a>
+      );
     if (p.external)
       return (
         <a href={p.href} target="_blank" rel="noreferrer" className="ads-ib" data-tone={tone} data-tip={label} aria-label={label}>

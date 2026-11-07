@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 124,
+    date: "2026-11-07",
+    title: "Admin: icon buttons everywhere, softer laptop scrolling",
+    notes: [
+      "More admin actions are icon buttons with a tooltip: the application drawer (previous, next, close, e-mail, WhatsApp, call, resume, LinkedIn, remove), the Back buttons of the Careers screens and the Open the page links. On a laptop the mouse wheel glides a little longer and a fast wheel no longer jumps.",
+    ],
+  },
+  {
     v: 123,
     date: "2026-11-07",
     title: "Admin panel: icon buttons and a denser look",

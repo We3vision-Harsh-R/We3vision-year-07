@@ -4,6 +4,7 @@ import { JobForm, type JobFormValue } from "@/components/admin/job-form";
 import { btnSecondary } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { IconBtn } from "@/components/admin/icon-btn";
 
 export const metadata = { title: "Careers: edit job" };
 
@@ -42,9 +43,7 @@ export default async function EditJobPage({ params }: { params: Promise<{ id: st
           <Link href={`/admin/careers?job=${r.id}`} className={btnSecondary}>
             Applications for this job
           </Link>
-          <Link href="/admin/careers/jobs" className={btnSecondary}>
-            ← Jobs
-          </Link>
+          <IconBtn icon="back" label="Back to the jobs" href="/admin/careers/jobs" />
         </div>
       </div>
       <JobForm initial={initial} />

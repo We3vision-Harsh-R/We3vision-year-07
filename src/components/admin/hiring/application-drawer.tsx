@@ -24,7 +24,8 @@ import {
   stageOf,
   waDigits,
 } from "@/lib/hiring-shared";
-import { btnDanger, btnPrimary, btnSecondary, inputClass, labelClass } from "../ui";
+import { btnPrimary, btnSecondary, inputClass, labelClass } from "../ui";
+import { IconBtn } from "../icon-btn";
 
 // Careers > Applications: one application, opened from the board or the list. Everything HR does on it is here: the step, a rating, a star,
 // tags, who looks after it, the interview, a ready message for WhatsApp or e-mail, notes, and the timeline of all of it.
@@ -159,15 +160,9 @@ export function ApplicationDrawer({ row, admins, allTags, duplicates, position, 
             <p className="mt-0.5 text-sm text-zinc-500">{[row.roleTitle, row.city].filter(Boolean).join(" · ")}</p>
           </div>
           <div className="flex shrink-0 gap-1">
-            <button type="button" className={btnSecondary} disabled={!onPrev} onClick={onPrev} aria-label="Previous application">
-              ←
-            </button>
-            <button type="button" className={btnSecondary} disabled={!onNext} onClick={onNext} aria-label="Next application">
-              →
-            </button>
-            <button type="button" className={btnSecondary} onClick={onClose} aria-label="Close">
-              ✕
-            </button>
+            <IconBtn icon="back" label="Previous application" disabled={!onPrev} onClick={onPrev} />
+            <IconBtn icon="arrow" label="Next application" disabled={!onNext} onClick={onNext} />
+            <IconBtn icon="close" label="Close" onClick={onClose} />
           </div>
         </header>
 
@@ -224,29 +219,19 @@ export function ApplicationDrawer({ row, admins, allTags, duplicates, position, 
           {/* contact */}
           <section className="flex flex-wrap gap-2">
             {row.email && (
-              <a className={btnSecondary} href={`mailto:${row.email}`}>
-                E-mail
-              </a>
+              <IconBtn icon="mail" label={`E-mail ${row.email}`} href={`mailto:${row.email}`} native />
             )}
             {row.phone && (
               <>
-                <a className={btnSecondary} href={`https://wa.me/${waDigits(row.phone)}`} target="_blank" rel="noreferrer noopener">
-                  WhatsApp
-                </a>
-                <a className={btnSecondary} href={`tel:${row.phone.replace(/[^\d+]/g, "")}`}>
-                  Call
-                </a>
+                <IconBtn icon="chat" label="WhatsApp" href={`https://wa.me/${waDigits(row.phone)}`} external />
+                <IconBtn icon="phone" label={`Call ${row.phone}`} href={`tel:${row.phone.replace(/[^\d+]/g, "")}`} native />
               </>
             )}
             {row.resume && (
-              <a className={btnPrimary} href={row.resume} target="_blank" rel="noreferrer">
-                Resume ↓
-              </a>
+              <IconBtn icon="download" label="Open the resume" tone="accent" href={row.resume} external />
             )}
             {/^https?:\/\//i.test(row.linkedin) && (
-              <a className={btnSecondary} href={row.linkedin} target="_blank" rel="noreferrer noopener nofollow">
-                LinkedIn / portfolio ↗
-              </a>
+              <IconBtn icon="external" label="LinkedIn / portfolio" href={row.linkedin} external />
             )}
           </section>
 
@@ -450,9 +435,7 @@ export function ApplicationDrawer({ row, admins, allTags, duplicates, position, 
           </section>
 
           <section className="border-t border-zinc-100 pt-4">
-            <button type="button" className={btnDanger} disabled={pending} onClick={remove}>
-              Remove this application
-            </button>
+            <IconBtn icon="trash" label="Remove this application" tone="danger" disabled={pending} onClick={remove} />
           </section>
         </div>
 

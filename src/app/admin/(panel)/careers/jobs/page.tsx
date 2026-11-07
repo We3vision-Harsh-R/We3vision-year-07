@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { CareersJobs, type JobRow } from "@/components/admin/careers-jobs";
-import { btnPrimary, btnSecondary } from "@/components/admin/ui";
+import { btnPrimary } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { IconBtn } from "@/components/admin/icon-btn";
 
 export const metadata = { title: "Careers: jobs" };
 
@@ -40,9 +41,7 @@ export default async function CareersJobsPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link href="/admin/careers" className={btnSecondary}>
-            ← Applications
-          </Link>
+          <IconBtn icon="back" label="Back to the applications" href="/admin/careers" />
           <Link href="/admin/careers/jobs/new" className={btnPrimary}>
             + Post a job
           </Link>

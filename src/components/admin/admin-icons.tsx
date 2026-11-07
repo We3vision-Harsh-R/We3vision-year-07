@@ -1,7 +1,7 @@
 import type { AdminIconKey } from "@/components/admin/admin-menu";
 
 // One line-icon per admin menu item (24 x 24, drawn with the current text colour), plus a few icons the panel itself uses (bell, check, clock …).
-type ExtraIcon = "check" | "clock" | "cross" | "bell" | "logout" | "chevron" | "arrow" | "external" | "edit" | "trash" | "eye" | "eyeoff" | "up" | "down" | "back" | "plus" | "save" | "copy" | "tick" | "duplicate" | "lock" | "unlock";
+type ExtraIcon = "check" | "clock" | "cross" | "bell" | "logout" | "chevron" | "arrow" | "external" | "edit" | "trash" | "eye" | "eyeoff" | "up" | "down" | "back" | "plus" | "save" | "copy" | "tick" | "duplicate" | "lock" | "unlock" | "close" | "mail" | "phone" | "chat" | "download";
 const PATHS: Record<AdminIconKey | ExtraIcon, string> = {
   dashboard: "M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z",
   pages: "M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5",
@@ -43,6 +43,11 @@ const PATHS: Record<AdminIconKey | ExtraIcon, string> = {
   duplicate: "M8 8h12v12H8zM4 16V4h12",
   lock: "M6 11h12v9H6zM9 11V8a3 3 0 016 0v3",
   unlock: "M6 11h12v9H6zM9 11V8a3 3 0 015.6-1.5",
+  close: "M6 6l12 12M18 6L6 18",
+  mail: "M3 6h18v12H3zM3 7l9 6 9-6",
+  phone: "M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z",
+  chat: "M4 5h16v11H9l-5 4z",
+  download: "M12 4v11M7 11l5 5 5-5M5 20h14",
   visitors: "M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM2 20c0-3 2.7-5 6-5s6 2 6 5M14 15.3c.6-.2 1.3-.3 2-.3 3.3 0 6 2 6 5",
   versions: "M12 3v4M12 17v4M3 12h4M17 12h4M12 8a4 4 0 100 8 4 4 0 000-8z",
   fest: "M12 3c2.5 3 2.5 5.5 0 8-2.5-2.5-2.5-5 0-8zM3 14h18c-1.2 4.2-4.6 6.5-9 6.5S4.2 18.2 3 14zM7 14c1 1 3 1.5 5 1.5s4-.5 5-1.5",

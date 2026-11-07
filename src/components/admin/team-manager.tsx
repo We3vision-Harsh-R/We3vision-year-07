@@ -8,6 +8,7 @@ import { TeamOffice } from "../site/modern/team-office";
 import { ImageField } from "./image-field";
 import { SeatPicker } from "./seat-picker";
 import { btnDanger, btnIcon, btnPrimary, btnSecondary, card, inputClass, labelClass } from "./ui";
+import { IconBtn } from "./icon-btn";
 
 // Team in the admin panel: the people of the office. Every change is drawn at once in the preview (the real office of the Team page);
 // nothing is on the live website until "Save team" is pressed.
@@ -215,9 +216,7 @@ export function TeamManager({ initial }: { initial: TeamPerson[] }) {
         <button type="button" className={btnPrimary} disabled={pending || !dirty} onClick={save}>
           {pending ? "Saving…" : "Save team"}
         </button>
-        <a href="/team" target="_blank" rel="noreferrer" className={btnSecondary}>
-          Open the Team page ↗
-        </a>
+        <IconBtn icon="external" label="Open the Team page" href="/team" external />
         {result && (
           <p role="status" className={`rounded-lg px-3 py-2 text-sm ${result.ok ? "bg-emerald-50 text-emerald-800" : "bg-rose-50 text-rose-700"}`}>
             {result.ok ? result.message : result.error}
