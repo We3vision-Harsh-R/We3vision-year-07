@@ -2438,3 +2438,337 @@ body:has(.hb2) footer.ft {
 .hb2-m-cl a:hover {
   color: var(--v1);
 }
+
+/* ---------------------------------------------------------------- phones and small screens (owner, 2026-11-08: "make the home page for mobile too, responsive"). Below 900px the page is one column:
+   no pinned fly-through (home2-fx.tsx skips it), the door stands above the words, every grid becomes a single column. */
+@media (max-width: 900px) {
+  .hb2-wrap {
+    width: calc(100% - 40px);
+  }
+  .hb2-s2,
+  .hb2-sv,
+  .hb2-m-stats,
+  .hb2-m-pro,
+  .hb2-m-ind,
+  .hb2-m-world,
+  .hb2-m-tech,
+  .hb2-m-cta {
+    contain-intrinsic-size: auto 1400px;
+  }
+  /* first screen: the picture on top, the words below */
+  .hb2-fly,
+  .hb2[data-fx] .hb2-fly {
+    height: auto;
+  }
+  .hb2-anchor,
+  .hb2[data-fx] .hb2-anchor {
+    display: none;
+  }
+  .hb2-pin,
+  .hb2[data-fx] .hb2-pin {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .hb2-hero,
+  .hb2[data-fx] .hb2-hero {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100svh;
+    padding: 0 22px 150px;
+    perspective: none;
+    overflow: hidden;
+  }
+  .hb2-world {
+    position: relative;
+    inset: auto;
+    flex: 1 0 auto;
+    height: min(430px, 50svh);
+    margin: 0 -22px 8px;
+    transform-style: flat;
+  }
+  .hb2-arch {
+    bottom: 64px;
+    width: 150px;
+    height: 270px;
+    margin-left: -75px;
+  }
+  .hb2-dunes {
+    height: 180px;
+  }
+  .fdr {
+    height: 180px;
+  }
+  .hb2-copy,
+  .hb2-lede,
+  .hb2-go {
+    position: static;
+    width: auto;
+    text-align: center;
+  }
+  .hb2-kick {
+    font-size: 22px;
+  }
+  .hb2-copy h1 {
+    font-size: 27px;
+  }
+  .hb2-lede {
+    margin: 16px 0 0;
+  }
+  .hb2-go {
+    flex: none;
+    width: 84px;
+    margin: 26px auto 0;
+  }
+  .hb2[data-fx] .hb2-flood {
+    display: none;
+  }
+  /* the About part follows the first screen */
+  .hb2[data-fx] .hb2-s1,
+  .hb2-s1 {
+    position: relative;
+    inset: auto;
+    pointer-events: auto;
+    opacity: 1;
+  }
+  .hb2[data-fx] .hb2-s1-top > * {
+    opacity: 1;
+  }
+  .hb2-s1-top {
+    padding-top: 64px;
+  }
+  .hb2-s1 h2 {
+    margin-top: 30px;
+    font-size: 30px;
+  }
+  .hb2-disc {
+    width: 100%;
+    margin-top: 40px;
+  }
+  .hb2-s1b {
+    padding: 50px 0 70px;
+  }
+  .hb2-points {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  /* products */
+  .hb2-s2 {
+    padding: 10px 0 80px;
+  }
+  .hb2-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    margin-top: 36px;
+    border-left: 0;
+  }
+  .hb2-grid::before {
+    display: none;
+  }
+  .hb2-head {
+    grid-column: auto;
+    grid-row: auto;
+    padding: 0 0 26px;
+  }
+  .hb2-head h2 {
+    font-size: 30px;
+  }
+  .hb2-head h2 em {
+    font-size: 32px;
+  }
+  .hb2-card {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    min-height: 200px;
+    border-radius: 22px;
+    margin-bottom: 12px;
+  }
+  /* services */
+  .hb2-sv {
+    padding-bottom: 80px;
+  }
+  .hb2-sv-h {
+    font-size: 28px;
+  }
+  .hb2-sv-h em {
+    font-size: 30px;
+  }
+  .hb2-sv-r1,
+  .hb2-sv-r2 {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .hb2-sv-r1 .hb2-sv-cell {
+    height: 490px;
+  }
+  .hb2-sv-r1 .hb2-sv-art {
+    inset: 172px 0 104px;
+  }
+  .hb2-sv-r2 .hb2-sv-art {
+    inset: 150px 0 0;
+  }
+  .hb2-sv-r2 .hb2-sv-cell {
+    height: 350px;
+  }
+  .hb2-sv-card {
+    padding: 22px 20px;
+  }
+  .hb2-sv-brand h3 {
+    font-size: 30px !important;
+  }
+  .hb2-sv-foot {
+    right: 20px;
+    left: 20px;
+  }
+  /* sections after the services */
+  .hb2-m-h,
+  .hb2-m-wt h2,
+  .hb2-m-tt h2,
+  .hb2-m-ct h2 {
+    font-size: 29px;
+  }
+  .hb2-m-h em,
+  .hb2-m-wt h2 em,
+  .hb2-m-tt h2 em,
+  .hb2-m-ct h2 em {
+    font-size: 31px;
+  }
+  .hb2-m-big {
+    padding-top: 10px;
+  }
+  .hb2-m-field {
+    height: 360px;
+  }
+  .hb2-m-fl,
+  .hb2-m-fr {
+    top: 20px;
+    font-size: 14px;
+  }
+  .hb2-m-fl {
+    left: 20px;
+  }
+  .hb2-m-fr {
+    right: 20px;
+  }
+  .hb2-m-num {
+    top: 14px;
+    font-size: 112px;
+  }
+  .hb2-m-cap {
+    right: 20px;
+    bottom: 22px;
+    left: 20px;
+    font-size: 16px;
+  }
+  .hb2-m-stats {
+    padding: 50px 0 10px;
+  }
+  .hb2-m-stats ul {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hb2-m-stats li {
+    padding: 30px 0;
+  }
+  .hb2-m-stats li:nth-child(3) {
+    border-left: 0;
+  }
+  .hb2-m-stats li:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+  .hb2-m-stats b {
+    font-size: 48px;
+  }
+  .hb2-m-stats span {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+  }
+  .hb2-m-pro,
+  .hb2-m-ind,
+  .hb2-m-world,
+  .hb2-m-tech {
+    padding-top: 70px;
+  }
+  .hb2-m-steps {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-top: 40px;
+  }
+  .hb2-m-rail {
+    display: none;
+  }
+  .hb2-m-bento {
+    grid-template-columns: 1fr;
+    margin-top: 34px;
+  }
+  .hb2-m-bc {
+    grid-column: auto !important;
+    min-height: 0;
+    padding: 24px 22px;
+  }
+  .hb2-m-bn {
+    margin-bottom: 18px;
+  }
+  .hb2-m-wc {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 30px 0 30px 22px;
+  }
+  .hb2-m-wt {
+    padding-right: 22px;
+  }
+  .hb2-m-tp {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 34px 22px;
+  }
+  .hb2-m-orb {
+    height: 220px;
+  }
+  .hb2-m-cta,
+  .hb2-m-ctc {
+    padding: 70px 0 90px;
+  }
+  .hb2-m-cc,
+  .hb2-m-ctg {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .hb2-m-grid {
+    width: min(300px, 100%);
+    height: 300px;
+    margin: 0 auto;
+    gap: 16px;
+  }
+  .hb2-m-ct p,
+  .hb2-m-cl {
+    font-size: 16px;
+  }
+  .hb2-ct-panel {
+    padding: 26px 20px;
+  }
+  /* footer */
+  .hb2-f {
+    padding-top: 60px;
+  }
+  .hb2-f-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 34px 20px;
+  }
+  .hb2-f-brand,
+  .hb2-f-top > div:last-child {
+    grid-column: 1 / -1;
+  }
+  .hb2-f-bot {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 44px;
+  }
+  .hb2-f-big {
+    font-size: 17.5vw;
+    padding-bottom: 120px;
+  }
+}

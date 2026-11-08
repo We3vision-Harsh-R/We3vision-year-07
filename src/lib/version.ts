@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 134,
+    date: "2026-11-08",
+    title: "The home page works on phones",
+    notes: [
+      "The new home page now has a phone layout (screens under 900 px wide): the door stands above the words, and every section becomes one column. Phones no longer go to the old /m launcher for the home page.",
+      "On phones the pinned fly-through is replaced by plain scrolling; Explore scrolls to the About part. Desktop and laptop are unchanged.",
+    ],
+  },
+  {
     v: 133,
     date: "2026-11-07",
     title: "Diwali diyas at the gate of the home page",

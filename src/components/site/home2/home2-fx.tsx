@@ -13,7 +13,9 @@ export function Home2Fx() {
     const root = document.querySelector<HTMLElement>(".hb2");
     if (!root) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const fly = root.querySelector<HTMLElement>(".hb2-fly");
+    // phones and small screens: one column, no pinned fly-through (the page is plain scrolling; see the max-width 900px block in home-2.css)
+    const phone = window.matchMedia("(max-width: 900px)").matches;
+    const fly = phone ? null : root.querySelector<HTMLElement>(".hb2-fly");
     root.setAttribute("data-fx", "");
 
     const io = new IntersectionObserver(
@@ -54,12 +56,12 @@ export function Home2Fx() {
     // "Explore": fly through the door on a long eased scroll and land on the About part (instead of a jump to the anchor)
     const onGo = (e: MouseEvent) => {
       const a = (e.target as HTMLElement | null)?.closest<HTMLElement>(".hb2-go");
-      const f = root.querySelector<HTMLElement>(".hb2-fly");
+      const f = phone ? root.querySelector<HTMLElement>(".hb2-s1") : fly;
       if (!a || !f) return;
       e.preventDefault();
-      const y = f.getBoundingClientRect().top + window.scrollY + (f.offsetHeight - window.innerHeight) * 0.96;
+      const y = phone ? f.getBoundingClientRect().top + window.scrollY : f.getBoundingClientRect().top + window.scrollY + (f.offsetHeight - window.innerHeight) * 0.96;
       const lenis = (window as unknown as { __lenis?: { scrollTo: (v: number, o?: { duration?: number; easing?: (t: number) => number }) => void } }).__lenis;
-      if (lenis) lenis.scrollTo(y, { duration: 3, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) });
+      if (lenis) lenis.scrollTo(y, { duration: phone ? 1.4 : 3, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) });
       else window.scrollTo({ top: y, behavior: "smooth" });
     };
     root.addEventListener("click", onGo);
