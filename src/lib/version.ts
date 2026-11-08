@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 135,
+    date: "2026-11-08",
+    title: "The home page is redesigned for phones",
+    notes: [
+      "On phones the first screen is a full-screen door with the words, a Start your project button, Explore and three facts. The door grows and the words fade as you scroll away.",
+      "Points, products and industries are swipe rows, the services are a compact board with Branding on top, and the process is a timeline. Screens wider than 900 px are unchanged.",
+    ],
+  },
+  {
     v: 134,
     date: "2026-11-08",
     title: "The home page works on phones",

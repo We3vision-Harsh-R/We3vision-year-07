@@ -111,9 +111,29 @@ export async function Home2Home() {
         <p className="hb2-lede">
           We3vision is a software and digital company in Surat. We build websites, apps, AI solutions, metaverse worlds, UI/UX, CRM and brands for businesses everywhere.
         </p>
-        <SmartLink href="#hb2-about" className="hb2-go">
-          <em>Explore</em>
-        </SmartLink>
+        <div className="hb2-ph-row">
+          <SmartLink href="/contact" className="hb2-ph-cta">
+            Start your project
+          </SmartLink>
+          <SmartLink href="#hb2-about" className="hb2-go">
+            <em>Explore</em>
+          </SmartLink>
+        </div>
+        {/* phone only (styles/home-2.css, max-width 900px): the facts under the buttons */}
+        <ul className="hb2-ph-stats" aria-label="We3vision in short">
+          <li>
+            <b>300+</b>
+            <span>Projects</span>
+          </li>
+          <li>
+            <b>7</b>
+            <span>Services</span>
+          </li>
+          <li>
+            <b>2019</b>
+            <span>Surat</span>
+          </li>
+        </ul>
       </section>
 
       {/* ---------------------------------------------------------------- 1: the statement and the lit disc */}

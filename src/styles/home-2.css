@@ -2439,8 +2439,16 @@ body:has(.hb2) footer.ft {
   color: var(--v1);
 }
 
-/* ---------------------------------------------------------------- phones and small screens (owner, 2026-11-08: "make the home page for mobile too, responsive"). Below 900px the page is one column:
-   no pinned fly-through (home2-fx.tsx skips it), the door stands above the words, every grid becomes a single column. */
+/* ---------------------------------------------------------------- the phone design (owner, 2026-11-08: "redesign the whole home page for the mobile screen"). Below 900px this is a page of its own, not the desktop one squeezed:
+   a full-screen door with two buttons and three facts (the door grows as the first screen scrolls away), swipe rows for points, products and industries,
+   a compact services board with Branding on top, a timeline for the process. home2-fx.tsx skips the desktop fly-through on small screens. */
+.hb2-ph-row {
+  display: contents;
+}
+.hb2-ph-cta,
+.hb2-ph-stats {
+  display: none;
+}
 @media (max-width: 900px) {
   .hb2-wrap {
     width: calc(100% - 40px);
@@ -2455,7 +2463,34 @@ body:has(.hb2) footer.ft {
   .hb2-m-cta {
     contain-intrinsic-size: auto 1400px;
   }
-  /* first screen: the picture on top, the words below */
+  /* the swipe rows: a row that scrolls sideways and snaps card by card */
+  .hb2-points,
+  .hb2-grid,
+  .hb2-m-bento {
+    display: flex;
+    gap: 12px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 4px 20px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 20px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hb2-points::-webkit-scrollbar,
+  .hb2-grid::-webkit-scrollbar,
+  .hb2-m-bento::-webkit-scrollbar {
+    display: none;
+  }
+  .hb2-points > li,
+  .hb2-grid > *,
+  .hb2-m-bento > * {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
+  }
+
+  /* first screen: the door fills the screen, the words and buttons sit at the bottom */
   .hb2-fly,
   .hb2[data-fx] .hb2-fly {
     height: auto;
@@ -2477,57 +2512,117 @@ body:has(.hb2) footer.ft {
     inset: auto;
     display: flex;
     flex-direction: column;
-    height: auto;
-    min-height: 100svh;
-    padding: 0 22px 150px;
+    justify-content: flex-end;
+    height: 100svh;
+    min-height: 680px;
+    padding: 0 22px 112px;
     perspective: none;
     overflow: hidden;
   }
   .hb2-world {
-    position: relative;
-    inset: auto;
-    flex: 1 0 auto;
-    height: min(430px, 50svh);
-    margin: 0 -22px 8px;
+    position: absolute;
+    inset: 0 0 auto;
+    height: max(300px, calc(100svh - 400px));
+    transform-origin: 50% 46%;
     transform-style: flat;
+    will-change: transform;
   }
   .hb2-arch {
-    bottom: 64px;
-    width: 150px;
-    height: 270px;
-    margin-left: -75px;
+    bottom: 50px;
+    width: min(44vw, 190px);
+    height: calc(100% - 104px);
+    margin-left: calc(min(44vw, 190px) / -2);
   }
-  .hb2-dunes {
-    height: 180px;
-  }
+  .hb2-dunes,
   .fdr {
-    height: 180px;
+    height: 130px;
   }
   .hb2-copy,
-  .hb2-lede,
-  .hb2-go {
-    position: static;
+  .hb2-lede {
+    position: relative;
+    z-index: 5;
+    right: auto;
+    bottom: auto;
+    left: auto;
     width: auto;
     text-align: center;
   }
   .hb2-kick {
-    font-size: 22px;
+    margin-bottom: 8px;
+    font-size: 20px;
   }
   .hb2-copy h1 {
-    font-size: 27px;
+    font-size: 26px;
+    line-height: 1.18;
   }
   .hb2-lede {
-    margin: 16px 0 0;
+    margin: 12px auto 0;
+    max-width: 330px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .hb2-ph-row {
+    position: relative;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .hb2-ph-cta,
+  .hb2-go {
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: auto;
+    height: 50px;
+    margin: 0;
+    padding: 0 24px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .hb2-ph-cta {
+    color: var(--ink);
+    background: linear-gradient(to bottom, hsl(calc(var(--th) + 0) calc(85% * var(--ts)) 58%), hsl(calc(var(--th) + 358) calc(80% * var(--ts)) 40%));
+    border: 1px solid hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 80% / 0.5);
+    box-shadow: 0 0 30px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 60% / 0.5);
   }
   .hb2-go {
-    flex: none;
-    width: 84px;
-    margin: 26px auto 0;
+    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 6% / 0.7);
+  }
+  .hb2-ph-stats {
+    position: relative;
+    z-index: 6;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 20px 0 0;
+    padding: 12px 0 0;
+    list-style: none;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .hb2-ph-stats li + li {
+    border-left: 1px solid var(--line);
+  }
+  .hb2-ph-stats b {
+    display: block;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .hb2-ph-stats span {
+    font-size: 14px;
+    color: var(--mute);
   }
   .hb2[data-fx] .hb2-flood {
     display: none;
   }
-  /* the About part follows the first screen */
+
+  /* about: the statement, the disc, then the four points as a swipe row */
   .hb2[data-fx] .hb2-s1,
   .hb2-s1 {
     position: relative;
@@ -2539,7 +2634,7 @@ body:has(.hb2) footer.ft {
     opacity: 1;
   }
   .hb2-s1-top {
-    padding-top: 64px;
+    padding-top: 70px;
   }
   .hb2-s1 h2 {
     margin-top: 30px;
@@ -2550,46 +2645,50 @@ body:has(.hb2) footer.ft {
     margin-top: 40px;
   }
   .hb2-s1b {
-    padding: 50px 0 70px;
+    padding: 50px 0 60px;
   }
-  .hb2-points {
-    grid-template-columns: 1fr;
-    gap: 28px;
+  .hb2-points > li {
+    padding: 22px 20px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 6.5%);
   }
-  /* products */
+  .hb2-points h3 {
+    font-size: 19px;
+  }
+
+  /* products: the title is the first card of the swipe row */
   .hb2-s2 {
-    padding: 10px 0 80px;
+    padding: 10px 0 70px;
   }
   .hb2-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-    margin-top: 36px;
-    border-left: 0;
+    margin-top: 28px;
+    border: 0;
   }
   .hb2-grid::before {
     display: none;
   }
-  .hb2-head {
+  .hb2-grid > .hb2-head {
+    flex-basis: 62%;
     grid-column: auto;
-    grid-row: auto;
-    padding: 0 0 26px;
+    padding: 6px 0 0;
   }
   .hb2-head h2 {
-    font-size: 30px;
+    font-size: 28px;
   }
   .hb2-head h2 em {
-    font-size: 32px;
+    font-size: 30px;
   }
   .hb2-card {
     grid-column: auto !important;
     grid-row: auto !important;
-    min-height: 200px;
-    border-radius: 22px;
-    margin-bottom: 12px;
+    min-height: 260px;
+    border-radius: 24px;
   }
-  /* services */
+
+  /* services: Branding first and big, AI and Metaverse full width, the other four as tiles */
   .hb2-sv {
-    padding-bottom: 80px;
+    padding-bottom: 70px;
   }
   .hb2-sv-h {
     font-size: 28px;
@@ -2597,34 +2696,57 @@ body:has(.hb2) footer.ft {
   .hb2-sv-h em {
     font-size: 30px;
   }
+  .hb2-sv-grid {
+    grid-template-columns: 1fr 1fr;
+  }
   .hb2-sv-r1,
   .hb2-sv-r2 {
-    grid-template-columns: 1fr;
-    height: auto;
+    display: contents;
   }
-  .hb2-sv-r1 .hb2-sv-cell {
-    height: 490px;
-  }
-  .hb2-sv-r1 .hb2-sv-art {
-    inset: 172px 0 104px;
-  }
-  .hb2-sv-r2 .hb2-sv-art {
-    inset: 150px 0 0;
-  }
-  .hb2-sv-r2 .hb2-sv-cell {
+  .hb2-sv-cell {
+    grid-column: 1 / -1;
     height: 350px;
   }
+  .hb2-sv-r1 .hb2-sv-cell:nth-child(2) {
+    order: -1;
+    height: 480px;
+  }
+  .hb2-sv-r2 .hb2-sv-cell {
+    grid-column: auto;
+    height: 232px;
+  }
   .hb2-sv-card {
-    padding: 22px 20px;
+    padding: 20px 18px;
   }
   .hb2-sv-brand h3 {
     font-size: 30px !important;
   }
-  .hb2-sv-foot {
-    right: 20px;
-    left: 20px;
+  .hb2-sv-r1 .hb2-sv-art {
+    inset: 168px 0 100px;
   }
-  /* sections after the services */
+  .hb2-sv-brand .hb2-sv-art {
+    inset: 200px 0 108px;
+  }
+  .hb2-sv-foot {
+    right: 18px;
+    left: 18px;
+  }
+  .hb2-sv-r2 .hb2-sv-card h3 {
+    font-size: 19px;
+  }
+  .hb2-sv-r2 .hb2-sv-line {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .hb2-sv-r2 .hb2-sv-art {
+    inset: auto 0 0;
+    height: 84px;
+  }
+  .hb2-sv-r2 .hb2-sv-a {
+    --as: 0.3;
+  }
+
+  /* the sections after the services */
   .hb2-m-h,
   .hb2-m-wt h2,
   .hb2-m-tt h2,
@@ -2642,6 +2764,7 @@ body:has(.hb2) footer.ft {
   }
   .hb2-m-field {
     height: 360px;
+    border-radius: 28px;
   }
   .hb2-m-fl,
   .hb2-m-fr {
@@ -2692,21 +2815,47 @@ body:has(.hb2) footer.ft {
   .hb2-m-tech {
     padding-top: 70px;
   }
+  /* the process as a timeline down the left side */
   .hb2-m-steps {
     grid-template-columns: 1fr;
-    gap: 36px;
-    margin-top: 40px;
+    gap: 30px;
+    margin-top: 36px;
+  }
+  .hb2-m-steps::before {
+    content: "";
+    position: absolute;
+    top: 28px;
+    bottom: 28px;
+    left: 27px;
+    width: 1px;
+    background: linear-gradient(to bottom, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 72% / 0.6), var(--line));
   }
   .hb2-m-rail {
     display: none;
   }
+  .hb2-m-step {
+    padding: 0 0 0 78px;
+    text-align: left;
+  }
+  .hb2-m-node {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+  .hb2-m-step h3 {
+    padding-top: 4px;
+  }
+  .hb2-m-step p {
+    max-width: none;
+    margin: 0;
+  }
   .hb2-m-bento {
-    grid-template-columns: 1fr;
-    margin-top: 34px;
+    margin-top: 30px;
   }
   .hb2-m-bc {
     grid-column: auto !important;
-    min-height: 0;
+    min-height: 220px;
     padding: 24px 22px;
   }
   .hb2-m-bn {
@@ -2716,6 +2865,7 @@ body:has(.hb2) footer.ft {
     grid-template-columns: 1fr;
     gap: 28px;
     padding: 30px 0 30px 22px;
+    border-radius: 28px;
   }
   .hb2-m-wt {
     padding-right: 22px;
@@ -2724,6 +2874,7 @@ body:has(.hb2) footer.ft {
     grid-template-columns: 1fr;
     min-height: 0;
     padding: 34px 22px;
+    border-radius: 28px;
   }
   .hb2-m-orb {
     height: 220px;

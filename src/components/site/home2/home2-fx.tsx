@@ -75,7 +75,7 @@ export function Home2Fx() {
     const disc = q(".hb2-disc");
     const discWorld = q(".hb2-disc-world");
     const arch = q(".hb2-arch");
-    const heroTexts = [q(".hb2-copy"), q(".hb2-lede"), q(".hb2-go")].filter((x): x is HTMLElement => !!x);
+    const heroTexts = (phone ? [q(".hb2-copy"), q(".hb2-lede"), q(".hb2-ph-row"), q(".hb2-ph-stats")] : [q(".hb2-copy"), q(".hb2-lede"), q(".hb2-go")]).filter((x): x is HTMLElement => !!x);
     const aboutTexts = Array.from(root.querySelectorAll<HTMLElement>(".hb2-s1-top > *"));
     let oy = 520; // y of the middle of the door inside the first screen (the vanishing point of the camera)
     let discCy = 600; // y of the middle of the disc inside the pinned screen, when it has settled
@@ -131,7 +131,17 @@ export function Home2Fx() {
       drift(bigNum, -220, 0, "translateX(-50%)");
       drift(orb, 0, -60, "");
       drift(tiles, 0, 50, "");
-      if (!fly) return;
+      if (!fly) {
+        // phone: walking in through the door while the first screen scrolls away (the door grows and the words fade)
+        if (phone && hero) {
+          const h = hero.getBoundingClientRect();
+          const p = clamp(-h.top / Math.max(1, h.height * 0.85));
+          put(world, "transform", p === 0 ? "" : `translate3d(0,${(p * 40).toFixed(1)}px,0) scale(${(1 + p * 0.9).toFixed(3)})`);
+          const o = (1 - Math.min(1, p * 1.7)).toFixed(2);
+          for (const el of heroTexts) put(el, "opacity", o);
+        }
+        return;
+      }
       const r = fly.getBoundingClientRect();
       draw(clamp(-r.top / Math.max(1, r.height - window.innerHeight)));
     };
