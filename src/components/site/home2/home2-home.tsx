@@ -100,10 +100,16 @@ export async function Home2Home() {
         <LazyDoorFest />
         </div>
 
+        <p className="hb2-wish">
+          <span>This year</span>
+          <strong>
+            Open your <em>success door</em>
+          </strong>
+        </p>
         <div className="hb2-copy">
           <p className="hb2-kick">We3vision</p>
           <h1>
-            <em>Web, AI</em> &amp; Metaverse
+            Web, <em className="hb2-hl">AI</em> &amp; <em className="hb2-hl">Metaverse</em>
             <br />
             studio in Surat, India
           </h1>

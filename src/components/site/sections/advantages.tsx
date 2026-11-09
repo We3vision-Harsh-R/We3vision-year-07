@@ -1,4 +1,4 @@
-import { ReasonsStack } from "../lazy";
+import { ReasonsStack, AiWhy } from "../lazy";
 import { WhyBento } from "../lazy";
 import { WhyVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
@@ -7,6 +7,7 @@ import type { SectionComponent } from "./shared";
 
 /** The reasons to choose us. Service pages ("modern"): a bento of cards. Others ("classic"): a check list that stays on the left while the reasons pass by. */
 export const Advantages: SectionComponent<"advantages"> = ({ data, skin, page }) => {
+  if (page === "ai") return <AiWhy chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />;
   const v = variantOf(page, "why");
   // the service pages: every page shows its reasons in its own design (modern/variant-table.ts)
   if (v !== null && v > 0) {

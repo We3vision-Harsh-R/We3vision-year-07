@@ -1,4 +1,4 @@
-import { ProcessFloor } from "../lazy";
+import { ProcessFloor, AiProcess } from "../lazy";
 import { ProcessRail } from "../lazy";
 import { ProcessVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
@@ -10,6 +10,7 @@ import type { SectionComponent } from "./shared";
  * line that is drawn while you scroll. Home, About and the others ("classic"): walked along a path on a 3D floor.
  */
 export const Process: SectionComponent<"process"> = ({ data, skin, page }) => {
+  if (page === "ai") return <AiProcess chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />;
   const v = variantOf(page, "process");
   // the service pages: every page shows its steps in its own design (modern/variant-kit.tsx)
   if (v !== null && v > 0) {

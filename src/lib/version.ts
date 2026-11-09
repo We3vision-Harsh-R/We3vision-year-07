@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 137,
+    date: "2026-11-09",
+    title: "AI page redesigned, new 300+ section, home hero words",
+    notes: [
+      "The AI page has a new first screen: an AI lab graph (data in, one core, five kinds of AI, jobs done, an agent panel) that fits laptop screens.",
+      "The AI page sections are redesigned: What we build, How we build, Why We3vision, Industries, Tools, the story and the FAQ.",
+      "Home: \"This year, open your success door\" over the door, AI and Metaverse highlighted, a new 300+ section, and \"industry\" highlighted in the industries title.",
+    ],
+  },
+  {
     v: 136,
     date: "2026-11-09",
     title: "Home page polish: 300+ card, tools slider, menu colour",

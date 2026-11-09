@@ -1,0 +1,1003 @@
+/* The AI page below the hero (prefix aip-). Glass cards, a pill staircase, a slider graph. Theme colours only; only transform and opacity move. */
+.aip {
+  --aip-ink: hsl(calc(var(--th) + 8) calc(45% * var(--ts)) 96%);
+  --aip-mute: hsl(calc(var(--th) + 6) calc(22% * var(--ts)) 72%);
+  --aip-acc: hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 78%);
+  --aip-line: hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 70% / 0.16);
+  --aip-glass: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12% / 0.78), hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 5.5% / 0.86));
+}
+.aip-sec {
+  position: relative;
+  padding: 110px 0;
+}
+.aip-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* the head of a section */
+.aip-head {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+.aip-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 22px;
+  padding: 8px 16px 8px 14px;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--aip-ink);
+  border-radius: 999px;
+  border: 1px solid var(--aip-line);
+  background: hsl(0 0% 100% / 0.04);
+}
+.aip-chip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--aip-acc);
+  box-shadow: 0 0 12px var(--aip-acc);
+}
+.aip-head h2 {
+  margin: 0;
+  font-size: clamp(36px, 3.6vw, 54px);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--aip-ink);
+}
+.aip-head h2 em {
+  font-weight: 400;
+  color: var(--aip-acc);
+}
+.aip-intro {
+  margin: 0;
+  padding-bottom: 6px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--aip-mute);
+}
+.aip-d {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--aip-mute);
+}
+
+/* ---------------------------------------------------------------- what we build */
+.aip-svc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.aip-card {
+  position: relative;
+  padding: 18px 18px 30px;
+  border-radius: 30px;
+  border: 1px solid var(--aip-line);
+  background: var(--aip-glass);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.08);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.5s;
+}
+.aip-card:hover {
+  transform: translate3d(0, -6px, 0);
+  border-color: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 78% / 0.4);
+}
+.aip-card .aip-n {
+  margin: 26px 12px 0;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: var(--aip-acc);
+}
+.aip-card h3 {
+  margin: 8px 12px 0;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--aip-ink);
+}
+.aip-card .aip-d {
+  margin: 14px 12px 0;
+}
+.aip-fit {
+  display: grid;
+  gap: 6px;
+  margin: 22px 12px 0;
+  padding-top: 18px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: hsl(var(--th) 0% 100% / 0.82);
+  border-top: 1px solid var(--aip-line);
+}
+.aip-fit b {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--aip-mute);
+}
+
+/* the small pictures */
+.aip-viz {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 70% / 0.1);
+  background: radial-gradient(70% 90% at 80% 0, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 55% / 0.22), transparent 70%), hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 4.5%);
+}
+/* a chat */
+.aip-v0 p {
+  position: absolute;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.35;
+}
+.aip-bu {
+  right: 16px;
+  top: 18px;
+  max-width: 62%;
+  padding: 10px 14px;
+  color: #fff;
+  border-radius: 16px 16px 4px 16px;
+  background: linear-gradient(to bottom, hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 58%), hsl(calc(var(--th) + 358) calc(75% * var(--ts)) 42%));
+  animation: aip-b1 7s ease infinite;
+}
+.aip-bb {
+  left: 16px;
+  top: 78px;
+  display: flex;
+  gap: 5px;
+  padding: 13px 14px;
+  border-radius: 16px 16px 16px 4px;
+  background: hsl(0 0% 100% / 0.08);
+  animation: aip-b2 7s ease infinite;
+}
+.aip-bb i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--aip-mute);
+  animation: aip-typing 1s ease-in-out infinite;
+}
+.aip-bb i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.aip-bb i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.aip-br {
+  left: 16px;
+  top: 78px;
+  display: grid;
+  gap: 7px;
+  width: 58%;
+  padding: 13px 14px;
+  border-radius: 16px 16px 16px 4px;
+  background: hsl(0 0% 100% / 0.08);
+  animation: aip-b3 7s ease infinite;
+}
+.aip-br b {
+  height: 7px;
+  border-radius: 4px;
+  background: hsl(0 0% 100% / 0.4);
+}
+.aip-br b:nth-child(2) {
+  width: 80%;
+}
+.aip-br b:nth-child(3) {
+  width: 55%;
+}
+.aip-bi {
+  position: absolute;
+  inset: auto 16px 14px;
+  padding: 9px 16px;
+  font-size: 14px;
+  color: hsl(var(--th) 0% 100% / 0.45);
+  border-radius: 999px;
+  border: 1px solid var(--aip-line);
+  background: hsl(0 0% 100% / 0.04);
+}
+@keyframes aip-b1 {
+  0%,
+  4% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  10%,
+  94% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes aip-b2 {
+  0%,
+  16% {
+    opacity: 0;
+  }
+  22%,
+  44% {
+    opacity: 1;
+  }
+  48%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes aip-b3 {
+  0%,
+  46% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  54%,
+  94% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes aip-typing {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(0, -4px, 0);
+    opacity: 1;
+  }
+}
+/* a forecast */
+.aip-v1 svg {
+  position: absolute;
+  inset: 24px 0 0;
+  width: 100%;
+  height: calc(100% - 24px);
+}
+.aip-gl {
+  stroke: hsl(0 0% 100% / 0.07);
+}
+.aip-line,
+.aip-fore {
+  stroke: var(--aip-acc);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.aip-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: aip-draw 6s ease infinite;
+}
+.aip-fore {
+  stroke-dasharray: 5 6;
+  opacity: 0;
+  animation: aip-fore 6s ease infinite;
+}
+.aip-area {
+  opacity: 0;
+  animation: aip-fore 6s ease infinite;
+}
+.aip-dot {
+  fill: #fff;
+  stroke: var(--aip-acc);
+  stroke-width: 3;
+  opacity: 0;
+  animation: aip-fore 6s ease infinite;
+}
+.aip-vt {
+  position: absolute;
+  right: 16px;
+  top: 14px;
+  padding: 4px 12px;
+  font-size: 14px;
+  color: var(--aip-ink);
+  border-radius: 999px;
+  border: 1px solid var(--aip-line);
+  background: hsl(0 0% 100% / 0.05);
+}
+@keyframes aip-draw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  45%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes aip-fore {
+  0%,
+  40% {
+    opacity: 0;
+  }
+  58%,
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+/* a scan */
+.aip-v2 {
+  background: radial-gradient(60% 70% at 30% 70%, hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 24% / 0.9), transparent 70%), radial-gradient(50% 60% at 78% 30%, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 55% / 0.3), transparent 70%), hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 4.5%);
+}
+.aip-obj {
+  position: absolute;
+  background: linear-gradient(150deg, hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 70% / 0.55), hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 30% / 0.5));
+}
+.aip-o1 {
+  left: 34px;
+  top: 58px;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+}
+.aip-o2 {
+  right: 40px;
+  bottom: 30px;
+  width: 110px;
+  height: 62px;
+  border-radius: 14px;
+}
+.aip-scan {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--aip-acc);
+  box-shadow: 0 0 22px 4px var(--aip-acc);
+  animation: aip-scan 4.5s ease-in-out infinite;
+}
+@keyframes aip-scan {
+  0%,
+  100% {
+    transform: translate3d(0, 6px, 0);
+  }
+  50% {
+    transform: translate3d(0, 200px, 0);
+  }
+}
+.aip-tag {
+  position: absolute;
+  padding: 2px 9px;
+  font-size: 14px;
+  font-style: normal;
+  color: #fff;
+  border-radius: 6px;
+  background: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 55%);
+  opacity: 0;
+  animation: aip-found 4.5s ease infinite;
+}
+.aip-t1 {
+  left: 28px;
+  top: 34px;
+}
+.aip-t2 {
+  right: 36px;
+  bottom: 100px;
+  animation-delay: 0.9s;
+}
+@keyframes aip-found {
+  0%,
+  25% {
+    opacity: 0;
+  }
+  35%,
+  80% {
+    opacity: 1;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+.aip-c {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--aip-acc);
+  opacity: 0.8;
+}
+.aip-c1 {
+  left: 14px;
+  top: 14px;
+  border-width: 2px 0 0 2px;
+}
+.aip-c2 {
+  right: 14px;
+  top: 14px;
+  border-width: 2px 2px 0 0;
+}
+.aip-c3 {
+  left: 14px;
+  bottom: 14px;
+  border-width: 0 0 2px 2px;
+}
+.aip-c4 {
+  right: 14px;
+  bottom: 14px;
+  border-width: 0 2px 2px 0;
+}
+/* live systems */
+.aip-v3 {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 0 18px;
+}
+.aip-v3 p {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 9px 14px;
+  font-size: 15px;
+  color: hsl(var(--th) 0% 100% / 0.7);
+  border-radius: 12px;
+  border: 1px solid transparent;
+}
+.aip-v3 p::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  border-radius: 12px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 78% / 0.5);
+  background: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 60% / 0.16);
+  opacity: 0;
+  animation: aip-row 8s ease infinite;
+  animation-delay: calc(var(--n) * 2s);
+}
+.aip-v3 i {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: hsl(140 70% 55%);
+  box-shadow: 0 0 10px hsl(140 70% 55% / 0.8);
+}
+.aip-v3 span {
+  position: relative;
+  margin-left: auto;
+  width: 30px;
+  height: 6px;
+  border-radius: 3px;
+  background: hsl(0 0% 100% / 0.18);
+}
+@keyframes aip-row {
+  0%,
+  3% {
+    opacity: 0;
+  }
+  8%,
+  22% {
+    opacity: 1;
+  }
+  28%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------- the steps: a staircase of pills */
+.aip-pr {
+  position: relative;
+  height: 500px;
+}
+.aip-gd {
+  position: absolute;
+  top: -20px;
+  bottom: -40px;
+  width: 0;
+  border-left: 1px dashed hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 70% / 0.14);
+}
+.aip-gd1 {
+  left: 18%;
+}
+.aip-gd2 {
+  left: 49%;
+}
+.aip-gd3 {
+  left: 80%;
+}
+.aip-pill {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 46px;
+  padding: 0 22px 0 8px;
+  font: inherit;
+  font-size: 16px;
+  white-space: nowrap;
+  color: hsl(var(--th) 0% 100% / 0.62);
+  border-radius: 999px;
+  border: 1px solid var(--aip-line);
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12% / 0.8), hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 6% / 0.85));
+  cursor: default;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+.aip-pill em {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  height: 30px;
+  padding: 0 8px;
+  font-size: 14px;
+  font-style: normal;
+  color: var(--aip-ink);
+  border-radius: 999px;
+  background: hsl(0 0% 100% / 0.1);
+  transition: background 0.4s, color 0.4s;
+}
+.aip-pill.past {
+  color: hsl(var(--th) 0% 100% / 0.82);
+}
+.aip-pill.on {
+  color: #fff;
+  border-color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 80% / 0.6);
+  box-shadow: 0 0 34px hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 60% / 0.35);
+  transform: translate3d(8px, 0, 0) scale(1.04);
+}
+.aip-pill.on em {
+  color: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 8%);
+  background: var(--aip-acc);
+}
+.aip-step {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 360px;
+  padding: 24px 26px 26px;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid var(--aip-line);
+  background: radial-gradient(60% 50% at 100% 0, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 62% / 0.2), transparent 70%), hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 6.5% / 0.92);
+  box-shadow: 0 30px 70px -30px #000, inset 0 1px 0 hsl(0 0% 100% / 0.1);
+  animation: aip-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes aip-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+}
+.aip-sk {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--aip-acc);
+}
+.aip-sk span {
+  color: var(--aip-mute);
+}
+.aip-step h3 {
+  margin: 10px 0 0;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--aip-ink);
+}
+.aip-step .aip-d {
+  margin-top: 10px;
+}
+.aip-step ul {
+  display: grid;
+  gap: 6px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.aip-step li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 16px;
+  color: hsl(var(--th) 0% 100% / 0.88);
+}
+.aip-step li::before {
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 7px;
+  height: 7px;
+  content: "";
+  border-radius: 50%;
+  background: var(--aip-acc);
+}
+.aip-bar {
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--aip-acc);
+  transform-origin: 0 50%;
+  animation: aip-bar 5.2s linear both;
+}
+.aip-pr[data-hold] .aip-bar {
+  animation-play-state: paused;
+}
+@keyframes aip-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* ---------------------------------------------------------------- the reasons: a slider graph */
+.aip-why {
+  display: grid;
+  grid-template-columns: 250px 560px 1fr;
+  gap: 0 24px;
+  align-items: start;
+  justify-content: space-between;
+}
+.aip-wl,
+.aip-wr {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.aip-wl li,
+.aip-wr li {
+  display: flex;
+  align-items: center;
+}
+.aip-wl li {
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--aip-ink);
+}
+.aip-wl li span {
+  flex: none;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--aip-acc);
+}
+.aip-wr li {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--aip-mute);
+}
+.aip-wg {
+  display: block;
+  overflow: visible;
+}
+.aip-tl {
+  stroke: hsl(0 0% 100% / 0.14);
+  stroke-width: 1.5;
+}
+.aip-sd {
+  fill: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 8%);
+  stroke: hsl(0 0% 100% / 0.4);
+  stroke-width: 1.5;
+}
+.aip-pk {
+  fill: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 5%);
+  stroke: var(--aip-acc);
+  stroke-width: 2.5;
+  opacity: 0;
+  transition: opacity 0.6s ease calc(0.5s + var(--n) * 0.35s);
+}
+.aip-glow {
+  stroke: hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 62% / 0.55);
+  stroke-width: 34;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: blur(13px);
+  transition: stroke-dashoffset 2.4s ease 0.2s;
+}
+.aip-why[data-in] .aip-glow {
+  stroke-dashoffset: 0;
+}
+.aip-why[data-in] .aip-pk {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------- the industries: curved shapes, light from a different side */
+.aip-ind {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.aip-i {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 270px;
+  padding: 26px 28px 30px;
+  overflow: hidden;
+  border: 1px solid var(--aip-line);
+  background: radial-gradient(70% 80% at var(--lx, 100%) var(--ly, 0%), hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 58% / 0.3), transparent 70%), hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 5.5%);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.5s;
+}
+.aip-i:hover {
+  transform: translate3d(0, -6px, 0);
+  border-color: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 78% / 0.4);
+}
+.aip-i0 {
+  --lx: 100%;
+  --ly: 0%;
+  border-radius: 34px 120px 34px 34px;
+}
+.aip-i1 {
+  --lx: 50%;
+  --ly: 100%;
+  border-radius: 34px;
+}
+.aip-i2 {
+  --lx: 0%;
+  --ly: 0%;
+  border-radius: 120px 34px 34px 34px;
+}
+.aip-i3 {
+  --lx: 0%;
+  --ly: 100%;
+  border-radius: 34px 34px 34px 120px;
+}
+.aip-i4 {
+  --lx: 50%;
+  --ly: 0%;
+  border-radius: 34px;
+}
+.aip-i5 {
+  --lx: 100%;
+  --ly: 100%;
+  border-radius: 34px 34px 120px 34px;
+}
+.aip-ix {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 auto;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: var(--aip-acc);
+}
+.aip-ix b {
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--aip-mute);
+}
+.aip-i3 .aip-ix,
+.aip-i2 .aip-ix {
+  padding: 0 0 0 0;
+}
+.aip-i0 .aip-ix {
+  padding-right: 52px;
+}
+.aip-i2 .aip-ix {
+  padding-left: 52px;
+}
+.aip-i h3 {
+  margin: 40px 0 10px;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--aip-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aip-bu,
+  .aip-bb,
+  .aip-br,
+  .aip-line,
+  .aip-fore,
+  .aip-area,
+  .aip-dot,
+  .aip-scan,
+  .aip-tag,
+  .aip-v3 p::before,
+  .aip-bar {
+    animation: none;
+  }
+  .aip-bu,
+  .aip-br,
+  .aip-line,
+  .aip-fore,
+  .aip-area,
+  .aip-dot,
+  .aip-tag {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  .aip-bb {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- the story */
+.aip-story {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 70px;
+  align-items: start;
+  margin-top: 8px;
+}
+.aip-lead {
+  margin: 0;
+  font-size: clamp(26px, 2.4vw, 36px);
+  font-weight: 300;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: hsl(var(--th) 0% 100% / 0.86);
+}
+.aip-lead strong,
+.aip-lead em,
+.aip-d strong {
+  font-weight: 500;
+  font-style: normal;
+  color: var(--aip-acc);
+}
+.aip-d + .aip-d {
+  margin-top: 18px;
+}
+.aip-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.aip-pills li {
+  padding: 8px 16px;
+  font-size: 15px;
+  color: var(--aip-ink);
+  border-radius: 999px;
+  border: 1px solid var(--aip-line);
+  background: hsl(0 0% 100% / 0.04);
+}
+
+/* ---------------------------------------------------------------- the tools */
+.aip-tools {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  padding: 18px;
+  border-radius: 34px;
+  border: 1px solid var(--aip-line);
+  background: radial-gradient(60% 80% at 100% 0, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 58% / 0.2), transparent 70%), var(--aip-glass);
+}
+.aip-tool {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 74px;
+  padding: 0 22px;
+  font-size: 18px;
+  color: var(--aip-ink);
+  border-radius: 22px;
+  border: 1px solid transparent;
+  background: hsl(0 0% 100% / 0.04);
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.4s, background 0.4s;
+}
+.aip-tool em {
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  color: var(--aip-acc);
+}
+.aip-tool:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 78% / 0.45);
+  background: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 60% / 0.14);
+}
+
+/* ---------------------------------------------------------------- the questions */
+.aip-faq {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 70px;
+  align-items: start;
+}
+.aip-faqh {
+  position: sticky;
+  top: 120px;
+}
+.aip-faqh .aip-head {
+  display: block;
+  margin: 0;
+}
+.aip-faqh .aip-intro {
+  margin-top: 22px;
+}
+.aip-qs {
+  display: grid;
+  gap: 12px;
+}
+.aip-q {
+  border-radius: 24px;
+  border: 1px solid var(--aip-line);
+  background: var(--aip-glass);
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+.aip-q.open {
+  border-color: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 78% / 0.4);
+  box-shadow: 0 0 40px hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 58% / 0.16);
+}
+.aip-q h3 {
+  margin: 0;
+}
+.aip-q button {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 22px 26px;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
+  color: var(--aip-ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.aip-q button span {
+  flex: none;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--aip-acc);
+}
+.aip-q button b {
+  position: relative;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-left: auto;
+}
+.aip-q button b::before,
+.aip-q button b::after {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 18px;
+  height: 1.5px;
+  content: "";
+  background: var(--aip-mute);
+  transition: transform 0.35s;
+}
+.aip-q button b::after {
+  transform: rotate(90deg);
+}
+.aip-q.open button b::after {
+  transform: rotate(0);
+}
+.aip-qa {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.aip-q.open .aip-qa {
+  grid-template-rows: 1fr;
+}
+.aip-qa > div {
+  overflow: hidden;
+}
+.aip-qa p {
+  margin: 0;
+  padding: 0 26px 24px 68px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--aip-mute);
+}

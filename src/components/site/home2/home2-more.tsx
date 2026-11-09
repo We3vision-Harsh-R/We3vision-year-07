@@ -104,7 +104,7 @@ export async function Home2More() {
         <div className="hb2-wrap">
           <p className="hb2-label">Industries</p>
           <h2 id="hb2-t5" className="hb2-m-h" data-r>
-            <em>Built for</em> every industry
+            Built for every <em>industry</em>
           </h2>
           <div className="hb2-m-bento">
             {INDUSTRIES.map((x, i) => (

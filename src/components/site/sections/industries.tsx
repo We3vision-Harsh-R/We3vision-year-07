@@ -1,4 +1,4 @@
-import { IndustriesCity } from "../lazy";
+import { IndustriesCity, AiIndustries } from "../lazy";
 import { IndustriesRoad } from "../lazy";
 import { DEFAULT_VARIANT, VARIANTS } from "../modern/map-variants";
 import { SectionHead } from "../ui";
@@ -11,6 +11,7 @@ import type { SectionComponent } from "./shared";
  * Design): the ring-road city as it was.
  */
 export const Industries: SectionComponent<"industries"> = ({ data, skin, page }) => {
+  if (page === "ai") return <AiIndustries data={data} />;
   const v = (page && VARIANTS[page]) || DEFAULT_VARIANT;
   return (
     <section id="industries" className="py-24 sm:py-32">

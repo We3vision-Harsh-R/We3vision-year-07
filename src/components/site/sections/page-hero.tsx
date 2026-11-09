@@ -1,4 +1,4 @@
-import { ContactReception } from "../lazy";
+import { ContactReception, AiHero } from "../lazy";
 import { HeroBadges } from "../hero-badges";
 import { AiHeroBg } from "../modern/ai-hero-bg";
 import { CursorGrid } from "../lazy";
@@ -24,6 +24,8 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
     ].filter((l) => l.label && l.href);
     return <ContactReception chip={data.chip} heading={data.heading} text={data.text} links={links} badges={<HeroBadges badges={site.badges} />} />;
   }
+  // the AI page: the heading and a small AI lab (core, five kinds of AI, a fan of jobs, a panel with a sample question)
+  if (page === "ai") return <AiHero data={data} site={site} />;
   // the Web Development page has its own first screen: a website that builds itself in a browser window
   if (page === "webdev") return <WebdevHero data={data} site={site} />;
   // the Mobile App page: one code card that splits into an iPhone-style and an Android-style phone

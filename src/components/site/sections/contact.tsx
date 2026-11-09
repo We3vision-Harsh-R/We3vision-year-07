@@ -1,5 +1,5 @@
 import { GlowEdge } from "../glow-edge";
-import { ContactFlow } from "../lazy";
+import { ContactFlow, AiHead } from "../lazy";
 import { Reveal } from "../reveal";
 import { SectionHead, Wide } from "../ui";
 import type { SectionComponent } from "./shared";
@@ -15,10 +15,10 @@ function Line({ text }: { text: string }) {
   return <>{value}</>;
 }
 
-export const Contact: SectionComponent<"contact"> = ({ data, site }) => (
+export const Contact: SectionComponent<"contact"> = ({ data, site, page }) => (
   <section id="contact" className="py-24 sm:py-32">
     <Wide>
-      <SectionHead chip={data.chip} heading={data.heading} intro={data.text} />
+      {page === "ai" ? <AiHead chip={data.chip} heading={data.heading} intro={data.text} /> : <SectionHead chip={data.chip} heading={data.heading} intro={data.text} />}
     </Wide>
     {/* a short conversation (what, when, who) with a brief that fills in on the side; no box: it is part of the page. It is wider than the other
         blocks (up to the width of a laptop screen), so that it is not so high */}

@@ -1309,11 +1309,19 @@
 }
 .hb2-m-field {
   position: relative;
-  height: 370px;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  gap: 0;
+  min-height: 330px;
   overflow: hidden;
+  padding: 64px 56px 40px;
   border-radius: 30px;
-  background: linear-gradient(120deg, hsl(calc(var(--th) + 352) calc(70% * var(--ts)) 14%), hsl(calc(var(--th) + 358) calc(75% * var(--ts)) 30%) 60%, hsl(calc(var(--th) + 4) calc(80% * var(--ts)) 40%));
-  border: 1px solid var(--line);
+  border: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.16);
+  background:
+    radial-gradient(55% 90% at 12% 100%, hsl(calc(var(--th) + 358) calc(80% * var(--ts)) 44% / 0.32), transparent 70%),
+    radial-gradient(50% 80% at 100% 0, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 62% / 0.2), transparent 70%),
+    hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 6.5%);
 }
 .hb2-m-blob {
   position: absolute;
@@ -1321,23 +1329,26 @@
   background: radial-gradient(circle, hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 66% / 0.95), transparent 68%);
 }
 .hb2-m-b1 {
-  left: 30%;
-  top: -30%;
-  width: 640px;
-  height: 640px;
+  left: -6%;
+  bottom: -50%;
+  width: 520px;
+  height: 520px;
+  opacity: 0.35;
 }
 .hb2-m-b2 {
-  right: -6%;
-  bottom: -40%;
-  width: 560px;
-  height: 560px;
+  right: -8%;
+  top: -50%;
+  width: 460px;
+  height: 460px;
+  opacity: 0.3;
   background: radial-gradient(circle, hsl(calc(var(--th) + 24) calc(90% * var(--ts)) 62% / 0.9), transparent 68%);
 }
 .hb2-m-b3 {
-  left: -8%;
-  bottom: -30%;
-  width: 420px;
-  height: 420px;
+  left: 40%;
+  bottom: -60%;
+  width: 360px;
+  height: 360px;
+  opacity: 0.25;
   background: radial-gradient(circle, hsl(calc(var(--th) + 350) calc(90% * var(--ts)) 46% / 0.8), transparent 68%);
 }
 .hb2[data-fx] .hb2-m-b1 {
@@ -1366,34 +1377,35 @@
   font-size: 15px;
 }
 .hb2-m-fl {
-  left: 32px;
+  left: 56px;
 }
 .hb2-m-fr {
-  right: 32px;
+  right: 56px;
 }
 .hb2-m-num {
-  position: absolute;
-  top: 10px;
-  left: 50%;
+  position: relative;
   z-index: 1;
-  font-size: 250px;
+  font-size: 230px;
   font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
   white-space: nowrap;
-  color: var(--bg);
-  transform: translateX(-50%);
-  text-shadow: 0 0 60px hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 10% / 0.6);
+  background: linear-gradient(100deg, hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 84%) 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 66%) 55%, hsl(calc(var(--th) + 358) calc(80% * var(--ts)) 46%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 .hb2-m-cap {
-  position: absolute;
-  bottom: 26px;
-  left: 32px;
+  position: relative;
   z-index: 2;
-  max-width: 460px;
+  max-width: 420px;
   margin: 0;
-  font-size: 17px;
-  line-height: 1.5;
+  padding-left: 44px;
+  border-left: 1px solid var(--line);
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--ink);
 }
 
 /* the numbers */
@@ -2931,4 +2943,130 @@ body:has(.hb2) footer.ft {
     font-size: 17.5vw;
     padding-bottom: 120px;
   }
+}
+
+/* the 300+ section on phones: the number on top, the words under a hairline (the same design as the web, in one column) */
+@media (max-width: 900px) {
+  .hb2-m-field {
+    display: block;
+    height: auto;
+    min-height: 0;
+    padding: 58px 22px 28px;
+    border-radius: 28px;
+  }
+  .hb2-m-fl,
+  .hb2-m-fr {
+    top: 20px;
+  }
+  .hb2-m-fl {
+    left: 22px;
+  }
+  .hb2-m-fr {
+    right: 22px;
+  }
+  .hb2-m-num {
+    top: 0;
+    display: block;
+    font-size: min(23.5vw, 170px);
+    letter-spacing: -0.05em;
+  }
+  .hb2-m-cap {
+    inset: auto;
+    max-width: none;
+    margin-top: 18px;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+    font-size: 17px;
+  }
+}
+
+/* hb2-wish: "This year, open your success door" above the door of the hero */
+.hb2-wish {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 19%;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  text-align: center;
+  pointer-events: none;
+  animation: hb2-wish-in 1.4s 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.hb2-wish span {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.hb2-wish span::before,
+.hb2-wish span::after {
+  width: 54px;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 72% / 0.7));
+}
+.hb2-wish span::after {
+  transform: scaleX(-1);
+}
+.hb2-wish strong {
+  font-size: clamp(34px, 3.4vw, 54px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.hb2-wish em {
+  padding: 0 0.12em 0.06em 0;
+  font-weight: 500;
+  background: linear-gradient(100deg, hsl(calc(var(--th) + 350) calc(95% * var(--ts)) 82%), hsl(calc(var(--th) + 8) calc(95% * var(--ts)) 66%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@keyframes hb2-wish-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+}
+@media (max-width: 900px) {
+  .hb2-wish {
+    top: 15%;
+    gap: 10px;
+  }
+  .hb2-wish span {
+    font-size: 14px;
+    letter-spacing: 0.28em;
+  }
+  .hb2-wish span::before,
+  .hb2-wish span::after {
+    width: 30px;
+  }
+  .hb2-wish strong {
+    font-size: 30px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hb2-wish {
+    animation: none;
+  }
+}
+
+/* hb2-hl: "AI" and "Metaverse" in the hero heading glow in the accent colour */
+.hb2-copy h1 .hb2-hl {
+  padding-right: 0.1em;
+  font-weight: 600;
+  background: linear-gradient(100deg, hsl(calc(var(--th) + 350) calc(95% * var(--ts)) 84%), hsl(calc(var(--th) + 8) calc(95% * var(--ts)) 64%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

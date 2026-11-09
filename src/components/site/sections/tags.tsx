@@ -1,11 +1,12 @@
 import { Reveal } from "../reveal";
-import { TechBoard, TechSpace } from "../lazy";
+import { TechBoard, TechSpace, AiTags } from "../lazy";
 import { ToolsVariant } from "../lazy";
 import { variantOf } from "../modern/variant-table";
 import type { SectionComponent } from "./shared";
 
 /** The tools and technologies of a service as constellations in space, all on one screen; a pop-up with what can be built when you hover one. */
 export const Tags: SectionComponent<"tags"> = ({ data, page }) => {
+  if (page === "ai") return <AiTags data={data} />;
   const items = data.items.split("\n").map((t) => t.trim()).filter(Boolean);
   const v = variantOf(page, "tools");
   // the service pages: every page shows its tools in its own design (modern/variant-table.ts)

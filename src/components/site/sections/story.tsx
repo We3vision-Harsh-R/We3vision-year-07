@@ -1,3 +1,4 @@
+import { AiStory } from "../lazy";
 import { IconTile } from "../icons";
 import { Reveal } from "../reveal";
 import { Rich, paragraphs } from "../ui";
@@ -43,6 +44,7 @@ const keyPhrases = (paras: string[]) =>
   [...new Set(paras.flatMap((p) => [...p.matchAll(/\*([^*]+)\*/g)].map((m) => m[1].trim())))].slice(0, 8);
 
 export const Story: SectionComponent<"story"> = ({ data, page }) => {
+  if (page === "ai") return <AiStory body={data.body} />;
   const paras = paragraphs(data.body);
   const v = variantOf(page, "story");
   const look = v !== null ? (BY_NUMBER[v] ?? "duo") : lookOf(page);

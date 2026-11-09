@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AiFaq } from "../lazy";
 import { Reveal } from "../reveal";
 import { FaqSplit } from "../modern/faq-split";
 import { FaqVariant } from "../modern/faq-variants";
@@ -56,6 +57,7 @@ function ClassicFaq({ data }: { data: { chip: string; heading: string; intro: st
 }
 
 export const Faq: SectionComponent<"faq"> = ({ data, skin, page }) => {
+  if (page === "ai") return <AiFaq chip={data.chip} heading={data.heading} intro={data.intro} items={data.items} />;
   const v = variantOf(page, "faq");
   // the service pages: every page asks its questions in its own design (modern/variant-table.ts)
   if (v !== null && v > 0) {

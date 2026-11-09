@@ -113,8 +113,7 @@ export function Home2Fx() {
       const tx = clamp((p - 0.84) / 0.12).toFixed(2);
       for (const el of aboutTexts) put(el, "opacity", tx);
     };
-    // slow drifts tied to the scroll: the huge number slides sideways, the orb and the tile grid float up and down
-    const bigNum = q(".hb2-m-num");
+    // slow drifts tied to the scroll: the tile grid floats up and down
     
     const tiles = q(".hb2-m-grid");
     const drift = (el: HTMLElement | null, x: number, y: number, base: string) => {
@@ -128,7 +127,6 @@ export function Home2Fx() {
     let raf = 0;
     const frame = () => {
       raf = 0;
-      drift(bigNum, -220, 0, "translateX(-50%)");
       drift(tiles, 0, 50, "");
       if (!fly) {
         // phone: walking in through the door while the first screen scrolls away (the door grows and the words fade)
