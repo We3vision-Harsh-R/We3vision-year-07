@@ -115,7 +115,7 @@ export function Home2Fx() {
     };
     // slow drifts tied to the scroll: the huge number slides sideways, the orb and the tile grid float up and down
     const bigNum = q(".hb2-m-num");
-    const orb = q(".hb2-m-orb");
+    
     const tiles = q(".hb2-m-grid");
     const drift = (el: HTMLElement | null, x: number, y: number, base: string) => {
       const box = el?.parentElement;
@@ -129,7 +129,6 @@ export function Home2Fx() {
     const frame = () => {
       raf = 0;
       drift(bigNum, -220, 0, "translateX(-50%)");
-      drift(orb, 0, -60, "");
       drift(tiles, 0, 50, "");
       if (!fly) {
         // phone: walking in through the door while the first screen scrolls away (the door grows and the words fade)

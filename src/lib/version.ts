@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 136,
+    date: "2026-11-09",
+    title: "Home page polish: 300+ card, tools slider, menu colour",
+    notes: [
+      "The 300+ card is smaller on the web and fits the card on phones. The first-screen words sit above the diyas.",
+      "The tools are three sliding lines instead of the ball. On phones the product cards swipe under a fixed heading and animate as they pass.",
+      "The menu pop-up uses the same dark violet as the home page.",
+    ],
+  },
+  {
     v: 135,
     date: "2026-11-08",
     title: "The home page is redesigned for phones",

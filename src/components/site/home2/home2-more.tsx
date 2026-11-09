@@ -159,16 +159,28 @@ export async function Home2More() {
               <h2 id="hb2-t7">
                 The technology <em>behind our work</em>
               </h2>
-              <ul>
+              <ul className="sr-only">
                 {TECH.map((t) => (
                   <li key={t}>{t}</li>
                 ))}
               </ul>
             </div>
-            <div className="hb2-m-orb" aria-hidden>
-              <span />
-              <span />
-              <span />
+            {/* the tools as three sliding lines (owner, 2026-11-09), the lines go in turn left and right */}
+            <div className="hb2-m-ts" aria-hidden>
+              {[0, 1, 2].map((r) => {
+                const part = TECH.filter((_, i) => i % 3 === r);
+                return (
+                  <div key={r} className="hb2-m-row" data-rev={r === 1 ? "" : undefined}>
+                    <div className="hb2-m-track hb2-m-tk" style={{ "--tk": `${34 + r * 7}s` } as CSSProperties}>
+                      {[...part, ...part, ...part, ...part].map((t, i) => (
+                        <span key={`${t}${i}`} className="hb2-m-tc">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

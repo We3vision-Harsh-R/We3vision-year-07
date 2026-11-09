@@ -378,10 +378,13 @@
   }
 }
 .mm-pop {
-  --card-bg: hsl(calc(var(--th) + 347.58) calc(55% * var(--ts)) 8%);
+  /* the same dark violet and glow as the home page (home-2.css --bg, --v2) */
+  --card-bg: hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%);
+  border-color: hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 68% / 0.22);
   background:
-    linear-gradient(155deg, hsl(0 0% 100% / 0.06) 0%, hsl(0 0% 100% / 0.015) 45%, transparent 100%),
-    hsl(calc(var(--th) + 347.58) calc(55% * var(--ts)) 7% / 0.86);
+    radial-gradient(70% 60% at 100% 0, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 62% / 0.14), transparent 70%),
+    radial-gradient(60% 50% at 0 100%, hsl(calc(var(--th) + 358) calc(80% * var(--ts)) 44% / 0.1), transparent 70%),
+    hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 3.6% / 0.94);
 }
 .mm[data-open="true"] .mm-pop {
   /* a little room round the pop-up, so that the glow outside the border is not cut off */
@@ -621,4 +624,14 @@
   .mm-live i::after {
     animation: none;
   }
+}
+
+/* mmh-: the menu pop-up takes the colours of the home page (owner 2026-11-09): the same dark violet as home-2.css --bg and the same glow, instead of the lighter blue-violet glass of .bglow */
+:root:root:root .mm-pop.bglow {
+  --card-bg: hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%);
+  border-color: hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 68% / 0.22);
+  background:
+    radial-gradient(70% 60% at 100% 0, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 62% / 0.14), transparent 70%),
+    radial-gradient(60% 50% at 0 100%, hsl(calc(var(--th) + 358) calc(80% * var(--ts)) 44% / 0.1), transparent 70%),
+    hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 3.6% / 0.94);
 }
