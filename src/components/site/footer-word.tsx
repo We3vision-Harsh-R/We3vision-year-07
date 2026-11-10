@@ -52,9 +52,27 @@ export function ToTop() {
       type="button"
       className="ft-top"
       onClick={() => {
+        // no long ride: the page blurs and fades out, jumps to the very top, then the hero eases back in out of the blur
         const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
-        if (lenis) lenis.scrollTo(0, { duration: 1.4 });
-        else window.scrollTo({ top: 0, behavior: "smooth" });
+        const jump = () => {
+          if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+          window.scrollTo(0, 0);
+        };
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.scrollY < 40) {
+          jump();
+          return;
+        }
+        const veil = document.createElement("div");
+        veil.className = "ftj-veil";
+        veil.setAttribute("aria-hidden", "true");
+        document.body.appendChild(veil);
+        requestAnimationFrame(() => veil.setAttribute("data-on", ""));
+        window.setTimeout(() => {
+          jump();
+          veil.removeAttribute("data-on");
+          veil.setAttribute("data-out", "");
+          window.setTimeout(() => veil.remove(), 1100);
+        }, 520);
       }}
     >
       <span>Back to top</span>

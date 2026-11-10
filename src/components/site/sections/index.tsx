@@ -15,6 +15,8 @@ import { Blogs } from "./blogs";
 import { CareerDestinationSection, CareerHelpDeskSection, CareerJourneySection, CareerOpeningsSection, CareerTeamsSection, CareerValuesSection } from "./career";
 import { Contact } from "./contact";
 import { Faq } from "../lazy";
+import { PlansSection } from "./plans";
+import { AppShowcaseSection } from "./app-showcase";
 import { Flow } from "../lazy";
 import { Guide } from "./guide";
 import { Hero } from "./hero";
@@ -85,6 +87,8 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   vrQuiz: VrQuizSection,
   vrProcess: VrProcessSection,
   sketchCanvas: SketchCanvasSection,
+  plans: PlansSection,
+  appShowcase: AppShowcaseSection,
   team: Team,
   teamOffice: TeamOfficeSection,
   careerJourney: CareerJourneySection,

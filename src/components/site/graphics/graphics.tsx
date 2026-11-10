@@ -5,6 +5,8 @@ import { SmartLink } from "../smart-link";
 import { oneLine, storyParts, type TechData } from "../tech/data";
 import { BrushTown, TOWN_W, kindOf, slotX } from "./brush-town";
 import { Learn } from "./learn";
+import { Plans } from "../modern/plans";
+import { Pills } from "./pills";
 
 // GRAPHIC DESIGN page ("gfx-"): an art world built like the tools of a designer. The first screen is a workspace like Adobe Illustrator (toolbar,
 // white artboard, layers, swatches, a pen that really draws); the cursor of the page is the Pen tool; the services are artboards; the process is a
@@ -495,6 +497,8 @@ export function GraphicsPage({ d }: { d: TechData }) {
 
       <Workspace d={d} />
 
+      <Pills tools={d.tools.items} />
+
       <section className="gfx-sec gfx-story">
         <div className="gfx-page">
           <span className="gfx-tape gfx-tape-l" aria-hidden="true" />
@@ -553,6 +557,8 @@ export function GraphicsPage({ d }: { d: TechData }) {
           ))}
         </ul>
       </section>
+
+      {d.plans && <Plans data={d.plans} />}
 
       <section className="gfx-sec">
         <Head chip="Ask us" title="Graphic Design Questions We Often Hear" />

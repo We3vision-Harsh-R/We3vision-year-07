@@ -26,6 +26,8 @@ import { HighlightsSection } from "./highlights";
 import { IndustriesSection } from "./industries";
 import { PageHeroSection } from "./pageHero";
 import { ProcessSection } from "./process";
+import { PlansSection } from "./plans";
+import { AppShowcaseSection } from "./app-showcase";
 import { ProjectsSection } from "./projects";
 import { ReachSection } from "./reach";
 import { ServicesSection } from "./services";
@@ -88,6 +90,8 @@ export const MOBILE_SECTIONS: { [T in SectionType]: MobileSection<T> } = {
   vrQuiz: VrQuizSection,
   vrProcess: VrProcessSection,
   sketchCanvas: SketchCanvasSection,
+  plans: PlansSection,
+  appShowcase: AppShowcaseSection,
   team: TeamSection,
   teamOffice: TeamOfficeSection,
   careerJourney: CareerJourneySection,

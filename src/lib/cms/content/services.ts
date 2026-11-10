@@ -171,7 +171,24 @@ export const MOBILE_SEO = {
   description:
     "Custom Android, iOS and cross-platform apps in Flutter, React Native, Kotlin and Swift, from idea to Play Store and App Store launch and beyond.",
 };
-export const MOBILE_SECTIONS = build({
+/** puts the app showcase (tablet + phones) right after the hero */
+const withShowcase = (list: PageSection[]): PageSection[] => {
+  const at = list.findIndex((s) => s.type === "pageHero");
+  const showcase = section("appShowcase", {
+    logo: "App",
+    tagline: "Built by We3vision",
+    heading: "An app that meets\nyour users' needs",
+    nav: "What we build\nHow we work\nTechnology\nFAQ\nContact",
+    navButton: "Get a quote",
+    primaryLabel: "Get a free quote",
+    primaryHref: "#contact",
+    secondaryLabel: "What we build",
+    secondaryHref: "#services",
+    sideLabel: "Android, iOS and cross-platform",
+  });
+  return [...list.slice(0, at + 1), showcase, ...list.slice(at + 1)];
+};
+export const MOBILE_SECTIONS = withShowcase(build({
   seo: MOBILE_SEO,
   hero: {
     chip: "Mobile App Development",
@@ -246,7 +263,7 @@ export const MOBILE_SECTIONS = build({
     { title: "CRM\nDevelopment", description: "Connect your app with a custom CRM.", href: "/crm" },
   ],
   cta: { heading: "Have An App Idea?\nLet's Bring It To Life.", text: "Share your concept with us and we will guide you on the tech, timeline and cost.", button: "Get a free quote" },
-});
+}));
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Metaverse Solutions (/metaverse)
@@ -742,7 +759,65 @@ export const GRAPHICS_SEO = {
   description:
     "Logo design, brand identity, social media graphics, packaging, print and illustration made in Illustrator, Photoshop and InDesign, in Surat, India.",
 };
-export const GRAPHICS_SECTIONS = build({
+// Graphic design plans (owner asked for plans on 2026-11-10; the prices are a starting point and are edited in Admin > Pages > Plans & pricing)
+const GRAPHICS_PLANS = section(
+  "plans",
+  {
+    chip: "Design plans",
+    heading: "Graphic Design Plans\nThat Fit Your Business",
+    intro: "Monthly design plans for businesses that need fresh creatives all the time. Pick one, and change it when your business grows.",
+    look: "cards",
+    plans: [
+      {
+        name: "Starter",
+        tag: "For small businesses and new pages",
+        badge: "",
+        priceNote: "Starting from",
+        price: "₹9,999",
+        period: "/ month",
+        summary: "A steady flow of on-brand social media and print designs.",
+        features: "8 social media posts\n1 flyer or poster\n2 revision rounds on each design\nPNG, PDF and editable source files\n- Brochure or catalogue\n- Ad creatives",
+        delivery: "Each design in 2 to 3 working days",
+        buttonLabel: "Choose Starter",
+        buttonHref: "#contact",
+      },
+      {
+        name: "Business",
+        tag: "For brands that post and promote often",
+        badge: "Most chosen",
+        priceNote: "Starting from",
+        price: "₹24,999",
+        period: "/ month",
+        summary: "Social media, ads and print materials designed together so everything looks like one brand.",
+        features: "20 social media posts, stories and carousels\n4 ad creatives\n2 print designs (flyer, poster or standee)\nBrochure or catalogue design\nOn-brand templates for your team\n3 revision rounds on each design",
+        delivery: "Each design in 2 to 3 working days",
+        buttonLabel: "Choose Business",
+        buttonHref: "#contact",
+      },
+      {
+        name: "Studio",
+        tag: "For companies that need a design team",
+        badge: "",
+        priceNote: "Starting from",
+        price: "₹49,999",
+        period: "/ month",
+        summary: "A dedicated designer for all your creative work, from social media to packaging and presentations.",
+        features: "40 social media designs\nAd creatives for every campaign\nPackaging or label design\nPitch deck or company presentation\nA dedicated designer and priority support\nBrand consistency review every month",
+        delivery: "Priority turnaround",
+        buttonLabel: "Get a quote",
+        buttonHref: "#contact",
+      },
+    ],
+    note: "Prices are a starting point in Indian rupees. After a short call we share an exact quote for your scope.",
+  },
+  "plans",
+);
+/** puts the plans section in front of the FAQ */
+const withPlans = (plans: PageSection, list: PageSection[]): PageSection[] => {
+  const at = list.findIndex((s) => s.type === "faq");
+  return at < 0 ? [...list, plans] : [...list.slice(0, at), plans, ...list.slice(at)];
+};
+export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
   seo: GRAPHICS_SEO,
   hero: {
     chip: "Graphic Design",
@@ -827,7 +902,7 @@ export const GRAPHICS_SECTIONS = build({
     { title: "Brand Kit\nDesign", description: "Logo, colours, type and templates in one kit.", href: "/brand-kit-design" },
   ],
   cta: { heading: "Have A\nDesign Project?", text: "Whether you need a logo, a brand identity, social media graphics, packaging, a brochure or a website interface, We3vision can help. Let's talk about your project.", button: "Start your design project" },
-});
+}));
 
 // ---------------------------------------------------------------------------------------------------------------------
 // SEO Optimization (/seo)

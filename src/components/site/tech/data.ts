@@ -1,4 +1,5 @@
 import type { PageSection } from "@/lib/cms/pages";
+import type { SectionData } from "@/lib/cms/sections";
 
 // The text of a technology page, taken from its sections (the defaults in lib/cms/content/tech.ts, or the version published from the admin panel).
 // The six pages each draw it in their own way, so they all read the same plain shape.
@@ -13,6 +14,8 @@ export type TechData = {
   why: { heading: string; intro: string; items: { title: string; description: string }[] };
   faq: { question: string; answer: string }[];
   related: { title: string; description: string; href: string }[];
+  /** the "Plans & pricing" section of the page (if it has one) */
+  plans: SectionData<"plans"> | null;
 };
 
 const str = (v: unknown, d = "") => (typeof v === "string" ? v : d);
@@ -42,6 +45,7 @@ export function techData(sections: PageSection[]): TechData {
     industries: ind ? { heading: str(ind.heading), intro: str(ind.intro), items: arr(ind.items).map((i) => ({ name: str(i.name), description: str(i.description) })) } : null,
     why: { heading: str(why.heading), intro: str(why.intro), items: arr(why.items).map((i) => ({ title: str(i.title), description: str(i.description) })) },
     faq: arr(first("faq").items).map((q) => ({ question: str(q.question), answer: str(q.answer) })),
+    plans: (sections.find((s) => s.type === "plans")?.data as SectionData<"plans"> | undefined) ?? null,
     related: arr(rel.cards).map((c) => ({ title: str(c.title), description: str(c.description), href: str(c.href) })),
   };
 }

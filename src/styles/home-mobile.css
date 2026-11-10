@@ -1893,3 +1893,67 @@
     display: block;
   }
 }
+
+/* hmh-: phone hero like the owner's Arcane reference (2026-11-10): glowing door on top, the wish line, title and buttons left-aligned
+   below it in normal flow (so nothing overlaps the door), round "Explore" button. Phone only. */
+@media (max-width: 900px) {
+  .hb2 .hb2-hero,
+  .hb2[data-fx] .hb2-hero {
+    min-height: 780px;
+    align-items: stretch;
+    padding: 0 22px 108px;
+  }
+  .hb2 .hb2-world {
+    height: max(300px, calc(100svh - 520px));
+  }
+  .hb2 .hb2-arch {
+    width: min(56vw, 230px);
+    margin-left: calc(min(56vw, 230px) / -2);
+  }
+  .hb2 .hb2-wish {
+    position: relative;
+    inset: auto;
+    z-index: 5;
+    align-items: flex-start;
+    gap: 6px;
+    margin: 0 0 14px;
+    text-align: left;
+  }
+  .hb2 .hb2-wish span {
+    font-size: 14px;
+    letter-spacing: 0.22em;
+  }
+  .hb2 .hb2-wish span::before {
+    display: none;
+  }
+  .hb2 .hb2-wish strong {
+    font-size: 28px;
+    line-height: 1.15;
+  }
+  .hb2 .hb2-wish em {
+    font-style: italic;
+  }
+  .hb2 .hb2-copy,
+  .hb2 .hb2-lede {
+    text-align: left;
+  }
+  .hb2 .hb2-lede {
+    max-width: none;
+    margin: 10px 0 0;
+  }
+  .hb2 .hb2-ph-row {
+    justify-content: flex-start;
+    gap: 14px;
+  }
+  .hb2 .hb2-go {
+    width: 64px;
+    height: 64px;
+    padding: 0;
+    border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 70% / 0.35);
+    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 5%);
+    box-shadow: 0 0 26px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 60% / 0.35);
+  }
+  .hb2 .hb2-go em {
+    font-size: 15px;
+  }
+}

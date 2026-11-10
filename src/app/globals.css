@@ -9368,18 +9368,18 @@ html.has-sb::-webkit-scrollbar {
 /* The menu pill and its round button are frosted glass; over a bright picture (the blog cards, a photo) the thin tint let the words melt into the picture.
    On the inner pages the glass has a dark violet base under the blur, so the words are readable on whatever is behind; the links are brighter.
    (The Home page keeps its pill exactly as it was.) */
-.fn-root[data-page="inner"] .fn-glass {
+.fn-root .fn-glass {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1)),
     hsl(calc(var(--th) + 347) calc(48% * var(--ts)) 8% / 0.7);
   -webkit-backdrop-filter: blur(22px) saturate(1.35);
   backdrop-filter: blur(22px) saturate(1.35);
 }
-.fn-root[data-page="inner"] .fn-link {
+.fn-root .fn-link {
   color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 92%);
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
-.fn-root[data-page="inner"] .fn-link:hover {
+.fn-root .fn-link:hover {
   color: #fff;
 }.ios-in {
   --ios-fill: hsl(calc(var(--th) + 350) calc(26% * var(--ts)) 82% / 0.13);
@@ -11918,4 +11918,29 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
 }
 .hs-note[data-on="true"] span {
   color: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 92% / 0.85);
+}
+
+/* ftj-: "Back to top" transition (footer-word.tsx): blur veil in, jump to the top, veil clears slowly so the hero eases in */
+.ftj-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  pointer-events: none;
+  opacity: 0;
+  background: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 5% / 0.55);
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  transition: opacity 0.5s ease, backdrop-filter 0.5s ease, -webkit-backdrop-filter 0.5s ease;
+}
+.ftj-veil[data-on] {
+  opacity: 1;
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+  pointer-events: auto;
+}
+.ftj-veil[data-out] {
+  opacity: 0;
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  transition: opacity 1.05s cubic-bezier(0.2, 0.7, 0.2, 1), backdrop-filter 1.05s cubic-bezier(0.2, 0.7, 0.2, 1), -webkit-backdrop-filter 1.05s cubic-bezier(0.2, 0.7, 0.2, 1);
 }

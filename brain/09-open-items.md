@@ -300,3 +300,4 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 
 - Phone layout exists only for the home page "/" (v134). /services, /portfolio and /contact in the new design have no phone rules yet (phones still get /m versions of portfolio/contact; /services has no /m page, so a phone sees the desktop layout). Home phone layout checked only in the preview at 375 px, not on a real phone.
 - /ai: flow, guide (robot buddy) and automate (switches) are not redesigned yet; /ai phone layout not checked; services/portfolio/contact phone layout open.
+- Plans section: a page that already has a PUBLISHED version in the admin does not show the new default plans until you add the "Plans & pricing" section there (Admin > Pages > Add section). Only /graphics and the normal section pages render `plans`; the other bespoke "tech" pages (tech/index.tsx) ignore it until wired like graphics.tsx. Prices are placeholders to confirm.

@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 138,
+    date: "2026-11-10",
+    title: "Plans and pricing, app showcase, graphic pills, phone hero",
+    notes: [
+      "New \"Plans & pricing\" section, editable in Admin > Pages and usable on any service page. Brand Design has 3 pinned-note plans and Graphic Design has 3 monthly plan cards.",
+      "New \"App showcase\" section (tablet with two phones) on the Mobile App Development page, and a pill word board on the Graphic Design page.",
+      "The home phone hero follows the new reference with the wish line in the flow, so it never overlaps the door. The home menu is readable over the purple tools slider.",
+      "Back to top now blurs the page, jumps to the top of the hero and eases it back in.",
+    ],
+  },
+  {
     v: 137,
     date: "2026-11-09",
     title: "AI page redesigned, new 300+ section, home hero words",

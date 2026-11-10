@@ -17,6 +17,7 @@ export const AiTags = late(() => import("./modern/ai-page").then((m) => m.AiTags
 export const AiProcess = late(() => import("./modern/ai-page-client").then((m) => m.AiProcess));
 export const AiWhy = late(() => import("./modern/ai-page-client").then((m) => m.AiWhy));
 export const AiFaq = late(() => import("./modern/ai-page-client").then((m) => m.AiFaq));
+export const Plans = late(() => import("./modern/plans").then((m) => m.Plans));
 export const AboutChapters = late(() => import("./about/about-chapters").then((m) => m.AboutChapters));
 export const AboutWorld = late(() => import("./about/about-world").then((m) => m.AboutWorld));
 export const AfterEffects = late(() => import("./after-effects").then((m) => m.AfterEffects));
@@ -107,3 +108,4 @@ export const SeoLab = late(() => import("./seo-lab").then((m) => m.SeoLab));
 export const ServicesRail = late(() => import("./services-rail").then((m) => m.ServicesRail));
 export const VrOffice = dynamic(() => import("./metaverse/vr-office").then((m) => m.VrOffice));
 export const WhyBento = late(() => import("./modern/why-bento").then((m) => m.WhyBento));
+export const AppShowcase = late(() => import("./modern/app-showcase").then((m) => m.AppShowcase));

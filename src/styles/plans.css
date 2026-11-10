@@ -1,0 +1,438 @@
+/* Plans & pricing section (prefix pln-). Two looks: data-look="notes" (pinned notes) and data-look="cards" (glass pricing cards).
+   Theme colours only (hsl with --th and --ts); only transform and opacity move. Laptop first, then one column below 1000px. */
+.pln {
+  --pln-ink: hsl(calc(var(--th) + 8) calc(45% * var(--ts)) 96%);
+  --pln-mute: hsl(calc(var(--th) + 6) calc(22% * var(--ts)) 74%);
+  --pln-acc: hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 78%);
+  --pln-line: hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 70% / 0.18);
+  position: relative;
+  padding: 110px 0;
+}
+.pln-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.pln-head {
+  max-width: 760px;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+.pln-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 22px;
+  padding: 8px 16px 8px 14px;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pln-ink);
+  border: 1px solid var(--pln-line);
+  border-radius: 999px;
+  background: hsl(0 0% 100% / 0.04);
+}
+.pln-chip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pln-acc);
+  box-shadow: 0 0 12px var(--pln-acc);
+}
+.pln-head h2 {
+  margin: 0;
+  font-size: clamp(34px, 3.6vw, 54px);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--pln-ink);
+}
+.pln-head h2 em {
+  font-weight: 400;
+  color: var(--pln-acc);
+}
+.pln-intro {
+  margin: 20px auto 0;
+  max-width: 560px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--pln-mute);
+}
+
+/* the plans */
+.pln-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+  align-items: start;
+}
+.pln-grid[data-n="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 820px;
+  margin: 0 auto;
+}
+.pln-grid[data-n="4"] {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.pln-c {
+  position: relative;
+  z-index: 1;
+}
+.pln-card {
+  --h: calc(var(--i) * 70 + 20);
+  position: relative;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pln-note {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 26px 26px;
+}
+.pln-note header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 30px;
+}
+.pln-no {
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+.pln-badge {
+  padding: 5px 12px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  border-radius: 999px;
+}
+.pln-note h3 {
+  margin: 14px 0 0;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.pln-tag {
+  margin: 6px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.pln-p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin: 22px 0 0;
+}
+.pln-p small {
+  flex: 0 0 100%;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+.pln-p b {
+  font-size: clamp(34px, 3.2vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.pln-p span {
+  font-size: 16px;
+}
+.pln-sum {
+  margin: 16px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.pln-f {
+  margin: 20px 0 0;
+  padding: 18px 0 0;
+  list-style: none;
+  display: grid;
+  gap: 11px;
+  border-top: 1px dashed currentColor;
+  border-top-color: var(--pln-rule);
+}
+.pln-f li {
+  position: relative;
+  padding-left: 30px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.pln-f li i {
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--pln-tick);
+}
+.pln-f li i::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--pln-tick-ink);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.pln-f li[data-off] {
+  opacity: 0.5;
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.pln-f li[data-off] i {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+  opacity: 0.6;
+}
+.pln-f li[data-off] i::after {
+  left: 5px;
+  top: 8.5px;
+  width: 10px;
+  height: 0;
+  border-width: 1.5px 0 0;
+  transform: none;
+  border-color: currentColor;
+}
+.pln-dl {
+  margin: 18px 0 0;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+}
+.pln-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 14px 22px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+}
+.pln-btn span {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pln-btn:hover {
+  transform: translateY(-2px);
+}
+.pln-btn:hover span {
+  transform: translateX(4px);
+}
+.pln-note-b {
+  max-width: 640px;
+  margin: 46px auto 0;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--pln-mute);
+}
+
+/* ---- look 1: pinned notes (light card, pastel note, a pin, tilted a little, a dashed path behind) ---- */
+.pln[data-look="notes"] .pln-card {
+  --pln-rule: hsl(calc(var(--th) + var(--h)) calc(30% * var(--ts)) 45% / 0.4);
+  --pln-tick: hsl(calc(var(--th) + var(--h)) calc(70% * var(--ts)) 46%);
+  --pln-tick-ink: #fff;
+  padding: 16px;
+  border-radius: 34px;
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(30% * var(--ts)) 98%), hsl(calc(var(--th) + 350) calc(22% * var(--ts)) 92%));
+  box-shadow: 0 40px 70px -28px rgba(0, 0, 0, 0.7), inset 0 1px 0 #fff;
+  transform: rotate(-2.2deg);
+}
+.pln[data-look="notes"] .pln-c:nth-of-type(2) .pln-card {
+  transform: rotate(1.5deg);
+}
+.pln[data-look="notes"] .pln-c:nth-of-type(3) .pln-card {
+  transform: rotate(-1.2deg);
+}
+.pln[data-look="notes"] .pln-c:nth-of-type(4) .pln-card {
+  transform: rotate(1.8deg);
+}
+.pln[data-look="notes"] .pln-c:nth-of-type(even) {
+  margin-top: 60px;
+}
+.pln[data-look="notes"] .pln-card:hover {
+  transform: rotate(0deg) translateY(-8px);
+}
+.pln[data-look="notes"] .pln-note {
+  border-radius: 24px;
+  padding-top: 34px;
+  color: hsl(calc(var(--th) + var(--h)) calc(40% * var(--ts)) 14%);
+  background: linear-gradient(170deg, hsl(calc(var(--th) + var(--h)) calc(90% * var(--ts)) 92%), hsl(calc(var(--th) + var(--h)) calc(80% * var(--ts)) 86%));
+  box-shadow: inset 0 0 0 1px hsl(calc(var(--th) + var(--h)) calc(60% * var(--ts)) 70% / 0.5);
+}
+.pln[data-look="notes"] .pln-no {
+  color: hsl(calc(var(--th) + var(--h)) calc(75% * var(--ts)) 44%);
+}
+.pln[data-look="notes"] .pln-badge {
+  color: #fff;
+  background: hsl(calc(var(--th) + var(--h)) calc(75% * var(--ts)) 42%);
+}
+.pln[data-look="notes"] .pln-tag,
+.pln[data-look="notes"] .pln-sum,
+.pln[data-look="notes"] .pln-p small,
+.pln[data-look="notes"] .pln-p span {
+  color: hsl(calc(var(--th) + var(--h)) calc(22% * var(--ts)) 30%);
+}
+.pln[data-look="notes"] .pln-btn {
+  color: #fff;
+  background: hsl(calc(var(--th) + var(--h)) calc(70% * var(--ts)) 38%);
+  box-shadow: 0 12px 26px -10px hsl(calc(var(--th) + var(--h)) calc(80% * var(--ts)) 40% / 0.8);
+}
+.pln-pin {
+  position: absolute;
+  z-index: 2;
+  top: -16px;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #fff9 0, transparent 34%), radial-gradient(circle at 50% 50%, hsl(calc(var(--th) + var(--h)) calc(85% * var(--ts)) 58%), hsl(calc(var(--th) + var(--h)) calc(85% * var(--ts)) 36%));
+  box-shadow: 0 10px 18px -4px hsl(calc(var(--th) + var(--h)) calc(90% * var(--ts)) 40% / 0.7), 0 0 26px hsl(calc(var(--th) + var(--h)) calc(90% * var(--ts)) 60% / 0.5);
+}
+.pln-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--pln-line);
+  stroke-width: 2;
+  stroke-dasharray: 7 9;
+  vector-effect: non-scaling-stroke;
+}
+.pln-path path {
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---- look 2: pricing cards (dark glass, a soft glow at the top, the popular one lit) ---- */
+.pln[data-look="cards"] .pln-card {
+  --pln-rule: hsl(0 0% 100% / 0.16);
+  --pln-tick: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 68% / 0.22);
+  --pln-tick-ink: var(--pln-acc);
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid var(--pln-line);
+  color: var(--pln-ink);
+  background:
+    radial-gradient(120% 70% at 20% -10%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.28), transparent 60%),
+    linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12% / 0.82), hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 5.5% / 0.9));
+}
+.pln[data-look="cards"] .pln-card:hover {
+  transform: translateY(-8px);
+}
+.pln[data-look="cards"] .pln-card[data-hot] {
+  border-color: hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 78% / 0.6);
+  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 62% / 0.65);
+  background:
+    radial-gradient(130% 80% at 50% -15%, hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 62% / 0.5), transparent 62%),
+    linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 15% / 0.88), hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 6% / 0.92));
+}
+.pln[data-look="cards"] .pln-note {
+  padding: 32px 28px 28px;
+}
+.pln[data-look="cards"] .pln-no {
+  color: var(--pln-acc);
+}
+.pln[data-look="cards"] .pln-badge {
+  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
+  background: linear-gradient(110deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%), hsl(calc(var(--th) + 334) calc(85% * var(--ts)) 68%));
+}
+.pln[data-look="cards"] .pln-tag,
+.pln[data-look="cards"] .pln-sum,
+.pln[data-look="cards"] .pln-p small,
+.pln[data-look="cards"] .pln-p span {
+  color: var(--pln-mute);
+}
+.pln[data-look="cards"] .pln-btn {
+  color: var(--pln-ink);
+  border: 1px solid var(--pln-line);
+  background: hsl(0 0% 100% / 0.05);
+}
+.pln[data-look="cards"] .pln-card[data-hot] .pln-btn {
+  border-color: transparent;
+  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
+  background: linear-gradient(110deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%), hsl(calc(var(--th) + 334) calc(85% * var(--ts)) 68%));
+  box-shadow: 0 12px 28px -10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.7);
+}
+
+/* the buttons sit at the bottom of equal cards */
+.pln-btn {
+  align-self: stretch;
+}
+
+/* laptops that are not wide: four plans become two rows */
+@media (max-width: 1180px) {
+  .pln-grid[data-n="4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* tablets and phones: one column, no stagger, a smaller tilt */
+@media (max-width: 1000px) {
+  .pln {
+    padding: 76px 0;
+  }
+  .pln-head {
+    margin-bottom: 48px;
+  }
+  .pln-grid,
+  .pln-grid[data-n="2"],
+  .pln-grid[data-n="4"] {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 520px;
+    margin: 0 auto;
+    gap: 34px;
+  }
+  .pln[data-look="notes"] .pln-c:nth-of-type(even) {
+    margin-top: 0;
+  }
+  .pln[data-look="notes"] .pln-card,
+  .pln[data-look="notes"] .pln-c:nth-of-type(n) .pln-card {
+    transform: rotate(-0.8deg);
+  }
+  .pln[data-look="notes"] .pln-c:nth-of-type(even) .pln-card {
+    transform: rotate(0.8deg);
+  }
+  .pln-path {
+    display: none;
+  }
+}
+@media (max-width: 560px) {
+  .pln-wrap {
+    padding: 0 16px;
+  }
+  .pln-note {
+    padding: 26px 20px 22px;
+  }
+  .pln[data-look="notes"] .pln-card {
+    padding: 12px;
+    border-radius: 28px;
+  }
+  .pln-note h3 {
+    font-size: 25px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pln-card,
+  .pln-btn,
+  .pln-btn span {
+    transition: none;
+  }
+  .pln[data-look="notes"] .pln-card:hover,
+  .pln[data-look="cards"] .pln-card:hover {
+    transform: none;
+  }
+}
