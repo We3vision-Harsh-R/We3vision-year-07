@@ -3,7 +3,7 @@
 // IMPORTANT: this file is imported by client components (menu, wheel, dock). It must NOT import lib/cms/pages (all the page texts, ~370 KB): that would be
 // sent to every visitor. The function that needs it, unlistedPages(), is in lib/site-menu-pages.ts (server only).
 
-export type MenuLink = { label: string; href: string };
+export type MenuLink = { label: string; href: string; soon?: boolean };
 export type MenuGroup = { label: string; items: MenuLink[] };
 
 export const SERVICE_GROUPS: MenuGroup[] = [
@@ -60,11 +60,22 @@ export const SERVICE_GROUPS: MenuGroup[] = [
   },
 ];
 
+// The seven main services (the same seven as the home page). The phone/tablet menu shows them as tiles where the products used to be.
+export const MAIN_SERVICES: MenuLink[] = [
+  { label: "AI/ML Development", href: "/ai" },
+  { label: "Brand Design", href: "/brand-identity" },
+  { label: "Metaverse Development", href: "/metaverse" },
+  { label: "Web Development", href: "/webdev" },
+  { label: "App Development", href: "/mobile" },
+  { label: "Software Development", href: "/software-development-services" },
+  { label: "CRM Development", href: "/crm" },
+];
+
 export const PRODUCT_LINKS: MenuLink[] = [
-  { label: "WeBugMate", href: "/products/webugmate" },
-  { label: "WeJobs", href: "/products/wejobs" },
-  { label: "WeThink", href: "/products/wethink" },
-  { label: "WePresent", href: "/products/wepresent" },
+  { label: "WeBugMate", href: "https://webugmate.com/" },
+  { label: "WeThink", href: "https://wethink.we3vision.com/" },
+  { label: "WeJobs", href: "/products/wejobs", soon: true },
+  { label: "WePresent", href: "/products/wepresent", soon: true },
 ];
 
 export const EXPLORE_LINKS: MenuLink[] = [

@@ -635,3 +635,22 @@
     radial-gradient(60% 50% at 0 100%, hsl(calc(var(--th) + 358) calc(80% * var(--ts)) 44% / 0.1), transparent 70%),
     hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 3.6% / 0.94);
 }
+.mm-svc7 { display: none; }
+
+/* mmsoon- (2026-11-11, owner): a clear "Coming soon" label on the products that are not live yet (menu lists and the home product cards) */
+.mmsoon-tag {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border: 1px solid hsl(calc(var(--th) + 40) calc(95% * var(--ts)) 70% / 0.6);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 40) calc(95% * var(--ts)) 60% / 0.16);
+  color: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 82%);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

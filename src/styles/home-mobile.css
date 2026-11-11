@@ -880,7 +880,7 @@
   :root .mm-row3 {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
   }
-  :root .mm-row3 .mm-col:first-child .mm-li {
+  :root .mm-row3 .mm-col.mm-tiles .mm-li {
     grid-template-columns: minmax(0, 1fr);
   }
   :root .mm-row3 > .mm-end {

@@ -13,7 +13,7 @@ import { LazyFestMenu, LazyMenuExplore } from "./fest/lazy";
 import { useFest } from "./fest/use-fest";
 import { GlowEdge } from "./glow-edge";
 import { LiveNow } from "./live-now";
-import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS } from "../../lib/site-menu";
+import { EXPLORE_LINKS, MAIN_SERVICES, PRODUCT_LINKS, SERVICE_GROUPS } from "../../lib/site-menu";
 import { SmartLink } from "./smart-link";
 
 type Link = { label: string; href: string };
@@ -99,6 +99,7 @@ export function MegaMenu({
             <SmartLink href={l.href} aria-current={l.href === pathname ? "page" : undefined}>
               <i>{String(i + 1).padStart(2, "0")}</i>
               {l.label}
+              {"soon" in l && l.soon ? <em className="mmsoon-tag">Coming soon</em> : null}
             </SmartLink>
           </li>
         ))}
@@ -194,8 +195,8 @@ export function MegaMenu({
             </section>
 
             <div className="mm-row3">
-              {group({ label: "Our Products", items: PRODUCT_LINKS }, 1, "mm-col")}
-              {group({ label: "Explore", items: EXPLORE_LINKS }, 2, "mm-col")}
+              {group({ label: "Our Products", items: PRODUCT_LINKS }, 1, "mm-col mm-list mm-prod")}
+              {group({ label: "Explore", items: EXPLORE_LINKS }, 2, "mm-col mm-list mm-expl")}
               <div className="mm-end mm-r" style={r()}>
                 <LiveNow />
                 {recognised}
@@ -222,6 +223,22 @@ export function MegaMenu({
                     <span>Login</span>
                   </a>
                 </div>
+              </div>
+              {/* phone + tablet only (hidden on the laptop by mega-menu.css): the seven main services as tiles, where the products used to be */}
+              <div className="mm-col mm-tiles mm-svc7 mm-r" style={r()}>
+                <p className="mm-col-t">
+                  <i>00</i> Our Services
+                </p>
+                <ul className="mm-li">
+                  {MAIN_SERVICES.map((l, i) => (
+                    <li key={l.href}>
+                      <SmartLink href={l.href} aria-current={l.href === pathname ? "page" : undefined}>
+                        <i>{String(i + 1).padStart(2, "0")}</i>
+                        {l.label}
+                      </SmartLink>
+                    </li>
+                  ))}
+                </ul>
               </div>
               {festMenu && <LazyMenuExplore />}
             </div>

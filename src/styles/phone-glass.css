@@ -1,0 +1,204 @@
+/* pgl- (2026-11-10, owner: "update the whole mobile UI like these app references"): one shared dark-glass layer for phones and tablets only
+   (below 1024px; the laptop is untouched). Cards get a frosted face with a light edge and a soft glow, chips and small buttons are pills with a glow,
+   section titles are bigger and tighter, and each section has a soft colour bloom behind it. Colours follow the theme (--th/--ts). Loaded last by (site)/layout.tsx. */
+@media (max-width: 1023.98px) {
+  :root:root {
+    --pgl-edge: hsl(calc(var(--th) + 350) calc(80% * var(--ts)) 88% / 0.2);
+    --pgl-face: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 90% / 0.1), hsl(calc(var(--th) + 346) calc(50% * var(--ts)) 12% / 0.55) 55%);
+    --pgl-glow: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 62% / 0.28);
+  }
+  /* the frosted card: the shared "md" cards (why, related, process, tools, faq) */
+  :root:root .md-why-card,
+  :root:root .md-rel-card,
+  :root:root .md-pr-item,
+  :root:root .md-faq-list {
+    position: relative;
+    border: 1px solid var(--pgl-edge);
+    border-radius: 24px;
+    background: var(--pgl-face);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.16),
+      0 18px 40px -22px hsl(calc(var(--th) + 346) 70% 4% / 0.9);
+  }
+  /* a small bloom of light in the top corner of each card (not a new element: a layered background) */
+  :root:root .md-why-card,
+  :root:root .md-rel-card {
+    background:
+      radial-gradient(120% 70% at 100% 0, var(--pgl-glow), transparent 62%),
+      var(--pgl-face);
+  }
+  :root:root .md-why-card:hover,
+  :root:root a.md-rel-card:hover {
+    translate: 0 0;
+  }
+  :root:root .md-why-card:active,
+  :root:root a.md-rel-card:active {
+    scale: 0.98;
+    transition: scale 0.2s;
+  }
+  /* chips and section titles */
+  :root:root .md-chip {
+    border-color: var(--pgl-edge);
+    background: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 70% / 0.12);
+    box-shadow: 0 0 22px -6px var(--pgl-glow), inset 0 1px 0 hsl(0 0% 100% / 0.14);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  :root:root .md-h2 {
+    font-size: clamp(2rem, 9vw, 2.7rem);
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+  }
+  :root:root .md-intro {
+    max-width: none;
+    font-size: 1rem;
+  }
+  /* the faq: one rounded glass list instead of loose lines */
+  :root:root .md-faq-list {
+    padding: 4px 18px;
+    overflow: hidden;
+  }
+  :root:root .md-faq-item:last-child {
+    border-bottom: 0;
+  }
+  /* every section gets a soft colour bloom behind it, like the glow behind the phones of the references */
+  :root:root .md {
+    position: relative;
+    isolation: isolate;
+  }
+  :root:root .md::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -60px;
+    left: 50%;
+    width: 120%;
+    height: 320px;
+    translate: -50% 0;
+    background: radial-gradient(closest-side, hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 55% / 0.2), transparent);
+    pointer-events: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root:root .md-why-card:active,
+  :root:root a.md-rel-card:active {
+    scale: 1;
+    transition: none;
+  }
+}
+
+/* pgl-h (2026-11-11, owner: "Home cards"): the same dark-glass look for the cards of the home page on phones and tablets (class hb2-m-*): the numbers
+   become four separate glass tiles (like the Health Overview tiles of the reference), the steps and industry cards get the frosted face, tech pills glow. */
+@media (max-width: 1023.98px) {
+  :root:root .hb2-m-stats ul {
+    gap: 12px;
+    border: 0;
+  }
+  :root:root .hb2-m-stats li,
+  :root:root .hb2-m-stats li:first-child {
+    padding: 22px 8px 20px;
+    border: 1px solid var(--pgl-edge);
+    border-radius: 22px;
+    background:
+      radial-gradient(110% 80% at 100% 0, var(--pgl-glow), transparent 65%),
+      var(--pgl-face);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.16), 0 16px 34px -22px hsl(calc(var(--th) + 346) 70% 4% / 0.9);
+  }
+  :root:root .hb2-m-stats b {
+    font-weight: 500;
+    background: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 82%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  :root:root .hb2-m-step {
+    padding: 22px 18px 24px;
+    border: 1px solid var(--pgl-edge);
+    border-radius: 24px;
+    background:
+      radial-gradient(120% 60% at 50% 0, var(--pgl-glow), transparent 65%),
+      var(--pgl-face);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.16);
+  }
+  :root:root .hb2-m-bento > * {
+    border: 1px solid var(--pgl-edge);
+    border-radius: 24px;
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14), 0 16px 34px -22px hsl(calc(var(--th) + 346) 70% 4% / 0.9);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+  }
+  :root:root .hb2-m-wc {
+    border-color: var(--pgl-edge);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14), 0 20px 44px -24px hsl(calc(var(--th) + 346) 70% 4% / 0.9);
+  }
+  :root:root .hb2-m-tc {
+    border-color: var(--pgl-edge);
+    background: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 70% / 0.12);
+    box-shadow: 0 0 22px -6px var(--pgl-glow), inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  }
+  :root:root .hb2-m-grid i {
+    border-color: var(--pgl-edge);
+    background: var(--pgl-face);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  }
+}
+@media (max-width: 900px) {
+  :root:root .hb2-m-step {
+    padding: 18px 16px 20px 84px;
+    text-align: left;
+    background: radial-gradient(120% 90% at 100% 0, var(--pgl-glow), transparent 65%), var(--pgl-face);
+  }
+  :root:root .hb2-m-node {
+    top: 16px;
+    left: 16px;
+  }
+  :root:root .hb2-m-steps::before {
+    display: none;
+  }
+  :root:root .hb2-m-steps {
+    gap: 14px;
+  }
+}
+
+/* pgl-s (2026-11-11, owner: "Service pages glass"): every service page has its own card names (wdh-card, aip-card, crh-card, sdv-*-card, bb-card, pln-card,
+   cf-tile ...), so the glass look is added to all of them by the end of the class name. Only the edge, a top light line, a soft shadow and the blur are
+   set (never the background), so each card keeps its own picture or colour. Phones and tablets only. */
+@media (max-width: 1023.98px) {
+  :root:root main :is([class$="-card"], [class*="-card "], [class$="-tile"], [class*="-tile "], [class$="-panel"], [class*="-panel "], [class$="-box"], [class*="-box "], [class~="card-glass"]):not([class*="hb2-m-"], [class*="md-"], [class*="dk-"]) {
+    border-color: var(--pgl-edge);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.16),
+      0 16px 34px -22px hsl(calc(var(--th) + 346) 70% 4% / 0.9);
+    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+    backdrop-filter: blur(12px) saturate(1.25);
+  }
+  :root:root main :is([class$="-pill"], [class*="-pill "], [class~="fx-chips"] > *, [class$="-chip"], [class*="-chip "]):not([class*="dk-"], [class*="md-"]) {
+    border-color: var(--pgl-edge);
+    box-shadow: 0 0 20px -8px var(--pgl-glow), inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  }
+}
+
+/* pgl-c (2026-11-11, owner: "About/Contact pages"): the contact page was two columns on a phone (the form ran off the right edge): one column now, and the
+   address cards and the form are frosted glass with a corner glow. */
+@media (max-width: 900px) {
+  :root:root .hb2-ct-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 1023.98px) {
+  :root:root .hb2-ct-card,
+  :root:root .hb2-ct-panel {
+    border: 1px solid var(--pgl-edge);
+    border-radius: 24px;
+    background:
+      radial-gradient(120% 70% at 100% 0, var(--pgl-glow), transparent 62%),
+      var(--pgl-face);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.16), 0 18px 40px -22px hsl(calc(var(--th) + 346) 70% 4% / 0.9);
+  }
+}

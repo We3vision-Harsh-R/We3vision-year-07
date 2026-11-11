@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 139,
+    date: "2026-11-11",
+    title: "Phone and tablet UI refresh, product links",
+    notes: [
+      "Phones and tablets get a dark glass look: frosted cards on every service page, the home page (stats, steps, services) and the contact page, in the theme colours.",
+      "The Contact page is one column on phones, so the form is no longer cut off.",
+      "The bottom dock has a glass ring and a white Menu label, and the menu shows the 7 services as tiles.",
+      "WeBugMate and WeThink link to their own websites. WeJobs and WePresent show a \"Coming soon\" label in the menu and on the home cards.",
+    ],
+  },
+  {
     v: 138,
     date: "2026-11-10",
     title: "Plans and pricing, app showcase, graphic pills, phone hero",

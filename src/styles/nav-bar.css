@@ -528,7 +528,7 @@
   }
 
   /* the products: four tiles, each with its own colour, the name at the bottom, an arrow at the top right */
-  :root .mm .mm-row3 .mm-col:first-child .mm-li {
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
@@ -536,10 +536,10 @@
     border-radius: 0;
     background: none;
   }
-  :root .mm .mm-row3 .mm-col:first-child .mm-li li {
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li li {
     border: 0;
   }
-  :root .mm .mm-row3 .mm-col:first-child .mm-li a {
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li a {
     position: relative;
     flex-direction: column;
     align-items: flex-start;
@@ -555,13 +555,13 @@
     letter-spacing: -0.01em;
     transition: transform 0.35s var(--ap);
   }
-  :root .mm .mm-row3 .mm-col:first-child .mm-li li:nth-child(2) a { --k: 1; }
-  :root .mm .mm-row3 .mm-col:first-child .mm-li li:nth-child(3) a { --k: 2; }
-  :root .mm .mm-row3 .mm-col:first-child .mm-li li:nth-child(4) a { --k: 3; }
-  :root .mm .mm-row3 .mm-col:first-child .mm-li a:active {
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li li:nth-child(2) a { --k: 1; }
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li li:nth-child(3) a { --k: 2; }
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li li:nth-child(4) a { --k: 3; }
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li a:active {
     transform: scale(0.96);
   }
-  :root .mm .mm-row3 .mm-col:first-child .mm-li a i {
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li a i {
     position: absolute;
     top: 0.8rem;
     left: 0.95rem;
@@ -571,7 +571,7 @@
     font-style: normal;
     font-weight: 500;
   }
-  :root .mm .mm-row3 .mm-col:first-child .mm-li a::after {
+  :root .mm .mm-row3 .mm-col.mm-tiles .mm-li a::after {
     position: absolute;
     top: 0.95rem;
     right: 0.95rem;
@@ -579,7 +579,7 @@
   }
 
   /* the pages: two columns of rounded pills */
-  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li {
+  :root .mm .mm-row3 .mm-col.mm-list .mm-li {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
@@ -587,10 +587,10 @@
     border-radius: 0;
     background: none;
   }
-  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li li {
+  :root .mm .mm-row3 .mm-col.mm-list .mm-li li {
     border: 0;
   }
-  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a {
+  :root .mm .mm-row3 .mm-col.mm-list .mm-li a {
     min-height: 54px;
     padding: 0 0.9rem;
     border-radius: 18px;
@@ -601,11 +601,11 @@
       transform 0.3s var(--ap),
       background-color 0.3s;
   }
-  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a:active {
+  :root .mm .mm-row3 .mm-col.mm-list .mm-li a:active {
     transform: scale(0.96);
     background: rgba(255, 255, 255, 0.16);
   }
-  :root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a[aria-current="page"] {
+  :root .mm .mm-row3 .mm-col.mm-list .mm-li a[aria-current="page"] {
     background: hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 55% / 0.32);
     color: #fff;
   }
@@ -864,7 +864,7 @@
   }
 
   /* products: a row of tall cards */
-  :root:root .mm .mm-row3 .mm-col:first-child .mm-li {
+  :root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li {
     display: flex;
     gap: 0.65rem;
     margin-inline: -1rem;
@@ -875,15 +875,15 @@
     scroll-padding-inline: 1rem;
     scrollbar-width: none;
   }
-  :root:root .mm .mm-row3 .mm-col:first-child .mm-li::-webkit-scrollbar {
+  :root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li::-webkit-scrollbar {
     display: none;
   }
-  :root:root .mm .mm-row3 .mm-col:first-child .mm-li li {
+  :root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li li {
     flex: none;
     width: 9.4rem;
     scroll-snap-align: start;
   }
-  :root:root .mm .mm-row3 .mm-col:first-child .mm-li a {
+  :root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li a {
     min-height: 8.2rem;
     padding: 0.9rem 1rem;
     overflow: hidden;
@@ -891,7 +891,7 @@
     border-radius: 18px;
     font-size: 1.125rem;
   }
-  :root:root .mm .mm-row3 .mm-col:first-child .mm-li a i {
+  :root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li a i {
     top: 0.35rem;
     left: 0.8rem;
     color: rgb(255 255 255 / 0.2);
@@ -902,16 +902,16 @@
   }
 
   /* pages: one editorial list */
-  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li {
+  :root:root .mm .mm-row3 .mm-col.mm-list .mm-li {
     display: block;
     counter-reset: ex;
     border-top: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
   }
-  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li li {
+  :root:root .mm .mm-row3 .mm-col.mm-list .mm-li li {
     border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
     counter-increment: ex;
   }
-  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a {
+  :root:root .mm .mm-row3 .mm-col.mm-list .mm-li a {
     min-height: 3.3rem;
     padding: 0 0.1rem;
     border-radius: 0;
@@ -921,7 +921,7 @@
     font-weight: 500;
     letter-spacing: -0.01em;
   }
-  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a::before {
+  :root:root .mm .mm-row3 .mm-col.mm-list .mm-li a::before {
     flex: none;
     width: 2.2rem;
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.75);
@@ -930,11 +930,11 @@
     font-weight: 600;
     letter-spacing: 0.1em;
   }
-  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a:active {
+  :root:root .mm .mm-row3 .mm-col.mm-list .mm-li a:active {
     background: hsl(calc(var(--th) + 350) calc(70% * var(--ts)) 55% / 0.14);
     transform: none;
   }
-  :root:root .mm .mm-row3 .mm-col:nth-child(2) .mm-li a[aria-current="page"] {
+  :root:root .mm .mm-row3 .mm-col.mm-list .mm-li a[aria-current="page"] {
     background: none;
     color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
     font-weight: 600;
@@ -943,5 +943,133 @@
     border: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
     border-radius: 18px;
     background: hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12% / 0.7);
+  }
+}
+
+/* dk3- / mm4- (2026-11-10, owner): phone + tablet only.
+   1. the lit tab of the bottom bar is a glass box with a slowly turning light ring (like the glass button of the reference);
+   2. in the big menu the seven main services are the tiles at the top (where the products were), the products are a list under Explore. */
+@property --dk-a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@media (max-width: 1023.98px) {
+  :root:root .dk-pill i {
+    position: relative;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    -webkit-backdrop-filter: blur(10px) saturate(1.8);
+    backdrop-filter: blur(10px) saturate(1.8);
+    box-shadow:
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -8px 14px -10px rgba(255, 255, 255, 0.25),
+      0 6px 18px -8px rgba(0, 0, 0, 0.6);
+  }
+  :root:root .dk-pill i::before,
+  :root:root .dk-pill i::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--dk-a),
+      hsl(calc(var(--th) + 20) 95% 62%),
+      hsl(calc(var(--th) + 70) 95% 66%),
+      hsl(calc(var(--th) + 160) 90% 62%),
+      hsl(calc(var(--th) + 230) 95% 66%),
+      hsl(calc(var(--th) + 330) 95% 66%),
+      hsl(calc(var(--th) + 20) 95% 62%)
+    );
+    animation: dk-ring 5s linear infinite;
+  }
+  /* the thin ring on the edge */
+  :root:root .dk-pill i::before {
+    padding: 1.5px;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+  }
+  /* the soft glow it throws */
+  :root:root .dk-pill i::after {
+    z-index: -1;
+    filter: blur(12px);
+    opacity: 0.32;
+  }
+  @keyframes dk-ring {
+    to {
+      --dk-a: 360deg;
+    }
+  }
+
+  /* the menu: the order of the blocks */
+  :root:root .mm .mm-row3 .mm-svc7 {
+    display: block;
+    order: 1;
+  }
+  :root:root .mm .mm-row3 .mm-expl {
+    order: 2;
+  }
+  :root:root .mm .mm-row3 .mm-prod {
+    order: 3;
+  }
+  :root:root .mm .mm-row3 > .mm-end {
+    order: 4;
+  }
+  :root:root .mm .mm-row3 {
+    display: grid;
+  }
+  /* the services tiles are the highlight of the menu: a glow behind them and a brighter ring on every tile */
+  :root:root .mm .mm-svc7 {
+    position: relative;
+  }
+  :root:root .mm .mm-svc7::before {
+    content: "";
+    position: absolute;
+    inset: 1.6rem -0.6rem 0;
+    z-index: -1;
+    border-radius: 26px;
+    background: radial-gradient(80% 90% at 30% 20%, hsl(calc(var(--th) + 350) calc(85% * var(--ts)) 55% / 0.28), transparent 70%);
+    filter: blur(14px);
+  }
+  :root:root .mm .mm-svc7 .mm-li a {
+    border-color: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 82% / 0.38);
+    box-shadow:
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.4),
+      0 10px 26px -14px hsl(calc(var(--th) + 350) 90% 55% / 0.7);
+  }
+  :root:root .mm .mm-svc7 .mm-li li {
+    width: 10.2rem;
+  }
+  :root:root .mm .mm-svc7 .mm-li a {
+    font-size: 1.0625rem;
+    line-height: 1.2;
+  }
+}
+@media (max-width: 1023.98px) and (prefers-reduced-motion: reduce) {
+  :root:root .dk-pill i::before,
+  :root:root .dk-pill i::after {
+    animation: none;
+  }
+}
+@media (max-width: 1023.98px) {
+  /* long service names wrap inside the tile instead of being cut */
+  :root:root .mm .mm-svc7 .mm-li a {
+    display: flex;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: left;
+  }
+}
+
+/* dkw- (2026-11-10, owner): the word "Menu" (and its icon) in the bottom bar is always white, lit or not (phone and tablet only) */
+@media (max-width: 1023.98px) {
+  :root:root .dk-ul li:last-child .dk-b,
+  :root:root .dk-ul li:last-child .dk-b span {
+    color: #fff;
   }
 }

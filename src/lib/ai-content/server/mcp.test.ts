@@ -138,7 +138,7 @@ describe("tools", () => {
   it("the schema of data shown to the AI is generated from the registry (anyOf of every type)", async () => {
     const tools = (await (await rpc("tools/list", {})).json()).result.tools as { name: string; inputSchema: { properties: { data: { anyOf: { title: string; required?: string[] }[] } } } }[];
     const send = tools.find((t) => t.name === "send_to_we3vision")!;
-    expect(send.inputSchema.properties.data.anyOf.map((v) => v.title).sort()).toEqual(["Blog article", "Job opening"]);
+    expect(send.inputSchema.properties.data.anyOf.map((v) => v.title).sort()).toEqual(["Blog article", "Job opening", "Portfolio project / case study"]);
   });
 
   it("preview_content returns errors the AI can act on, and saves nothing", async () => {

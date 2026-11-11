@@ -17,10 +17,10 @@ const POINTS = [
 
 // the products of We3vision (content/products.ts): where each card sits in the 3 x 4 grid
 const PRODUCTS = [
-  { name: "WeBugMate", text: "AI-powered project and task management. Live now.", href: "/products/webugmate", col: 2, row: 1 },
-  { name: "WeJobs", text: "A new software product from We3vision. Coming soon.", href: "/products/wejobs", col: 3, row: 2 },
-  { name: "WeThink", text: "A new software product from We3vision. Coming soon.", href: "/products/wethink", col: 1, row: 3 },
-  { name: "WePresent", text: "A new software product from We3vision. Coming soon.", href: "/products/wepresent", col: 2, row: 4 },
+  { name: "WeBugMate", text: "AI-powered project and task management. Live now.", href: "https://webugmate.com/", col: 2, row: 1, soon: false },
+  { name: "WeJobs", text: "A new software product from We3vision.", href: "/products/wejobs", col: 3, row: 2, soon: true },
+  { name: "WeThink", text: "A software product from We3vision. Live now.", href: "https://wethink.we3vision.com/", col: 1, row: 3, soon: false },
+  { name: "WePresent", text: "A new software product from We3vision.", href: "/products/wepresent", col: 2, row: 4, soon: true },
 ];
 
 // how many real projects (Admin > Projects) belong to each service, and the newest title: each project counts once, by the words of its category
@@ -200,6 +200,7 @@ export async function Home2Home() {
                 style={{ gridColumn: p.col, gridRow: p.row, "--d": `${i * 80}ms` } as CSSProperties}>
                 <span className="hb2-card-no">{String(i + 1).padStart(2, "0")}.</span>
                 <strong>{p.name}</strong>
+                {p.soon && <em className="hb2-soon">Coming soon</em>}
                 <span className="hb2-card-tx">{p.text}</span>
                 <svg viewBox="0 0 24 24" aria-hidden className="hb2-card-ar">
                   <path d="M7 17 17 7M9 7h8v8" />

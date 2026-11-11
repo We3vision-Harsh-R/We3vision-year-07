@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { SmartLink } from "@/components/site/smart-link";
 import { getSiteSettings } from "@/lib/cms/queries";
+import { TopLink } from "@/components/site/footer-word";
 import { Home2Fx } from "./home2-fx";
 import { SERVICES } from "./home2-svc-data";
 
@@ -87,7 +88,7 @@ export async function Home2Footer() {
         </div>
         <div className="hb2-f-bot">
           <span>{site.copyright}</span>
-          <SmartLink href="/">Back to the top</SmartLink>
+          <TopLink>Back to the top</TopLink>
         </div>
       </div>
       <p className="hb2-f-big" aria-hidden>

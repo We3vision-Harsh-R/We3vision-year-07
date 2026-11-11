@@ -7,6 +7,7 @@ import "@/styles/phone-speed.css";
 import "@/styles/ux-fixes.css";
 import "@/styles/ux-auto.css";
 import "@/styles/ux-auto-phone.css";
+import "@/styles/phone-glass.css";
 import { Background } from "@/components/site/background";
 import { FestLive } from "@/components/site/fest/fest-live";
 import { FloatingNav } from "@/components/site/floating-nav";

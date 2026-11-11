@@ -44,8 +44,8 @@ export function MobileDock({
   onWarm: () => void;
 }) {
   const path = usePathname();
-  // which tab is lit: an open pop-up wins, then the page you are on (a service page lights Services)
-  const active = menuOpen ? 4 : wheelOpen ? 1 : path === "/" ? 0 : SERVICE_HREFS.has(path) ? 1 : path.startsWith("/portfolio") ? 2 : path.startsWith("/contact") ? 3 : -1;
+  // which tab is lit: an open pop-up wins, then the page you are on (a service page lights Services); a page that has no tab of its own lights Menu
+  const active = menuOpen ? 4 : wheelOpen ? 1 : path === "/" ? 0 : SERVICE_HREFS.has(path) ? 1 : path.startsWith("/portfolio") ? 2 : path.startsWith("/contact") ? 3 : 4;
   // already on the home page: Home takes the visitor back up to the first screen (the hero); from another page the link opens the home page at its top
   const goHome = (e: React.MouseEvent) => {
     onPage();

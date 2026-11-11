@@ -9,9 +9,9 @@ import type { SectionData, SectionType } from "../sections";
 const section = <T extends SectionType>(type: T, data: SectionData<T>, id: string = type): PageSection => ({ id, type, data: data as Record<string, unknown> });
 
 export const PRODUCT_LINKS = {
-  webugmate: "https://www.webugmate.com",
+  webugmate: "https://webugmate.com/",
   wejobs: "https://www.wejobs.we3vision.com",
-  wethink: "https://www.wethink.we3vision.com",
+  wethink: "https://wethink.we3vision.com/",
 } as const;
 
 const contact = (heading: string, text: string, button: string) => section("contact", { chip: "Let's talk", heading, text, buttonLabel: button });
@@ -37,14 +37,14 @@ export const PRODUCTS_SECTIONS: PageSection[] = [
   section("services", {
     chip: "Products",
     heading: "Meet The\nProducts",
-    intro: "One live product and three that are coming soon.",
+    intro: "Two live products and two that are coming soon.",
     buttonLabel: "",
     buttonHref: "",
     cards: [
-      { title: "WeBugMate", description: "AI-powered project and task management. Live now, with its own website.", href: "/products/webugmate", fit: "", problems: "", outcomes: "" },
-      { title: "WeJobs", description: "A new software product from We3vision. Coming soon.", href: "/products/wejobs", fit: "", problems: "", outcomes: "" },
-      { title: "WeThink", description: "A new software product from We3vision. Coming soon.", href: "/products/wethink", fit: "", problems: "", outcomes: "" },
-      { title: "WePresent", description: "A new software product from We3vision. Coming soon.", href: "/products/wepresent", fit: "", problems: "", outcomes: "" },
+      { title: "WeBugMate", description: "AI-powered project and task management. Live now, with its own website.", href: PRODUCT_LINKS.webugmate, fit: "", problems: "", outcomes: "" },
+      { title: "WeJobs", description: "COMING SOON. A new software product from We3vision.", href: "/products/wejobs", fit: "", problems: "", outcomes: "" },
+      { title: "WeThink", description: "A software product from We3vision. Live now, with its own website.", href: PRODUCT_LINKS.wethink, fit: "", problems: "", outcomes: "" },
+      { title: "WePresent", description: "COMING SOON. A new software product from We3vision.", href: "/products/wepresent", fit: "", problems: "", outcomes: "" },
     ],
   }),
   contact("Want To Know\nWhen They Launch?", "Tell us your name and email and what you are interested in. We will write to you when a product is ready.", "Contact us"),

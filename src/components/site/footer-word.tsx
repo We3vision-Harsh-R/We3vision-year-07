@@ -45,36 +45,49 @@ export function FooterWord({ text }: { text: string }) {
   );
 }
 
+/** Back to the top without a long ride: the page blurs and fades out, jumps to the very top, then the hero eases back in out of the blur. */
+export function backToTop() {
+  const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
+  const jump = () => {
+    if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+    window.scrollTo(0, 0);
+  };
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.scrollY < 40) {
+    jump();
+    return;
+  }
+  const veil = document.createElement("div");
+  veil.className = "ftj-veil";
+  veil.setAttribute("aria-hidden", "true");
+  document.body.appendChild(veil);
+  requestAnimationFrame(() => veil.setAttribute("data-on", ""));
+  window.setTimeout(() => {
+    jump();
+    veil.removeAttribute("data-on");
+    veil.setAttribute("data-out", "");
+    window.setTimeout(() => veil.remove(), 1100);
+  }, 520);
+}
+
+/** A text link for the footers that does the same (it still works as a normal link to the home page without JS). */
+export function TopLink({ children }: { children: React.ReactNode }) {
+  return (
+    <a
+      href="#top"
+      onClick={(e) => {
+        e.preventDefault();
+        backToTop();
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
 /** A round button that takes you back to the top of the page. */
 export function ToTop() {
   return (
-    <button
-      type="button"
-      className="ft-top"
-      onClick={() => {
-        // no long ride: the page blurs and fades out, jumps to the very top, then the hero eases back in out of the blur
-        const lenis = (window as unknown as { __lenis?: { scrollTo: (y: number, o?: object) => void } }).__lenis;
-        const jump = () => {
-          if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
-          window.scrollTo(0, 0);
-        };
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.scrollY < 40) {
-          jump();
-          return;
-        }
-        const veil = document.createElement("div");
-        veil.className = "ftj-veil";
-        veil.setAttribute("aria-hidden", "true");
-        document.body.appendChild(veil);
-        requestAnimationFrame(() => veil.setAttribute("data-on", ""));
-        window.setTimeout(() => {
-          jump();
-          veil.removeAttribute("data-on");
-          veil.setAttribute("data-out", "");
-          window.setTimeout(() => veil.remove(), 1100);
-        }, 520);
-      }}
-    >
+    <button type="button" className="ft-top" onClick={backToTop}>
       <span>Back to top</span>
       <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 19V5M5 12l7-7 7 7" />

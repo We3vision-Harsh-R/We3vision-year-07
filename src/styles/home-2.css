@@ -3070,3 +3070,19 @@ body:has(.hb2) footer.ft {
   background-clip: text;
   color: transparent;
 }
+
+/* hb2-soon (2026-11-11, owner): a clear "Coming soon" label on the product cards that are not live yet */
+.hb2-soon {
+  align-self: flex-start;
+  margin: 10px 0 0;
+  padding: 4px 12px;
+  border: 1px solid hsl(calc(var(--th) + 40) calc(95% * var(--ts)) 70% / 0.7);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 40) calc(95% * var(--ts)) 58% / 0.2);
+  color: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 84%);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

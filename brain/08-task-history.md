@@ -304,3 +304,17 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - 2026-11-10: Graphic Design page: new pill board "Creative / Ideas / Make this" (graphics/pills.tsx, styles/gfx-pills.css, prefix gpl-) after the hero; laptop + phone checked; not pushed.
 
 - 2026-11-10: /mobile page: new CMS section "appShowcase" (tablet + phones, modern/app-showcase.tsx, styles/app-showcase.css, prefix aps-), added after the hero by default; home phone hero restyled like the Arcane reference (home-mobile.css, hmh-), wish line now in the flow so it never overlaps the door. Not pushed.
+
+- 2026-11-10: Phone/tablet only: lit tab of the bottom bar is a glass box with a turning light ring (nav-bar.css, dk-ring); a page with no tab lights Menu; big menu: 7 main services as tiles where the products were (MAIN_SERVICES in site-menu.ts, .mm-svc7), products moved to a list under Explore; Back to the top link of the home footer uses the blur jump. Not pushed (after v138).
+
+- 2026-11-10: Phone/tablet only: shared dark-glass layer styles/phone-glass.css (pgl-, loaded last in (site)/layout.tsx): frosted md cards (why/related/process/faq) with light edge + corner glow, glow chips, tighter titles, section colour bloom. First step of "update the whole mobile UI like the 6 app references"; home, service pages with own cards (ws-, sy-, ob-) and the rest still to do; not pushed.
+
+- 2026-11-11: Phone/tablet only: home cards in the glass look (phone-glass.css, pgl-h): numbers = 4 glass tiles, process steps = glass cards with the number box inside, industry cards/world card/tech pills/last grid with light edge + glow. Checked at 390px; not pushed.
+
+- 2026-11-11: Products: WeBugMate -> https://webugmate.com/ and WeThink -> https://wethink.we3vision.com/ (live, open in a new tab) in the menu, the home product cards and /products cards; WeJobs and WePresent get a clear "Coming soon" label (menu tag .mmsoon-tag in mega-menu.css, home card .hb2-soon in home-2.css). Not changed yet: footer + sitemap lists, the /products/wethink page text, phone app launcher. Not pushed.
+
+- 2026-11-11: Phone/tablet only: glass edge + top light + soft shadow on every service-page card/tile/panel/box (class names ending -card/-tile/-panel/-box, card-glass) and a glow on pills/chips (phone-glass.css, pgl-s). Backgrounds are not touched; the blur is switched off by phone-speed.css on purpose. Checked /ai at 390px and no sideways scroll on /webdev /crm /software /brand-identity; not pushed.
+
+- 2026-11-11: Phone/tablet: /contact was two columns on a phone (form cut off at the right edge): one column now, address cards + form in glass (phone-glass.css, pgl-c). /about looked fine already (glass chip, hub window) and got only the shared rules. Not pushed.
+
+- 2026-11-11: v139 pushed (phone/tablet glass UI refresh, contact one column, product links + Coming soon labels, back-to-top blur jump).
