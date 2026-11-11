@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 140,
+    date: "2026-11-11",
+    title: "Fest and welcome message removed, Portfolio glass on phones",
+    notes: [
+      "The Fest system is removed from the website and the admin panel: no festival decorations, no Admin > Fest page.",
+      "The 3-second welcome message at the start is removed: the site opens straight on the home page.",
+      "Phones and tablets: the Portfolio board is 2 columns on a tablet and 1 on a phone, with glass cards and filter chips.",
+    ],
+  },
+  {
     v: 139,
     date: "2026-11-11",
     title: "Phone and tablet UI refresh, product links",

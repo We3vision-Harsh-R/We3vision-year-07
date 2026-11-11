@@ -6,8 +6,7 @@
      Tablet = 700-1023px, phone = up to 699px.
    - New pieces use the prefix "hm-" (services-rail.tsx, the address row of the contact section). The rest are overrides of existing
      classes; they start with ":root" or ".hx ~" so that they win over the component CSS files that load later.
-   - ".hx ~ #id" = that section on the HOME page only (section.hx, the first screen, exists only there). The footer, the big menu and the
-     festival pieces are on every page.
+   - ".hx ~ #id" = that section on the HOME page only (section.hx, the first screen, exists only there). The footer and the big menu are on every page.
    - Long lists become one row of cards that you swipe sideways (CSS scroll snap, the next card peeks in so the swipe is visible).
    - Theme colours only (--th / --ts, the void / violet / orchid tokens), Poppins, paragraphs >= 16px, labels >= 14px, taps >= 40px.
    ================================================================================================================================= */
@@ -858,13 +857,6 @@
   :root .mm-end .mm-follow ul {
     display: flex;
   }
-  /* the festival in the menu: only the garland stays (the lamps and rangolis sat on the links) */
-  :root .mm .fs-menu-kandil,
-  :root .mm .fs-menu-rangoli,
-  :root .mm .fs-menu-sparks,
-  :root .mm .fs-ms {
-    display: none;
-  }
 }
 @media (min-width: 700px) and (max-width: 1023.98px) {
   :root .mm-pop {
@@ -885,20 +877,6 @@
   }
   :root .mm-row3 > .mm-end {
     grid-column: 1 / -1;
-  }
-}
-
-/* ---------- 11. festival decorations on a phone / tablet: nothing may sit on the text ---------- */
-@media (max-width: 1023.98px) {
-  /* the little festive ground next to the logo follows the logo down the page and covered the headings */
-  :root .fs-brand {
-    display: none;
-  }
-}
-@media (max-width: 699.98px) {
-  /* the row of diyas at the bottom of the screen covered the last lines of text */
-  :root .fs-diyaline {
-    display: none;
   }
 }
 

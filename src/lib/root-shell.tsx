@@ -34,7 +34,7 @@ export const baseMetadata: Metadata = {
 // (The admin panel wears the same colour: styles/admin-shell.css.)
 const THEME_BOOT = `(function(){try{var t=JSON.parse(localStorage.getItem("we3.theme")||"null");if(t&&typeof t.h==="number"){var r=document.documentElement.style;r.setProperty("--th",String(t.h));r.setProperty("--ts",String(t.s||1));}}catch(e){}})();`;
 
-/** boot: one more small script that must run before the first paint (the festival theme of the laptop site, see lib/fest.ts) */
+/** boot: one more small script that must run before the first paint (for example the colour picker switch of the laptop site) */
 export function RootShell({ children, htmlClass = "", boot }: { children: React.ReactNode; htmlClass?: string; boot?: string }) {
   return (
     <html lang="en" className={`${poppins.variable} ${htmlClass}`.trim()} suppressHydrationWarning>
@@ -45,7 +45,7 @@ export function RootShell({ children, htmlClass = "", boot }: { children: React.
         </Script>
         {boot && (
           // eslint-disable-next-line @next/next/no-before-interactive-script-outside-document -- like the theme boot script above
-          <Script id="fest-boot" strategy="beforeInteractive">
+          <Script id="page-boot" strategy="beforeInteractive">
             {boot}
           </Script>
         )}

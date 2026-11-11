@@ -50,7 +50,6 @@ const PATHS: Record<AdminIconKey | ExtraIcon, string> = {
   download: "M12 4v11M7 11l5 5 5-5M5 20h14",
   visitors: "M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM2 20c0-3 2.7-5 6-5s6 2 6 5M14 15.3c.6-.2 1.3-.3 2-.3 3.3 0 6 2 6 5",
   versions: "M12 3v4M12 17v4M3 12h4M17 12h4M12 8a4 4 0 100 8 4 4 0 000-8z",
-  fest: "M12 3c2.5 3 2.5 5.5 0 8-2.5-2.5-2.5-5 0-8zM3 14h18c-1.2 4.2-4.6 6.5-9 6.5S4.2 18.2 3 14zM7 14c1 1 3 1.5 5 1.5s4-.5 5-1.5",
 };
 
 export type IconName = AdminIconKey | ExtraIcon;

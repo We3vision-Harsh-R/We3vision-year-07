@@ -318,3 +318,9 @@ leaf-pattern hero backgrounds · human guide on About · panda on Home services 
 - 2026-11-11: Phone/tablet: /contact was two columns on a phone (form cut off at the right edge): one column now, address cards + form in glass (phone-glass.css, pgl-c). /about looked fine already (glass chip, hub window) and got only the shared rules. Not pushed.
 
 - 2026-11-11: v139 pushed (phone/tablet glass UI refresh, contact one column, product links + Coming soon labels, back-to-top blur jump).
+
+- 2026-11-11: Phone/tablet: Portfolio board was 3 columns on a phone: 2 columns on a tablet, 1 on a phone, glass edge + glow on project cards and filter chips (phone-glass.css, pgl-p). Products page cards were already glass from pgl-s. Checked at 390px with test cards (no project is published in the local DB). Not pushed.
+
+- 2026-11-11: Tablet check of the phone/tablet UI refresh: at 820px and 1000px no sideways scroll on /, /contact, /ai, /products, /about, /webdev, /crm; glass cards, home steps/300+ and contact checked visually at 820px, no change needed. Not checked visually: other service pages at 1000px, /portfolio with real projects.
+
+- 2026-11-11: REMOVED at the owner request: the whole Fest system (site layer + decorations in menu, industries road, offices, door, footer, Diwali street people; Admin > Fest page, /api/fest, actions, lib/fest*, fest/diwali CSS, tools/fest-perf.mjs, skill we3-fest-map) and the 3-second welcome message (welcome-gate). Settings already saved in the DB under the fest key are simply unused now. Nothing committed or pushed; the Portfolio glass (pgl-p) is still in the same uncommitted tree. brain/ older pages that describe Fest/Welcome are history only.

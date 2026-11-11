@@ -202,3 +202,24 @@
     box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.16), 0 18px 40px -22px hsl(calc(var(--th) + 346) 70% 4% / 0.9);
   }
 }
+
+/* pgl-p (2026-11-11, owner: "Products/Portfolio glass"): the Portfolio board was 3 columns on a phone (tiny cards): 2 columns on a tablet, 1 on a phone;
+   the project cards get the glass edge + glow, the filter chips get the same glass as the other chips. The Products page cards are covered by pgl-s. */
+@media (max-width: 1023.98px) {
+  :root:root .hb2-pf-board {
+    column-count: 2;
+  }
+  :root:root .hb2-pf-pin {
+    border-color: var(--pgl-edge);
+    box-shadow: 0 0 26px -12px var(--pgl-glow), inset 0 1px 0 hsl(0 0% 100% / 0.14), 0 16px 34px -22px hsl(calc(var(--th) + 346) 70% 4% / 0.9);
+  }
+  :root:root .hb2-pf-chip {
+    border-color: var(--pgl-edge);
+    box-shadow: 0 0 18px -8px var(--pgl-glow), inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  }
+}
+@media (max-width: 640px) {
+  :root:root .hb2-pf-board {
+    column-count: 1;
+  }
+}

@@ -1,6 +1,6 @@
 // Headless Chrome screenshots (works while the Browser pane is hidden).
 // MSYS_NO_PATHCONV=1 node tools/shot.mjs <baseUrl> <path> <WxH,WxH> <outPrefix> "<js run before the shot; may return a value>"
-// Example: node tools/shot.mjs http://localhost:1010 "/about?festtest" 1440x900 out "window.scrollTo(0,99999); return 1"
+// Example: node tools/shot.mjs http://localhost:1010 "/about" 1440x900 out "window.scrollTo(0,99999); return 1"
 import { spawn } from "node:child_process";
 import { existsSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";

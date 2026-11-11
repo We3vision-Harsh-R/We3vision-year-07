@@ -302,4 +302,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - /ai: flow, guide (robot buddy) and automate (switches) are not redesigned yet; /ai phone layout not checked; services/portfolio/contact phone layout open.
 - Plans section: a page that already has a PUBLISHED version in the admin does not show the new default plans until you add the "Plans & pricing" section there (Admin > Pages > Add section). Only /graphics and the normal section pages render `plans`; the other bespoke "tech" pages (tech/index.tsx) ignore it until wired like graphics.tsx. Prices are placeholders to confirm.
 
-- Mobile UI refresh (owner 2026-11-10, shipped v139): shared md- cards, home cards, service pages and contact have the glass look (phone-glass.css). Left: tablet widths (700-1023px) not checked, Products/Portfolio pages, footer/sitemap/phone-app launcher product lists still use internal links, /products/wethink page text.
+- Mobile UI refresh (owner 2026-11-10, shipped v139): shared md- cards, home cards, service pages and contact have the glass look (phone-glass.css). Left: Products/Portfolio pages, footer/sitemap/phone-app launcher product lists still use internal links, /products/wethink page text.
+- Fest and the 3 s welcome message are removed (2026-11-11). Old notes about them in brain/ are history, do not rebuild unless the owner asks.

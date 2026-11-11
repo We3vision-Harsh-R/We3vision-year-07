@@ -9,8 +9,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { AiChat } from "./ai-chat";
-import { LazyFestMenu, LazyMenuExplore } from "./fest/lazy";
-import { useFest } from "./fest/use-fest";
 import { GlowEdge } from "./glow-edge";
 import { LiveNow } from "./live-now";
 import { EXPLORE_LINKS, MAIN_SERVICES, PRODUCT_LINKS, SERVICE_GROUPS } from "../../lib/site-menu";
@@ -72,7 +70,6 @@ export function MegaMenu({
     () => false,
   );
   const pathname = usePathname();
-  const festMenu = useFest()?.has("menu") ?? false; // Diwali on the menu (Admin > Fest)
   // phone / tablet: which service group is folded open (the laptop shows all of them; styles/home-mobile.css decides)
   const [acc, setAcc] = useState(0);
 
@@ -132,7 +129,6 @@ export function MegaMenu({
         {/* the border glow of the cards: it follows the pointer along the edge of the pop-up */}
         <GlowEdge />
         <span className="mm-bridge" aria-hidden />
-        {festMenu && <LazyFestMenu />}
         <div className="mm-in mm-in2" data-lenis-prevent>
           {/* the title and text of the menu stay in the page for search engines and screen readers; the design shows the links */}
           <h2 className="sr-only">{data.title}</h2>
@@ -240,7 +236,6 @@ export function MegaMenu({
                   ))}
                 </ul>
               </div>
-              {festMenu && <LazyMenuExplore />}
             </div>
           </nav>
         </div>

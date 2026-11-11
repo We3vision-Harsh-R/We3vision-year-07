@@ -9,17 +9,13 @@ import "@/styles/ux-auto.css";
 import "@/styles/ux-auto-phone.css";
 import "@/styles/phone-glass.css";
 import { Background } from "@/components/site/background";
-import { FestLive } from "@/components/site/fest/fest-live";
 import { FloatingNav } from "@/components/site/floating-nav";
 import { Footer } from "@/components/site/footer";
 import { LateExtras } from "@/components/site/late-extras";
 import { LogoMark } from "@/components/site/logo-mark";
 import { SiteScrollbar } from "@/components/site/site-scrollbar";
-import { WelcomeGate } from "@/components/site/welcome-gate";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { getSiteSettings } from "@/lib/cms/queries";
-import { anyFest, festBootScript } from "@/lib/fest";
-import { getFestConfig } from "@/lib/fest-server";
 import { getPresenceConfig } from "@/lib/presence-server";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
 
@@ -31,14 +27,12 @@ export const metadata = baseMetadata;
 const PICKER_OFF_BOOT = `(function(){var r=document.documentElement.style;r.removeProperty("--th");r.removeProperty("--ts");})();`;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const [site, fest, presence] = await Promise.all([getSiteSettings(), getFestConfig(), getPresenceConfig()]);
+  const [site, presence] = await Promise.all([getSiteSettings(), getPresenceConfig()]);
   // a first-time visitor is asked for a name only (components/site/presence.tsx): the colour card then opens only from its small round button
   const picker = presence.askName && site.picker.show !== "off" ? { ...site.picker, show: "button" } : site.picker;
-  const festOn = anyFest(fest);
   return (
-    <RootShell htmlClass="sb-pre" boot={[festOn ? festBootScript(fest) : "", site.picker.show === "off" ? PICKER_OFF_BOOT : ""].join("") || undefined}>
+    <RootShell htmlClass="sb-pre" boot={site.picker.show === "off" ? PICKER_OFF_BOOT : undefined}>
       <div className="relative overflow-x-clip">
-        <WelcomeGate />
         <a href="#main-content" className="skp-link">
           Skip to content
         </a>
@@ -46,10 +40,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <SiteScrollbar />
         <LateExtras picker={picker} />
         <Background />
-        {/* a festival theme (Admin > Fest): RootShell puts it on <html> before the first paint (boot); FestLive keeps the settings fresh (a change in
-            the admin panel shows without a reload) and loads the decorations only once a festival is on. While developing (or in a preview build)
-            the layer is always there: an address with ?festtest shows every effect */}
-        <FestLive initial={fest} force={process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_FEST_PREVIEW === "1"} />
         <LogoMark name={site.name} />
         <main id="main-content" tabIndex={-1}>
           {children}
