@@ -1,0 +1,271 @@
+/* hbd-: the Brand Design section of the home page (components/site/home2/home2-brand.tsx). Theme colours only (--th / --ts); paragraphs >= 16px,
+   labels >= 14px. Nothing animates except the reveal of the home page ([data-r]). Laptop, tablet and phone in one file (media queries at the end). */
+.hbd {
+  padding: 0 0 130px;
+}
+.hbd-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 56px;
+  align-items: center;
+  margin-top: 28px;
+}
+.hbd-copy h2 {
+  margin: 0;
+  font-size: clamp(34px, 3.4vw, 52px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.hbd-copy h2 em {
+  font-weight: 600;
+  color: var(--v1);
+}
+.hbd-lede {
+  margin: 22px 0 0;
+  max-width: 560px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--mute);
+}
+.hbd-for {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hbd-for li {
+  padding: 8px 16px;
+  font-size: 15px;
+  color: var(--ink);
+  border-radius: 999px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(70% * var(--ts)) 70% / 0.28);
+  background: hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 70% / 0.06);
+}
+.hbd-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 26px;
+}
+.hbd-more {
+  margin-top: 26px;
+  font-size: 16px;
+  color: var(--v1);
+  text-decoration: none;
+}
+.hbd-more:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+/* the brand board */
+.hbd-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-rows: auto auto auto;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(90% 70% at 100% 0, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.16), transparent 60%),
+    hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 6%);
+  box-shadow: 0 30px 80px -40px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 55% / 0.55);
+}
+.hbd-board > div {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: hsl(calc(var(--th) + 350) calc(35% * var(--ts)) 9%);
+  overflow: hidden;
+}
+.hbd-b-logo {
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  min-height: 230px;
+}
+.hbd-b-logo i {
+  position: absolute;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, hsl(calc(var(--th) + 350) calc(95% * var(--ts)) 84%), hsl(calc(var(--th) + 8) calc(85% * var(--ts)) 52%));
+  box-shadow: 0 0 60px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 62% / 0.5);
+}
+.hbd-b-logo b {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px 50% 14px 50%;
+  background: hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%);
+  transform: rotate(-12deg);
+}
+.hbd-b-type {
+  display: grid;
+  place-content: center;
+  gap: 4px;
+  padding: 18px;
+  text-align: center;
+}
+.hbd-b-type span {
+  font-size: 64px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--ink);
+}
+.hbd-b-type small,
+.hbd-b-guide small {
+  font-size: 14px;
+  color: var(--mute);
+}
+.hbd-b-sw {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 74px;
+  padding: 0 !important;
+}
+.hbd-b-sw i {
+  background: hsl(calc(var(--th) + var(--k) * 14 - 8) calc((62% + var(--k) * 6%) * var(--ts)) calc(30% + var(--k) * 10%));
+}
+.hbd-b-card {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 18px;
+  min-height: 116px;
+}
+.hbd-b-card i {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, hsl(calc(var(--th) + 350) calc(95% * var(--ts)) 84%), hsl(calc(var(--th) + 8) calc(85% * var(--ts)) 52%));
+}
+.hbd-b-card span,
+.hbd-b-guide span {
+  height: 7px;
+  border-radius: 9px;
+  background: hsl(calc(var(--th) + 0) calc(30% * var(--ts)) 70% / 0.22);
+}
+.hbd-b-card span:nth-child(3) {
+  width: 62%;
+}
+.hbd-b-card span:nth-child(4) {
+  width: 40%;
+}
+.hbd-b-guide {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 18px;
+  min-height: 116px;
+}
+.hbd-b-guide span:nth-child(2) {
+  width: 78%;
+}
+.hbd-b-guide span:nth-child(3) {
+  width: 55%;
+}
+.hbd-b-guide small {
+  margin-top: 4px;
+}
+
+/* what you get, and the problems */
+.hbd-h3 {
+  margin: 72px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.hbd-get,
+.hbd-solve {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hbd-get {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.hbd-solve {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.hbd-get li,
+.hbd-solve li {
+  padding: 26px 24px 28px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: linear-gradient(to bottom, hsl(calc(var(--th) + 350) calc(35% * var(--ts)) 9%), hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%));
+}
+.hbd-no {
+  font-size: 15px;
+  color: var(--v1);
+}
+.hbd-get h4 {
+  margin: 14px 0 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.hbd-get p,
+.hbd-a {
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--mute);
+}
+.hbd-q {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.hbd-solve li {
+  border-top: 2px solid hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 68% / 0.55);
+}
+
+@media (max-width: 1100px) {
+  .hbd-get {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 900px) {
+  .hbd {
+    padding-bottom: 90px;
+  }
+  .hbd-top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+  .hbd-solve {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hbd-h3 {
+    margin-top: 52px;
+  }
+}
+@media (max-width: 560px) {
+  .hbd-get {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hbd-board {
+    padding: 12px;
+    gap: 10px;
+    border-radius: 22px;
+  }
+  .hbd-b-logo {
+    min-height: 190px;
+  }
+  .hbd-b-type span {
+    font-size: 52px;
+  }
+}

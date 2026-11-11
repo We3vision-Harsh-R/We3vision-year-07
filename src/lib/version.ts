@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 142,
+    date: "2026-11-11",
+    title: "Brand Design section on the home page",
+    notes: [
+      "New Brand Design section on the home page after the services: what brand design is, who it is for, what you get (strategy, logo, identity and guidelines, collateral) and the problem and solution, with buttons to the contact page and the Brand Identity page.",
+    ],
+  },
+  {
     v: 141,
     date: "2026-11-11",
     title: "Smoother home scroll, wish line fades with the door",

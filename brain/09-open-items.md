@@ -306,3 +306,4 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Fest and the 3 s welcome message are removed (2026-11-11). Old notes about them in brain/ are history, do not rebuild unless the owner asks.
 
 - Home scroll speed (optimize branch, 2026-11-11): the first-screen fly-through is now on its own GPU layers. Not measured on a weak laptop or a real phone; if it still stutters there, next ideas: replace the star-field gradients by one small image, shorten the pinned distance, drop the blurred SVG glow of the dunes.
+- Home Brand Design section (hbd-) added 2026-11-11; its texts are fixed in home2-brand.tsx (not editable in Admin > Pages). Tablet width 700-1023 not looked at one by one (the 1100/900/560 breakpoints are in home-brand.css).
