@@ -75,6 +75,7 @@ export function Home2Fx() {
     const disc = q(".hb2-disc");
     const discWorld = q(".hb2-disc-world");
     const arch = q(".hb2-arch");
+    const wish = q(".hb2-wish");
     const heroTexts = (phone ? [q(".hb2-copy"), q(".hb2-lede"), q(".hb2-ph-row"), q(".hb2-ph-stats")] : [q(".hb2-copy"), q(".hb2-lede"), q(".hb2-go")]).filter((x): x is HTMLElement => !!x);
     const aboutTexts = Array.from(root.querySelectorAll<HTMLElement>(".hb2-s1-top > *"));
     let oy = 520; // y of the middle of the door inside the first screen (the vanishing point of the camera)
@@ -85,7 +86,7 @@ export function Home2Fx() {
       if (hero) hero.style.perspectiveOrigin = `50% ${oy.toFixed(1)}px`;
     };
     // write a style only when it changed
-    const put = (el: HTMLElement | null, prop: "transform" | "opacity", v: string) => {
+    const put = (el: HTMLElement | null, prop: "transform" | "opacity" | "filter", v: string) => {
       if (el && el.style[prop] !== v) el.style[prop] = v;
     };
     let lastP = -1;
@@ -101,6 +102,10 @@ export function Home2Fx() {
       put(hero, "opacity", p < 0.51 ? "1" : "0");
       const text = (1 - t * 4 > 0 ? 1 - t * 4 : 0).toFixed(2);
       for (const el of heroTexts) put(el, "opacity", text);
+      // "This year, open your success door": as the door comes close the words blur and vanish (before they could get lost in the light of the door)
+      const wk = clamp(t * 3.4);
+      put(wish, "opacity", (1 - wk).toFixed(2));
+      put(wish, "filter", wk === 0 ? "" : `blur(${(wk * 16).toFixed(1)}px)`);
       // the light of the door: full before the first screen is switched off (no pop), stays a moment, then clears to show the disc from inside
       const fl = p < 0.5 ? clamp((t - 0.55) / 0.4) : p < 0.54 ? 1 : 1 - clamp((p - 0.54) / 0.16);
       put(flood, "opacity", fl.toFixed(2));
@@ -164,7 +169,7 @@ export function Home2Fx() {
       cancelAnimationFrame(raf);
       io.disconnect();
       root.removeAttribute("data-fx");
-      for (const el of [world, hero, flood, s1, disc, discWorld, ...heroTexts, ...aboutTexts]) el?.removeAttribute("style");
+      for (const el of [world, hero, flood, s1, disc, discWorld, wish, ...heroTexts, ...aboutTexts]) el?.removeAttribute("style");
     };
   }, []);
   return null;

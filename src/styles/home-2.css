@@ -3086,3 +3086,18 @@ body:has(.hb2) footer.ft {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+
+/* hb2-wc (2026-11-11, owner: "the whole website loads too much while scrolling"): the fly-through of the first screen moves the whole 3D world towards the
+   camera. Without a hint, Chrome painted the layers again (the 14-gradient star field with its mask, the arches with their shadows, the dunes with the
+   blurred glow) on every scroll step. With will-change the layers are painted once and only moved by the graphics card. Measured in Chrome (1440x900)
+   over the pinned first screen: frames 19.6 ms average / 83 ms worst -> 16.7 ms / 17 ms (60 fps all the way). The look is the same.
+   Laptop only: phones have no pinned fly-through (max-width 900px block above). */
+@media (min-width: 901px) {
+  .hb2-world,
+  .hb2-arch,
+  .hb2-arch span,
+  .hb2-stars,
+  .hb2-dunes {
+    will-change: transform;
+  }
+}

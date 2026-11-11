@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 141,
+    date: "2026-11-11",
+    title: "Smoother home scroll, wish line fades with the door",
+    notes: [
+      "The home first screen (the fly-through into the door) now scrolls smoothly: its 3D layers are painted once and moved by the graphics card.",
+      "\"This year, open your success door\" blurs and fades out as the door comes close, so it no longer gets lost in the light of the door.",
+    ],
+  },
+  {
     v: 140,
     date: "2026-11-11",
     title: "Fest and welcome message removed, Portfolio glass on phones",

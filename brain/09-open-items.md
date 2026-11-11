@@ -304,3 +304,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 
 - Mobile UI refresh (owner 2026-11-10, shipped v139): shared md- cards, home cards, service pages and contact have the glass look (phone-glass.css). Left: Products/Portfolio pages, footer/sitemap/phone-app launcher product lists still use internal links, /products/wethink page text.
 - Fest and the 3 s welcome message are removed (2026-11-11). Old notes about them in brain/ are history, do not rebuild unless the owner asks.
+
+- Home scroll speed (optimize branch, 2026-11-11): the first-screen fly-through is now on its own GPU layers. Not measured on a weak laptop or a real phone; if it still stutters there, next ideas: replace the star-field gradients by one small image, shorten the pinned distance, drop the blurred SVG glow of the dunes.
