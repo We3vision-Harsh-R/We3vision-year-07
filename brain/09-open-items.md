@@ -307,3 +307,6 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 
 - Home scroll speed (optimize branch, 2026-11-11): the first-screen fly-through is now on its own GPU layers. Not measured on a weak laptop or a real phone; if it still stutters there, next ideas: replace the star-field gradients by one small image, shorten the pinned distance, drop the blurred SVG glow of the dunes.
 - Home Brand Design section (hbd-) added 2026-11-11; its texts are fixed in home2-brand.tsx (not editable in Admin > Pages). Tablet width 700-1023 not looked at one by one (the 1100/900/560 breakpoints are in home-brand.css).
+- Home Metaverse section (hbm-) added 2026-11-12; its text is fixed in home2-metaverse.tsx (not editable in Admin > Pages). Tablet width 700-1023 not looked at one by one.
+
+- Glimmer drawings (gm-): only on 404, error page, contact-sent and job-applied screens; owner wanted them "wherever they match" on the whole site, other spots (empty states, footer) not done. Phone layout of the new Metaverse Ask bar not looked at again.

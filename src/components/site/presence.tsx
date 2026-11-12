@@ -52,6 +52,9 @@ function visitorId(): string {
 export function PresenceLive() {
   const [others, setOthers] = useState<OtherCursor[]>([]);
   const [ask, setAsk] = useState(false);
+  // the question leaves slowly (the blur eases out) before it is taken off the page
+  const [closing, setClosing] = useState(false);
+  const closeTimer = useRef(0);
   const [name, setName] = useState("");
   const input = useRef<HTMLInputElement>(null);
   const me = useRef({ x: null as number | null, y: null as number | null, name: "", hi: true, askName: false });
@@ -137,12 +140,23 @@ export function PresenceLive() {
     if (ask) input.current?.focus();
   }, [ask]);
 
+  useEffect(() => () => window.clearTimeout(closeTimer.current), []);
+
   function done(value: string) {
+    if (closing) return;
     const n = cleanName(value);
     if (n) write(NAME_KEY, n);
     else write(SKIP_KEY, "1");
     window.dispatchEvent(new Event(NAME_EVENT));
-    setAsk(false);
+    setClosing(true);
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    closeTimer.current = window.setTimeout(
+      () => {
+        setAsk(false);
+        setClosing(false);
+      },
+      still ? 0 : 900,
+    );
   }
 
   return (
@@ -164,7 +178,7 @@ export function PresenceLive() {
         ))}
       </div>
       {ask && (
-        <div className="na" role="dialog" aria-modal="true" aria-label="Your name">
+        <div className="na" data-out={closing ? "" : undefined} role="dialog" aria-modal="true" aria-label="Your name">
           <form
             className="na-card"
             onSubmit={(e) => {

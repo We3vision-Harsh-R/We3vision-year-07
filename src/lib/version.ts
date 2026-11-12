@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 143,
+    date: "2026-11-12",
+    title: "Metaverse service section with Ask Panda, Glimmer drawings",
+    notes: [
+      "New Metaverse service section on the home page: a glowing one-line Ask Panda bar (answers about our metaverse service) and four cards on what we build.",
+      "The moving dot on the Process line of the home page is removed.",
+      "Four new glowing night drawings (plant, mushrooms, moon, tree) on the 404 page, the error page, the contact Message sent and the job application sent screens.",
+      "The first-visit name question now blurs in and out smoothly.",
+    ],
+  },
+  {
     v: 142,
     date: "2026-11-11",
     title: "Brand Design section on the home page",

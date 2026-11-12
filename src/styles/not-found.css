@@ -144,3 +144,8 @@ body:has(.nf-root) {
     transform: none;
   }
 }
+
+/* the night drawing above the big number (components/site/glimmer-art.tsx) */
+.nf-art {
+  margin: 0 auto -8px;
+}

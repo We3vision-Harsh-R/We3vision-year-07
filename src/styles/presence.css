@@ -177,3 +177,80 @@
     animation: none;
   }
 }
+
+/* nb- (2026-11-12, owner: when the name is asked, the blur behind it must be a real blur that eases in and eases out, smoothly): the blur radius and the
+   tint are registered properties, so the browser can really animate them (the old keyframe went from blur(0) to a different filter list, which cannot
+   be animated: it jumped). In: 1.1 s. Out: the same in reverse, 0.8 s, while the card drifts away; presence.tsx keeps the dialog on the page until it is done. */
+@property --nb-blur {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --nb-tint {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+.na {
+  background: hsl(calc(var(--th, 270) + 352) calc(50% * var(--ts, 1)) 5% / calc(0.38 * var(--nb-tint)));
+  backdrop-filter: blur(var(--nb-blur)) saturate(1.3);
+  -webkit-backdrop-filter: blur(var(--nb-blur)) saturate(1.3);
+  animation: nb-in 1.1s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+@keyframes nb-in {
+  from {
+    --nb-blur: 0px;
+    --nb-tint: 0;
+  }
+  to {
+    --nb-blur: 26px;
+    --nb-tint: 1;
+  }
+}
+.na[data-out] {
+  pointer-events: none;
+  animation: nb-out 0.8s cubic-bezier(0.4, 0, 0.55, 1) forwards;
+}
+@keyframes nb-out {
+  from {
+    --nb-blur: 26px;
+    --nb-tint: 1;
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  to {
+    --nb-blur: 0px;
+    --nb-tint: 0;
+    opacity: 0;
+  }
+}
+.na-card {
+  animation: nb-card-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+@keyframes nb-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+}
+.na[data-out] .na-card {
+  animation: nb-card-out 0.55s cubic-bezier(0.4, 0, 0.7, 1) forwards;
+}
+@keyframes nb-card-out {
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.99);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .na,
+  .na[data-out],
+  .na-card,
+  .na[data-out] .na-card {
+    animation: none;
+    --nb-blur: 26px;
+    --nb-tint: 1;
+  }
+}

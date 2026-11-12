@@ -1,0 +1,454 @@
+/* hbm-: the Metaverse service section of the home page (components/site/home2/home2-metaverse.tsx + home2-metaverse-ask.tsx), in the style of a black stage with a
+   calm heading, one glowing bar to ask PANDA with streaks of light to both sides, and four glass cards. No 3D objects. Theme colours only (--th / --ts);
+   paragraphs >= 16px, labels >= 14px. Only opacity animates, and the section pauses off screen (data-pause-off). Laptop, tablet and phone in this one file. */
+.hbm {
+  padding: 0 0 130px;
+}
+.hbm-stage {
+  position: relative;
+  padding-top: 40px;
+}
+/* a faint glow behind the whole stage */
+.hbm-stage::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 180px;
+  width: 80%;
+  height: 360px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 55% / 0.2), transparent);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.hbm-head {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.hbm-top {
+  margin: 0 0 22px;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.hbm-head h2 {
+  margin: 0;
+  font-size: clamp(40px, 5.2vw, 76px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  background: linear-gradient(180deg, #fff 30%, hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 70%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hbm-lede {
+  max-width: 600px;
+  margin: 26px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--mute);
+}
+
+/* the bar (a dark rounded box whose edge is lit by a magenta and a blue light that travel round it) on a faint grid */
+.hbm-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 74px;
+}
+.hbm-row::before {
+  content: "";
+  position: absolute;
+  inset: -130px -6% -170px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 41px, hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 70% / 0.09) 41px 42px),
+    repeating-linear-gradient(90deg, transparent 0 41px, hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 70% / 0.09) 41px 42px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent);
+  mask-image: radial-gradient(closest-side, #000 20%, transparent);
+  pointer-events: none;
+}
+.hbm-ask {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 800px);
+}
+.hbm-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 74px;
+  padding: 0 12px 0 28px;
+  border-radius: 22px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 80% / 0.14);
+  background:
+    radial-gradient(60% 150% at 0% 0%, hsl(calc(var(--th) + 36) calc(95% * var(--ts)) 50% / 0.22), transparent 65%),
+    radial-gradient(60% 150% at 100% 100%, hsl(calc(var(--th) - 44) calc(95% * var(--ts)) 55% / 0.22), transparent 65%),
+    hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 3%);
+}
+/* the lit edge: a ring (a mask that keeps only the border) in which a conic light, magenta on one side and blue on the other, turns slowly; the second copy is blurred = the glow */
+.hbm-edge {
+  position: absolute;
+  inset: -1px;
+  padding: 2px;
+  overflow: hidden;
+  border-radius: 23px;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+.hbm-edge-glow {
+  inset: -4px;
+  padding: 6px;
+  border-radius: 26px;
+  filter: blur(12px);
+  opacity: 1;
+}
+.hbm-edge i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1100px;
+  height: 1100px;
+  margin: -550px 0 0 -550px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    hsl(calc(var(--th) + 36) calc(100% * var(--ts)) 64%) 40deg,
+    transparent 120deg,
+    transparent 180deg,
+    hsl(calc(var(--th) - 44) calc(100% * var(--ts)) 66%) 220deg,
+    transparent 300deg,
+    transparent 360deg
+  );
+  will-change: transform;
+  animation: hbm-orbit 9s linear infinite;
+}
+.hbm-mag {
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: hsl(calc(var(--th) + 350) calc(30% * var(--ts)) 78%);
+}
+.hbm-bar input {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  font: inherit;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+.hbm-bar input::placeholder {
+  color: hsl(calc(var(--th) + 350) calc(20% * var(--ts)) 68%);
+}
+.hbm-bar button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  color: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 92%);
+  border: 1px solid hsl(calc(var(--th) + 0) calc(50% * var(--ts)) 88% / 0.22);
+  border-radius: 16px;
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 90% / 0.16), hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 90% / 0.04));
+  box-shadow: inset 0 1px 0 hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 96% / 0.2), 0 6px 18px -6px #000;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s, border-color 0.3s;
+}
+.hbm-bar button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.hbm-bar button:not(:disabled):hover {
+  border-color: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 90% / 0.6);
+  transform: translate3d(0, -2px, 0);
+}
+.hbm-bar svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hbm-bar button svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+}
+
+.hbm-mag {
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: hsl(calc(var(--th) + 350) calc(30% * var(--ts)) 78%);
+}
+.hbm-bar input {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  font: inherit;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+.hbm-bar input::placeholder {
+  color: hsl(calc(var(--th) + 350) calc(20% * var(--ts)) 68%);
+}
+.hbm-bar button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  color: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 92%);
+  border: 1px solid hsl(calc(var(--th) + 0) calc(50% * var(--ts)) 88% / 0.22);
+  border-radius: 16px;
+  background: linear-gradient(160deg, hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 90% / 0.16), hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 90% / 0.04));
+  box-shadow: inset 0 1px 0 hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 96% / 0.2), 0 6px 18px -6px #000;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s, border-color 0.3s;
+}
+.hbm-bar button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.hbm-bar button:not(:disabled):hover {
+  border-color: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 90% / 0.6);
+  transform: translate3d(0, -2px, 0);
+}
+.hbm-bar svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hbm-bar button svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+}
+
+/* the ideas under the bar, and the answer */
+.hbm-ideas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hbm-ideas button {
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 15px;
+  color: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 88%);
+  border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 80% / 0.22);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 70% / 0.06);
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.hbm-ideas button:hover {
+  border-color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 80% / 0.6);
+  background: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.14);
+}
+.hbm-ans {
+  margin-top: 22px;
+  padding: 22px 26px;
+  border-radius: 22px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 80% / 0.2);
+  background: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 70% / 0.06);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  text-align: left;
+}
+.hbm-q {
+  margin: 0 0 12px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--mute);
+}
+.hbm-ans p {
+  margin: 0 0 10px;
+}
+.hbm-ans ul,
+.hbm-ans ol {
+  margin: 0 0 10px;
+  padding-left: 22px;
+}
+.hbm-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.hbm-links a {
+  padding: 8px 14px;
+  font-size: 15px;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 80% / 0.35);
+}
+.hbm-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+.hbm-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 80%);
+  animation: hbm-dot 1s ease-in-out infinite;
+}
+.hbm-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.hbm-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.hbm-more-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
+}
+.hbm-btn {
+  padding: 13px 26px;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 96%);
+  text-decoration: none;
+  border-radius: 14px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(70% * var(--ts)) 80% / 0.3);
+  background: hsl(calc(var(--th) + 352) calc(50% * var(--ts)) 9%);
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+.hbm-btn:hover {
+  border-color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 80% / 0.7);
+  box-shadow: 0 18px 44px -14px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 65% / 0.7);
+}
+
+/* what we build: four glass cards */
+.hbm-feat {
+  margin: 90px 0 18px;
+  font-size: 15px;
+  color: var(--mute);
+}
+.hbm-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hbm-list li {
+  padding: 26px 24px 28px;
+  border-radius: 22px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 80% / 0.16);
+  background: linear-gradient(170deg, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.1), hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.02));
+}
+.hbm-list h3 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 84%);
+}
+.hbm-list p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--mute);
+}
+
+@keyframes hbm-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes hbm-dot {
+  50% {
+    transform: translate3d(0, -5px, 0);
+    opacity: 0.5;
+  }
+}
+
+/* tablet and phone */
+@media (max-width: 1023.98px) {
+  .hbm {
+    padding-bottom: 90px;
+  }
+  .hbm-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .hbm-head h2 {
+    font-size: 34px;
+  }
+  .hbm-top {
+    font-size: 14px;
+  }
+  .hbm-lede {
+    font-size: 16px;
+  }
+  .hbm-row {
+    margin-top: 50px;
+  }
+  .hbm-bar {
+    height: 62px;
+    gap: 12px;
+    padding-left: 18px;
+  }
+  .hbm-bar input {
+    font-size: 17px;
+  }
+  .hbm-bar button {
+    width: 44px;
+    height: 44px;
+  }
+  .hbm-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hbm-edge i,
+  .hbm-dots i {
+    animation: none;
+  }
+}

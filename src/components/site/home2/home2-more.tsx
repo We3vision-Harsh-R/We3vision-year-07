@@ -83,9 +83,7 @@ export async function Home2More() {
             From the first idea to launch, <em>step by step</em>
           </h2>
           <div className="hb2-m-steps">
-            <span className="hb2-m-rail" aria-hidden>
-              <i />
-            </span>
+            <span className="hb2-m-rail" aria-hidden />
             {STEPS.map((s, i) => (
               <div key={s.t} className="hb2-m-step" data-r style={{ "--d": `${i * 110}ms`, "--i": i } as CSSProperties}>
                 <span className="hb2-m-node" aria-hidden>

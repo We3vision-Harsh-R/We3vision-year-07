@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { Home2Fx } from "@/components/site/home2/home2-fx";
 import { Home2Footer } from "@/components/site/home2/home2-chrome";
 import { Home2Brand } from "@/components/site/home2/home2-brand";
+import { Home2Metaverse } from "@/components/site/home2/home2-metaverse";
 import { Home2More } from "@/components/site/home2/home2-more";
 import { Home2Services } from "@/components/site/home2/home2-services";
 import { SmartLink } from "@/components/site/smart-link";
@@ -211,6 +212,7 @@ export async function Home2Home() {
 
       <Home2Services stats={stats} />
       <Home2Brand />
+      <Home2Metaverse />
       <Home2More />
       <Home2Footer />
     </div>

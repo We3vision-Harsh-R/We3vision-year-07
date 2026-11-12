@@ -3,6 +3,7 @@
 import "@/styles/careers.css";
 
 import Link from "next/link";
+import { GlimmerArt } from "@/components/site/glimmer-art";
 import { useState } from "react";
 import { applyForJob } from "@/actions/jobs";
 import { fieldProblem, isLinkQuestion, urlProblem } from "@/lib/contact-validation";
@@ -122,7 +123,7 @@ export function JobApply({
       <>
         <ToastView toast={toast} onClose={closeToast} />
         <div className="jb-sent" role="status">
-          <span className="jb-sent-ic" aria-hidden />
+          <GlimmerArt art="tree" size={200} />
           <h3>Your application is on its way!</h3>
           <p>
             Thank you{f.name ? `, ${f.name.split(" ")[0]}` : ""}. Our HR team

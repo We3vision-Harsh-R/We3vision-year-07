@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { GlimmerArt, type GlimmerName } from "@/components/site/glimmer-art";
 import "@/styles/not-found.css";
 
 // The branded "lost" screen (CSS prefix nf-): used for an unknown address, a missing article / job / project and a crashed page.
@@ -17,12 +18,14 @@ export function NotFoundView({
   chip = "Page not found",
   title = "This page took a wrong turn.",
   text = "The link may be old or mistyped. Pick where you want to go next.",
+  art = "moon",
   children,
 }: {
   code?: string;
   chip?: string;
   title?: string;
   text?: string;
+  art?: GlimmerName;
   children?: React.ReactNode;
 }) {
   return (
@@ -32,6 +35,7 @@ export function NotFoundView({
         <a href="/" className="nf-logo" aria-label="We3vision home">
           <Image src="/brand/logo-white.webp" alt="" width={600} height={468} priority unoptimized />
         </a>
+        <GlimmerArt art={art} size={220} className="nf-art" />
         <p className="nf-code" aria-hidden>
           {code}
         </p>

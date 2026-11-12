@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useRef, useState, type FormEvent } from "react";
+import { GlimmerArt } from "@/components/site/glimmer-art";
 import { submitLead, type LeadState } from "@/actions/leads";
 import { leadProblems, limitPhone, type LeadProblems, type LeadValues } from "@/lib/contact-validation";
 
@@ -29,6 +30,7 @@ export function Home2Contact() {
   if (state.status === "success") {
     return (
       <div className="hb2-ct-ok" role="status" aria-live="polite">
+        <GlimmerArt art="plant" size={200} />
         <strong>Message sent</strong>
         <p>{state.message}</p>
       </div>

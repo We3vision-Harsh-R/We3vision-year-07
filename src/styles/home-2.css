@@ -1464,27 +1464,6 @@
   height: 1px;
   background: linear-gradient(to right, transparent, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 76% / 0.6), transparent);
 }
-.hb2-m-rail i {
-  position: absolute;
-  top: -3px;
-  left: 0;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ink);
-  box-shadow: 0 0 16px 3px var(--v1);
-}
-.hb2[data-fx] .hb2-m-rail i {
-  animation: hb2-m-run 6s ease-in-out infinite;
-}
-@keyframes hb2-m-run {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(1030px, 0, 0);
-  }
-}
 .hb2-m-step {
   position: relative;
   padding: 0 4px;

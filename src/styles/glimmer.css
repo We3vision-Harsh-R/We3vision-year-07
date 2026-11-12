@@ -1,0 +1,121 @@
+/* gm-: the grainy glowing night drawings (components/site/glimmer-art.tsx). Theme colours only (--th / --ts, with the default violet when they are not loaded, as on the lost
+   page). Only opacity and transform animate; people who ask for less motion get still pictures. */
+.gm-art {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+  --gm-h: var(--th, 0);
+  --gm-s: var(--ts, 1);
+}
+.gm-s-white {
+  stop-color: hsl(calc(var(--gm-h) + 350) calc(100% * var(--gm-s)) 96%);
+}
+.gm-s-lav {
+  stop-color: hsl(calc(var(--gm-h) + 350) calc(80% * var(--gm-s)) 80%);
+}
+.gm-s-mid {
+  stop-color: hsl(calc(var(--gm-h) + 352) calc(70% * var(--gm-s)) 58%);
+}
+.gm-s-blue {
+  stop-color: hsl(calc(var(--gm-h) + 322) calc(70% * var(--gm-s)) 56%);
+}
+.gm-s-pink {
+  stop-color: hsl(calc(var(--gm-h) + 28) calc(75% * var(--gm-s)) 74%);
+}
+.gm-s-deep {
+  stop-color: hsl(calc(var(--gm-h) + 352) calc(55% * var(--gm-s)) 20%);
+}
+
+/* fern sprigs, mushroom caps, stems, trunks */
+.gm-fern use,
+.gm-fern {
+  fill: hsl(calc(var(--gm-h) + 28) calc(75% * var(--gm-s)) 76%);
+}
+.gm-stem {
+  fill: none;
+  stroke: hsl(calc(var(--gm-h) + 28) calc(70% * var(--gm-s)) 78%);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.gm-cap {
+  fill: hsl(calc(var(--gm-h) + 350) calc(85% * var(--gm-s)) 82%);
+}
+.gm-trunk {
+  fill: none;
+  stroke: hsl(calc(var(--gm-h) + 322) calc(70% * var(--gm-s)) 58%);
+  stroke-width: 11;
+  stroke-linecap: round;
+}
+.gm-thin {
+  stroke-width: 5;
+}
+.gm-dot {
+  fill: hsl(calc(var(--gm-h) + 28) calc(100% * var(--gm-s)) 70%);
+}
+.gm-cloud {
+  fill: hsl(calc(var(--gm-h) + 345) calc(60% * var(--gm-s)) 60%);
+}
+.gm-eye {
+  fill: hsl(calc(var(--gm-h) + 350) calc(60% * var(--gm-s)) 94%);
+}
+.gm-pupil {
+  fill: hsl(calc(var(--gm-h) + 352) calc(60% * var(--gm-s)) 12%);
+}
+.gm-sparks circle {
+  fill: hsl(calc(var(--gm-h) + 340) calc(100% * var(--gm-s)) 90%);
+}
+.gm-bf path {
+  fill: hsl(calc(var(--gm-h) + 350) calc(100% * var(--gm-s)) 94%);
+  filter: drop-shadow(0 0 6px hsl(calc(var(--gm-h) + 350) calc(100% * var(--gm-s)) 82%));
+}
+
+/* the motion */
+.gm-tw {
+  animation: gm-tw 3.4s ease-in-out infinite;
+  animation-delay: calc(var(--d, 0) * 1s);
+}
+.gm-wing {
+  transform-box: fill-box;
+  transform-origin: 50% 70%;
+  animation: gm-flap 0.9s ease-in-out infinite;
+}
+.gm-bf {
+  animation: gm-drift 7s ease-in-out infinite;
+}
+.gm-pulse {
+  animation: gm-pulse 5s ease-in-out infinite;
+  animation-delay: calc(var(--d, 0) * 1s);
+}
+@keyframes gm-tw {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes gm-flap {
+  50% {
+    transform: scaleX(0.55);
+  }
+}
+@keyframes gm-drift {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes gm-pulse {
+  50% {
+    opacity: 0.6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm-tw,
+  .gm-wing,
+  .gm-bf,
+  .gm-pulse {
+    animation: none;
+  }
+}
