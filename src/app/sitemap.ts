@@ -4,6 +4,7 @@ import { getOpenJobs } from "@/lib/careers";
 import { getPageStatuses } from "@/lib/cms/queries";
 import { PAGES } from "@/lib/cms/pages";
 import { getProjects } from "@/lib/projects";
+import { TRAINING_LINKS } from "@/lib/site-menu";
 
 // The XML sitemap for search engines: every page, project, article and open job, each with its last change date. Google reads it again and again,
 // so a new or changed page is found quickly. Pages that are not published (drafts, hidden articles) are not listed.
@@ -29,6 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...pages,
     { url: `${base}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...TRAINING_LINKS.map((t) => ({ url: `${base}${t.href}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 })),
     { url: `${base}/sitemap`, lastModified: now, changeFrequency: "weekly", priority: 0.4 },
     ...projects.map((p) => ({ url: `${base}/portfolio/${p.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.7 })),
     ...posts.map((post) => ({ url: `${base}/blog/${post.slug}`, lastModified: post.date, changeFrequency: "monthly" as const, priority: 0.7 })),

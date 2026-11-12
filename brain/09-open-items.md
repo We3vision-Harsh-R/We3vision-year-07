@@ -310,3 +310,6 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Home Metaverse section (hbm-) added 2026-11-12; its text is fixed in home2-metaverse.tsx (not editable in Admin > Pages). Tablet width 700-1023 not looked at one by one.
 
 - Glimmer drawings (gm-): only on 404, error page, contact-sent and job-applied screens; owner wanted them "wherever they match" on the whole site, other spots (empty states, footer) not done. Phone layout of the new Metaverse Ask bar not looked at again.
+- Home AI section (hba-) text is fixed in home2-ai.tsx (copied from content/ai.ts), not editable in Admin; tablet/phone not looked at one by one.
+- Industrial Training: fees are EMPTY (pages say Contact us for the fee): fill FEES in src/lib/industrial-training.ts per domain and 3/6/9 months. Month-by-month plans, SDLC and ISO 9001 texts are my draft, owner to check. Page words are fixed in code (not Admin). Phone sitemap/launcher order not checked.
+- Industrial Training admin screen not opened in a browser (needs admin login): check it once after the push; fees are typed there (the FEES note above is replaced by it).

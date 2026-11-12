@@ -11,6 +11,7 @@ const PATHS: Record<AdminIconKey | ExtraIcon, string> = {
   settings: "M4 7h10M18 7h2M4 17h2M10 17h10M14 5v4M6 15v4",
   careers: "M4 5h16v14H4zM9 11a2 2 0 100-4 2 2 0 000 4zM6 16c0-1.5 1.5-2.5 3-2.5s3 1 3 2.5M14 9h4M14 13h4",
   jobs: "M3 8h18v11H3zM9 8V5h6v3M3 13h18",
+  training: "M3 9l9-5 9 5-9 5zM7 11.5V16c0 1.5 2.5 3 5 3s5-1.5 5-3v-4.5M21 9v6",
   setup: "M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2",
   leads: "M3 6h18v12H3zM3 7l9 6 9-6",
   alerts: "M6 17v-6a6 6 0 0112 0v6l2 2H4zM10 21h4",

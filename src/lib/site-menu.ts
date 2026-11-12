@@ -89,3 +89,10 @@ export const EXPLORE_LINKS: MenuLink[] = [
   { label: "Contact Us", href: "/contact" },
   { label: "Careers", href: "/careers" },
 ];
+
+// Industrial Training (owner, 2026-11-12): 3, 6 and 9 month fee-based training. The pages and fees are in lib/industrial-training.ts.
+export const TRAINING_LINKS: MenuLink[] = [
+  { label: "3 Month Industrial training", href: "/industrial-training/3-month" },
+  { label: "6 Month Industrial training", href: "/industrial-training/6-month" },
+  { label: "9 Month Industrial training", href: "/industrial-training/9-month" },
+];

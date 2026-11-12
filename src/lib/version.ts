@@ -16,6 +16,18 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 144,
+    date: "2026-11-12",
+    title: "AI development section, Industrial Training pages",
+    notes: [
+      "New AI development section on the home page: what we build, what you get and the problems AI can take off your plate.",
+      "The home stats strip now shows 4 Products instead of 6 Technology platforms.",
+      "New Industrial Training pages for 3, 6 and 9 months (what is learned month by month, SDLC, ISO 9001 based practice, industry contacts, domains and fees), in the laptop menu, the phone menu, the phone launcher and the sitemaps.",
+      "New Admin > Industrial Training screen to add, edit, hide and order the courses and set the fee of each for 3, 6 and 9 months.",
+      "The training pages fit phones and tablets.",
+    ],
+  },
+  {
     v: 143,
     date: "2026-11-12",
     title: "Metaverse service section with Ask Panda, Glimmer drawings",

@@ -1,0 +1,241 @@
+/* hba-: the AI Development section of the home page (components/site/home2/home2-ai.tsx). Theme colours only (--th / --ts); paragraphs >= 16px, labels >= 14px.
+   Nothing animates except the reveal of the home page ([data-r]). Laptop, tablet and phone in one file (media queries at the end). */
+.hba {
+  padding: 0 0 130px;
+}
+.hba-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+  margin-top: 28px;
+}
+.hba-copy h2 {
+  margin: 0;
+  font-size: clamp(34px, 3.4vw, 52px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.hba-copy h2 em {
+  font-weight: 600;
+  color: var(--v1);
+}
+.hba-lede {
+  margin: 22px 0 0;
+  max-width: 560px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--mute);
+}
+.hba-note {
+  margin: 16px 0 0;
+  font-size: 16px;
+  color: var(--ink);
+}
+.hba-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 26px;
+  margin-top: 30px;
+}
+.hba-more {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* the picture: data -> AI -> work */
+.hba-flow {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px minmax(0, 1fr);
+  gap: 0;
+  align-items: center;
+  padding: 26px 22px;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(60% 70% at 50% 50%, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 60% / 0.16), transparent 70%),
+    linear-gradient(to bottom, hsl(calc(var(--th) + 350) calc(35% * var(--ts)) 9%), hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%));
+}
+.hba-flow::before {
+  content: "";
+  position: absolute;
+  inset: 50% 22px auto;
+  height: 2px;
+  background: linear-gradient(to right, transparent, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 70% / 0.6), transparent);
+}
+.hba-col {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hba-col li {
+  padding: 11px 14px;
+  border-radius: 14px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 68% / 0.2);
+  background: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 12% / 0.9);
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.hba-col .hba-k {
+  border: 0;
+  background: none;
+  padding: 0 2px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.hba-core {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, hsl(calc(var(--th) + 8) calc(95% * var(--ts)) 74%), hsl(calc(var(--th) + 0) calc(85% * var(--ts)) 46%) 60%, hsl(calc(var(--th) + 352) calc(70% * var(--ts)) 24%));
+  box-shadow: 0 0 50px hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.45);
+}
+.hba-core b {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  color: #fff;
+}
+.hba-ring {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 74% / 0.35);
+}
+
+.hba-h3 {
+  margin: 72px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.hba-work,
+.hba-solve {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hba-work {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.hba-solve {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.hba-work > li,
+.hba-solve > li {
+  padding: 26px 24px 28px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: linear-gradient(to bottom, hsl(calc(var(--th) + 350) calc(35% * var(--ts)) 9%), hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%));
+}
+.hba-no {
+  font-size: 15px;
+  color: var(--v1);
+}
+.hba-work h4 {
+  margin: 14px 0 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.hba-work p,
+.hba-a {
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--mute);
+}
+.hba-work .hba-gl {
+  margin-top: 18px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v1);
+}
+.hba-work ul {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hba-work ul li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.hba-work ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--v1);
+}
+.hba-q {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.hba-solve > li {
+  border-top: 2px solid hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 68% / 0.55);
+}
+
+@media (max-width: 1100px) {
+  .hba-work {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 900px) {
+  .hba {
+    padding-bottom: 90px;
+  }
+  .hba-top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+  .hba-solve {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hba-h3 {
+    margin-top: 52px;
+  }
+}
+@media (max-width: 560px) {
+  .hba-work {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hba-flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding: 18px;
+  }
+  .hba-flow::before {
+    display: none;
+  }
+}

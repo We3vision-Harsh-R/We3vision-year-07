@@ -45,6 +45,9 @@ export const APPS: Record<string, App> = {
   contact: A("contact", "Contact", "/contact", "mail"),
   careers: A("careers", "Careers", "/careers", "briefcase"),
   sitemap: A("sitemap", "Sitemap", "/sitemap", "sitemap"),
+  train3: A("train3", "3 Month Training", "/industrial-training/3-month", "chip"),
+  train6: A("train6", "6 Month Training", "/industrial-training/6-month", "chip"),
+  train9: A("train9", "9 Month Training", "/industrial-training/9-month", "chip"),
 };
 
 // one colour per app: the hue steps by the golden angle, so neighbours never look alike; the tile style (full colour / light glass) alternates
@@ -62,13 +65,14 @@ export const GROUPS: Group[] = [
   { id: "bra", label: "Branding", glyph: "star", off: 200, apps: ["branddesign", "branddev", "brandkit", "brandvideo", "e2e"] },
   { id: "mar", label: "Marketing", glyph: "trend", off: 280, apps: ["seo", "meta", "physical"] },
   { id: "pro", label: "Our Products", glyph: "trophy", off: 330, apps: ["webugmate", "wejobs", "wethink", "wepresent"] },
+  { id: "tra", label: "Industrial Training", glyph: "chip", off: 170, apps: ["train3", "train6", "train9"] },
   { id: "com", label: "Company", glyph: "building", off: 100, apps: ["home", "about", "portfolio", "products", "blog", "team", "contact", "careers", "sitemap"] },
 ];
 export const GROUP: Record<string, Group> = Object.fromEntries(GROUPS.map((g) => [g.id, g]));
 
 /** the sections of the "All Apps" screen: every page of the website, group by group (a page that is in no group goes to "More") */
 export const SECTIONS: { id: string; label: string; apps: string[] }[] = (() => {
-  const order = ["dev", "cre", "eco", "bra", "mar", "pro", "com"];
+  const order = ["dev", "cre", "eco", "bra", "mar", "pro", "tra", "com"];
   const out = order.map((id) => ({ id, label: GROUP[id].label, apps: GROUP[id].apps }));
   const used = new Set(out.flatMap((o) => o.apps));
   const rest = Object.keys(APPS).filter((id) => !used.has(id));

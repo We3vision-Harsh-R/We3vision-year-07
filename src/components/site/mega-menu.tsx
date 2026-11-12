@@ -11,7 +11,7 @@ import { createPortal } from "react-dom";
 import { AiChat } from "./ai-chat";
 import { GlowEdge } from "./glow-edge";
 import { LiveNow } from "./live-now";
-import { EXPLORE_LINKS, MAIN_SERVICES, PRODUCT_LINKS, SERVICE_GROUPS } from "../../lib/site-menu";
+import { EXPLORE_LINKS, MAIN_SERVICES, PRODUCT_LINKS, SERVICE_GROUPS, TRAINING_LINKS } from "../../lib/site-menu";
 import { SmartLink } from "./smart-link";
 
 type Link = { label: string; href: string };
@@ -192,7 +192,11 @@ export function MegaMenu({
 
             <div className="mm-row3">
               {group({ label: "Our Products", items: PRODUCT_LINKS }, 1, "mm-col mm-list mm-prod")}
-              {group({ label: "Explore", items: EXPLORE_LINKS }, 2, "mm-col mm-list mm-expl")}
+              {/* Explore, and next to it Industrial Training (owner, 2026-11-12) in the free space on its right */}
+              <div className="mm-split">
+                {group({ label: "Explore", items: EXPLORE_LINKS }, 2, "mm-col mm-list mm-expl")}
+                {group({ label: "Industrial Training", items: TRAINING_LINKS }, 3, "mm-col mm-list mm-train")}
+              </div>
               <div className="mm-end mm-r" style={r()}>
                 <LiveNow />
                 {recognised}

@@ -4,7 +4,7 @@ import type { AdminBadges } from "@/lib/admin-badges";
 
 export type AdminIconKey =
   | "dashboard" | "pages" | "projects" | "blog" | "team" | "settings" | "careers" | "jobs" | "setup"
-  | "leads" | "alerts" | "submissions" | "instructions" | "integrations" | "guide" | "access" | "versions" | "visitors";
+  | "training" | "leads" | "alerts" | "submissions" | "instructions" | "integrations" | "guide" | "access" | "versions" | "visitors";
 
 export type AdminItem = {
   href: string;
@@ -35,6 +35,7 @@ export const ADMIN_GROUPS: AdminGroup[] = [
       { href: "/admin/blog", label: "Blog", hint: "Write and publish articles", icon: "blog" },
       { href: "/admin/team", label: "Team", hint: "People on the About and Team pages", icon: "team" },
       { href: "/admin/settings", label: "Site settings", hint: "Menu, contact details, footer", icon: "settings" },
+      { href: "/admin/industrial-training", label: "Industrial Training", hint: "Courses and fees of the 3, 6 and 9 month training", icon: "training" },
       { href: "/admin/visitors", label: "Visitors", hint: "Who opened the site, and how many live cursors show", icon: "visitors" },
     ],
   },

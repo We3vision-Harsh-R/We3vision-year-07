@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getBlogEntries } from "@/lib/blog";
 import { getOpenJobs } from "@/lib/careers";
 import { getProjects } from "@/lib/projects";
-import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, type MenuLink } from "@/lib/site-menu";
+import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, TRAINING_LINKS, type MenuLink } from "@/lib/site-menu";
 import { unlistedPages } from "@/lib/site-menu-pages";
 import { SHARE_IMAGE } from "@/lib/share-image";
 import { siteBase } from "@/lib/seo-ping";
@@ -27,6 +27,7 @@ export default async function SitemapPage() {
     ...SERVICE_GROUPS.map((g) => ({ title: g.label, items: g.items })),
     { title: "Our Products", items: PRODUCT_LINKS },
     { title: "Explore", items: EXPLORE_LINKS },
+    { title: "Industrial Training", items: TRAINING_LINKS },
     ...(unlistedPages().length ? [{ title: "More Pages", items: unlistedPages() }] : []),
     ...(projects.length ? [{ title: "Portfolio", items: projects.map((p) => ({ label: p.title, href: `/portfolio/${p.slug}` })) }] : []),
     ...(posts.length ? [{ title: "Blog", items: posts.map((p) => ({ label: p.title, href: `/blog/${p.slug}` })) }] : []),
