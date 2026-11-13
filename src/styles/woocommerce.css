@@ -156,3 +156,21 @@
 /* the sort menu is the glass dropdown (glass-select.css) */
 .woo-bar .woo-sort { margin-left: auto; }
 .woo-bar .woo-sort .gsel-btn { min-height: 42px; border-radius: 999px; }
+
+/* wop-: the WooCommerce page on phones and tablets (owner, 2026-11-13): the order card (text and checklist side by side) is one column, and the spec table is tighter. */
+@media (max-width: 900px) {
+  .woo-status {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px;
+  }
+  .woo-status h4 {
+    font-size: 1.3rem;
+  }
+  .woo-spec th,
+  .woo-spec td {
+    padding: 12px 14px;
+  }
+  .woo-spec th {
+    width: 38%;
+  }
+}

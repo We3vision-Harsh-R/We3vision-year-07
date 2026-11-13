@@ -17,6 +17,7 @@ import { LateExtras } from "@/components/site/late-extras";
 import { LogoMark } from "@/components/site/logo-mark";
 import { SiteScrollbar } from "@/components/site/site-scrollbar";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
+import { HomeGlide } from "@/components/site/home/home-glide";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { getPresenceConfig } from "@/lib/presence-server";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
@@ -39,6 +40,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           Skip to content
         </a>
         <SmoothScroll />
+        <HomeGlide />
         <SiteScrollbar />
         <LateExtras picker={picker} />
         <Background />

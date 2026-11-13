@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 166,
+    date: "2026-11-13",
+    title: "Pages on phones and tablets: sliders, one column, nothing squeezed",
+    notes: [
+      "On phones and tablets (screens under 900 px wide) the pages of the website now fit: cards that were stacked or squeezed into narrow columns are rows that glide sideways by themselves (1 second after they come into view; a touch takes over), the laptop-only layouts (two to seven columns, pinned screens, 130 px gutters) are one column on the full width, and the long intro lines under headings are hidden.",
+      "Done page by page: About, AI Development, Brand development, Zero to N brand, Brand identity, Graphic design, Software, SEO, Meta marketing, Physical marketing, CRM, Mobile apps, 3D modeling, Animation, Metaverse, Careers (the journey form), Blog article, Team, WordPress, WooCommerce, Headless CMS, WordPress plugin and Shopify pages (the admin pictures have their menu as a row of tabs), UI/UX, Brand kit, Brand video, Industrial Training.",
+      "The sliding rows are started once for the whole site and find new rows by themselves; the address cards at the end of every page and the plan cards slide too.",
+      "The products grid on the home page now has the five cards in their five places (4 rows). The Products page says Three live products (WePte is live).",
+    ],
+  },
+  {
     v: 165,
     date: "2026-11-13",
     title: "Phone service pages: the Apps sheet is gone, the Menu tab opens the big menu of the home page",

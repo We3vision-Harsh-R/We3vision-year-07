@@ -4,7 +4,7 @@ Goal: every page on phone gets the home-page theme, minimal content, card rows a
 Status: [x] done, [~] partly, [ ] todo
 - [~] Home `/` (Home on phone): hero, About, why cards, products, services ok; AI, Metaverse, Brand sections need a clearer redesign
 - [ ] /m (launcher home)
-Services: [ ] /m/webdev [ ] /m/mobile [ ] /m/software-development-services [ ] /m/ai [ ] /m/metaverse [ ] /m/3d-modeling [ ] /m/animation [ ] /m/ui-ux-design [ ] /m/crm [ ] /m/graphics [ ] /m/seo
+Services: [ ] /m/webdev [ ] /m/mobile [ ] /m/software-development-services [x] /ai (hero, what-is, What we build, industries glide; the rest are demos, FAQ and the step form, left as they are; /m/ai still to delete at the end) [ ] /m/metaverse [ ] /m/3d-modeling [ ] /m/animation [ ] /m/ui-ux-design [ ] /m/crm [ ] /m/graphics [ ] /m/seo
 Brand: [ ] /m/brand-development-services [ ] /m/brand-identity [ ] /m/brand-kit-design [ ] /m/brand-video-production [ ] /m/zero-to-n-brand-development
 Marketing: [ ] /m/meta-marketing-services [ ] /m/physical-marketing-services
 WordPress/Shopify: [ ] custom-wordpress-devlopment-services [ ] wordpress-plugin-development-company [ ] custom-woocommerce-devlopment [ ] headless-CMS-devlopment-services [ ] shopify-development-services [ ] shopify-app-development-services [ ] shopify-plugin-development-services

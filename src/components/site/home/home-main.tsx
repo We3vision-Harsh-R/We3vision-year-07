@@ -1,6 +1,5 @@
 import type { CSSProperties } from "react";
 import { HomeFx } from "@/components/site/home/home-fx";
-import { HomeGlide } from "@/components/site/home/home-glide";
 import { HomeFooter } from "@/components/site/home/home-chrome";
 import { HomeAi } from "@/components/site/home/home-ai";
 import { HomeBrand } from "@/components/site/home/home-brand";
@@ -21,10 +20,10 @@ const POINTS = [
 // the products of We3vision (content/products.ts): where each card sits in the 3 x 4 grid
 const PRODUCTS = [
   { name: "WeBugMate", text: "AI-powered project and task management. Live now.", href: "https://webugmate.com/", col: 2, row: 1, soon: false },
+  { name: "WeThink", text: "A software product from We3vision. Live now.", href: "https://wethink.we3vision.com/", col: 1, row: 2, soon: false },
   { name: "WeJobs", text: "A new software product from We3vision.", href: "/products/wejobs", col: 3, row: 2, soon: true },
-  { name: "WeThink", text: "A software product from We3vision. Live now.", href: "https://wethink.we3vision.com/", col: 1, row: 3, soon: false },
-  { name: "WePresent", text: "A new software product from We3vision.", href: "/products/wepresent", col: 2, row: 4, soon: true },
-  { name: "WePte", text: "A software product from We3vision. Live now.", href: "https://wepte.online/", col: 3, row: 5, soon: false },
+  { name: "WePresent", text: "A new software product from We3vision.", href: "/products/wepresent", col: 2, row: 3, soon: true },
+  { name: "WePte", text: "A software product from We3vision. Live now.", href: "https://wepte.online/", col: 3, row: 4, soon: false },
 ];
 
 // how many real projects (Admin > Projects) belong to each service, and the newest title: each project counts once, by the words of its category
@@ -60,7 +59,6 @@ export async function HomeMain() {
   return (
     <div className="hb2">
       <HomeFx />
-      <HomeGlide />
 
       {/* ---------------------------------------------------------------- the first screen */}
       <div className="hb2-fly" data-pause-off>

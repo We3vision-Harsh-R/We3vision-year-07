@@ -366,3 +366,66 @@
 .gfx-town-in .gfx-note-nav button { width: 40px; height: 40px; }
 .gfx-scrollhint { margin: 0; font-size: 0.95rem; color: var(--g-mute); transition: opacity 0.4s; }
 .gfx-scrollhint[data-hidden="true"] { opacity: 0; }
+
+/* gfp-: the Graphic design page on phones and tablets (owner, 2026-11-13). The laptop layout had no small-screen rules: here the sections use the full width,
+   the sticky notes, the picture frames, the services and the keyword pills are rows that glide sideways (home-glide.tsx), and the step path runs down the left. */
+@media (max-width: 900px) {
+  .gfx-sec {
+    width: calc(100% - 40px);
+    margin-top: 56px;
+  }
+  .gfx-notes,
+  .gfx-frames,
+  .gfx-abs,
+  .gfx-kw {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 14px 20px 8px;
+    max-width: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .gfx-notes::-webkit-scrollbar,
+  .gfx-frames::-webkit-scrollbar,
+  .gfx-abs::-webkit-scrollbar,
+  .gfx-kw::-webkit-scrollbar {
+    display: none;
+  }
+  .gfx-notes > li,
+  .gfx-abs > article {
+    flex: 0 0 78%;
+    transform: none !important;
+  }
+  .gfx-frames > li {
+    flex: 0 0 66%;
+  }
+  .gfx-frames li::before {
+    display: none;
+  }
+  .gfx-kw > li {
+    flex: none;
+  }
+  .gfx-path-line {
+    left: 22px;
+    margin-left: 0;
+  }
+  .gfx-path > li {
+    grid-template-columns: 44px minmax(0, 1fr);
+    column-gap: 8px;
+  }
+  .gfx-path > li.is-l .gfx-step,
+  .gfx-path > li.is-r .gfx-step {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: left;
+  }
+  .gfx-path > li > .gfx-node {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}

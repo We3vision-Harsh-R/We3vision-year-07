@@ -2538,3 +2538,32 @@ a.rt-row:hover {
   position: relative;
   z-index: 2;
 }
+
+/* cjp-: the Careers journey on phones and tablets (owner, 2026-11-13). The laptop layout is two columns (the steps and a 400 px side column for the railway and the
+   pop-up lists); on a phone the steps use the full width and the side column is left out. */
+@media (max-width: 900px) {
+  .cj {
+    padding: 96px 0 40px;
+    min-height: 0;
+  }
+  .cj-wrap,
+  .cj-dest-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 0 20px;
+  }
+  .cj-slot,
+  .cj-dest-slot {
+    display: none;
+  }
+  .cj-slotpop {
+    width: min(400px, calc(100vw - 40px));
+  }
+  /* the railway (train, platform, tunnel names) is a decoration drawn for the side column: it has no room on a phone */
+  body .rl {
+    display: none;
+  }
+  .cj-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

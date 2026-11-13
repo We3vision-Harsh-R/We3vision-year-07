@@ -136,3 +136,21 @@ html .bp.bpx {
   color: var(--a);
   font-size: 0.875rem;
 }
+
+/* bpp-: one blog article on phones and tablets (owner, 2026-11-13). The laptop layout has three columns (index, text, facts) that do not fit a phone: here the text comes
+   first on the full width, the index (a long list beside the text) is left out, and the facts come after the text. */
+@media (max-width: 900px) {
+  html .bp.bpx {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-inline: 20px;
+  }
+  html .bp.bpx .bpx-side {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  html .bp.bpx nav.bpx-side {
+    display: none;
+  }
+}

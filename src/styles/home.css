@@ -421,7 +421,7 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(5, 232px);
+  grid-template-rows: repeat(4, 232px);
   margin-top: 60px;
   border-left: 1px solid var(--line);
   border-top: 1px solid var(--line);

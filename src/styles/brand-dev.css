@@ -362,3 +362,65 @@
 /* the walker turns round when the page is scrolled up, so he walks back along the road instead of moonwalking */
 .bdv-walker-svg { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); transform-origin: 50% 100%; }
 .bdv-walker[data-dir="back"] .bdv-walker-svg { transform: scaleX(-1); }
+
+/* bdp-: the Brand development page on phones and tablets (owner, 2026-11-13). The laptop layout had no small-screen rules: here everything is one column on the
+   full width, the long lines under the headings are hidden and the reasons (plates) glide sideways (home-glide.tsx). */
+@media (max-width: 900px) {
+  .bdv-hero {
+    display: block;
+    width: calc(100% - 40px);
+    min-height: 0;
+    padding: 96px 0 24px;
+  }
+  .bdv-sec {
+    width: calc(100% - 40px);
+    margin-top: 56px;
+  }
+  .bdv-st {
+    width: calc(100% - 40px);
+    min-height: 0;
+    padding: 40px 0 8px;
+  }
+  .bdv-st-p {
+    font-size: 24px;
+  }
+  .bdv-head {
+    margin-bottom: 24px;
+  }
+  .bdv-head h2,
+  .bdv-faq .bdv-head h2 {
+    font-size: 28px;
+  }
+  .bdv-head p:not(.bdv-chip) {
+    display: none;
+  }
+  .bdv-plates {
+    display: flex;
+    gap: 12px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 4px 20px 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .bdv-plates::-webkit-scrollbar {
+    display: none;
+  }
+  .bdv-plates > .bdv-plate {
+    flex: 0 0 78%;
+    padding: 24px 22px;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .bdv-faq {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .bdv-faq .bdv-head {
+    position: static;
+  }
+  .bdv-q button {
+    font-size: 1.05rem;
+  }
+}

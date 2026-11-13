@@ -1,0 +1,58 @@
+/* apx-: the AI Development page on phones and tablets (owner, 2026-11-13). Every rule starts with body:has(.aih-root) so it can only touch this page, even after
+   a client-side move from it to another page. The first screen keeps the heading and the two buttons (the lab picture is 1440 px wide and says the same as
+   "How AI works" right under it); the intro texts under the headings are hidden; What we build and the industries are rows of cards that glide sideways
+   by themselves (home-glide.tsx). Nothing new is said. */
+@media (max-width: 900px) {
+  body:has(.aih-root) .aih-root {
+    height: auto;
+    min-height: 0;
+  }
+  body:has(.aih-root) .aih {
+    display: none;
+  }
+  body:has(.aih-root) .aih-h1 {
+    font-size: 30px;
+    line-height: 1.15;
+    white-space: normal;
+  }
+  body:has(.aih-root) section.py-24 > div > .text-center > p.mx-auto,
+  body:has(.aih-root) .aip-head .aip-intro {
+    display: none;
+  }
+  /* what is AI development: one column, the first paragraph and the key ideas */
+  body:has(.aih-root) .aip-story {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  body:has(.aih-root) .aip-story .aip-d {
+    display: none;
+  }
+  body:has(.aih-root) .aip-lead {
+    font-size: 22px;
+  }
+  /* What we build, AI for every industry: rows of cards */
+  body:has(.aih-root) .aip-svc,
+  body:has(.aih-root) .aip-ind {
+    display: flex;
+    gap: 12px;
+    margin: 20px -20px 0;
+    padding: 4px 20px 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  body:has(.aih-root) .aip-svc::-webkit-scrollbar,
+  body:has(.aih-root) .aip-ind::-webkit-scrollbar {
+    display: none;
+  }
+  body:has(.aih-root) .aip-svc > .aip-card,
+  body:has(.aih-root) .aip-ind > .aip-i {
+    flex: 0 0 78%;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  body:has(.aih-root) .aip-card .aip-viz,
+  body:has(.aih-root) .aip-card .aip-fit {
+    display: none;
+  }
+}

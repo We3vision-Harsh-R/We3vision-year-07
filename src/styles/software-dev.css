@@ -200,3 +200,65 @@
 
 @media (max-height: 800px) { .sdv-og-box { height: 450px; } .sdv-bc { min-height: 200px; } .sdv-bc li { padding: 8px 12px; } .sdv-sp-price { font-size: 2.6rem; } .sdv-app-c { min-height: 220px; } .sdv-pl-b { min-height: 260px; } .sdv-log-b { min-height: 120px; } }
 @media (prefers-reduced-motion: reduce) { .sdv-sp-day button { animation: none; } .sdv-log-b p, .sdv-rg-c li { animation: none; opacity: 1; } .sdv-run-h em, .sdv-jobs li.is-run .sdv-st-i::after, .sdv-mg-l li.run i::after { animation: none; } }
+
+/* mkp-: the marketing pages (SEO, Meta marketing, Physical marketing, Software) on phones and tablets (owner, 2026-11-13). The laptop layout kept a 130 to 140 px
+   gutter for the ruler and two columns; here the gutter is 20 px, everything is one column, the pinned screens are plain sections and the long intro lines are
+   hidden. "body .mkt" makes these rules win over the page variants (.sxo, .sdv, .mtb). */
+@media (max-width: 900px) {
+  body .mkt .mkt-ruler,
+  body .mkt .mkt-mark {
+    display: none;
+  }
+  body .mkt .mkt-hero {
+    display: block;
+    min-height: 0;
+    padding: 96px 20px 36px;
+  }
+  body .mkt .mkt-h1 {
+    font-size: 34px;
+  }
+  body .mkt .mkt-sec,
+  body .mkt .mkt-pinned {
+    padding: 48px 20px 8px;
+  }
+  body .mkt .mkt-end {
+    padding: 56px 20px 40px;
+  }
+  body .mkt .sxo-labband {
+    padding: 10px 20px 24px;
+  }
+  body .mkt .mkt-pin-in {
+    position: static;
+    display: block;
+    height: auto;
+    padding: 0;
+    overflow: visible;
+  }
+  body .mkt .mkt-h2,
+  body .mkt .mkt-pinned .mkt-h2 {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+  body .mkt .mkt-lead {
+    display: none;
+  }
+}
+
+/* mkp2-: the pinned screens are only as tall as their content on a phone (the laptop sets their height by script), and their parts use the full width. */
+@media (max-width: 900px) {
+  body .mkt .mkt-sec.mkt-pinned {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  body .mkt .mkt-pin-in > * {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 900px) {
+  html body .mkt .mkt-sec.mkt-pinned .mkt-pin-in {
+    padding: 0 !important;
+    align-items: stretch;
+  }
+}

@@ -230,3 +230,43 @@
 @media (prefers-reduced-motion: reduce) {
 .wpa-main * { animation: none !important; }
 }
+
+/* wpp-: the WordPress admin picture of the WordPress page on phones and tablets (owner, 2026-11-13). The laptop picture has a 210 px menu beside the page (on a phone the page
+   was 132 px wide); here the menu is a row of tabs above the page, and the page uses the full width. */
+@media (max-width: 900px) {
+  .wpa-wrap {
+    width: calc(100% - 40px);
+    padding: 96px 0 24px;
+  }
+  .wpa-bar {
+    gap: 12px;
+    padding: 0 12px;
+    overflow: hidden;
+  }
+  .wpa-howdy {
+    display: none;
+  }
+  .wpa-body {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .wpa-side {
+    display: flex;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .wpa-side::-webkit-scrollbar {
+    display: none;
+  }
+  .wpa-side button {
+    flex: none;
+    width: auto;
+    white-space: nowrap;
+    padding: 12px 14px;
+  }
+  .wpa-main {
+    padding: 14px 16px 28px;
+    overflow-x: auto;
+  }
+}

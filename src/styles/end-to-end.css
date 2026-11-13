@@ -202,3 +202,93 @@
 .e2e-pr-l { position: static; }
 .e2e-pr-l .e2e-mark { position: absolute; left: -72px; top: 8px; }
 .e2e-pr-in .e2e-pr-l { position: relative; }
+
+/* e2p-: the Zero to N brand page on phones and tablets (owner, 2026-11-13). The laptop layout kept a 120 to 130 px gutter for the ruler and two to seven columns;
+   here the gutter is 20 px, everything is one column, the pinned screen is a plain section, the long lines under the headings are hidden, and the journey
+   steps, the ecosystem, the audiences and the reasons are rows that glide sideways (home2 / home glide component). */
+@media (max-width: 900px) {
+  html body .e2e-ruler,
+  html body .e2e-mark {
+    display: none;
+  }
+  html body .e2e-hero {
+    display: block;
+    min-height: 0;
+    padding: 96px 20px 32px;
+  }
+  html body .e2e-h1 {
+    font-size: 34px;
+  }
+  html body .e2e-sec {
+    padding: 48px 20px 8px;
+  }
+  html body .e2e-ov {
+    display: block;
+  }
+  html body .e2e-h2,
+  html body .e2e-end-h {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+  html body .e2e-lead,
+  html body .e2e-lead2,
+  html body .e2e-ov-r p:not(:first-child) {
+    display: none;
+  }
+  html body .e2e-pr,
+  html body .e2e-scope,
+  html body .e2e-del {
+    display: block;
+  }
+  html body .e2e-sec.e2e-pr {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  html body .e2e-pr-in {
+    position: static;
+    display: block;
+    height: auto;
+    padding: 0;
+  }
+  html body .e2e-pr .e2e-pr-l,
+  html body .e2e-pr-in .e2e-pr-l {
+    position: relative;
+    top: auto;
+    margin-bottom: 20px;
+  }
+  html body .e2e-jr,
+  html body .e2e-eco,
+  html body .e2e-aud,
+  html body .e2e-why {
+    display: flex;
+    gap: 12px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 20px 20px 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  html body .e2e-jr::before {
+    display: none;
+  }
+  html body .e2e-jr > li,
+  html body .e2e-eco > .e2e-eco-c,
+  html body .e2e-aud > li,
+  html body .e2e-why > li {
+    flex: 0 0 78%;
+    opacity: 1;
+    transform: none;
+  }
+  html body .e2e-del-c {
+    margin-bottom: 12px;
+    padding: 22px 20px;
+  }
+  html body .e2e-port {
+    display: block;
+    padding: 24px 20px;
+  }
+  html body .e2e-end {
+    padding: 48px 20px 40px;
+  }
+}

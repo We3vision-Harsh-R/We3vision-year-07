@@ -12145,3 +12145,274 @@ html body .mbh-btn:hover {
     transform: none;
   }
 }
+
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   pph-: rules that every page shares on phones and tablets (owner, 2026-11-13). The address cards at the end of every page and the plan cards are rows that
+   glide sideways by themselves (components/site/home/home-glide.tsx, mounted once in the site layout: it starts 1 second after a row comes into view);
+   the intro text under a heading is hidden (the cards say it). */
+@media (max-width: 900px) {
+  .hm-addr,
+  .pln-grid {
+    display: flex !important;
+    gap: 12px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 4px 20px 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .hm-addr::-webkit-scrollbar,
+  .pln-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .hm-addr > *,
+  .pln-grid > * {
+    flex: 0 0 78%;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .aip-head .aip-intro {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .pph-auto {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    margin-right: -20px !important;
+    margin-left: -20px !important;
+    padding: 4px 20px 6px !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .pph-auto::-webkit-scrollbar {
+    display: none;
+  }
+  .pph-auto > * {
+    flex: 0 0 78% !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* pps-: shared "modern" sections on phones and tablets (owner, 2026-11-13; Brand identity and every page that uses them): the process columns glide sideways
+   and the intro line under a heading is hidden. */
+@media (max-width: 900px) {
+  :root .vp-bd-cols {
+    display: flex;
+    gap: 12px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 4px 20px 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  :root .vp-bd-cols::-webkit-scrollbar {
+    display: none;
+  }
+  :root .vp-bd-cols > * {
+    flex: 0 0 78%;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .vk-head .md-intro {
+    display: none;
+  }
+}
+
+/* crp-: more shared "modern" sections on phones and tablets (owner, 2026-11-13; CRM and every page that uses them): the zigzag process runs down the left with the
+   numbers on the line, and the story boxes put the number above the text. */
+@media (max-width: 900px) {
+  :root .vp-zz-list::before {
+    left: 22px;
+    transform: none;
+  }
+  :root .vp-zz-list > li {
+    grid-template-columns: 46px minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: start;
+  }
+  :root .vp-zz-list li[data-side] > :not(.vp-zz-dot) {
+    grid-column: 2;
+    margin: 0;
+  }
+  :root .vp-zz-list .vp-zz-dot {
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+    transform: none;
+  }
+  :root .vy-stack {
+    grid-auto-rows: auto;
+  }
+  :root .vy-st {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+    padding: 1.2rem;
+    border-radius: 0 20px 20px 0;
+  }
+  :root .vy-st-no {
+    font-size: 2.4rem;
+  }
+  :root .vy-st .sy-p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+}
+
+/* mrl-: "More from We3vision" (the related pages at the end of the service pages) is a row that glides sideways on phones and tablets (owner, 2026-11-13). */
+@media (max-width: 900px) {
+  :root .md-rel {
+    display: flex;
+    gap: 12px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 4px 20px 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  :root .md-rel::-webkit-scrollbar {
+    display: none;
+  }
+  :root .md-rel > li {
+    flex: 0 0 78%;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* mfq-: the questions (accordion) of the service pages are tighter on phones and tablets (owner, 2026-11-13): shorter rows, the intro line under the heading hidden. */
+@media (max-width: 900px) {
+  :root .md-faq-item button {
+    gap: 12px;
+    padding: 16px 8px 16px 16px;
+  }
+  :root .md-faq-item button span {
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+  :root .md-faq-side .md-intro {
+    display: none;
+  }
+  :root .md-faq-help {
+    margin-top: 16px;
+    padding: 16px 18px;
+  }
+}
+
+/* ssp-: the staircase process (.vp-ss) on phones and tablets (owner, 2026-11-13): the laptop step was worked out from a 560 px card, which went negative on a phone and made
+   every card wider than the screen. Here each card steps in a little (6 px) and keeps the full width. */
+@media (max-width: 900px) {
+  :root .vp-ss-list > li {
+    margin-left: calc(var(--i, 0) * 6px);
+    max-width: none;
+  }
+}
+
+/* mvp-: the two scroll scenes of the Metaverse page (the office and the tech tunnel) on phones and tablets (owner, 2026-11-13). Their length is the scroll distance of the
+   scene (7.5 screens on a laptop); on a phone the same scene plays over 3.6 screens, so it is not a wall of empty scrolling. */
+@media (max-width: 900px) {
+  html body .vr:not([data-state="still"]):not([data-state="fallback"]) {
+    height: calc(100svh * 3.6);
+  }
+  html body .vfo {
+    height: calc(100svh * 3.6);
+  }
+}
+
+/* tmp-: the Team page on phones and tablets (owner, 2026-11-13): the six steps of how a project moves (they were six columns of 103 px) are a row that glides sideways
+   (home glide component). */
+@media (max-width: 900px) {
+  :root .tj {
+    display: flex;
+    gap: 12px;
+    margin: 28px -20px 0;
+    padding: 4px 20px 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  :root .tj::-webkit-scrollbar {
+    display: none;
+  }
+  :root .tj > li {
+    flex: 0 0 78%;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* twp-: the tab window picture (a menu on the left and a page on the right) of the WordPress plugin, WooCommerce, Headless CMS and Shopify pages on phones and tablets
+   (owner, 2026-11-13). On a phone the menu is a row of tabs above the page and the page uses the full width. */
+@media (max-width: 900px) {
+  html body .tw .tw-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  html body .tw .tw-nav {
+    flex-direction: row;
+    gap: 6px;
+    padding: 10px 12px;
+    border-right: 0;
+    border-bottom: 1px solid hsl(calc(var(--th) + 354) 40% 80% / 0.16);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  html body .tw .tw-nav::-webkit-scrollbar {
+    display: none;
+  }
+  html body .tw .tw-nav button {
+    flex: none;
+    white-space: nowrap;
+    padding: 9px 14px;
+    border-left: 0;
+    border-radius: 999px;
+  }
+}
+
+/* rmn-: the last squeezed blocks of the modern sections on phones and tablets (owner, 2026-11-13): the question cards (2 columns of 112 px), the tool cards (3 columns of
+   107 px), the brand layers rows, the inspector columns, the reasons rows and the design window (layers | canvas | properties) are one column on a phone;
+   the design window keeps its canvas and its properties and leaves the layers list out. */
+@media (max-width: 900px) {
+  :root .vf-cd-grid,
+  :root .vt-tb-grid,
+  :root .cv-insp-cols,
+  :root .vp-rw-in {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :root .vp-rw-in {
+    padding-left: 24px;
+  }
+  :root .vt-ly {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 12px;
+  }
+  :root .vt-ly > :nth-child(3) {
+    display: none;
+  }
+  :root .fg-body {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+  }
+  :root .fg-layers {
+    display: none;
+  }
+  :root .fg-canvas {
+    min-height: 340px;
+  }
+  :root .fg-who,
+  :root .fg-share {
+    display: none;
+  }
+}

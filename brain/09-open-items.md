@@ -322,6 +322,7 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Phone twin (/m) has fewer words and FAQPage on 6 pages only: resolved when /m is dropped (phone plan).
 - Home FAQ not looked at on phone; 3 article titles over 70 characters (Admin > Blog); URL typos "devlopment" kept on purpose (needs 301s).
 - Decide the policy for training crawlers (GPTBot, Google-Extended, ClaudeBot, CCBot): unchanged for now.
+- PHONE all pages: measured heights at 390px (dev): seo 33k, graphics 31k, physical 28k, meta-marketing 26k, brand-development 22k, zero-to-n 20k, software 19k; no page overflows sideways. Each of these has its own section components (mkt-, sxo-, pln-, gfx-, bdv-, sdv-); design them one by one with the owner.
 
 ## home2 -> home rename (task 151, 2026-11-13)
 - Proof that nothing changed: production build before and after, HTML markup (scripts removed, JSON-LD kept) of 11 pages (/, /services, /portfolio, /contact, /about, /blog, /ai, /webdev, /seo, /products, /careers) is identical, and all 17 CSS files are byte-identical. tsc, eslint and `next build --webpack` pass.

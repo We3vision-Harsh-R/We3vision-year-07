@@ -10,7 +10,7 @@ import { useEffect } from "react";
 //   - it loops with no gap: a copy of the cards (aria-hidden, not focusable) is added after the real ones while the page is small, and removed again on a big screen.
 // Reduced motion: nothing glides. Only scrollLeft changes; the styles are in styles/home-mobile.css (hms-).
 
-const ROWS = ".hb2-points, .hb2-grid, .hb2-m-bento, .hba-work, .ac-list, .tl-ol, .abp-row, .ss, .rs-cards";
+const ROWS = ".hb2-points, .hb2-grid, .hb2-m-bento, .hba-work, .ac-list, .tl-ol, .abp-row, .ss, .rs-cards, .aip-svc, .aip-ind, .hm-addr, .pln-grid, .pph-auto, .gfx-notes, .gfx-frames, .gfx-abs, .gfx-kw, .bdv-plates, .e2e-jr, .e2e-eco, .e2e-aud, .e2e-why, .vp-bd-cols, .md-rel, .tj";
 const START_DELAY = 1000;
 const RESUME_DELAY = 1400;
 const SPEED = 26; // pixels per second: slow and smooth
@@ -25,6 +25,8 @@ function glide(row: HTMLElement): () => void {
     k.setAttribute("data-in", "true");
     k.querySelectorAll<HTMLElement>("a, button").forEach((a) => a.setAttribute("tabindex", "-1"));
     if (k.tagName === "A") k.setAttribute("tabindex", "-1");
+    k.removeAttribute("data-reveal");
+    k.querySelectorAll("[data-reveal]").forEach((x) => x.removeAttribute("data-reveal"));
     k.classList.add("hb2-glide-copy");
     row.appendChild(k);
     return k;
@@ -159,21 +161,61 @@ function whenReady(row: HTMLElement): () => void {
   };
 }
 
+// A tall stack of three to twelve cards of the same width (on any page) becomes a sideways row on a phone: the class pph-auto (styles: globals.css, pph-).
+// Only things that look like cards qualify; lists of links, questions and answers, forms and anything inside the menu or the footer do not.
+const checked = new WeakSet<Element>();
+const SKIP = "nav, footer, header, form, aside, [aria-expanded], details, canvas, input, textarea, select, [class*='faq'], [class*='-qa'], [class*='hb2-'], [class*='lnc'], [data-no-glide]";
+function cardLike(c: HTMLElement): boolean {
+  const s = getComputedStyle(c);
+  const bg = s.backgroundColor.match(/[\d.]+/g);
+  const alpha = bg && bg.length > 3 ? parseFloat(bg[3]) : bg ? 1 : 0;
+  const look = parseFloat(s.borderTopWidth) > 0 || alpha > 0.03 || s.backgroundImage !== "none";
+  const len = (c.textContent ?? "").trim().length;
+  return look && len > 20 && len < 500;
+}
+function findStacks() {
+  document.querySelectorAll<HTMLElement>("main ul, main ol, main div, main section").forEach((e) => {
+    if (checked.has(e) || e.classList.contains("pph-auto") || e.closest("[class*='hb2-glide-copy']")) return;
+    const n = e.children.length;
+    if (n < 3 || n > 12) return;
+    checked.add(e);
+    if (e.matches(SKIP) || e.closest(SKIP)) return;
+    const kids = Array.from(e.children) as HTMLElement[];
+    const rs = kids.map((k) => k.getBoundingClientRect());
+    const box = e.getBoundingClientRect();
+    if (box.width < 240 || rs.some((r) => r.width < 0.8 * box.width || Math.abs(r.left - rs[0].left) > 6 || Math.abs(r.width - rs[0].width) > 8 || r.height < 100 || r.height > 560)) return;
+    if (rs.reduce((a, r) => a + r.height, 0) < 520) return;
+    if (kids.some((k) => k.matches(SKIP) || k.querySelector(SKIP) || getComputedStyle(k).position === "absolute")) return;
+    if (!kids.every(cardLike)) return;
+    e.classList.add("pph-auto");
+  });
+}
+
 export function HomeGlide() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const small = window.matchMedia("(max-width: 900px)");
-    let stops: (() => void)[] = [];
-    const apply = () => {
-      stops.forEach((s) => s());
-      stops = [];
-      if (small.matches) stops = Array.from(document.querySelectorAll<HTMLElement>(ROWS)).map(whenReady);
+    const rows = new Map<HTMLElement, () => void>();
+    // every second: the rows of the page now on screen that are not gliding yet start (pages change without a reload), the rows that left are cleaned up
+    const scan = () => {
+      for (const [row, stop] of rows) {
+        if (!row.isConnected || !small.matches) {
+          stop();
+          rows.delete(row);
+        }
+      }
+      if (!small.matches) return;
+      findStacks();
+      document.querySelectorAll<HTMLElement>(ROWS).forEach((row) => {
+        if (!rows.has(row)) rows.set(row, whenReady(row));
+      });
     };
-    apply();
-    small.addEventListener("change", apply);
+    scan();
+    const timer = window.setInterval(scan, 1000);
     return () => {
-      small.removeEventListener("change", apply);
-      stops.forEach((s) => s());
+      window.clearInterval(timer);
+      rows.forEach((stop) => stop());
+      rows.clear();
     };
   }, []);
   return null;

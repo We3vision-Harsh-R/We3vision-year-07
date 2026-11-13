@@ -38,7 +38,7 @@ export const PRODUCTS_SECTIONS: PageSection[] = [
   section("services", {
     chip: "Products",
     heading: "Meet The\nProducts",
-    intro: "Two live products and two that are coming soon.",
+    intro: "Three live products and two that are coming soon.",
     buttonLabel: "",
     buttonHref: "",
     cards: [

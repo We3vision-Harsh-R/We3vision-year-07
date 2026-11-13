@@ -3,6 +3,7 @@ import type { SectionData } from "@/lib/cms/sections";
 import { Reveal } from "../reveal";
 import { Rich, paragraphs } from "../ui";
 import "@/styles/ai-page.css";
+import "@/styles/ai-phone.css";
 
 // The AI page below the hero (owner, 2026-11-09, from five references: glass cards with glow, a pill workflow, "how it works" cards with a small picture
 // each, curved shapes and a slider graph with a glowing path). Server parts: the heading of a section, "What we build" and the industries.

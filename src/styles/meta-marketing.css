@@ -185,3 +185,38 @@
 .mtb-cta { min-width: 0; }
 .mtb-cta span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mtb-cta u { flex: none; white-space: nowrap; }
+
+/* mtp-: the Meta marketing page on phones and tablets (owner, 2026-11-13). The "ads manager" windows hold two or three columns (the campaign list, the details, a phone
+   preview); on a phone each window is one column. The big mock-up in the first screen is left out (it only decorates). */
+@media (max-width: 900px) {
+  body .mtb-body > *,
+  body .mtb-two {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  body .mtb-tabs2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  body .mtb-hero .mkt-hero-r {
+    display: none;
+  }
+  body .mtb-win {
+    max-width: 100%;
+  }
+  /* the list of campaign goals is a row that is swiped; the table of results scrolls sideways inside its window */
+  body .mtb-camps {
+    display: flex !important;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  body .mtb-camps::-webkit-scrollbar {
+    display: none;
+  }
+  body .mtb-camps > li {
+    flex: 0 0 68%;
+  }
+  body .mtb-tbl {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
