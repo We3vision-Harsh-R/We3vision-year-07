@@ -5,7 +5,7 @@ import { getSiteSettings } from "@/lib/cms/queries";
 import { getProjects } from "@/lib/projects";
 import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, TRAINING_LINKS } from "@/lib/site-menu";
 import { unlistedPages } from "@/lib/site-menu-pages";
-import { AppLink, AppScreen, Section, contactFrom } from "../app";
+import { AppLink, AppScreen, Section, contactFrom, megaFrom } from "../app";
 import { IcChevron } from "../app/icons";
 import { APPS } from "../launcher-data";
 import "./detail.css";
@@ -33,7 +33,7 @@ export async function renderMobileSitemap() {
   ];
   const app = APPS.about;
   return (
-    <AppScreen page="sitemap-index" title="Sitemap" glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="/contact" nav={{ tabs: [{ id: null, label: "Sitemap", icon: "overview" }], outline: [], currentHref: "/sitemap" }}>
+    <AppScreen page="sitemap-index" title="Sitemap" glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="/contact" nav={{ tabs: [{ id: null, label: "Sitemap", icon: "overview" }], mega: megaFrom(site) }}>
       <Section chip="Sitemap" title={"Every Page Of\nWe3vision"} intro="Find a service, a product or any other page quickly.">
         <div className="mp-sm">
           {groups.map((g, i) => (

@@ -1,8 +1,10 @@
 import "../globals.css";
 import "@/styles/home-mobile.css";
+import "@/styles/menu-phone-a.css";
 import "@/styles/phone-space.css";
 import "@/styles/service-hero-mobile.css";
 import "@/styles/nav-bar.css";
+import "@/styles/menu-phone-b.css";
 import "@/styles/phone-speed.css";
 import "@/styles/ux-fixes.css";
 import "@/styles/ux-auto.css";

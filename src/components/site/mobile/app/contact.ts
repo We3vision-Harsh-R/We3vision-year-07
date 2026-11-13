@@ -1,3 +1,4 @@
+import type { MegaData } from "@/components/site/mega-menu";
 import type { SiteSettings } from "@/lib/cms/settings";
 
 // The real contact details of the company (Admin > Settings > contact cards), found the same way as the launcher's "Talk to us" widget
@@ -19,4 +20,9 @@ export function contactFrom(site: SiteSettings): ContactInfo | null {
     address,
     maps: address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : "",
   };
+}
+
+/** the data of the big menu (the one of the home page) that the Menu tab of every screen opens */
+export function megaFrom(site: SiteSettings): MegaData {
+  return { nav: site.nav, menus: site.menus, title: site.megaTitle, text: site.megaText, cta: site.megaCta, ctaHref: site.megaCtaHref, badges: site.badges, social: site.social };
 }

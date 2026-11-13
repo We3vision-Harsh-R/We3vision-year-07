@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 165,
+    date: "2026-11-13",
+    title: "Phone service pages: the Apps sheet is gone, the Menu tab opens the big menu of the home page",
+    notes: [
+      "The bottom bar of every phone service page (and the blog, project and job pages) has a Menu tab in place of Apps; it opens the same big menu as the Home page (AI chat, services, products, explore, training, follow us).",
+      "The old Apps sheet (app icons, On this page, search) is removed. Share this page stays: it is a row under the chat in the menu and opens the same share sheet as before.",
+      "The menu's phone styles moved out of nav-bar.css and home-mobile.css into menu-phone-a.css and menu-phone-b.css so both the Home page and the service pages load them (computed styles of the Home menu checked: no change).",
+    ],
+  },
+  {
     v: 164,
     date: "2026-11-13",
     title: "Phone menu: every link regular weight",

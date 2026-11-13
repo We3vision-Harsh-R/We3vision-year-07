@@ -2,6 +2,8 @@
 
 import "@/styles/panda-chat.css";
 import "@/styles/mega-menu.css";
+import "@/styles/menu-phone-a.css";
+import "@/styles/menu-phone-b.css";
 import "@/styles/menu-look.css";
 
 
@@ -57,6 +59,7 @@ export function MegaMenu({
   onEnter,
   onLeave,
   data,
+  onShare,
 }: {
   open: boolean;
   sticky: boolean;
@@ -64,6 +67,8 @@ export function MegaMenu({
   onEnter: () => void;
   onLeave: () => void;
   data: MegaData;
+  /** only the phone service pages pass it: a row that opens the share sheet of that page */
+  onShare?: () => void;
 }) {
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -156,6 +161,15 @@ export function MegaMenu({
               </div>
             )}
           </div>
+
+          {onShare && (
+            <button type="button" className="mm-share mm-r" style={r()} onClick={onShare}>
+              <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-none stroke-current" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 15V4M8 8l4-4 4 4M6 12H5.5A1.5 1.5 0 0 0 4 13.5v5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-5a1.5 1.5 0 0 0-1.5-1.5H18" />
+              </svg>
+              <span>Share this page</span>
+            </button>
+          )}
 
           <nav className="mm-nav" aria-label="All pages" onClickCapture={(e) => (e.target as HTMLElement).closest("a") && onClose()}>
             <section className="mm-svc mm-r" style={r()}>

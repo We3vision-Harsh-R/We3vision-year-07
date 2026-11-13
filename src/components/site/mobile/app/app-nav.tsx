@@ -1,25 +1,27 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AppsSheet } from "./apps-sheet";
 import { openShare } from "./share-sheet";
 import type { ContactInfo } from "./contact";
 import { ContactSheet } from "./contact-sheet";
-import type { NavTab, OutlineItem } from "./nav-types";
+import type { NavTab } from "./nav-types";
+import type { MegaData } from "@/components/site/mega-menu";
 import { TabIcon } from "./tab-icons";
 import { PandaMini } from "@/components/site/about/panda-mini";
 
 /**
  * The app chrome at the bottom and the top right of a screen:
- *  - the TAB BAR (an iOS tab bar of liquid glass): one tab per main topic of the page + "Apps". A tap moves to that topic with a blur
+ *  - the TAB BAR (an iOS tab bar of liquid glass): one tab per main topic of the page + "Menu". A tap moves to that topic with a blur
  *    ease-in-out (the content blurs and dims, jumps while it is blurred, then clears) instead of a plain scroll;
- *  - the "Apps" tab opens the APPS SHEET (every page of the website as an app list on a blurred backdrop);
+ *  - the "Menu" tab opens the BIG MENU of the home page (mega-menu.tsx: the AI chat and the links of every page); it is loaded on the first tap;
  *  - the round phone button at the top right opens the CONTACT SHEET (Call / WhatsApp / Message).
  * Client code; the tabs are worked out on the server (renderMobilePage).
  */
-export function AppNav({ tabs, outline, contact, messageHref, currentHref, title }: { tabs: NavTab[]; outline: OutlineItem[]; contact: ContactInfo | null; messageHref: string; currentHref: string; title: string }) {
+export function AppNav({ tabs, mega, contact, messageHref, title }: { tabs: NavTab[]; mega: MegaData; contact: ContactInfo | null; messageHref: string; title: string }) {
   const [active, setActive] = useState(0);
-  const [sheet, setSheet] = useState<"" | "apps" | "contact">("");
+  const [sheet, setSheet] = useState<"" | "contact">("");
+  const [Mega, setMega] = useState<typeof import("@/components/site/mega-menu").MegaMenu | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const busy = useRef(false);
   const lock = useRef(false);
 
@@ -96,6 +98,23 @@ export function AppNav({ tabs, outline, contact, messageHref, currentHref, title
     return () => window.removeEventListener("ma:jump", on);
   }, [go]);
 
+  /** the Menu tab: the big menu is loaded on the first tap, then it opens (two frames later, so it grows in with its animation) */
+  const toggleMenu = () => {
+    setSheet("");
+    if (Mega) {
+      setMenuOpen((o) => !o);
+      return;
+    }
+    void import("@/components/site/mega-menu").then((m) => {
+      setMega(() => m.MegaMenu);
+      requestAnimationFrame(() => requestAnimationFrame(() => setMenuOpen(true)));
+    });
+  };
+  const shareThis = () => {
+    setMenuOpen(false);
+    window.setTimeout(() => openShare({ title, subtitle: window.location.host, url: window.location.href }), 260);
+  };
+
   const jumpFromSheet = (id: string) => {
     setSheet("");
     window.setTimeout(() => go(id), 230);
@@ -106,22 +125,22 @@ export function AppNav({ tabs, outline, contact, messageHref, currentHref, title
       <nav className="ma-tabs" aria-label={`${title} sections`}>
         <div className="ma-tabs-pill">
         {tabs.map((t, i) => (
-          <button key={t.label} type="button" className={`ma-nt${i === active && !sheet ? " is-on" : ""}`} aria-current={i === active && !sheet ? "location" : undefined} onClick={() => { setSheet(""); go(t.id, i); }}>
+          <button key={t.label} type="button" className={`ma-nt${i === active && !sheet && !menuOpen ? " is-on" : ""}`} aria-current={i === active && !sheet && !menuOpen ? "location" : undefined} onClick={() => { setSheet(""); setMenuOpen(false); go(t.id, i); }}>
             <TabIcon name={t.icon} />
             <span>{t.label}</span>
           </button>
         ))}
-        <button type="button" className={`ma-nt ma-nt-apps${sheet === "apps" ? " is-on" : ""}`} aria-haspopup="dialog" aria-expanded={sheet === "apps"} onClick={() => setSheet(sheet === "apps" ? "" : "apps")}>
-          <TabIcon name="apps" />
-          <span>Apps</span>
+        <button type="button" className={`ma-nt ma-nt-menu${menuOpen ? " is-on" : ""}`} aria-haspopup="dialog" aria-expanded={menuOpen} onClick={toggleMenu}>
+          <TabIcon name="menu" />
+          <span>Menu</span>
         </button>
         </div>
-        <button type="button" className={`ma-tabs-pd${sheet === "contact" ? " is-on" : ""}`} aria-label="Talk to us" aria-haspopup="dialog" onClick={() => setSheet(sheet === "contact" ? "" : "contact")}>
+        <button type="button" className={`ma-tabs-pd${sheet === "contact" ? " is-on" : ""}`} aria-label="Talk to us" aria-haspopup="dialog" onClick={() => { setMenuOpen(false); setSheet(sheet === "contact" ? "" : "contact"); }}>
           <PandaMini paws={false} />
         </button>
       </nav>
 
-      <AppsSheet open={sheet === "apps"} onClose={() => setSheet("")} outline={outline} currentHref={currentHref} onJump={jumpFromSheet} onContact={() => setSheet("contact")} onShare={() => { setSheet(""); window.setTimeout(() => openShare({ title, subtitle: window.location.host, url: window.location.href }), 260); }} />
+      {Mega && <Mega open={menuOpen} sticky onClose={() => setMenuOpen(false)} onEnter={() => {}} onLeave={() => {}} data={mega} onShare={shareThis} />}
       <ContactSheet open={sheet === "contact"} onClose={() => setSheet("")} contact={contact} messageHref={messageHref} onJump={jumpFromSheet} />
     </>
   );

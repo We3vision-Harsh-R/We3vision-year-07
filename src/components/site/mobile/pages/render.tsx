@@ -8,9 +8,9 @@ import { getDraftPage, getPublishedPage, getSiteSettings } from "@/lib/cms/queri
 import type { SectionType } from "@/lib/cms/sections";
 import { getProjects } from "@/lib/projects";
 import { SHARE_IMAGE } from "@/lib/share-image";
-import { AppScreen, Collapse, contactFrom } from "../app";
+import { AppScreen, Collapse, contactFrom, megaFrom } from "../app";
 import { APPS, GROUPS } from "../launcher-data";
-import { outlineFor, tabsFor } from "./nav";
+import { tabsFor } from "./nav";
 import { HERO_LIKE, MOBILE_SECTIONS, type AnyMobileSection } from "./sections";
 import type { MobileData, MobileSection } from "./types";
 
@@ -72,7 +72,7 @@ export async function renderMobilePage(slug: PageSlug, opts: RenderOptions = {})
         titleIsH1={!(first && HERO_LIKE.has(first))}
         contact={contact}
         messageHref={hasForm ? "#contact" : "/contact"}
-        nav={{ tabs: tabsFor(sections), outline: outlineFor(sections), currentHref: PAGES[slug].path }}
+        nav={{ tabs: tabsFor(sections), mega: megaFrom(site) }}
       >
         {sections.map((s, i) => {
           const Section = (opts.overrides?.[s.type] ?? MOBILE_SECTIONS[s.type]) as unknown as AnyMobileSection;

@@ -9,7 +9,7 @@ export { Clamp } from "./clamp";
 export { Collapse } from "./collapse";
 export { Carousel } from "./carousel";
 export { Accordion, Button, Card, Chip, Cloud, Gallery, GroupedList, Hero, ListRow, Pic, PicCard, Points, Section, Stats, Stepper, cx } from "./kit";
-export { contactFrom, type ContactInfo } from "./contact";
+export { contactFrom, megaFrom, type ContactInfo } from "./contact";
 export { IcArrow, IcChat, IcChevron, IcChevronLeft, IcMail, IcPhone, IcPin, IcWhatsApp } from "./icons";
 export { Lines, Rich, isExternal, lines, oneLine, pairs, paragraphs } from "./text";
 export type { NavTab, OutlineItem, TabIconName } from "./nav-types";

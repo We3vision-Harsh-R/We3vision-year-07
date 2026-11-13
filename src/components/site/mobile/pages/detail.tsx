@@ -6,10 +6,10 @@ import { getSiteSettings } from "@/lib/cms/queries";
 import { articleGraph, breadcrumbNode, orgRef, organizationRef, websiteId, websiteNode } from "@/lib/seo/schema";
 import type { JobView } from "@/lib/careers-shared";
 import { coverOf, getProjectBySlug } from "@/lib/projects";
-import { AppScreen, Accordion, Button, Card, LeadForm, Pic, Points, Section, contactFrom } from "../app";
+import { AppScreen, Accordion, Button, Card, LeadForm, Pic, Points, Section, contactFrom, megaFrom } from "../app";
 import { JsonLd } from "../../json-ld";
 import { JobApplyForm } from "../../lazy";
-import type { NavTab, OutlineItem } from "../app/nav-types";
+import type { NavTab } from "../app/nav-types";
 import { APPS } from "../launcher-data";
 import { ShareButton } from "../../lazy";
 import "./detail.css";
@@ -44,11 +44,10 @@ export async function renderMobileBlogPost(slug: string) {
     ...(hasFaq ? [{ id: "faq", label: "FAQ", icon: "faq" as const }] : []),
     { id: "contact", label: "Contact", icon: "contact" },
   ];
-  const outline: OutlineItem[] = [...(hasFaq ? [{ id: "faq", label: "Frequently asked questions" }] : []), { id: "contact", label: "Want to build something?" }];
   return (
     <>
       <JsonLd graph={articleGraph(post)} />
-      <AppScreen page="post-detail" title={post.title} subtitle={`${post.category} · ${post.dateLabel}`} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, outline, currentHref: "/blog" }}>
+      <AppScreen page="post-detail" title={post.title} subtitle={`${post.category} · ${post.dateLabel}`} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, mega: megaFrom(site) }}>
         <article className="ma-sec mp-dt-art">
           {post.summary && <p className="ma-lead mp-dt-lead">{post.summary}</p>}
           <div className="mp-dt-bar">
@@ -114,7 +113,6 @@ export async function renderMobileProject(slug: string) {
     ...(gallery.length ? [{ id: "gallery", label: "Gallery", icon: "services" as const }] : []),
     { id: "contact", label: "Contact", icon: "contact" },
   ];
-  const outline: OutlineItem[] = [...(gallery.length ? [{ id: "gallery", label: "Pictures" }] : []), { id: "contact", label: "Want something like this?" }];
   const url = `${b}/portfolio/${p.slug}`;
   const image = cover ? (cover.startsWith("http") ? cover : `${b}${cover}`) : undefined;
   const ld = [
@@ -127,7 +125,7 @@ export async function renderMobileProject(slug: string) {
   return (
     <>
       <JsonLd graph={ld} />
-      <AppScreen page="project-detail" title={p.title} subtitle={p.category || undefined} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, outline, currentHref: "/portfolio" }}>
+      <AppScreen page="project-detail" title={p.title} subtitle={p.category || undefined} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, mega: megaFrom(site) }}>
         <article className="ma-sec mp-dt-art">
           {cover && <Pic src={cover} alt={p.title} ratio="3 / 2" />}
           <div className="mp-dt-bar">
@@ -197,7 +195,6 @@ export async function renderMobileJob(slug: string) {
     ...(blocks.length ? [{ id: blocks[0].id, label: "Details", icon: "process" as const }] : []),
     { id: "apply", label: "Apply", icon: "contact" },
   ];
-  const outline: OutlineItem[] = [...blocks.map((x) => ({ id: x.id, label: x.title })), { id: "apply", label: "Apply for this position" }];
   const ld = {
     "@context": "https://schema.org",
     "@type": "JobPosting",
@@ -212,7 +209,7 @@ export async function renderMobileJob(slug: string) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(ld)} />
-      <AppScreen page="job-detail" title={job.title} subtitle={job.team ? `Position · ${job.team}` : "Position"} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#apply" nav={{ tabs, outline, currentHref: "/careers" }}>
+      <AppScreen page="job-detail" title={job.title} subtitle={job.team ? `Position · ${job.team}` : "Position"} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#apply" nav={{ tabs, mega: megaFrom(site) }}>
         <section className="ma-sec mp-dt-art">
           {job.summary && <p className="ma-lead mp-dt-lead">{job.summary}</p>}
           <ul className="ma-tags mp-dt-facts" aria-label="Facts">

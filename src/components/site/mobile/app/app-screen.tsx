@@ -11,7 +11,8 @@ import { Motion } from "../../lazy";
 import { ShareHost } from "../../lazy";
 import { CtaBar } from "./cta-bar";
 import type { ContactInfo } from "./contact";
-import type { NavTab, OutlineItem } from "./nav-types";
+import type { NavTab } from "./nav-types";
+import type { MegaData } from "@/components/site/mega-menu";
 
 /**
  * One screen of the "app" that a launcher icon opens: the status-bar space, the navigation bar (Back to the launcher, small title that
@@ -50,8 +51,8 @@ export function AppScreen({
   messageHref?: string;
   /** false hides the bottom bar (e.g. on the contact page itself) */
   cta?: boolean;
-  /** the bottom tab bar (one tab per main topic + Apps), the Apps sheet and the contact button; when given it replaces the Call / WhatsApp / Message bar */
-  nav?: { tabs: NavTab[]; outline: OutlineItem[]; currentHref: string };
+  /** the bottom tab bar (one tab per main topic + Menu, which opens the big menu of the home page) and the contact button; when given it replaces the Call / WhatsApp / Message bar */
+  nav?: { tabs: NavTab[]; mega: MegaData };
   children: ReactNode;
 }) {
   const Title = titleIsH1 ? "h1" : "p";
@@ -80,7 +81,7 @@ export function AppScreen({
           {children}
         </div>
       </main>
-      {nav && <AppNav tabs={nav.tabs} outline={nav.outline} currentHref={nav.currentHref} title={title} contact={contact} messageHref={messageHref} />}
+      {nav && <AppNav tabs={nav.tabs} mega={nav.mega} title={title} contact={contact} messageHref={messageHref} />}
       <ShareHost />
       {cta && !nav && <CtaBar contact={contact} messageHref={messageHref} />}
     </div>
