@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
+import { ScrollTop } from "@/components/site/scroll-top";
 
 // The parts every ROOT layout shares. The site has three root layouts, one per "app" (so a visitor only downloads the CSS and JS of the app they use):
 //   src/app/(site)/layout.tsx  the laptop website      (globals.css)
@@ -49,6 +50,7 @@ export function RootShell({ children, htmlClass = "", boot }: { children: React.
             {boot}
           </Script>
         )}
+        <ScrollTop />
         {children}
       </body>
     </html>

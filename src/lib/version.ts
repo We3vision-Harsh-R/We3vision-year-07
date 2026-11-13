@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 161,
+    date: "2026-11-13",
+    title: "Every page opens at its first screen",
+    notes: [
+      "After a reload, a click or the back button a page always starts at its hero: the browser no longer brings back the old scroll position and the smooth scroll is put at the top. A link with a #hash still goes to its place.",
+    ],
+  },
+  {
     v: 160,
     date: "2026-11-13",
     title: "Brand Design problem boxes like the AI ones",
