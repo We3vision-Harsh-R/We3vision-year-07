@@ -1,0 +1,101 @@
+/* abp-: the About page on phones and tablets (owner, 2026-11-13): the story chapters, the journey steps and the leaders are rows of cards that glide sideways by
+   themselves (home2-glide.tsx: starts 1 second after the row is seen, a touch takes over). Nothing new is said. */
+@media (max-width: 900px) {
+  .ah-h1 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+  .ac-now {
+    display: none;
+  }
+  .ac-list,
+  .tl-ol,
+  .abp-row {
+    display: flex;
+    gap: 12px;
+    margin: 0 -20px;
+    padding: 4px 20px 6px;
+    max-width: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    list-style: none;
+  }
+  .ac-list::-webkit-scrollbar,
+  .tl-ol::-webkit-scrollbar,
+  .abp-row::-webkit-scrollbar {
+    display: none;
+  }
+  .ac-list::before,
+  .ac-list::after,
+  .ac-dot,
+  .tl-ol > span.absolute,
+  .tl-ol > li > span.absolute {
+    display: none;
+  }
+  .ac-item {
+    flex: 0 0 78%;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .ac-item[data-active="true"],
+  .ac-item[data-active="false"] {
+    opacity: 1;
+  }
+  .tl-ol > li {
+    display: block;
+    flex: 0 0 80%;
+    padding: 0;
+  }
+  .tl-ol > li > div {
+    width: 100%;
+    height: 100%;
+  }
+  .abp-row > .h-full {
+    flex: 0 0 78%;
+  }
+}
+
+/* abq-: the rest of the About page on phones (owner, 2026-11-13): Services We Offer and Why Choose glide like the other rows, the short texts under the headings
+   are hidden (the cards say it), and the Pando card keeps only the bubble, the title and the chat. */
+@media (max-width: 900px) {
+  .ss-h-p,
+  .rs-intro,
+  .rs-count,
+  .ss-hint,
+  .ac-meet-p {
+    display: none;
+  }
+  .ss {
+    scroll-snap-type: none;
+    overscroll-behavior-x: contain;
+  }
+  .rs .rs-cards {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    gap: 12px;
+    margin: 0 -20px;
+    padding: 4px 20px 6px !important;
+    width: auto;
+    height: auto !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    transform: none !important;
+  }
+  .rs .rs-cards::-webkit-scrollbar {
+    display: none;
+  }
+  .rs .rs-cards > .rs-card {
+    position: relative !important;
+    inset: auto !important;
+    flex: 0 0 78%;
+    height: auto !important;
+    min-height: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+}

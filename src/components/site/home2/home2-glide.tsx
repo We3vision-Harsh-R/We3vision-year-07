@@ -10,19 +10,19 @@ import { useEffect } from "react";
 //   - it loops with no gap: a copy of the cards (aria-hidden, not focusable) is added after the real ones while the page is small, and removed again on a big screen.
 // Reduced motion: nothing glides. Only scrollLeft changes; the styles are in styles/home-mobile.css (hms-).
 
-const ROWS = ".hb2-points, .hb2-grid, .hb2-m-bento, .hba-work";
+const ROWS = ".hb2-points, .hb2-grid, .hb2-m-bento, .hba-work, .ac-list, .tl-ol, .abp-row, .ss, .rs-cards";
 const START_DELAY = 1000;
 const RESUME_DELAY = 1400;
 const SPEED = 26; // pixels per second: slow and smooth
 
 function glide(row: HTMLElement): () => void {
-  const cards = (Array.from(row.children) as HTMLElement[]).filter((c) => !c.classList.contains("hb2-head"));
+  const cards = (Array.from(row.children) as HTMLElement[]).filter((c) => !c.classList.contains("hb2-head") && getComputedStyle(c).position !== "absolute");
   if (cards.length < 2) return () => {};
   const clones = cards.map((c) => {
     const k = c.cloneNode(true) as HTMLElement;
     k.setAttribute("aria-hidden", "true");
     k.setAttribute("inert", "");
-    k.setAttribute("data-in", "");
+    k.setAttribute("data-in", "true");
     k.querySelectorAll<HTMLElement>("a, button").forEach((a) => a.setAttribute("tabindex", "-1"));
     if (k.tagName === "A") k.setAttribute("tabindex", "-1");
     k.classList.add("hb2-glide-copy");
@@ -137,6 +137,28 @@ function glide(row: HTMLElement): () => void {
   };
 }
 
+// A row that belongs to a lazily hydrated part of a page is only touched once React has finished with it (the copies of the cards would otherwise be
+// seen as a hydration mismatch). The last card gets its React link when the row has been taken over; a short pause follows.
+function whenReady(row: HTMLElement): () => void {
+  let dead = false;
+  let stop = () => {};
+  let tries = 0;
+  const hydrated = (el: Element | null) => !!el && Object.keys(el).some((k) => k.startsWith("__reactFiber"));
+  const go = () => {
+    if (dead) return;
+    if (hydrated(row) && hydrated(row.lastElementChild)) {
+      setTimeout(() => {
+        if (!dead) stop = glide(row);
+      }, 600);
+    } else if (tries++ < 1200) setTimeout(go, 500);
+  };
+  go();
+  return () => {
+    dead = true;
+    stop();
+  };
+}
+
 export function Home2Glide() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -145,7 +167,7 @@ export function Home2Glide() {
     const apply = () => {
       stops.forEach((s) => s());
       stops = [];
-      if (small.matches) stops = Array.from(document.querySelectorAll<HTMLElement>(ROWS)).map(glide);
+      if (small.matches) stops = Array.from(document.querySelectorAll<HTMLElement>(ROWS)).map(whenReady);
     };
     apply();
     small.addEventListener("change", apply);

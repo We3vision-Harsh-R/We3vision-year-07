@@ -16,7 +16,7 @@ export const Team: SectionComponent<"team"> = ({ data }) => (
   <section id="team" className="py-24 sm:py-32">
     <Wide>
       <SectionHead chip={data.chip} heading={data.heading} />
-      <div className="mx-auto mt-16 grid max-w-[860px] gap-5 sm:grid-cols-3">
+      <div className="abp-row mx-auto mt-16 grid max-w-[860px] gap-5 sm:grid-cols-3">
         {data.members.map((m, i) => (
           <Reveal key={i} delay={i * 90} className="h-full">
             <article className="bglow card-glass flex h-full flex-col items-center rounded-[19px] border border-violet/[0.12] p-8 text-center backdrop-blur-md">

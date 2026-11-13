@@ -8,6 +8,6 @@ Services: [ ] /m/webdev [ ] /m/mobile [ ] /m/software-development-services [ ] /
 Brand: [ ] /m/brand-development-services [ ] /m/brand-identity [ ] /m/brand-kit-design [ ] /m/brand-video-production [ ] /m/zero-to-n-brand-development
 Marketing: [ ] /m/meta-marketing-services [ ] /m/physical-marketing-services
 WordPress/Shopify: [ ] custom-wordpress-devlopment-services [ ] wordpress-plugin-development-company [ ] custom-woocommerce-devlopment [ ] headless-CMS-devlopment-services [ ] shopify-development-services [ ] shopify-app-development-services [ ] shopify-plugin-development-services
-Company: [ ] /m/about [ ] /m/team [ ] /m/careers (+ [slug]) [ ] /m/contact [ ] /m/blog (+ [slug]) [ ] /m/portfolio (+ [slug]) [ ] /m/sitemap
+Company: [x] /about (all sections done on the main page; /m/about still to delete at the end) [ ] /m/team [ ] /m/careers (+ [slug]) [ ] /m/contact [ ] /m/blog (+ [slug]) [ ] /m/portfolio (+ [slug]) [ ] /m/sitemap
 Products: [ ] /m/products [ ] webugmate [ ] wejobs [ ] wepresent [ ] wethink
 Industrial Training (responsive pages, not /m): [ ] /industrial-training/3-month [ ] 6-month [ ] 9-month

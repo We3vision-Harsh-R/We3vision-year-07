@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 149,
+    date: "2026-11-13",
+    title: "About page on phones: gliding card rows",
+    notes: [
+      "On phones and tablets the About page is shorter: Our Story, Services We Offer, Our Journey, Why Choose We3vision and Our Leaders are rows of cards that glide sideways by themselves (1 second after they come into view; a touch takes over). The long texts under the headings are hidden on a phone.",
+      "The gliding rows now wait until the page part they belong to is ready, so the copies of the cards never clash with the page.",
+    ],
+  },
+  {
     v: 148,
     date: "2026-11-13",
     title: "New product: WePte",

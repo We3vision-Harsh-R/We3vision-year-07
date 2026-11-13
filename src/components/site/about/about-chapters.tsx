@@ -1,6 +1,8 @@
 "use client";
 
 import "@/styles/about.css";
+import "@/styles/about-phone.css";
+import { Home2Glide } from "../home2/home2-glide";
 import "@/styles/panda-chat.css";
 import "@/styles/modern-base.css";
 
@@ -88,6 +90,7 @@ export function AboutChapters({ id, chip, heading, chapters, meet }: { id?: stri
 
   return (
     <section id={id || "story"} className="ac py-24 sm:py-32">
+      <Home2Glide />
       <div className="mx-auto w-full max-w-[1120px] px-4">
         <div className="ac-grid">
           <header className="ac-head">
