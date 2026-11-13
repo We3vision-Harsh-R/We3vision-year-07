@@ -1,0 +1,64 @@
+/* THE BIG MENU (owner, 2026-11-13): every link is regular weight; the headings (the main words) are medium weight in one accent colour so the menu is easy to scan.
+   On a phone the service tiles are two compact rows that swipe sideways, the service name on one line, little height. Prefix "ml-" is not needed: only existing mm- classes are tuned. */
+.mm .mm-li a,
+.mm .mm-li li,
+.mm .mm-expl a,
+.mm .mm-prod a,
+.mm .mm-train a {
+  font-weight: 400;
+}
+.mm .mm-col-t,
+.mm .mm-sub-t,
+.mm-in2 .mm-sub-t {
+  font-weight: 500;
+  color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 80%);
+}
+
+@media (max-width: 1023.98px) {
+  :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: 8px;
+    margin-inline: -1rem;
+    padding: 4px 1rem 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li li {
+    width: auto;
+  }
+  :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    height: auto;
+    min-height: 0;
+    padding: 11px 16px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+  :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a i {
+    position: static;
+    margin: 0;
+    color: rgb(255 255 255 / 0.55);
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+  :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a::before,
+  :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a::after,
+  :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a i::before,
+  :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a i::after {
+    display: none;
+  }
+}

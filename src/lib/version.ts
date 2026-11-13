@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 162,
+    date: "2026-11-13",
+    title: "Big menu: regular links, medium headings, compact service tiles on a phone",
+    notes: [
+      "Every link of the big menu is regular weight; the group headings (Services, Development, Our products ...) are medium weight in one accent colour.",
+      "Phone menu: the service tiles are two compact rows that swipe sideways, the service name on one line, much less height.",
+    ],
+  },
+  {
     v: 161,
     date: "2026-11-13",
     title: "Every page opens at its first screen",

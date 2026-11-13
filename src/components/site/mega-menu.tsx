@@ -2,6 +2,7 @@
 
 import "@/styles/panda-chat.css";
 import "@/styles/mega-menu.css";
+import "@/styles/menu-look.css";
 
 
 import { useEffect, useState, useSyncExternalStore } from "react";
