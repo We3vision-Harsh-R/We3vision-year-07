@@ -546,3 +546,17 @@
   content: "\2713  With AI";
   color: hsl(152 60% 72%);
 }
+
+/* hag2-: the three problem boxes are exactly alike: no side line, the red halves are one height and the green halves are one height (owner, 2026-11-13) */
+.hba-solve {
+  grid-template-rows: auto 1fr;
+}
+.hba-solve > li {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+}
+.hba-q,
+.hba-a {
+  box-shadow: none;
+}

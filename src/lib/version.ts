@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 159,
+    date: "2026-11-13",
+    title: "AI home section: three identical problem boxes",
+    notes: [
+      "The Problem / With AI boxes have no side line and are exactly alike: the red halves are one height and the green halves are one height, so no box is shorter.",
+    ],
+  },
+  {
     v: 158,
     date: "2026-11-13",
     title: "Products: Coming soon in place of the description",
