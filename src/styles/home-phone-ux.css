@@ -642,3 +642,96 @@ html .hb2-card:has(.hb2-soon) .hb2-card-tx {
 html .hb2-card .hb2-soon {
   margin: 0;
 }
+
+/* hbs-: the strip under the end of the home pages (owner, 2026-11-14). The 96 px kept free for the bottom bar was the padding of the page body, which showed the body colour
+   (a little bluer than the footer) behind the bar. The room now belongs to the footer, so the dark background runs to the very bottom. */
+@media (max-width: 1023.98px) {
+  :root body:has(.hb2) {
+    padding-bottom: 0;
+  }
+  html .hb2-f {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* hbr-: the first screen of the home page on phones and tablets (owner, 2026-11-14). The logo of the page sat half on the lit door and half on the dark sky: the picture of the
+   door now starts under the logo, so the logo stands on the dark sky. The two recognitions (Startup India and MSME) are shown under the button, and the Industries cards
+   all have the same height. */
+.hb2-hero-rec {
+  display: none;
+}
+@media (max-width: 900px) {
+  html .hb2 .hb2-world {
+    top: 58px;
+  }
+  html .hb2 .hb2-hero-rec {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    z-index: 6;
+  }
+  html .hb2 .hb2-hero-rec li {
+    display: block;
+  }
+  html .hb2 .hb2-hero-rec img {
+    display: block;
+    width: auto;
+    height: 34px;
+    opacity: 0.9;
+  }
+  html .hb2 .hb2-m-bento {
+    align-items: stretch;
+  }
+}
+
+/* hbc-: the four small service cards (owner, 2026-11-14, phone screenshots). The picture of Software overlapped its last words ("process.") and the Web one touched "portals.":
+   the four cards are taller, so the picture always has its own room under the words, and the four pictures are the same size (about 58 x 50) in the same corner. */
+@media (max-width: 900px) {
+  html .hb2 .hb2-sv-r2 .hb2-sv-cell {
+    height: 252px;
+  }
+  html .hb2 .hb2-sv-web .hb2-sv-a {
+    --as: 0.226;
+  }
+  html .hb2 .hb2-sv-app .hb2-sv-a {
+    --as: 0.175;
+  }
+  html .hb2 .hb2-sv-soft .hb2-sv-a,
+  html .hb2 .hb2-sv-crm .hb2-sv-a {
+    --as: 0.2525;
+  }
+  html .hb2 .hb2-sv-web .hb2-sv-art {
+    transform: translate(-12px, 5px);
+  }
+  html .hb2 .hb2-sv-app .hb2-sv-art {
+    transform: translate(-19px, 8px);
+  }
+  html .hb2 .hb2-sv-soft .hb2-sv-art,
+  html .hb2 .hb2-sv-crm .hb2-sv-art {
+    transform: translate(-19px, 10px);
+  }
+}
+
+/* hbn-: the 300+ card (owner, 2026-11-14, phone screenshot). The number was pushed down 32 px and the card had a fixed height, so the words under it touched the bottom edge
+   while a wide empty band sat under "We3vision / Since 2019". The content moves up and the card grows with it: the room under the words is the same as the room above. */
+@media (max-width: 900px) {
+  html .hb2-m-field {
+    height: auto;
+    min-height: 0;
+    padding: 60px 22px 34px;
+  }
+  html .hb2-m-num {
+    top: 0;
+  }
+}
+
+/* hbb-: the "Aa" picture of the Branding card sits a little higher (owner, 2026-11-14), so the words above it and the tags under it have the same room. */
+@media (max-width: 900px) {
+  html .hb2 .hb2-sv-r1 .hb2-sv-cell:nth-child(2) .hb2-sv-art {
+    inset: 180px 0 122px;
+  }
+}

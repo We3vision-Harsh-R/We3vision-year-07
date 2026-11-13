@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 167,
+    date: "2026-11-14",
+    title: "Home page on phones: logos in the first screen, tidier cards, no colour strip at the bottom",
+    notes: [
+      "The Startup India (DPIIT) and MSME logos are shown in the first screen of the home page on phones and tablets, under the Start your project button. The page logo now stands on the dark sky above the lit door.",
+      "The strip of a different colour behind the bottom bar is gone: the dark background runs to the very bottom.",
+      "The Industries cards all have the same height. The four small service cards (Web, Mobile App, Software, CRM) are taller, so their picture no longer touches the words, and the four pictures are the same size in the same corner. The Aa picture of the Branding card is a little higher. In the 300+ card the number moved up and the card has the same room under the words as above.",
+    ],
+  },
+  {
     v: 166,
     date: "2026-11-13",
     title: "Pages on phones and tablets: sliders, one column, nothing squeezed",

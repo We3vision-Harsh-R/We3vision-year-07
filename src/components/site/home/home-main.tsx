@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { HomeFx } from "@/components/site/home/home-fx";
 import { HomeFooter } from "@/components/site/home/home-chrome";
 import { HomeAi } from "@/components/site/home/home-ai";
@@ -8,6 +9,7 @@ import { HomeMore } from "@/components/site/home/home-more";
 import { HomeServices } from "@/components/site/home/home-services";
 import { SmartLink } from "@/components/site/smart-link";
 import { getProjects } from "@/lib/projects";
+import { getSiteSettings } from "@/lib/cms/queries";
 import "@/styles/home.css";
 
 const POINTS = [
@@ -56,6 +58,8 @@ async function serviceStats() {
 // Laptop / desktop only (phones are sent to /m by the proxy). The words are ours (the old home page content); the font is the site font (Poppins).
 export async function HomeMain() {
   const stats = await serviceStats();
+  const site = await getSiteSettings();
+  const recs = site.badges.filter((b) => b.image);
   return (
     <div className="hb2">
       <HomeFx />
@@ -126,6 +130,16 @@ export async function HomeMain() {
             <em>Explore</em>
           </SmartLink>
         </div>
+        {/* the recognitions (Admin > Settings > badges: Startup India, MSME) show on phones and tablets in the first screen; the laptop shows them in the footer */}
+        {recs.length > 0 && (
+          <ul className="hb2-hero-rec" aria-label="Recognised by">
+            {recs.map((b) => (
+              <li key={b.label + b.image}>
+                <Image src={b.image} alt={b.label} title={b.label} width={300} height={110} unoptimized />
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       {/* ---------------------------------------------------------------- 1: the statement and the lit disc */}
