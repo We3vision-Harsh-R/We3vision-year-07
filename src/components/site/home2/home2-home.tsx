@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { Home2Fx } from "@/components/site/home2/home2-fx";
+import { Home2Glide } from "@/components/site/home2/home2-glide";
 import { Home2Footer } from "@/components/site/home2/home2-chrome";
 import { Home2Ai } from "@/components/site/home2/home2-ai";
 import { Home2Brand } from "@/components/site/home2/home2-brand";
@@ -58,6 +59,7 @@ export async function Home2Home() {
   return (
     <div className="hb2">
       <Home2Fx />
+      <Home2Glide />
 
       {/* ---------------------------------------------------------------- the first screen */}
       <div className="hb2-fly" data-pause-off>
@@ -125,31 +127,16 @@ export async function Home2Home() {
             <em>Explore</em>
           </SmartLink>
         </div>
-        {/* phone only (styles/home-2.css, max-width 900px): the facts under the buttons */}
-        <ul className="hb2-ph-stats" aria-label="We3vision in short">
-          <li>
-            <b>300+</b>
-            <span>Projects</span>
-          </li>
-          <li>
-            <b>7</b>
-            <span>Services</span>
-          </li>
-          <li>
-            <b>2019</b>
-            <span>Surat</span>
-          </li>
-        </ul>
       </section>
 
       {/* ---------------------------------------------------------------- 1: the statement and the lit disc */}
       <section className="hb2-s1" aria-labelledby="hb2-t1">
         <div className="hb2-wrap hb2-s1-top">
-          <p className="hb2-label">About</p>
+          <p className="hb2-label">About We3vision</p>
           <h2 id="hb2-t1">
-            Good software is not loud.
+            We3vision is a software and digital company in Surat.
             <br />
-            It is <em>clear</em>, fast and made to last.
+            We build <em>websites, apps</em>, AI and more.
           </h2>
         </div>
         <div className="hb2-disc" aria-hidden>

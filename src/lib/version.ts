@@ -16,6 +16,18 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 145,
+    date: "2026-11-13",
+    title: "Phone home refresh: calmer hero, gliding cards, clearer AI and Brand sections",
+    notes: [
+      "Phone home first screen is smaller and calmer: the numbers strip and the Explore button are removed, and the wish line and the studio title are two clear blocks with one type scale.",
+      "The About text now says what We3vision is: a software and digital company in Surat that builds websites, apps, AI and more.",
+      "On phones and tablets the swipe rows (why cards, Our products, AI work cards, bento row) glide slowly from right to left, start 2 seconds after they come into view, give way to a touch and glide on from where the finger left them. The Our products heading stays in place.",
+      "The AI development section on the phone has less text, a top-to-bottom picture of how it works, swipe cards and Problem / With AI cards.",
+      "The Brand design section on the phone shows What you get as four icon tiles, and the problem in soft red and the answer in soft green.",
+    ],
+  },
+  {
     v: 144,
     date: "2026-11-12",
     title: "AI development section, Industrial Training pages",

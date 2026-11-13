@@ -1935,3 +1935,81 @@
     font-size: 15px;
   }
 }
+
+/* hmp-: phone hero, smaller and calmer (owner, 2026-11-13): the wish line and the studio title are two separate blocks with one type scale,
+   no Explore button, no numbers strip. Phone only. */
+@media (max-width: 900px) {
+  .hb2 .hb2-hero,
+  .hb2[data-fx] .hb2-hero {
+    min-height: 0;
+    padding: 0 24px 112px;
+  }
+  .hb2 .hb2-world {
+    height: max(260px, calc(100svh - 500px));
+  }
+  .hb2 .hb2-arch {
+    width: min(48vw, 190px);
+    margin-left: calc(min(48vw, 190px) / -2);
+  }
+  .hb2 .hb2-wish {
+    gap: 4px;
+    margin: 0;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hb2 .hb2-wish span,
+  .hb2 .hb2-kick {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-style: normal;
+    color: var(--mute);
+  }
+  .hb2 .hb2-wish strong,
+  .hb2 .hb2-copy h1 {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .hb2 .hb2-copy {
+    margin-top: 18px;
+  }
+  .hb2 .hb2-kick {
+    margin: 0 0 4px;
+  }
+  .hb2 .hb2-lede {
+    margin: 10px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .hb2 .hb2-ph-row {
+    margin-top: 18px;
+  }
+  .hb2 .hb2-go {
+    display: none;
+  }
+  .hb2 .hb2-ph-cta {
+    height: 46px;
+    padding: 0 22px;
+    font-size: 15px;
+  }
+}
+
+/* hms-: the swipe rows of the home page (home2-glide.tsx glides them by itself and lets the visitor take over): no snapping, so a card can stop anywhere;
+   the heading of Our products stays in place while its cards move; room for the copies of the cards the glide adds. Phones and tablets. */
+@media (max-width: 900px) {
+  .hb2 .hb2-points,
+  .hb2 .hb2-grid,
+  .hb2 .hb2-m-bento,
+  .hba-work {
+    scroll-snap-type: none;
+    overscroll-behavior-x: contain;
+  }
+  .hb2 .hb2-grid {
+    grid-template-columns: repeat(8, 78%);
+  }
+  .hb2 .hb2-grid > .hb2-head {
+    grid-column: 1 / -1;
+  }
+}

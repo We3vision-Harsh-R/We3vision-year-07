@@ -239,3 +239,267 @@
     display: none;
   }
 }
+
+/* hbp-: the AI section on the phone (owner, 2026-11-13): little text, easy to understand. The long paragraph is left out; the picture is a short top-to-bottom
+   story (your data, the AI, the work done); the four kinds of AI work are a swipe row; the problems are three short rows. */
+@media (max-width: 900px) {
+  .hba {
+    padding-bottom: 70px;
+  }
+  .hba-top {
+    gap: 24px;
+    margin-top: 18px;
+  }
+  .hba-copy h2 {
+    font-size: 26px;
+    line-height: 1.18;
+  }
+  .hba-lede {
+    display: none;
+  }
+  .hba-note {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--mute);
+  }
+  .hba-cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .hba-cta .hb2-m-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .hba-more {
+    text-align: center;
+    font-size: 16px;
+  }
+  .hba-flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 18px 16px;
+    border-radius: 24px;
+  }
+  .hba-flow::before {
+    display: none;
+  }
+  .hba-col {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hba-col li {
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+  }
+  .hba-col .hba-k {
+    flex: 0 0 100%;
+    padding: 0 2px 2px;
+  }
+  .hba-core {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: 56px;
+    margin: 30px 0;
+    border-radius: 999px;
+  }
+  .hba-core::before,
+  .hba-core::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 2px;
+    height: 22px;
+    background: linear-gradient(to bottom, transparent, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 70% / 0.7));
+  }
+  .hba-core::before {
+    bottom: 100%;
+    margin-bottom: 4px;
+  }
+  .hba-core::after {
+    top: 100%;
+    margin-top: 4px;
+    transform: scaleY(-1);
+  }
+  .hba-ring {
+    display: none;
+  }
+  .hba-h3 {
+    margin-top: 40px;
+  }
+  /* the four kinds of AI work: swipe row, title and "you get" only */
+  .hba-work {
+    display: flex;
+    gap: 12px;
+    margin: 16px -20px 0;
+    padding: 4px 20px 8px;
+    overflow-x: auto;
+    scroll-snap-type: none;
+    scroll-padding: 0 20px;
+    scrollbar-width: none;
+  }
+  .hba-work::-webkit-scrollbar {
+    display: none;
+  }
+  .hba-work > li {
+    flex: 0 0 82%;
+    padding: 20px 18px 22px;
+    border-radius: 20px;
+    scroll-snap-align: start;
+  }
+  .hba-work > li > p:not(.hba-gl) {
+    display: none;
+  }
+  .hba-work h4 {
+    margin-top: 8px;
+    font-size: 19px;
+  }
+  .hba-work .hba-gl {
+    margin-top: 14px;
+  }
+  /* the problems: three short rows */
+  .hba-solve {
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .hba-solve > li {
+    padding: 16px 18px 18px;
+    border-radius: 18px;
+  }
+  .hba-q {
+    font-size: 17px;
+  }
+  .hba-a {
+    margin-top: 6px;
+  }
+}
+
+/* hbq-: smarter phone behaviour of the AI section (owner, 2026-11-13): the story builds step by step when it comes on screen, a light travels down the line from
+   your data to the AI to the work, the swipe cards grow when they are in the middle, each problem is tagged Problem / With AI, and a press gives feedback.
+   Only transform and opacity move. */
+@media (max-width: 900px) {
+  .hba-flow[data-in] .hba-col li {
+    animation: hbq-pop 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(0.15s + var(--n, 0) * 0.07s);
+  }
+  .hba-flow[data-in] .hba-core {
+    animation: hbq-pop 0.6s 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hba-flow[data-in] .hba-out li {
+    animation-delay: calc(0.9s + var(--n, 0) * 0.07s);
+  }
+  .hba-core::before,
+  .hba-core::after {
+    overflow: hidden;
+  }
+  .hba-core::after {
+    animation: hbq-pulse 2.6s ease-in-out infinite;
+  }
+  .hba-core::before {
+    animation: hbq-pulse 2.6s 1.3s ease-in-out infinite;
+  }
+  .hba-col li:nth-child(2) { --n: 1; }
+  .hba-col li:nth-child(3) { --n: 2; }
+  .hba-col li:nth-child(4) { --n: 3; }
+  .hba-col li:nth-child(5) { --n: 4; }
+
+  /* the swipe cards: the one in the middle is bright and full size, the others sit back a little */
+  @supports (animation-timeline: view(inline)) {
+    .hba-work > li {
+      animation: hbq-card linear both;
+      animation-timeline: view(inline);
+    }
+  }
+  .hba-work > li:active,
+  .hba-solve > li:active {
+    transform: scale(0.985);
+  }
+  .hba-work > li,
+  .hba-solve > li {
+    transition: transform 0.2s ease;
+  }
+  /* a small cue that the row moves sideways */
+  .hba-h3:first-of-type::after {
+    content: " \2192";
+    color: var(--v1);
+  }
+
+  /* each problem: what hurts, then what AI does about it */
+  .hba-q::before,
+  .hba-a::before {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hba-q::before {
+    content: "Problem";
+    color: var(--mute);
+  }
+  .hba-a::before {
+    content: "With AI";
+    margin-top: 2px;
+    color: var(--v1);
+  }
+  .hba-a {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+}
+@keyframes hbq-pop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hbq-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes hbq-card {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.94);
+  }
+  30%,
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(0.94);
+  }
+}
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .hba-flow[data-in] .hba-col li,
+  .hba-flow[data-in] .hba-core,
+  .hba-core::before,
+  .hba-core::after,
+  .hba-work > li {
+    animation: none;
+  }
+}

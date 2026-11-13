@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { SmartLink } from "@/components/site/smart-link";
 import "@/styles/home-brand.css";
 
@@ -8,11 +8,37 @@ import "@/styles/home-brand.css";
 // and three common problems with the answer for each. Styles: styles/home-brand.css ("hbd-").
 
 const GET = [
-  { t: "Brand strategy", x: "Your business goals, audience and brand direction, defined before any design starts." },
-  { t: "Logo design", x: "A logo, colours and typography that reflect your business and speak to your audience." },
-  { t: "Visual identity & guidelines", x: "One consistent visual system, with brand guidelines your team and partners can follow." },
-  { t: "Marketing collateral", x: "Brand assets and creative materials for graphic design, website design and advertising." },
+  { k: "strategy", s: "Goals, audience and direction", t: "Brand strategy", x: "Your business goals, audience and brand direction, defined before any design starts." },
+  { k: "logo", s: "Logo, colours and type", t: "Logo design", x: "A logo, colours and typography that reflect your business and speak to your audience." },
+  { k: "identity", s: "One look, with guidelines", t: "Visual identity & guidelines", x: "One consistent visual system, with brand guidelines your team and partners can follow." },
+  { k: "collateral", s: "Assets for design and ads", t: "Marketing collateral", x: "Brand assets and creative materials for graphic design, website design and advertising." },
 ];
+
+// a small line icon for each thing you get (shown on phones only, as the steps of the brand journey)
+const ICON: Record<string, ReactNode> = {
+  strategy: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="4.5" />
+      <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+    </>
+  ),
+  logo: (
+    <>
+      <path d="M12 3 20 8v8l-8 5-8-5V8z" />
+      <circle cx="12" cy="12" r="2.6" />
+    </>
+  ),
+  identity: (
+    <>
+      <rect x="4" y="4" width="7" height="7" rx="1.5" />
+      <rect x="13" y="4" width="7" height="7" rx="1.5" />
+      <rect x="4" y="13" width="7" height="7" rx="1.5" />
+      <rect x="13" y="13" width="7" height="7" rx="1.5" />
+    </>
+  ),
+  collateral: <path d="M4 9.5v5h3.5L16 19V5L7.5 9.5zM19 9.5v5" />,
+};
 
 const SOLVE = [
   { q: "You have a logo, but the brand looks different everywhere", a: "One consistent look across every platform: logo, colours and typography working as one visual system." },
@@ -84,9 +110,13 @@ export function Home2Brand() {
         <ul className="hbd-get">
           {GET.map((g, i) => (
             <li key={g.t} data-r style={{ "--d": `${i * 80}ms` } as CSSProperties}>
+              <span className="hbd-ic" aria-hidden>
+                <svg viewBox="0 0 24 24">{ICON[g.k]}</svg>
+              </span>
               <span className="hbd-no">{String(i + 1).padStart(2, "0")}</span>
               <h4>{g.t}</h4>
-              <p>{g.x}</p>
+              <p className="hbd-x">{g.x}</p>
+              <p className="hbd-s" aria-hidden>{g.s}</p>
             </li>
           ))}
         </ul>
