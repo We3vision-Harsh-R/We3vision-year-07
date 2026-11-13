@@ -607,3 +607,21 @@
   content: "\2713  Our answer";
   color: hsl(152 60% 72%);
 }
+
+/* hbg2-: the same three alike boxes as the AI section (owner, 2026-11-13): no side line, red halves one height, green halves one height, the same padding and type size */
+.hbd-solve {
+  grid-template-rows: auto 1fr;
+}
+.hbd-solve > li {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+}
+.hbd-q,
+.hbd-a {
+  padding: 16px 18px 18px;
+  box-shadow: none;
+}
+.hbd-q {
+  font-size: 18px;
+}
