@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 163,
+    date: "2026-11-13",
+    title: "Phone menu: service tiles no longer stack on each other",
+    notes: [
+      "The first four service tiles collapsed to zero width (an old two-column grid rule was still active) and drew ghost shapes over the next tile; the tiles are now sized by their text and the grid has only the two rows.",
+    ],
+  },
+  {
     v: 162,
     date: "2026-11-13",
     title: "Big menu: regular links, medium headings, compact service tiles on a phone",

@@ -17,6 +17,7 @@
 @media (max-width: 1023.98px) {
   :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li {
     display: grid;
+    grid-template-columns: none;
     grid-template-rows: repeat(2, auto);
     grid-auto-flow: column;
     grid-auto-columns: max-content;
@@ -27,9 +28,12 @@
     scrollbar-width: none;
   }
   :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li li {
-    width: auto;
+    width: max-content;
+    min-width: 0;
   }
   :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a {
+    width: max-content;
+    min-width: 0;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
