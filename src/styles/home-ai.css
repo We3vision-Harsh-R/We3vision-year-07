@@ -1,4 +1,4 @@
-/* hba-: the AI Development section of the home page (components/site/home2/home2-ai.tsx). Theme colours only (--th / --ts); paragraphs >= 16px, labels >= 14px.
+/* hba-: the AI Development section of the home page (components/site/home/home-ai.tsx). Theme colours only (--th / --ts); paragraphs >= 16px, labels >= 14px.
    Nothing animates except the reveal of the home page ([data-r]). Laptop, tablet and phone in one file (media queries at the end). */
 .hba {
   padding: 0 0 130px;

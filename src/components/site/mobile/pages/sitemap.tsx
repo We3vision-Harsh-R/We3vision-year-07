@@ -16,7 +16,7 @@ export const mobileSitemapMetadata: Metadata = {
   title: "Sitemap | All Pages of We3vision",
   description: "Every page of the We3vision website in one place: services, products, portfolio, blog, careers and company pages.",
   alternates: { canonical: "/sitemap" },
-  openGraph: { type: "website", url: "/sitemap", title: "Sitemap | All Pages of We3vision", description: "Every page of the We3vision website in one place." },
+  openGraph: { type: "website", url: "/sitemap", locale: "en_IN", title: "Sitemap | All Pages of We3vision", description: "Every page of the We3vision website in one place." },
 };
 
 export async function renderMobileSitemap() {

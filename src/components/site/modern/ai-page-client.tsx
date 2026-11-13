@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { FaqJsonLd } from "../json-ld";
 import { AiHead } from "./ai-page";
 import "@/styles/ai-page.css";
 
@@ -136,14 +137,9 @@ export function AiWhy({ chip, heading, intro, items }: { chip?: string; heading:
 /** the questions: the heading stays on the left, the questions are glass rows on the right; one answer open at a time (and Google is told about them) */
 export function AiFaq({ chip, heading, intro, items }: { chip?: string; heading: string; intro?: string; items: { question: string; answer: string }[] }) {
   const [open, setOpen] = useState<number | null>(0);
-  const json = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: items.map((q) => ({ "@type": "Question", name: q.question, acceptedAnswer: { "@type": "Answer", text: q.answer } })),
-  };
   return (
     <section id="faq" className="aip aip-sec">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json).replace(/</g, "\u003c") }} />
+      <FaqJsonLd items={items} />
       <div className="aip-wrap aip-faq">
         <div className="aip-faqh">
           <AiHead chip={chip} heading={heading} intro={intro} />

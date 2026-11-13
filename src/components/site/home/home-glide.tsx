@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 // THE GLIDING CARD ROWS OF THE HOME PAGE ON PHONES AND TABLETS (owner, 2026-11-13). Every row of cards that is swiped sideways (the "why" cards, Our products,
-// the AI work cards, the Home 2 bento row) glides slowly from right to left by itself:
+// the AI work cards, the home bento row) glides slowly from right to left by itself:
 //   - it starts 1 second after the row comes into view, and stops when it leaves the screen or the tab is hidden;
 //   - a touch (or the mouse wheel / trackpad) takes over at once, and the card can be moved by hand as usual;
 //   - 1.4 seconds after the finger is lifted (and the swipe has settled) it glides on again from wherever the cards were left;
@@ -159,7 +159,7 @@ function whenReady(row: HTMLElement): () => void {
   };
 }
 
-export function Home2Glide() {
+export function HomeGlide() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const small = window.matchMedia("(max-width: 900px)");

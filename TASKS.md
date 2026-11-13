@@ -128,3 +128,5 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 144 | Keep the Supabase database awake: /api/health + GitHub cron every 6 hours | done |
 | 148 | Home services: redesigned stage (list rail + plate + spec strip) with a fixed (pinned) scroll that picks the service | done |
 | 149 | Home hero (rings + one button), animated glass number tiles, glass cards site-wide | done |
+| 150 | SEO / GEO / AEO round: schema graph, llms.txt, robots, sitemap, home FAQ | done |
+| 151 | Rename home2 to home (files, components, css file); design unchanged | done |

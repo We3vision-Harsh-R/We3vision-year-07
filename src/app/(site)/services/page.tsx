@@ -1,30 +1,51 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
-import { Home2Cta, Home2PageHero, Home2Shell } from "@/components/site/home2/home2-chrome";
-import { Art, SERVICES } from "@/components/site/home2/home2-svc-data";
+import { HomeCta, HomePageHero, HomeShell } from "@/components/site/home/home-chrome";
+import { Art, SERVICES } from "@/components/site/home/home-svc-data";
+import { JsonLd } from "@/components/site/json-ld";
 import { SmartLink } from "@/components/site/smart-link";
+import { breadcrumbNode, organizationRef, serviceNode, siteBase, webPageNode, websiteNode } from "@/lib/seo/schema";
 import { SHARE_IMAGE } from "@/lib/share-image";
-import "@/styles/home-2.css";
+import "@/styles/home.css";
 
 // The Services page: the seven main services of We3vision, each with its animated picture, what we build and who it is for.
 export const revalidate = 3600;
 
-const TITLE = "Our Services | Web, AI, App, Metaverse, Branding, Software & CRM | We3vision";
-const DESCRIPTION = "We3vision builds websites, AI solutions, mobile apps, metaverse experiences, brands, custom software and CRM systems for businesses everywhere, from Surat, India.";
+const TITLE = "Our Services | Web, AI, Apps, Metaverse, Brand & CRM | We3vision";
+const DESCRIPTION = "We3vision builds websites, AI solutions, mobile apps, metaverse experiences, brands, custom software and CRM for businesses everywhere, from Surat, India.";
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/services" },
-  openGraph: { type: "website", url: "/services", title: TITLE, description: DESCRIPTION, images: [SHARE_IMAGE] },
+  openGraph: { type: "website", url: "/services", locale: "en_IN", title: TITLE, description: DESCRIPTION, images: [SHARE_IMAGE] },
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: [SHARE_IMAGE.url] },
 };
 
 export default function ServicesPage() {
+  // structured data: the page, its trail, and the list of the seven services (same @id as on the home page and on each service page)
+  const base = siteBase();
+  const url = `${base}/services`;
+  const list = {
+    "@type": "ItemList",
+    "@id": `${url}#services`,
+    name: "Services of We3vision",
+    numberOfItems: SERVICES.length,
+    itemListElement: SERVICES.map((s, i) => ({ "@type": "ListItem", position: i + 1, item: serviceNode({ path: s.href, name: `${s.em} ${s.rest}`.trim() }) })),
+  };
   return (
-    <Home2Shell>
-      <Home2PageHero label="Services" line="Seven services, one team in Surat. Pick one to see what we build and who it is for, or tell us about your idea.">
+    <HomeShell>
+      <JsonLd
+        graph={[
+          organizationRef(),
+          websiteNode(),
+          breadcrumbNode(url, [{ name: "Home", url: `${base}/` }, { name: "Services", url }]),
+          webPageNode({ url, type: "CollectionPage", name: TITLE, description: DESCRIPTION, mainEntityId: list["@id"] }),
+          list,
+        ]}
+      />
+      <HomePageHero label="Services" line="Seven services, one team in Surat. Pick one to see what we build and who it is for, or tell us about your idea.">
         <em>Everything we build,</em> in one place
-      </Home2PageHero>
+      </HomePageHero>
 
       <section className="hb2-sv hb2-pg-svs" data-live="">
         <div className="hb2-wrap">
@@ -69,7 +90,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <Home2Cta />
-    </Home2Shell>
+      <HomeCta />
+    </HomeShell>
   );
 }

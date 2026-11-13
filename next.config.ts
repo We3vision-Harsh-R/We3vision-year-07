@@ -39,9 +39,13 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
-  // the old staging address (07.we3vision.com) is replaced by www.we3vision.com: old links go to the same page of the real site
+  // the old staging address (07.we3vision.com) is replaced by www.we3vision.com: old links go to the same page of the real site.
+  // The bare domain (we3vision.com) also answers with the whole website, a second copy of every page (the canonical links, the sitemap and the structured
+  // data already point to www, so Google is told which one counts). FORCE_WWW=1 (set it in the environment BEFORE the build; it is baked into the routes)
+  // adds a 301 from the bare domain to www. It is off by default because it relies on the host forwarding the original Host header: if it did not, www would
+  // redirect to itself. Turn it on, open https://we3vision.com/about in a private window, and remove the variable again if it does not land on www.
   async redirects() {
-    return [{ source: "/:path*", has: [{ type: "host", value: "07.we3vision.com" }], destination: "https://www.we3vision.com/:path*", permanent: true }];
+    return ["07.we3vision.com", ...(process.env.FORCE_WWW === "1" ? ["we3vision.com"] : [])].map((host) => ({ source: "/:path*", has: [{ type: "host" as const, value: host }], destination: "https://www.we3vision.com/:path*", permanent: true }));
   },
   async headers() {
     return [

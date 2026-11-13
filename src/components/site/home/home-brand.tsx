@@ -46,7 +46,7 @@ const SOLVE = [
   { q: "Your team and partners design in their own way", a: "Brand guidelines and brand assets that everyone can follow, from the first post to the full brand kit." },
 ];
 
-export function Home2Brand() {
+export function HomeBrand() {
   return (
     <section className="hbd" id="brand-design" aria-labelledby="hbd-title">
       <div className="hb2-wrap">

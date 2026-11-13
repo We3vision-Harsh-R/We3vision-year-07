@@ -1,15 +1,15 @@
 import type { CSSProperties } from "react";
-import { Home2Fx } from "@/components/site/home2/home2-fx";
-import { Home2Glide } from "@/components/site/home2/home2-glide";
-import { Home2Footer } from "@/components/site/home2/home2-chrome";
-import { Home2Ai } from "@/components/site/home2/home2-ai";
-import { Home2Brand } from "@/components/site/home2/home2-brand";
-import { Home2Metaverse } from "@/components/site/home2/home2-metaverse";
-import { Home2More } from "@/components/site/home2/home2-more";
-import { Home2Services } from "@/components/site/home2/home2-services";
+import { HomeFx } from "@/components/site/home/home-fx";
+import { HomeGlide } from "@/components/site/home/home-glide";
+import { HomeFooter } from "@/components/site/home/home-chrome";
+import { HomeAi } from "@/components/site/home/home-ai";
+import { HomeBrand } from "@/components/site/home/home-brand";
+import { HomeMetaverse } from "@/components/site/home/home-metaverse";
+import { HomeMore } from "@/components/site/home/home-more";
+import { HomeServices } from "@/components/site/home/home-services";
 import { SmartLink } from "@/components/site/smart-link";
 import { getProjects } from "@/lib/projects";
-import "@/styles/home-2.css";
+import "@/styles/home.css";
 
 const POINTS = [
   { title: "Client-Centric Approach", text: "We put your needs first, ensuring every solution is tailored to your goals." },
@@ -55,12 +55,12 @@ async function serviceStats() {
 
 // The home page "/" (design by the owner, 2026-11-07): a dark glowing arch, a lit disc, hairline grids, services, process, industries, tools and a contact form.
 // Laptop / desktop only (phones are sent to /m by the proxy). The words are ours (the old home page content); the font is the site font (Poppins).
-export async function Home2Home() {
+export async function HomeMain() {
   const stats = await serviceStats();
   return (
     <div className="hb2">
-      <Home2Fx />
-      <Home2Glide />
+      <HomeFx />
+      <HomeGlide />
 
       {/* ---------------------------------------------------------------- the first screen */}
       <div className="hb2-fly" data-pause-off>
@@ -199,12 +199,12 @@ export async function Home2Home() {
         </div>
       </section>
 
-      <Home2Services stats={stats} />
-      <Home2Ai />
-      <Home2Brand />
-      <Home2Metaverse />
-      <Home2More />
-      <Home2Footer />
+      <HomeServices stats={stats} />
+      <HomeAi />
+      <HomeBrand />
+      <HomeMetaverse />
+      <HomeMore />
+      <HomeFooter />
     </div>
   );
 }

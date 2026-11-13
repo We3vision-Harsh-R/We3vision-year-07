@@ -1,4 +1,4 @@
-/* hbd-: the Brand Design section of the home page (components/site/home2/home2-brand.tsx). Theme colours only (--th / --ts); paragraphs >= 16px,
+/* hbd-: the Brand Design section of the home page (components/site/home/home-brand.tsx). Theme colours only (--th / --ts); paragraphs >= 16px,
    labels >= 14px. Nothing animates except the reveal of the home page ([data-r]). Laptop, tablet and phone in one file (media queries at the end). */
 .hbd {
   padding: 0 0 130px;

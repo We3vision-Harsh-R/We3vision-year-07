@@ -35,7 +35,7 @@ export const PROGRAMS: Program[] = [
     title: "3 Month Industrial Training",
     h1: "3 Month Industrial Training",
     seoTitle: "3 Month Industrial Training in Surat | We3vision",
-    seoDescription: "A 3 month industrial training at We3vision, Surat: learn the basics of a technology domain, build a guided mini project and see how a software team works. Choose your domain and ask for the fee.",
+    seoDescription: "3 month industrial training at We3vision, Surat: learn the basics of a technology domain, build a guided mini project and see how a software team works. Ask for the fee.",
     fit: "A first step into the industry: learn the basics of one domain and see how a real team works.",
     lede: "Three months to learn the foundations of one technology domain, the tools the industry uses, and how a software team works, ending with a small project you build yourself.",
     plan: [
@@ -53,7 +53,7 @@ export const PROGRAMS: Program[] = [
     title: "6 Month Industrial Training",
     h1: "6 Month Industrial Training",
     seoTitle: "6 Month Industrial Training in Surat | We3vision",
-    seoDescription: "A 6 month industrial training at We3vision, Surat: build skills in your domain and work on a real project with the SDLC process and ISO 9001 based quality practice. Ask for the fee.",
+    seoDescription: "6 month industrial training at We3vision, Surat: skills in your domain, a real project, the SDLC process and ISO 9001 based quality practice. Ask for the fee.",
     fit: "For learners who want to work on a real project and learn the full process, not only the skills.",
     lede: "Six months to build solid skills in your domain and then work on a real-time project inside a team, following the software development life cycle (SDLC) and quality practice based on ISO 9001.",
     plan: [
@@ -74,7 +74,7 @@ export const PROGRAMS: Program[] = [
     title: "9 Month Industrial Training",
     h1: "9 Month Industrial Training",
     seoTitle: "9 Month Industrial Training in Surat | We3vision",
-    seoDescription: "A 9 month industrial training at We3vision, Surat: deep skills in your domain, a full SDLC cycle on a live project, ISO 9001 based quality practice and industry contacts. Ask for the fee.",
+    seoDescription: "9 month industrial training at We3vision, Surat: deep skills in your domain, a full SDLC cycle on a live project and ISO 9001 based quality practice. Ask for the fee.",
     fit: "The most complete path: deep skills, a leading role on a real project and the contacts to start your career.",
     lede: "Nine months to go deep in your domain, take a leading part in a real-time project from the first requirement to the final release, and finish ready for the job market, with industry contacts.",
     plan: [

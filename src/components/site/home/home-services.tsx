@@ -2,15 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SmartLink } from "@/components/site/smart-link";
-import { Art, SERVICES } from "./home2-svc-data";
+import { Art, SERVICES } from "./home-svc-data";
 
-// The services of Home 2: seven cards that each carry their own details (the number of real projects, one line, tags, an animated picture of the
+// The services of the home page: seven cards that each carry their own details (the number of real projects, one line, tags, an animated picture of the
 // service). Hovering one brings it forward and blurs the others. Branding is the hero (the widest and the most glowing). Proportions follow the
-// golden ratio: the top row is 1 : 1.618 : 1 wide and 1.618 times as tall as the bottom row (see hb2-sv in styles/home-2.css).
+// golden ratio: the top row is 1 : 1.618 : 1 wide and 1.618 times as tall as the bottom row (see hb2-sv in styles/home.css).
 // The pictures only move with transform and opacity, and only while the section is on screen (data-live).
 type Stats = Record<string, { n: number; latest: string }>;
 
-export function Home2Services({ stats }: { stats: Stats }) {
+export function HomeServices({ stats }: { stats: Stats }) {
   const [on, setOn] = useState<number | null>(null);
   const ref = useRef<HTMLElement>(null);
   const [live, setLive] = useState(false);

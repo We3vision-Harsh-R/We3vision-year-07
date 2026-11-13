@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import { getBlogEntry } from "@/lib/blog";
 import { getCareerSetup, getOpenJob } from "@/lib/careers";
 import { getSiteSettings } from "@/lib/cms/queries";
+import { articleGraph, breadcrumbNode, orgRef, organizationRef, websiteId, websiteNode } from "@/lib/seo/schema";
 import type { JobView } from "@/lib/careers-shared";
 import { coverOf, getProjectBySlug } from "@/lib/projects";
 import { AppScreen, Accordion, Button, Card, LeadForm, Pic, Points, Section, contactFrom } from "../app";
+import { JsonLd } from "../../json-ld";
 import { JobApplyForm } from "../../lazy";
 import type { NavTab, OutlineItem } from "../app/nav-types";
 import { APPS } from "../launcher-data";
@@ -34,7 +36,6 @@ export async function renderMobileBlogPost(slug: string) {
   const [post, site] = await Promise.all([getBlogEntry(slug), getSiteSettings()]);
   if (!post) notFound();
   const app = APPS.blog;
-  const b = base();
   const hasFaq = post.faq.length > 0;
   const words = post.blocks.map((blk) => ("h" in blk ? blk.h : "p" in blk ? blk.p : blk.ul.join(" "))).join(" ").split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(words / 220));
@@ -44,16 +45,9 @@ export async function renderMobileBlogPost(slug: string) {
     { id: "contact", label: "Contact", icon: "contact" },
   ];
   const outline: OutlineItem[] = [...(hasFaq ? [{ id: "faq", label: "Frequently asked questions" }] : []), { id: "contact", label: "Want to build something?" }];
-  const json = {
-    "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "Article", headline: post.title, description: post.summary, datePublished: post.date, image: post.image ? (post.image.startsWith("http") ? post.image : `${b}${post.image}`) : undefined, keywords: post.tags.join(", "), author: { "@type": "Organization", name: "We3vision Private Limited" }, publisher: { "@type": "Organization", name: "We3vision Private Limited" }, mainEntityOfPage: `${b}/blog/${post.slug}` },
-      { "@type": "FAQPage", mainEntity: post.faq.map((q) => ({ "@type": "Question", name: q.question, acceptedAnswer: { "@type": "Answer", text: q.answer } })) },
-    ],
-  };
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(json)} />
+      <JsonLd graph={articleGraph(post)} />
       <AppScreen page="post-detail" title={post.title} subtitle={`${post.category} · ${post.dateLabel}`} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, outline, currentHref: "/blog" }}>
         <article className="ma-sec mp-dt-art">
           {post.summary && <p className="ma-lead mp-dt-lead">{post.summary}</p>}
@@ -101,7 +95,7 @@ export async function mobileBlogMetadata(slug: string): Promise<Metadata> {
     title: `${post.title} | We3vision`,
     description: post.summary,
     alternates: { canonical: path },
-    openGraph: { type: "article", url: path, siteName: "We3vision Private Limited", title: post.title, description: post.summary, publishedTime: post.date, images: post.image ? [post.image] : undefined },
+    openGraph: { type: "article", url: path, locale: "en_IN", siteName: "We3vision Private Limited", title: post.title, description: post.summary, publishedTime: post.date, images: post.image ? [post.image] : undefined },
     twitter: { card: "summary_large_image", title: post.title, description: post.summary },
   };
 }
@@ -121,16 +115,18 @@ export async function renderMobileProject(slug: string) {
     { id: "contact", label: "Contact", icon: "contact" },
   ];
   const outline: OutlineItem[] = [...(gallery.length ? [{ id: "gallery", label: "Pictures" }] : []), { id: "contact", label: "Want something like this?" }];
-  const ld = {
-    "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${b}/` }, { "@type": "ListItem", position: 2, name: "Portfolio", item: `${b}/portfolio` }, { "@type": "ListItem", position: 3, name: p.title, item: `${b}/portfolio/${p.slug}` }] },
-      { "@type": "CreativeWork", name: p.title, description: p.summary || undefined, url: `${b}/portfolio/${p.slug}`, image: cover ? (cover.startsWith("http") ? cover : `${b}${cover}`) : undefined, genre: p.category || undefined, creator: { "@type": "Organization", name: "We3vision Private Limited" } },
-    ],
-  };
+  const url = `${b}/portfolio/${p.slug}`;
+  const image = cover ? (cover.startsWith("http") ? cover : `${b}${cover}`) : undefined;
+  const ld = [
+    organizationRef(site),
+    websiteNode(site),
+    breadcrumbNode(url, [{ name: "Home", url: `${b}/` }, { name: "Portfolio", url: `${b}/portfolio` }, { name: p.title, url }]),
+    { "@type": "WebPage", "@id": `${url}#webpage`, url, name: p.title, inLanguage: "en", isPartOf: { "@id": websiteId(b) }, breadcrumb: { "@id": `${url}#breadcrumb` }, mainEntity: { "@id": `${url}#project` } },
+    { "@type": "CreativeWork", "@id": `${url}#project`, name: p.title, description: p.summary || undefined, url, image, genre: p.category || undefined, inLanguage: "en", creator: orgRef(b), mainEntityOfPage: { "@id": `${url}#webpage` } },
+  ];
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(ld)} />
+      <JsonLd graph={ld} />
       <AppScreen page="project-detail" title={p.title} subtitle={p.category || undefined} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, outline, currentHref: "/portfolio" }}>
         <article className="ma-sec mp-dt-art">
           {cover && <Pic src={cover} alt={p.title} ratio="3 / 2" />}
@@ -176,7 +172,7 @@ export async function mobileProjectMetadata(slug: string): Promise<Metadata> {
     title: `${p.title} | Portfolio | We3vision`,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "article", url: path, siteName: "We3vision Private Limited", title: p.title, description, images: coverOf(p) ? [coverOf(p)] : undefined },
+    openGraph: { type: "article", url: path, locale: "en_IN", siteName: "We3vision Private Limited", title: p.title, description, images: coverOf(p) ? [coverOf(p)] : undefined },
     twitter: { card: "summary_large_image", title: p.title, description },
   };
 }
@@ -270,7 +266,7 @@ export async function mobileJobMetadata(slug: string): Promise<Metadata> {
     title: `${job.title}: Job in ${job.location} | We3vision`,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "website", url: path, siteName: "We3vision Private Limited", title: `${job.title} at We3vision`, description },
+    openGraph: { type: "website", url: path, locale: "en_IN", siteName: "We3vision Private Limited", title: `${job.title} at We3vision`, description },
     twitter: { card: "summary", title: `${job.title} at We3vision`, description },
   };
 }

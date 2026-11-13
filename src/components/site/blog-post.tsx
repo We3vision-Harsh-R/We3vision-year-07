@@ -1,33 +1,15 @@
 import Link from "next/link";
 import type { BlogEntry } from "@/lib/blog-shared";
+import { articleGraph } from "@/lib/seo/schema";
 import { Img } from "./img";
+import { JsonLd } from "./json-ld";
 
 // One article of the blog (/blog/<slug>): a calm reading column in the look of the service pages. Text is plain server HTML (nothing here needs
-// JavaScript), the questions at the end are also given to Google as an Article and a FAQPage. The look is in globals.css (.bp-*).
-export function BlogPost({ post, base }: { post: BlogEntry; base: string }) {
-  const json = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        headline: post.title,
-        description: post.summary,
-        datePublished: post.date,
-        image: post.image ? (post.image.startsWith("http") ? post.image : `${base}${post.image}`) : undefined,
-        keywords: post.tags.join(", "),
-        author: { "@type": "Organization", name: "We3vision Private Limited" },
-        publisher: { "@type": "Organization", name: "We3vision Private Limited" },
-        mainEntityOfPage: `${base}/blog/${post.slug}`,
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: post.faq.map((q) => ({ "@type": "Question", name: q.question, acceptedAnswer: { "@type": "Answer", text: q.answer } })),
-      },
-    ],
-  };
+// JavaScript), the page is also described to Google as a breadcrumb, an Article and a FAQPage (lib/seo/schema.ts). The look is in globals.css (.bp-*).
+export function BlogPost({ post }: { post: BlogEntry; base?: string }) {
   return (
     <article className="bp">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json).replace(/</g, "\\u003c") }} />
+      <JsonLd graph={articleGraph(post)} />
       <header className="bp-head">
         <Link href="/blog" className="bp-back">
           ← All articles

@@ -1,4 +1,4 @@
-/* hbm-: the Metaverse service section of the home page (components/site/home2/home2-metaverse.tsx + home2-metaverse-ask.tsx), in the style of a black stage with a
+/* hbm-: the Metaverse service section of the home page (components/site/home/home-metaverse.tsx + home-metaverse-ask.tsx), in the style of a black stage with a
    calm heading, one glowing bar to ask PANDA with streaks of light to both sides, and four glass cards. No 3D objects. Theme colours only (--th / --ts);
    paragraphs >= 16px, labels >= 14px. Only opacity animates, and the section pauses off screen (data-pause-off). Laptop, tablet and phone in this one file. */
 .hbm {

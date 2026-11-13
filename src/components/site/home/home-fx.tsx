@@ -2,18 +2,18 @@
 
 import { useEffect } from "react";
 
-// The scroll life of "Home 2" (/home-2). One passive scroll listener; the picture is written straight onto the few elements that move (transform and
+// The scroll life of the home page. One passive scroll listener; the picture is written straight onto the few elements that move (transform and
 // opacity only). Nothing is written on the page root, because a changed custom property there would restyle every element of the page on every frame.
 //   the page opens as a pinned fly-through (.hb2-fly): in through the door of the first screen, out of the centre of the disc
 //   data-in     set on every [data-r] block the first time it comes into view (it rises and fades in)
 // The smooth feel comes from Lenis (components/site/smooth-scroll.tsx), which the site layout already runs: the picture follows the scroll exactly,
 // with no second smoothing on top (two layers of easing made the zoom feel late and floaty). Reduced motion: nothing moves.
-export function Home2Fx() {
+export function HomeFx() {
   useEffect(() => {
     const root = document.querySelector<HTMLElement>(".hb2");
     if (!root) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    // phones and small screens: one column, no pinned fly-through (the page is plain scrolling; see the max-width 900px block in home-2.css)
+    // phones and small screens: one column, no pinned fly-through (the page is plain scrolling; see the max-width 900px block in home.css)
     const phone = window.matchMedia("(max-width: 900px)").matches;
     const fly = phone ? null : root.querySelector<HTMLElement>(".hb2-fly");
     root.setAttribute("data-fx", "");

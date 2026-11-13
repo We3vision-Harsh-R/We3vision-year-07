@@ -1996,7 +1996,7 @@
   }
 }
 
-/* hms-: the swipe rows of the home page (home2-glide.tsx glides them by itself and lets the visitor take over): no snapping, so a card can stop anywhere;
+/* hms-: the swipe rows of the home page (home-glide.tsx glides them by itself and lets the visitor take over): no snapping, so a card can stop anywhere;
    the heading of Our products stays in place while its cards move; room for the copies of the cards the glide adds. Phones and tablets. */
 @media (max-width: 900px) {
   .hb2 .hb2-points,

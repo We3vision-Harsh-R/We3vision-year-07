@@ -1,5 +1,5 @@
 /* abp-: the About page on phones and tablets (owner, 2026-11-13): the story chapters, the journey steps and the leaders are rows of cards that glide sideways by
-   themselves (home2-glide.tsx: starts 1 second after the row is seen, a touch takes over). Nothing new is said. */
+   themselves (home-glide.tsx: starts 1 second after the row is seen, a touch takes over). Nothing new is said. */
 @media (max-width: 900px) {
   .ah-h1 {
     font-size: 34px;

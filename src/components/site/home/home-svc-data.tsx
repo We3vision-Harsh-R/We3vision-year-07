@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
-// The seven services of Home 2, shared by the home page cards (home2-services.tsx) and the Services page (/home-2/services).
-// The pictures are plain markup; their motion is in styles/home-2.css (hb2-sv, only while .hb2-sv has data-live).
+// The seven services of the home design, shared by the home page cards (home-services.tsx) and the Services page (/services).
+// The pictures are plain markup; their motion is in styles/home.css (hb2-sv, only while .hb2-sv has data-live).
 export type Svc = {
   key: string;
   kick: string;

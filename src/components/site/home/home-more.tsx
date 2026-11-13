@@ -1,9 +1,10 @@
 import type { CSSProperties } from "react";
 import { SmartLink } from "@/components/site/smart-link";
 import { getSiteSettings } from "@/lib/cms/queries";
-import { Home2Contact } from "./home2-contact";
+import { HomeContact } from "./home-contact";
+import { HomeFaq } from "./home-faq";
 
-// The sections of Home 2 after the services (prefix hb2-m in styles/home-2.css). All facts are the ones already on the site (Home page content):
+// The sections of the home page after the services (prefix hb2-m in styles/home.css). All facts are the ones already on the site (Home page content):
 // founded 2019 in Surat, 300+ projects, 7 core services, 7 industries, 6 technology platforms, the industries, the places, the tools.
 // Motion is transform / opacity only; every animated block carries data-pause-off so it stops when it is off screen.
 
@@ -35,7 +36,7 @@ const PLACES = ["Surat, India", "United States", "Canada", "United Kingdom", "Ge
 
 const TECH = "React.js|Vue.js|Angular|Node.js|Laravel|PHP|WordPress|Shopify|Kotlin|Swift|Flutter|React Native|Python|TensorFlow|OpenAI|Unity|Unreal Engine|PostgreSQL|MongoDB|Docker".split("|");
 
-export async function Home2More() {
+export async function HomeMore() {
   const site = await getSiteSettings();
   // the e-mail and the first phone number of the contact cards (Admin > Settings)
   const all = site.contactCards.flatMap((c) => c.lines.split("\n").map((l) => l.trim()));
@@ -184,6 +185,9 @@ export async function Home2More() {
         </div>
       </section>
 
+      {/* ---- the questions people ask (open text, also the FAQPage data of the home page) */}
+      <HomeFaq site={site} />
+
       {/* ---- the contact section: the words on the left, the form on the right (the same form and rules as the Contact page) */}
       <section className="hb2-m-ctc" id="contact" aria-labelledby="hb2-t8">
         <div className="hb2-wrap hb2-m-ctg">
@@ -206,7 +210,7 @@ export async function Home2More() {
             <h2>
               Send us a <em>message</em>
             </h2>
-            <Home2Contact />
+            <HomeContact />
           </div>
         </div>
       </section>

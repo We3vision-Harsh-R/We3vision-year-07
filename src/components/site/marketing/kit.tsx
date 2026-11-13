@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
+import { FaqJsonLd } from "../json-ld";
 import { SmartLink } from "../smart-link";
 
 // Shared parts of the three marketing pages (SEO / AEO, Meta Marketing, Physical Marketing): the reveal-on-scroll, section heading, FAQ and CTA.
@@ -110,6 +111,7 @@ export function Faq({ items, label }: { items: { q: string; a: string }[]; label
   const [open, setOpen] = useState(0);
   return (
     <div className="mkt-qs">
+      <FaqJsonLd items={items} />
       {label && <p className="mkt-paa">{label}</p>}
       {items.map((f, i) => (
         <div key={f.q} className={`mkt-q ${open === i ? "is-on" : ""}`}>

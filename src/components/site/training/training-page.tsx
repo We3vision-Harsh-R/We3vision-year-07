@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import { JsonLd } from "@/components/site/json-ld";
 import { SmartLink } from "@/components/site/smart-link";
 import { ISO, PROGRAM, PROGRAMS, SDLC, type Months } from "@/lib/industrial-training";
 import type { Course } from "@/lib/training-shared";
 import { SHARE_IMAGE } from "@/lib/share-image";
 import { siteBase } from "@/lib/seo-ping";
+import { breadcrumbNode, orgRef, organizationRef, webPageNode, websiteNode } from "@/lib/seo/schema";
 import "@/styles/training.css";
 
 // THE INDUSTRIAL TRAINING PAGES (owner, 2026-11-12): /industrial-training/3-month, /6-month and /9-month. One page design, the words of each page come from
@@ -17,7 +19,7 @@ export function trainingMetadata(months: Months): Metadata {
     title: p.seoTitle,
     description: p.seoDescription,
     alternates: { canonical: p.path },
-    openGraph: { type: "website", url: p.path, title: p.seoTitle, description: p.seoDescription, images: [SHARE_IMAGE] },
+    openGraph: { type: "website", url: p.path, locale: "en_IN", title: p.seoTitle, description: p.seoDescription, images: [SHARE_IMAGE] },
   };
 }
 
@@ -36,23 +38,18 @@ const STEPS = [
 export function TrainingPage({ months, courses }: { months: Months; courses: Course[] }) {
   const p = PROGRAM[months];
   const base = siteBase();
-  const ld = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: `${base}/` },
-          { "@type": "ListItem", position: 2, name: "Industrial Training" },
-          { "@type": "ListItem", position: 3, name: p.title, item: `${base}${p.path}` },
-        ],
-      },
-      { "@type": "Course", name: p.title, description: p.seoDescription, url: `${base}${p.path}`, provider: { "@type": "Organization", name: "We3vision Private Limited", url: base || undefined } },
-    ],
-  };
+  const url = `${base}${p.path}`;
+  // structured data: the trail (only real pages), the page and the course; the company is the provider, by @id
+  const ld = [
+    organizationRef(),
+    websiteNode(),
+    breadcrumbNode(url, [{ name: "Home", url: `${base}/` }, { name: p.title, url }]),
+    webPageNode({ url, name: p.seoTitle, description: p.seoDescription, mainEntityId: `${url}#course` }),
+    { "@type": "Course", "@id": `${url}#course`, name: p.title, description: p.seoDescription, url, inLanguage: "en", provider: orgRef(base) },
+  ];
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "<") }} />
+      <JsonLd graph={ld} />
       <div className="tr">
         {/* ---- the top */}
         <section className="tr-hero">

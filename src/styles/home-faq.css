@@ -1,0 +1,91 @@
+/* hfq-: the "Questions people ask us" section of the home page (components/site/home/home-faq.tsx). Theme colours only (--th / --ts, through the
+   .hb2 variables --ink --mute --line --v1); paragraphs >= 16px, labels >= 14px. Flat, hairlines, one accent, no boxes. Nothing animates except the
+   reveal of the home page ([data-r]). The layout wraps by itself (flex-wrap), no media queries. */
+.hfq {
+  padding: 110px 0 30px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1500px;
+}
+.hfq-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 48px 80px;
+}
+.hfq-side {
+  flex: 1 1 280px;
+  max-width: 380px;
+}
+.hfq-lede {
+  margin: 22px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--mute);
+}
+.hfq-list {
+  flex: 2 1 540px;
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+}
+.hfq-item {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  padding: 34px 0 36px;
+  border-top: 1px solid var(--line);
+}
+.hfq-n {
+  padding-top: 5px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--v1);
+}
+.hfq-body h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.hfq-body p {
+  margin: 14px 0 0;
+  max-width: 64ch;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--mute);
+}
+.hfq-more {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 16px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition:
+    border-color 0.3s,
+    color 0.3s;
+}
+.hfq-more span {
+  display: inline-block;
+  color: var(--v1);
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.hfq-more:hover,
+.hfq-more:focus-visible {
+  color: var(--v1);
+  border-color: var(--v1);
+}
+.hfq-more:hover span,
+.hfq-more:focus-visible span {
+  transform: translateX(4px);
+}
+/* only when the two columns sit side by side (the grid is wide), the heading stays on screen while the answers scroll; a container query, not a screen-size rule */
+.hfq-grid {
+  container-type: inline-size;
+}
+@container (min-width: 960px) {
+  .hfq-side {
+    position: sticky;
+    top: 120px;
+  }
+}

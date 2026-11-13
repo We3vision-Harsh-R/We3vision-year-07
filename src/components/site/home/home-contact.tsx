@@ -5,12 +5,12 @@ import { GlimmerArt } from "@/components/site/glimmer-art";
 import { submitLead, type LeadState } from "@/actions/leads";
 import { leadProblems, limitPhone, type LeadProblems, type LeadValues } from "@/lib/contact-validation";
 
-// The contact form of Home 2. Same server action and same rules as the form of the live site (actions/leads.ts, lib/contact-validation.ts):
+// The contact form of the home design. Same server action and same rules as the form of the live site (actions/leads.ts, lib/contact-validation.ts):
 // every field is checked when the visitor leaves it, a spinner shows while it is sent, and the answer is read out.
 type Key = keyof LeadValues;
 const ORDER: Key[] = ["name", "email", "phone", "message"];
 
-export function Home2Contact() {
+export function HomeContact() {
   const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, { status: "idle" });
   const [v, setV] = useState<LeadValues>({ name: "", email: "", phone: "", message: "" });
   const [seen, setSeen] = useState<Partial<Record<Key, boolean>>>({});

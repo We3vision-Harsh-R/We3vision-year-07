@@ -177,7 +177,7 @@ export const HEADLESS_SECTIONS = build({
 // ---------------------------------------------------------------------------------------------------------------------
 export const WORDPRESS_SEO = {
   title: "Custom WordPress Development Services | We3vision",
-  description: "Custom WordPress websites, themes, plugins, WooCommerce stores, migration and support from We3vision, Surat, India. Work per project, per hour or with a dedicated team.",
+  description: "Custom WordPress websites, themes, plugins, WooCommerce stores, migration and support from We3vision, Surat, India. Per project, per hour or with a dedicated team.",
 };
 export const WORDPRESS_SECTIONS = build({
   seo: WORDPRESS_SEO,
@@ -244,6 +244,12 @@ export const WORDPRESS_SECTIONS = build({
     ],
   },
   related: related("woo", "plugin", "headless"),
+  faq: [
+    { question: "Does We3vision build custom WordPress themes and plugins?", answer: "Yes. We3vision builds custom WordPress themes and plugins around your brand and goals instead of a generic theme, from a simple blog to a large business platform. We also build WooCommerce stores." },
+    { question: "Can We3vision move my existing website to WordPress?", answer: "Yes. WordPress migration is one of our services: we move your site to WordPress safely, without losing data." },
+    { question: "Does We3vision look after a WordPress website after launch?", answer: "Yes. Support and maintenance covers updates and fixes after launch, and a retainer gives you ongoing support to improve and optimise your site whenever you need." },
+    { question: "How does We3vision build a WordPress website?", answer: "In four steps: we learn your goals, audience and the type of website, then design it, build the custom theme, features and integrations, and finally test, launch and support it." },
+  ],
   cta: { heading: "Ready For Your\nWordPress Website?", text: "Tell us what you want to build and we will get back to you with the right approach.", button: "Get a free quote" },
 });
 
@@ -308,6 +314,12 @@ export const SHOPIFY_SECTIONS = build({
     ],
   },
   related: related("shopapp", "web", "woo"),
+  faq: [
+    { question: "What Shopify services does We3vision offer?", answer: "We3vision offers custom store design and development, theme customisation, app integration, custom app development, platform migration, ongoing support and maintenance, and performance optimisation." },
+    { question: "Can We3vision move my store to Shopify from another platform?", answer: "Yes. Platform migration moves your products, customers and data to Shopify safely." },
+    { question: "Does We3vision build custom Shopify apps?", answer: "Yes. We3vision builds special Shopify apps for what regular apps cannot do, and also adds payment tools, marketing helpers and analytics trackers to your store and makes them work smoothly." },
+    { question: "Why work with We3vision for Shopify?", answer: "We3vision is an India-based agency that builds Shopify stores for businesses of all sizes, from startups to larger companies, at fair costs. The team works across time zones, so your project can keep moving forward." },
+  ],
   cta: { heading: "Ready To Launch\nYour Shopify Store?", text: "Partner with We3vision to turn your ideas into reality. Tell us what you want to sell and we will get back to you.", button: "Get a free quote" },
 });
 
@@ -372,6 +384,12 @@ export const WOOCOMMERCE_SECTIONS = build({
     ],
   },
   related: related("wordpress", "plugin", "shopify"),
+  faq: [
+    { question: "What does WooCommerce development at We3vision include?", answer: "It includes store development and design, theme development and customisation, plugin development, plugin integration, WooCommerce API development, migration, PSD to WooCommerce, WordPress speed and SEO optimisation, buyer journey mapping, and maintenance and support." },
+    { question: "Can We3vision migrate my online store to WooCommerce?", answer: "Yes. We plan the migration from your existing platform carefully, with smooth data transfer and platform compatibility." },
+    { question: "Why choose WooCommerce for an online store?", answer: "WooCommerce is open source and easy to set up. It supports many payment methods and shipping services, lets you sell products, subscriptions, memberships and appointments, and has strong SEO features and secure payment options." },
+    { question: "How does We3vision build a WooCommerce store?", answer: "We start with a consultation on your business goals and requirements, then design wireframes, develop the store, test its quality and performance, launch it, and keep improving it with ongoing support and optimisation." },
+  ],
   cta: { heading: "Ready To Open\nYour Online Store?", text: "Tell us about your products and your customers and we will plan your WooCommerce store with you.", button: "Get a free quote" },
 });
 
@@ -434,6 +452,12 @@ export const SHOPIFYAPP_SECTIONS = build({
     ],
   },
   related: related("shopify", "web", "plugin"),
+  faq: [
+    { question: "What kinds of Shopify apps does We3vision build?", answer: "We3vision builds custom apps around your business, private apps for the Shopify admin when you need an exclusive solution, and public apps for the Shopify App Store to expand your reach. It also adds third-party integrations and new features to apps you already have." },
+    { question: "Can We3vision add features to my existing Shopify store or app?", answer: "Yes. Feature enhancements add new features to the apps and the store you already have." },
+    { question: "Does We3vision maintain Shopify apps after launch?", answer: "Yes. Maintenance and updates give your apps continuous support so they keep running smoothly, and optimisation improves their functionality and the shopping experience." },
+    { question: "Why choose We3vision for Shopify app development?", answer: "The team's time-zone advantage allows continuous development, the team size fits the job from minor tweaks to full-scale development, rates are budget-friendly, apps are tested rigorously, and confidentiality agreements protect your intellectual property." },
+  ],
   cta: { heading: "Ready To Build\nYour Shopify App?", text: "Tell us what your store needs and we will suggest how an app can do it.", button: "Get a free quote" },
 });
 
@@ -489,5 +513,11 @@ export const PLUGIN_SECTIONS = build({
     intro: "Examples of what we can build: e-commerce enhancements such as advanced filters, shipping calculators or custom payment options, and SEO plugins to optimise metadata and analyse keywords.",
   },
   related: related("wordpress", "woo", "headless"),
+  faq: [
+    { question: "Does We3vision build custom WordPress plugins?", answer: "Yes. We3vision builds bespoke plugins from the ground up around your requirements, such as e-commerce enhancements and SEO plugins, and connects payment gateways, CRM systems or analytics platforms to your site." },
+    { question: "Can We3vision customise or upgrade a plugin I already use?", answer: "Yes. We adapt existing plugins to the way your business works, provide plugin upgrade services, and build extensions and add-ons for the plugins you already have." },
+    { question: "Does We3vision maintain plugins after delivery?", answer: "Yes. Maintenance keeps your plugins running smoothly over time, and our support continues after the plugin is delivered." },
+    { question: "How does We3vision build a WordPress plugin?", answer: "In four steps: define your business, goals and requirements, design how the plugin looks and behaves, develop it with clean code that follows WordPress standards, and deliver it after rigorous testing, with hand-over and support." },
+  ],
   cta: { heading: "Ready For A\nCustom Plugin?", text: "Describe the feature you are missing and we will tell you how we would build it.", button: "Get a free quote" },
 });

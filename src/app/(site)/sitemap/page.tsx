@@ -6,6 +6,8 @@ import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, TRAINING_LINKS, type Menu
 import { unlistedPages } from "@/lib/site-menu-pages";
 import { SHARE_IMAGE } from "@/lib/share-image";
 import { siteBase } from "@/lib/seo-ping";
+import { breadcrumbNode, organizationRef, webPageNode, websiteNode } from "@/lib/seo/schema";
+import { JsonLd } from "@/components/site/json-ld";
 import { SmartLink } from "@/components/site/smart-link";
 
 // The sitemap of the website for people (the XML one for search engines is /sitemap.xml). It lists every service, product and page, and the
@@ -16,7 +18,7 @@ export const metadata: Metadata = {
   title: "Sitemap | All Pages of We3vision",
   description: "Every page of the We3vision website in one place: services, products, portfolio, blog, careers and company pages.",
   alternates: { canonical: "/sitemap" },
-  openGraph: { type: "website", url: "/sitemap", title: "Sitemap | All Pages of We3vision", description: "Every page of the We3vision website in one place.", images: [SHARE_IMAGE] },
+  openGraph: { type: "website", url: "/sitemap", locale: "en_IN", title: "Sitemap | All Pages of We3vision", description: "Every page of the We3vision website in one place.", images: [SHARE_IMAGE] },
 };
 
 type Group = { title: string; items: MenuLink[] };
@@ -34,16 +36,16 @@ export default async function SitemapPage() {
     ...(jobs.length ? [{ title: "Open Positions", items: jobs.map((j) => ({ label: j.title, href: `/careers/${j.slug}` })) }] : []),
   ];
   const base = siteBase();
-  const ld = {
-    "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${base}/` }, { "@type": "ListItem", position: 2, name: "Sitemap", item: `${base}/sitemap` }] },
-      { "@type": "CollectionPage", "@id": `${base}/sitemap#webpage`, url: `${base}/sitemap`, name: "Sitemap | All Pages of We3vision", isPartOf: { "@type": "WebSite", url: base || undefined, name: "We3vision" } },
-    ],
-  };
+  const url = `${base}/sitemap`;
+  const ld = [
+    organizationRef(),
+    websiteNode(),
+    breadcrumbNode(url, [{ name: "Home", url: `${base}/` }, { name: "Sitemap", url }]),
+    webPageNode({ url, type: "CollectionPage", name: "Sitemap | All Pages of We3vision" }),
+  ];
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\u003c") }} />
+    <JsonLd graph={ld} />
     <section className="smp">
       <header className="smp-head">
         <p className="smp-chip">Sitemap</p>

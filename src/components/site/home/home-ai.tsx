@@ -39,7 +39,7 @@ const SOLVE = [
   { q: "Too much manual data work", a: "AI automates data-heavy tasks such as entering, sorting and checking information." },
 ];
 
-export function Home2Ai() {
+export function HomeAi() {
   return (
     <section className="hba" id="ai-development" aria-labelledby="hba-title">
       <div className="hb2-wrap">

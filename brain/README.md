@@ -22,6 +22,7 @@ what is still open.
 | 8 | [08-task-history.md](08-task-history.md) | to avoid redoing work | Tasks 1–74, decisions, **rejected designs (do not rebuild them)** |
 | 9 | [09-open-items.md](09-open-items.md) | to know what is next | Pending requests, caveats, ideas |
 | 10 | [10-seo-indexing.md](10-seo-indexing.md) | before any new page / release | Search engine autopilot, owner checklist, how to audit indexing |
+| 23 | [23-seo-geo-aeo-report.md](23-seo-geo-aeo-report.md) | any SEO / schema / FAQ / robots / llms.txt task | Audit of 2026-11-13, what task 150 changed, scorecard, owner checklist (Search Console, Bing) |
 | 11 | [11-optimization.md](11-optimization.md) | **any speed / optimization / "advanced level" task** | Plan, scoreboard (baseline numbers), guardrails vs the Home lock, `tools/perf-audit.mjs` |
 | 11 | [11-mobile-architecture.md](11-mobile-architecture.md) | **any mobile/tablet task** | Separate phone app `src/app/(m)`, device routing, three root layouts |
 | 12 | [12-skills-and-speed-plan.md](12-skills-and-speed-plan.md) | **before any speed work** | Skills to use per job, 1000 ms budget, plan A–E (route CSS, lazy on scroll/click, smoothness), what the owner gets |

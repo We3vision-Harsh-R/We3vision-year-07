@@ -48,3 +48,28 @@ Then, in Search Console → Pages ("Page indexing"), the reasons are listed per 
 2. One `<h1>`; real text (not only images/canvas); at least one link TO it (menu, `lib/site-menu.ts`, related blocks, `/sitemap`).
 3. Add it to `lib/site-menu.ts` if it is a service/product page, so it is in the menu and in the HTML sitemap.
 4. Run `node tools/seo-audit.mjs http://localhost:1010` before the release.
+
+## SEO / GEO / AEO round (task 150, 2026-11-13)
+Full report with the audit, the scorecard and the owner checklist: [23-seo-geo-aeo-report.md](23-seo-geo-aeo-report.md).
+
+| Piece | Where | What it does |
+|---|---|---|
+| Company entity | `src/lib/seo/schema.ts` (`organizationNode`) | ONE description of We3vision (Organization + ProfessionalService, `@id` `<site>/#organization`): founded 2019, Surat head office + Marburg office (only while the footer contact cards still show them), phone/e-mail/social links read from Admin > Settings, `knowsAbout`, `areaServed` India + Worldwide. No ratings, reviews or awards. |
+| Shared pieces | `src/lib/seo/schema.ts`, `src/components/site/json-ld.tsx` | `websiteNode`, `webPageNode`, `breadcrumbNode`, `serviceNode`, `faqNode`, `articleGraph`; every page graph points at the company and website by `@id`. Use these for any new page, do not write JSON-LD by hand. |
+| Inner pages | `components/site/page-jsonld.tsx` | Breadcrumb (Home > Services > page, real pages only), WebPage/AboutPage/ContactPage/CollectionPage, Service (`@id` `<page>#service`). `site` prop = full company entity (About, Contact). |
+| Home | `app/(site)/page.tsx` | Organization, WebSite, WebPage, the 7 Services, FAQPage (same list as the visible FAQ). |
+| Home FAQ | `lib/seo/home-faq.ts` + `components/site/home/home-faq.tsx` + `styles/home-faq.css` (`hfq-`) | 10 answer-first Q&A, open text (no click), each with an internal link. The list is the single source for the text and the FAQPage data. Contact answer follows Admin > Settings. |
+| New JSON-LD | `/portfolio` (ItemList of projects), `/contact` (ContactPage + full entity), `/services` (CollectionPage + ItemList) | These three Home-design pages had none. |
+| FAQPage gaps | `tech/index.tsx` (`FAQ_FROM_DATA`), `marketing/kit.tsx` `Faq` | Technology, software, brand and marketing pages showed questions without FAQPage data. Add a slug to `FAQ_FROM_DATA` only when its design shows `d.faq`. |
+| Articles / projects | `articleGraph`, `portfolio/[slug]/page.tsx` | Breadcrumb + WebPage + Article/CreativeWork + FAQ, company by `@id`; desktop and phone share the builder. |
+| robots.txt | `app/robots.ts` | `*` and a named group (OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot) both allow `/` and disallow `/admin`, `/preview`, `/m/preview`, `/api/`. Training crawlers (GPTBot, Google-Extended, ClaudeBot, CCBot) are NOT named: unchanged, owner decides. |
+| sitemap.xml | `app/sitemap.ts` | `lastmod` only when true (admin publish day, article date, job date); no more "modified now" on every address. |
+| llms.txt | `app/llms.txt/route.ts` | Built from the menu, page descriptions, articles and contact cards (hourly). A guide only, no guarantee. |
+| manifest | `app/manifest.ts` | Name, icons, `en-IN`, dark background colour. |
+| og:locale | all metadata builders | `en_IN`. `<html lang="en">` unchanged. |
+| Bare domain | `next.config.ts`, env `FORCE_WWW=1` | OFF by default (see below). |
+
+Things to know
+- `FORCE_WWW=1` (before the build) makes `we3vision.com` answer with a 301 to www. It is off because it relies on the host sending the original Host header; if it did not, www would redirect to itself. Turn it on, test `https://we3vision.com/about` in a private window, remove it if www does not open. Or do the redirect in Hostinger (Domains > redirect).
+- A fake "Googlebot" or "bingbot" user agent gets a 403 page from the hosting firewall (not from this code). Real crawlers are probably let in, but check with Search Console "URL inspection > Test live URL" and Bing Webmaster "URL inspection".
+- `/indexnow-key.txt` answers 404 until `INDEXNOW_KEY` is set in the environment.

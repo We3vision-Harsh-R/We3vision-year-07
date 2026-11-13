@@ -3,14 +3,14 @@
 import { useMemo, useState, type CSSProperties } from "react";
 import { SmartLink } from "@/components/site/smart-link";
 
-// The Portfolio page of Home 2: category chips (with the number of projects) and the projects as a masonry of tall and short cards, like a board of
+// The Portfolio page of the home design: category chips (with the number of projects) and the projects as a masonry of tall and short cards, like a board of
 // pins. Every card opens the project page of the site (/portfolio/slug). Only real projects (Admin > Projects) are shown.
 export type Pin = { id: string; slug: string; title: string; category: string; summary: string; cover: string };
 
 const OTHER = "Other";
 const HEIGHTS = [300, 380, 340, 420, 320, 360]; // image heights in px, repeated, so the columns are uneven like a board
 
-export function Home2Portfolio({ projects }: { projects: Pin[] }) {
+export function HomePortfolio({ projects }: { projects: Pin[] }) {
   const [cat, setCat] = useState("All");
   const cats = useMemo(() => {
     const m = new Map<string, number>();

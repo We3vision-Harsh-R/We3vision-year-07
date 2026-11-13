@@ -93,7 +93,7 @@ export async function mobileMetadata(slug: PageSlug): Promise<Metadata> {
     title: page.title,
     description: page.description,
     alternates: { canonical: path },
-    openGraph: { type: "website", url: path, siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
+    openGraph: { type: "website", url: path, locale: "en_IN", siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
     twitter: { card: "summary_large_image", title: page.title, description: page.description, images: [SHARE_IMAGE.url] },
   };
 }

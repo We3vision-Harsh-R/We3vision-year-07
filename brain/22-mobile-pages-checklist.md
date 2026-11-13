@@ -2,7 +2,7 @@
 Goal: every page on phone gets the home-page theme, minimal content, card rows as gliding sliders (start 1s after the row is seen), the same buttons, the same section design, Pando (panda) where it fits. Do ONE page and ONE section at a time and ASK the owner before each. Theme colours stay (never change the theme).
 
 Status: [x] done, [~] partly, [ ] todo
-- [~] Home `/` (Home2 on phone): hero, About, why cards, products, services ok; AI, Metaverse, Brand sections need a clearer redesign
+- [~] Home `/` (Home on phone): hero, About, why cards, products, services ok; AI, Metaverse, Brand sections need a clearer redesign
 - [ ] /m (launcher home)
 Services: [ ] /m/webdev [ ] /m/mobile [ ] /m/software-development-services [ ] /m/ai [ ] /m/metaverse [ ] /m/3d-modeling [ ] /m/animation [ ] /m/ui-ux-design [ ] /m/crm [ ] /m/graphics [ ] /m/seo
 Brand: [ ] /m/brand-development-services [ ] /m/brand-identity [ ] /m/brand-kit-design [ ] /m/brand-video-production [ ] /m/zero-to-n-brand-development

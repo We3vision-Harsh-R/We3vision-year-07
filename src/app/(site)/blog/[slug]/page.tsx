@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${post.title} | We3vision`.length <= 60 ? `${post.title} | We3vision` : post.title,
     description: post.summary,
     alternates: { canonical: path },
-    openGraph: { type: "article", url: path, siteName: "We3vision Private Limited", title: post.title, description: post.summary, publishedTime: post.date, images: [post.image || SHARE_IMAGE] },
+    openGraph: { type: "article", url: path, locale: "en_IN", siteName: "We3vision Private Limited", title: post.title, description: post.summary, publishedTime: post.date, images: [post.image || SHARE_IMAGE] },
     twitter: { card: "summary_large_image", title: post.title, description: post.summary, images: [post.image || SHARE_IMAGE.url] },
   };
 }

@@ -1,9 +1,11 @@
 import type { CSSProperties } from "react";
-import { Home2Contact } from "@/components/site/home2/home2-contact";
-import { Home2PageHero, Home2Shell } from "@/components/site/home2/home2-chrome";
-import { getSiteSettings } from "@/lib/cms/queries";
+import { HomeContact } from "@/components/site/home/home-contact";
+import { HomePageHero, HomeShell } from "@/components/site/home/home-chrome";
+import { PageJsonLd } from "@/components/site/page-jsonld";
+import { getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
 import { pageMetadata } from "@/lib/cms/page-route";
-import "@/styles/home-2.css";
+import { orgId, siteBase } from "@/lib/seo/schema";
+import "@/styles/home.css";
 
 // Contact Us page: the contact cards of Admin > Settings and the contact form. Served from cache; Publish in the admin panel refreshes it instantly.
 export const revalidate = 600;
@@ -17,12 +19,13 @@ function Line({ t }: { t: string }) {
 }
 
 export default async function PageContact() {
-  const site = await getSiteSettings();
+  const [site, page] = await Promise.all([getSiteSettings(), getPublishedPage("contact")]);
   return (
-    <Home2Shell>
-      <Home2PageHero label="Contact us" line="Tell us about your idea and the We3vision team will get back to you. Web, AI, apps, VR and design: we are happy to help.">
+    <HomeShell>
+      <PageJsonLd slug="contact" title={page.title} description={page.description} site={site} mainEntityId={orgId(siteBase())} />
+      <HomePageHero label="Contact us" line="Tell us about your idea and the We3vision team will get back to you. Web, AI, apps, VR and design: we are happy to help.">
         <em>Let&apos;s build</em> something together
-      </Home2PageHero>
+      </HomePageHero>
       <section className="hb2-ct" aria-label="Contact">
         <div className="hb2-wrap hb2-ct-grid">
           <div className="hb2-ct-cards">
@@ -41,10 +44,10 @@ export default async function PageContact() {
             <h2>
               Send us a <em>message</em>
             </h2>
-            <Home2Contact />
+            <HomeContact />
           </div>
         </div>
       </section>
-    </Home2Shell>
+    </HomeShell>
   );
 }

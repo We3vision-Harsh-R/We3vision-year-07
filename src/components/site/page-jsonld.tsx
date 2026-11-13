@@ -1,43 +1,50 @@
 import { PAGES, type PageSlug } from "@/lib/cms/pages";
 import { SERVICE_GROUPS } from "@/lib/site-menu";
-import { siteBase } from "@/lib/seo-ping";
+import type { SiteSettings } from "@/lib/cms/settings";
+import { breadcrumbNode, organizationNode, organizationRef, serviceNode, siteBase, webPageNode, websiteNode } from "@/lib/seo/schema";
+import { JsonLd } from "./json-ld";
 
 // Structured data of every inner page (BreadcrumbList + WebPage, and Service for the service pages). It helps Google understand the page and show
-// it with a breadcrumb trail. The home page has its own (Organization, WebSite).
+// it with a breadcrumb trail. The home page has its own (Organization, WebSite, Services, FAQ). All pieces share the @id of the company and the
+// website (lib/seo/schema.ts), so a page, its service and the company are one connected description.
 
-const ORG = { "@type": "Organization", name: "We3vision Private Limited", url: "" };
+/** The kind of page: the lists are collections, the contact page is a ContactPage, the rest a plain WebPage. */
+const PAGE_TYPE: Partial<Record<string, string>> = {
+  about: "AboutPage",
+  contact: "ContactPage",
+  portfolio: "CollectionPage",
+  blog: "CollectionPage",
+  products: "CollectionPage",
+  careers: "CollectionPage",
+};
 
-export function PageJsonLd({ slug, title, description }: { slug: PageSlug; title: string; description: string }) {
+/** `site`: pass it on the pages that show the contact details, so the full company entity (offices, phone, e-mail) is part of the page data.
+ *  `extra`: more nodes of the page (a list of projects ...); `mainEntityId`: the @id of what the page is mainly about. */
+export function PageJsonLd({ slug, title, description, extra, site, mainEntityId }: { slug: PageSlug; title: string; description: string; extra?: Record<string, unknown>[]; site?: SiteSettings; mainEntityId?: string }) {
   const base = siteBase();
   const page = PAGES[slug];
   if (!page || page.path === "/") return null;
   const url = `${base}${page.path}`;
   const group = SERVICE_GROUPS.find((g) => g.items.some((i) => i.href === page.path));
   const isProduct = page.path.startsWith("/products/");
+  // the crumbs only name real pages (the menu groups are not pages, so they are not in the trail)
   const crumbs = [
     { name: "Home", url: `${base}/` },
-    ...(group ? [{ name: "Services", url: `${base}/#services` }, { name: group.label, url: `${base}/#services` }] : []),
+    ...(group ? [{ name: "Services", url: `${base}/services` }] : []),
     ...(isProduct ? [{ name: "Products", url: `${base}/products` }] : []),
     { name: page.title, url },
   ];
-  const graph: Record<string, unknown>[] = [
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: c.url })),
-    },
-    { "@type": slug === "about" ? "AboutPage" : "WebPage", "@id": `${url}#webpage`, url, name: title, description, isPartOf: { "@type": "WebSite", url: base || undefined, name: "We3vision" } },
-  ];
-  if (group) {
-    graph.push({
-      "@type": "Service",
-      name: page.title,
-      serviceType: group.label,
-      description,
-      url,
-      areaServed: "Worldwide",
-      provider: { ...ORG, url: base || undefined },
-    });
-  }
-  const json = { "@context": "https://schema.org", "@graph": graph };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json).replace(/</g, "\\u003c") }} />;
+  const service = group ? serviceNode({ path: page.path, name: page.title, serviceType: group.label, description }) : null;
+  return (
+    <JsonLd
+      graph={[
+        site ? organizationNode(site) : organizationRef(),
+        websiteNode(),
+        breadcrumbNode(url, crumbs),
+        webPageNode({ url, type: PAGE_TYPE[slug] ?? "WebPage", name: title, description, mainEntityId: service?.["@id"] ?? mainEntityId }),
+        ...(service ? [service] : []),
+        ...(extra ?? []),
+      ]}
+    />
+  );
 }

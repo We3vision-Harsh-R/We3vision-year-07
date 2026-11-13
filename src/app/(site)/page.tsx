@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
-import { Home2Home } from "@/components/site/home2/home2-home";
+import { HomeMain } from "@/components/site/home/home-main";
+import { SERVICES } from "@/components/site/home/home-svc-data";
+import { JsonLd } from "@/components/site/json-ld";
+import { PAGES } from "@/lib/cms/pages";
 import { getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
+import { faqNode, organizationNode, serviceNode, siteBase, webPageNode, websiteNode } from "@/lib/seo/schema";
+import { homeFaq } from "@/lib/seo/home-faq";
 import { SHARE_IMAGE } from "@/lib/share-image";
 
 // Served from cache. Admin "Publish" refreshes it instantly; the timer is a safety net
@@ -13,49 +18,30 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page.title,
     description: page.description,
     alternates: { canonical: "/" },
-    openGraph: { type: "website", url: "/", siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
+    openGraph: { type: "website", url: "/", siteName: site.legalName || site.name, locale: "en_IN", title: page.title, description: page.description, images: [SHARE_IMAGE] },
     twitter: { card: "summary_large_image", title: page.title, description: page.description, images: [SHARE_IMAGE.url] },
   };
 }
 
 export default async function HomePage() {
   const [page, site] = await Promise.all([getPublishedPage("home"), getSiteSettings()]);
-  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/$/, "");
+  const base = siteBase();
 
-  // Structured data (helps Google show the company correctly). Built from the admin-managed content.
-  const services = page.content.sections.find((s) => s.type === "hero")?.data.cards as { title: string }[] | undefined;
-  const lines = site.contactCards.flatMap((c) => c.lines.split("\n").map((l) => l.trim()));
-  const email = lines.find((l) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l));
-  const phone = lines.find((l) => /^\+?\d[\d\s().-]{6,}$/.test(l));
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": `${base}/#organization`,
-        name: site.legalName || site.name,
-        alternateName: site.name,
-        url: `${base}/`,
-        logo: `${base}/brand/logo-stacked.png`,
-        description: page.description,
-        sameAs: site.social.map((s) => s.href).filter((href) => href.startsWith("http")),
-        address: { "@type": "PostalAddress", addressLocality: "Surat", addressRegion: "Gujarat", addressCountry: "IN" },
-        contactPoint: email || phone ? [{ "@type": "ContactPoint", contactType: "sales", ...(phone ? { telephone: phone } : {}), ...(email ? { email } : {}) }] : undefined,
-      },
-      { "@type": "WebSite", "@id": `${base}/#website`, url: `${base}/`, name: site.legalName || site.name, publisher: { "@id": `${base}/#organization` } },
-      ...(services ?? []).map((s) => ({
-        "@type": "Service",
-        name: s.title.replace(/\s+/g, " ").trim(),
-        provider: { "@id": `${base}/#organization` },
-        areaServed: "IN",
-      })),
-    ],
-  };
+  // Structured data (helps Google and AI assistants describe the company correctly): the company (lib/seo/schema.ts), the website, this page,
+  // the seven services of the home page (same @id as on their own pages) and the FAQ that is shown on this page (lib/seo/home-faq.ts).
+  const titleOf = (path: string) => Object.values(PAGES).find((p) => p.path === path)?.title;
+  const jsonLd = [
+    organizationNode(site),
+    websiteNode(site),
+    webPageNode({ url: `${base}/`, name: page.title, description: page.description, breadcrumb: false, extra: { primaryImageOfPage: { "@type": "ImageObject", url: `${base}${SHARE_IMAGE.url}` } } }),
+    ...SERVICES.map((s) => serviceNode({ path: s.href, name: titleOf(s.href) ?? `${s.em} ${s.rest}`.trim() })),
+    faqNode(homeFaq(site), `${base}/`),
+  ];
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
-      <Home2Home />
+      <JsonLd graph={jsonLd} />
+      <HomeMain />
     </>
   );
 }

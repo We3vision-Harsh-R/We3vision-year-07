@@ -296,7 +296,7 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 
 - Live cursors / live count keep their picture in the memory of the Node process (src/lib/presence-server.ts). If production runs more than one process the numbers split between them; the fix is one shared store (a database row or Redis). Check the live number in the menu with two phones on different networks.
 
-- Home page, /services, /portfolio and /contact are now the Home 2 design (v132): their text is in the code (home2-*.tsx, contact cards from Admin > Settings, projects from Admin > Projects), so the Admin > Pages editor for home / portfolio / contact no longer changes the public page (its SEO title and description still do). Project detail pages (/portfolio/slug) and the other pages still use the old design and the old footer. Real FPS of the door scroll was not measured on a laptop.
+- Home page, /services, /portfolio and /contact are now the new home design (v132, called Home 2 until task 151): their text is in the code (home-*.tsx, contact cards from Admin > Settings, projects from Admin > Projects), so the Admin > Pages editor for home / portfolio / contact no longer changes the public page (its SEO title and description still do). Project detail pages (/portfolio/slug) and the other pages still use the old design and the old footer. Real FPS of the door scroll was not measured on a laptop.
 
 - Phone layout exists only for the home page "/" (v134). /services, /portfolio and /contact in the new design have no phone rules yet (phones still get /m versions of portfolio/contact; /services has no /m page, so a phone sees the desktop layout). Home phone layout checked only in the preview at 375 px, not on a real phone.
 - /ai: flow, guide (robot buddy) and automate (switches) are not redesigned yet; /ai phone layout not checked; services/portfolio/contact phone layout open.
@@ -306,11 +306,25 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Fest and the 3 s welcome message are removed (2026-11-11). Old notes about them in brain/ are history, do not rebuild unless the owner asks.
 
 - Home scroll speed (optimize branch, 2026-11-11): the first-screen fly-through is now on its own GPU layers. Not measured on a weak laptop or a real phone; if it still stutters there, next ideas: replace the star-field gradients by one small image, shorten the pinned distance, drop the blurred SVG glow of the dunes.
-- Home Brand Design section (hbd-) added 2026-11-11; its texts are fixed in home2-brand.tsx (not editable in Admin > Pages). Tablet width 700-1023 not looked at one by one (the 1100/900/560 breakpoints are in home-brand.css).
-- Home Metaverse section (hbm-) added 2026-11-12; its text is fixed in home2-metaverse.tsx (not editable in Admin > Pages). Tablet width 700-1023 not looked at one by one.
+- Home Brand Design section (hbd-) added 2026-11-11; its texts are fixed in home-brand.tsx (not editable in Admin > Pages). Tablet width 700-1023 not looked at one by one (the 1100/900/560 breakpoints are in home-brand.css).
+- Home Metaverse section (hbm-) added 2026-11-12; its text is fixed in home-metaverse.tsx (not editable in Admin > Pages). Tablet width 700-1023 not looked at one by one.
 
 - Glimmer drawings (gm-): only on 404, error page, contact-sent and job-applied screens; owner wanted them "wherever they match" on the whole site, other spots (empty states, footer) not done. Phone layout of the new Metaverse Ask bar not looked at again.
-- Home AI section (hba-) text is fixed in home2-ai.tsx (copied from content/ai.ts), not editable in Admin; tablet/phone not looked at one by one.
+- Home AI section (hba-) text is fixed in home-ai.tsx (copied from content/ai.ts), not editable in Admin; tablet/phone not looked at one by one.
 - Industrial Training: fees are EMPTY (pages say Contact us for the fee): fill FEES in src/lib/industrial-training.ts per domain and 3/6/9 months. Month-by-month plans, SDLC and ISO 9001 texts are my draft, owner to check. Page words are fixed in code (not Admin). Phone sitemap/launcher order not checked.
 - Industrial Training admin screen not opened in a browser (needs admin login): check it once after the push; fees are typed there (the FEES note above is replaced by it).
 - PHONE PLAN (owner, 2026-11-13): drop the separate /m site; phones use the main pages (responsive, home theme, tiles/sliders, 1s glide). Port page by page (brain/22-mobile-pages-checklist.md), ask before each page; when a page is done remove it from src/lib/mobile-ready.generated.ts and delete its (m)/m folder + mobile/pages/custom folder. Left to remove at the end: proxy rewrite, device.ts, (m) layout, mobile/app, tools/*mobile*.
+
+## SEO / GEO / AEO round (task 150, 2026-11-13) — details in 23-seo-geo-aeo-report.md section K
+- Check in Search Console / Bing that real Googlebot and Bingbot are NOT blocked: the hosting firewall answers 403 to a fake Googlebot/bingbot user agent (found with curl).
+- Set INDEXNOW_KEY on the server; decide FORCE_WWW=1 (bare domain we3vision.com still serves a second copy of the site).
+- Project pages are thin (no client requirement / problem / solution fields); owner to write them in Admin > Projects. "Carousel 1/2/3" look like placeholders.
+- Phone twin (/m) has fewer words and FAQPage on 6 pages only: resolved when /m is dropped (phone plan).
+- Home FAQ not looked at on phone; 3 article titles over 70 characters (Admin > Blog); URL typos "devlopment" kept on purpose (needs 301s).
+- Decide the policy for training crawlers (GPTBot, Google-Extended, ClaudeBot, CCBot): unchanged for now.
+
+## home2 -> home rename (task 151, 2026-11-13)
+- Proof that nothing changed: production build before and after, HTML markup (scripts removed, JSON-LD kept) of 11 pages (/, /services, /portfolio, /contact, /about, /blog, /ai, /webdev, /seo, /products, /careers) is identical, and all 17 CSS files are byte-identical. tsc, eslint and `next build --webpack` pass.
+- Kept on purpose: CSS prefix `hb2-` (about 3000 rules), old history entries in 08 and `src/lib/version.ts` (they use the old names of their time).
+- If another chat still edits `components/site/home2/...` or `styles/home-2.css` by the old path it will recreate the old files: tell it to use `components/site/home/` and `styles/home.css`.
+- Chrome DevTools MCP cannot start its browser (another session's Chrome holds the same profile `~/.cache/chrome-devtools-mcp/chrome-profile`), so Lighthouse was not run. Close that other session's Chrome, then retry.

@@ -1,10 +1,10 @@
 import type { CSSProperties } from "react";
-import { MetaverseAsk } from "@/components/site/home2/home2-metaverse-ask";
+import { MetaverseAsk } from "@/components/site/home/home-metaverse-ask";
 import { SmartLink } from "@/components/site/smart-link";
 import "@/styles/home-metaverse.css";
 
 // THE METAVERSE SERVICE SECTION OF THE HOME PAGE (owner, 2026-11-12), in the style of the Toolfolio reference: a black stage, a big calm heading, one line of text, a
-// glowing one-line bar to ask PANDA (components/site/home2/home2-metaverse-ask.tsx) with streaks of light to both sides, and four glass cards under it about what
+// glowing one-line bar to ask PANDA (components/site/home/home-metaverse-ask.tsx) with streaks of light to both sides, and four glass cards under it about what
 // we build. No 3D objects. It says that We3vision BUILDS this for clients (a service). Words: only what the Metaverse page already says
 // (content/metaverse-extra.ts), no numbers. Styles: styles/home-metaverse.css ("hbm-").
 
@@ -22,7 +22,7 @@ const WORK = [
   { k: "mr", t: "Mixed reality", s: "Digital objects in the room", d: "Spatial experiences with digital objects in the room: product demos, 3D visualisation and shared design reviews." },
 ];
 
-export function Home2Metaverse() {
+export function HomeMetaverse() {
   return (
     <section className="hbm" id="metaverse-service" aria-labelledby="hbm-title">
       <div className="hb2-wrap">

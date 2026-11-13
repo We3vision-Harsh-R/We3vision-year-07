@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectArticle } from "@/components/site/project-article";
 import { PageSections } from "@/components/site/sections";
+import { JsonLd } from "@/components/site/json-ld";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { coverOf, getProjectBySlug } from "@/lib/projects";
+import { breadcrumbNode, orgRef, organizationRef, siteBase, websiteId, websiteNode } from "@/lib/seo/schema";
 import { SHARE_IMAGE } from "@/lib/share-image";
 
 // One project of the portfolio (added in the admin panel under Projects). Served from cache; saving the project refreshes it.
@@ -18,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${p.title} | Portfolio | We3vision`.length <= 60 ? `${p.title} | Portfolio | We3vision` : `${p.title} | We3vision`,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "article", url: path, siteName: "We3vision Private Limited", title: p.title, description, images: [coverOf(p) || SHARE_IMAGE] },
+    openGraph: { type: "article", url: path, siteName: "We3vision Private Limited", locale: "en_IN", title: p.title, description, images: [coverOf(p) || SHARE_IMAGE] },
     twitter: { card: "summary_large_image", title: p.title, description, images: [coverOf(p) || SHARE_IMAGE.url] },
   };
 }
@@ -28,32 +30,45 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   if (!p) notFound();
   const site = await getSiteSettings();
   const cover = coverOf(p);
-  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/$/, "");
-  const ld = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: `${base}/` },
-          { "@type": "ListItem", position: 2, name: "Portfolio", item: `${base}/portfolio` },
-          { "@type": "ListItem", position: 3, name: p.title, item: `${base}/portfolio/${p.slug}` },
-        ],
-      },
-      {
-        "@type": "CreativeWork",
-        name: p.title,
-        description: p.summary || undefined,
-        url: `${base}/portfolio/${p.slug}`,
-        image: cover ? (cover.startsWith("http") ? cover : `${base}${cover}`) : undefined,
-        genre: p.category || undefined,
-        creator: { "@type": "Organization", name: "We3vision Private Limited" },
-      },
-    ],
-  };
+  const base = siteBase();
+  const url = `${base}/portfolio/${p.slug}`;
+  const image = cover ? (cover.startsWith("http") ? cover : `${base}${cover}`) : undefined;
+  // structured data: the trail, the page and the project (the company is the creator, by @id)
+  const ld = [
+    organizationRef(site),
+    websiteNode(site),
+    breadcrumbNode(url, [
+      { name: "Home", url: `${base}/` },
+      { name: "Portfolio", url: `${base}/portfolio` },
+      { name: p.title, url },
+    ]),
+    {
+      "@type": "WebPage",
+      "@id": `${url}#webpage`,
+      url,
+      name: p.title,
+      inLanguage: "en",
+      isPartOf: { "@id": websiteId(base) },
+      breadcrumb: { "@id": `${url}#breadcrumb` },
+      mainEntity: { "@id": `${url}#project` },
+      ...(image ? { primaryImageOfPage: { "@type": "ImageObject", url: image } } : {}),
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": `${url}#project`,
+      name: p.title,
+      description: p.summary || undefined,
+      url,
+      image,
+      genre: p.category || undefined,
+      inLanguage: "en",
+      creator: orgRef(base),
+      mainEntityOfPage: { "@id": `${url}#webpage` },
+    },
+  ];
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
+      <JsonLd graph={ld} />
       <ProjectArticle p={p} />
       <PageSections
         sections={[{ id: "contact", type: "contact", data: { chip: "Let's talk", heading: "Want Something\nLike This?", text: "Tell us about your project and the We3vision team will get back to you.", buttonLabel: "Send a message" } }]}

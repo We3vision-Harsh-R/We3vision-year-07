@@ -378,7 +378,7 @@
   }
 }
 .mm-pop {
-  /* the same dark violet and glow as the home page (home-2.css --bg, --v2) */
+  /* the same dark violet and glow as the home page (home.css --bg, --v2) */
   --card-bg: hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%);
   border-color: hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 68% / 0.22);
   background:
@@ -626,7 +626,7 @@
   }
 }
 
-/* mmh-: the menu pop-up takes the colours of the home page (owner 2026-11-09): the same dark violet as home-2.css --bg and the same glow, instead of the lighter blue-violet glass of .bglow */
+/* mmh-: the menu pop-up takes the colours of the home page (owner 2026-11-09): the same dark violet as home.css --bg and the same glow, instead of the lighter blue-violet glass of .bglow */
 :root:root:root .mm-pop.bglow {
   --card-bg: hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%);
   border-color: hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 68% / 0.22);

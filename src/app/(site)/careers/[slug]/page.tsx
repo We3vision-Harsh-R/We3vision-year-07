@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${job.title}: Job in ${job.location} | We3vision`,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "website", url: path, siteName: "We3vision Private Limited", title: `${job.title} at We3vision`, description, images: [SHARE_IMAGE] },
+    openGraph: { type: "website", url: path, locale: "en_IN", siteName: "We3vision Private Limited", title: `${job.title} at We3vision`, description, images: [SHARE_IMAGE] },
     twitter: { card: "summary_large_image", title: `${job.title} at We3vision`, description, images: [SHARE_IMAGE.url] },
   };
 }

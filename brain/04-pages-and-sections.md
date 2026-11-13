@@ -68,3 +68,6 @@ teamJourney · teamValues · blogFeatured · blogPicks · ctaBand.
 `(site)/layout.tsx`: `SmoothScroll` (Lenis), `PauseOffscreen`, `SiteScrollbar` (glass scrollbar), `CustomCursor` ("You" tag),
 `ThemeProvider` (colour picker), `Background` (aurora/gradient per page), `LogoMark`, `Footer` (+ `footer-word.tsx`),
 `FloatingNav` (bottom glass pill that shrinks on scroll down; opens `mega-menu.tsx`).
+
+## Home page, Services, Portfolio and Contact code (renamed in task 151, 2026-11-13)
+The new home design used to be called "Home 2" (older entries in 08 use the old names). Now: components in `src/components/site/home/` (`home-main.tsx` = the page `/`, `home-chrome.tsx` = Shell / PageHero / Cta / Footer used by `/services`, `/portfolio`, `/contact`, sections `home-ai|brand|metaverse|more|faq|services|portfolio|contact`, `home-fx.tsx` scroll life, `home-glide.tsx` gliding rows, `home-svc-data.tsx` the seven services), styles in `src/styles/home.css` (plus `home-ai|brand|metaverse|faq|mobile.css`). Component names are `HomeMain`, `HomeShell`, `HomeAi` ... The CSS class prefix is still `hb2-` (unchanged on purpose: renaming it would touch about 3000 rules and risk the design).

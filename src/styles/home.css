@@ -1,7 +1,7 @@
 /* =================================================================================================================================
    HOME PAGE and Services / Portfolio / Contact, prefix "hb2-". A dark page with a glowing arch, dunes, a lit disc and hairline grids. Laptop / desktop only (no phone rules).
    Colours follow the visitor's theme: hsl(calc(var(--th) + N) ...). Font: Poppins (the site font). Only transform and opacity move.
-   Scroll numbers written by components/site/home2/home2-fx.tsx:  --hp (first screen scrolled away, 0..1), --dp (disc section travelled, 0..1).
+   Scroll numbers written by components/site/home/home-fx.tsx:  --hp (first screen scrolled away, 0..1), --dp (disc section travelled, 0..1).
    ================================================================================================================================= */
 
 .hb2 {
@@ -2379,7 +2379,7 @@ body:has(.hb2) footer.ft {
 
 /* ---------------------------------------------------------------- the phone design (owner, 2026-11-08: "redesign the whole home page for the mobile screen"). Below 900px this is a page of its own, not the desktop one squeezed:
    a full-screen door with two buttons and three facts (the door grows as the first screen scrolls away), swipe rows for points, products and industries,
-   a compact services board with Branding on top, a timeline for the process. home2-fx.tsx skips the desktop fly-through on small screens. */
+   a compact services board with Branding on top, a timeline for the process. home-fx.tsx skips the desktop fly-through on small screens. */
 .hb2-ph-row {
   display: contents;
 }

@@ -2,11 +2,11 @@ import type { ReactNode } from "react";
 import { SmartLink } from "@/components/site/smart-link";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { TopLink } from "@/components/site/footer-word";
-import { Home2Fx } from "./home2-fx";
-import { SERVICES } from "./home2-svc-data";
+import { HomeFx } from "./home-fx";
+import { SERVICES } from "./home-svc-data";
 
-// The frame of every Home 2 page: the page root (.hb2, with the scroll life of home2-fx), the footer and the bottom menu. The site footer is hidden on these pages
-// by home-2.css (body:has(.hb2)); the site menu (floating nav) stays as it is.
+// The frame of every page in the home design: the page root (.hb2, with the scroll life of home-fx), the footer and the bottom menu. The site footer is hidden on these pages
+// by home.css (body:has(.hb2)); the site menu (floating nav) stays as it is.
 
 function line(t: string) {
   const mail = t.includes("@") && !t.includes(" ");
@@ -16,7 +16,7 @@ function line(t: string) {
   return <span>{t}</span>;
 }
 
-export async function Home2Footer() {
+export async function HomeFooter() {
   const site = await getSiteSettings();
   const head = site.contactCards[0];
   return (
@@ -98,7 +98,7 @@ export async function Home2Footer() {
   );
 }
 
-export function Home2Cta() {
+export function HomeCta() {
   return (
     <section className="hb2-m-cta" aria-labelledby="hb2-tc" data-pause-off>
       <div className="hb2-wrap">
@@ -132,7 +132,7 @@ export function Home2Cta() {
 }
 
 /** the top of an inner page: a quiet arch, a label, a big title and one line */
-export function Home2PageHero({ label, children, line: text }: { label: string; children: ReactNode; line: string }) {
+export function HomePageHero({ label, children, line: text }: { label: string; children: ReactNode; line: string }) {
   return (
     <header className="hb2-pg-hero">
       <span className="hb2-pg-arch hb2-pg-a1" aria-hidden />
@@ -147,12 +147,12 @@ export function Home2PageHero({ label, children, line: text }: { label: string; 
 }
 
 /** the root of an inner page */
-export async function Home2Shell({ children }: { children: ReactNode }) {
+export async function HomeShell({ children }: { children: ReactNode }) {
   return (
     <div className="hb2 hb2-pg">
-      <Home2Fx />
+      <HomeFx />
       {children}
-      <Home2Footer />
+      <HomeFooter />
     </div>
   );
 }

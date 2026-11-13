@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page.title,
     description: page.description,
     alternates: { canonical: "/about" },
-    openGraph: { type: "website", url: "/about", siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
+    openGraph: { type: "website", url: "/about", locale: "en_IN", siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
     twitter: { card: "summary_large_image", title: page.title, description: page.description, images: [SHARE_IMAGE.url] },
   };
 }
@@ -22,7 +22,7 @@ export default async function AboutPage() {
   const [page, site] = await Promise.all([getPublishedPage("about"), getSiteSettings()]);
   return (
     <>
-      <PageJsonLd slug="about" title={page.title} description={page.description} />
+      <PageJsonLd slug="about" title={page.title} description={page.description} site={site} />
       <PageSections sections={page.content.sections} site={site} page="about" />
     </>
   );
