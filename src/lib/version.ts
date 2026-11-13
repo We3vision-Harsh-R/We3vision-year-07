@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 154,
+    date: "2026-11-13",
+    title: "Recognition logos on the home page; calmer headers on phone service pages",
+    notes: [
+      "The Startup India and MSME logos (the files of Admin > Settings > badges) are shown at the top of the footer of the home page, on laptop and phone.",
+      "Phone service pages: the pink app icon beside the large title and the little shape icons before the 3D Modeling list items are gone.",
+    ],
+  },
+  {
     v: 153,
     date: "2026-11-13",
     title: "Home page on phones, round 3: questions, contact, footer",

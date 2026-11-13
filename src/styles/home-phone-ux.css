@@ -581,3 +581,47 @@
     clip: rect(0 0 0 0);
   }
 }
+
+/* ---- "Recognised by": the Startup India and MSME logos at the top of the footer (all widths) ---- */
+.hb2-f-rec {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 28px;
+  margin-bottom: 44px;
+  padding-bottom: 34px;
+  border-bottom: 1px solid var(--line);
+}
+.hb2-f-rec p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--mute);
+}
+.hb2-f-rec ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 30px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hb2-f-rec img {
+  width: auto;
+  height: 52px;
+  opacity: 0.92;
+}
+@media (max-width: 699.98px) {
+  html .hb2-f-rec {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+  }
+  html .hb2-f-rec p {
+    flex: 0 0 100%;
+  }
+  html .hb2-f-rec img {
+    height: 44px;
+  }
+}

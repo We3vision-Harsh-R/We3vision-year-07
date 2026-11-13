@@ -24,3 +24,9 @@
 #ma-main:focus {
   outline: none;
 }
+
+/* ---- service pages: no app icon beside the large title, no little shape icons before the list items (owner, 2026-11-13) ---- */
+html .ma-large .ma-appic,
+html .ma-root .mp-3d-solid {
+  display: none;
+}

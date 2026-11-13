@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { SmartLink } from "@/components/site/smart-link";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { TopLink } from "@/components/site/footer-word";
@@ -43,6 +44,21 @@ export async function HomeFooter() {
     <footer className="hb2-f" data-pause-off>
       <span className="hb2-f-beam" aria-hidden />
       <div className="hb2-wrap">
+        {/* the recognitions (Admin > Settings > badges: Startup India, MSME) */}
+        {site.badges.some((b) => b.image) && (
+          <div className="hb2-f-rec">
+            <p>Recognised by</p>
+            <ul>
+              {site.badges
+                .filter((b) => b.image)
+                .map((b) => (
+                  <li key={b.label + b.image}>
+                    <Image src={b.image} alt={b.label} title={b.label} width={300} height={110} unoptimized />
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
         <div className="hb2-f-top">
           <div className="hb2-f-brand">
             <p className="hb2-f-name">
