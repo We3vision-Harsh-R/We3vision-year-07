@@ -1,0 +1,138 @@
+/* One blog article (components/site/blog-post.tsx), prefix "bpx-": three columns on a laptop. Left: the index of the article. Middle: the reading column
+   (.bp-* in globals.css). Right: article facts, tags, author, related articles. Both sides stay in view while the article scrolls. */
+html .bp.bpx {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr) 270px;
+  gap: 40px;
+  max-width: 1380px;
+  padding-inline: 2rem;
+}
+.bpx-main {
+  min-width: 0;
+  max-width: 740px;
+  margin-inline: auto;
+}
+.bpx-side {
+  position: sticky;
+  top: 7rem;
+  align-self: start;
+  max-height: calc(100svh - 9rem);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.bpx-k {
+  margin: 0 0 12px;
+  color: var(--a);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.bpx-toc ol {
+  margin: 0;
+  padding: 0 0 0 16px;
+  border-left: 1px solid var(--hair);
+  list-style: none;
+}
+.bpx-toc li + li {
+  margin-top: 10px;
+}
+.bpx-toc a {
+  color: var(--soft);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.bpx-toc a:hover {
+  color: #fff;
+}
+.bp-body h2 {
+  scroll-margin-top: 7rem;
+}
+
+/* right column: one calm glass card per block */
+.bpx-info {
+  display: grid;
+  gap: 16px;
+}
+.bpx-info section {
+  padding: 18px 20px;
+  border: 1px solid var(--hair);
+  border-radius: 20px;
+  background: var(--card);
+}
+.bpx-info dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+.bpx-info dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.bpx-info dt {
+  color: var(--soft);
+  font-size: 0.9375rem;
+}
+.bpx-info dd {
+  margin: 0;
+  color: #fff;
+  font-size: 0.9375rem;
+  text-align: right;
+}
+.bpx-info .bp-tags {
+  margin: 0;
+  gap: 8px;
+}
+.bpx-au {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  column-gap: 12px;
+  margin: 0;
+  color: #fff;
+}
+.bpx-au span {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
+  border-radius: 50%;
+  color: var(--a);
+  font-weight: 600;
+}
+.bpx-au b {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.bpx-au i {
+  color: var(--soft);
+  font-size: 0.875rem;
+  font-style: normal;
+}
+.bpx-rel {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bpx-rel a {
+  display: grid;
+  gap: 4px;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.bpx-rel a:hover {
+  color: var(--a);
+}
+.bpx-rel span {
+  color: var(--a);
+  font-size: 0.875rem;
+}

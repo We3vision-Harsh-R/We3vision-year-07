@@ -732,41 +732,17 @@
   transform: translate3d(0, -6px, 0);
   border-color: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 78% / 0.4);
 }
-.aip-i0 {
+/* every card the same: one radius, the light from the top right, the number row and the heading on the same lines in every card */
+.aip-i {
   --lx: 100%;
   --ly: 0%;
-  border-radius: 34px 120px 34px 34px;
-}
-.aip-i1 {
-  --lx: 50%;
-  --ly: 100%;
   border-radius: 34px;
-}
-.aip-i2 {
-  --lx: 0%;
-  --ly: 0%;
-  border-radius: 120px 34px 34px 34px;
-}
-.aip-i3 {
-  --lx: 0%;
-  --ly: 100%;
-  border-radius: 34px 34px 34px 120px;
-}
-.aip-i4 {
-  --lx: 50%;
-  --ly: 0%;
-  border-radius: 34px;
-}
-.aip-i5 {
-  --lx: 100%;
-  --ly: 100%;
-  border-radius: 34px 34px 120px 34px;
 }
 .aip-ix {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 0 auto;
+  margin: 0 0 48px;
   font-size: 14px;
   letter-spacing: 0.14em;
   color: var(--aip-acc);
@@ -776,18 +752,8 @@
   font-weight: 300;
   color: var(--aip-mute);
 }
-.aip-i3 .aip-ix,
-.aip-i2 .aip-ix {
-  padding: 0 0 0 0;
-}
-.aip-i0 .aip-ix {
-  padding-right: 52px;
-}
-.aip-i2 .aip-ix {
-  padding-left: 52px;
-}
 .aip-i h3 {
-  margin: 40px 0 10px;
+  margin: 0 0 10px;
   font-size: 26px;
   font-weight: 400;
   line-height: 1.15;

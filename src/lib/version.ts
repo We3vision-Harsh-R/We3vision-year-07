@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 150,
+    date: "2026-11-13",
+    title: "Blog article with an index and a side column; AI industry cards the same",
+    notes: [
+      "Blog article page: the index of the article on the left, the article in the middle, and on the right the article facts, tags, author and three related articles. Both sides stay in view while reading.",
+      "AI page, Industries We Serve: all six cards now have the same corners, the same light and the same number and heading lines.",
+    ],
+  },
+  {
     v: 149,
     date: "2026-11-13",
     title: "About page on phones: gliding card rows",

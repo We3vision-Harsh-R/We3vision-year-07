@@ -36,9 +36,12 @@ export default async function BlogArticle({ params }: { params: Promise<{ slug: 
   if (!post) notFound();
   const site = await getSiteSettings();
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/$/, "");
+  // related articles: the same topic first, then the newest others (three at most)
+  const others = (await getBlogEntries().catch(() => [])).filter((p) => p.slug !== post.slug);
+  const related = [...others.filter((p) => p.category === post.category), ...others.filter((p) => p.category !== post.category)].slice(0, 3);
   return (
     <>
-      <BlogPost post={post} base={base} />
+      <BlogPost post={post} base={base} related={related} />
       <PageSections
         sections={[{ id: "contact", type: "contact", data: { chip: "Let's talk", heading: "Want To Build\nSomething?", text: "Tell us about your project and the We3vision team will get back to you.", buttonLabel: "Send a message" } }]}
         site={site}
