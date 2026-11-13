@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 146,
+    date: "2026-11-13",
+    title: "Problem in soft red, answer in soft green",
+    notes: [
+      "Everywhere a problem is shown with its answer, the problem is now in a soft red and the answer in a soft green, so it is clear at a glance: the Brand design and AI development sections of the home page (laptop and phone), the Problems AI can take off your plate rows of the AI Development page, and its phone version.",
+    ],
+  },
+  {
     v: 145,
     date: "2026-11-13",
     title: "Phone home refresh: calmer hero, gliding cards, clearer AI and Brand sections",

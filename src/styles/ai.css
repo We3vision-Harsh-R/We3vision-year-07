@@ -1023,3 +1023,19 @@
 .at-count {
   font-size: 0.875rem;
 }
+
+/* the problem in a soft red and the answer in a soft green (owner, 2026-11-13) */
+.at-problem {
+  color: hsl(356 82% 82%);
+}
+.at-problem svg {
+  color: hsl(356 70% 68%);
+}
+.at-row[data-on="true"] .at-problem {
+  color: hsl(356 40% 66%);
+}
+.at-solution em {
+  border-color: hsl(152 52% 56% / 0.5);
+  color: hsl(152 60% 72%);
+  background: hsl(152 48% 52% / 0.1);
+}

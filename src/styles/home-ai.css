@@ -503,3 +503,46 @@
     animation: none;
   }
 }
+
+/* hag-: the problem and its answer in two halves, a soft red problem and a soft green answer (owner, 2026-11-13). Fixed hues, toned down for the dark violet page. */
+.hba-solve > li {
+  padding: 0;
+  overflow: hidden;
+  border-top-width: 1px;
+  border-top-color: var(--line);
+}
+.hba-q,
+.hba-a {
+  margin: 0;
+  padding: 16px 18px 18px;
+  border: 0;
+}
+.hba-q {
+  font-size: 18px;
+  background: linear-gradient(to bottom, hsl(356 62% 60% / 0.16), hsl(356 62% 60% / 0.07));
+  box-shadow: inset 3px 0 0 hsl(356 70% 66% / 0.85);
+}
+.hba-a {
+  background: linear-gradient(to bottom, hsl(152 48% 52% / 0.13), hsl(152 48% 52% / 0.06));
+  box-shadow: inset 3px 0 0 hsl(152 52% 56% / 0.85);
+}
+.hba-q::before,
+.hba-a::before {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hba-q::before {
+  content: "\2715  Problem";
+  color: hsl(356 82% 78%);
+}
+.hba-a::before {
+  content: "\2713  With AI";
+  color: hsl(152 60% 72%);
+}

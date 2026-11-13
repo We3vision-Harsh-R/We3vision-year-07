@@ -245,3 +245,10 @@
   .ma-root .mp-ai-models { -webkit-mask-image: none; mask-image: none; }
   .ma-root :is(.mp-ai-switch, .mp-ai-switch::after, .mp-ai-tg, .mp-ai-tg::after, .mp-ai-seg i, .mp-ai-who, .mp-ai-who > div, .mp-ai-plus, .mp-ai-pm, .mp-ai-pm::after, .mp-ai-card) { transition: none; }
 }
+
+/* the problem in a soft red and the answer in a soft green (owner, 2026-11-13) */
+.ma-root .mp-ai-face { padding: 14px 14px 14px 14px; margin-top: 14px; border-radius: 14px; color: hsl(356 82% 84%); background: hsl(356 62% 60% / 0.12); box-shadow: inset 3px 0 0 hsl(356 70% 66% / 0.85); }
+.ma-root .mp-ai-face.is-b { color: hsl(152 60% 86%); background: hsl(152 48% 52% / 0.11); box-shadow: inset 3px 0 0 hsl(152 52% 56% / 0.85); }
+.ma-root .mp-ai-done { color: hsl(152 60% 72%); }
+.ma-root .mp-ai-seg button[aria-pressed="true"]:first-of-type { color: hsl(356 82% 84%); }
+.ma-root .mp-ai-seg button[aria-pressed="true"]:last-of-type { color: hsl(152 60% 80%); }
