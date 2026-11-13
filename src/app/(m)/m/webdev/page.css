@@ -241,3 +241,10 @@
   .ma-root .mp-wd-pp-plane { display: none; }
   .ma-root .mp-wd-pp-done { animation: none; opacity: 1; }
 }
+
+/* ==== Web Development: a browser. Section heads sit in a window: the label is a tab with three dots, a thin address bar runs under the heading ==== */
+.ma-root[data-page="webdev"] .ma-chip { min-height: 30px; padding: 4px 14px 4px 46px; border-radius: 10px 10px 0 0; border-bottom: 0; position: relative; }
+.ma-root[data-page="webdev"] .ma-chip::before { content: ""; position: absolute; left: 12px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: hsl(var(--ma-h) calc(80% * var(--ts)) 70% / 0.9); box-shadow: 10px 0 0 hsl(var(--ma-h) calc(60% * var(--ts)) 62% / 0.6), 20px 0 0 hsl(var(--ma-h) calc(40% * var(--ts)) 56% / 0.4); }
+.ma-root[data-page="webdev"] .ma-sec-head { padding-top: 0; }
+.ma-root[data-page="webdev"] .ma-sec-head > .ma-h2 { margin-top: 0; padding-top: 14px; border-top: 1px solid hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.3); }
+.ma-root[data-page="webdev"] .ma-sec-head::after { content: ""; display: block; width: 44px; height: 3px; margin-top: 12px; border-radius: 3px; background: var(--ma-tint); }

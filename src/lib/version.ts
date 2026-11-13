@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 155,
+    date: "2026-11-13",
+    title: "Phone service pages: AI, Web and UI/UX each have their own look",
+    notes: [
+      "AI Development is a console (prompt tags, a light rail with glowing nodes). Web Development is a browser (tab labels with three dots, an address-bar line). UI/UX Design is a design canvas (dot grid, selected frames with square handles). Same content, different section designs.",
+    ],
+  },
+  {
     v: 154,
     date: "2026-11-13",
     title: "Recognition logos on the home page; calmer headers on phone service pages",

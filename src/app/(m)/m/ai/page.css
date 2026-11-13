@@ -252,3 +252,11 @@
 .ma-root .mp-ai-done { color: hsl(152 60% 72%); }
 .ma-root .mp-ai-seg button[aria-pressed="true"]:first-of-type { color: hsl(356 82% 84%); }
 .ma-root .mp-ai-seg button[aria-pressed="true"]:last-of-type { color: hsl(152 60% 80%); }
+
+/* ==== AI Development: a console. Section heads are log lines: a square tag with a prompt, a glowing node on the rail, the heading beside a thin light bar ==== */
+.ma-root[data-page="ai"] .ma-sec { position: relative; padding-left: 14px; }
+.ma-root[data-page="ai"] .ma-sec::before { content: ""; position: absolute; left: 0; top: 60px; bottom: 0; width: 1px; background: linear-gradient(to bottom, hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.55), transparent); }
+.ma-root[data-page="ai"] .ma-sec::after { content: ""; position: absolute; left: -3px; top: 56px; width: 7px; height: 7px; border-radius: 50%; background: hsl(var(--ma-h) calc(95% * var(--ts)) 72%); box-shadow: 0 0 12px 2px hsl(var(--ma-h) calc(95% * var(--ts)) 62% / 0.7); }
+.ma-root[data-page="ai"] .ma-chip { min-height: 26px; padding: 2px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; background: hsl(var(--ma-h) calc(60% * var(--ts)) 12% / 0.9); }
+.ma-root[data-page="ai"] .ma-chip::before { content: ">_"; margin-right: 8px; color: var(--ma-tint); letter-spacing: 0; }
+.ma-root[data-page="ai"] .ma-sec-head .ma-h2 { padding-left: 12px; border-left: 2px solid var(--ma-tint); }

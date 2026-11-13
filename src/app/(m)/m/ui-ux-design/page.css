@@ -134,3 +134,11 @@
   .ma-root .mp-ux-hero > *, .ma-root .mp-ux-more, .ma-root .mp-ux-qa details p { animation: none; }
   .ma-root .mp-ux-art, .ma-root .mp-ux-art span, .ma-root .mp-ux-sw i, .ma-root .mp-ux-sw i::after, .ma-root .mp-ux-pm, .ma-root .mp-ux-pm::after { transition: none; }
 }
+
+/* ==== UI/UX Design: a design canvas. A faint dot grid behind the page, every heading is a selected frame (dashed outline, four square handles), the label is a frame name ==== */
+.ma-root[data-page="ui-ux-design"] .ma-sec { background-image: radial-gradient(hsl(var(--ma-h) calc(40% * var(--ts)) 75% / 0.16) 1px, transparent 1.4px); background-size: 18px 18px; background-position: 0 40px; }
+.ma-root[data-page="ui-ux-design"] .ma-sec-head { position: relative; padding: 16px 14px; margin-inline: -4px; border: 1px dashed hsl(var(--ma-h) calc(90% * var(--ts)) 72% / 0.55); background:
+  linear-gradient(#fff, #fff) 0 0 / 7px 7px no-repeat, linear-gradient(#fff, #fff) 100% 0 / 7px 7px no-repeat, linear-gradient(#fff, #fff) 0 100% / 7px 7px no-repeat, linear-gradient(#fff, #fff) 100% 100% / 7px 7px no-repeat; background-origin: border-box; }
+.ma-root[data-page="ui-ux-design"] .ma-chip { min-height: 0; padding: 0; border: 0; background: none; border-radius: 0; font-size: 13px; font-weight: 500; color: var(--ma-tint); }
+.ma-root[data-page="ui-ux-design"] .ma-chip::before { content: "#"; margin-right: 5px; opacity: 0.8; }
+.ma-root[data-page="ui-ux-design"] .ma-sec-head > .ma-h2 { margin-top: 8px; }
