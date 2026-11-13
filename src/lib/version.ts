@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 164,
+    date: "2026-11-13",
+    title: "Phone menu: every link regular weight",
+    notes: [
+      "The list rows (Explore, Products, Industrial training), the active Home row and Login are regular weight on a phone; the headings stay medium.",
+    ],
+  },
+  {
     v: 163,
     date: "2026-11-13",
     title: "Phone menu: service tiles no longer stack on each other",

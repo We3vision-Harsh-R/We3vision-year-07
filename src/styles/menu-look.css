@@ -14,6 +14,22 @@
   color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 80%);
 }
 
+/* phone and tablet: the list rows, product rows, training rows and the service names are regular too (older rules gave them 500/600) */
+@media (max-width: 1023.98px) {
+  :root:root .mm .mm-row3 .mm-li a,
+  :root:root .mm .mm-row3 .mm-li li,
+  :root:root .mm .mm-row3 .mm-col.mm-list .mm-li a,
+  :root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li a,
+  :root:root .mm .mm-row3 .mm-li a[aria-current="page"],
+  :root:root .mm .mm-row3 .mm-col.mm-list .mm-li a[aria-current="page"],
+  :root:root .mm .mm-login {
+    font-weight: 400;
+  }
+  :root:root .mm .mm-row3 .mm-col-t,
+  :root:root .mm .mm-row3 .mm-sub-t {
+    font-weight: 500;
+  }
+}
 @media (max-width: 1023.98px) {
   :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li {
     display: grid;
