@@ -87,7 +87,7 @@ async function fetchHtml(url, ua) {
 function laptopChecks(status, html) {
   const problems = [];
   if (status !== 200) problems.push(`status ${status}`);
-  if (html.includes('class="lnc')) problems.push('has class="lnc');
+  if (html.includes('class="hb2')) problems.push('has class="lnc');
   if (html.includes("ma-root")) problems.push("has ma-root");
   // Mobile route chunks: /_next/static/chunks/app/(m)/m/... or .../app/m/...
   if (/_next\/static\/[^"']*(\(m\)|%28m%29)\/m\//.test(html) || /_next\/static\/chunks\/app\/m\//.test(html))
@@ -118,12 +118,12 @@ async function runHttp(baseUrl) {
     }
   }
 
-  // Sanity: a phone on "/" must get the launcher.
+  // Sanity: a phone on "/" gets the (responsive) home page.
   try {
     const { status, html } = await fetchHtml(baseUrl + "/", IPHONE_UA);
-    const ok = status === 200 && html.includes('class="lnc');
+    const ok = status === 200 && html.includes('class="hb2');
     if (!ok) failed = true;
-    rows.push({ ua: "iphone", path: "/", status, result: ok ? "OK" : "FAIL", notes: ok ? "launcher found" : 'no class="lnc' });
+    rows.push({ ua: "iphone", path: "/", status, result: ok ? "OK" : "FAIL", notes: ok ? "home page found" : 'no class="hb2' });
   } catch (e) {
     failed = true;
     rows.push({ ua: "iphone", path: "/", status: "-", result: "FAIL", notes: e.message });
@@ -135,7 +135,7 @@ async function runHttp(baseUrl) {
     console.log("FAIL - see table above.");
     process.exit(1);
   }
-  console.log("OK - laptop pages serve the desktop site; phone gets the launcher.");
+  console.log("OK - laptop pages serve the desktop site; phone gets the responsive home page.");
 }
 
 const [mode, arg] = process.argv.slice(2);

@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 147,
+    date: "2026-11-13",
+    title: "One button feel, no cursor-following, phone Metaverse tiles, launcher removed",
+    notes: [
+      "The main buttons of every page now share one look and feel: the same pill shape, the same small lift on hover, the same press and the same keyboard focus ring. No button follows the mouse any more (the home page magnet and the tilt of the contact choices are gone).",
+      "The dark shadow behind headings and intro text that moved while scrolling is removed.",
+      "Phones and tablets: the cards that glide sideways now start 1 second after they come into view (it was 2 seconds). The Metaverse section of the home page is shorter on a phone: four icon tiles and the button at the end.",
+      "The old phone launcher (app-style home screen) code is removed; the address /m goes to the home page.",
+    ],
+  },
+  {
     v: 146,
     date: "2026-11-13",
     title: "Problem in soft red, answer in soft green",

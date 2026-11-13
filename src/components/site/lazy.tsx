@@ -50,7 +50,6 @@ export const IndustriesCity = late(() => import("./industries-city").then((m) =>
 export const IndustriesRoad = late(() => import("./industries-road").then((m) => m.IndustriesRoad));
 export const JobApply = dynamic(() => import("./career/job-apply").then((m) => m.JobApply));
 export const JobApplyForm = dynamic(() => import("./mobile/app/job-apply").then((m) => m.JobApplyForm));
-export const Launcher = dynamic(() => import("./mobile/launcher").then((m) => m.Launcher));
 export const LiveClock = dynamic(() => import("./rotating-word").then((m) => m.LiveClock));
 export const MetaPage = dynamic(() => import("./marketing/meta").then((m) => m.MetaPage));
 export const Motion = dynamic(() => import("./mobile/app/motion").then((m) => m.Motion));

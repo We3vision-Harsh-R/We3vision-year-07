@@ -68,13 +68,13 @@ export const PageHero: SectionComponent<"pageHero"> = ({ data, skin, site, page 
         </div>
       )}
       <h1
-        className="phz-h1 animate-rise mt-7 whitespace-pre-line bg-gradient-to-b from-white to-[hsl(calc(var(--th)_+_352.8)_calc(100%_*_var(--ts))_85.29%)] bg-clip-text pb-2 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.04em] text-transparent drop-shadow-[0_6px_30px_hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.85)] sm:text-6xl lg:text-[4.6rem]"
+        className="phz-h1 animate-rise mt-7 whitespace-pre-line bg-gradient-to-b from-white to-[hsl(calc(var(--th)_+_352.8)_calc(100%_*_var(--ts))_85.29%)] bg-clip-text pb-2 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.04em] text-transparent sm:text-6xl lg:text-[4.6rem]"
         style={rise(250)}
       >
         {data.heading}
       </h1>
       {data.text && (
-        <p className="animate-rise mx-auto mt-6 max-w-[640px] text-base leading-relaxed text-white [text-shadow:0_2px_18px_hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.95),0_0_6px_hsl(calc(var(--th)_+_344)_calc(71.43%_*_var(--ts))_4.12%_/_0.8)] sm:text-lg" style={rise(450)}>
+        <p className="animate-rise mx-auto mt-6 max-w-[640px] text-base leading-relaxed text-white sm:text-lg" style={rise(450)}>
           {data.text}
         </p>
       )}

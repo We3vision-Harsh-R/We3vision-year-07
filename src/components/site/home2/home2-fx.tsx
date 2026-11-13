@@ -42,17 +42,6 @@ export function Home2Fx() {
       c.style.setProperty("--my", `${(e.clientY - r.top).toFixed(0)}px`);
     };
     root.addEventListener("pointermove", onMove, { passive: true });
-    // buttons lean a little towards the mouse (magnetic) and come back when it leaves
-    let mag: HTMLElement | null = null;
-    const onMag = (e: PointerEvent) => {
-      const b = (e.target as HTMLElement | null)?.closest<HTMLElement>(".hb2-m-btn");
-      if (mag && mag !== b) mag.style.transform = "";
-      mag = b ?? null;
-      if (!b) return;
-      const r = b.getBoundingClientRect();
-      b.style.transform = `translate3d(${((e.clientX - (r.left + r.width / 2)) * 0.22).toFixed(1)}px,${((e.clientY - (r.top + r.height / 2)) * 0.3).toFixed(1)}px,0)`;
-    };
-    root.addEventListener("pointermove", onMag, { passive: true });
     // "Explore": fly through the door on a long eased scroll and land on the About part (instead of a jump to the anchor)
     const onGo = (e: MouseEvent) => {
       const a = (e.target as HTMLElement | null)?.closest<HTMLElement>(".hb2-go");
@@ -164,7 +153,6 @@ export function Home2Fx() {
       window.removeEventListener("scroll", on);
       window.removeEventListener("resize", onResize);
       root.removeEventListener("pointermove", onMove);
-      root.removeEventListener("pointermove", onMag);
       root.removeEventListener("click", onGo);
       cancelAnimationFrame(raf);
       io.disconnect();

@@ -5108,7 +5108,6 @@ html.has-sb::-webkit-scrollbar {
   letter-spacing: -0.03em;
   line-height: 1.15;
   text-align: center;
-  text-shadow: 0 2px 24px hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.9), 0 0 6px hsl(calc(var(--th) - 26) calc(71.43% * var(--ts)) 2.75% / 0.8);
   opacity: 0;
   will-change: opacity, transform;
 }
@@ -5544,7 +5543,6 @@ html.has-sb::-webkit-scrollbar {
   letter-spacing: -0.04em;
   line-height: 1.05;
   white-space: pre-line;
-  filter: drop-shadow(0 6px 30px hsl(calc(var(--th) + 344) calc(71.43% * var(--ts)) 4.12% / 0.85));
 }
 .ah-p {
   max-width: 640px;
@@ -5552,7 +5550,6 @@ html.has-sb::-webkit-scrollbar {
   color: #fff;
   font-size: clamp(1rem, 1.5vw, 1.125rem);
   line-height: 1.65;
-  text-shadow: 0 2px 18px hsl(calc(var(--th) + 344) calc(71.43% * var(--ts)) 4.12% / 0.95);
 }
 @media (prefers-reduced-motion: reduce) {
 
@@ -6598,8 +6595,6 @@ html.has-sb::-webkit-scrollbar {
 
 
 .cf-tile {
-  --rx: 0deg;
-  --ry: 0deg;
   position: relative;
   display: grid;
   gap: 12px;
@@ -6614,9 +6609,7 @@ html.has-sb::-webkit-scrollbar {
   font-weight: 500;
   text-align: left;
   cursor: pointer;
-  transform: perspective(700px) rotateX(var(--rx)) rotateY(var(--ry));
   transition:
-    transform 0.25s ease-out,
     border-color 0.3s,
     background 0.3s,
     box-shadow 0.3s;
@@ -10260,7 +10253,6 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   color: #fff;
   font-size: 1.0625rem;
   line-height: 1.65;
-  text-shadow: 0 2px 18px hsl(calc(var(--th) + 344) calc(71.43% * var(--ts)) 4.12% / 0.95);
 }
 .wdh-cta {
   display: flex;
@@ -11943,4 +11935,213 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   -webkit-backdrop-filter: blur(0px);
   backdrop-filter: blur(0px);
   transition: opacity 1.05s cubic-bezier(0.2, 0.7, 0.2, 1), backdrop-filter 1.05s cubic-bezier(0.2, 0.7, 0.2, 1), -webkit-backdrop-filter 1.05s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   bu-: ONE button feel for the whole site (owner, 2026-11-13). The main buttons of every page share the same shape (pill), the same weight, the same
+   hover (a small lift, never following the mouse), the same press and the same keyboard focus ring. Colours and sizes stay as each page has them. */
+html body .hbm-btn,
+html body .tr-btn,
+html body .bdv-btn,
+html body .bdv-btn-g,
+html body .e2e-btn,
+html body .e2e-btn-g,
+html body .gfx-btn,
+html body .gfx-btn-g,
+html body .hl-btn,
+html body .hl-btn-g,
+html body .mkt-btn,
+html body .mkt-btn-g,
+html body .sha-btn,
+html body .sha-btn-g,
+html body .wpp-btn,
+html body .wpp-btn-g,
+html body .wpa-btn,
+html body .ws-btn,
+html body .ws-btn-ghost,
+html body .nf-btn,
+html body .nf-btn-main,
+html body .nf-btn-ghost,
+html body .sk-btn,
+html body .sk-btn-ghost,
+html body .aw-btn,
+html body .aw-btn-ghost,
+html body .bb-cta,
+html body .jb-cta,
+html body .tx-cta,
+html body .btn-primary,
+html body .hb2-m-btn,
+html body .shp-btn,
+html body .shp-btn-p,
+html body .pln-btn,
+html body .vq-btn,
+html body .mbh-btn {
+  border-radius: 999px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.25s,
+    box-shadow 0.25s,
+    background-color 0.25s,
+    border-color 0.25s;
+}
+html body .hbm-btn:hover,
+html body .tr-btn:hover,
+html body .bdv-btn:hover,
+html body .bdv-btn-g:hover,
+html body .e2e-btn:hover,
+html body .e2e-btn-g:hover,
+html body .gfx-btn:hover,
+html body .gfx-btn-g:hover,
+html body .hl-btn:hover,
+html body .hl-btn-g:hover,
+html body .mkt-btn:hover,
+html body .mkt-btn-g:hover,
+html body .sha-btn:hover,
+html body .sha-btn-g:hover,
+html body .wpp-btn:hover,
+html body .wpp-btn-g:hover,
+html body .wpa-btn:hover,
+html body .ws-btn:hover,
+html body .ws-btn-ghost:hover,
+html body .nf-btn:hover,
+html body .nf-btn-main:hover,
+html body .nf-btn-ghost:hover,
+html body .sk-btn:hover,
+html body .sk-btn-ghost:hover,
+html body .aw-btn:hover,
+html body .aw-btn-ghost:hover,
+html body .bb-cta:hover,
+html body .jb-cta:hover,
+html body .tx-cta:hover,
+html body .btn-primary:hover,
+html body .hb2-m-btn:hover,
+html body .shp-btn:hover,
+html body .shp-btn-p:hover,
+html body .pln-btn:hover,
+html body .vq-btn:hover,
+html body .mbh-btn:hover {
+  transform: translate3d(0, -2px, 0);
+  filter: brightness(1.08);
+}
+html body .hbm-btn:active,
+html body .tr-btn:active,
+html body .bdv-btn:active,
+html body .bdv-btn-g:active,
+html body .e2e-btn:active,
+html body .e2e-btn-g:active,
+html body .gfx-btn:active,
+html body .gfx-btn-g:active,
+html body .hl-btn:active,
+html body .hl-btn-g:active,
+html body .mkt-btn:active,
+html body .mkt-btn-g:active,
+html body .sha-btn:active,
+html body .sha-btn-g:active,
+html body .wpp-btn:active,
+html body .wpp-btn-g:active,
+html body .wpa-btn:active,
+html body .ws-btn:active,
+html body .ws-btn-ghost:active,
+html body .nf-btn:active,
+html body .nf-btn-main:active,
+html body .nf-btn-ghost:active,
+html body .sk-btn:active,
+html body .sk-btn-ghost:active,
+html body .aw-btn:active,
+html body .aw-btn-ghost:active,
+html body .bb-cta:active,
+html body .jb-cta:active,
+html body .tx-cta:active,
+html body .btn-primary:active,
+html body .hb2-m-btn:active,
+html body .shp-btn:active,
+html body .shp-btn-p:active,
+html body .pln-btn:active,
+html body .vq-btn:active,
+html body .mbh-btn:active {
+  transform: translate3d(0, 0, 0) scale(0.98);
+  filter: none;
+}
+html body .hbm-btn:focus-visible,
+html body .tr-btn:focus-visible,
+html body .bdv-btn:focus-visible,
+html body .bdv-btn-g:focus-visible,
+html body .e2e-btn:focus-visible,
+html body .e2e-btn-g:focus-visible,
+html body .gfx-btn:focus-visible,
+html body .gfx-btn-g:focus-visible,
+html body .hl-btn:focus-visible,
+html body .hl-btn-g:focus-visible,
+html body .mkt-btn:focus-visible,
+html body .mkt-btn-g:focus-visible,
+html body .sha-btn:focus-visible,
+html body .sha-btn-g:focus-visible,
+html body .wpp-btn:focus-visible,
+html body .wpp-btn-g:focus-visible,
+html body .wpa-btn:focus-visible,
+html body .ws-btn:focus-visible,
+html body .ws-btn-ghost:focus-visible,
+html body .nf-btn:focus-visible,
+html body .nf-btn-main:focus-visible,
+html body .nf-btn-ghost:focus-visible,
+html body .sk-btn:focus-visible,
+html body .sk-btn-ghost:focus-visible,
+html body .aw-btn:focus-visible,
+html body .aw-btn-ghost:focus-visible,
+html body .bb-cta:focus-visible,
+html body .jb-cta:focus-visible,
+html body .tx-cta:focus-visible,
+html body .btn-primary:focus-visible,
+html body .hb2-m-btn:focus-visible,
+html body .shp-btn:focus-visible,
+html body .shp-btn-p:focus-visible,
+html body .pln-btn:focus-visible,
+html body .vq-btn:focus-visible,
+html body .mbh-btn:focus-visible {
+  outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+html body .hbm-btn:hover,
+html body .tr-btn:hover,
+html body .bdv-btn:hover,
+html body .bdv-btn-g:hover,
+html body .e2e-btn:hover,
+html body .e2e-btn-g:hover,
+html body .gfx-btn:hover,
+html body .gfx-btn-g:hover,
+html body .hl-btn:hover,
+html body .hl-btn-g:hover,
+html body .mkt-btn:hover,
+html body .mkt-btn-g:hover,
+html body .sha-btn:hover,
+html body .sha-btn-g:hover,
+html body .wpp-btn:hover,
+html body .wpp-btn-g:hover,
+html body .wpa-btn:hover,
+html body .ws-btn:hover,
+html body .ws-btn-ghost:hover,
+html body .nf-btn:hover,
+html body .nf-btn-main:hover,
+html body .nf-btn-ghost:hover,
+html body .sk-btn:hover,
+html body .sk-btn-ghost:hover,
+html body .aw-btn:hover,
+html body .aw-btn-ghost:hover,
+html body .bb-cta:hover,
+html body .jb-cta:hover,
+html body .tx-cta:hover,
+html body .btn-primary:hover,
+html body .hb2-m-btn:hover,
+html body .shp-btn:hover,
+html body .shp-btn-p:hover,
+html body .pln-btn:hover,
+html body .vq-btn:hover,
+html body .mbh-btn:hover {
+    transform: none;
+  }
 }

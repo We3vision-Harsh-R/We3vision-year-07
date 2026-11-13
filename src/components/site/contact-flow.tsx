@@ -88,16 +88,6 @@ export function ContactFlow({ buttonLabel }: Props) {
   }, []);
 
   const toggle = (id: string) => setNeeds((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
-  const tilt = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (e.pointerType !== "mouse") return;
-    const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--ry", `${(((e.clientX - r.left) / r.width - 0.5) * 12).toFixed(1)}deg`);
-    e.currentTarget.style.setProperty("--rx", `${(-((e.clientY - r.top) / r.height - 0.5) * 12).toFixed(1)}deg`);
-  };
-  const untilt = (e: React.PointerEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.setProperty("--ry", "0deg");
-    e.currentTarget.style.setProperty("--rx", "0deg");
-  };
 
   // what is sent: the choices first, then what the visitor wrote
   const intro = [
@@ -154,8 +144,6 @@ export function ContactFlow({ buttonLabel }: Props) {
                   className="cf-tile"
                   aria-pressed={needs.includes(n.id)}
                   onClick={() => toggle(n.id)}
-                  onPointerMove={tilt}
-                  onPointerLeave={untilt}
                 >
                   <svg viewBox="0 0 24 24" aria-hidden className="cf-ic">
                     <path d={n.icon} />

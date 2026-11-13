@@ -4,14 +4,14 @@ import { useEffect } from "react";
 
 // THE GLIDING CARD ROWS OF THE HOME PAGE ON PHONES AND TABLETS (owner, 2026-11-13). Every row of cards that is swiped sideways (the "why" cards, Our products,
 // the AI work cards, the Home 2 bento row) glides slowly from right to left by itself:
-//   - it starts 2 seconds after the row comes into view, and stops when it leaves the screen or the tab is hidden;
+//   - it starts 1 second after the row comes into view, and stops when it leaves the screen or the tab is hidden;
 //   - a touch (or the mouse wheel / trackpad) takes over at once, and the card can be moved by hand as usual;
 //   - 1.4 seconds after the finger is lifted (and the swipe has settled) it glides on again from wherever the cards were left;
 //   - it loops with no gap: a copy of the cards (aria-hidden, not focusable) is added after the real ones while the page is small, and removed again on a big screen.
 // Reduced motion: nothing glides. Only scrollLeft changes; the styles are in styles/home-mobile.css (hms-).
 
 const ROWS = ".hb2-points, .hb2-grid, .hb2-m-bento, .hba-work";
-const START_DELAY = 2000;
+const START_DELAY = 1000;
 const RESUME_DELAY = 1400;
 const SPEED = 26; // pixels per second: slow and smooth
 

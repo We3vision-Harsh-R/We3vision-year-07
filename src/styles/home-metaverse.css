@@ -452,3 +452,110 @@
     animation: none;
   }
 }
+
+
+/* hbn-: the Metaverse section on phones and tablets (owner, 2026-11-13): the heading, the Ask Panda bar, then "What we build" as four tiles (icon, name and a few
+   words; the full sentence stays for screen readers and the laptop) and the button last. Nothing new is said. */
+.hbm-s,
+.hbm-ic {
+  display: none;
+}
+@media (max-width: 900px) {
+  .hbm-stage {
+    display: flex;
+    flex-direction: column;
+  }
+  .hbm-lede {
+    display: none;
+  }
+  .hbm-row {
+    order: 1;
+    margin-top: 28px;
+  }
+  .hbm-feat {
+    order: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 34px 0 14px;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hbm-feat::after {
+    content: "4 kinds";
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid hsl(calc(var(--th) + 0) calc(70% * var(--ts)) 80% / 0.3);
+    letter-spacing: 0;
+    text-transform: none;
+    color: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 84%);
+  }
+  .hbm-list {
+    order: 3;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .hbm-list li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 190px;
+    padding: 16px 14px;
+    border-radius: 20px;
+  }
+  .hbm-ic {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(to bottom, hsl(calc(var(--th) + 0) calc(85% * var(--ts)) 58%), hsl(calc(var(--th) + 358) calc(80% * var(--ts)) 40%));
+    box-shadow: 0 0 26px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 60% / 0.4);
+  }
+  .hbm-ic svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hbm-list h3 {
+    margin: 14px 0 0;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .hbm-list p.hbm-x {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .hbm-list p.hbm-s {
+    display: block;
+    margin: 6px 0 0;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .hbm-list li[data-in] {
+    animation: hbf-pop 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--d, 0ms) + 80ms);
+  }
+  .hbm-more-row {
+    order: 4;
+    margin-top: 22px;
+  }
+  .hbm-more-row .hbm-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .hbm-list li[data-in] {
+    animation: none;
+  }
+}
