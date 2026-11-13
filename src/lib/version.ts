@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 157,
+    date: "2026-11-13",
+    title: "Phone service pages: all of them have their own look; Products grid without frame lines",
+    notes: [
+      "The other 18 phone service pages now have their own section-head design too (brand pages: chapters, swatch board, folder, film strip, journey line, artboard ruler; shop pages: price tag, admin bar, braces, storefront card, plug, block editor; growth pages: rankings, social post, print marks, timeline, code editor).",
+      "Home page on a laptop: the Products grid has no outer frame and no cross lines, only the two lines of the middle column.",
+    ],
+  },
+  {
     v: 156,
     date: "2026-11-13",
     title: "Phone service pages: 3D, Metaverse, Mobile and CRM each have their own look",

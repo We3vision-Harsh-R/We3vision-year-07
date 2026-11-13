@@ -1,0 +1,39 @@
+/* PHONE SERVICE PAGES, looks of the web and shop family (owner, 2026-11-13). Loaded by (m)/layout.tsx. Theme variables only. */
+
+/* WooCommerce: a price tag. The label is a tag with a punched hole, a dashed cart line under the heading */
+.ma-root[data-page="custom-woocommerce"] .ma-chip { border-radius: 0; border: 0; min-height: 30px; padding: 3px 14px 3px 28px; clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%); background: hsl(var(--ma-h) calc(70% * var(--ts)) 42% / 0.45); position: relative; }
+.ma-root[data-page="custom-woocommerce"] .ma-chip::before { content: ""; position: absolute; left: 12px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: hsl(var(--ma-h) calc(50% * var(--ts)) 6%); }
+.ma-root[data-page="custom-woocommerce"] .ma-sec-head::after { content: ""; display: block; margin-top: 14px; border-top: 2px dashed hsl(var(--ma-h) calc(80% * var(--ts)) 72% / 0.45); }
+
+/* WordPress: the admin. A dark sidebar bar on the left of the heading, the label is a menu item with a square icon */
+.ma-root[data-page="custom-wordpress"] .ma-sec-head { padding: 12px 14px; border-radius: 10px; border-left: 6px solid hsl(var(--ma-h) calc(30% * var(--ts)) 14%); background: hsl(var(--ma-h) calc(40% * var(--ts)) 8% / 0.8); box-shadow: inset 0 0 0 1px hsl(var(--ma-h) calc(60% * var(--ts)) 72% / 0.14); }
+.ma-root[data-page="custom-wordpress"] .ma-chip { min-height: 0; padding: 0; border: 0; background: none; border-radius: 0; font-size: 13px; color: var(--ma-text2); }
+.ma-root[data-page="custom-wordpress"] .ma-chip::before { content: ""; width: 14px; height: 14px; margin-right: 8px; border-radius: 3px; background: var(--ma-tint); opacity: 0.9; }
+
+/* Headless CMS: decoupled. The heading is held by two large outlined curly braces, the label is a code tag */
+.ma-root[data-page="headless-cms"] .ma-sec-head { position: relative; padding: 4px 30px; }
+.ma-root[data-page="headless-cms"] .ma-sec-head::before, .ma-root[data-page="headless-cms"] .ma-sec-head::after { position: absolute; top: 18px; font-size: 64px; font-weight: 300; line-height: 1; color: transparent; -webkit-text-stroke: 1px hsl(var(--ma-h) calc(80% * var(--ts)) 72% / 0.6); }
+.ma-root[data-page="headless-cms"] .ma-sec-head::before { content: "{"; left: 0; }
+.ma-root[data-page="headless-cms"] .ma-sec-head::after { content: "}"; right: 0; }
+.ma-root[data-page="headless-cms"] .ma-chip { border-radius: 6px; font-weight: 600; }
+.ma-root[data-page="headless-cms"] .ma-chip::before { content: "</>"; margin-right: 8px; color: var(--ma-tint); }
+
+/* Shopify: a storefront card. The heading sits on a product card, the label is a SALE-style corner badge */
+.ma-root[data-page="shopify"] .ma-sec-head { position: relative; padding: 46px 16px 16px; border-radius: 20px; border: 1px solid hsl(var(--ma-h) calc(80% * var(--ts)) 72% / 0.22); background: linear-gradient(160deg, hsl(var(--ma-h) calc(60% * var(--ts)) 16% / 0.9), hsl(var(--ma-h) calc(50% * var(--ts)) 7% / 0.9)); }
+.ma-root[data-page="shopify"] .ma-chip { position: absolute; top: 12px; left: 12px; min-height: 24px; padding: 0 10px; border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--ma-tint); color: hsl(var(--ma-h) calc(50% * var(--ts)) 8%); border: 0; }
+.ma-root[data-page="shopify"] .ma-sec-head > .ma-h2 { margin-top: 0; }
+
+/* Shopify App: an embedded app. A left accent rail, the label has a small toggle at its end */
+.ma-root[data-page="shopify-app"] .ma-sec-head { padding-left: 14px; border-left: 4px solid var(--ma-tint); }
+.ma-root[data-page="shopify-app"] .ma-chip { border-radius: 6px; }
+.ma-root[data-page="shopify-app"] .ma-chip::after { content: ""; width: 22px; height: 12px; margin-left: 10px; border-radius: 12px; background: radial-gradient(circle at 70% 50%, #fff 4px, transparent 4.5px), var(--ma-tint); }
+
+/* Shopify Plugin: an extension plugged in. The label is a plug (two prongs), a dotted wire runs under the heading */
+.ma-root[data-page="shopify-plugin"] .ma-chip { position: relative; margin-left: 12px; border-radius: 8px; }
+.ma-root[data-page="shopify-plugin"] .ma-chip::before { content: ""; position: absolute; left: -9px; top: 50%; width: 9px; height: 10px; margin-top: -5px; background: linear-gradient(var(--ma-tint), var(--ma-tint)) 0 0 / 9px 2px no-repeat, linear-gradient(var(--ma-tint), var(--ma-tint)) 0 100% / 9px 2px no-repeat; }
+.ma-root[data-page="shopify-plugin"] .ma-sec-head::after { content: ""; display: block; margin-top: 14px; border-top: 2px dotted hsl(var(--ma-h) calc(80% * var(--ts)) 72% / 0.5); }
+
+/* WordPress Plugin: the block editor. The heading is a block with a dashed outline and a round "+" inserter above it */
+.ma-root[data-page="wordpress-plugin"] .ma-sec-head { position: relative; margin-top: 14px; padding: 22px 14px 14px; border: 1px dashed hsl(var(--ma-h) calc(80% * var(--ts)) 72% / 0.5); border-radius: 6px; }
+.ma-root[data-page="wordpress-plugin"] .ma-sec-head::before { content: "+"; position: absolute; left: 50%; top: -13px; display: grid; place-items: center; width: 26px; height: 26px; margin-left: -13px; border-radius: 50%; font-size: 18px; line-height: 1; color: hsl(var(--ma-h) calc(50% * var(--ts)) 8%); background: var(--ma-tint); }
+.ma-root[data-page="wordpress-plugin"] .ma-sec-head > .ma-chip { margin-top: 4px; }

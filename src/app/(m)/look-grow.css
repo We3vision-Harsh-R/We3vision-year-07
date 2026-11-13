@@ -1,0 +1,32 @@
+/* PHONE SERVICE PAGES, looks of the growth and software family (owner, 2026-11-13). Loaded by (m)/layout.tsx. Theme variables only. */
+
+/* SEO: rankings. Rising bars before the label, the heading carries a small "position 1" medal */
+.ma-root[data-page="seo"] .ma-chip::before { content: ""; width: 14px; height: 12px; margin-right: 9px; background: linear-gradient(var(--ma-tint), var(--ma-tint)) 0 100% / 3px 4px no-repeat, linear-gradient(var(--ma-tint), var(--ma-tint)) 5px 100% / 3px 8px no-repeat, linear-gradient(var(--ma-tint), var(--ma-tint)) 10px 100% / 3px 12px no-repeat; }
+.ma-root[data-page="seo"] .ma-sec-head { padding-top: 4px; padding-bottom: 16px; border-bottom: 1px solid hsl(var(--ma-h) calc(60% * var(--ts)) 72% / 0.22); }
+.ma-root[data-page="seo"] .ma-sec-head > .ma-h2::after { content: "#1"; display: inline-grid; place-items: center; width: 30px; height: 30px; margin-left: 10px; border-radius: 50%; vertical-align: 4px; font-size: 13px; font-weight: 700; letter-spacing: 0; color: hsl(var(--ma-h) calc(50% * var(--ts)) 8%); background: var(--ma-tint); }
+
+/* Meta Marketing: a social post. A round profile picture and a three-dot menu on the label row, the heading is the caption */
+.ma-root[data-page="meta-marketing"] .ma-sec-head { position: relative; padding-left: 46px; }
+.ma-root[data-page="meta-marketing"] .ma-sec-head::before { content: ""; position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 50%; background: conic-gradient(from 200deg, hsl(calc(var(--ma-h) + 40) calc(90% * var(--ts)) 62%), hsl(var(--ma-h) calc(90% * var(--ts)) 55%), hsl(calc(var(--ma-h) - 40) calc(90% * var(--ts)) 58%), hsl(calc(var(--ma-h) + 40) calc(90% * var(--ts)) 62%)); box-shadow: inset 0 0 0 3px hsl(var(--ma-h) calc(50% * var(--ts)) 6%); }
+.ma-root[data-page="meta-marketing"] .ma-sec-head::after { content: ""; position: absolute; right: 10px; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--ma-text3); box-shadow: -8px 0 0 var(--ma-text3), 8px 0 0 var(--ma-text3); }
+
+/* Physical Marketing: print. Crop marks around every heading and a row of four ink dots in front of the label */
+.ma-root[data-page="physical-marketing"] .ma-sec-head { padding: 14px 16px; background:
+  linear-gradient(var(--ma-text3), var(--ma-text3)) 0 0 / 14px 1px no-repeat, linear-gradient(var(--ma-text3), var(--ma-text3)) 0 0 / 1px 14px no-repeat,
+  linear-gradient(var(--ma-text3), var(--ma-text3)) 100% 0 / 14px 1px no-repeat, linear-gradient(var(--ma-text3), var(--ma-text3)) 100% 0 / 1px 14px no-repeat,
+  linear-gradient(var(--ma-text3), var(--ma-text3)) 0 100% / 14px 1px no-repeat, linear-gradient(var(--ma-text3), var(--ma-text3)) 0 100% / 1px 14px no-repeat,
+  linear-gradient(var(--ma-text3), var(--ma-text3)) 100% 100% / 14px 1px no-repeat, linear-gradient(var(--ma-text3), var(--ma-text3)) 100% 100% / 1px 14px no-repeat; }
+.ma-root[data-page="physical-marketing"] .ma-chip::before { content: ""; width: 7px; height: 7px; margin-right: 34px; border-radius: 50%; background: hsl(calc(var(--ma-h) + 180) calc(80% * var(--ts)) 58%); box-shadow: 9px 0 0 hsl(var(--ma-h) calc(90% * var(--ts)) 60%), 18px 0 0 hsl(calc(var(--ma-h) + 60) calc(90% * var(--ts)) 64%), 27px 0 0 hsl(var(--ma-h) 10% 14%); }
+
+/* Animation: a timeline. A play triangle in front of the label, a ruler with keyframe marks and a play-head under the heading */
+.ma-root[data-page="animation"] .ma-chip::before { content: ""; width: 9px; height: 10px; margin-right: 9px; background: var(--ma-tint); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.ma-root[data-page="animation"] .ma-sec-head::after { content: ""; display: block; height: 14px; margin-top: 16px; background:
+  linear-gradient(var(--ma-tint), var(--ma-tint)) 38% 0 / 1px 14px no-repeat, radial-gradient(circle, var(--ma-tint) 2.5px, transparent 3px) 38% 0 / 7px 7px no-repeat,
+  linear-gradient(var(--ma-text3), var(--ma-text3)) 12% 100% / 6px 6px no-repeat, linear-gradient(var(--ma-text3), var(--ma-text3)) 62% 100% / 6px 6px no-repeat, linear-gradient(var(--ma-text3), var(--ma-text3)) 88% 100% / 6px 6px no-repeat,
+  repeating-linear-gradient(90deg, hsl(var(--ma-h) calc(40% * var(--ts)) 80% / 0.35) 0 1px, transparent 1px 10px) 0 0 / 100% 5px no-repeat; }
+
+/* Software: an editor. A comment mark in front of the label, a line-number gutter on the left of the heading */
+.ma-root[data-page="software"] .ma-chip { border-radius: 4px; border-top: 2px solid var(--ma-tint); }
+.ma-root[data-page="software"] .ma-chip::before { content: "//"; margin-right: 8px; color: var(--ma-tint); font-weight: 700; }
+.ma-root[data-page="software"] .ma-sec-head > .ma-h2 { position: relative; padding-left: 34px; border-radius: 4px; background: linear-gradient(to right, hsl(var(--ma-h) calc(40% * var(--ts)) 10% / 0.9) 0 24px, transparent 24px); }
+.ma-root[data-page="software"] .ma-sec-head > .ma-h2::before { content: "1\A 2\A 3"; position: absolute; left: 0; top: 4px; width: 24px; white-space: pre; text-align: center; font-size: 11px; line-height: 1.6; font-weight: 500; color: var(--ma-text3); }

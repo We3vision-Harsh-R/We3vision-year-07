@@ -1,0 +1,35 @@
+/* PHONE SERVICE PAGES, looks of the brand family (owner, 2026-11-13): each page gets its own section-head design, same content. Loaded by (m)/layout.tsx. Theme variables only. */
+
+/* Brand Development: chapters of a book. A thick double rule over the heading, the label is the chapter number in roman numerals */
+.ma-root[data-page="brand-development"] { counter-reset: bdch; }
+.ma-root[data-page="brand-development"] .ma-sec { counter-increment: bdch; }
+.ma-root[data-page="brand-development"] .ma-sec-head { padding-top: 14px; border-top: 4px double hsl(var(--ma-h) calc(80% * var(--ts)) 72% / 0.55); }
+.ma-root[data-page="brand-development"] .ma-chip { min-height: 0; padding: 0; border: 0; background: none; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ma-tint); }
+.ma-root[data-page="brand-development"] .ma-chip::before { content: "Chapter " counter(bdch, upper-roman) "  ·  "; color: var(--ma-text3); }
+
+/* Brand Identity: a brand board. A strip of five swatches in front of the label and under the heading */
+.ma-root[data-page="brand-identity"] .ma-chip::before { content: ""; width: 34px; height: 10px; margin-right: 10px; border-radius: 3px; background: linear-gradient(90deg, hsl(calc(var(--ma-h) - 30) calc(80% * var(--ts)) 40%) 0 20%, hsl(var(--ma-h) calc(85% * var(--ts)) 52%) 20% 40%, hsl(calc(var(--ma-h) + 30) calc(85% * var(--ts)) 62%) 40% 60%, hsl(calc(var(--ma-h) + 60) calc(80% * var(--ts)) 72%) 60% 80%, hsl(var(--ma-h) 20% 92%) 80%); }
+.ma-root[data-page="brand-identity"] .ma-sec-head::after { content: ""; display: block; width: 100%; height: 6px; margin-top: 16px; border-radius: 6px; background: linear-gradient(90deg, hsl(calc(var(--ma-h) - 30) calc(80% * var(--ts)) 40%) 0 20%, hsl(var(--ma-h) calc(85% * var(--ts)) 52%) 20% 40%, hsl(calc(var(--ma-h) + 30) calc(85% * var(--ts)) 62%) 40% 60%, hsl(calc(var(--ma-h) + 60) calc(80% * var(--ts)) 72%) 60% 80%, hsl(var(--ma-h) 20% 92%) 80%); opacity: 0.55; }
+
+/* Brand Kit: a folder. The label is a folder tab, the heading sits in a folder body with a dashed "cut here" line */
+.ma-root[data-page="brand-kit"] .ma-chip { border-radius: 12px 12px 0 0; border-bottom: 0; min-height: 30px; padding: 4px 18px; margin-left: 2px; }
+.ma-root[data-page="brand-kit"] .ma-sec-head { padding-bottom: 14px; }
+.ma-root[data-page="brand-kit"] .ma-sec-head > .ma-h2 { margin-top: 0; padding: 16px 16px 14px; border: 1px solid hsl(var(--ma-h) calc(90% * var(--ts)) 70% / 0.28); border-radius: 0 16px 16px 16px; background: hsl(var(--ma-h) calc(50% * var(--ts)) 10% / 0.7); }
+.ma-root[data-page="brand-kit"] .ma-sec-head::after { content: ""; display: block; margin-top: 12px; border-top: 2px dashed hsl(var(--ma-h) calc(70% * var(--ts)) 72% / 0.35); }
+
+/* Brand Video: a film strip. Perforations over and under the heading, the label has a recording dot */
+.ma-root[data-page="brand-video"] .ma-sec-head { padding: 18px 0; background:
+  repeating-linear-gradient(90deg, hsl(var(--ma-h) calc(40% * var(--ts)) 80% / 0.35) 0 8px, transparent 8px 16px) 0 0 / 100% 6px no-repeat,
+  repeating-linear-gradient(90deg, hsl(var(--ma-h) calc(40% * var(--ts)) 80% / 0.35) 0 8px, transparent 8px 16px) 0 100% / 100% 6px no-repeat; }
+.ma-root[data-page="brand-video"] .ma-chip::before { content: ""; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: hsl(var(--ma-h) calc(95% * var(--ts)) 62%); box-shadow: 0 0 10px hsl(var(--ma-h) calc(95% * var(--ts)) 62% / 0.8); }
+
+/* Zero to N: a journey. A line that starts with a dot and ends with an arrow runs under every heading, the label says 0 to N */
+.ma-root[data-page="zero-to-n"] .ma-chip::before { content: "0 → N"; margin-right: 10px; font-weight: 700; color: var(--ma-tint); }
+.ma-root[data-page="zero-to-n"] .ma-sec-head::after { content: ""; display: block; height: 8px; margin-top: 16px; background:
+  radial-gradient(circle, var(--ma-tint) 3px, transparent 3.5px) 0 50% / 8px 8px no-repeat, linear-gradient(var(--ma-tint), var(--ma-tint)) 4px 50% / calc(100% - 12px) 1px no-repeat,
+  linear-gradient(45deg, transparent 45%, var(--ma-tint) 46% 56%, transparent 57%) 100% 0 / 8px 8px no-repeat, linear-gradient(-45deg, transparent 45%, var(--ma-tint) 46% 56%, transparent 57%) 100% 0 / 8px 8px no-repeat; opacity: 0.7; }
+
+/* Graphics: an artboard. Ruler ticks along the top, the label is a layer name */
+.ma-root[data-page="graphics"] .ma-sec-head { padding-top: 16px; background: repeating-linear-gradient(90deg, hsl(var(--ma-h) calc(40% * var(--ts)) 80% / 0.4) 0 1px, transparent 1px 8px) 0 0 / 100% 6px no-repeat, repeating-linear-gradient(90deg, hsl(var(--ma-h) calc(40% * var(--ts)) 80% / 0.6) 0 1px, transparent 1px 40px) 0 0 / 100% 11px no-repeat; }
+.ma-root[data-page="graphics"] .ma-chip { border-radius: 4px; min-height: 24px; padding: 0 10px 0 8px; font-size: 12px; letter-spacing: 0.04em; }
+.ma-root[data-page="graphics"] .ma-chip::before { content: "◎"; margin-right: 7px; color: var(--ma-tint); }

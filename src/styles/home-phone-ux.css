@@ -625,3 +625,11 @@
     height: 44px;
   }
 }
+
+/* ---- Products grid on a laptop (owner, 2026-11-13): no outer frame and no cross lines, only the two lines of the middle column are kept ---- */
+html .hb2-grid {
+  border: 0;
+}
+html .hb2-grid::before {
+  background: linear-gradient(to right, transparent calc(33.333% - 1px), var(--line) calc(33.333% - 1px) 33.333%, transparent 33.333%, transparent calc(66.666% - 1px), var(--line) calc(66.666% - 1px) 66.666%, transparent 66.666%);
+}
