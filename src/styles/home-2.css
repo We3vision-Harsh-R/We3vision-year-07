@@ -421,7 +421,7 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, 232px);
+  grid-template-rows: repeat(5, 232px);
   margin-top: 60px;
   border-left: 1px solid var(--line);
   border-top: 1px solid var(--line);
@@ -2602,7 +2602,7 @@ body:has(.hb2) footer.ft {
   /* the heading stays on top (it holds its place while the cards are swiped), the four cards are one row under it */
   .hb2-grid {
     display: grid;
-    grid-template-columns: repeat(4, 78%);
+    grid-template-columns: repeat(5, 78%);
     grid-template-rows: auto auto;
     gap: 22px 12px;
     margin-top: 28px;
@@ -2615,7 +2615,7 @@ body:has(.hb2) footer.ft {
     position: sticky;
     left: 20px;
     z-index: 1;
-    grid-column: 1 / 5;
+    grid-column: 1 / 6;
     grid-row: 1;
     width: calc(100vw - 40px);
     padding: 6px 0 0;

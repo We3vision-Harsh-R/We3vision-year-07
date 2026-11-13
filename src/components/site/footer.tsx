@@ -42,6 +42,7 @@ const MORE_GROUPS = [
       { label: "WePresent", href: "/products/wepresent" },
       { label: "WeJobs", href: "/products/wejobs" },
       { label: "WeBugMate", href: "/products/webugmate" },
+      { label: "WePte", href: "https://wepte.online/" },
     ],
   },
   {

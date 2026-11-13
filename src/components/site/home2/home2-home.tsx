@@ -24,6 +24,7 @@ const PRODUCTS = [
   { name: "WeJobs", text: "A new software product from We3vision.", href: "/products/wejobs", col: 3, row: 2, soon: true },
   { name: "WeThink", text: "A software product from We3vision. Live now.", href: "https://wethink.we3vision.com/", col: 1, row: 3, soon: false },
   { name: "WePresent", text: "A new software product from We3vision.", href: "/products/wepresent", col: 2, row: 4, soon: true },
+  { name: "WePte", text: "A software product from We3vision. Live now.", href: "https://wepte.online/", col: 3, row: 5, soon: false },
 ];
 
 // how many real projects (Admin > Projects) belong to each service, and the newest title: each project counts once, by the words of its category

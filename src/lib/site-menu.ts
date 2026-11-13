@@ -74,6 +74,7 @@ export const MAIN_SERVICES: MenuLink[] = [
 export const PRODUCT_LINKS: MenuLink[] = [
   { label: "WeBugMate", href: "https://webugmate.com/" },
   { label: "WeThink", href: "https://wethink.we3vision.com/" },
+  { label: "WePte", href: "https://wepte.online/" },
   { label: "WeJobs", href: "/products/wejobs", soon: true },
   { label: "WePresent", href: "/products/wepresent", soon: true },
 ];

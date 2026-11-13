@@ -11,7 +11,7 @@ const STATS = [
   { v: "2019", l: "Founded in Surat" },
   { v: "7", l: "Core services" },
   { v: "7", l: "Industries served" },
-  { v: "4", l: "Products" },
+  { v: "5", l: "Products" },
 ];
 
 const STEPS = [

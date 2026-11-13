@@ -2007,7 +2007,7 @@
     overscroll-behavior-x: contain;
   }
   .hb2 .hb2-grid {
-    grid-template-columns: repeat(8, 78%);
+    grid-template-columns: repeat(10, 78%);
   }
   .hb2 .hb2-grid > .hb2-head {
     grid-column: 1 / -1;

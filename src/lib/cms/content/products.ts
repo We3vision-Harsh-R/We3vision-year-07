@@ -12,6 +12,7 @@ export const PRODUCT_LINKS = {
   webugmate: "https://webugmate.com/",
   wejobs: "https://www.wejobs.we3vision.com",
   wethink: "https://wethink.we3vision.com/",
+  wepte: "https://wepte.online/",
 } as const;
 
 const contact = (heading: string, text: string, button: string) => section("contact", { chip: "Let's talk", heading, text, buttonLabel: button });
@@ -45,6 +46,7 @@ export const PRODUCTS_SECTIONS: PageSection[] = [
       { title: "WeJobs", description: "COMING SOON. A new software product from We3vision.", href: "/products/wejobs", fit: "", problems: "", outcomes: "" },
       { title: "WeThink", description: "A software product from We3vision. Live now, with its own website.", href: PRODUCT_LINKS.wethink, fit: "", problems: "", outcomes: "" },
       { title: "WePresent", description: "COMING SOON. A new software product from We3vision.", href: "/products/wepresent", fit: "", problems: "", outcomes: "" },
+      { title: "WePte", description: "A software product from We3vision. Live now, with its own website.", href: PRODUCT_LINKS.wepte, fit: "", problems: "", outcomes: "" },
     ],
   }),
   contact("Want To Know\nWhen They Launch?", "Tell us your name and email and what you are interested in. We will write to you when a product is ready.", "Contact us"),

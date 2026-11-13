@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 148,
+    date: "2026-11-13",
+    title: "New product: WePte",
+    notes: [
+      "WePte (wepte.online) is added to our products: a fifth card on the home page grid (phone slider too), the Products stat now shows 5, and it is in the products list, the menu and the footer.",
+    ],
+  },
+  {
     v: 147,
     date: "2026-11-13",
     title: "One button feel, no cursor-following, phone Metaverse tiles, launcher removed",
