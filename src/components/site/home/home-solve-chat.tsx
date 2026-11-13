@@ -1,65 +1,129 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService, type ChatServiceLink } from "@/lib/ai-chat";
 
-// THE PROBLEM CHAT (owner, 2026-11-13, phone): instead of a long list of problems and answers, a small chat. The visitor taps a problem (it is sent as their
-// message) and the assistant answers with the answer of the list ("With AI", "Our answer"). Answers are fixed text from the page, nothing is sent anywhere.
-// It is only shown on a phone (styles/home-phone-ux.css, "hps-"); on a laptop the list stays. Used by the AI and the Brand Design sections of the home page.
+// the markdown library is fetched when the first typed answer comes
+const AskMd = dynamic(() => import("@/components/site/chat-md").then((m) => m.AskMd), { ssr: false });
+
+// THE PROBLEM CHAT (owner, 2026-11-13, phone): the problems of the AI and the Brand Design sections are asked in the same glowing "Ask Panda" bar as the Metaverse
+// section (its classes, styles/home-metaverse.css "hbm-"). The problems are the idea chips: a tap shows the answer of the list ("With AI", "Our answer") at once, no
+// network. A question typed in the bar goes to the same PANDA as everywhere else, narrowed to the service (AI or Brand). Phone only (styles/home-phone-ux.css, "hps-");
+// on a laptop the list of problems stays.
 type Item = { q: string; a: string };
-type Line = { who: "me" | "bot"; text: string; tag?: string };
+type Shown = { q: string; text: string; tag?: string; md?: boolean };
 
-export function SolveChat({ items, tag, hello }: { items: Item[]; tag: string; hello: string }) {
-  const [lines, setLines] = useState<Line[]>([{ who: "bot", text: hello }]);
-  const [asked, setAsked] = useState<number[]>([]);
-  const [typing, setTyping] = useState(false);
-  const box = useRef<HTMLDivElement>(null);
-  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+export function SolveChat({ items, tag, kind }: { items: Item[]; tag: string; kind: "ai" | "brand" }) {
+  const [text, setText] = useState("");
+  const [shown, setShown] = useState<Shown | null>(null);
+  const [links, setLinks] = useState<ChatServiceLink[]>([]);
+  const [busy, setBusy] = useState(false);
+  const hist = useRef<ChatMessage[]>([]);
+  const service = useRef<string | null>(null);
+  const out = useRef<HTMLDivElement>(null);
 
-  useEffect(() => () => clearTimeout(timer.current), []);
   useEffect(() => {
-    const b = box.current;
-    if (b) b.scrollTo({ top: b.scrollHeight, behavior: "smooth" });
-  }, [lines.length, typing]);
+    if (shown) out.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [shown, busy]);
 
-  const ask = (i: number) => {
-    if (typing || asked.includes(i)) return;
-    setAsked((a) => [...a, i]);
-    setLines((l) => [...l, { who: "me", text: items[i].q }]);
-    setTyping(true);
-    timer.current = setTimeout(() => {
-      setLines((l) => [...l, { who: "bot", text: items[i].a, tag }]);
-      setTyping(false);
-    }, 650);
+  const pick = (i: number) => {
+    if (busy) return;
+    setLinks([]);
+    setShown({ q: items[i].q, text: items[i].a, tag });
   };
-  const left = items.map((s, i) => ({ s, i })).filter(({ i }) => !asked.includes(i));
+
+  async function send(raw: string) {
+    const q = raw.trim();
+    if (!q || busy) return;
+    const next: ChatMessage[] = [...hist.current, { role: "user", text: q }];
+    hist.current = next;
+    setText("");
+    setShown({ q, text: "", md: true });
+    setBusy(true);
+    let res: { answer: string; serviceLinks: ChatServiceLink[] };
+    try {
+      if (service.current === null) {
+        const all: ChatService[] = await getChatServices().catch(() => []);
+        const re = kind === "ai" ? /\bai\b|artificial|machine/i : /brand|logo|identity/i;
+        service.current = all.find((s) => re.test(`${s.title} ${s.category}`))?.id ?? "";
+      }
+      res = await askBot(next, service.current || undefined);
+    } catch {
+      res = { answer: "Sorry, I could not answer just now. Please try again in a moment.", serviceLinks: [] };
+    }
+    hist.current = [...next, { role: "assistant", text: res.answer }];
+    setShown({ q, text: res.answer, md: true });
+    setLinks(res.serviceLinks);
+    setBusy(false);
+  }
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    void send(text);
+  };
 
   return (
-    <div className="hps" role="group" aria-label="Ask about a problem">
-      <div ref={box} className="hps-log" aria-live="polite">
-        {lines.map((l, k) => (
-          <p key={k} className={`hps-b hps-${l.who}`}>
-            {l.tag && <b>{l.tag}</b>}
-            {l.text}
-          </p>
+    <div className="hbm-ask hps-wrap">
+      <form className="hbm-bar" role="search" onSubmit={onSubmit}>
+        <span className="hbm-edge hbm-edge-glow" aria-hidden>
+          <i />
+        </span>
+        <span className="hbm-edge" aria-hidden>
+          <i />
+        </span>
+        <span className="hbm-mag" aria-hidden>
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.6-3.6" />
+          </svg>
+        </span>
+        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Ask Panda" aria-label="Ask Panda about this problem" maxLength={400} autoComplete="off" enterKeyHint="send" />
+        <button type="submit" aria-label="Send" disabled={busy || !text.trim()}>
+          <svg viewBox="0 0 24 24" aria-hidden>
+            <path d="M12 19V5M5 12l7-7 7 7" />
+          </svg>
+        </button>
+      </form>
+
+      <ul className="hbm-ideas">
+        {items.map((s, i) => (
+          <li key={s.q}>
+            <button type="button" onClick={() => pick(i)} aria-pressed={shown?.q === s.q}>
+              {s.q}
+            </button>
+          </li>
         ))}
-        {typing && (
-          <p className="hps-b hps-bot hps-dots" aria-label="Typing">
-            <i />
-            <i />
-            <i />
-          </p>
-        )}
-      </div>
-      {left.length > 0 && (
-        <ul className="hps-ask">
-          {left.map(({ s, i }) => (
-            <li key={s.q}>
-              <button type="button" onClick={() => ask(i)} disabled={typing}>
-                {s.q}
-              </button>
-            </li>
-          ))}
-        </ul>
+      </ul>
+
+      {shown && (
+        <div ref={out} className="hbm-ans" aria-live="polite">
+          <p className="hbm-q">{shown.q}</p>
+          {busy ? (
+            <span className="hbm-dots" aria-label="Typing">
+              <i />
+              <i />
+              <i />
+            </span>
+          ) : shown.md ? (
+            <>
+              <AskMd text={normalizeMarkdown(shown.text)} />
+              {links.length > 0 && (
+                <div className="hbm-links">
+                  {links.map((l) => (
+                    <a key={l.url} href={l.url}>
+                      {l.title} <span aria-hidden>↗</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {shown.tag && <p className="hps-tag">{shown.tag}</p>}
+              <p>{shown.text}</p>
+            </>
+          )}
+        </div>
       )}
     </div>
   );

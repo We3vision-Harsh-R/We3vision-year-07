@@ -126,7 +126,7 @@ export function HomeBrand() {
           The problem, and the solution
         </h3>
         {/* phone: the same problems as a small chat (the list below is hidden there) */}
-        <SolveChat items={SOLVE} tag="Our answer" hello="Tap a problem and I will tell you how we solve it." />
+        <SolveChat items={SOLVE} tag="Our answer" kind="brand" />
         <ul className="hbd-solve">
           {SOLVE.map((s, i) => (
             <li key={s.q} data-r style={{ "--d": `${i * 90}ms` } as CSSProperties}>

@@ -14,7 +14,7 @@
 }
 
 /* the problem chat is only for the phone */
-.hps {
+.hps-wrap {
   display: none;
 }
 
@@ -220,7 +220,7 @@
   html .hb2-sv-card::before,
   html .hba-flow::after,
   html .hba-work > li::after,
-  html .hbd-get li::after,
+  html .hbd-get li::before,
   html .hb2-points li::after,
   html .hb2-card::after {
     content: "";
@@ -257,107 +257,26 @@
     transform: none;
   }
 
-  /* ---- 9. the problem chat (replaces the list of problems on a phone) ---- */
+  /* ---- 9. the problem chat: the Ask Panda bar of the Metaverse section (hbm-), problems as the idea chips ---- */
   html .hba-solve,
   html .hbd-solve {
     display: none;
   }
-  .hps {
+  .hps-wrap {
     display: block;
-    margin-top: 16px;
-    padding: 14px;
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    background: linear-gradient(to bottom, hsl(calc(var(--th) + 350) calc(35% * var(--ts)) 9%), hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%));
+    margin-top: 18px;
   }
-  .hps-log {
-    display: grid;
-    gap: 10px;
-    max-height: 330px;
-    padding: 2px 2px 8px;
-    overflow-y: auto;
-    scrollbar-width: none;
+  .hps-wrap .hbm-ideas button[aria-pressed="true"] {
+    border-color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 78% / 0.7);
+    background: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 50% / 0.22);
   }
-  .hps-log::-webkit-scrollbar {
-    display: none;
-  }
-  .hps-b {
-    max-width: 88%;
-    margin: 0;
-    padding: 11px 14px;
-    font-size: 16px;
-    line-height: 1.45;
-    border-radius: 18px;
-  }
-  .hps-bot {
-    justify-self: start;
-    border-bottom-left-radius: 6px;
-    color: var(--ink);
-    background: hsl(calc(var(--th) + 350) calc(30% * var(--ts)) 16%);
-  }
-  .hps-me {
-    justify-self: end;
-    border-bottom-right-radius: 6px;
-    color: #fff;
-    background: linear-gradient(180deg, hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 52%), hsl(calc(var(--th) + 358) calc(75% * var(--ts)) 40%));
-  }
-  .hps-b b {
-    display: block;
-    margin-bottom: 4px;
+  .hps-tag {
+    margin: 0 0 6px;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: hsl(calc(var(--th) + 130) calc(55% * var(--ts)) 74%);
-  }
-  .hps-dots {
-    display: flex;
-    gap: 5px;
-    padding: 14px 16px;
-  }
-  .hps-dots i {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--mute);
-    animation: hps-dot 1s ease-in-out infinite;
-  }
-  .hps-dots i:nth-child(2) {
-    animation-delay: 0.15s;
-  }
-  .hps-dots i:nth-child(3) {
-    animation-delay: 0.3s;
-  }
-  @keyframes hps-dot {
-    50% {
-      opacity: 0.3;
-      transform: translate3d(0, -3px, 0);
-    }
-  }
-  .hps-ask {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 6px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  .hps-ask button {
-    width: 100%;
-    min-height: 44px;
-    padding: 10px 14px;
-    font: inherit;
-    font-size: 16px;
-    line-height: 1.35;
-    text-align: left;
-    color: var(--ink);
-    cursor: pointer;
-    border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 72% / 0.35);
-    border-radius: 16px;
-    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 7%);
-  }
-  .hps-ask button:active {
-    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 14%);
   }
 }
 
@@ -368,8 +287,142 @@
   html .hb2 .hb2-ph-cta::after,
   html .hba-cta .hb2-m-btn::after,
   html .hbd-cta .hb2-m-btn::after,
-  html .hba-core .hba-ring,
-  .hps-dots i {
+  html .hba-core .hba-ring {
     animation: none;
+  }
+}
+
+/* =====================================================================================================================
+   ROUND 2 (owner, 2026-11-13): small icons, one icon shape (a rounded square) everywhere, the check badge, the numbers, empty space in cards, the tools card
+   ===================================================================================================================== */
+@media (max-width: 699.98px) {
+  /* ---- icons: smaller, always a rounded square (never a circle) ---- */
+  html .hbm-ic,
+  html .hbd-ic {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    box-shadow: 0 0 16px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 60% / 0.35);
+  }
+  html .hbm-ic svg,
+  html .hbd-ic svg {
+    width: 19px;
+    height: 19px;
+  }
+  html .hb2-m-node {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 17px;
+    box-shadow: 0 0 20px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 60% / 0.4);
+  }
+  html .hb2-m-steps::before {
+    left: 19px;
+  }
+  html .hb2-m-step {
+    padding-left: 58px;
+  }
+
+  /* ---- Brand "What you get": the check is a small rounded square (same shape as the icons), the text keeps clear of it ---- */
+  html .hbd-get > li::after {
+    right: 12px;
+    bottom: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 1px solid hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 78% / 0.5);
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center / 13px no-repeat,
+      hsl(calc(var(--th) + 358) calc(75% * var(--ts)) 46% / 0.7);
+    transform: none;
+  }
+  html .hbd-get > li > p.hbd-s {
+    padding-right: 28px;
+  }
+  html .hbd-get > li {
+    min-height: 0;
+  }
+
+  /* ---- "We3vision in numbers": a flat ledger of hairlines instead of tiles; the big 300+ card is lower ---- */
+  html .hb2-m-field {
+    height: 330px;
+  }
+  html .hb2-m-num {
+    top: 32px;
+    font-size: min(28vw, 150px);
+  }
+  html .hb2-m-stats {
+    padding: 30px 0 0;
+  }
+  html .hb2-m-stats ul {
+    grid-template-columns: 1fr;
+    border: 0;
+  }
+  html .hb2-m-stats li,
+  html .hb2-m-stats li:nth-child(n) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 0;
+    padding: 12px 2px;
+    text-align: left;
+    border: 0 !important;
+    border-top: 1px solid var(--line) !important;
+    border-radius: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  html .hb2-m-stats li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  html .hb2-m-stats li::before,
+  html .hb2-m-stats li::after {
+    display: none;
+  }
+  html .hb2-m-stats b {
+    order: 2;
+    font-size: 32px;
+    line-height: 1;
+  }
+  html .hb2-m-stats span {
+    margin: 0;
+    line-height: 1.2;
+    font-size: 14px;
+  }
+
+  /* ---- cards: no empty room under the text ---- */
+  html .hb2-m-bento {
+    align-items: flex-start;
+  }
+  html .hb2-m-bc {
+    min-height: 0;
+    padding: 20px 20px 22px;
+  }
+  html .hb2-m-bn {
+    margin-bottom: 14px;
+  }
+  html .hb2-m-step,
+  html .hb2-m-step > * {
+    min-height: 0;
+  }
+  html .hb2-m-steps {
+    gap: 18px;
+  }
+
+  /* ---- tools: a dark glass card with a violet glow instead of a solid purple one; the chips are dark glass ---- */
+  html .hb2-m-tp {
+    border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 72% / 0.18);
+    background:
+      radial-gradient(70% 55% at 15% 0%, hsl(calc(var(--th) + 0) calc(85% * var(--ts)) 55% / 0.3), transparent 70%),
+      radial-gradient(70% 55% at 100% 100%, hsl(calc(var(--th) + 330) calc(85% * var(--ts)) 55% / 0.22), transparent 70%),
+      hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 6%);
+  }
+  html .hb2-m-tc {
+    color: var(--ink);
+    border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 72% / 0.3);
+    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 10% / 0.85);
   }
 }

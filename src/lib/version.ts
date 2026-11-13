@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 152,
+    date: "2026-11-13",
+    title: "Home page on phones, round 2",
+    notes: [
+      "The problem chat in the AI and Brand Design sections now uses the same glowing Ask Panda bar as the Metaverse section: the problems are the chips, a tap shows the answer, a typed question goes to Panda.",
+      "Icons are smaller and always a rounded square (Brand and Metaverse cards, process numbers); the Brand check badge is a small rounded square that no longer covers the text.",
+      "Numbers section is a flat ledger of hairlines with a smaller 300+ card; industry cards have no empty room; the tools card is dark glass with dark chips.",
+    ],
+  },
+  {
     v: 151,
     date: "2026-11-13",
     title: "Home page on phones: owner's screenshot fixes",

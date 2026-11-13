@@ -108,7 +108,7 @@ export function HomeAi() {
           Problems AI can take off your plate
         </h3>
         {/* phone: the same problems as a small chat (the list below is hidden there) */}
-        <SolveChat items={SOLVE} tag="With AI" hello="Tap a problem and I will show how AI takes it off your plate." />
+        <SolveChat items={SOLVE} tag="With AI" kind="ai" />
         <ul className="hba-solve">
           {SOLVE.map((s, i) => (
             <li key={s.q} data-r style={{ "--d": `${i * 90}ms` } as CSSProperties}>
