@@ -16,9 +16,29 @@ function line(t: string) {
   return <span>{t}</span>;
 }
 
+// the small icons of the social links (drawn with strokes, the colour follows the text)
+const SOCIAL_ICON: Record<string, ReactNode> = {
+  linkedin: (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="4" />
+      <path d="M8 10.5V16M8 7.8v.1M12 16v-5.5M12 12.8c0-1.5 1-2.3 2.2-2.3 1.3 0 2 .8 2 2.4V16" />
+    </svg>
+  ),
+  instagram: (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M17.2 6.9v.1" />
+    </svg>
+  ),
+};
+
 export async function HomeFooter() {
   const site = await getSiteSettings();
   const head = site.contactCards[0];
+  const germany = site.contactCards.find((c) => /germany/i.test(c.title));
+  // the first +91 phone number of the contact cards goes under the e-mail of the head office
+  const phone = site.contactCards.flatMap((c) => c.lines.split("\n")).find((t) => /^\+91[\d\s]{8,}$/.test(t.trim()));
   return (
     <footer className="hb2-f" data-pause-off>
       <span className="hb2-f-beam" aria-hidden />
@@ -33,6 +53,7 @@ export async function HomeFooter() {
               <p className="hb2-f-soc">
                 {site.social.map((s) => (
                   <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
+                    {SOCIAL_ICON[s.label.toLowerCase()]}
                     {s.label}
                   </a>
                 ))}
@@ -83,12 +104,30 @@ export async function HomeFooter() {
               {(head?.lines ?? "").split("\n").map((t) => (
                 <span key={t}>{line(t)}</span>
               ))}
+              {phone && !(head?.lines ?? "").includes(phone) && <span>{line(phone.trim())}</span>}
             </p>
+            {germany && (
+              <>
+                <h3 className="hb2-f-h2">{germany.title}</h3>
+                <p className="hb2-f-addr">
+                  {germany.lines.split("\n").map((t) => (
+                    <span key={t}>{line(t)}</span>
+                  ))}
+                </p>
+              </>
+            )}
           </div>
         </div>
         <div className="hb2-f-bot">
           <span>{site.copyright}</span>
-          <TopLink>Back to the top</TopLink>
+          <TopLink>
+            <span className="hb2-f-up" aria-hidden>
+              <svg viewBox="0 0 24 24">
+                <path d="M12 19V5M5 12l7-7 7 7" />
+              </svg>
+            </span>
+            <span className="hb2-f-uptx">Back to the top</span>
+          </TopLink>
         </div>
       </div>
       <p className="hb2-f-big" aria-hidden>

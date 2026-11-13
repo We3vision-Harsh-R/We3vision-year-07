@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 153,
+    date: "2026-11-13",
+    title: "Home page on phones, round 3: questions, contact, footer",
+    notes: [
+      "Questions: the questions and answers start further left. Contact: the label looks like the other section labels, e-mail and phone sit close together, a smaller form and a tighter heading. All main buttons (also All contact details, Send) have the dark glass button with the turning colour border.",
+      "Footer: LinkedIn and Instagram have icons, the Surat block shows the phone number, a Germany block (address, e-mail, phone) is added, and Back to the top is a round arrow button.",
+    ],
+  },
+  {
     v: 152,
     date: "2026-11-13",
     title: "Home page on phones, round 2",
