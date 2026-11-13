@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { SmartLink } from "@/components/site/smart-link";
+import { SolveChat } from "./home-solve-chat";
 import "@/styles/home-brand.css";
 
 // THE BRAND DESIGN SECTION OF THE HOME PAGE (owner, 2026-11-11: a separate section on the home page, so people know that We3vision gives brand design
@@ -124,6 +125,8 @@ export function HomeBrand() {
         <h3 className="hbd-h3" data-r>
           The problem, and the solution
         </h3>
+        {/* phone: the same problems as a small chat (the list below is hidden there) */}
+        <SolveChat items={SOLVE} tag="Our answer" hello="Tap a problem and I will tell you how we solve it." />
         <ul className="hbd-solve">
           {SOLVE.map((s, i) => (
             <li key={s.q} data-r style={{ "--d": `${i * 90}ms` } as CSSProperties}>

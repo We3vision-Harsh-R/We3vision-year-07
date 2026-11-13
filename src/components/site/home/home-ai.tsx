@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { SmartLink } from "@/components/site/smart-link";
+import { SolveChat } from "./home-solve-chat";
 import "@/styles/home-ai.css";
 
 // THE AI DEVELOPMENT SECTION OF THE HOME PAGE (owner, 2026-11-12: what We3vision gives in AI development, and what the customer gets). Every sentence is from the
@@ -106,6 +107,8 @@ export function HomeAi() {
         <h3 className="hba-h3" data-r>
           Problems AI can take off your plate
         </h3>
+        {/* phone: the same problems as a small chat (the list below is hidden there) */}
+        <SolveChat items={SOLVE} tag="With AI" hello="Tap a problem and I will show how AI takes it off your plate." />
         <ul className="hba-solve">
           {SOLVE.map((s, i) => (
             <li key={s.q} data-r style={{ "--d": `${i * 90}ms` } as CSSProperties}>

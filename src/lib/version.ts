@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 151,
+    date: "2026-11-13",
+    title: "Home page on phones: owner's screenshot fixes",
+    notes: [
+      "First screen: \"This year\" sits lower, clear of the dunes. The main buttons (Start your project, Get a free quote, We3vision AI) are dark glass with a soft turning multicolour border.",
+      "Service cards: smaller picture, readable tags, \"Latest\" on its own line, the four small cards have the same icon corner. Product names sit higher. A soft shining line on the corners of the cards.",
+      "AI and Brand Design sections: the list of problems is a small chat (tap a problem, get the answer); Documents sits beside Website and apps; the brand circle is a gradient logo mark.",
+    ],
+  },
+  {
     v: 150,
     date: "2026-11-13",
     title: "Blog article with an index and a side column; AI industry cards the same",

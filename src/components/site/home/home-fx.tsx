@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import "@/styles/home-phone-ux.css";
 
 // The scroll life of the home page. One passive scroll listener; the picture is written straight onto the few elements that move (transform and
 // opacity only). Nothing is written on the page root, because a changed custom property there would restyle every element of the page on every frame.

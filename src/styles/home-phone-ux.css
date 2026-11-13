@@ -1,0 +1,375 @@
+/* =====================================================================================================================
+   HOME PAGE ON A PHONE: fixes from the owner's screenshots (2026-11-13). Prefix "hpx-" / "hps-" (the problem chat). Phone only (max-width 699.98px);
+   the laptop home page is not touched. "html" in front of the selectors makes them win over home.css / home-mobile.css that load later.
+   ===================================================================================================================== */
+@property --hpx-a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes hpx-ring {
+  to {
+    --hpx-a: 360deg;
+  }
+}
+
+/* the problem chat is only for the phone */
+.hps {
+  display: none;
+}
+
+@media (max-width: 699.98px) {
+  /* ---- 1. first screen: "This year" a little lower, away from the dunes ---- */
+  html .hb2 .hb2-world {
+    margin-top: -48px;
+  }
+
+  /* ---- 2. the main buttons: a dark glass button with a soft, slowly turning multicolour border (the look of the lit tab of the bottom bar) ---- */
+  html .hb2 .hb2-ph-cta,
+  html .hba-cta .hb2-m-btn,
+  html .hbd-cta .hb2-m-btn {
+    position: relative;
+    isolation: isolate;
+    border: 0;
+    color: #fff;
+    background:
+      radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
+      linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  }
+  html .hb2 .hb2-ph-cta::before,
+  html .hba-cta .hb2-m-btn::before,
+  html .hbd-cta .hb2-m-btn::before,
+  html .hb2 .hb2-ph-cta::after,
+  html .hba-cta .hb2-m-btn::after,
+  html .hbd-cta .hb2-m-btn::after,
+  html .hba-core .hba-ring {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--hpx-a),
+      hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%),
+      hsl(calc(var(--th) + 70) calc(95% * var(--ts)) 66%),
+      hsl(calc(var(--th) + 160) calc(90% * var(--ts)) 62%),
+      hsl(calc(var(--th) + 230) calc(95% * var(--ts)) 66%),
+      hsl(calc(var(--th) + 330) calc(95% * var(--ts)) 66%),
+      hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%)
+    );
+    animation: hpx-ring 6s linear infinite;
+  }
+  /* the thin ring on the edge */
+  html .hb2 .hb2-ph-cta::before,
+  html .hba-cta .hb2-m-btn::before,
+  html .hbd-cta .hb2-m-btn::before,
+  html .hba-core .hba-ring {
+    padding: 1.5px;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+  }
+  /* the soft light it throws */
+  html .hb2 .hb2-ph-cta::after,
+  html .hba-cta .hb2-m-btn::after,
+  html .hbd-cta .hb2-m-btn::after {
+    z-index: -1;
+    filter: blur(12px);
+    opacity: 0.3;
+  }
+  /* "We3vision AI" in the picture of the AI section: the same ring */
+  html .hba-core {
+    background:
+      radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
+      linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
+    box-shadow: 0 0 30px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 60% / 0.28);
+  }
+  html .hba-core .hba-ring {
+    display: block;
+    border: 0;
+    z-index: 0;
+  }
+  html .hba-core b {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+  }
+
+  /* ---- 3. the four swipe cards ("Why We3vision"): never cut at the top, sit over the disc above ---- */
+  html .hb2 .hb2-s1b {
+    position: relative;
+    z-index: 3;
+    padding-top: 22px;
+  }
+  html .hb2 .hb2-points {
+    padding-top: 10px;
+    overflow-y: visible;
+  }
+
+  /* ---- 4. products: the heading starts where the word "Products" starts; the name of the product sits a little higher ---- */
+  html .hb2 .hb2-grid > .hb2-head {
+    left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  html .hb2 .hb2-card strong {
+    inset: 0 0 76px;
+  }
+
+  /* ---- 5. service cards: smaller picture, readable tags, "Latest" on its own line, same icon size in the small cards ---- */
+  html .hb2 .hb2-sv-r1 .hb2-sv-cell:nth-child(2) {
+    height: 440px;
+  }
+  html .hb2 .hb2-sv-r1 .hb2-sv-cell {
+    height: 352px;
+  }
+  html .hb2 .hb2-sv-r1 .hb2-sv-cell:nth-child(2) .hb2-sv-art {
+    inset: 190px 0 112px;
+  }
+  html .hb2 .hb2-sv-r1 .hb2-sv-cell:not(:nth-child(2)) .hb2-sv-art {
+    inset: 158px 0 112px;
+  }
+  html .hb2 .hb2-sv-brand .hb2-sv-a {
+    --as: 0.5;
+  }
+  html .hb2 .hb2-sv-r1 .hb2-sv-a {
+    --as: 0.5;
+  }
+  html .hb2 .hb2-sv-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  html .hb2 .hb2-sv-tags b {
+    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 8% / 0.78);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 92%);
+  }
+  html .hb2 .hb2-sv-last {
+    max-width: 100%;
+  }
+  /* the four small cards: the same room left and right, the picture a small icon at the bottom right (all the same size) */
+  html .hb2 .hb2-sv-r2 .hb2-sv-card {
+    padding: 18px;
+  }
+  html .hb2 .hb2-sv-r2 .hb2-sv-art {
+    inset: auto 14px 14px auto;
+    width: 64px;
+    height: 64px;
+    overflow: visible;
+  }
+  html .hb2 .hb2-sv-r2 .hb2-sv-a {
+    --as: 0.28;
+  }
+  html .hb2 .hb2-sv-web .hb2-sv-a {
+    --as: 0.28;
+  }
+  html .hb2 .hb2-sv-app .hb2-sv-a {
+    --as: 0.2;
+  }
+  html .hb2 .hb2-sv-soft .hb2-sv-a,
+  html .hb2 .hb2-sv-crm .hb2-sv-a {
+    --as: 0.27;
+  }
+  html .hb2 .hb2-sv-r2 .hb2-sv-cell {
+    height: 214px;
+  }
+  /* the four pictures are not drawn around their own centre: each is moved so that all sit in the same corner (measured at 360px) */
+  html .hb2 .hb2-sv-web .hb2-sv-art {
+    transform: translate(-22px, 1px);
+  }
+  html .hb2 .hb2-sv-app .hb2-sv-art {
+    transform: translate(-25px, 7px);
+  }
+  html .hb2 .hb2-sv-soft .hb2-sv-art,
+  html .hb2 .hb2-sv-crm .hb2-sv-art {
+    transform: translate(-22px, 10px);
+  }
+
+  /* ---- 6. AI section: "Documents" beside "Website and apps"; the cards no taller than their text ---- */
+  html .hba-col:not(.hba-out) .hba-k {
+    order: -1;
+  }
+  html .hba-col:not(.hba-out) li:nth-child(2) {
+    order: 1;
+  }
+  html .hba-col:not(.hba-out) li:nth-child(5) {
+    order: 2;
+  }
+  html .hba-col:not(.hba-out) li:nth-child(3) {
+    order: 3;
+  }
+  html .hba-col:not(.hba-out) li:nth-child(4) {
+    order: 4;
+  }
+  html .hba-work {
+    align-items: flex-start;
+  }
+  html .hba-work > li {
+    padding-bottom: 18px;
+  }
+
+  /* ---- 7. a soft shining line on the border of the cards: top right and bottom left corner ---- */
+  html .hb2-sv-card::before,
+  html .hba-flow::after,
+  html .hba-work > li::after,
+  html .hbd-get li::after,
+  html .hb2-points li::after,
+  html .hb2-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    pointer-events: none;
+    padding: 1px;
+    background: linear-gradient(45deg, hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 82% / 0.75) 0%, transparent 26%, transparent 74%, hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 82% / 0.75) 100%);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+  }
+  html .hba-flow,
+  html .hba-work > li,
+  html .hbd-get li,
+  html .hb2-points li {
+    position: relative;
+  }
+
+  /* ---- 8. Brand Design picture: no black spot in the circle; a gradient circle with a ring and a small star, like a logo mark ---- */
+  html .hbd-b-logo b {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 3px solid hsl(0 0% 100% / 0.92);
+    background: radial-gradient(circle at 50% 50%, hsl(0 0% 100% / 0.95) 0 5px, transparent 6px);
+    box-shadow: 0 0 22px hsl(0 0% 100% / 0.45);
+    transform: none;
+  }
+
+  /* ---- 9. the problem chat (replaces the list of problems on a phone) ---- */
+  html .hba-solve,
+  html .hbd-solve {
+    display: none;
+  }
+  .hps {
+    display: block;
+    margin-top: 16px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: linear-gradient(to bottom, hsl(calc(var(--th) + 350) calc(35% * var(--ts)) 9%), hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 5%));
+  }
+  .hps-log {
+    display: grid;
+    gap: 10px;
+    max-height: 330px;
+    padding: 2px 2px 8px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .hps-log::-webkit-scrollbar {
+    display: none;
+  }
+  .hps-b {
+    max-width: 88%;
+    margin: 0;
+    padding: 11px 14px;
+    font-size: 16px;
+    line-height: 1.45;
+    border-radius: 18px;
+  }
+  .hps-bot {
+    justify-self: start;
+    border-bottom-left-radius: 6px;
+    color: var(--ink);
+    background: hsl(calc(var(--th) + 350) calc(30% * var(--ts)) 16%);
+  }
+  .hps-me {
+    justify-self: end;
+    border-bottom-right-radius: 6px;
+    color: #fff;
+    background: linear-gradient(180deg, hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 52%), hsl(calc(var(--th) + 358) calc(75% * var(--ts)) 40%));
+  }
+  .hps-b b {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsl(calc(var(--th) + 130) calc(55% * var(--ts)) 74%);
+  }
+  .hps-dots {
+    display: flex;
+    gap: 5px;
+    padding: 14px 16px;
+  }
+  .hps-dots i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--mute);
+    animation: hps-dot 1s ease-in-out infinite;
+  }
+  .hps-dots i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .hps-dots i:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  @keyframes hps-dot {
+    50% {
+      opacity: 0.3;
+      transform: translate3d(0, -3px, 0);
+    }
+  }
+  .hps-ask {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hps-ask button {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 16px;
+    line-height: 1.35;
+    text-align: left;
+    color: var(--ink);
+    cursor: pointer;
+    border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 72% / 0.35);
+    border-radius: 16px;
+    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 7%);
+  }
+  .hps-ask button:active {
+    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 14%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html .hb2 .hb2-ph-cta::before,
+  html .hba-cta .hb2-m-btn::before,
+  html .hbd-cta .hb2-m-btn::before,
+  html .hb2 .hb2-ph-cta::after,
+  html .hba-cta .hb2-m-btn::after,
+  html .hbd-cta .hb2-m-btn::after,
+  html .hba-core .hba-ring,
+  .hps-dots i {
+    animation: none;
+  }
+}
