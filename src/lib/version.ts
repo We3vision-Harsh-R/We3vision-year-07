@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 158,
+    date: "2026-11-13",
+    title: "Products: Coming soon in place of the description",
+    notes: [
+      "The cards of the products that are not live yet (WeJobs, WePresent) show only the Coming soon label where the description was. The Products grid has no outer frame; the lines between the cells stay.",
+    ],
+  },
+  {
     v: 157,
     date: "2026-11-13",
     title: "Phone service pages: all of them have their own look; Products grid without frame lines",

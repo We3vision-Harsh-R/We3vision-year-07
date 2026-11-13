@@ -626,10 +626,19 @@
   }
 }
 
-/* ---- Products grid on a laptop (owner, 2026-11-13): no outer frame and no cross lines, only the two lines of the middle column are kept ---- */
+/* ---- Products grid on a laptop (owner, 2026-11-13): no outer frame; the lines between the cells (vertical and horizontal) are kept ---- */
 html .hb2-grid {
   border: 0;
 }
 html .hb2-grid::before {
-  background: linear-gradient(to right, transparent calc(33.333% - 1px), var(--line) calc(33.333% - 1px) 33.333%, transparent 33.333%, transparent calc(66.666% - 1px), var(--line) calc(66.666% - 1px) 66.666%, transparent 66.666%);
+  background: linear-gradient(to right, transparent calc(33.333% - 1px), var(--line) calc(33.333% - 1px) 33.333%, transparent 33.333%, transparent calc(66.666% - 1px), var(--line) calc(66.666% - 1px) 66.666%, transparent 66.666%),
+    repeating-linear-gradient(to bottom, transparent 0 231px, var(--line) 231px 232px);
+}
+
+/* ---- Products: a card that is not live yet shows only "Coming soon" where the description would be (owner, 2026-11-13) ---- */
+html .hb2-card:has(.hb2-soon) .hb2-card-tx {
+  display: none;
+}
+html .hb2-card .hb2-soon {
+  margin: 0;
 }
