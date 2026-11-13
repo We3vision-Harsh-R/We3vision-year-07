@@ -186,3 +186,9 @@
   .ma-root .mp-vr-orb, .ma-root .mp-vr-segb, .ma-root .mp-vr-opt, .ma-root .mp-vr-row, .ma-root .mp-vr-cta, .ma-root .mp-vr-start, .ma-root .mp-vr-again,
   .ma-root .mp-vr-plus::before, .ma-root .mp-vr-plus::after, .ma-root .mp-vr-tick::after, .ma-root .mp-vr-dots i, .ma-root .mp-vr-chev { transition: none; }
 }
+
+/* ==== Metaverse: a headset view. Labels are cut-corner HUD tags with a scan light, headings stand on a glowing horizon line, the section is lit from the horizon ==== */
+.ma-root[data-page="metaverse"] .ma-chip { min-height: 28px; padding: 2px 16px; border: 0; border-radius: 0; clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(90deg, hsl(var(--ma-h) calc(80% * var(--ts)) 50% / 0.45), hsl(calc(var(--ma-h) + 60) calc(80% * var(--ts)) 55% / 0.25)); }
+.ma-root[data-page="metaverse"] .ma-sec-head { position: relative; padding-bottom: 20px; }
+.ma-root[data-page="metaverse"] .ma-sec-head::after { content: ""; position: absolute; left: -20px; right: -20px; bottom: 0; height: 1px; background: linear-gradient(to right, transparent, hsl(var(--ma-h) calc(95% * var(--ts)) 75%) 50%, transparent); box-shadow: 0 0 18px 3px hsl(var(--ma-h) calc(95% * var(--ts)) 62% / 0.55); }
+.ma-root[data-page="metaverse"] .ma-sec { background: radial-gradient(70% 160px at 50% 70px, hsl(var(--ma-h) calc(85% * var(--ts)) 55% / 0.14), transparent 75%); }

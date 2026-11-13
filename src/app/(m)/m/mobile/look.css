@@ -1,0 +1,7 @@
+/* ==== Mobile Apps: app screens in order. Every section gets a big outlined screen number, the label is a status-bar pill, a home-indicator bar closes the heading ==== */
+.ma-root[data-page="mobile"] { counter-reset: mpscreen; }
+.ma-root[data-page="mobile"] .ma-sec { counter-increment: mpscreen; }
+.ma-root[data-page="mobile"] .ma-sec-head { position: relative; padding-top: 46px; }
+.ma-root[data-page="mobile"] .ma-sec-head::before { content: counter(mpscreen, decimal-leading-zero); position: absolute; left: 0; top: -8px; font-size: 54px; font-weight: 700; line-height: 1; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1px hsl(var(--ma-h) calc(80% * var(--ts)) 72% / 0.6); }
+.ma-root[data-page="mobile"] .ma-chip { position: absolute; right: 0; top: 4px; min-height: 22px; padding: 1px 10px; font-size: 12px; background: hsl(var(--ma-h) calc(40% * var(--ts)) 8% / 0.9); }
+.ma-root[data-page="mobile"] .ma-sec-head::after { content: ""; display: block; width: 44px; height: 4px; margin-top: 14px; border-radius: 4px; background: hsl(0 0% 100% / 0.55); }

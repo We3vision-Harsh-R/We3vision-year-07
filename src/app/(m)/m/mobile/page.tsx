@@ -1,6 +1,7 @@
 import { mobileMetadata, renderMobilePage } from "@/components/site/mobile/pages/render";
 import { WebAdvantages, WebContact, WebFaq, WebGuide, WebHero, WebIndustries, WebProcess, WebServices, WebStory, WebTags } from "@/components/site/mobile/pages/custom/webdev/sections";
 import "../webdev/page.css";
+import "./look.css";
 
 // /mobile (app development) is built like /webdev: the same screens, the same type scale, the same quiet design (see brain/11). The CMS words are the laptop's.
 export const revalidate = 600;

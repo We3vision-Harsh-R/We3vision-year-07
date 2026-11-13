@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 156,
+    date: "2026-11-13",
+    title: "Phone service pages: 3D, Metaverse, Mobile and CRM each have their own look",
+    notes: [
+      "3D Modeling is a viewport (camera corner brackets, an XYZ gizmo label). Metaverse is a headset view (cut-corner HUD tags, a glowing horizon line). Mobile Apps is a row of app screens (big outlined screen numbers, a home-indicator bar). CRM is a pipeline (arrow-shaped stage tags, a funnel mark, stage dots between sections).",
+    ],
+  },
+  {
     v: 155,
     date: "2026-11-13",
     title: "Phone service pages: AI, Web and UI/UX each have their own look",

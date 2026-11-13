@@ -121,3 +121,14 @@
   .ma-root .mp-3d-hero > *, .ma-root .mp-3d-more, .ma-root .mp-3d-qa details p { animation: none; }
   .ma-root .mp-3d-pm, .ma-root .mp-3d-pm::after { transition: none; }
 }
+
+/* ==== 3D Modeling: a viewport. Each heading sits in camera corner brackets, the label is an axis gizmo (X Y Z), a floor line runs under the section ==== */
+.ma-root[data-page="3d-modeling"] .ma-sec-head { position: relative; padding: 14px 16px 12px; background:
+  linear-gradient(var(--ma-tint), var(--ma-tint)) 0 0 / 18px 2px no-repeat, linear-gradient(var(--ma-tint), var(--ma-tint)) 0 0 / 2px 18px no-repeat,
+  linear-gradient(var(--ma-tint), var(--ma-tint)) 100% 0 / 18px 2px no-repeat, linear-gradient(var(--ma-tint), var(--ma-tint)) 100% 0 / 2px 18px no-repeat,
+  linear-gradient(var(--ma-tint), var(--ma-tint)) 0 100% / 18px 2px no-repeat, linear-gradient(var(--ma-tint), var(--ma-tint)) 0 100% / 2px 18px no-repeat,
+  linear-gradient(var(--ma-tint), var(--ma-tint)) 100% 100% / 18px 2px no-repeat, linear-gradient(var(--ma-tint), var(--ma-tint)) 100% 100% / 2px 18px no-repeat; }
+.ma-root[data-page="3d-modeling"] .ma-chip { min-height: 0; padding: 0; border: 0; background: none; border-radius: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: var(--ma-text2); }
+.ma-root[data-page="3d-modeling"] .ma-chip::before { content: "X  Y  Z"; margin-right: 10px; padding: 2px 7px; border-radius: 5px; font-size: 11px; letter-spacing: 0.12em; color: #fff; background: linear-gradient(90deg, hsl(0 80% 55% / 0.85), hsl(130 70% 45% / 0.85), hsl(215 85% 60% / 0.85)); }
+.ma-root[data-page="3d-modeling"] .ma-sec-head > .ma-h2 { margin-top: 8px; }
+.ma-root[data-page="3d-modeling"] .ma-sec::after { content: ""; display: block; height: 1px; margin-top: 40px; background: linear-gradient(to right, transparent, hsl(var(--ma-h) calc(90% * var(--ts)) 72% / 0.5), transparent); }
