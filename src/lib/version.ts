@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 169,
+    date: "2026-11-17",
+    title: "Privacy policy in the language of each country",
+    notes: [
+      "Each privacy policy page has language tags above the contents: English and the language of the country (Hindi for the general policy, Spanish for the USA, German for Germany, French for the European Union and Canada, Arabic for the UAE, Chinese for Singapore). Choosing one shows the whole policy, the contents, the search and the buttons in that language. Arabic reads right to left.",
+      "The United Kingdom and Australia stay in English. The English text is the binding one and every translation says so.",
+    ],
+  },
+  {
     v: 168,
     date: "2026-11-17",
     title: "Privacy policy pages for the world and for each country",

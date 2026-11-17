@@ -307,3 +307,60 @@
     font-size: 16px;
   }
 }
+
+/* language tags (English + the language of the country) above the contents */
+.pvp-lang {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: -20px 0 28px;
+}
+.pvp-lang button {
+  padding: 9px 22px;
+  border: 1px solid var(--pvp-line);
+  border-radius: 999px;
+  background: hsl(0 0% 100% / 0.03);
+  font: inherit;
+  font-size: 16px;
+  color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 90%);
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
+}
+.pvp-lang button:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+}
+.pvp-lang button[data-on] {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
+  color: #fff;
+}
+.pvp-bind {
+  margin: -10px 0 26px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--pvp-mute);
+}
+.pvp-body[dir="rtl"] .pvp-sec ul,
+.pvp-body[dir="rtl"] .pvp-laws ul {
+  padding: 0 22px 0 0;
+}
+.pvp-body[dir="rtl"] .pvp-note {
+  border-left: 0;
+  border-right: 3px solid var(--pvp-acc);
+  border-radius: 14px 0 0 14px;
+}
+.pvp-body[dir="rtl"] .pvp-sec,
+.pvp-body[dir="rtl"] .pvp-laws {
+  text-align: right;
+}
+@media (max-width: 900px) {
+  .pvp-lang {
+    justify-content: flex-start;
+    margin: -8px 0 20px;
+  }
+  .pvp-bind {
+    margin: -6px 0 18px;
+    text-align: left;
+  }
+}
