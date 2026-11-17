@@ -4,6 +4,7 @@ import { getOpenJobs } from "@/lib/careers";
 import { getProjects } from "@/lib/projects";
 import { EXPLORE_LINKS, PRODUCT_LINKS, SERVICE_GROUPS, TRAINING_LINKS, type MenuLink } from "@/lib/site-menu";
 import { unlistedPages } from "@/lib/site-menu-pages";
+import { REGIONS, regionPath } from "@/lib/privacy/regions";
 import { SHARE_IMAGE } from "@/lib/share-image";
 import { siteBase } from "@/lib/seo-ping";
 import { breadcrumbNode, organizationRef, webPageNode, websiteNode } from "@/lib/seo/schema";
@@ -31,6 +32,7 @@ export default async function SitemapPage() {
     { title: "Explore", items: EXPLORE_LINKS },
     { title: "Industrial Training", items: TRAINING_LINKS },
     ...(unlistedPages().length ? [{ title: "More Pages", items: unlistedPages() }] : []),
+    { title: "Privacy Policy", items: REGIONS.map((r) => ({ label: r.title, href: regionPath(r) })) },
     ...(projects.length ? [{ title: "Portfolio", items: projects.map((p) => ({ label: p.title, href: `/portfolio/${p.slug}` })) }] : []),
     ...(posts.length ? [{ title: "Blog", items: posts.map((p) => ({ label: p.title, href: `/blog/${p.slug}` })) }] : []),
     ...(jobs.length ? [{ title: "Open Positions", items: jobs.map((j) => ({ label: j.title, href: `/careers/${j.slug}` })) }] : []),

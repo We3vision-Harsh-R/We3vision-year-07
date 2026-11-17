@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 168,
+    date: "2026-11-17",
+    title: "Privacy policy pages for the world and for each country",
+    notes: [
+      "New privacy policy pages: a general policy for India and the world (/privacy-policy-general) and one page for each country: USA, Germany, European Union, United Kingdom, Canada, Australia, UAE and Singapore (/privacy-policy-usa, /privacy-policy-germany ...).",
+      "Every page explains how we work, how a client's data is saved and where it is used, how long it is kept, the laws of that country and what we sign (data processing agreements, standard contractual clauses). Country tags sit under the heading, and a search box finds words in the policy.",
+      "The Privacy Policy link is in the footer and the sitemaps. On phones the four small home service cards show one heading, and the 300+ card and the four numbers fit in one screen.",
+    ],
+  },
+  {
     v: 167,
     date: "2026-11-14",
     title: "Home page on phones: logos in the first screen, tidier cards, no colour strip at the bottom",

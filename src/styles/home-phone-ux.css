@@ -692,7 +692,7 @@ html .hb2-card .hb2-soon {
    the four cards are taller, so the picture always has its own room under the words, and the four pictures are the same size (about 58 x 50) in the same corner. */
 @media (max-width: 900px) {
   html .hb2 .hb2-sv-r2 .hb2-sv-cell {
-    height: 252px;
+    height: 240px;
   }
   html .hb2 .hb2-sv-web .hb2-sv-a {
     --as: 0.226;
@@ -734,4 +734,72 @@ html .hb2-card .hb2-soon {
   html .hb2 .hb2-sv-r1 .hb2-sv-cell:nth-child(2) .hb2-sv-art {
     inset: 180px 0 122px;
   }
+}
+
+/* hbw-: the four small service cards (owner, 2026-11-17, phone screenshot): the long word "development" was wider than the room inside the card, so it ended 9 px from the right edge
+   while the left room is 19 px. The title is a little smaller, so every word stays inside the same room on the left and on the right. */
+@media (max-width: 900px) {
+  html .hb2 .hb2-sv-r2 .hb2-sv-card h3 {
+    font-size: 17px;
+    overflow-wrap: break-word;
+  }
+}
+
+/* hbd- home phone: the four small service cards show one heading only (the small label repeated the same word) */
+@media (max-width: 900px) {
+  html .hb2 .hb2-sv-r2 .hb2-sv-kick {
+    display: none;
+  }
+}
+
+/* hbo- (owner, 2026-11-17): the 300+ card and the four numbers are one screen: a smaller card and the numbers in two columns of two */
+@media (max-width: 900px) {
+  html .hb2 .hb2-m-field {
+    padding: 52px 20px 22px;
+  }
+  html .hb2 .hb2-m-num {
+    font-size: min(24vw, 110px);
+  }
+  html .hb2 .hb2-m-cap {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  html .hb2 .hb2-m-stats {
+    padding: 18px 0 0;
+  }
+  html .hb2 .hb2-m-stats ul {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 18px;
+  }
+  html .hb2 .hb2-m-stats li,
+  html .hb2 .hb2-m-stats li:nth-child(n) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 14px 2px 16px;
+  }
+  html .hb2 .hb2-m-stats li:last-child {
+    border-bottom: 0;
+  }
+  html .hb2 .hb2-m-stats b {
+    order: 0;
+    font-size: 30px;
+  }
+  html .hb2 .hb2-m-stats span {
+    font-size: 14px;
+  }
+}
+@media (max-width: 900px) {
+  html .hb2 .hb2-m-stats li,
+  html .hb2 .hb2-m-stats li:nth-child(n) {
+    min-height: 92px;
+  }
+}
+
+/* hbl-: the footer's copyright line carries the link to the privacy policy */
+.hb2-f-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
 }

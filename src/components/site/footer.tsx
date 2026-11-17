@@ -144,7 +144,9 @@ export function Footer({ site }: { site: SiteSettings }) {
       <FooterWord text={site.name} />
 
       <div className="ft-in ft-bottom">
-        <p>{site.copyright}</p>
+        <p>
+          {site.copyright} · <SmartLink href="/privacy-policy-general">Privacy Policy</SmartLink>
+        </p>
         <ToTop />
       </div>
       </FooterGlow>

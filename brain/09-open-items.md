@@ -329,3 +329,4 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Kept on purpose: CSS prefix `hb2-` (about 3000 rules), old history entries in 08 and `src/lib/version.ts` (they use the old names of their time).
 - If another chat still edits `components/site/home2/...` or `styles/home-2.css` by the old path it will recreate the old files: tell it to use `components/site/home/` and `styles/home.css`.
 - Chrome DevTools MCP cannot start its browser (another session's Chrome holds the same profile `~/.cache/chrome-devtools-mcp/chrome-profile`), so Lighthouse was not run. Close that other session's Chrome, then retry.
+- Privacy policy: lawyer review of src/lib/privacy text; confirm retention periods (24m/12m/90d), grievance officer name, Marburg address in Impressum; add more countries in regions.ts.

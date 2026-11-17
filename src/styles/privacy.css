@@ -1,0 +1,309 @@
+/* pvp-: the privacy policy pages (/privacy-policy-general, -usa, -germany ...). Theme colours only (--th / --ts). Text 16px or more, labels 14px or more. */
+.pvp {
+  --pvp-line: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+  --pvp-acc: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
+  --pvp-mute: hsl(calc(var(--th) + 354) calc(20% * var(--ts)) 74%);
+  width: min(1240px, 100% - 64px);
+  margin: 0 auto;
+  padding: 150px 0 100px;
+  color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 90%);
+}
+.pvp-head {
+  max-width: 920px;
+  margin: 0 auto 56px;
+  text-align: center;
+}
+.pvp-chip {
+  display: inline-block;
+  margin: 0;
+  padding: 6px 18px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
+  color: var(--pvp-acc);
+  font-size: 14px;
+}
+.pvp h1 {
+  margin: 22px 0 12px;
+  font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  background: linear-gradient(180deg, #fff 30%, var(--pvp-acc));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.pvp-meta {
+  margin: 0 0 26px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--pvp-mute);
+}
+.pvp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 28px;
+}
+.pvp-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px 9px 10px;
+  border: 1px solid var(--pvp-line);
+  border-radius: 999px;
+  background: hsl(0 0% 100% / 0.03);
+  font-size: 15px;
+  color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 90%);
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
+}
+.pvp-tag i {
+  display: inline-grid;
+  place-items: center;
+  min-width: 34px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--pvp-acc);
+}
+.pvp-tag:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+}
+.pvp-tag[data-on] {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
+  color: #fff;
+}
+.pvp-intro {
+  margin: 0 auto 28px;
+  max-width: 800px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--pvp-mute);
+}
+.pvp-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 640px;
+  margin: 0 auto;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
+  border-radius: 999px;
+  background: hsl(0 0% 100% / 0.04);
+}
+.pvp-search svg {
+  position: absolute;
+  left: 20px;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--pvp-acc);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.pvp-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 20px 16px 54px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  color: #fff;
+}
+.pvp-search input::placeholder {
+  color: var(--pvp-mute);
+}
+.pvp-search:focus-within {
+  border-color: var(--pvp-acc);
+  box-shadow: 0 0 0 3px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
+}
+.pvp-search button {
+  margin-right: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--pvp-line);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  color: var(--pvp-acc);
+  cursor: pointer;
+}
+.pvp-count {
+  min-height: 24px;
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--pvp-mute);
+}
+.pvp-body {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+.pvp-toc {
+  position: sticky;
+  top: 110px;
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+  padding-right: 8px;
+}
+.pvp-toc p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pvp-mute);
+}
+.pvp-toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.pvp-toc a {
+  display: flex;
+  gap: 10px;
+  padding: 7px 0;
+  font-size: 15px;
+  line-height: 1.35;
+  color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 84%);
+  transition: color 0.2s;
+}
+.pvp-toc a:hover {
+  color: var(--pvp-acc);
+}
+.pvp-toc i,
+.pvp-sec h2 i {
+  font: 400 14px ui-monospace, Menlo, monospace;
+  font-style: normal;
+  color: var(--pvp-acc);
+}
+.pvp-main {
+  display: grid;
+  gap: 18px;
+}
+.pvp-laws,
+.pvp-sec {
+  scroll-margin-top: 110px;
+  padding: 30px 34px;
+  border: 1px solid var(--pvp-line);
+  border-radius: 28px;
+  background: hsl(0 0% 100% / 0.03);
+}
+.pvp-laws h2,
+.pvp-sec h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 14px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.pvp-sec p,
+.pvp-sec li,
+.pvp-laws li {
+  font-size: 17px;
+  line-height: 1.75;
+  color: hsl(calc(var(--th) + 354) calc(25% * var(--ts)) 84%);
+}
+.pvp-sec p {
+  margin: 0 0 12px;
+}
+.pvp-sec ul,
+.pvp-laws ul {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0 0 0 22px;
+  list-style: disc;
+}
+.pvp-sec li::marker,
+.pvp-laws li::marker {
+  color: var(--pvp-acc);
+}
+.pvp-note {
+  margin: 16px 0 0 !important;
+  padding: 14px 18px;
+  border-left: 3px solid var(--pvp-acc);
+  border-radius: 0 14px 14px 0;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
+}
+.pvp mark {
+  padding: 0 3px;
+  border-radius: 4px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.45);
+  color: #fff;
+}
+.pvp-end {
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--pvp-mute);
+}
+
+@media (max-width: 900px) {
+  .pvp {
+    width: calc(100% - 40px);
+    padding: 110px 0 90px;
+  }
+  .pvp-head {
+    margin-bottom: 30px;
+  }
+  .pvp h1 {
+    font-size: 30px;
+  }
+  .pvp-intro {
+    font-size: 16px;
+  }
+  .pvp-tags {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin: 0 -20px 24px;
+    padding: 2px 20px 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .pvp-tags::-webkit-scrollbar {
+    display: none;
+  }
+  .pvp-tag {
+    flex: 0 0 auto;
+  }
+  .pvp-head {
+    text-align: left;
+  }
+  .pvp-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  .pvp-toc {
+    display: none;
+  }
+  .pvp-laws,
+  .pvp-sec {
+    padding: 22px 20px;
+    border-radius: 22px;
+  }
+  .pvp-laws h2,
+  .pvp-sec h2 {
+    font-size: 20px;
+  }
+  .pvp-sec p,
+  .pvp-sec li,
+  .pvp-laws li {
+    font-size: 16px;
+  }
+}

@@ -135,7 +135,10 @@ export async function HomeFooter() {
           </div>
         </div>
         <div className="hb2-f-bot">
-          <span>{site.copyright}</span>
+          <span className="hb2-f-legal">
+            <span>{site.copyright}</span>
+            <SmartLink href="/privacy-policy-general">Privacy Policy</SmartLink>
+          </span>
           <TopLink>
             <span className="hb2-f-up" aria-hidden>
               <svg viewBox="0 0 24 24">

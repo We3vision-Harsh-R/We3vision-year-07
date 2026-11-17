@@ -5,6 +5,7 @@ import { getPageStatuses } from "@/lib/cms/queries";
 import { PAGES } from "@/lib/cms/pages";
 import { getProjects } from "@/lib/projects";
 import { TRAINING_LINKS } from "@/lib/site-menu";
+import { REGIONS, regionPath } from "@/lib/privacy/regions";
 
 // The XML sitemap for search engines: every public page, project, article and open job. Google reads it again and again, so a new or changed page
 // is found quickly. Pages that are not published (drafts, hidden articles) are not listed; /admin, /preview, the phone copies (/m/...) and the
@@ -37,6 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/services`, changeFrequency: "monthly", priority: 0.9 },
     ...TRAINING_LINKS.map((t) => ({ url: `${base}${t.href}`, changeFrequency: "monthly" as const, priority: 0.8 })),
     { url: `${base}/sitemap`, changeFrequency: "weekly", priority: 0.4 },
+    ...REGIONS.map((r) => ({ url: `${base}${regionPath(r)}`, changeFrequency: "yearly" as const, priority: 0.3 })),
     ...projects.map((p) => ({ url: `${base}/portfolio/${p.slug}`, changeFrequency: "monthly" as const, priority: 0.7 })),
     ...posts.map((post) => ({ url: `${base}/blog/${post.slug}`, lastModified: post.date, changeFrequency: "monthly" as const, priority: 0.7 })),
     ...jobs.map((j) => ({ url: `${base}/careers/${j.slug}`, lastModified: j.postedAt, changeFrequency: "weekly" as const, priority: 0.6 })),
