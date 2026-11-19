@@ -1,0 +1,12 @@
+/* brx-: links inside the paragraphs of an article (components/site/blog-rich.tsx). Theme colour only (--th / --ts), underlined so they read as links. */
+.brx-a {
+  color: hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 78%);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.25s;
+}
+.brx-a:hover,
+.brx-a:focus-visible {
+  color: hsl(calc(var(--th) + 8) calc(45% * var(--ts)) 96%);
+}

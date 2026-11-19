@@ -37,8 +37,11 @@ export default async function BlogArticle({ params }: { params: Promise<{ slug: 
   const site = await getSiteSettings();
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/$/, "");
   // related articles: the same topic first, then the newest others (three at most)
-  const others = (await getBlogEntries().catch(() => [])).filter((p) => p.slug !== post.slug);
-  const related = [...others.filter((p) => p.category === post.category), ...others.filter((p) => p.category !== post.category)].slice(0, 3);
+  const all = await getBlogEntries().catch(() => []);
+  const same = all.filter((p) => p.category === post.category);
+  const at = same.findIndex((p) => p.slug === post.slug);
+  const near = same.length > 4 && at >= 0 ? [1, 2, 3].map((k) => same[(at + k) % same.length]) : same.filter((p) => p.slug !== post.slug);
+  const related = [...near, ...all.filter((p) => p.category !== post.category)].slice(0, 3);
   return (
     <>
       <BlogPost post={post} base={base} related={related} />

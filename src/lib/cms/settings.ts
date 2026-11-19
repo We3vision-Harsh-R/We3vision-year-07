@@ -129,6 +129,7 @@ export const SITE_DEFAULTS = {
       items: [
         { label: "AI Development", href: "/ai" },
         { label: "Metaverse", href: "/metaverse" },
+        { label: "Game Development", href: "/game-development" },
         { label: "Web Development", href: "/webdev" },
         { label: "App Development", href: "/mobile" },
         { label: "Brand Design", href: "/brand-identity" },

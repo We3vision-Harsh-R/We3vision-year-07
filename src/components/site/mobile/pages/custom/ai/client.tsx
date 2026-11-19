@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState, type CSSProperties } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";
+import { limitPhone } from "@/lib/contact-validation";
 import { useCalm } from "../../../app/use-calm";
 
 /** the small interactive parts of /ai: a run that ticks off its steps, problem/answer switch, ask-a-question chips, and the prompt box that sends a lead */
@@ -155,6 +156,7 @@ export function Ask({ items }: { items: { name: string; description: string }[] 
 export function Prompt({ label }: { label?: string }) {
   const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, { status: "idle" });
   const [open, setOpen] = useState(false);
+  const [v, setV] = useState({ name: "", email: "", phone: "", message: "" }); // kept in state: a form action empties an uncontrolled form after an error
   if (state.status === "success") {
     return (
       <p className="mp-ai-sent" role="status">
@@ -166,18 +168,19 @@ export function Prompt({ label }: { label?: string }) {
   return (
     <form action={action} className={`mp-ai-prompt${open ? " is-open" : ""}`}>
       <div className="mp-ai-box">
-        <textarea name="message" required minLength={10} rows={open ? 4 : 2} placeholder="Tell us what you want AI to do for you" aria-label="Your message" onFocus={() => setOpen(true)} />
+        <textarea name="message" value={v.message} onChange={(e) => setV({ ...v, message: e.target.value })} maxLength={2000} required minLength={10} rows={open ? 4 : 2} placeholder="Tell us what you want AI to do for you" aria-label="Your message" onFocus={() => setOpen(true)} />
         <button type="submit" className="mp-ai-go" disabled={pending} aria-label={label || "Send"}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" /></svg>
         </button>
       </div>
       <div className="mp-ai-who" aria-hidden={!open}>
         <div>
-          <input name="name" autoComplete="name" required minLength={2} placeholder="Your name" tabIndex={open ? 0 : -1} />
-          <input name="email" type="email" inputMode="email" autoComplete="email" required placeholder="you@company.com" tabIndex={open ? 0 : -1} />
-          <input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="Phone (optional)" tabIndex={open ? 0 : -1} />
+          <input name="name" value={v.name} onChange={(e) => setV({ ...v, name: e.target.value })} maxLength={100} autoComplete="name" required minLength={2} placeholder="Your name" tabIndex={open ? 0 : -1} />
+          <input name="email" value={v.email} onChange={(e) => setV({ ...v, email: e.target.value })} maxLength={200} type="email" inputMode="email" autoComplete="email" required placeholder="you@company.com" tabIndex={open ? 0 : -1} />
+          <input name="phone" value={v.phone} onChange={(e) => setV({ ...v, phone: limitPhone(e.target.value) })} maxLength={20} type="tel" inputMode="tel" autoComplete="tel" required placeholder="Mobile number (+91)" tabIndex={open ? 0 : -1} />
         </div>
       </div>
+      <input type="hidden" name="phoneRequired" value="1" />
       <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="ma-hp" />
       {state.status === "error" && <p className="mp-ai-err" role="alert">{state.message}</p>}
     </form>

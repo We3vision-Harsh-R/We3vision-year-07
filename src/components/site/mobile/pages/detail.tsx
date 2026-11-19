@@ -8,6 +8,7 @@ import type { JobView } from "@/lib/careers-shared";
 import { coverOf, getProjectBySlug } from "@/lib/projects";
 import { AppScreen, Accordion, Button, Card, LeadForm, Pic, Points, Section, contactFrom, megaFrom } from "../app";
 import { JsonLd } from "../../json-ld";
+import { RichText } from "../../blog-rich";
 import { JobApplyForm } from "../../lazy";
 import type { NavTab } from "../app/nav-types";
 import { APPS } from "../launcher-data";
@@ -60,7 +61,7 @@ export async function renderMobileBlogPost(slug: string) {
           </div>
           {post.image && <Pic src={post.image} alt={post.title} ratio="3 / 2" />}
           <div className="ma-prose ma-article mp-dt-body">
-            {post.blocks.map((blk, i) => ("h" in blk ? <h2 key={i} className="ma-h2">{blk.h}</h2> : "p" in blk ? <p key={i}>{blk.p}</p> : <Points key={i} items={blk.ul} />))}
+            {post.blocks.map((blk, i) => ("h" in blk ? <h2 key={i} className="ma-h2">{blk.h}</h2> : "p" in blk ? <p key={i}><RichText text={blk.p} /></p> : <Points key={i} items={blk.ul} />))}
           </div>
           {post.tags.length > 0 && (
             <ul className="ma-tags" aria-label="Topics">

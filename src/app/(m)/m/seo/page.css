@@ -255,3 +255,6 @@
 /* the space between two sections: one gap of 60 px (the kit padding and the page margin were adding up to about 150 px) */
 .ma-root:is([data-page="seo"], [data-page="meta-marketing"], [data-page="physical-marketing"]) .ma-sec { margin-top: 0; padding-top: 60px; }
 .ma-root:is([data-page="seo"], [data-page="meta-marketing"], [data-page="physical-marketing"]) .ma-sec-head { margin-bottom: 24px; }
+
+/* sktl-: a tool name is never cut in the middle ("Scre-aming Frog") */
+.ma-root .mp-seo-stack span { display: inline-block; white-space: nowrap; }

@@ -898,3 +898,11 @@ details.ma-acc[open] > summary { font-weight: 500; }
 .ma-dd.is-open .ma-dd-menu { z-index: 61; }
 .ma-dd-val.is-empty { color: var(--ma-text2); opacity: 0.9; }
 .ma-input::placeholder { color: hsl(240 5% 65%); opacity: 1; } /* zinc-400 on the dark page */
+
+/* lfv-: the line under a field of the enquiry form when it is not filled in right */
+.ma-form .ma-ferr { display: block; padding: 0 16px 12px; font-size: 14px; font-style: normal; line-height: 1.4; color: hsl(8 90% 76%); }
+.ma-form .ma-field:has(.ma-ferr) { box-shadow: inset 0 0 0 1px hsl(8 80% 62% / 0.55); }
+.ma-form .ma-field:has(.ma-ferr) .ma-input { min-height: 48px; }
+
+/* bttl-: a long page name in the top bar (Mobile App Development) fits without the dots */
+.ma-bar-title { font-size: clamp(14px, 4vw, 16px); letter-spacing: -0.3px; }

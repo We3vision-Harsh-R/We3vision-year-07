@@ -47,6 +47,9 @@ export const RELATED: Record<string, { title: string; description: string; href:
   graphics: { title: "Graphic\nDesign", description: "Posts, brochures, packaging and layouts with a clear, consistent look.", href: "/graphics" },
   animation: { title: "2D/3D Animation\n& Video", description: "Animation, motion graphics and video editing that explain ideas and bring brands to life.", href: "/animation" },
   web: { title: "Web\nDevelopment", description: "Responsive, fast and SEO-friendly websites from landing pages to complex web portals.", href: "/webdev" },
+  metaverse: { title: "Metaverse\nDevelopment", description: "Virtual worlds, VR and AR experiences and virtual events for your business.", href: "/metaverse" },
+  modeling: { title: "3D\nModeling", description: "Characters, props, vehicles and environments made for games and immersive experiences.", href: "/3d-modeling" },
+  game: { title: "Game\nDevelopment", description: "Interactive 3D games and game experiences with Unity and Unreal Engine, from prototype to launch.", href: "/game-development" },
 };
 export const related = (...keys: (keyof typeof RELATED)[]) => keys.map((k) => RELATED[k]);
 

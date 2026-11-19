@@ -65,7 +65,7 @@ export async function GET() {
 
   if (posts.length) {
     out.push("## Articles", "");
-    for (const p of posts.slice(0, 20)) out.push(`- [${p.title}](${base}/blog/${p.slug}): ${clean(p.summary)}`);
+    for (const p of [...posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30)) out.push(`- [${p.title}](${base}/blog/${p.slug}): ${clean(p.summary)}`);
     out.push(`- [All articles](${base}/blog)`, "");
   }
 

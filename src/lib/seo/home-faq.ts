@@ -55,8 +55,8 @@ export function homeFaq(site: SiteSettings): HomeFaqItem[] {
       question: "Does We3vision provide game development services?",
       answer:
         "Yes. We3vision builds interactive games and 3D game experiences for web, mobile and emerging platforms. Game development is part of its metaverse and 3D work, with engines such as Unity and Unreal Engine.",
-      href: "/metaverse",
-      link: "Games and 3D experiences",
+      href: "/game-development",
+      link: "Game development services",
     },
     {
       question: "Which industries does We3vision serve?",

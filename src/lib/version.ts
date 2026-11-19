@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 172,
+    date: "2026-11-19",
+    title: "Phone: contact page in the GTA style, forms that keep what you typed, AI page chips",
+    notes: [
+      "The phone contact page has a neon sunset drawing, the contacts as a phone book, the message form inside a game phone and the offices as waypoints on a route. It fits 320 to 768 px wide.",
+      "The phone enquiry forms (contact, careers, web development, AI page) no longer empty themselves when the server answers: a wrong number used to erase the name, e-mail and message. They check the e-mail and the mobile number while you type, like the laptop form, and the mobile number is required.",
+      "AI page on the phone: the first intro text shows in full without Read more, and the tool and model names are chips like the ones on the home page. The SEO tools line never cuts a tool name in the middle, and long page names fit better in the top bar.",
+    ],
+  },
+  {
     v: 171,
     date: "2026-11-19",
     title: "Winter menu: new floors, a thin still layer of snow and snowballs that bounce off each other",

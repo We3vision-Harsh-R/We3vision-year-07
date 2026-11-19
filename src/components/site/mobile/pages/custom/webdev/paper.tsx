@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";
+import { limitPhone } from "@/lib/contact-validation";
 
 /**
  * "Write a note, fold it into a paper plane". The contact form is a sheet of paper: To / From / Reply to, and a ruled page for the message. When
@@ -18,6 +19,7 @@ export function PaperForm({ label }: { label?: string }) {
 
 function Sheet({ label, again }: { label?: string; again: () => void }) {
   const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, { status: "idle" });
+  const [v, setV] = useState({ name: "", email: "", phone: "", message: "" }); // kept in state: a form action empties an uncontrolled form after an error
   const sent = state.status === "success";
   return (
     <div className={`mp-wd-pp${sent ? " is-sent" : ""}${pending ? " is-busy" : ""}`}>
@@ -30,17 +32,18 @@ function Sheet({ label, again }: { label?: string; again: () => void }) {
           </p>
           <label className="mp-wd-pp-row">
             <span>From</span>
-            <input name="name" autoComplete="name" required minLength={2} placeholder="Your name" />
+            <input name="name" value={v.name} onChange={(e) => setV({ ...v, name: e.target.value })} maxLength={100} autoComplete="name" required minLength={2} placeholder="Your name" />
           </label>
           <label className="mp-wd-pp-row">
             <span>Reply to</span>
-            <input name="email" type="email" inputMode="email" autoComplete="email" required placeholder="you@company.com" />
+            <input name="email" value={v.email} onChange={(e) => setV({ ...v, email: e.target.value })} maxLength={200} type="email" inputMode="email" autoComplete="email" required placeholder="you@company.com" />
           </label>
           <label className="mp-wd-pp-row">
             <span>Phone</span>
-            <input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="Optional" />
+            <input name="phone" value={v.phone} onChange={(e) => setV({ ...v, phone: limitPhone(e.target.value) })} maxLength={20} type="tel" inputMode="tel" autoComplete="tel" required placeholder="Mobile number (+91)" />
           </label>
-          <textarea className="mp-wd-pp-note" name="message" required minLength={10} rows={3} placeholder="Tell us about your project" aria-label="Your message" />
+          <textarea className="mp-wd-pp-note" name="message" value={v.message} onChange={(e) => setV({ ...v, message: e.target.value })} maxLength={2000} required minLength={10} rows={3} placeholder="Tell us about your project" aria-label="Your message" />
+          <input type="hidden" name="phoneRequired" value="1" />
           <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="ma-hp" />
         </div>
         <button type="submit" className="mp-wd-pp-send" disabled={pending}>

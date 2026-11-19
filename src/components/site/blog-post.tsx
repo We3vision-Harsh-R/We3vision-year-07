@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { BlogEntry } from "@/lib/blog-shared";
 import { articleGraph } from "@/lib/seo/schema";
+import { RichText } from "./blog-rich";
 import { Img } from "./img";
 import { JsonLd } from "./json-ld";
 import "@/styles/blog-post.css";
@@ -8,6 +9,10 @@ import "@/styles/blog-post.css";
 // One article of the blog (/blog/<slug>): the reading column in the middle, the index of the article on the left (sticky), and on the right (sticky)
 // the facts of the article, its tags, the author and related articles. Text is plain server HTML (nothing here needs JavaScript), the page is also
 // described to Google as a breadcrumb, an Article and a FAQPage (lib/seo/schema.ts). Look: globals.css (.bp-*) for the column, styles/blog-post.css (.bpx-*) for the sides.
+// the service page that belongs to the topic of an article: a link from the article to it (and the page links back through its list of articles)
+const SERVICE_OF: Record<string, { label: string; href: string }> = {
+  "Game Development": { label: "Game development services", href: "/game-development" },
+};
 const words = (post: BlogEntry) => post.blocks.reduce((n, b) => n + ("h" in b ? b.h : "p" in b ? b.p : b.ul.join(" ")).split(/\s+/).length, 0);
 
 export function BlogPost({ post, related = [] }: { post: BlogEntry; base?: string; related?: BlogEntry[] }) {
@@ -50,7 +55,9 @@ export function BlogPost({ post, related = [] }: { post: BlogEntry; base?: strin
                 {b.h}
               </h2>
             ) : "p" in b ? (
-              <p key={i}>{b.p}</p>
+              <p key={i}>
+                <RichText text={b.p} />
+              </p>
             ) : (
               <ul key={i}>
                 {b.ul.map((t) => (
@@ -92,6 +99,20 @@ export function BlogPost({ post, related = [] }: { post: BlogEntry; base?: strin
             </div>
           </dl>
         </section>
+
+        {SERVICE_OF[post.category] && (
+          <section>
+            <p className="bpx-k">Our service</p>
+            <ul className="bpx-rel">
+              <li>
+                <Link href={SERVICE_OF[post.category].href}>
+                  <span>Service</span>
+                  {SERVICE_OF[post.category].label}
+                </Link>
+              </li>
+            </ul>
+          </section>
+        )}
 
         {post.tags.length > 0 && (
           <section>
