@@ -7,6 +7,7 @@ import { HomeBrand } from "@/components/site/home/home-brand";
 import { HomeMetaverse } from "@/components/site/home/home-metaverse";
 import { HomeMore } from "@/components/site/home/home-more";
 import { HomeServices } from "@/components/site/home/home-services";
+import { HomeWinter } from "@/components/site/home/home-winter";
 import { SmartLink } from "@/components/site/smart-link";
 import { getProjects } from "@/lib/projects";
 import { getSiteSettings } from "@/lib/cms/queries";
@@ -207,6 +208,8 @@ export async function HomeMain() {
                 </svg>
               </SmartLink>
             ))}
+            {/* winter world (task 154): snowmen and snowballs on the hairlines of the grid; the cards are its walls */}
+            <HomeWinter />
           </div>
         </div>
       </section>

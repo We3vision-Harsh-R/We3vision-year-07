@@ -16,6 +16,11 @@ import { GlowEdge } from "./glow-edge";
 import { LiveNow } from "./live-now";
 import { EXPLORE_LINKS, MAIN_SERVICES, PRODUCT_LINKS, SERVICE_GROUPS, TRAINING_LINKS } from "../../lib/site-menu";
 import { SmartLink } from "./smart-link";
+import dynamic from "next/dynamic";
+import { WINTER_ON } from "../../lib/winter";
+
+// the winter world of the menu (task 153): its own chunk (code + styles), fetched the first time the menu opens, so it is not part of the first load of any page
+const WinterMenu = dynamic(() => import("./winter-menu").then((m) => m.WinterMenu), { ssr: false });
 
 type Link = { label: string; href: string };
 export type MegaData = {
@@ -78,6 +83,9 @@ export function MegaMenu({
   const pathname = usePathname();
   // phone / tablet: which service group is folded open (the laptop shows all of them; styles/home-mobile.css decides)
   const [acc, setAcc] = useState(0);
+  // the winter world is only mounted (and its chunk fetched) once the menu has been opened
+  const [winterSeen, setWinterSeen] = useState(false);
+  if (open && !winterSeen) setWinterSeen(true);
 
   useEffect(() => {
     if (!open) return;
@@ -258,6 +266,8 @@ export function MegaMenu({
             </div>
           </nav>
         </div>
+        {/* winter world (task 153): snowmen, snowballs you can drag, a snow house; the heading lines are its floors */}
+        {WINTER_ON && winterSeen && <WinterMenu open={open} />}
       </div>
     </div>,
     document.body,

@@ -25,10 +25,20 @@ if (!process.env.NEXT_PUBLIC_SITE_URL && process.env.NODE_ENV === "production") 
   console.warn("[we3vision] NEXT_PUBLIC_SITE_URL is not set: canonical links, robots.txt and sitemap.xml will point to http://localhost:1010. Set it to the live https address (Hostinger > environment variables).");
 }
 
+// Proof of ownership for Google Search Console and Bing Webmaster Tools (the "HTML tag" method). Paste the code that the tool shows into the environment
+// (GOOGLE_SITE_VERIFICATION = the content="..." value of the google-site-verification tag, BING_SITE_VERIFICATION = the content value of msvalidate.01),
+// then deploy: the tag is written into every page when the site is built, so set the variable BEFORE the build. Nothing is written while they are empty.
+// (A Domain property verified through a DNS TXT record needs none of this.)
+const verification: NonNullable<Metadata["verification"]> = {
+  ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+  ...(process.env.BING_SITE_VERIFICATION ? { other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION } } : {}),
+};
+
 export const baseMetadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:1010"),
   title: "We3vision",
   description: "We3vision Private Limited",
+  ...(Object.keys(verification).length ? { verification } : {}),
 };
 
 // Puts the visitor's saved colour on <html> BEFORE the first paint, so the site never flashes the original violet first.

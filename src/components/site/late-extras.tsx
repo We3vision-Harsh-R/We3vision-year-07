@@ -3,18 +3,22 @@
 import { useEffect, useState, type ComponentType } from "react";
 import type { PickerConfig } from "./theme-picker";
 
+import { WINTER_ON } from "@/lib/winter"; // the winter master switch
+
 /**
  * The extras that are not needed to see and use the first screen: the custom mouse cursor, the colour picker and the pause of off-screen
  * figures. Their code is a separate chunk that the browser fetches when it is idle, right after the first paint, instead of with every page.
  * `picker` is what Admin > Settings > "Colour picker" says (when the card opens, which colours).
  */
 export function LateExtras({ picker }: { picker?: PickerConfig }) {
-  const [parts, setParts] = useState<{ Cursor: ComponentType; Theme: ComponentType<{ config?: PickerConfig }>; Pause: ComponentType; Presence: ComponentType } | null>(null);
+  const [parts, setParts] = useState<{ Cursor: ComponentType; Theme: ComponentType<{ config?: PickerConfig }>; Pause: ComponentType; Presence: ComponentType; Winter: ComponentType | null } | null>(null);
   useEffect(() => {
     let off = false;
     const load = () => {
-      void Promise.all([import("./custom-cursor"), import("./theme-picker"), import("./pause-offscreen"), import("./presence")]).then(([cursor, theme, pause, presence]) => {
-        if (!off) setParts({ Cursor: cursor.CustomCursor, Theme: theme.ThemeProvider, Pause: pause.PauseOffscreen, Presence: presence.PresenceLive });
+      // the winter snow (task 152, preview): its own chunk, only fetched while WINTER_ON is true
+      const winter = WINTER_ON ? import("./winter-snow").then((m) => m.WinterSnow) : Promise.resolve(null);
+      void Promise.all([import("./custom-cursor"), import("./theme-picker"), import("./pause-offscreen"), import("./presence"), winter]).then(([cursor, theme, pause, presence, Winter]) => {
+        if (!off) setParts({ Cursor: cursor.CustomCursor, Theme: theme.ThemeProvider, Pause: pause.PauseOffscreen, Presence: presence.PresenceLive, Winter });
       });
     };
     const w = window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (h: number) => void };
@@ -26,13 +30,14 @@ export function LateExtras({ picker }: { picker?: PickerConfig }) {
     };
   }, []);
   if (!parts) return null;
-  const { Cursor, Theme, Pause, Presence } = parts;
+  const { Cursor, Theme, Pause, Presence, Winter } = parts;
   return (
     <>
       <Cursor />
       <Theme config={picker} />
       <Pause />
       <Presence />
+      {Winter && <Winter />}
     </>
   );
 }

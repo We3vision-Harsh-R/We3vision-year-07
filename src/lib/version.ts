@@ -16,6 +16,18 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 170,
+    date: "2026-11-19",
+    title: "Winter theme: snow on the menu bar, a snow world in the big menu and in the products grid",
+    notes: [
+      "Soft snow falls over the site (laptop and desktop) and settles as a layer of snow on the floating menu bar. The flakes are blown by the mouse, and the snow slides off when the bar shrinks.",
+      "The big menu has a little snow world: the heading lines are floors, two snowmen and two snowballs stand on them and a snow house stands at the bottom. A snowman or snowball can be dragged anywhere and dropped: it falls, bounces and rolls. A click makes a snowman hop and wave.",
+      "The products grid of the home page has the same snow world: snow on the hairlines, three snowmen, four snowballs and a snow house. The cards are walls, and everything falls into place when the section comes into view.",
+      "One switch (WINTER_ON in src/lib/winter.ts) turns the whole winter theme off.",
+      "Search Console and Bing Webmaster verification tags can be set with the environment variables GOOGLE_SITE_VERIFICATION and BING_SITE_VERIFICATION (nothing is written while they are empty). On the phone AI page the section intros show in full and the tool and model names look like the small chips of the home page.",
+    ],
+  },
+  {
     v: 169,
     date: "2026-11-17",
     title: "Privacy policy in the language of each country",
