@@ -180,6 +180,7 @@
   opacity: 1;
   transition: opacity 0.6s ease;
 }
+.wm-caps,
 .wh-caps {
   position: absolute;
   inset: 0;

@@ -52,6 +52,10 @@ type Item = Spec & {
   px: number;
   py: number;
   pt: number;
+  lx: number; // where it was in the last frame (the speed of a held item)
+  ly: number;
+  ang: number; // wobble of a snowman that was hit (degrees)
+  angv: number;
 };
 
 export function createWorld(o: {
@@ -67,7 +71,7 @@ export function createWorld(o: {
   const items: Item[] = [];
   layer.querySelectorAll<HTMLElement>("[data-wm]").forEach((el) => {
     const spec = o.specs.find((s) => s.id === el.dataset.wm);
-    if (spec) items.push({ ...spec, el, roll: el.querySelector<SVGGElement>(".wm-roll"), r: spec.w / 2, x: 0, y: 0, vx: 0, vy: 0, mode: "new", key: "", fr: 0.5, sq: 0, sqv: 0, rot: 0, gx: 0, gy: 0, moved: 0, px: 0, py: 0, pt: 0 });
+    if (spec) items.push({ ...spec, el, roll: el.querySelector<SVGGElement>(".wm-roll"), r: spec.w / 2, x: 0, y: 0, vx: 0, vy: 0, mode: "new", key: "", fr: 0.5, sq: 0, sqv: 0, rot: 0, gx: 0, gy: 0, moved: 0, px: 0, py: 0, pt: 0, lx: 0, ly: 0, ang: 0, angv: 0 });
   });
 
   let M: Measured | null = null;
@@ -92,7 +96,7 @@ export function createWorld(o: {
     const air = it.mode === "drag" || it.mode === "air";
     const tilt = it.kind === "man" && air ? clamp(it.vx * 0.012, -12, 12) : 0;
     const lift = it.mode === "drag" ? 1.08 : 1;
-    it.el.style.transform = `translate(${(it.x - it.w / 2).toFixed(1)}px,${(it.y - it.h).toFixed(1)}px) rotate(${tilt.toFixed(1)}deg) scale(${((1 + it.sq) * lift).toFixed(3)},${((1 - it.sq) * lift).toFixed(3)})`;
+    it.el.style.transform = `translate(${(it.x - it.w / 2).toFixed(1)}px,${(it.y - it.h).toFixed(1)}px) rotate(${(tilt + it.ang).toFixed(1)}deg) scale(${((1 + it.sq) * lift).toFixed(3)},${((1 - it.sq) * lift).toFixed(3)})`;
     if (it.roll) it.roll.setAttribute("transform", `rotate(${it.rot.toFixed(1)} ${it.r} ${it.r})`);
   };
 
@@ -106,6 +110,147 @@ export function createWorld(o: {
       layer.appendChild(p);
       window.setTimeout(() => p.remove(), 700);
     }
+  };
+
+  // ----- snowballs and snowmen push each other (a rebound) -----
+  const BALL_E = 0.72; // how lively two balls rebound
+  const MAN_E = 0.5; // a ball against a snowman
+  const sign = (v: number) => (v < 0 ? -1 : 1);
+  // the speed of an item as the others feel it (a held one: how fast the mouse moves it)
+  const kin = (it: Item, dt: number) => {
+    if (it.mode === "drag") return { x: clamp((it.x - it.lx) / dt, -1400, 1400), y: clamp((it.y - it.ly) / dt, -1400, 1400) };
+    if (it.mode === "air") return { x: it.vx, y: it.vy };
+    return { x: it.kind === "ball" ? it.vx : 0, y: 0 };
+  };
+  const settle = (it: Item) => {
+    // a ball that stands on a floor was moved along it: remember where
+    if (it.mode !== "rest") return;
+    const fl = floorFor(it.key);
+    if (fl) {
+      it.x = clamp(it.x, fl.x0, fl.x1);
+      it.fr = (it.x - fl.x0) / Math.max(1, fl.x1 - fl.x0);
+    }
+  };
+  const ballBall = (a: Item, b: Item, dt: number): boolean => {
+    let dx = b.x - a.x;
+    let dy = b.y - b.r - (a.y - a.r);
+    let d = Math.hypot(dx, dy);
+    const min = a.r + b.r;
+    if (d >= min) return false;
+    if (d < 0.001) {
+      dx = 1;
+      dy = 0;
+      d = 1;
+    }
+    const nx = dx / d;
+    const ny = dy / d;
+    const ka = a.mode === "drag";
+    const kb = b.mode === "drag";
+    if (ka && kb) return false;
+    const ma = a.r * a.r;
+    const mb = b.r * b.r;
+    const ia = ka ? 0 : 1 / ma;
+    const ib = kb ? 0 : 1 / mb;
+    const over = min - d;
+    const wa = ia / (ia + ib);
+    const wb = ib / (ia + ib);
+    // pull them apart (a ball that stands on a floor can only slide along it)
+    a.x -= nx * over * wa;
+    b.x += nx * over * wb;
+    if (a.mode !== "rest") a.y -= ny * over * wa;
+    if (b.mode !== "rest") b.y += ny * over * wb;
+    // the rebound along the line between the two centres
+    const va = kin(a, dt);
+    const vb = kin(b, dt);
+    const vn = (vb.x - va.x) * nx + (vb.y - va.y) * ny;
+    if (vn < 0) {
+      const j = (-(1 + BALL_E) * vn) / (ia + ib);
+      if (!ka) {
+        a.vx -= j * ia * nx;
+        if (a.mode !== "rest") a.vy -= j * ia * ny;
+      }
+      if (!kb) {
+        b.vx += j * ib * nx;
+        if (b.mode !== "rest") b.vy += j * ib * ny;
+      }
+    }
+    // one right on top of the other would balance there: it rolls off to a side
+    if (Math.abs(nx) < 0.25) {
+      const top = ny < 0 ? b : a;
+      const bot = top === b ? a : b;
+      if (top.mode === "air") top.vx += (top.x >= bot.x ? 1 : -1) * 70;
+    }
+    for (const it of [a, b]) {
+      if (it.mode === "rest") {
+        it.vy = 0;
+        settle(it);
+        if (Math.abs(it.vx) > 3) wake();
+      }
+    }
+    return true;
+  };
+  // a snowman is drawn as three circles (the same as the drawing): belly, chest, head
+  const MAN_BALLS: [number, number, number][] = [
+    [22, 44.5, 12.5],
+    [22, 27, 9.3],
+    [22, 13, 6.9],
+  ];
+  const ballMan = (ball: Item, man: Item, dt: number): boolean => {
+    if (ball.mode === "drag") return false; // a held ball goes through (it is the owner's hand)
+    const sx = man.w / 44;
+    const sy = man.h / 58;
+    const vm = kin(man, dt);
+    let hit = false;
+    for (const [cx, cy, cr] of MAN_BALLS) {
+      const X = man.x + (cx - 22) * sx;
+      const Y = man.y - man.h + cy * sy;
+      const R = cr * sx;
+      let dx = ball.x - X;
+      let dy = ball.y - ball.r - Y;
+      let d = Math.hypot(dx, dy);
+      const min = R + ball.r;
+      if (d >= min) continue;
+      if (d < 0.001) {
+        dx = sign(ball.x - man.x);
+        dy = 0;
+        d = 1;
+      }
+      hit = true;
+      const nx = dx / d;
+      const ny = dy / d;
+      const over = min - d;
+      ball.x += nx * over;
+      if (ball.mode !== "rest") ball.y += ny * over;
+      const vn = (ball.vx - vm.x) * nx + ((ball.mode === "rest" ? 0 : ball.vy) - vm.y) * ny;
+      if (vn < 0) {
+        ball.vx -= (1 + MAN_E) * vn * nx;
+        if (ball.mode !== "rest") ball.vy -= (1 + MAN_E) * vn * ny;
+        // the snowman rocks like a toy that was hit
+        if (man.mode === "rest") man.angv = clamp(man.angv + vn * nx * 0.25, -130, 130);
+      }
+      if (ball.mode === "air" && ny < -0.7 && Math.abs(nx) < 0.25) ball.vx += (ball.x >= man.x ? 1 : -1) * 60; // it does not balance on a head
+      if (ball.mode === "rest") {
+        ball.vy = 0;
+        settle(ball);
+        if (Math.abs(ball.vx) > 3) wake();
+      }
+    }
+    return hit;
+  };
+  const collide = (dt: number): boolean => {
+    let any = false;
+    for (let i = 0; i < items.length; i++) {
+      const a = items[i];
+      if (a.mode === "new") continue;
+      for (let j = i + 1; j < items.length; j++) {
+        const b = items[j];
+        if (b.mode === "new") continue;
+        if (a.kind === "ball" && b.kind === "ball") any = ballBall(a, b, dt) || any;
+        else if (a.kind === "ball" && b.kind === "man") any = ballMan(a, b, dt) || any;
+        else if (a.kind === "man" && b.kind === "ball") any = ballMan(b, a, dt) || any;
+      }
+    }
+    return any;
   };
 
   // ----- the walls (home grid cards): something inside one is pushed out -----
@@ -278,7 +423,24 @@ export function createWorld(o: {
         it.sq = 0;
         it.sqv = 0;
       }
+      // a snowman that was hit rocks back and forth
+      if (it.kind === "man" && (Math.abs(it.ang) > 0.05 || Math.abs(it.angv) > 0.5)) {
+        awake = true;
+        it.angv += (-110 * it.ang - 6.5 * it.angv) * dt;
+        it.ang = clamp(it.ang + it.angv * dt, -14, 14);
+      } else {
+        it.ang = 0;
+        it.angv = 0;
+      }
       write(it);
+    }
+    if (collide(dt)) {
+      awake = true;
+      for (const it of items) if (it.mode !== "new") write(it);
+    }
+    for (const it of items) {
+      it.lx = it.x;
+      it.ly = it.y;
     }
     raf = awake ? requestAnimationFrame(tick) : 0;
   };
@@ -319,6 +481,8 @@ export function createWorld(o: {
       it.el.setPointerCapture(e.pointerId);
       const p = toLocal(e);
       it.mode = "drag";
+      it.lx = it.x;
+      it.ly = it.y;
       it.gx = p.x - it.x;
       it.gy = p.y - it.y;
       it.vx = 0;
@@ -428,4 +592,25 @@ export function createWorld(o: {
       cleanups.forEach((c) => c());
     },
   };
+}
+
+/**
+ * A thin, still layer of snow along each line (svg markup for the inside of an svg): a lumpy top that thins out at both ends. It is only a drawing: nothing
+ * that falls from above adds to it. `gid` is the id of its own gradient; `amp` makes the lumps higher or lower.
+ */
+export function snowStrips(strips: { x0: number; x1: number; y: number }[], gid: string, amp = 1): string {
+  let svg = `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.55" stop-color="#e8f0ff"/><stop offset="1" stop-color="#b4c8e8"/></linearGradient></defs>`;
+  for (const s of strips) {
+    if (s.x1 - s.x0 < 30) continue;
+    const pts: string[] = [];
+    for (let x = s.x0; x <= s.x1 + 0.1; x += 4) {
+      const e0 = Math.min(1, Math.min(x - s.x0, s.x1 - x) / 26);
+      const e = e0 * e0 * (3 - 2 * e0);
+      const h = (4.3 + 1.6 * Math.sin(x * 0.07) + 1.1 * Math.sin(x * 0.19 + 1.3) + 0.7 * Math.sin(x * 0.43)) * e * amp;
+      pts.push(`${x.toFixed(1)} ${(s.y - h).toFixed(2)}`);
+    }
+    const top = pts.join(" L");
+    svg += `<path d="M${s.x0.toFixed(1)} ${(s.y + 1.5).toFixed(1)} L${top} L${s.x1.toFixed(1)} ${(s.y + 1.5).toFixed(1)} Z" fill="url(#${gid})"/><path d="M${top}" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="1"/>`;
+  }
+  return svg;
 }

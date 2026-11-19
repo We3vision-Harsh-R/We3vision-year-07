@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Ball, House, Snowman, WinterDefs } from "../winter-art";
-import { createWorld, type Floor, type Measured, type Solid, type Spec } from "../winter-world";
+import { createWorld, snowStrips, type Floor, type Measured, type Solid, type Spec } from "../winter-world";
 
 /**
  * WINTER WORLD in the products grid of the home page (task 154, owner 2026-11-19). The same physics as the big menu (winter-world.ts):
@@ -31,22 +31,6 @@ const SPECS: Spec[] = [
 const HOUSE = { w: 210, h: 69, k: "k2", f: 0.43 };
 const SNOW = 4; // the feet stand this far above the hairline (in the snow)
 
-// the soft snow on a floor: a lumpy top that thins out at both ends
-function snowPath(x0: number, x1: number, lineY: number) {
-  const pts: string[] = [];
-  for (let x = x0; x <= x1 + 0.1; x += 4) {
-    const e0 = Math.min(1, Math.min(x - x0, x1 - x) / 26);
-    const e = e0 * e0 * (3 - 2 * e0);
-    const h = (4.3 + 1.6 * Math.sin(x * 0.07) + 1.1 * Math.sin(x * 0.19 + 1.3) + 0.7 * Math.sin(x * 0.43)) * e;
-    pts.push(`${x.toFixed(1)} ${(lineY - h).toFixed(2)}`);
-  }
-  const top = pts.join(" L");
-  return {
-    fill: `M${x0.toFixed(1)} ${(lineY + 1.5).toFixed(1)} L${top} L${x1.toFixed(1)} ${(lineY + 1.5).toFixed(1)} Z`,
-    line: `M${top}`,
-  };
-}
-
 export function HomeWinterWorld() {
   const layerRef = useRef<HTMLDivElement>(null);
   const capsRef = useRef<SVGSVGElement>(null);
@@ -59,6 +43,7 @@ export function HomeWinterWorld() {
     const house = houseRef.current;
     if (!layer || !grid || !caps || !house) return;
     const mq = window.matchMedia("(min-width: 1024px)");
+    let lastSnow = "";
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const measure = (): Measured | null => {
@@ -121,13 +106,15 @@ export function HomeWinterWorld() {
           return { fl, x };
         },
         after: () => {
-          // the snow on the floors
-          let svg = `<defs><linearGradient id="wh-cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.55" stop-color="#e8f0ff"/><stop offset="1" stop-color="#b4c8e8"/></linearGradient></defs>`;
-          for (const f of floors) {
-            const p = snowPath(f.x0 + 1, f.x1 - 1, f.y + SNOW);
-            svg += `<path d="${p.fill}" fill="url(#wh-cg)"/><path d="${p.line}" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="1"/>`;
+          // the snow on the floors (only redrawn when the floors moved)
+          const svg = snowStrips(
+            floors.map((f) => ({ x0: f.x0 + 1, x1: f.x1 - 1, y: f.y + SNOW })),
+            "wh-cg",
+          );
+          if (svg !== lastSnow) {
+            lastSnow = svg;
+            caps.innerHTML = svg;
           }
-          caps.innerHTML = svg;
           // the house
           const hf = find(HOUSE.k, HOUSE.f * W);
           if (hf) {

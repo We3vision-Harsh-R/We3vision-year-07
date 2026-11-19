@@ -2,15 +2,16 @@
 
 import { useEffect, useRef } from "react";
 import { Ball, House, Snowman, WinterDefs } from "./winter-art";
-import { createWorld, type Floor, type Measured, type Spec, type World } from "./winter-world";
+import { createWorld, snowStrips, type Floor, type Measured, type Spec, type World } from "./winter-world";
 
 /**
  * WINTER WORLD in the big menu (task 153, owner 2026-11-19; the physics moved to winter-world.ts in task 154).
  *
- *  - The lines under the headings of the menu (Development, Creatives ... Our products, Explore, Industrial training) and the bottom of the panel are
- *    FLOORS. They are measured from the real elements, so the world fits every width of the menu.
+ *  - FLOORS (the owner drew them in red, 2026-11-19): the line under every heading (Development, Creatives, E-commerce, Branding, Marketing, Our Products,
+ *    Explore, Industrial Training), the top edge of the "Recognised by" box and the bottom of the panel. Each one has a thin, still layer of snow (it does
+ *    not grow). They are measured from the real elements, so the world fits every width of the menu. The border of the menu itself is not touched.
  *  - Two small snowmen and two snowballs stand on the floors where the owner marked them; a small snow house stands on the bottom floor.
- *  - Drag, drop, bounce, roll, hop: see winter-world.ts. Positions are kept while the menu is closed.
+ *  - Drag, drop, bounce, roll, hop, and balls that push each other away: see winter-world.ts. Positions are kept while the menu is closed.
  *  - Laptop/desktop only (the layer is hidden below 1024px by CSS), pointer-events only on the items themselves, the loop sleeps when nothing moves.
  */
 
@@ -24,9 +25,11 @@ const SPECS: Spec[] = [
   { id: "man-d", kind: "man", w: 44, h: 58, floor: "bottom", f: 0.471 },
 ];
 const HOUSE = { w: 168, h: 55, f: 0.82 };
+const SNOW = 3; // the feet stand this far above the line (in the snow)
 
 export function WinterMenu({ open }: { open: boolean }) {
   const layerRef = useRef<HTMLDivElement>(null);
+  const capsRef = useRef<SVGSVGElement>(null);
   const world = useRef<World | null>(null);
 
   // the world is built once: the items keep their place while the menu is closed
@@ -35,6 +38,8 @@ export function WinterMenu({ open }: { open: boolean }) {
     const pop = layer?.parentElement;
     if (!layer || !pop) return;
     const house = layer.querySelector<HTMLElement>(".wm-house");
+    const caps = capsRef.current;
+    let lastSnow = "";
     let span = { x0: 0, x1: 0 }; // the part of the bottom floor where the owner's places were marked (from the left of the menu to the column on the right)
 
     // the rows of the menu rise one after the other when it opens (a translateY): the floors are measured without it
@@ -56,23 +61,27 @@ export function WinterMenu({ open }: { open: boolean }) {
       const W = layer.offsetWidth;
       const H = layer.offsetHeight;
       if (W < 300 || H < 200) return null;
-      const raw: Floor[] = [];
+      const floors: Floor[] = [];
+      const strips: { x0: number; x1: number; y: number }[] = [];
+      const add = (key: string, x0: number, x1: number, line: number) => {
+        floors.push({ keys: [key], x0, x1, y: line - SNOW });
+        strips.push({ x0, x1, y: line });
+      };
+      // the line under every heading (each one is its own floor)
       pop.querySelectorAll<HTMLElement>(".mm-sub-t, .mm-row3 .mm-col-t").forEach((el, i) => {
         const r = el.getBoundingClientRect();
         if (r.width < 30 || r.height < 4) return;
         const key = el.closest(".mm-expl") ? "expl" : el.closest(".mm-train") ? "train" : el.closest(".mm-prod") ? "prod" : `sub${i}`;
-        raw.push({ keys: [key], x0: (r.left - lr.left) / s, x1: (r.right - lr.left) / s, y: (r.bottom - lr.top) / s - rise(el) - 1 });
+        add(key, (r.left - lr.left) / s, (r.right - lr.left) / s, (r.bottom - lr.top) / s - rise(el) - 1);
       });
-      raw.sort((a, b) => a.y - b.y || a.x0 - b.x0);
-      // lines that touch each other on the same height are one floor (Explore + Industrial training)
-      const merged: Floor[] = [];
-      for (const f of raw) {
-        const prev = merged[merged.length - 1];
-        // (Explore and Industrial training are one floor even when there is a gap between their lines: the owner drew one line)
-        if (prev && Math.abs(prev.y - f.y) < 3 && (f.x0 - prev.x1 < 40 || (prev.keys.includes("expl") && f.keys.includes("train")))) {
-          prev.x1 = Math.max(prev.x1, f.x1);
-          prev.keys.push(...f.keys);
-        } else merged.push({ ...f, keys: [...f.keys] });
+      // the top edge of the "Recognised by" box (the straight part, inside its round corners)
+      const rec = pop.querySelector<HTMLElement>(".mm-rec");
+      if (rec) {
+        const r = rec.getBoundingClientRect();
+        if (r.width > 60) {
+          const rad = (parseFloat(getComputedStyle(rec).borderTopLeftRadius) || 16) * 0.7;
+          add("rec", (r.left - lr.left) / s + rad, (r.right - lr.left) / s - rad, (r.top - lr.top) / s - rise(rec) + 1);
+        }
       }
       const nav = pop.querySelector<HTMLElement>(".mm-nav");
       if (!nav) return null;
@@ -82,22 +91,36 @@ export function WinterMenu({ open }: { open: boolean }) {
       const navR = (nr.right - lr.left) / s; // (the right end of the menu text)
       const endL = end && end.getBoundingClientRect().width > 20 ? (end.getBoundingClientRect().left - lr.left) / s - 6 : navR;
       span = { x0: navL, x1: endL };
-      const bottom: Floor = { keys: ["bottom"], x0: 0, x1: W, y: H - 10 }; // the panel floor: the whole width, so nothing can fall out of the menu
-      const floors = [...merged, bottom].sort((a, b) => a.y - b.y);
+      // the panel floor: the whole width for the physics (nothing can fall out of the menu), the snow only where the text is
+      const bottom: Floor = { keys: ["bottom"], x0: 0, x1: W, y: H - 10 - SNOW };
+      strips.push({ x0: navL, x1: navR, y: H - 10 });
+      floors.push(bottom);
+      floors.sort((a, b) => a.y - b.y || a.x0 - b.x0);
       return {
         W,
         H,
         floors,
         safety: bottom,
         home: (sp) => {
-          const fl = (sp.floor === "expl" ? floors.find((f) => f.keys.includes("expl")) : bottom) ?? bottom;
-          const r = fl.keys.includes("bottom") ? span : fl;
-          return { fl, x: r.x0 + sp.f * (r.x1 - r.x0) };
+          if (sp.floor === "expl") {
+            // the owner's marks lie along Explore + the space to the right of it (Industrial Training), so they keep their places
+            const fl = floors.find((f) => f.keys.includes("expl")) ?? bottom;
+            const tr = floors.find((f) => f.keys.includes("train"));
+            return { fl, x: fl.x0 + sp.f * ((tr ? tr.x1 : fl.x1) - fl.x0) };
+          }
+          return { fl: bottom, x: span.x0 + sp.f * (span.x1 - span.x0) };
         },
         after: () => {
+          if (caps) {
+            const svg = snowStrips(strips, "wm-cg", 0.65);
+            if (svg !== lastSnow) {
+              lastSnow = svg;
+              caps.innerHTML = svg;
+            }
+          }
           if (!house) return;
           const hx = span.x0 + HOUSE.f * (span.x1 - span.x0);
-          house.style.transform = `translate(${(hx - HOUSE.w / 2).toFixed(1)}px,${(bottom.y - HOUSE.h + 2).toFixed(1)}px)`;
+          house.style.transform = `translate(${(hx - HOUSE.w / 2).toFixed(1)}px,${(bottom.y + SNOW - HOUSE.h + 2).toFixed(1)}px)`;
         },
       };
     };
@@ -139,6 +162,7 @@ export function WinterMenu({ open }: { open: boolean }) {
   return (
     <div ref={layerRef} className="wm" aria-hidden>
       <WinterDefs gid={GID} />
+      <svg ref={capsRef} className="wm-caps" aria-hidden />
       <div className="wm-house" style={{ width: HOUSE.w, height: HOUSE.h }}>
         <House />
       </div>

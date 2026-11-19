@@ -10,3 +10,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 152 | Winter theme preview: physics snow + snow cap on the floating menu bar | done |
 | 153 | Winter: less front snow; big menu snow world (floors on heading lines, draggable snowballs, snowmen, house) | done |
 | 154 | Winter world in the home products grid | done |
+| 155 | Winter menu: red-line floors, thin still snow, ball collisions | done |

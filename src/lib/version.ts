@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 171,
+    date: "2026-11-19",
+    title: "Winter menu: new floors, a thin still layer of snow and snowballs that bounce off each other",
+    notes: [
+      "In the big menu the floors are the line under every heading (Our Products, Explore and Industrial Training are now separate lines), the top edge of the Recognised by box and the bottom of the panel. The border of the menu is not touched.",
+      "Every floor has a thin layer of snow. It stays as it is: the snow that falls from above does not add to it.",
+      "Snowballs bounce off each other and push each other away. A ball that lands on top of another rolls off to the side, a ball that hits a snowman rebounds and the snowman rocks like a toy, and a ball held with the mouse pushes the others. The home page products grid has the same physics.",
+    ],
+  },
+  {
     v: 170,
     date: "2026-11-19",
     title: "Winter theme: snow on the menu bar, a snow world in the big menu and in the products grid",
