@@ -1,7 +1,9 @@
 {
-  "note": "KB gzip, first load of any page; written by tools/perf-budget.mjs --update",
+  "note": "KB gzip, first load of a page; written by tools/perf-budget.mjs --update (maximum of any page; averages of the laptop pages and of the phone app /m separately)",
   "maxJsGz": 233,
   "maxCssGz": 122,
-  "avgJsGz": 181,
-  "avgCssGz": 68
+  "avgLaptopJsGz": 182,
+  "avgLaptopCssGz": 96,
+  "avgPhoneJsGz": 186,
+  "avgPhoneCssGz": 30
 }
