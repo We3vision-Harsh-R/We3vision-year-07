@@ -906,3 +906,34 @@ details.ma-acc[open] > summary { font-weight: 500; }
 
 /* bttl-: a long page name in the top bar (Mobile App Development) fits without the dots */
 .ma-bar-title { font-size: clamp(14px, 4vw, 16px); letter-spacing: -0.3px; }
+
+/* ty-: ONE type scale for every phone page (owner, 2026-11-20: "all fonts a little smaller, more white space, the same heading size on every page").
+   Page title 26px, section heading 22px, card heading 18px; paragraphs stay at 16px and labels at 14px. Only the SIZE is set here (the pages keep their
+   own weight / colour). Phones only (up to 699px). "[data-page]" makes it win over the page files. */
+@media (max-width: 699.98px) {
+  html .ma-root[data-page] h1,
+  html .ma-root[data-page] .ma-title,
+  html .ma-root[data-page] .ma-large .ma-title,
+  html .ma-root[data-page] .ma-large.is-long .ma-title,
+  html .ma-root[data-page] .ma-hero .ma-title2,
+  html .ma-root[data-page] .gtc-hero .mp-con-h {
+    font-size: 26px;
+    line-height: 1.16;
+  }
+  html .ma-root[data-page] h2,
+  html .ma-root[data-page] .ma-h2,
+  html .ma-root[data-page] .ma-sec:has(> .ma-s27) .ma-h2 {
+    font-size: 22px;
+    line-height: 1.22;
+  }
+  html .ma-root[data-page] .mp-about-slide h3,
+  html .ma-root[data-page] .ma-card h3,
+  html .ma-root[data-page] [class*="-step"] h3,
+  html .ma-root[data-page] [class*="-vcard"] h3 {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+  html .ma-root[data-page] .ma-sec { padding-top: 80px; }
+  html .ma-root[data-page] .ma-sec-head { margin-bottom: 26px; }
+  html .ma-root[data-page] .ma-sec-head .ma-intro { margin-top: 12px; }
+}
