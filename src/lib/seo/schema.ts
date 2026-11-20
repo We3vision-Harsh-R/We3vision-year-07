@@ -1,6 +1,7 @@
 import type { BlogEntry } from "@/lib/blog-shared";
 import type { SiteSettings } from "@/lib/cms/settings";
 import { siteBase } from "@/lib/seo-ping";
+import { SERVICE_GROUPS } from "@/lib/site-menu";
 
 // SHARED STRUCTURED DATA (schema.org JSON-LD). One place that knows the company, so every page describes We3vision the same way and the pieces
 // point at each other by @id (Organization <- WebSite <- WebPage <- Service / Article / FAQPage). Server only (it reads the site address).
@@ -26,6 +27,12 @@ const KNOWS_ABOUT = [
   "Brand and graphic design",
   "3D modeling and animation",
   "CRM and custom software development",
+  "Website design",
+  "Shopify and WordPress development",
+  "Headless CMS development",
+  "Brand identity and logo design",
+  "SEO and answer engine optimization (AEO)",
+  "Social media and Meta marketing",
 ];
 
 type Office = { label: string; street: string; locality: string; region?: string; postalCode: string; country: string; proof: string };
@@ -56,6 +63,22 @@ const isPhone = (l: string) => /^\+?\d[\d\s().-]{6,}$/.test(l);
 /** The company in one sentence (facts of the About and Home pages). */
 export const COMPANY_DESCRIPTION =
   "We3vision Private Limited is a software and digital company in Surat, India, founded in 2019. It builds websites, mobile apps, AI solutions, AR/VR and metaverse experiences, games, UI/UX design, brand design, CRM and custom software for businesses in India and worldwide.";
+
+/** Every service of the menu, grouped like the menu, as the company's catalogue. Each item points at the same Service @id as its own page
+ *  (serviceNode), so search engines and AI assistants see one company connected to each of its service pages. */
+function offerCatalog(base: string) {
+  return {
+    "@type": "OfferCatalog",
+    name: "Services of We3vision",
+    itemListElement: SERVICE_GROUPS.map((g) => ({
+      "@type": "OfferCatalog",
+      name: g.label,
+      itemListElement: g.items
+        .filter((i) => i.href.startsWith("/"))
+        .map((i) => ({ "@type": "Offer", itemOffered: { "@type": "Service", "@id": `${base}${i.href}#service`, name: i.label, url: `${base}${i.href}` } })),
+    })),
+  };
+}
 
 /** The full company entity (home page and contact page). */
 export function organizationNode(site: SiteSettings) {
@@ -91,6 +114,7 @@ export function organizationNode(site: SiteSettings) {
     ...(offices.length ? { location: offices.map((o) => ({ "@type": "Place", name: o.label, address: postal(o) })) } : {}),
     areaServed: AREA_SERVED,
     knowsAbout: KNOWS_ABOUT,
+    hasOfferCatalog: offerCatalog(base),
     sameAs: site.social.map((s) => s.href).filter((href) => href.startsWith("http")),
     ...(contactPoints.length ? { contactPoint: contactPoints } : {}),
   };

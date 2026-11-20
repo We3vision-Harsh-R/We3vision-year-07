@@ -31,6 +31,27 @@ export function homeFaq(site: SiteSettings): HomeFaqItem[] {
       link: "AI development services",
     },
     {
+      question: "Does We3vision provide UI/UX design services?",
+      answer:
+        "Yes. We3vision is a UI/UX design company in Surat, India. Its designers do UX research, wireframes, prototypes, UI design, design systems and usability testing for websites, web apps and mobile apps, so the product is easy to use and looks good.",
+      href: "/ui-ux-design",
+      link: "UI/UX design services",
+    },
+    {
+      question: "Can We3vision design and build a website for my business?",
+      answer:
+        "Yes. We3vision designs and develops fast, secure, SEO-friendly websites: WordPress, WooCommerce, Shopify, headless CMS and custom web portals, with a design made for your business and an admin you can manage yourself.",
+      href: "/webdev",
+      link: "Web development",
+    },
+    {
+      question: "Does We3vision do brand identity, logo and graphic design?",
+      answer:
+        "Yes. We3vision offers brand strategy, logo design, visual identity, brand guidelines and brand kits, and graphic design for social media, packaging, print and illustration, made in Illustrator, Photoshop and InDesign.",
+      href: "/brand-identity",
+      link: "Brand identity design",
+    },
+    {
       question: "Does We3vision develop AR and VR applications?",
       answer:
         "Yes. We3vision builds VR and AR experiences, 3D worlds and showrooms, and real-time 3D for the web, using tools such as Unity and Unreal Engine. The metaverse page shows examples, including a VR simulation of the coal mining process and a metaverse roadwork digitization project.",

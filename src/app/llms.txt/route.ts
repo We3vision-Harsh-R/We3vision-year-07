@@ -73,7 +73,7 @@ export async function GET() {
   for (const c of cards) out.push(`- ${c.title}: ${c.lines.join(", ")}`);
   out.push(`- Contact form: ${base}/contact`, "");
 
-  out.push("## Optional", "", `- [XML sitemap](${base}/sitemap.xml)`, `- [Sitemap for people](${base}/sitemap)`, "");
+  out.push("## Optional", "", `- [Full guide for AI assistants](${base}/llms-full.txt)`, `- [XML sitemap](${base}/sitemap.xml)`,`- [Sitemap for people](${base}/sitemap)`, "");
 
   return new Response(out.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600, s-maxage=3600" } });
 }
