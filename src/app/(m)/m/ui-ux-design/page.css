@@ -142,3 +142,25 @@
 .ma-root[data-page="ui-ux-design"] .ma-chip { min-height: 0; padding: 0; border: 0; background: none; border-radius: 0; font-size: 13px; font-weight: 500; color: var(--ma-tint); }
 .ma-root[data-page="ui-ux-design"] .ma-chip::before { content: "#"; margin-right: 5px; opacity: 0.8; }
 .ma-root[data-page="ui-ux-design"] .ma-sec-head > .ma-h2 { margin-top: 8px; }
+
+/* uxh-: the UI/UX page in the home page theme: the hero without the design-tool selection frame, the heading in the one type scale */
+@media (max-width: 699.98px) {
+  .ma-root.ma-home .mp-ux-sel {
+    margin-top: 10px;
+    padding: 0;
+    border: 0;
+  }
+  .ma-root.ma-home .mp-ux-sel > i {
+    display: none;
+  }
+  .ma-root.ma-home .mp-ux-h {
+    font-size: 26px;
+    line-height: 1.16;
+    letter-spacing: -0.015em;
+  }
+  .ma-root.ma-home .mp-ux-t {
+    font-size: 16px;
+    line-height: 1.62;
+    letter-spacing: 0;
+  }
+}
