@@ -1,0 +1,52 @@
+/* GTA theme: laptop and desktop only (task 162) */
+.vc {
+  display: none;
+}
+@media (min-width: 1024px) {
+  /* The background of the two empty cells at the bottom left of the home products grid (tasks 161 + 164; prefix vc-; components/site/home/home-vice.tsx):
+     a purple-to-plum gradient with a soft city skyline and palms. Colours: the theme hue plus an offset, so the colour picker moves them too. It is under the
+     winter layer: the snow floor, the snowballs and the snowman stand on it. */
+  .vc {
+    display: block;
+    position: relative;
+    z-index: 0;
+    min-width: 0;
+    overflow: hidden;
+    border-right: 1px solid var(--line);
+  }
+  .vc svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .vc-sky-a {
+    stop-color: hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 19%);
+  }
+  .vc-sky-b {
+    stop-color: hsl(calc(var(--th) + 26) calc(55% * var(--ts)) 30%);
+  }
+  .vc-haze-a {
+    stop-color: hsl(calc(var(--th) + 40) calc(80% * var(--ts)) 60% / 0);
+  }
+  .vc-haze-b {
+    stop-color: hsl(calc(var(--th) + 40) calc(80% * var(--ts)) 60% / 0.22);
+  }
+  .vc-back {
+    fill: hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 62% / 0.14);
+  }
+  .vc-mid {
+    fill: hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 66% / 0.26);
+  }
+  .vc-line {
+    fill: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 78% / 0.22);
+  }
+  .vc-trunk {
+    fill: none;
+    stroke: hsl(calc(var(--th) + 340) calc(50% * var(--ts)) 8% / 0.85);
+    stroke-width: 6;
+    stroke-linecap: round;
+  }
+  .vc-palm {
+    fill: hsl(calc(var(--th) + 340) calc(50% * var(--ts)) 8% / 0.85);
+  }
+}

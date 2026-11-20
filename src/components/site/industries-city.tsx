@@ -5,6 +5,8 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { IndustryIcon } from "./icons";
 import { Box, CITY_R, LANE_BOT, LANE_TOP, PH, PITCH, PW, Piece, Vehicle, district, kindOf } from "./city-scene";
+import { GTA_ON } from "@/lib/gta"; // GTA theme (task 156): only the neon night look here (the ring road has no route line or minimap)
+import "@/styles/gta-city.css";
 
 type Item = { name: string; description: string };
 
@@ -187,7 +189,7 @@ export function IndustriesCity({ items }: { items: Item[] }) {
   const LAMPS = Array.from({ length: geo.cols * 5 }, (_, i) => 40 + i * 128);
 
   return (
-    <div ref={trackRef} className="cm-track" data-pin={n > 1} style={{ "--n": n } as React.CSSProperties}>
+    <div ref={trackRef} className={GTA_ON ? "cm-track gt-c" : "cm-track"} data-pin={n > 1} style={{ "--n": n } as React.CSSProperties}>
       {/* the real content: a list (the only thing shown on a tablet and a phone) */}
       <ol className="cm-list">
         {items.map((it, i) => (
@@ -276,6 +278,7 @@ export function IndustriesCity({ items }: { items: Item[] }) {
               </div>
             </div>
           </div>
+          {GTA_ON && <i className="gt-c-haze" aria-hidden />}
 
           <div className="cm-ui">
             {/* the districts (click to drive there) */}

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService } from "../../lib/ai-chat";
 import { PandaMini } from "./about/panda-mini";
 import dynamic from "next/dynamic";
+import { chatFull, openChatOverlay } from "@/lib/chat-overlay"; // every question opens the full-screen chat
 
 const MenuMd = dynamic(() => import("./chat-md").then((m) => m.MenuMd), { ssr: false });
 
@@ -67,6 +68,11 @@ export function AiChat() {
   const send = async (raw: string) => {
     const q = raw.trim();
     if (!q || busy) return;
+    if (chatFull()) {
+      setText("");
+      openChatOverlay({ question: q, serviceId: selectedServiceId });
+      return;
+    }
     const next: ChatMessage[] = [...messages, { role: "user", text: q }];
     setMessages(next);
     setText("");

@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 173,
+    date: "2026-11-20",
+    title: "GTA-style theme on the laptop home page, game development page, blog covers",
+    notes: [
+      "Laptop and desktop home page in a GTA-style theme (phones and tablets keep their own design): mission cards on the services, a neon night city with a minimap and a route line, seven stars that fill as you scroll, a loading screen and a mission-failed 404.",
+      "The footer has a neon We3vision word that follows the cursor and a Miami skyline in our own drawing. The home FAQ is a game phone with chat bubbles, the contact area has a message route map and a full-screen chat, and the products grid has a soft city skyline background.",
+      "One switch (GTA_ON in src/lib/gta.ts) turns the whole theme off.",
+      "New page: Game Development, with a series of GTA-style game articles. Every blog article has its own box shape (landscape, square, portrait, tall) with a cover drawn for that shape.",
+    ],
+  },
+  {
     v: 172,
     date: "2026-11-19",
     title: "Phone: contact page in the GTA style, forms that keep what you typed, AI page chips",

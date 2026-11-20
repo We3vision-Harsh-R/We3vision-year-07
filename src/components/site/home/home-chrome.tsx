@@ -5,6 +5,11 @@ import { getSiteSettings } from "@/lib/cms/queries";
 import { TopLink } from "@/components/site/footer-word";
 import { HomeFx } from "./home-fx";
 import { SERVICES } from "./home-svc-data";
+import { HomeFooterWord } from "./home-footer-word";
+import { HomeMissionBanner } from "./home-mission-banner";
+import { HomeMiami } from "./home-miami";
+import "@/styles/gta-device.css";
+import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (neon footer word)
 
 // The frame of every page in the home design: the page root (.hb2, with the scroll life of home-fx), the footer and the bottom menu. The site footer is hidden on these pages
 // by home.css (body:has(.hb2)); the site menu (floating nav) stays as it is.
@@ -41,9 +46,10 @@ export async function HomeFooter() {
   // the first +91 phone number of the contact cards goes under the e-mail of the head office
   const phone = site.contactCards.flatMap((c) => c.lines.split("\n")).find((t) => /^\+91[\d\s]{8,}$/.test(t.trim()));
   return (
-    <footer className="hb2-f" data-pause-off>
+    <footer className="hb2-f" data-pause-off data-gta={GTA_ON ? "" : undefined}>
       <span className="hb2-f-beam" aria-hidden />
       <div className="hb2-wrap">
+        {GTA_ON && <HomeMissionBanner />}
         {/* the recognitions (Admin > Settings > badges: Startup India, MSME) */}
         {site.badges.some((b) => b.image) && (
           <div className="hb2-f-rec">
@@ -145,13 +151,27 @@ export async function HomeFooter() {
                 <path d="M12 19V5M5 12l7-7 7 7" />
               </svg>
             </span>
-            <span className="hb2-f-uptx">Back to the top</span>
+            <span className="hb2-f-uptx">
+              {GTA_ON ? (
+                <>
+                  <span className="gt-dk">Respawn at the top</span>
+                  <span className="gt-pk">Back to the top</span>
+                </>
+              ) : (
+                "Back to the top"
+              )}
+            </span>
           </TopLink>
         </div>
       </div>
-      <p className="hb2-f-big" aria-hidden>
-        We3vision
-      </p>
+      {GTA_ON && <HomeMiami />}
+      {GTA_ON ? (
+        <HomeFooterWord />
+      ) : (
+        <p className="hb2-f-big" aria-hidden>
+          We3vision
+        </p>
+      )}
     </footer>
   );
 }

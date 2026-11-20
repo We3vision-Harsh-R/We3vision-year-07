@@ -4,7 +4,7 @@
 // Each picture shows the subject of its article (a streamed map, a car with its springs, a path on a grid, servers and players ...). The middle band stays calm
 // because social networks crop a 16:9 picture to a wider shape. The alt text of the pictures is the title of the article (components/site/blog-post.tsx).
 import sharp from "sharp";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 
 const W = 1600;
 const H = 900;
@@ -276,6 +276,57 @@ const covers = {
     return s;
   },
   // the two first articles of the blog (their pictures are public/images/blog/ui-ux-design.webp and ai-automation.webp)
+  "ui-ux-design": () => {
+    const edge = 'stroke="#7a52d6" stroke-width="4"';
+    let s = "";
+    // a phone wireframe
+    s += rr(330, 170, 300, 540, 38, "#1b0c33", edge);
+    s += rr(400, 190, 160, 20, 10, "#000000");
+    s += rr(360, 240, 240, 36, 10, "#2b1650") + circ(384, 258, 9, C.pink);
+    s += rr(360, 296, 240, 150, 14, "#3b2a66") + path("M380 420 L430 360 L470 400 L520 340 L580 420", C.cyan, 4);
+    s += rr(360, 466, 150, 14, 7, "#5b3fa0") + rr(360, 492, 200, 14, 7, "#3b2a66") + rr(360, 518, 120, 14, 7, "#3b2a66");
+    s += rr(360, 580, 240, 56, 28, C.pink) + rr(392, 603, 176, 10, 5, "#1d0a33");
+    s += rr(360, 654, 240, 30, 15, "#241347");
+    // a browser window
+    s += rr(720, 230, 560, 380, 22, "#1b0c33", edge);
+    s += rr(720, 230, 560, 52, 22, "#2b1650") + circ(752, 256, 7, C.pink) + circ(776, 256, 7, C.sun) + circ(800, 256, 7, C.cyan);
+    const cards = [[750, 312, "#3b2a66"], [930, 312, "#2f1c58"], [1110, 312, "#3b2a66"], [750, 462, "#2f1c58"], [930, 462, "#3b2a66"], [1110, 462, "#2f1c58"]];
+    cards.forEach(([x, y, c], i) => {
+      s += rr(x, y, 150, 120, 14, c, i === 4 ? `stroke="${C.cyan}" stroke-width="4"` : "") + rr(x + 16, y + 74, 90, 10, 5, "#5b3fa0") + rr(x + 16, y + 94, 60, 10, 5, "#4a3188");
+    });
+    // a cursor on the chosen card, and a dashed flow from the phone to the page
+    s += pl([[640, 440], [690, 400], [720, 410]], C.pink, 4, 'stroke-dasharray="10 12"');
+    s += ring(1034, 560, 30, C.pink, 3, 'opacity="0.6"') + poly([[1020, 540], [1020, 600], [1036, 586], [1050, 616], [1064, 610], [1050, 580], [1070, 576]], C.white, C.bg1, 3);
+    // the palette
+    [C.pink, C.sun, C.cyan, C.lilac].forEach((c, i) => (s += circ(780 + i * 66, 676, 22, c)));
+    return s;
+  },
+  "ai-automation": () => {
+    const edge = 'stroke="#7a52d6" stroke-width="4"';
+    let s = "";
+    // three things come in (an e-mail, a form, a chat) ...
+    const ins = [210, 380, 550];
+    s += rr(250, ins[0] - 46, 150, 92, 18, "#1b0c33", edge) + rect(274, ins[0] - 22, 102, 56, "#3b2a66") + pl([[274, ins[0] - 22], [325, ins[0] + 12], [376, ins[0] - 22]], C.sun, 4);
+    s += rr(250, ins[1] - 46, 150, 92, 18, "#1b0c33", edge) + rr(274, ins[1] - 28, 102, 12, 6, "#5b3fa0") + rr(274, ins[1] - 6, 70, 12, 6, "#3b2a66") + rr(274, ins[1] + 16, 90, 12, 6, "#3b2a66");
+    s += rr(250, ins[2] - 46, 150, 92, 18, "#1b0c33", edge) + rr(274, ins[2] - 30, 78, 38, 14, C.cyan, 'opacity="0.85"') + rr(326, ins[2] - 2, 56, 30, 12, C.pink, 'opacity="0.85"');
+    // ... the AI in the middle ...
+    s += circ(800, 380, 190, C.lilac, 'opacity="0.12" filter="url(#g1)"');
+    s += circ(800, 380, 130, "#1b0c33", edge) + ring(800, 380, 100, C.cyan, 3, 'opacity="0.7"') + circ(800, 380, 52, C.pink);
+    for (let k = 0; k < 12; k++) {
+      const a = (k / 12) * Math.PI * 2;
+      s += line(800 + Math.cos(a) * 62, 380 + Math.sin(a) * 62, 800 + Math.cos(a) * 100, 380 + Math.sin(a) * 100, C.cyan, 3, 'opacity="0.7"') + circ(800 + Math.cos(a) * 100, 380 + Math.sin(a) * 100, 6, C.cyan);
+    }
+    s += circ(782, 372, 8, "#1d0a33") + circ(818, 372, 8, "#1d0a33") + path("M780 398 Q800 416 820 398", "#1d0a33", 5);
+    // ... and the work that is done comes out (checked boxes)
+    const outs = [210, 380, 550];
+    outs.forEach((y, i) => {
+      s += rr(1200, y - 46, 150, 92, 18, "#1b0c33", edge) + rr(1224, y - 22, 44, 44, 12, i === 1 ? C.sun : C.cyan) + path(`M1234 ${y} L1244 ${y + 11} L1260 ${y - 12}`, "#1d0a33", 6) + rr(1282, y - 16, 44, 10, 5, "#5b3fa0") + rr(1282, y + 6, 30, 10, 5, "#3b2a66");
+    });
+    // the flows
+    ins.forEach((y) => (s += path(`M400 ${y} C 520 ${y}, 560 380, 668 380`, C.pink, 4, "none", 'stroke-dasharray="12 12"')));
+    outs.forEach((y) => (s += path(`M932 380 C 1040 380, 1080 ${y}, 1200 ${y}`, C.cyan, 4, "none", 'stroke-dasharray="12 12"')));
+    return s;
+  },
 };
 function glowless() { return ""; }
 
@@ -300,14 +351,44 @@ export function coverSvg(slug) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.bg1}"/><stop offset="1" stop-color="${C.bg2}"/></linearGradient>${glow("g1", C.pink, 14)}</defs>${rect(0, 0, W, H, "url(#bg)")}${stars}${skyline(slug.length)}${draw()}</svg>`;
 }
 
+// THE BOX SHAPES OF THE BLOG PAGE (lib/blog-shared.ts TILES): the picture of an article is drawn for the shape of its box, so nothing important is cut. The scene
+// (drawn 1600 x 900) is placed in the middle of the canvas; the sides that do not fit are cropped, the room above is more night sky with stars and the room
+// below is the neon floor of the city (a perspective grid). src/lib/blog-tiles.json says which article has which shape (lib/blog.ts reads the same file).
+const SHAPES = { landscape: [1200, 864, 0.96], square: [1200, 1200, 0.9], portrait: [900, 1200, 0.8], tall: [900, 1600, 0.8] };
+export function coverSvgFor(key, tile = "landscape") {
+  const draw = covers[key];
+  if (!draw) throw new Error("no cover drawn for " + key);
+  const [Wt, Ht, sc] = SHAPES[tile] ?? SHAPES.landscape;
+  const tx = (Wt - W * sc) / 2;
+  const ty = Ht / 2 - (H / 2) * sc;
+  const gy = ty + 800 * sc; // the ground line of the scene
+  const fy = ty + H * sc; // where the ground of the scene ends
+  const r = rnd(key.length);
+  let stars = "";
+  const n = Math.round((70 * Wt * Ht) / (W * H));
+  for (let k = 0; k < n; k++) stars += circ(r() * Wt, r() * gy * 0.97, 1 + r() * 2, C.white, `opacity="${0.15 + r() * 0.4}"`);
+  let floor = "";
+  if (Ht - fy > 2) {
+    floor += rect(0, fy - 1, Wt, Ht - fy + 1, "#07010d");
+    if (Ht - fy > 60) {
+      for (let k = -14; k <= 14; k++) floor += line(Wt / 2, gy, Wt / 2 + k * Wt * 0.2, Ht, C.pink, 2, 'opacity="0.17"');
+      for (let j = 1; j <= 7; j++) floor += line(0, fy + (Ht - fy) * (j / 7) ** 2, Wt, fy + (Ht - fy) * (j / 7) ** 2, C.pink, 2, 'opacity="0.15"');
+    }
+  }
+  const hz = `<radialGradient id="hz" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="${C.pink}" stop-opacity="0.22"/><stop offset="1" stop-color="${C.pink}" stop-opacity="0"/></radialGradient>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${Wt}" height="${Ht}" viewBox="0 0 ${Wt} ${Ht}"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.bg1}"/><stop offset="1" stop-color="${C.bg2}"/></linearGradient>${glow("g1", C.pink, 14)}${hz}</defs>${rect(0, 0, Wt, Ht, "url(#bg)")}<ellipse cx="${f(Wt / 2)}" cy="${f(gy)}" rx="${f(Wt * 0.8)}" ry="${f(Ht * 0.3)}" fill="url(#hz)"/>${stars}${floor}<g transform="translate(${f(tx)} ${f(ty)}) scale(${sc})">${skyline(key.length)}${draw()}</g></svg>`;
+}
+
 export const SLUGS = Object.keys(covers);
 
 if (process.argv[1] && process.argv[1].replace(/\\/g, "/").endsWith("make-blog-covers.mjs")) {
   const only = process.argv[2] ?? "";
   mkdirSync("public/images/blog", { recursive: true });
+  const tiles = JSON.parse(readFileSync("src/lib/blog-tiles.json", "utf8"));
   for (const slug of SLUGS.filter((s) => s.includes(only))) {
     const out = `public/images/blog/${slug}.webp`;
-    const info = await sharp(Buffer.from(coverSvg(slug))).webp({ quality: 82 }).toFile(out);
-    console.log(out, `${Math.round(info.size / 1024)} KB`);
+    const tile = tiles[slug] ?? "landscape";
+    const info = await sharp(Buffer.from(coverSvgFor(slug, tile))).webp({ quality: 82 }).toFile(out);
+    console.log(out, tile, `${info.width}x${info.height}`, `${Math.round(info.size / 1024)} KB`);
   }
 }

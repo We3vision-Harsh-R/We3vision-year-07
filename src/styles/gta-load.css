@@ -1,0 +1,116 @@
+/* GTA theme: laptop and desktop only (task 162) */
+.gt-ld {
+  display: none;
+}
+@media (min-width: 1024px) {
+.gt-ld {
+  display: block;
+}
+/* GTA theme (task 156), part 4: the short loading screen (prefix gt-ld-). It covers the page for about a second and a half and removes itself (CSS only).
+   html[data-gt-ld="off"] (set by the boot script when it was already seen in this browser session) hides it at once. */
+.gt-ld {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  overflow: hidden;
+  pointer-events: none;
+  background: hsl(calc(var(--th, 284) + 347.58) calc(76% * var(--ts, 1)) 4.2%);
+  animation: gt-ld-out 0.45s ease 1.05s forwards;
+}
+html[data-gt-ld="off"] .gt-ld {
+  display: none;
+}
+/* the striped sun on the horizon, like the one over the industries city */
+.gt-ld-sun {
+  position: absolute;
+  bottom: -230px;
+  left: 50%;
+  width: 640px;
+  height: 640px;
+  margin-left: -320px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, hsl(calc(var(--th, 284) + 100) calc(100% * var(--ts, 1)) 64%), hsl(calc(var(--th, 284) + 40) calc(100% * var(--ts, 1)) 56%) 70%);
+  -webkit-mask-image: repeating-linear-gradient(to bottom, #000 0 26px, transparent 26px 36px);
+  mask-image: repeating-linear-gradient(to bottom, #000 0 26px, transparent 26px 36px);
+  opacity: 0.4;
+}
+.gt-ld::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 50% at 50% 100%, hsl(calc(var(--th, 284) + 40) calc(100% * var(--ts, 1)) 55% / 0.35), transparent 72%);
+}
+.gt-ld-mid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  width: 280px;
+  transform: translate(-50%, -56%);
+}
+.gt-ld-logo {
+  width: 120px;
+  height: auto;
+}
+.gt-ld-t {
+  margin: 26px 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: hsl(calc(var(--th, 284) + 40) calc(100% * var(--ts, 1)) 72%);
+}
+.gt-ld-bar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: hsl(calc(var(--th, 284) + 40) calc(100% * var(--ts, 1)) 70% / 0.2);
+}
+.gt-ld-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: hsl(calc(var(--th, 284) + 40) calc(100% * var(--ts, 1)) 68%);
+  box-shadow: 0 0 12px hsl(calc(var(--th, 284) + 40) calc(100% * var(--ts, 1)) 66% / 0.8);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: gt-ld-bar 1s cubic-bezier(0.5, 0, 0.2, 1) forwards;
+}
+.gt-ld-tip {
+  position: absolute;
+  bottom: 34px;
+  left: 44px;
+  z-index: 1;
+  margin: 0;
+  font-size: 16px;
+  color: hsl(calc(var(--th, 284) + 350) 20% 78%);
+}
+.gt-ld-tip b {
+  margin-right: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(calc(var(--th, 284) + 40) calc(100% * var(--ts, 1)) 72%);
+}
+@keyframes gt-ld-bar {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes gt-ld-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gt-ld {
+    display: none;
+  }
+}
+}

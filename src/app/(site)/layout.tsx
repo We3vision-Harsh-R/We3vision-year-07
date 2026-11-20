@@ -18,6 +18,8 @@ import { LogoMark } from "@/components/site/logo-mark";
 import { SiteScrollbar } from "@/components/site/site-scrollbar";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { HomeGlide } from "@/components/site/home/home-glide";
+import { GtaLoading, GTA_LOAD_BOOT } from "@/components/site/gta-loading";
+import { GTA_ON } from "@/lib/gta";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { getPresenceConfig } from "@/lib/presence-server";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
@@ -34,8 +36,10 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   // a first-time visitor is asked for a name only (components/site/presence.tsx): the colour card then opens only from its small round button
   const picker = presence.askName && site.picker.show !== "off" ? { ...site.picker, show: "button" } : site.picker;
   return (
-    <RootShell htmlClass="sb-pre" boot={site.picker.show === "off" ? PICKER_OFF_BOOT : undefined}>
+    <RootShell htmlClass="sb-pre" boot={`${site.picker.show === "off" ? PICKER_OFF_BOOT : ""}${GTA_ON ? GTA_LOAD_BOOT : ""}` || undefined}>
       <div className="relative overflow-x-clip">
+        {/* GTA theme (task 156): the short loading screen, first page of a browser session only */}
+        {GTA_ON && <GtaLoading />}
         <a href="#main-content" className="skp-link">
           Skip to content
         </a>

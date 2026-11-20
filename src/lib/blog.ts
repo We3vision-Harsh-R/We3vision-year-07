@@ -2,6 +2,7 @@ import "server-only";
 import { db, hasDb } from "@/lib/db";
 import { POSTS } from "@/lib/blog-posts";
 import { SERIES } from "@/lib/blog-series";
+import BLOG_TILES from "@/lib/blog-tiles.json"; // the box shape of every article (landscape / square / portrait / tall): the covers are drawn for it by tools/make-blog-covers.mjs
 import { dateLabel, tileOf, type BlogEntry, type FaqItem, parseContent } from "@/lib/blog-shared";
 
 // The articles of the blog (Blog in the admin panel). Without a database (fresh checkout, build) the built-in articles of src/lib/blog-posts.ts are
@@ -84,7 +85,7 @@ const seriesEntries = (): BlogEntry[] =>
     category: p.category,
     summary: p.summary,
     image: p.image,
-    tile: "landscape",
+    tile: tileOf((BLOG_TILES as Record<string, string>)[p.slug] ?? "landscape"),
     date: p.date,
     dateLabel: p.dateLabel,
     tags: p.tags,

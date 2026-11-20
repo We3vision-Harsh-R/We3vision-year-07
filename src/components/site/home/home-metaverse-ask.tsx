@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService, type ChatServiceLink } from "@/lib/ai-chat";
+import { chatFull, openChatOverlay } from "@/lib/chat-overlay"; // every question opens the full-screen chat
 
 // the markdown library is fetched when the first answer comes, not while the page loads
 const AskMd = dynamic(() => import("@/components/site/chat-md").then((m) => m.AskMd), { ssr: false });
@@ -26,6 +27,15 @@ export function MetaverseAsk() {
   async function send(raw: string) {
     const q = raw.trim();
     if (!q || busy) return;
+    if (chatFull()) {
+      setText("");
+      if (service.current === null) {
+        const all: ChatService[] = await getChatServices().catch(() => []);
+        service.current = all.find((s) => /metaverse/i.test(`${s.title} ${s.category}`))?.id ?? "";
+      }
+      openChatOverlay({ question: q, serviceId: service.current });
+      return;
+    }
     const next: ChatMessage[] = [...msgs, { role: "user", text: q }];
     setMsgs(next);
     setText("");
