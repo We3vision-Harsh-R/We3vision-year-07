@@ -25,6 +25,17 @@ export function HomeFx() {
           if (e.isIntersecting) {
             e.target.setAttribute("data-in", "");
             io.unobserve(e.target);
+            // a card of a sideways row: its neighbours are off the screen to the side and would only fade in when they glide into view (a pop while swiping):
+            // the whole row is revealed together (each card keeps its own --d delay)
+            if (phone) {
+              const row = (e.target as HTMLElement).parentElement;
+              if (row?.matches(".hb2-points, .hb2-grid, .hba-work, .hb2-m-bento")) {
+                row.querySelectorAll(":scope > [data-r]:not([data-in])").forEach((c) => {
+                  c.setAttribute("data-in", "");
+                  io.unobserve(c);
+                });
+              }
+            }
           }
         }
       },

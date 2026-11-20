@@ -2044,3 +2044,70 @@
     white-space: nowrap;
   }
 }
+
+/* hanim-: the animations of the home page on a PHONE made solid (owner, 2026-11-20). All opacity + transform only, 0.5 s, only with motion allowed
+   (home-fx.tsx sets data-fx then). 1) the first screen's words rise in one after the other when the page opens; 2) the industry tags come in one by one;
+   3) the cards of every swipe row (Why We3vision, AI work, products) get the "middle one big and bright" swipe animation (scroll driven, browsers that
+   have it); the other browsers get the plain reveal, and the whole row is revealed together by home-fx.tsx so no card pops in while the row glides. */
+@media (max-width: 699.98px) {
+  @keyframes hanim-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+    }
+  }
+  @keyframes hanim-swipe {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(0.93);
+    }
+    35%,
+    65% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hb2[data-fx] .hb2-copy {
+      animation: hanim-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s backwards;
+    }
+    .hb2[data-fx] .hb2-lede,
+    .hb2[data-fx] .hph-more {
+      animation: hanim-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.18s backwards;
+    }
+    .hb2[data-fx] .hb2-ph-row {
+      animation: hanim-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s backwards;
+    }
+
+    .hb2[data-fx] .hph-tags[data-r] {
+      opacity: 1;
+      transform: none;
+    }
+    .hb2[data-fx] .hph-tags li {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      transition:
+        opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+        transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .hb2[data-fx] .hph-tags[data-in] li {
+      opacity: 1;
+      transform: none;
+    }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(2) { transition-delay: 70ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(3) { transition-delay: 140ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(4) { transition-delay: 210ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(5) { transition-delay: 280ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(6) { transition-delay: 350ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(7) { transition-delay: 420ms; }
+
+    @supports (animation-timeline: view(inline)) {
+      .hb2[data-fx] .hb2-points > li,
+      .hb2[data-fx] .hba-work > li {
+        animation: hanim-swipe linear both;
+        animation-timeline: view(inline);
+      }
+    }
+  }
+}
