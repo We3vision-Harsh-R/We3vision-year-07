@@ -50,7 +50,7 @@ async function draftView(slug: PageSlug) {
 }
 
 /** the sections that are never collapsed: forms and the first card of a page */
-const KEEP_OPEN: ReadonlySet<SectionType> = new Set<SectionType>(["contact", "careerHelpDesk", "pageHero", "wordHero", "aboutHero", "aboutWorld", "vrEntry", "blogFeatured", "ctaBand"]);
+const KEEP_OPEN: ReadonlySet<SectionType> = new Set<SectionType>(["contact", "careerHelpDesk", "pageHero", "wordHero", "aboutHero", "aboutWorld", "blogFeatured", "ctaBand"]);
 
 /** the launcher icon (glyph + colour) of a page: the page is the app that this icon opens */
 const appOf = (slug: PageSlug) => Object.values(APPS).find((a) => a.href === PAGES[slug].path);

@@ -13,32 +13,6 @@ import { CabinPicker, DeviceRow, RealityQuiz } from "../../../../lazy";
 const hue = (i: number) => ({ "--o": i * 36 }) as CSSProperties;
 const rv = (i: number) => ({ "--rv-d": `${Math.min(i, 6) * 60}ms` }) as CSSProperties;
 
-/** the welcome window: heading and text in spatial glass, the captions of the walk as floating subtitles */
-export const VrHero: MobileSection<"vrEntry"> = ({ data, index }) => {
-  const H = index === 0 ? "h1" : "h2";
-  const caps = lines(data.captions);
-  return (
-    <section className="mp-vr-hero">
-      <div className="mp-vr-window mp-vr-blur">
-        <H className="mp-vr-h">
-          <Lines text={data.heading} />
-        </H>
-        {data.text && <p className="mp-vr-t">{data.text}</p>}
-      </div>
-      <span className="mp-vr-grab" aria-hidden="true" />
-      {caps.length > 0 && (
-        <ul className="mp-vr-caps">
-          {caps.map((c, i) => (
-            <li key={i} className="mp-vr-blur" style={{ "--d": i * 0.9 + "s" } as CSSProperties}>
-              {c}
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
-  );
-};
-
 /** "Tech services we offer": the tip as an open note, the four cabins as a picker, then the government projects as windows */
 export const VrFloor: MobileSection<"vrFloor"> = ({ data, id }) => (
   <>

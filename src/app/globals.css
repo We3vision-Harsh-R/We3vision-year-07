@@ -5053,154 +5053,6 @@ html.has-sb::-webkit-scrollbar {
 
 
 
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   The 3D office of the Metaverse page (components/site/metaverse/vr-office.tsx): a tall track with a sticky full-screen stage. */
-.vr {
-  position: relative;
-  height: calc(100svh * 7.4);
-  background: hsl(calc(var(--th) - 30.15) calc(68.42% * var(--ts)) 3.73%);
-}
-.vr[data-state="still"],
-.vr[data-state="fallback"] {
-  height: 100svh;
-}
-.vr-stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
-  background: radial-gradient(ellipse at 50% 60%, hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 14%), hsl(calc(var(--th) - 30.15) calc(68.42% * var(--ts)) 3.73%) 70%);
-}
-.vr-canvas {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.9s ease;
-}
-.vr[data-state="ready"] .vr-canvas,
-.vr[data-state="still"] .vr-canvas {
-  opacity: 1;
-}
-.vr-vignette {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse at 50% 46%, transparent 52%, hsl(calc(var(--th) - 26.86) calc(77.78% * var(--ts)) 1.76% / 0.6) 100%);
-}
-.vr-captions {
-  position: absolute;
-  inset: auto 0 17% 0;
-  height: 6rem;
-  pointer-events: none;
-}
-.vr-cap {
-  position: absolute;
-  inset: 0 0 auto 0;
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
-  color: #fff;
-  font-size: clamp(1.5rem, 3.2vw, 2.6rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  text-align: center;
-  opacity: 0;
-  will-change: opacity, transform;
-}
-.vr-hint {
-  position: absolute;
-  right: 0;
-  bottom: 118px;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
-  font-size: 1rem;
-  letter-spacing: 0.04em;
-  pointer-events: none;
-}
-.vr-hint svg {
-  animation: bob 2s ease-in-out infinite;
-}
-.vr-black {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  opacity: 0;
-  pointer-events: none;
-}
-/* the words of the page: only for search engines and screen readers (nothing is written on the screen while the office loads);
-   they are shown only when the 3D office cannot run at all */
-.vr-words {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-.vr[data-state="fallback"] .vr-words {
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-  height: auto;
-  padding: 0 1.25rem;
-  overflow: visible;
-  clip: auto;
-  text-align: center;
-  white-space: normal;
-}
-.vr[data-state="fallback"] .vr-words h1 {
-  max-width: 900px;
-  margin: 0;
-  white-space: pre-line;
-  color: #fff;
-  font-size: clamp(2.4rem, 6vw, 4.6rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
-}
-.vr[data-state="fallback"] .vr-words p {
-  max-width: 640px;
-  margin: 1.4rem 0 0;
-  color: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 86%);
-  font-size: 1.125rem;
-  line-height: 1.65;
-}
-@media (max-width: 639px) {
-
-
-
-
-  .vr {
-    height: calc(100svh * 6.2);
-  }
-  .vr-hint {
-    bottom: 100px;
-  }}
-
-
-
-
-@media (prefers-reduced-motion: reduce) {
-
-
-
-
-  .vr-hint svg {
-    animation: none;
-  }}
-
 .pm-eye {
   transform-box: fill-box;
   transform-origin: center;
@@ -8984,38 +8836,6 @@ html.has-sb::-webkit-scrollbar {
 
 
 
-/* the four lines shown while walking through the office (metaverse/vr-office.tsx): the neon of the sign on the wall, in a dark violet glass pill
-   with a glowing line under it, so that they belong to the scene */
-.vr-cap span {
-  position: relative;
-  display: inline-block;
-  max-width: 100%;
-  padding: 0.5em 1.15em 0.6em;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
-  border-radius: 26px;
-  background: linear-gradient(180deg, hsl(calc(var(--th) + 349) calc(50% * var(--ts)) 13% / 0.62), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 7% / 0.7));
-  box-shadow:
-    0 0 34px -8px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.75),
-    inset 0 0 22px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.14);
-  color: #fff;
-  font-size: clamp(1.25rem, 2.6vw, 2.1rem);
-  letter-spacing: -0.02em;
-  text-shadow:
-    0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.85),
-    0 0 28px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.7);
-}
-.vr-cap span::after {
-  content: "";
-  position: absolute;
-  right: 18%;
-  bottom: -1px;
-  left: 18%;
-  height: 2px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%), transparent);
-  box-shadow: 0 0 12px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70%);
-}
-
 /* ---------------------------------------------------------------------------------------------------------------------------------
    The pinned strip WITH its detail card under it (the service pages: the points of the open panel): the chip and the heading are pinned with it, below
    the logo, and the whole block (heading, strip, detail card, progress line) has to fit in the screen. So the block starts a little higher, the
@@ -12319,12 +12139,9 @@ html body .mbh-btn:hover {
   }
 }
 
-/* mvp-: the two scroll scenes of the Metaverse page (the office and the tech tunnel) on phones and tablets (owner, 2026-11-13). Their length is the scroll distance of the
+/* mvp-: the scroll scene of the Metaverse page (the tech tunnel) on phones and tablets (owner, 2026-11-13). Their length is the scroll distance of the
    scene (7.5 screens on a laptop); on a phone the same scene plays over 3.6 screens, so it is not a wall of empty scrolling. */
 @media (max-width: 900px) {
-  html body .vr:not([data-state="still"]):not([data-state="fallback"]) {
-    height: calc(100svh * 3.6);
-  }
   html body .vfo {
     height: calc(100svh * 3.6);
   }

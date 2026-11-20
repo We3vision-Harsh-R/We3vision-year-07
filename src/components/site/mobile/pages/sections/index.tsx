@@ -43,7 +43,6 @@ import { TeamValuesSection } from "./teamValues";
 import { TimelineSection } from "./timeline";
 import { VrDevicesSection } from "./vrDevices";
 import { VrEmergeSection } from "./vrEmerge";
-import { VrEntrySection } from "./vrEntry";
 import { VrFloorSection } from "./vrFloor";
 import { VrProcessSection } from "./vrProcess";
 import { VrQuizSection } from "./vrQuiz";
@@ -79,7 +78,6 @@ export const MOBILE_SECTIONS: { [T in SectionType]: MobileSection<T> } = {
   tags: TagsSection,
   timeline: TimelineSection,
   guide: GuideSection,
-  vrEntry: VrEntrySection,
   aboutWorld: AboutWorldSection,
   aboutHero: AboutHeroSection,
   aboutChapters: AboutChaptersSection,
@@ -106,7 +104,7 @@ export const MOBILE_SECTIONS: { [T in SectionType]: MobileSection<T> } = {
 };
 
 /** the section types whose first card is the page's hero (it then owns the page's h1) */
-export const HERO_LIKE: ReadonlySet<SectionType> = new Set<SectionType>(["pageHero", "wordHero", "aboutHero", "aboutWorld", "careerJourney", "vrEntry"]);
+export const HERO_LIKE: ReadonlySet<SectionType> = new Set<SectionType>(["pageHero", "wordHero", "aboutHero", "aboutWorld", "careerJourney"]);
 
 /** A component for any type (the registry is typed per type; render.tsx picks by the runtime type). */
 export type AnyMobileSection = ComponentType<MobileSectionProps<SectionType>>;

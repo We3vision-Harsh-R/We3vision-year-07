@@ -17,7 +17,7 @@ Content defaults: `src/lib/cms/content/<file>.ts`. Skin: C = classic, M = modern
 | `/webdev` | webdev | `services.ts` (`WEBDEV_SECTIONS`) | M | guide scene = office builder (`office-builder.tsx`) |
 | `/mobile` | mobile | `services.ts` | M | |
 | `/ai` | ai | `ai.ts` | M | flow diagram, automate switches, guide, FAQ… |
-| `/metaverse` | metaverse | `services.ts` (`METAVERSE_SECTIONS`) | C | scroll-driven 3D office walk + vrFloor + gov projects + vr* sections. Built step by step by the owner |
+| `/metaverse` | metaverse | `services.ts` (`METAVERSE_SECTIONS`) | C | hero + vrFloor (the 3D office walk was removed, owner 2026-11-20) + gov projects + vr* sections. Built step by step by the owner |
 | `/ui-ux-design` | ui-ux-design | `services.ts` | M | Figma-studio guide (`figma-studio.tsx`), canvas "What we design" |
 | `/crm` | crm | `services.ts` | M | (sales guide section was removed) |
 | `/animation` | animation | `services.ts` | M | After Effects style guide (`after-effects.tsx`) |
@@ -37,7 +37,7 @@ Sub-service pages of Brand Design (strategy, logo, guidelines, collateral) were 
 
 ## Section types (`SECTIONS` in `lib/cms/sections.ts` → renderer in `components/site/sections/`)
 hero (Home hub) · story · brandBoard · strengths · services · highlights · industries · advantages · blogs · reach · contact ·
-backdrop7 · pageHero · wordHero · archGallery · projects · flow · automate · faq · process · tags · timeline · guide · vrEntry ·
+backdrop7 · pageHero · wordHero · archGallery · projects · flow · automate · faq · process · tags · timeline · guide ·
 aboutWorld · aboutHero · aboutChapters · vrSpace · vrFloor · vrEmerge · vrDevices · vrQuiz · vrProcess · sketchCanvas · team ·
 teamOffice · careerJourney · careerDestination · careerOpenings · careerValues · careerTeams · careerHelpDesk · teamManifesto ·
 teamJourney · teamValues · blogFeatured · blogPicks · ctaBand.

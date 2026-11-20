@@ -381,12 +381,8 @@ export const METAVERSE_FULL_SECTIONS = build({
 // The Metaverse page: the 3D office walk (the visitor puts on a headset), the floor with Rutvi and the four cabins, the glass windows,
 // a soft fade out of the black and then the sections of a normal service page (without its hero, story and guide, which the scenes replace).
 export const METAVERSE_SECTIONS: PageSection[] = [
-  section("vrEntry", {
-    heading: "Metaverse Solutions For\nImmersive Experiences",
-    text: "We3vision provides metaverse concepts and interactive digital environments to help businesses explore virtual experiences. From metaverse applications and virtual worlds to virtual events, we build engaging experiences around your business objectives and audience needs.",
-    hint: "Scroll to walk in",
-    captions: "Welcome to our metaverse studio.\nThis is where ideas become worlds.\nOne more step to the table.\nPut on the headset.",
-  }),
+  // the normal service hero (same words as before)
+  ...METAVERSE_FULL_SECTIONS.slice(0, 1),
   // after the black screen: the office seen from above: Rutvi sits down and the four teams (AR, VR, XR, MR) work in the corners
   section("vrFloor", {
     heading: "Tech services\nwe offer in\nthe metaverse",
