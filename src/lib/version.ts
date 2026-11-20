@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 178,
+    date: "2026-11-20",
+    title: "Phone AI page in the home page theme",
+    notes: [
+      "The phone AI Development page now looks like the home page: the home bottom bar and big menu instead of its own bars, one type scale for headings and text, the same buttons and plain section labels.",
+      "A shared phone theme file (home-theme.css) is ready for the other pages; nothing else changed.",
+    ],
+  },
+  {
     v: 177,
     date: "2026-11-20",
     title: "Metaverse page opens with a hero, calmer phone home animations",
