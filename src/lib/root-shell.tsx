@@ -12,9 +12,9 @@ import { ScrollTop } from "@/components/site/scroll-top";
 // The brand font of We3vision: Poppins, used for everything on the website and in the admin panel.
 const poppins = Poppins({
   subsets: ["latin"],
-  // 300 (light) is not used anywhere in the CSS or the components: one font file less to download. 800 is the heaviest weight: the giant year of the
+  // 300 (light) is used only by the phone menu (styles/menu-phone-b.css, mml-). 800 is the heaviest weight: the giant year of the
   // About page and the rotating word of the Brand page use it (they used the Archivo font before; the site is Poppins only)
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-poppins",
   display: "swap",
 });
