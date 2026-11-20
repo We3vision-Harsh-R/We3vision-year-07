@@ -1996,3 +1996,51 @@
     font-size: inherit;
   }
 }
+
+/* hsp-: the same space (80px) between every two sections of the home page on a PHONE (owner, 2026-11-20). Before, it was 70 / 90 / 110 / 130 px by section
+   (each one had its own top and bottom padding). Now: the bottom padding of a section is 80px, the next one starts with 0 (or the sections that follow
+   a section with no bottom padding start with 80px). Phones up to 699px only. */
+@media (max-width: 699.98px) {
+  html:root .hb2 .hb2-s1b { padding-bottom: 70px; }
+  html:root .hb2 .hb2-s2 { padding-bottom: 80px; }
+  html:root #services,
+  html:root #ai-development,
+  html:root #brand-design,
+  html:root #metaverse-service { padding-top: 0; padding-bottom: 80px; }
+  html:root .hb2 .hb2-m-big { padding-top: 0; }
+  html:root .hb2 .hb2-m-pro,
+  html:root #industries,
+  html:root #reach,
+  html:root #tools,
+  html:root #faq,
+  html:root #contact { padding-top: 80px; padding-bottom: 0; }
+  html:root #contact { padding-bottom: 90px; }
+}
+
+/* hph-tags: on a PHONE the industries are tags (white glass pills, like the technology chips) and not a swipe row of cards (owner, 2026-11-20).
+   The cards stay for laptops and tablets. */
+.hph-tags {
+  display: none;
+}
+@media (max-width: 699.98px) {
+  html:root .hb2 .hb2-m-ind .hb2-m-bento {
+    display: none;
+  }
+  .hph-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hph-tags li {
+    padding: 11px 22px;
+    border-radius: 999px;
+    border: 1px solid hsl(0 0% 100% / 0.28);
+    background: hsl(0 0% 100% / 0.1);
+    font-size: 16px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+}

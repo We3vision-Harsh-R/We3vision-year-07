@@ -117,6 +117,12 @@ export async function HomeMore() {
               </article>
             ))}
           </div>
+          {/* phones: the industries as tags like the technology chips (styles/home-mobile.css, hph-); the cards above are for laptops and tablets */}
+          <ul className="hph-tags" aria-label="Industries we build for">
+            {INDUSTRIES.map((x) => (
+              <li key={x.n}>{x.n}</li>
+            ))}
+          </ul>
         </div>
       </section>
 
