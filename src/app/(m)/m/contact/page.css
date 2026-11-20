@@ -143,3 +143,10 @@
 .ma-root[data-page="contact"] .ma-btn-tinted { border: 1px solid var(--gtc-pinka); background: hsl(calc(var(--th) + 40) 100% 68% / 0.12); color: var(--gtc-pink); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
 .ma-root[data-page="contact"] .ma-sec .ma-chip { border-color: var(--gtc-pinka); color: var(--gtc-pink); text-transform: uppercase; letter-spacing: 0.14em; font-size: 14px; }
 .ma-root[data-page="contact"] .ma-sec .ma-h2 { text-transform: uppercase; font-style: italic; font-weight: 800; }
+
+/* cth-: the Contact page in the theme of the home page (app/home-theme.css; the GTA look of gtc- stays): one 80px space between sections (the 72px margin of the app look is gone). */
+@media (max-width: 699.98px) {
+  .ma-root.ma-home[data-page="contact"] .ma-sec {
+    margin-top: 0;
+  }
+}

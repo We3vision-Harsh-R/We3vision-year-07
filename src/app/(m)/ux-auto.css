@@ -8,7 +8,6 @@ html div.ma-ap-yrow > button { position: relative; }
 html div.ma-ap-yrow > button::after { content: ""; position: absolute; inset: -4px -0px; }
 html div.ma-stepper > button { position: relative; }
 html div.ma-stepper > button::after { content: ""; position: absolute; inset: -6px -0px; }
-html div.mp-about-dots > button::after { content: ""; position: absolute; inset: -0px -11px; }
 html div.mp-ai-seg > button::after { content: ""; position: absolute; inset: -4px -0px; }
 html div.mp-blog-tabs > button { position: relative; }
 html div.mp-blog-tabs > button::after { content: ""; position: absolute; inset: -2px -0px; }

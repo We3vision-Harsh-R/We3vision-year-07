@@ -6,11 +6,9 @@ import { TapSheet } from "../../../../lazy";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import "./store.css";
 
-// iOS 27 App Store pieces for the product pages (/products and /products/*): a product header (glass squircle icon, name, subtitle,
+// Product pages (/products and /products/*): a product header (glass squircle icon, name, subtitle,
 // a "Get"-style capsule and a glass one), the description with "more", the product list as open App Store rows, the FAQ as an open list.
-// Every word comes from the CMS section; `look` and `hue` only change the artwork per page. Styles: store.css ("mp-store-").
-
-export type StoreLook = "row" | "center" | "slide" | "note";
+// Every word comes from the CMS section; `hue` only changes the icon colour per page. Styles: store.css ("mp-store-").
 
 const nameOf = (heading: string) => lines(heading)[0] ?? "";
 const subOf = (heading: string) => lines(heading).slice(1).join(" ");
@@ -25,7 +23,7 @@ export function StoreIcon({ name, hue = 0, size }: { name: string; hue?: number;
 }
 
 /** pageHero of a product page as an App Store header */
-export function StoreHeader({ data, index, look = "row", hue = 0 }: MobileSectionProps<"pageHero"> & { look?: StoreLook; hue?: number }) {
+export function StoreHeader({ data, index, hue = 0 }: MobileSectionProps<"pageHero"> & { hue?: number }) {
   const H = index === 0 ? "h1" : "h2";
   const name = nameOf(data.heading);
   const sub = subOf(data.heading);
@@ -34,16 +32,9 @@ export function StoreHeader({ data, index, look = "row", hue = 0 }: MobileSectio
     { label: data.secondaryLabel, href: data.secondaryHref },
   ].filter((a) => a.label && a.href);
   return (
-    <section className={"mp-store-head is-" + look} style={{ "--o": hue } as CSSProperties}>
-      {look === "slide" && (
-        <div className="mp-store-slide" aria-hidden="true">
-          <span>{name}</span>
-          <i />
-          <i />
-        </div>
-      )}
+    <section className="mp-store-head" style={{ "--o": hue } as CSSProperties}>
       <div className="mp-store-id">
-        <StoreIcon name={name} hue={hue} size={look === "slide" ? undefined : "lg"} />
+        <StoreIcon name={name} hue={hue} size="lg" />
         <div className="mp-store-nm">
           <H className="mp-store-h">
             {name}
@@ -67,11 +58,11 @@ export function StoreHeader({ data, index, look = "row", hue = 0 }: MobileSectio
 }
 
 /** the story section as the product's description: the first paragraph, the rest behind "more" (like the App Store) */
-export function StoreAbout({ data, id, look = "row" }: MobileSectionProps<"story"> & { look?: StoreLook }) {
+export function StoreAbout({ data, id }: MobileSectionProps<"story">) {
   const ps = paragraphs(data.body);
   const [first, ...rest] = ps;
   return (
-    <section id={id} className={"ma-sec mp-store-about is-" + look}>
+    <section id={id} className="ma-sec mp-store-about">
       <div className="mp-store-desc">
         {first && (
           <p>

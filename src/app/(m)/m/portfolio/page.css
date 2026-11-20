@@ -1,26 +1,21 @@
-/* /portfolio app screen ("mp-pf-"), Apple Photos in iOS 27: a quiet library header, albums that filter, and the photo grid (edge to edge, thin gaps).
-   Apple type scale in the site font, regular weight (500 for names, 600 for headings). Kit tokens only. */
+/* /portfolio ("mp-pf-"): the first screen, the albums that filter and the project grid, in the theme of the home page (app/home-theme.css). Kit tokens only. */
 
-.ma-root[data-page="portfolio"] .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; }
-.ma-root[data-page="portfolio"] .ma-chip { font-size: 13px; font-weight: 500; letter-spacing: -0.08px; text-transform: none; }
-.ma-root[data-page="portfolio"] .ma-intro { font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); }
-.ma-root[data-page="portfolio"] .ma-sec-head { margin-bottom: 24px; }
 
 /* ---- header ---- */
-.ma-root .mp-pf-head { padding: 18px 0 8px; }
-.ma-root .mp-pf-chip { margin: 0; font-size: 15px; font-weight: 500; letter-spacing: -0.24px; color: var(--ma-tint); }
-.ma-root .mp-pf-h { margin: 10px 0 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: anywhere; }
+.ma-root .mp-pf-head { padding: 12px 0 0; }
+.ma-root .mp-pf-chip { margin: 0; font-size: 14px; letter-spacing: 0.04em; color: var(--ma-text2); }
+.ma-root .mp-pf-h { margin: 10px 0 0; font-size: 26px; line-height: 1.16; font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; overflow-wrap: anywhere; }
 .ma-root .mp-pf-h span + span { color: var(--ma-tint); }
-.ma-root .mp-pf-t { margin: 14px 0 0 !important; max-width: 36ch; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
-.ma-root .mp-pf-acts { display: flex; gap: 10px; margin-top: 24px; }
-.ma-root .mp-pf-acts .ma-btn { flex: 1 1 0; min-width: 0; min-height: 48px; padding: 0 12px; font-size: 16px; font-weight: 500; white-space: nowrap; }
+.ma-root .mp-pf-t { margin: 14px 0 0 !important; font-size: 16px; line-height: 1.62; font-weight: 400; color: var(--ma-text2); text-wrap: pretty; }
+.ma-root .mp-pf-acts { display: flex; gap: 12px; margin-top: 24px; }
+.ma-root .mp-pf-acts .ma-btn { flex: 1 1 0; min-width: 0; min-height: 52px; padding: 0 12px; font-size: 16px; font-weight: 600; white-space: nowrap; }
 .ma-root .mp-pf-acts .ma-btn:active { transform: scale(0.96); }
 .ma-root .mp-pf-head > * { animation: mp-pf-in 0.7s var(--ma-ease) backwards; }
 .ma-root .mp-pf-head > :nth-child(2) { animation-delay: 0.06s; }
 .ma-root .mp-pf-head > :nth-child(3) { animation-delay: 0.12s; }
 .ma-root .mp-pf-head > :nth-child(4) { animation-delay: 0.18s; }
 @keyframes mp-pf-in { from { opacity: 0; transform: translate3d(0, 12px, 0); } }
-.ma-root .mp-pf-empty { margin: 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); }
+.ma-root .mp-pf-empty { margin: 0; font-size: 16px; line-height: 1.62; color: var(--ma-text2); }
 
 /* ---- albums: a sideways row of covers that filter the grid ---- */
 .ma-root .mp-pf-albums { display: grid; grid-auto-flow: column; grid-auto-columns: 38%; gap: 14px; margin: 0 calc(-1 * var(--ma-gut)) 8px; padding: 2px var(--ma-gut) 8px; list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--ma-gut); scrollbar-width: none; }
@@ -62,4 +57,22 @@
 @media (prefers-reduced-motion: reduce) {
   .ma-root .mp-pf-head > *, .ma-root .mp-pf-panel { animation: none; }
   .ma-root .mp-pf-ph img, .ma-root .mp-pf-ac, .ma-root .mp-pf-more { transition: none; }
+}
+
+/* pfh-: albums and the project grid in the theme of the home page: rounded cards with a thin line, two columns, 14px captions, an outline "more" button. Phones only. */
+@media (max-width: 699.98px) {
+  .ma-root.ma-home .mp-pf-albums { grid-auto-columns: 34%; gap: 12px; }
+  .ma-root.ma-home .mp-pf-ac { border-radius: 20px; border: 1px solid var(--ma-line); }
+  .ma-root.ma-home .mp-pf-an { font-size: 14px; font-weight: 500; letter-spacing: 0; }
+  .ma-root.ma-home .mp-pf-aq { font-size: 14px; letter-spacing: 0; }
+  .ma-root.ma-home .mp-pf-gh { margin: 28px 0 14px; font-size: 18px; font-weight: 600; letter-spacing: 0; }
+  .ma-root.ma-home .mp-pf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
+  .ma-root.ma-home .mp-pf-ph { border-radius: 24px; border: 1px solid var(--ma-line); }
+  .ma-root.ma-home .mp-pf-ph.is-big { grid-column: span 2; grid-row: auto; aspect-ratio: 4 / 3; }
+  .ma-root.ma-home .mp-pf-cap { padding: 36px 14px 12px; }
+  .ma-root.ma-home .mp-pf-ct { font-size: 14px; letter-spacing: 0; }
+  .ma-root.ma-home .mp-pf-ph.is-big .mp-pf-ct { font-size: 18px; letter-spacing: 0; }
+  .ma-root.ma-home .mp-pf-cc { font-size: 14px; letter-spacing: 0; }
+  .ma-root.ma-home .mp-pf-more { min-height: 52px; margin-top: 24px; font-size: 16px; font-weight: 600; letter-spacing: 0; color: var(--ma-text); background: transparent; border: 1px solid var(--ma-rim); }
+  .ma-root.ma-home .mp-pf-more span { font-size: 14px; background: var(--ma-card2); }
 }

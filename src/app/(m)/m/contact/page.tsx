@@ -8,5 +8,5 @@ export const revalidate = 600;
 export const generateMetadata = () => mobileMetadata("contact");
 
 export default function Page() {
-  return renderMobilePage("contact", { overrides: { pageHero: ContactCard, contact: ContactForm, reach: ContactReach } });
+  return renderMobilePage("contact", { home: true, overrides: { pageHero: ContactCard, contact: ContactForm, reach: ContactReach } });
 }

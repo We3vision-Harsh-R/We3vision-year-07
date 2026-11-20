@@ -12,5 +12,5 @@ export const generateMetadata = () => mobileMetadata("team");
 export default async function Page() {
   const people = await getTeam();
   const Office = (p: MobileSectionProps<"teamOffice">) => <TeamOffice {...p} people={people} />;
-  return renderMobilePage("team", { overrides: { teamOffice: Office, teamManifesto: TeamManifesto, teamJourney: TeamJourney } });
+  return renderMobilePage("team", { home: true, overrides: { teamOffice: Office, teamManifesto: TeamManifesto, teamJourney: TeamJourney } });
 }

@@ -48,7 +48,7 @@ export async function renderMobileBlogPost(slug: string) {
   return (
     <>
       <JsonLd graph={articleGraph(post)} />
-      <AppScreen page="post-detail" title={post.title} subtitle={`${post.category} · ${post.dateLabel}`} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, mega: megaFrom(site) }}>
+      <AppScreen page="post-detail" title={post.title} subtitle={`${post.category} · ${post.dateLabel}`} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, mega: megaFrom(site) }} home>
         <article className="ma-sec mp-dt-art">
           {post.summary && <p className="ma-lead mp-dt-lead">{post.summary}</p>}
           <div className="mp-dt-bar">
@@ -126,7 +126,7 @@ export async function renderMobileProject(slug: string) {
   return (
     <>
       <JsonLd graph={ld} />
-      <AppScreen page="project-detail" title={p.title} subtitle={p.category || undefined} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, mega: megaFrom(site) }}>
+      <AppScreen home page="project-detail" title={p.title} subtitle={p.category || undefined} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#contact" nav={{ tabs, mega: megaFrom(site) }}>
         <article className="ma-sec mp-dt-art">
           {cover && <Pic src={cover} alt={p.title} ratio="3 / 2" />}
           <div className="mp-dt-bar">
@@ -210,8 +210,9 @@ export async function renderMobileJob(slug: string) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(ld)} />
-      <AppScreen page="job-detail" title={job.title} subtitle={job.team ? `Position · ${job.team}` : "Position"} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#apply" nav={{ tabs, mega: megaFrom(site) }}>
+      <AppScreen page="job-detail" title={job.title} subtitle={job.team ? `Position · ${job.team}` : "Position"} glyph={app?.glyph} hue={app?.off} contact={contactFrom(site)} messageHref="#apply" nav={{ tabs, mega: megaFrom(site) }} home>
         <section className="ma-sec mp-dt-art">
+          <p className="ma-meta mp-dt-meta">{job.team ? `Position · ${job.team}` : "Position"}</p>
           {job.summary && <p className="ma-lead mp-dt-lead">{job.summary}</p>}
           <ul className="ma-tags mp-dt-facts" aria-label="Facts">
             {facts.map((f) => (
