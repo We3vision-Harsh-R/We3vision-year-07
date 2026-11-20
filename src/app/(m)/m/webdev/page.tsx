@@ -9,6 +9,7 @@ export const generateMetadata = () => mobileMetadata("webdev");
 
 export default function Page() {
   return renderMobilePage("webdev", {
+    home: true,
     keepOpen: ["services", "process", "industries"], overrides: {
       pageHero: WebHero,
       story: WebStory,

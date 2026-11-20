@@ -162,3 +162,65 @@
     animation: none;
   }
 }
+
+/* ---- for every switched-over page (the `[data-page]` raises it over the page files): no "Read more" folds, a plain label above a heading, no rails / bars / dots ---- */
+.ma-root.ma-home[data-page] .ma-clamp {
+  max-height: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  overflow: visible;
+}
+.ma-root.ma-home[data-page] .ma-clampw > .ma-more {
+  display: none;
+}
+.ma-root.ma-home[data-page] .ma-chip {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--ma-text2);
+}
+.ma-root.ma-home[data-page] .ma-chip::before,
+.ma-root.ma-home[data-page] .ma-sec::before,
+.ma-root.ma-home[data-page] .ma-sec::after,
+.ma-root.ma-home[data-page] .ma-sec-head::after {
+  display: none;
+}
+.ma-root.ma-home[data-page] .ma-sec {
+  padding-left: 0;
+  padding-top: 80px;
+}
+.ma-root.ma-home[data-page] .ma-sec-head {
+  padding-top: 0;
+  margin-bottom: 26px;
+}
+.ma-root.ma-home[data-page] .ma-sec-head > .ma-h2,
+.ma-root.ma-home[data-page] .ma-h2 {
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  font-size: 22px;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+.ma-root.ma-home[data-page] .ma-btn-fill {
+  background:
+    radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
+    linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
+}
+.ma-root.ma-home[data-page] .ma-btn-glass,
+.ma-root.ma-home[data-page] .ma-btn-tinted {
+  border: 1px solid var(--ma-rim);
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--ma-text);
+}
