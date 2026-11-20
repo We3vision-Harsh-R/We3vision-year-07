@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
+import { HomeLede } from "@/components/site/home/home-lede";
 import { HomeFx } from "@/components/site/home/home-fx";
 import { HomeFooter } from "@/components/site/home/home-chrome";
 import { HomeAi } from "@/components/site/home/home-ai";
@@ -123,9 +124,9 @@ export async function HomeMain() {
             studio in Surat, India
           </h1>
         </div>
-        <p className="hb2-lede">
+        <HomeLede>
           We3vision is a software and digital company in Surat. We build websites, apps, AI solutions, metaverse worlds, UI/UX, CRM and brands for businesses everywhere.
-        </p>
+        </HomeLede>
         <div className="hb2-ph-row">
           <SmartLink href="/contact" className="hb2-ph-cta">
             Start your project

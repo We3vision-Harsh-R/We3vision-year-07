@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 174,
+    date: "2026-11-20",
+    title: "Phone home page: taller first screen, stacked cards",
+    notes: [
+      "Phone home first screen: a taller glowing door, the wish line and the DPIIT / MSME logos are gone from it, the paragraph is one line with Read more, the buttons stay.",
+      "The Why We3vision cards and the product cards stand one under the other with numbers instead of swiping sideways. Laptop and tablet are unchanged.",
+    ],
+  },
+  {
     v: 173,
     date: "2026-11-20",
     title: "GTA-style theme on the laptop home page, game development page, blog covers",
