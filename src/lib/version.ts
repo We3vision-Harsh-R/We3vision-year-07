@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 177,
+    date: "2026-11-20",
+    title: "Metaverse page opens with a hero, calmer phone home animations",
+    notes: [
+      "The Metaverse page now opens with the normal service hero (same words as before) instead of the 3D office walk; the 3D office code and its styles were removed.",
+      "Phone home page: cards in the sliding rows no longer pop in late, the hero words and industry tags come in one by one, and the Why and AI work cards get the same middle-card swipe animation as the products.",
+      "Unused files removed: an old contact form, industries orbit, neon reveal, panda walker and an admin status badge.",
+    ],
+  },
+  {
     v: 176,
     date: "2026-11-20",
     title: "Phone: lighter smaller menu, industries as tags, even section spacing",
