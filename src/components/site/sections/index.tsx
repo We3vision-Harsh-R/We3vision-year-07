@@ -36,6 +36,7 @@ import { Strengths } from "./strengths";
 import { Tags } from "./tags";
 import { Team } from "./team";
 import { TeamJourney, TeamManifesto, TeamValues } from "./team-story";
+import { TeamCrewSection } from "./team-crew";
 import { TeamOfficeSection } from "./team-office";
 import { Timeline } from "../lazy";
 import { VrDevicesSection } from "./vr-devices";
@@ -91,6 +92,7 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   appShowcase: AppShowcaseSection,
   team: Team,
   teamOffice: TeamOfficeSection,
+  teamCrew: TeamCrewSection,
   careerJourney: CareerJourneySection,
   careerDestination: CareerDestinationSection,
   careerOpenings: CareerOpeningsSection,

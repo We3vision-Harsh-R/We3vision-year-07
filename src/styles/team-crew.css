@@ -1,0 +1,152 @@
+/* Loaded only by: src/components/site/modern/team-crew.tsx. Prefix "tcr-". The cards copy the people cards of the About page (sections/team.tsx):
+   the glass card (.bglow .card-glass) and the colours come from the site, only the layout is here. */
+.tcr-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 48px 0 40px;
+}
+.tcr-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06);
+  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+.tcr-tab span {
+  font-size: 14px;
+  opacity: 0.6;
+}
+.tcr-tab:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
+}
+.tcr-tab[aria-pressed="true"] {
+  color: #fff;
+  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 351.38) calc(40.21% * var(--ts)) 19.02%), hsl(calc(var(--th) + 346) calc(72.22% * var(--ts)) 7.06%));
+}
+.tcr-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  gap: 20px;
+}
+.tcr-grid > * {
+  min-width: 0;
+}
+.tcr-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 22px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12);
+  border-radius: 19px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+.tcr-av {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25);
+  border-radius: 50%;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 351.38) calc(40.21% * var(--ts)) 19.02%), hsl(calc(var(--th) + 346) calc(72.22% * var(--ts)) 7.06%));
+  box-shadow: inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76.47% / 0.3), 0 14px 40px hsl(calc(var(--th) + 343.69) calc(68.42% * var(--ts)) 37.25% / 0.35);
+}
+.tcr-av img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tcr-av b {
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.tcr-card h3 {
+  margin: 22px 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+}
+.tcr-role {
+  margin: 6px 0 0;
+  font-size: 1rem;
+  color: hsl(calc(var(--th) + 330) calc(70% * var(--ts)) 78%);
+}
+.tcr-dept {
+  margin-top: 14px;
+  padding: 4px 12px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25);
+  border-radius: 999px;
+  font-size: 14px;
+  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.7);
+}
+.tcr-bio {
+  margin: 14px 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.7);
+}
+.tcr-link {
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: 14px;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  text-decoration: none;
+}
+.tcr-link:hover {
+  text-decoration: underline;
+}
+.tcr-lead {
+  padding: 32px 28px;
+}
+.tcr-lead .tcr-av {
+  width: 108px;
+  height: 108px;
+}
+.tcr-grid > :has(.tcr-lead) {
+  grid-column: span 2;
+}
+.tcr-open {
+  border-style: dashed;
+  background: transparent;
+}
+.tcr-open h3 {
+  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.6);
+}
+.tcr-open .tcr-av {
+  box-shadow: none;
+  opacity: 0.7;
+}
+@media (max-width: 1100px) {
+  .tcr-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .tcr-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .tcr-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tcr-grid > :has(.tcr-lead) {
+    grid-column: auto;
+  }
+}

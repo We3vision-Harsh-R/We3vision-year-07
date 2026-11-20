@@ -901,6 +901,12 @@ export const SECTIONS = {
     fields: [chip(), headingField(), { kind: "textarea", key: "intro", label: "Intro text", max: 300 }],
     defaults: { chip: "The office", heading: "Meet The Team", intro: "" },
   }),
+  teamCrew: defineSection({
+    label: "Team crew (cards of every person with a department filter)",
+    description: "Every person of the company as a card (photo or initials, name, role, department, a few words, LinkedIn) with department chips that filter the cards. The PEOPLE are managed in the admin panel under Team, not here.",
+    fields: [chip(), headingField(), { kind: "textarea", key: "intro", label: "Intro text", max: 300 }],
+    defaults: { chip: "The crew", heading: "The faces\nof We3vision", intro: "" },
+  }),
   teamManifesto: defineSection({
     label: "Team: why the people matter (a text to read)",
     description: "A calm reading section: a big heading on the left that stays in place, the text on the right, and a quotation at the end. For the page about the team.",

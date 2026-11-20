@@ -78,6 +78,11 @@ export const TEAM_SECTIONS: PageSection[] = [
     heading: "Meet The Team",
     intro: "Every department has its own corner of the office, and every person has a seat. Come closer and say hello.",
   }),
+  section("teamCrew", {
+    chip: "The crew",
+    heading: "The faces\nof We3vision",
+    intro: "Pick a department to see who works there. Every card is a real seat in our Surat office.",
+  }),
   section("highlights", {
     chip: "The team in numbers",
     items: [

@@ -38,6 +38,7 @@ import { TagsSection } from "./tags";
 import { TeamSection } from "./team";
 import { TeamJourneySection } from "./teamJourney";
 import { TeamManifestoSection } from "./teamManifesto";
+import { TeamCrewSection } from "./teamCrew";
 import { TeamOfficeSection } from "./teamOffice";
 import { TeamValuesSection } from "./teamValues";
 import { TimelineSection } from "./timeline";
@@ -94,6 +95,7 @@ export const MOBILE_SECTIONS: { [T in SectionType]: MobileSection<T> } = {
   appShowcase: AppShowcaseSection,
   team: TeamSection,
   teamOffice: TeamOfficeSection,
+  teamCrew: TeamCrewSection,
   careerJourney: CareerJourneySection,
   careerDestination: CareerDestinationSection,
   careerOpenings: CareerOpeningsSection,
