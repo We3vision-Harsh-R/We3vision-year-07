@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 176,
+    date: "2026-11-20",
+    title: "Phone: lighter smaller menu, industries as tags, even section spacing",
+    notes: [
+      "The big menu on phones and tablets is smaller and uses a light font (Poppins 300); the laptop menu is unchanged.",
+      "Home page on phones: the industries are tags like the technology chips, every two sections have the same 80px space, and the sliding cards are back.",
+    ],
+  },
+  {
     v: 175,
     date: "2026-11-20",
     title: "Phone: one smaller heading scale on every page",
