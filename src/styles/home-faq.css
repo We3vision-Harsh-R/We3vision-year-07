@@ -89,3 +89,99 @@
     top: 120px;
   }
 }
+
+/* ---- the question is a button (faq-toggle.tsx): on a laptop it looks like the plain heading it was ---- */
+.hfq-q {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  cursor: default;
+}
+.hfq-a {
+  display: block;
+}
+
+/* ---- phones and tablets (owner, 2026-11-20): every answer folded, the tapped question opens; one card per question ---- */
+@media (max-width: 1023.98px) {
+  .hfq {
+    padding: 64px 0 20px;
+  }
+  .hfq-list {
+    display: grid;
+    gap: 10px;
+    border-bottom: 0;
+  }
+  .hfq-item {
+    display: block;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 8% / 0.6);
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+  .hfq-item[data-open="true"] {
+    border-color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.45);
+    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 11% / 0.8);
+  }
+  .hfq-n {
+    display: none;
+  }
+  .hfq-body h3 {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+  .hfq-q {
+    position: relative;
+    min-height: 56px;
+    padding: 16px 52px 16px 18px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hfq-q::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    width: 9px;
+    height: 9px;
+    margin-top: -7px;
+    border-right: 2px solid var(--v1);
+    border-bottom: 2px solid var(--v1);
+    transform: rotate(45deg);
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), margin-top 0.3s;
+  }
+  .hfq-item[data-open="true"] .hfq-q::after {
+    margin-top: -2px;
+    transform: rotate(-135deg);
+  }
+  .hfq-a-in {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 18px;
+    transition:
+      max-height 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+      padding 0.35s;
+  }
+  .hfq-item[data-open="true"] .hfq-a-in {
+    max-height: 700px;
+    padding-bottom: 18px;
+  }
+  .hfq-body p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hfq-a-in,
+  .hfq-q::after {
+    transition: none;
+  }
+}

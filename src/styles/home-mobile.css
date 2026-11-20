@@ -1796,7 +1796,7 @@
   }
   .hb2 .hb2-wish span,
   .hb2 .hb2-kick {
-    font-size: 13px;
+    font-size: 11.7px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     font-style: normal;
@@ -1804,7 +1804,7 @@
   }
   .hb2 .hb2-wish strong,
   .hb2 .hb2-copy h1 {
-    font-size: 22px;
+    font-size: 19.8px;
     font-weight: 500;
     line-height: 1.25;
     letter-spacing: -0.01em;
@@ -1817,7 +1817,7 @@
   }
   .hb2 .hb2-lede {
     margin: 10px 0 0;
-    font-size: 15px;
+    font-size: 13.5px;
     line-height: 1.55;
   }
   .hb2 .hb2-ph-row {
@@ -1848,5 +1848,23 @@
   }
   .hb2 .hb2-grid > .hb2-head {
     grid-column: 1 / -1;
+  }
+}
+
+/* hbn-: (owner, 2026-11-20) phones and tablets: no Explore button in the first screen, and no solid coloured buttons: every main button is the same dark
+   glass button with a soft coloured edge (the look the phone already had below 700 px, home-phone-ux.css). */
+@media (max-width: 1023.98px) {
+  .hb2 .hb2-go {
+    display: none;
+  }
+  html .hb2 .hb2-ph-cta,
+  html .hb2-m-btn,
+  html button.hb2-m-btn {
+    color: #fff;
+    border: 1px solid hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 70% / 0.4);
+    background:
+      radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
+      linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
   }
 }

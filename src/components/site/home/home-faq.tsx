@@ -1,10 +1,11 @@
 import type { CSSProperties } from "react";
 import { SmartLink } from "@/components/site/smart-link";
+import { FaqToggle } from "./faq-toggle";
 import { homeFaq } from "@/lib/seo/home-faq";
 import type { SiteSettings } from "@/lib/cms/settings";
 import "@/styles/home-faq.css";
 
-// The questions people ask about We3vision (home page, before the contact form). Every answer is open, plain server text (no click needed, so
+// The questions people ask about We3vision (home page, before the contact form). Every answer is plain server text (on a laptop all open, on a phone folded until the question is tapped, faq-toggle.tsx; so
 // visitors, search engines and AI assistants read it the same way), each question is a heading, each answer starts with the answer itself and ends
 // with a link to the page that explains it. The same list is the FAQPage data of the home page (lib/seo/home-faq.ts). CSS prefix: hfq-.
 
@@ -23,22 +24,30 @@ export function HomeFaq({ site }: { site: SiteSettings }) {
             Ask us something else
           </SmartLink>
         </div>
-        <div className="hfq-list">
+        <FaqToggle>
           {faq.map((f, i) => (
-            <article key={f.question} className="hfq-item" data-r style={{ "--d": `${(i % 3) * 70}ms` } as CSSProperties}>
+            <article key={f.question} className="hfq-item" data-open="false" data-r style={{ "--d": `${(i % 3) * 70}ms` } as CSSProperties}>
               <span className="hfq-n" aria-hidden>
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div className="hfq-body">
-                <h3>{f.question}</h3>
-                <p>{f.answer}</p>
-                <SmartLink href={f.href} className="hfq-more">
-                  {f.link} <span aria-hidden>→</span>
-                </SmartLink>
+                <h3>
+                  <button type="button" className="hfq-q" aria-expanded="false">
+                    {f.question}
+                  </button>
+                </h3>
+                <div className="hfq-a">
+                  <div className="hfq-a-in">
+                    <p>{f.answer}</p>
+                    <SmartLink href={f.href} className="hfq-more">
+                      {f.link} <span aria-hidden>→</span>
+                    </SmartLink>
+                  </div>
+                </div>
               </div>
             </article>
           ))}
-        </div>
+        </FaqToggle>
       </div>
     </section>
   );
