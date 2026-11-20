@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { SmartLink } from "@/components/site/smart-link";
+import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (mission cards)
 import { Art, SERVICES } from "./home-svc-data";
+import "@/styles/gta-device.css";
+import "@/styles/gta-mission.css";
 
 // The services of the home page: seven cards that each carry their own details (the number of real projects, one line, tags, an animated picture of the
 // service). Hovering one brings it forward and blurs the others. Branding is the hero (the widest and the most glowing). Proportions follow the
 // golden ratio: the top row is 1 : 1.618 : 1 wide and 1.618 times as tall as the bottom row (see hb2-sv in styles/home.css).
 // The pictures only move with transform and opacity, and only while the section is on screen (data-live).
+// GTA theme (task 156, gta-mission.css, GTA_ON): every card is a "mission" (Mission 01 ...), the list of what we build becomes its "objectives"
+// (shown on hover, ticked one by one) and the card ends in a "Start mission" button (the whole card is the link).
 type Stats = Record<string, { n: number; latest: string }>;
 
 export function HomeServices({ stats }: { stats: Stats }) {
@@ -17,7 +22,9 @@ export function HomeServices({ stats }: { stats: Stats }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { threshold: 0.05 });
+    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), {
+      threshold: 0.05,
+    });
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -26,14 +33,45 @@ export function HomeServices({ stats }: { stats: Stats }) {
     const st = stats[s.key];
     const big = i < 3;
     return (
-      <div className="hb2-sv-cell" key={s.key} data-on={on === i ? "" : undefined}>
+      <div
+        className="hb2-sv-cell"
+        key={s.key}
+        data-on={on === i ? "" : undefined}
+      >
         <SmartLink
           href={s.href}
           className={`hb2-sv-card hb2-sv-${s.key}`}
           onMouseEnter={() => setOn(i)}
           onFocus={() => setOn(i)}
-          onBlur={() => setOn(null)}>
-          <span className="hb2-sv-kick">{st && st.n > 0 ? `${st.n} ${st.n === 1 ? "project" : "projects"} built` : s.kick}</span>
+          onBlur={() => setOn(null)}
+        >
+          <span className="hb2-sv-kick">
+            {GTA_ON ? (
+              <>
+                {/* laptop and desktop: the mission line; phones and tablets keep the original line */}
+                <span className="gt-dk">
+                  <i className="gt-m-blip" aria-hidden />
+                  <b className="gt-m-no">
+                    Mission {String(i + 1).padStart(2, "0")}
+                  </b>
+                  <span className="gt-m-sub">
+                    {st && st.n > 0
+                      ? `${st.n} ${st.n === 1 ? "project" : "projects"}`
+                      : s.kick}
+                  </span>
+                </span>
+                <span className="gt-pk">
+                  {st && st.n > 0
+                    ? `${st.n} ${st.n === 1 ? "project" : "projects"} built`
+                    : s.kick}
+                </span>
+              </>
+            ) : st && st.n > 0 ? (
+              `${st.n} ${st.n === 1 ? "project" : "projects"} built`
+            ) : (
+              s.kick
+            )}
+          </span>
           <h3>
             <em>{s.em}</em> {s.rest}
           </h3>
@@ -41,14 +79,41 @@ export function HomeServices({ stats }: { stats: Stats }) {
           <div className="hb2-sv-art" aria-hidden>
             <Art k={s.key} />
           </div>
-          {big && (
-            <div className="hb2-sv-foot">
-              <span className="hb2-sv-tags">
-                {s.tags.map((t) => (
-                  <b key={t}>{t}</b>
+          {GTA_ON && (
+            <div className="gt-m-obj" aria-hidden>
+              <p className="gt-m-obj-t">Objectives</p>
+              <ol>
+                {s.builds.map((b, k) => (
+                  <li key={b} style={{ "--i": k } as CSSProperties}>
+                    <i />
+                    <span>{b}</span>
+                  </li>
                 ))}
-              </span>
-              {st?.latest && <span className="hb2-sv-last">Latest: {st.latest}</span>}
+              </ol>
+            </div>
+          )}
+          {(big || GTA_ON) && (
+            <div
+              className={GTA_ON && !big ? "hb2-sv-foot gt-foot" : "hb2-sv-foot"}
+            >
+              {GTA_ON && (
+                <span className="gt-m-go">
+                  <svg viewBox="0 0 10 10" aria-hidden>
+                    <path d="M1.5 0.8 9 5 1.5 9.2Z" />
+                  </svg>
+                  Start mission
+                </span>
+              )}
+              {big && (
+                <span className={GTA_ON ? "hb2-sv-tags gt-pk" : "hb2-sv-tags"}>
+                  {s.tags.map((t) => (
+                    <b key={t}>{t}</b>
+                  ))}
+                </span>
+              )}
+              {big && st?.latest && (
+                <span className="hb2-sv-last">Latest: {st.latest}</span>
+              )}
             </div>
           )}
           <svg viewBox="0 0 24 24" aria-hidden className="hb2-sv-ar">
@@ -59,13 +124,24 @@ export function HomeServices({ stats }: { stats: Stats }) {
     );
   };
   return (
-    <section className="hb2-sv" id="services" aria-labelledby="hb2-t3" ref={ref} data-live={live ? "" : undefined}>
+    <section
+      className="hb2-sv"
+      id="services"
+      aria-labelledby="hb2-t3"
+      ref={ref}
+      data-live={live ? "" : undefined}
+      data-gta={GTA_ON ? "" : undefined}
+    >
       <div className="hb2-wrap">
         <p className="hb2-label">Services</p>
         <h2 id="hb2-t3" className="hb2-sv-h" data-r>
           <em>What we build</em> for your business
         </h2>
-        <div className="hb2-sv-grid" data-active={on === null ? undefined : ""} onMouseLeave={() => setOn(null)}>
+        <div
+          className="hb2-sv-grid"
+          data-active={on === null ? undefined : ""}
+          onMouseLeave={() => setOn(null)}
+        >
           <div className="hb2-sv-r1">{[0, 1, 2].map(cell)}</div>
           <div className="hb2-sv-r2">{[3, 4, 5, 6].map(cell)}</div>
         </div>

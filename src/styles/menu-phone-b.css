@@ -409,3 +409,90 @@
     text-align: left;
   }
 }
+
+/* mml-: the big menu on phones and tablets, smaller and in LIGHT letters (owner, 2026-11-20: "make the mega menu smaller, everything in a light font, much smaller
+   size, so it takes less room and looks good"). Only sizes, weights and heights change; the layout and the links are the same. The laptop menu is not touched. */
+@media (max-width: 1023.98px) {
+  :root:root:root .mm a,
+  :root:root:root .mm p,
+  :root:root:root .mm span,
+  :root:root:root .mm b,
+  :root:root:root .mm em,
+  :root:root:root .mm i,
+  :root:root:root .mm button,
+  :root:root:root .mm h2,
+  :root:root:root .mm h3 {
+    font-weight: 300;
+  }
+  :root:root:root .mm .mm-row3 .mm-col.mm-list .mm-li a {
+    min-height: 2.75rem;
+    font-size: 15px;
+    letter-spacing: 0;
+  }
+  :root:root:root .mm .mm-row3 .mm-col.mm-list .mm-li a::before {
+    width: 1.9rem;
+    font-size: 11px;
+    font-weight: 400;
+  }
+  :root:root:root .mm .mm-row3 .mm-col.mm-list .mm-li a[aria-current="page"] {
+    font-weight: 400;
+  }
+  :root:root:root .mm .mm-col-t,
+  :root:root:root .mm .mm-row3 .mm-col-t {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+  }
+  :root:root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li a {
+    min-height: 6.4rem;
+    padding: 0.7rem 0.85rem;
+    font-size: 15px;
+  }
+  :root:root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li li {
+    width: 8.4rem;
+  }
+  :root:root:root .mm .mm-row3 .mm-col.mm-tiles .mm-li a i {
+    font-size: 1.9rem;
+    font-weight: 400;
+  }
+  :root:root:root .mm .mm-row3 .mm-li a {
+    min-height: 44px;
+    font-size: 15px;
+  }
+  :root:root:root .mm .mm-svc7 .mm-li a {
+    font-size: 15px;
+  }
+  :root:root:root .mm .mm-live,
+  :root:root:root .mm .mm-rec-t,
+  :root:root:root .mm .mm-follow-t,
+  :root:root:root .mm .mm-live b {
+    font-size: 13px;
+  }
+  :root:root:root .mm .pd-msg {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  :root:root:root .mm .pd-chip {
+    font-size: 13px;
+  }
+  :root:root:root .mm .mmsoon-tag {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  :root:root:root .mm .rp-cta {
+    height: 44px;
+    min-height: 0;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+  :root:root:root .mm .pd,
+  :root:root:root .mm .pd-bar {
+    height: 44px;
+  }
+  :root:root:root .mm .pd-bar input {
+    height: 42px;
+    font-size: 14px;
+  }
+}

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
+import { HomeLede } from "@/components/site/home/home-lede";
 import { HomeFx } from "@/components/site/home/home-fx";
 import { HomeFooter } from "@/components/site/home/home-chrome";
 import { HomeAi } from "@/components/site/home/home-ai";
@@ -8,10 +9,13 @@ import { HomeMetaverse } from "@/components/site/home/home-metaverse";
 import { HomeMore } from "@/components/site/home/home-more";
 import { HomeServices } from "@/components/site/home/home-services";
 import { HomeWinter } from "@/components/site/home/home-winter";
+import { HomeVice } from "@/components/site/home/home-vice";
+import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (Vice City in the two empty cells)
 import { SmartLink } from "@/components/site/smart-link";
 import { getProjects } from "@/lib/projects";
 import { getSiteSettings } from "@/lib/cms/queries";
 import "@/styles/home.css";
+import "@/styles/gta-vice.css";
 
 const POINTS = [
   { title: "Client-Centric Approach", text: "We put your needs first, ensuring every solution is tailored to your goals." },
@@ -120,9 +124,9 @@ export async function HomeMain() {
             studio in Surat, India
           </h1>
         </div>
-        <p className="hb2-lede">
+        <HomeLede>
           We3vision is a software and digital company in Surat. We build websites, apps, AI solutions, metaverse worlds, UI/UX, CRM and brands for businesses everywhere.
-        </p>
+        </HomeLede>
         <div className="hb2-ph-row">
           <SmartLink href="/contact" className="hb2-ph-cta">
             Start your project
@@ -208,6 +212,8 @@ export async function HomeMain() {
                 </svg>
               </SmartLink>
             ))}
+            {/* GTA theme (task 161): the two empty cells at the bottom left (next to WePte) are one Vice City sunset; the winter layer below stands on it */}
+            {GTA_ON && <HomeVice />}
             {/* winter world (task 154): snowmen and snowballs on the hairlines of the grid; the cards are its walls */}
             <HomeWinter />
           </div>

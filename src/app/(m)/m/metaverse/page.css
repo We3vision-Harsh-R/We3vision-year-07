@@ -13,26 +13,7 @@
 .ma-root .mp-vr-glass .ma-cloud, .ma-root .mp-vr-glass .ma-pts, .ma-root .mp-vr-step .ma-pts { margin-top: 14px; }
 
 /* ---- hero: a spatial window floating over two soft light pools ---- */
-.ma-root .mp-vr-hero { position: relative; margin-top: 8px; padding-top: 8px; isolation: isolate; }
-.ma-root .mp-vr-hero::before { content: ""; position: absolute; z-index: -1; inset: -40px -20px 0; pointer-events: none; background: radial-gradient(60% 45% at 20% 18%, hsl(calc(var(--ma-h) + 20) calc(90% * var(--ts)) 60% / 0.32), transparent 70%), radial-gradient(55% 40% at 85% 70%, hsl(calc(var(--ma-h) - 40) calc(85% * var(--ts)) 55% / 0.26), transparent 70%); }
-.ma-root .mp-vr-window { position: relative; padding: 32px 24px 28px; border-radius: 38px; background: linear-gradient(180deg, hsl(0 0% 100% / 0.16), hsl(0 0% 100% / 0.06)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.24), inset 0 1px 0 hsl(0 0% 100% / 0.32), inset 0 3px 0.5px -2.25px #282828, inset 0 -3px 0.5px -2.25px #282828, 0 30px 60px hsl(0 0% 0% / 0.35); animation: mp-vr-float 0.8s var(--ma-ease) backwards; }
-.ma-root .mp-vr-h { margin: 0; font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; text-wrap: balance; overflow-wrap: anywhere; }
-.ma-root .mp-vr-h span { display: block; }
-.ma-root .mp-vr-h span + span { color: var(--ma-tint); }
-.ma-root .mp-vr-t { margin: 16px 0 0; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
-.ma-root .mp-vr-grab { display: block; width: 64px; height: 6px; margin: 12px auto 0; border-radius: 3px; background: hsl(0 0% 100% / 0.32); }
-.ma-root .mp-vr-caps { display: grid; gap: 10px; margin: 24px 0 0; padding: 0 4px; list-style: none; }
-.ma-root .mp-vr-caps li { justify-self: start; max-width: 88%; padding: 10px 18px; border-radius: 22px; font-size: 15px; line-height: 1.4; font-weight: 400; letter-spacing: -0.24px; color: var(--ma-text); background: hsl(0 0% 100% / 0.08); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.2), inset 0 1px 0 hsl(0 0% 100% / 0.22); animation: mp-vr-bob 5s ease-in-out var(--d, 0s) infinite alternate; }
-.ma-root .mp-vr-caps li:nth-child(even) { justify-self: end; }
-@keyframes mp-vr-float { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.96); } }
 @keyframes mp-vr-bob { to { transform: translate3d(0, -4px, 0); } }
-/* as the page scrolls on, the window recedes into space (scroll-driven, where supported) */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .ma-root .mp-vr-hero > .mp-vr-window { animation: mp-vr-float 0.8s var(--ma-ease) backwards, mp-vr-recede linear both; animation-timeline: auto, view(); animation-range: normal, exit 0% exit 100%; }
-  }
-}
-@keyframes mp-vr-recede { to { opacity: 0.4; transform: scale(0.94); } }
 
 /* ---- tip: an open note, no box ---- */
 .ma-root .mp-vr-note { display: flex; gap: 14px; align-items: flex-start; margin: 0 0 28px; }
@@ -176,12 +157,11 @@
   .ma-root .mp-vr-devs { grid-auto-columns: 46%; }
   .ma-root .mp-vr-list:not(.mp-vr-rows) { grid-template-columns: 1fr 1fr; column-gap: 32px; }
   .ma-root .mp-vr-list > li:nth-child(2) { border-top: 0; }
-  .ma-root .mp-vr-h { font-size: 40px; }
   .ma-root .mp-vr-win, .ma-root .mp-vr-quiz { max-width: 620px; width: 100%; margin-inline: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ma-root .mp-vr-window, .ma-root .mp-vr-caps li, .ma-root .mp-vr-cabin, .ma-root .mp-vr-dev, .ma-root .mp-vr-svc[open] .mp-vr-sbody,
+  .ma-root .mp-vr-cabin, .ma-root .mp-vr-dev, .ma-root .mp-vr-svc[open] .mp-vr-sbody,
   .ma-root .mp-vr-q, .ma-root .mp-vr-res, .ma-root .mp-vr-qorb i, .ma-root .mp-vr-faq details > p { animation: none; }
   .ma-root .mp-vr-orb, .ma-root .mp-vr-segb, .ma-root .mp-vr-opt, .ma-root .mp-vr-row, .ma-root .mp-vr-cta, .ma-root .mp-vr-start, .ma-root .mp-vr-again,
   .ma-root .mp-vr-plus::before, .ma-root .mp-vr-plus::after, .ma-root .mp-vr-tick::after, .ma-root .mp-vr-dots i, .ma-root .mp-vr-chev { transition: none; }

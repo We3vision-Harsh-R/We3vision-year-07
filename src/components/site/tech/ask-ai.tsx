@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService } from "@/lib/ai-chat";
+import { chatFull, openChatOverlay } from "@/lib/chat-overlay"; // every question opens the full-screen chat
 import { GlassSelect } from "../glass-select";
 import { oneLine, type TechData } from "./data";
 
@@ -52,6 +53,11 @@ export function AskAi({ d }: { d: TechData }) {
   const send = async (raw: string, history?: ChatMessage[]) => {
     const q = raw.trim();
     if (!q || busy) return;
+    if (chatFull()) {
+      setText("");
+      openChatOverlay({ question: q, serviceId });
+      return;
+    }
     const next: ChatMessage[] = history ?? [...messages, { role: "user", text: q }];
     setMessages(next);
     setText("");

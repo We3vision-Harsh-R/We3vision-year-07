@@ -41,7 +41,6 @@ import { TeamOfficeSection } from "./team-office";
 import { Timeline } from "../lazy";
 import { VrDevicesSection } from "./vr-devices";
 import { VrEmerge } from "./vr-emerge";
-import { VrEntry } from "./vr-entry";
 import { VrFloorSection } from "./vr-floor";
 import { VrProcessSection } from "./vr-process";
 import { VrQuizSection } from "./vr-quiz";
@@ -77,7 +76,6 @@ const RENDERERS: { [T in SectionType]: SectionComponent<T> } = {
   tags: Tags,
   timeline: Timeline,
   guide: Guide,
-  vrEntry: VrEntry,
   aboutWorld: AboutWorldSection,
   aboutHero: AboutHeroSection,
   aboutChapters: AboutChaptersSection,

@@ -41,6 +41,8 @@ export type RenderOptions = {
   keepOpen?: SectionType[];
   /** the unpublished draft instead of the live page (the preview of the admin panel; the route checks the login) */
   draft?: boolean;
+  /** the page in the theme of the home page (no app bars, the home page's bottom bar, no "Show more" folds): see app/home-theme.css */
+  home?: boolean;
 };
 
 /** the draft of a page in the shape of getPublishedPage() */
@@ -50,7 +52,7 @@ async function draftView(slug: PageSlug) {
 }
 
 /** the sections that are never collapsed: forms and the first card of a page */
-const KEEP_OPEN: ReadonlySet<SectionType> = new Set<SectionType>(["contact", "careerHelpDesk", "pageHero", "wordHero", "aboutHero", "aboutWorld", "vrEntry", "blogFeatured", "ctaBand"]);
+const KEEP_OPEN: ReadonlySet<SectionType> = new Set<SectionType>(["contact", "careerHelpDesk", "pageHero", "wordHero", "aboutHero", "aboutWorld", "blogFeatured", "ctaBand"]);
 
 /** the launcher icon (glyph + colour) of a page: the page is the app that this icon opens */
 const appOf = (slug: PageSlug) => Object.values(APPS).find((a) => a.href === PAGES[slug].path);
@@ -73,12 +75,13 @@ export async function renderMobilePage(slug: PageSlug, opts: RenderOptions = {})
         contact={contact}
         messageHref={hasForm ? "#contact" : "/contact"}
         nav={{ tabs: tabsFor(sections), mega: megaFrom(site) }}
+        home={opts.home}
       >
         {sections.map((s, i) => {
           const Section = (opts.overrides?.[s.type] ?? MOBILE_SECTIONS[s.type]) as unknown as AnyMobileSection;
           const node = <Section data={s.data as never} site={site} contact={contact} id={s.id} index={i} page={slug} extra={extra} />;
           // the first section (the hero) and the forms are shown whole; every other tall section opens with "Show more"
-          return i === 0 || KEEP_OPEN.has(s.type) || (opts.keepOpen?.includes(s.type) && s.id !== "related-services") ? <Fragment key={s.id}>{node}</Fragment> : <Collapse key={s.id}>{node}</Collapse>;
+          return opts.home || i === 0 || KEEP_OPEN.has(s.type) || (opts.keepOpen?.includes(s.type) && s.id !== "related-services") ? <Fragment key={s.id}>{node}</Fragment> : <Collapse key={s.id}>{node}</Collapse>;
         })}
       </AppScreen>
     </>

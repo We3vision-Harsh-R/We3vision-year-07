@@ -16,6 +16,63 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 178,
+    date: "2026-11-20",
+    title: "Phone AI page in the home page theme",
+    notes: [
+      "The phone AI Development page now looks like the home page: the home bottom bar and big menu instead of its own bars, one type scale for headings and text, the same buttons and plain section labels.",
+      "A shared phone theme file (home-theme.css) is ready for the other pages; nothing else changed.",
+    ],
+  },
+  {
+    v: 177,
+    date: "2026-11-20",
+    title: "Metaverse page opens with a hero, calmer phone home animations",
+    notes: [
+      "The Metaverse page now opens with the normal service hero (same words as before) instead of the 3D office walk; the 3D office code and its styles were removed.",
+      "Phone home page: cards in the sliding rows no longer pop in late, the hero words and industry tags come in one by one, and the Why and AI work cards get the same middle-card swipe animation as the products.",
+      "Unused files removed: an old contact form, industries orbit, neon reveal, panda walker and an admin status badge.",
+    ],
+  },
+  {
+    v: 176,
+    date: "2026-11-20",
+    title: "Phone: lighter smaller menu, industries as tags, even section spacing",
+    notes: [
+      "The big menu on phones and tablets is smaller and uses a light font (Poppins 300); the laptop menu is unchanged.",
+      "Home page on phones: the industries are tags like the technology chips, every two sections have the same 80px space, and the sliding cards are back.",
+    ],
+  },
+  {
+    v: 175,
+    date: "2026-11-20",
+    title: "Phone: one smaller heading scale on every page",
+    notes: [
+      "On phones every page now uses the same heading sizes (page title 26px, section 22px, card 18px) with more white space; the home page follows the same scale.",
+      "Laptop and tablet are unchanged.",
+    ],
+  },
+  {
+    v: 174,
+    date: "2026-11-20",
+    title: "Phone home page: taller first screen, stacked cards",
+    notes: [
+      "Phone home first screen: a taller glowing door, the wish line and the DPIIT / MSME logos are gone from it, the paragraph is one line with Read more, the buttons stay.",
+      "The Why We3vision cards and the product cards stand one under the other with numbers instead of swiping sideways. Laptop and tablet are unchanged.",
+    ],
+  },
+  {
+    v: 173,
+    date: "2026-11-20",
+    title: "GTA-style theme on the laptop home page, game development page, blog covers",
+    notes: [
+      "Laptop and desktop home page in a GTA-style theme (phones and tablets keep their own design): mission cards on the services, a neon night city with a minimap and a route line, seven stars that fill as you scroll, a loading screen and a mission-failed 404.",
+      "The footer has a neon We3vision word that follows the cursor and a Miami skyline in our own drawing. The home FAQ is a game phone with chat bubbles, the contact area has a message route map and a full-screen chat, and the products grid has a soft city skyline background.",
+      "One switch (GTA_ON in src/lib/gta.ts) turns the whole theme off.",
+      "New page: Game Development, with a series of GTA-style game articles. Every blog article has its own box shape (landscape, square, portrait, tall) with a cover drawn for that shape.",
+    ],
+  },
+  {
     v: 172,
     date: "2026-11-19",
     title: "Phone: contact page in the GTA style, forms that keep what you typed, AI page chips",

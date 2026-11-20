@@ -1,0 +1,189 @@
+/* GTA theme (task 156), part 2: the industries city at neon night, with a route line and a minimap (prefix gt-c-). Only active while the city track has
+   the class gt-c (lib/gta.ts GTA_ON). Colours: only the theme hue plus an offset (pink +40, sun +100, blue +290), so the colour picker moves them too. */
+.gt-c {
+  --gt-pink: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 66%);
+  --gt-pink-a: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 66% / 0.6);
+  --gt-sun: hsl(calc(var(--th) + 100) calc(100% * var(--ts)) 62%);
+  --gt-blue: hsl(calc(var(--th) + 290) calc(100% * var(--ts)) 64%);
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  /* night: a darker ground with a neon grid, the road edges and lane dashes as neon tubes */
+  .gt-c .cm-ground {
+    background-color: hsl(calc(var(--th) + 340) calc(65% * var(--ts)) 4.2%);
+    background-image:
+      linear-gradient(hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 70% / 0.17) 2px, transparent 2px),
+      linear-gradient(90deg, hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 70% / 0.17) 2px, transparent 2px);
+  }
+  .gt-c .cm-road {
+    stroke: hsl(calc(var(--th) + 340) calc(45% * var(--ts)) 4.5%);
+  }
+  .gt-c .cm-edge {
+    stroke: var(--gt-pink);
+    stroke-width: 3.5;
+  }
+  .gt-c .cm-dash {
+    stroke: hsl(calc(var(--th) + 100) calc(100% * var(--ts)) 78% / 0.9);
+  }
+  .gt-c .cm-roads:not(.gt-c-routes) {
+    filter: drop-shadow(0 0 5px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 62% / 0.85));
+  }
+  /* lit windows */
+  .gt-c .cm-win .cm-fr,
+  .gt-c .cm-win .cm-rt,
+  .gt-c .cm-win .cm-bk,
+  .gt-c .cm-win .cm-lf {
+    background-image:
+      repeating-linear-gradient(0deg, hsl(var(--hu) 50% 5% / 0.55) 0 3px, transparent 3px 13px),
+      repeating-linear-gradient(90deg, hsl(calc(var(--th) + 55) 100% 74% / 0.62) 0 7px, transparent 7px 16px);
+  }
+  .gt-c .cm-glass .cm-fr,
+  .gt-c .cm-glass .cm-rt {
+    background-image:
+      repeating-linear-gradient(0deg, hsl(var(--hu) 50% 5% / 0.55) 0 2px, transparent 2px 11px),
+      repeating-linear-gradient(90deg, hsl(calc(var(--th) + 290) 100% 76% / 0.55) 0 10px, transparent 10px 14px);
+  }
+  .gt-c .cm-pad[data-on="true"] .cm-ring {
+    box-shadow:
+      inset 0 0 0 4px var(--gt-pink),
+      inset 0 0 90px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 66% / 0.4),
+      0 0 46px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 66% / 0.55);
+  }
+  .gt-c .cm-sign span {
+    box-shadow:
+      0 0 0 1px var(--gt-pink-a),
+      0 0 20px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 66% / 0.35);
+  }
+  .gt-c .cm-glow {
+    background: radial-gradient(circle, hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 70% / 0.55), transparent 70%);
+  }
+
+  /* the sunset on the horizon: a warm glow and a striped sun over the top of the stage (blended with "screen", so only light is added) */
+  .gt-c-haze {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(70% 46% at 50% 0%, hsl(calc(var(--th) + 100) calc(100% * var(--ts)) 60% / 0.4), transparent 72%),
+      linear-gradient(to bottom, hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 60% / 0.2) 0%, hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 50% / 0.07) 42%, transparent 66%);
+  }
+  .gt-c-haze::before {
+    content: "";
+    position: absolute;
+    top: -150px;
+    left: 50%;
+    width: 440px;
+    height: 440px;
+    margin-left: -220px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, hsl(calc(var(--th) + 100) calc(100% * var(--ts)) 64%), hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 58%) 70%);
+    -webkit-mask-image: repeating-linear-gradient(to bottom, #000 0 24px, transparent 24px 32px);
+    mask-image: repeating-linear-gradient(to bottom, #000 0 24px, transparent 24px 32px);
+    opacity: 0.26;
+  }
+
+  /* the route: a glowing line from the car to the end of the trip (own svg layer above the road; the part behind the car is cut by stroke-dasharray) */
+  .gt-c-routes {
+    transform: translateZ(3px);
+  }
+  .gt-c-glow,
+  .gt-c-line {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-dasharray: 0 0 100000;
+  }
+  .gt-c-glow {
+    stroke: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 62% / 0.32);
+    stroke-width: 26;
+  }
+  .gt-c-line {
+    stroke: var(--gt-pink);
+    stroke-width: 7;
+  }
+
+  /* the minimap: a round radar in the lower left, under the list of districts */
+  .gt-c-mini {
+    position: absolute;
+    top: calc(50% + 150px);
+    left: clamp(1.5rem, 4vw, 4.5rem);
+    width: 124px;
+    height: 124px;
+    pointer-events: none;
+  }
+  .gt-c-mini-disc {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    background: radial-gradient(circle, hsl(calc(var(--th) + 345) calc(55% * var(--ts)) 10%), hsl(calc(var(--th) + 345) calc(55% * var(--ts)) 5%));
+    box-shadow:
+      0 0 0 2px var(--gt-pink-a),
+      0 0 26px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 66% / 0.35),
+      inset 0 0 20px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 66% / 0.18);
+  }
+  .gt-c-mini-disc svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .gt-c-m-road {
+    fill: none;
+    stroke: hsl(calc(var(--th) + 350) calc(35% * var(--ts)) 26%);
+    stroke-width: 120;
+    stroke-linejoin: round;
+  }
+  .gt-c-m-glow,
+  .gt-c-m-line {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-dasharray: 0 0 100000;
+  }
+  .gt-c-m-glow {
+    stroke: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 62% / 0.35);
+    stroke-width: 84;
+  }
+  .gt-c-m-line {
+    stroke: var(--gt-pink);
+    stroke-width: 30;
+  }
+  .gt-c-m-stop {
+    fill: none;
+    stroke: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 62% / 0.7);
+    stroke-width: 20;
+  }
+  .gt-c-m-stop[data-s="done"] {
+    fill: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 62% / 0.45);
+  }
+  .gt-c-m-stop[data-s="now"] {
+    fill: var(--gt-pink);
+    stroke: none;
+  }
+  .gt-c-m-stop[data-s="next"] {
+    stroke: var(--gt-sun);
+  }
+  .gt-c-arrow path {
+    fill: hsl(0 0% 100%);
+    stroke: hsl(calc(var(--th) + 345) calc(55% * var(--ts)) 6%);
+    stroke-width: 1.2;
+    stroke-linejoin: round;
+  }
+  .gt-c-mini-n {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    display: grid;
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    color: hsl(calc(var(--th) + 345) calc(55% * var(--ts)) 6%);
+    border-radius: 50%;
+    background: var(--gt-pink);
+  }
+}

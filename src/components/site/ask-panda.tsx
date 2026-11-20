@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent, type PointerEvent as RPointerEvent } from "react";
 import dynamic from "next/dynamic";
+import { chatFull, openChatOverlay } from "@/lib/chat-overlay"; // every question opens the full-screen chat
 import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService } from "../../lib/ai-chat";
 import { PandaMini } from "./about/panda-mini";
 
@@ -44,6 +45,11 @@ export function AskPanda() {
   const send = async (raw: string) => {
     const q = raw.trim();
     if (!q || busy) return;
+    if (chatFull()) {
+      setText("");
+      openChatOverlay({ question: q, serviceId });
+      return;
+    }
     const next: ChatMessage[] = [...messages, { role: "user", text: q }];
     setMessages(next);
     setText("");

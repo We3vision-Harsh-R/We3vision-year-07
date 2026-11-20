@@ -22,6 +22,7 @@ what is still open.
 | 8 | [08-task-history.md](08-task-history.md) | to avoid redoing work | Tasks 1–74, decisions, **rejected designs (do not rebuild them)** |
 | 9 | [09-open-items.md](09-open-items.md) | to know what is next | Pending requests, caveats, ideas |
 | 10 | [10-seo-indexing.md](10-seo-indexing.md) | before any new page / release | Search engine autopilot, owner checklist, how to audit indexing |
+| 26 | [26-aeo-ai-recommendations.md](26-aeo-ai-recommendations.md) | **AEO / "AI should suggest We3vision"** | Home FAQ, service catalogue data, /llms-full.txt, service FAQs, owner off-site steps (reviews, listings, Bing) |
 | 25 | [25-game-development-and-gta-style-seo.md](25-game-development-and-gta-style-seo.md) | **before touching the game page, the game articles or their pictures** | /game-development page, the 20 "GTA-style games" articles (addresses, keywords, pictures, how to change or hide one), after-deploy steps |
 | 24 | [24-google-search-console-setup.md](24-google-search-console-setup.md) | **before touching Search Console / Bing / indexing** | Owner step-by-step: verify, sitemap, request-indexing batches, Bing + IndexNow, Business Profile, keyword map, two-week checklist |
 | 23 | [23-seo-geo-aeo-report.md](23-seo-geo-aeo-report.md) | any SEO / schema / FAQ / robots / llms.txt task | Audit of 2026-11-13, what task 150 changed, scorecard, owner checklist (Search Console, Bing) |

@@ -680,22 +680,6 @@ export const SECTIONS = {
       steps: "Draw it | A few lines are enough: a shape, a letter, a feeling.\nWe study it | We look at your business, your audience and the idea behind your lines.\nOur artist returns it | A clean, balanced brand mark that lifts the value of your brand.",
     },
   }),
-  vrEntry: defineSection({
-    label: "Metaverse entrance (3D office walk)",
-    description: "A full 3D office: scrolling walks the visitor to a table where a VR headset waits; it is put on and the screen goes black. Put it first on the page.",
-    fields: [
-      { kind: "text", key: "heading", label: "Page heading (read by Google and screen readers, shown while the office loads)", max: 120 },
-      { kind: "textarea", key: "text", label: "Short text under the heading (same use)", max: 360 },
-      { kind: "text", key: "hint", label: "Hint at the start", max: 40, hint: "e.g. Scroll to walk in" },
-      { kind: "textarea", key: "captions", label: "Four short lines shown while walking (one per line)", max: 400, hint: "Shown one after the other: at the door, in the office, at the table, with the headset." },
-    ],
-    defaults: {
-      heading: "Metaverse Solutions For\nImmersive Experiences",
-      text: "We3vision builds metaverse concepts, virtual worlds and interactive digital experiences around your business goals.",
-      hint: "Scroll to walk in",
-      captions: "Welcome to our metaverse studio.\nThis is where ideas become worlds.\nOne more step to the table.\nPut on the headset.",
-    },
-  }),
   vrSpace: defineSection({
     label: "Metaverse space (glass windows inside the headset)",
     description: "The view inside the headset: a space behind a soft blur and three glass windows that come to the middle one after the other while scrolling. It follows the 3D office.",

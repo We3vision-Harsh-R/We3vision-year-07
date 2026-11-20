@@ -105,6 +105,5 @@ export const GuideBrandBoard = late(() => import("./brand-board").then((m) => m.
 export const ProjectsBoard = late(() => import("./sections/projects-board").then((m) => m.ProjectsBoard));
 export const SeoLab = late(() => import("./seo-lab").then((m) => m.SeoLab));
 export const ServicesRail = late(() => import("./services-rail").then((m) => m.ServicesRail));
-export const VrOffice = dynamic(() => import("./metaverse/vr-office").then((m) => m.VrOffice));
 export const WhyBento = late(() => import("./modern/why-bento").then((m) => m.WhyBento));
 export const AppShowcase = late(() => import("./modern/app-showcase").then((m) => m.AppShowcase));

@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService, type ChatServiceLink } from "@/lib/ai-chat";
+import { chatFull, openChatOverlay } from "@/lib/chat-overlay"; // every typed question opens the full-screen chat
 
 // the markdown library is fetched when the first typed answer comes
 const AskMd = dynamic(() => import("@/components/site/chat-md").then((m) => m.AskMd), { ssr: false });
@@ -36,6 +37,16 @@ export function SolveChat({ items, tag, kind }: { items: Item[]; tag: string; ki
   async function send(raw: string) {
     const q = raw.trim();
     if (!q || busy) return;
+    if (chatFull()) {
+      setText("");
+      if (service.current === null) {
+        const all: ChatService[] = await getChatServices().catch(() => []);
+        const re = kind === "ai" ? /ai|artificial|machine/i : /brand|logo|identity/i;
+        service.current = all.find((s) => re.test(`${s.title} ${s.category}`))?.id ?? "";
+      }
+      openChatOverlay({ question: q, serviceId: service.current });
+      return;
+    }
     const next: ChatMessage[] = [...hist.current, { role: "user", text: q }];
     hist.current = next;
     setText("");

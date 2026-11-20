@@ -6,6 +6,9 @@ import { Box, LANE_BOT, LANE_TOP, PH, PW, Piece, Vehicle, district, kindOf } fro
 import type { Road } from "./modern/map-variants";
 import type { ReactNode } from "react";
 import { CameraTuner, type Cam } from "./camera-tuner";
+import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (neon night, route line, minimap)
+import { GtMini } from "./gta-mini";
+import "@/styles/gta-city.css";
 
 // The industries city of the service pages. It is the same city as the one on the home page (industries-city.tsx, the districts and the
 // buildings come from city-scene.tsx, the look from the .cm-* styles) but the car does not drive round a ring road: it drives straight
@@ -39,6 +42,7 @@ const readCam = () => {
     return "";
   }
 };
+const GT_MS = 0.11; // the scale of the minimap (GTA theme): one district gap (340 px) is about 37 px of the radar
 const FAR = 4200; // an infinite road runs this far beyond the first and the last district (the haze and the blur hide the end)
 const smooth = (t: number) => {
   const c = Math.min(1, Math.max(0, t));
@@ -196,6 +200,11 @@ export function IndustriesRoad({
       world.querySelectorAll<HTMLElement>(".cm-sign span").forEach((sp) => (sp.style.transform = t));
     };
     applyRef.current = applySigns;
+    // GTA theme (task 156): the route line ahead of the car and the minimap follow the car; set here on every frame (like the car), not through React
+    const gtMap = GTA_ON ? sticky.querySelector<SVGGElement>(".gt-c-mapg") : null;
+    const gtArrow = GTA_ON ? sticky.querySelector<SVGGElement>(".gt-c-arrow") : null;
+    const gtAhead = GTA_ON ? Array.from(sticky.querySelectorAll<SVGPathElement>(".gt-c-ahead")) : [];
+    let gtLast = -1e9;
     const place = (fIn: number) => {
       const f = Math.min(n - 1, Math.max(0, Number.isFinite(fIn) ? fIn : 0));
       const i = Math.min(n - 1, Math.floor(f));
@@ -205,6 +214,15 @@ export function IndustriesRoad({
       const q = path.getPointAtLength(Math.min(geo.total, Math.max(0, dd) + 3));
       const a = (Math.atan2(q.y - p.y, q.x - p.x) * 180) / Math.PI;
       car.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) rotate(${a.toFixed(1)}deg)`;
+      if (GTA_ON) {
+        gtMap?.setAttribute("transform", `translate(${(-p.x * GT_MS).toFixed(2)} ${(-p.y * GT_MS).toFixed(2)}) scale(${GT_MS})`);
+        gtArrow?.setAttribute("transform", `rotate(${(a + 90).toFixed(1)})`);
+        if (Math.abs(dd - gtLast) > 3) {
+          gtLast = dd;
+          const cut = `0 ${dd.toFixed(1)} 100000`; // the route is drawn from the car on, not behind it
+          gtAhead.forEach((e) => (e.style.strokeDasharray = cut));
+        }
+      }
       // the zoom: nearest at a district, furthest half way between two districts (a soft dolly, only a scale)
       const z = zoom + breathe * (0.35 - Math.sin(Math.PI * (f - Math.floor(f))));
       if (signs > 0) world.style.setProperty("--zs", (signs / z).toFixed(3));
@@ -389,7 +407,7 @@ export function IndustriesRoad({
   return (
     <div
       ref={trackRef}
-      className={dof ? "cm-track cm-bird" : "cm-track"}
+      className={`${dof ? "cm-track cm-bird" : "cm-track"}${GTA_ON ? " gt-c" : ""}`}
       data-pin={n > 1}
       style={{ "--n": n, ...(dof ? { "--cam-p": `${cam.lens}px`, "--cam-x": `${cam.x}%`, "--cam-y": `${cam.y}%`, "--cam-blur": cam.blur } : {}) } as React.CSSProperties}
     >
@@ -435,6 +453,13 @@ export function IndustriesRoad({
                 <path d={geo.edgeIn} className="cm-edge" />
                 <path d={geo.mid} className="cm-dash" />
               </svg>
+              {/* GTA theme: the route, a glowing line along our lane from the car to the end of the trip (own layer, so only it is redrawn) */}
+              {GTA_ON && (
+                <svg className="cm-roads gt-c-routes" width="1" height="1">
+                  <path d={geo.car} className="gt-c-glow gt-c-ahead" />
+                  <path d={geo.car} className="gt-c-line gt-c-ahead" />
+                </svg>
+              )}
               {geo.lamps.map((l) => (
                 <div key={l.x} className="cm-at" style={{ left: l.x, top: l.y - 60 }}>
                   <Box x={-2} y={-2} w={4} d={4} h={34} l={44} />
@@ -484,7 +509,9 @@ export function IndustriesRoad({
             </div>
           </div>
 
+          {GTA_ON && <i className="gt-c-haze" aria-hidden />}
           <div className="cm-ui">
+            {GTA_ON && <GtMini road={geo.mid} route={geo.car} stops={geo.pads.map((p) => ({ x: p.x + PW / 2, y: p.y + PH / 2 }))} active={active} />}
             {/* the districts (click to drive there) */}
             <nav className="cm-rail" aria-label="Industries">
               <span className="cm-rail-bar">

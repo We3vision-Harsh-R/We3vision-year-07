@@ -3,6 +3,8 @@ import { SmartLink } from "@/components/site/smart-link";
 import { FaqToggle } from "./faq-toggle";
 import { homeFaq } from "@/lib/seo/home-faq";
 import type { SiteSettings } from "@/lib/cms/settings";
+import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (the FAQ as a game phone)
+import { HomeFaqPhone } from "./home-faq-phone";
 import "@/styles/home-faq.css";
 
 // The questions people ask about We3vision (home page, before the contact form). Every answer is plain server text (on a laptop all open, on a phone folded until the question is tapped, faq-toggle.tsx; so
@@ -12,18 +14,29 @@ import "@/styles/home-faq.css";
 export function HomeFaq({ site }: { site: SiteSettings }) {
   const faq = homeFaq(site);
   return (
-    <section className="hfq" id="faq" aria-labelledby="hfq-t">
+    <section
+      className="hfq"
+      id="faq"
+      aria-labelledby="hfq-t"
+      data-gta={GTA_ON ? "" : undefined}
+    >
       <div className="hb2-wrap hfq-grid">
         <div className="hfq-side" data-r>
           <p className="hb2-m-k">Questions</p>
           <h2 id="hfq-t" className="hb2-m-h">
             Questions people <em>ask us</em>
           </h2>
-          <p className="hfq-lede">Short, direct answers about what We3vision builds, where we work and how to reach us.</p>
+          <p className="hfq-lede">
+            Short, direct answers about what We3vision builds, where we work and
+            how to reach us.
+          </p>
+          {/* GTA theme (laptop and desktop): this link is the text field at the bottom of the phone, so the button is hidden there (gta-faq.css) */}
           <SmartLink href="/contact" className="hb2-m-btn">
             Ask us something else
           </SmartLink>
         </div>
+        {/* GTA theme: the game phone for laptop and desktop (hidden below 1024 px); the open list below is what phones and tablets keep (hidden from 1024 px in gta-faq.css) */}
+        {GTA_ON && <HomeFaqPhone items={faq} />}
         <FaqToggle>
           {faq.map((f, i) => (
             <article key={f.question} className="hfq-item" data-open="false" data-r style={{ "--d": `${(i % 3) * 70}ms` } as CSSProperties}>

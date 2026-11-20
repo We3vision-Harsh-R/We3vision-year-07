@@ -1,0 +1,14 @@
+/* GTA theme (task 162): the whole theme is for laptop and desktop screens only (>= 1024 px). Markup that exists only for the theme is .gt-dk (hidden below
+   1024 px, shown from 1024 px); the original markup that phones and tablets keep is .gt-pk (shown below 1024 px, hidden from 1024 px). display: contents
+   lets the children behave as children of the parent. */
+.gt-dk {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .gt-dk {
+    display: contents;
+  }
+  .gt-pk {
+    display: none;
+  }
+}

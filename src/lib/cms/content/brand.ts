@@ -209,6 +209,33 @@ export const BRAND_SECTIONS: PageSection[] = [
     ],
     note: "Prices are a starting point in Indian rupees. After a short call we share an exact quote for your scope.",
   }),
+  // Questions as people ask them (also an AI assistant): every answer uses only the facts written above on this page.
+  section("faq", {
+    chip: "FAQ",
+    heading: "Questions\nWe Often Hear",
+    intro: "",
+    items: [
+      {
+        question: "Does We3vision provide brand identity design services?",
+        answer:
+          "Yes. We3vision in Surat, India provides brand identity design services. We build brand strategy, logo design, visual identity, brand guidelines and marketing collateral, so your business has one clear and consistent look across every platform.",
+      },
+      {
+        question: "What is included in a brand identity design project?",
+        answer:
+          "Depending on what your project needs: brand strategy (your goals, audience and brand direction), a logo with colours and typography, a visual identity with brand guidelines your team and partners can follow, and brand-aligned marketing collateral. We understand your brand, define the visual direction, design the identity, review and refine it with you, and then prepare the brand assets for handover.",
+      },
+      {
+        question: "Which tools does We3vision use for brand design?",
+        answer: "We design with Adobe Illustrator, Photoshop, InDesign, Figma, Canva, Google Fonts and Typekit, and plan and share the work with Notion, Miro, Loom and Pitch.",
+      },
+      {
+        question: "Who is brand identity design for?",
+        answer:
+          "For businesses launching a new brand or redesigning an existing one. We create brand identities for healthcare, education, construction and real estate, e-commerce, gaming and entertainment, and marketing and corporate businesses.",
+      },
+    ],
+  }),
   contact(
     "Ready to Give Your Business\nA Clear Brand Identity?",
     "Whether you are launching a new business, refreshing an existing identity or preparing creative assets for your next campaign, We3vision can discuss your requirements and explore a suitable branding approach.",

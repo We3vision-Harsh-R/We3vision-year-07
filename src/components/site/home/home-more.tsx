@@ -3,6 +3,9 @@ import { SmartLink } from "@/components/site/smart-link";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { HomeContact } from "./home-contact";
 import { HomeFaq } from "./home-faq";
+import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (the contact form is a message to Lucia)
+import { HomeMessageRoute } from "./home-message-route";
+import "@/styles/gta-device.css";
 
 // The sections of the home page after the services (prefix hb2-m in styles/home.css). All facts are the ones already on the site (Home page content):
 // founded 2019 in Surat, 300+ projects, 7 core services, 7 industries, 6 technology platforms, the industries, the places, the tools.
@@ -114,6 +117,12 @@ export async function HomeMore() {
               </article>
             ))}
           </div>
+          {/* phones: the industries as tags like the technology chips (styles/home-mobile.css, hph-); the cards above are for laptops and tablets */}
+          <ul className="hph-tags" data-r aria-label="Industries we build for">
+            {INDUSTRIES.map((x) => (
+              <li key={x.n}>{x.n}</li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -190,7 +199,7 @@ export async function HomeMore() {
 
       {/* ---- the contact section: the words on the left, the form on the right (the same form and rules as the Contact page) */}
       <section className="hb2-m-ctc" id="contact" aria-labelledby="hb2-t8">
-        <div className="hb2-wrap hb2-m-ctg">
+        <div className="hb2-wrap hb2-m-ctg" data-gta={GTA_ON ? "" : undefined}>
           <div className="hb2-m-ct" data-r>
             <p className="hb2-m-k">Let&apos;s talk</p>
             <h2 id="hb2-t8">
@@ -205,10 +214,25 @@ export async function HomeMore() {
             <SmartLink href="/contact" className="hb2-m-btn">
               All contact details
             </SmartLink>
+            {/* GTA theme: the route of your message to Lucia (it follows the form) */}
+            {GTA_ON && <HomeMessageRoute />}
           </div>
           <div className="hb2-ct-panel" data-r style={{ "--d": "120ms" } as CSSProperties}>
             <h2>
-              Send us a <em>message</em>
+              {GTA_ON ? (
+                <>
+                  <span className="gt-dk">
+                    Send message to <em>Lucia</em>
+                  </span>
+                  <span className="gt-pk">
+                    Send us a <em>message</em>
+                  </span>
+                </>
+              ) : (
+                <>
+                  Send us a <em>message</em>
+                </>
+              )}
             </h2>
             <HomeContact />
           </div>

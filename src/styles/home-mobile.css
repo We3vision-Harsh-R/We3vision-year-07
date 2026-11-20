@@ -1868,3 +1868,338 @@
     box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
   }
 }
+
+/* hph-h: the first screen of the home page on a PHONE (owner, 2026-11-20): the wish line ("This year / Open your success door") and the recognition logos are gone from it,
+   the door is taller, the title stays, the paragraph is ONE line with "Read more…", the buttons stay. Phones up to 699px only. */
+.hph-more {
+  display: none;
+}
+@media (max-width: 699.98px) {
+  .hb2 .hb2-hero,
+  .hb2[data-fx] .hb2-hero {
+    min-height: 100svh;
+    padding: 0 24px 120px;
+  }
+  :root .hb2 .hb2-wish,
+  html:root .hb2 .hb2-hero-rec {
+    display: none;
+  }
+  .hb2 .hb2-world {
+    height: max(340px, calc(100svh - 360px));
+  }
+  .hb2 .hb2-arch {
+    width: min(60vw, 240px);
+    margin-left: calc(min(60vw, 240px) / -2);
+  }
+  .hb2 .hb2-copy {
+    margin-top: 18px;
+  }
+  .hb2 .hb2-copy h1 {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .hb2 .hb2-lede {
+    margin-top: 14px;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .hb2 .hb2-lede.is-open {
+    white-space: normal;
+    overflow: visible;
+  }
+  .hph-more {
+    display: inline-block;
+    align-self: flex-start;
+    text-align: left;
+    margin: 4px 0 0;
+    padding: 6px 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 16px;
+    color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 78%);
+    cursor: pointer;
+  }
+  .hb2 .hb2-ph-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .hb2 .hb2-ph-cta {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    height: 54px;
+    font-size: 16px;
+  }
+  .hb2 .hb2-go {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 54px;
+    height: 54px;
+  }
+  .hb2 .hb2-go em {
+    font-size: 14px;
+  }
+}
+
+/* hty-: one smaller type scale for the home page on a PHONE (owner, 2026-11-20: "make the fonts smaller, more white space, same headings on every page").
+   Section headings 22px, card headings 17-20px, the big number 56px, more air round the headings. Paragraphs stay 16px, labels 14px. Phones up to 699px only. */
+@media (max-width: 699.98px) {
+  html .hb2 .hb2-copy h1 {
+    font-size: 28px;
+  }
+  html .hb2 .hb2-s1 h2,
+  html .hb2 .hb2-head h2,
+  html .hb2 .hb2-sv-h,
+  html .hb2 #ai-development h2,
+  html .hb2 #brand-design h2,
+  html .hb2 #metaverse-service h2,
+  html .hb2 .hb2-m-h,
+  html .hb2 #reach h2,
+  html .hb2 #tools h2,
+  html .hb2 #contact h2 {
+    margin-top: 16px;
+    margin-bottom: 14px;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  html .hb2 .hb2-head h2 em,
+  html .hb2 .hb2-sv-h em,
+  html .hb2 #ai-development h2 em,
+  html .hb2 #brand-design h2 em,
+  html .hb2 #metaverse-service h2 em,
+  html .hb2 .hb2-m-h em,
+  html .hb2 #reach h2 em,
+  html .hb2 #tools h2 em,
+  html .hb2 #contact h2 em {
+    font-size: inherit;
+  }
+  /* cards: the three big service cards 20px, the small ones stay 17px, the rest 18px */
+  html .hb2 #services h3 {
+    font-size: 20px;
+  }
+  html .hb2 #services .hb2-sv-r2 h3 {
+    font-size: 17px;
+  }
+  html .hb2 .hb2-points h3,
+  html .hb2 .hbd-h3:first-of-type,
+  html .hb2 .hb2-m-pro h3,
+  html .hb2 #industries h3,
+  html .hb2 #faq h3 {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  html .hb2 #faq h3 {
+    font-size: 17px;
+  }
+  html .hb2 .hb2-m-big .hb2-m-num {
+    font-size: 56px;
+    line-height: 1;
+  }
+  html .hb2 #services .hb2-sv-brand h3 {
+    font-size: 20px !important; /* home.css sets the Branding heading with !important (36px, 30px up to 900px) */
+  }
+  html .hb2 #services h3 em,
+  html .hb2 .hb2-points h3 em,
+  html .hb2 #industries h3 em {
+    font-size: inherit;
+  }
+}
+
+/* hsp-: the same space (80px) between every two sections of the home page on a PHONE (owner, 2026-11-20). Before, it was 70 / 90 / 110 / 130 px by section
+   (each one had its own top and bottom padding). Now: the bottom padding of a section is 80px, the next one starts with 0 (or the sections that follow
+   a section with no bottom padding start with 80px). Phones up to 699px only. */
+@media (max-width: 699.98px) {
+  html:root .hb2 .hb2-s1b { padding-bottom: 70px; }
+  html:root .hb2 .hb2-s2 { padding-bottom: 80px; }
+  html:root #services,
+  html:root #ai-development,
+  html:root #brand-design,
+  html:root #metaverse-service { padding-top: 0; padding-bottom: 80px; }
+  html:root .hb2 .hb2-m-big { padding-top: 0; }
+  html:root .hb2 .hb2-m-pro,
+  html:root #industries,
+  html:root #reach,
+  html:root #tools,
+  html:root #faq,
+  html:root #contact { padding-top: 80px; padding-bottom: 0; }
+  html:root #contact { padding-bottom: 90px; }
+}
+
+/* hph-tags: on a PHONE the industries are tags (white glass pills, like the technology chips) and not a swipe row of cards (owner, 2026-11-20).
+   The cards stay for laptops and tablets. */
+.hph-tags {
+  display: none;
+}
+@media (max-width: 699.98px) {
+  html:root .hb2 .hb2-m-ind .hb2-m-bento {
+    display: none;
+  }
+  .hph-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hph-tags li {
+    padding: 11px 22px;
+    border-radius: 999px;
+    border: 1px solid hsl(0 0% 100% / 0.28);
+    background: hsl(0 0% 100% / 0.1);
+    font-size: 16px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+}
+
+/* hanim-: the animations of the home page on a PHONE made solid (owner, 2026-11-20). All opacity + transform only, 0.5 s, only with motion allowed
+   (home-fx.tsx sets data-fx then). 1) the first screen's words rise in one after the other when the page opens; 2) the industry tags come in one by one;
+   3) the cards of every swipe row (Why We3vision, AI work, products) get the "middle one big and bright" swipe animation (scroll driven, browsers that
+   have it); the other browsers get the plain reveal, and the whole row is revealed together by home-fx.tsx so no card pops in while the row glides. */
+@media (max-width: 699.98px) {
+  @keyframes hanim-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+    }
+  }
+  @keyframes hanim-swipe {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(0.93);
+    }
+    35%,
+    65% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hb2[data-fx] .hb2-copy {
+      animation: hanim-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s backwards;
+    }
+    .hb2[data-fx] .hb2-lede,
+    .hb2[data-fx] .hph-more {
+      animation: hanim-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.18s backwards;
+    }
+    .hb2[data-fx] .hb2-ph-row {
+      animation: hanim-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s backwards;
+    }
+
+    .hb2[data-fx] .hph-tags[data-r] {
+      opacity: 1;
+      transform: none;
+    }
+    .hb2[data-fx] .hph-tags li {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      transition:
+        opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+        transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .hb2[data-fx] .hph-tags[data-in] li {
+      opacity: 1;
+      transform: none;
+    }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(2) { transition-delay: 70ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(3) { transition-delay: 140ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(4) { transition-delay: 210ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(5) { transition-delay: 280ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(6) { transition-delay: 350ms; }
+    .hb2[data-fx] .hph-tags[data-in] li:nth-child(7) { transition-delay: 420ms; }
+
+    @supports (animation-timeline: view(inline)) {
+      .hb2[data-fx] .hb2-points > li,
+      .hb2[data-fx] .hba-work > li {
+        animation: hanim-swipe linear both;
+        animation-timeline: view(inline);
+      }
+    }
+  }
+}
+
+/* hfl-: the first screen on a PHONE flies through the door like the laptop (owner, 2026-11-20): the first screen is pinned, the scroll zooms in to the middle of
+   the door, the light fills the screen, and the About part comes out of the middle of the disc. The movement itself is in home-fx.tsx (a shorter, softer zoom on a
+   phone). Only while the script runs and motion is allowed (.hb2[data-fx]); otherwise the plain stacked first screen above stays. A soft fade-in on load. */
+@keyframes hfl-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+}
+@keyframes hfl-glow {
+  from {
+    opacity: 0;
+  }
+}
+@media (max-width: 900px) {
+  html .hb2[data-fx] .hb2-fly {
+    height: 330vh;
+  }
+  html .hb2[data-fx] .hb2-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+  }
+  html .hb2[data-fx] .hb2-hero {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    min-height: 0;
+    perspective: 900px;
+  }
+  html .hb2[data-fx] .hb2-world {
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+  }
+  html .hb2[data-fx] .hb2-flood {
+    display: block;
+  }
+  html .hb2[data-fx] .hb2-s1 {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+  }
+  html .hb2[data-fx] .hb2-s1-top > * {
+    opacity: 0;
+  }
+  html .hb2[data-fx] .hb2-s1-top {
+    padding-top: 84px;
+  }
+  html .hb2[data-fx] .hb2-s1 h2 {
+    margin-top: 22px;
+  }
+  html .hb2[data-fx] .hb2-disc {
+    margin-top: 28px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html .hb2[data-fx] .hb2-world {
+      animation: hfl-glow 1.4s ease-out backwards;
+    }
+    html .hb2[data-fx] .hb2-copy {
+      animation: hfl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s backwards;
+    }
+    html .hb2[data-fx] .hb2-lede {
+      animation: hfl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s backwards;
+    }
+    html .hb2[data-fx] .hb2-ph-row {
+      animation: hfl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.55s backwards;
+    }
+  }
+}
