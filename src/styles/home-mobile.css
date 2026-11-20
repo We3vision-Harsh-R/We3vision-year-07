@@ -2010,3 +2010,69 @@
     font-size: 14px;
   }
 }
+
+/* hty-: one smaller type scale for the home page on a PHONE (owner, 2026-11-20: "make the fonts smaller, more white space, same headings on every page").
+   Section headings 22px, card headings 17-20px, the big number 56px, more air round the headings. Paragraphs stay 16px, labels 14px. Phones up to 699px only. */
+@media (max-width: 699.98px) {
+  html .hb2 .hb2-copy h1 {
+    font-size: 28px;
+  }
+  html .hb2 .hb2-s1 h2,
+  html .hb2 .hb2-head h2,
+  html .hb2 .hb2-sv-h,
+  html .hb2 #ai-development h2,
+  html .hb2 #brand-design h2,
+  html .hb2 #metaverse-service h2,
+  html .hb2 .hb2-m-h,
+  html .hb2 #reach h2,
+  html .hb2 #tools h2,
+  html .hb2 #contact h2 {
+    margin-top: 16px;
+    margin-bottom: 14px;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  html .hb2 .hb2-head h2 em,
+  html .hb2 .hb2-sv-h em,
+  html .hb2 #ai-development h2 em,
+  html .hb2 #brand-design h2 em,
+  html .hb2 #metaverse-service h2 em,
+  html .hb2 .hb2-m-h em,
+  html .hb2 #reach h2 em,
+  html .hb2 #tools h2 em,
+  html .hb2 #contact h2 em {
+    font-size: inherit;
+  }
+  /* cards: the three big service cards 20px, the small ones stay 17px, the rest 18px */
+  html .hb2 #services h3 {
+    font-size: 20px;
+  }
+  html .hb2 #services .hb2-sv-r2 h3 {
+    font-size: 17px;
+  }
+  html .hb2 .hb2-points h3,
+  html .hb2 .hbd-h3:first-of-type,
+  html .hb2 .hb2-m-pro h3,
+  html .hb2 #industries h3,
+  html .hb2 #faq h3 {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  html .hb2 #faq h3 {
+    font-size: 17px;
+  }
+  html .hb2 .hb2-m-big .hb2-m-num {
+    font-size: 56px;
+    line-height: 1;
+  }
+  html .hb2 #services .hb2-sv-brand h3 {
+    font-size: 20px !important; /* home.css sets the Branding heading with !important (36px, 30px up to 900px) */
+  }
+  html .hb2 #services h3 em,
+  html .hb2 .hb2-points h3 em,
+  html .hb2 #industries h3 em {
+    font-size: inherit;
+  }
+}

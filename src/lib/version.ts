@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 175,
+    date: "2026-11-20",
+    title: "Phone: one smaller heading scale on every page",
+    notes: [
+      "On phones every page now uses the same heading sizes (page title 26px, section 22px, card 18px) with more white space; the home page follows the same scale.",
+      "Laptop and tablet are unchanged.",
+    ],
+  },
+  {
     v: 174,
     date: "2026-11-20",
     title: "Phone home page: taller first screen, stacked cards",
