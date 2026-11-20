@@ -1,0 +1,164 @@
+/* =====================================================================================================================
+   ht-: the phone pages in the THEME OF THE HOME PAGE (owner, 2026-11-20: "all pages like the home page, the same headings, buttons and
+   typography, no app look, the home page's menu"). Everything is scoped to `.ma-root.ma-home` (set by <AppScreen home>), so a page that is not
+   switched over does not change. The same colours as the home page (styles/home.css: --bg, --ink, --mute, --line, --v1..), ONE type scale:
+     page title 26px / 600, section heading 22px / 600, card heading 18px / 600, paragraph 16px, label 14px, button 16px / 600.
+   Phones only (up to 699px); the content (words) of a page is never changed here.
+   ===================================================================================================================== */
+@property --ht-a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes ht-ring {
+  to {
+    --ht-a: 360deg;
+  }
+}
+
+.ma-root.ma-home {
+  --ma-bg: hsl(calc(var(--th) + 350) calc(42% * var(--ts)) 3.6%);
+  --ma-card: hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 6.5%);
+  --ma-card2: hsl(calc(var(--th) + 352) calc(42% * var(--ts)) 9%);
+  --ma-line: hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 68% / 0.16);
+  --ma-rim: hsl(calc(var(--th) + 0) calc(35% * var(--ts)) 68% / 0.22);
+  --ma-text: hsl(calc(var(--th) + 8) calc(45% * var(--ts)) 96%);
+  --ma-text2: hsl(calc(var(--th) + 6) calc(22% * var(--ts)) 76%);
+  --ma-text3: hsl(calc(var(--th) + 6) calc(18% * var(--ts)) 66%);
+  --ma-tint: hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 78%);
+  --ma-gut: 24px;
+  --ma-nav: 0px;
+}
+/* the dark sky with a soft violet glow at the top, like the home page (no pink / blue blobs of the app look) */
+.ma-root.ma-home::before {
+  background:
+    radial-gradient(90% 38% at 50% -8%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 55% / 0.28), transparent 70%),
+    radial-gradient(70% 30% at 100% 60%, hsl(calc(var(--th) + 358) calc(80% * var(--ts)) 40% / 0.1), transparent 70%);
+}
+.ma-root.ma-home .ma-screen {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 28px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 120px);
+}
+.ma-root.ma-home em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ma-tint);
+}
+
+/* ---- ONE typography ---- */
+.ma-root.ma-home h1,
+.ma-root.ma-home .ma-title,
+.ma-root.ma-home .ma-hero .ma-title2 {
+  font-size: 26px;
+  line-height: 1.16;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.ma-root.ma-home h2,
+.ma-root.ma-home .ma-h2 {
+  font-size: 22px;
+  line-height: 1.22;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.ma-root.ma-home h3,
+.ma-root.ma-home .ma-card h3 {
+  font-size: 18px;
+  line-height: 1.28;
+  font-weight: 600;
+}
+.ma-root.ma-home p,
+.ma-root.ma-home li {
+  font-size: 16px;
+  line-height: 1.62;
+}
+.ma-root.ma-home .ma-intro,
+.ma-root.ma-home .ma-lead {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ma-text2);
+}
+.ma-root.ma-home .ma-chip,
+.ma-root.ma-home .ma-kick,
+.ma-root.ma-home .ma-eyebrow {
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
+/* ---- the same spacing between every two sections (80px), as the home page ---- */
+.ma-root.ma-home .ma-sec {
+  padding-top: 80px;
+}
+.ma-root.ma-home .ma-sec-head {
+  margin-bottom: 26px;
+}
+.ma-root.ma-home .ma-sec-head .ma-intro {
+  margin-top: 12px;
+}
+
+/* ---- the same cards: dark glass, 24px corners, a thin line ---- */
+.ma-root.ma-home .ma-card,
+.ma-root.ma-home .ma-list > li {
+  border: 1px solid var(--ma-line);
+  border-radius: 24px;
+  background: var(--ma-card);
+  box-shadow: none;
+}
+
+/* ---- the same buttons: the main one is dark glass with a slowly turning multicolour ring (the home page's "Start your project"), the second one a plain outline ---- */
+.ma-root.ma-home .ma-btn {
+  min-height: 52px;
+  padding: 0 26px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.ma-root.ma-home .ma-btn-fill {
+  position: relative;
+  isolation: isolate;
+  color: #fff;
+  background:
+    radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
+    linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
+}
+.ma-root.ma-home .ma-btn-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  padding: 1.5px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--ht-a),
+    hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%),
+    hsl(calc(var(--th) + 70) calc(95% * var(--ts)) 66%),
+    hsl(calc(var(--th) + 160) calc(90% * var(--ts)) 62%),
+    hsl(calc(var(--th) + 230) calc(95% * var(--ts)) 66%),
+    hsl(calc(var(--th) + 330) calc(95% * var(--ts)) 66%),
+    hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  animation: ht-ring 6s linear infinite;
+}
+.ma-root.ma-home .ma-btn-glass,
+.ma-root.ma-home .ma-btn-tinted,
+.ma-root.ma-home .mp-ai-btn:not(.is-main) {
+  border: 1px solid var(--ma-rim);
+  background: transparent;
+  color: var(--ma-text);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ma-root.ma-home .ma-btn-fill::before {
+    animation: none;
+  }
+}

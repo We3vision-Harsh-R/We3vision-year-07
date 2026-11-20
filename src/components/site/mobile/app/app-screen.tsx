@@ -10,6 +10,8 @@ import { AppNav } from "../../lazy";
 import { Motion } from "../../lazy";
 import { ShareHost } from "../../lazy";
 import { CtaBar } from "./cta-bar";
+import { PhoneDock } from "./phone-dock";
+import "./home-theme.css";
 import type { ContactInfo } from "./contact";
 import type { NavTab } from "./nav-types";
 import type { MegaData } from "@/components/site/mega-menu";
@@ -31,6 +33,7 @@ export function AppScreen({
   messageHref = "/contact",
   cta = true,
   nav,
+  home = false,
   children,
 }: {
   /** the short name of the page (as in the admin panel's page list), shown as the large title */
@@ -53,12 +56,14 @@ export function AppScreen({
   cta?: boolean;
   /** the bottom tab bar (one tab per main topic + Menu, which opens the big menu of the home page) and the contact button; when given it replaces the Call / WhatsApp / Message bar */
   nav?: { tabs: NavTab[]; mega: MegaData };
+  /** the page in the theme of the home page: no top bar and no big app title, the same bottom bar as the home page (home-theme.css) */
+  home?: boolean;
   children: ReactNode;
 }) {
   const Title = titleIsH1 ? "h1" : "p";
   return (
-    <div className="ma-root" data-page={page}>
-      <ScreenChrome title={title} />
+    <div className={`ma-root${home ? " ma-home" : ""}`} data-page={page}>
+      {!home && <ScreenChrome title={title} />}
       <Motion />
       <div className="ma-prog" aria-hidden="true" />
       <a href="#ma-main" className="ma-skip">
@@ -66,6 +71,9 @@ export function AppScreen({
       </a>
       <main className="ma-screen" id="ma-main" tabIndex={-1}>
         <div className="ma-wrap">
+          {home ? (
+            titleIsH1 && <h1 className="ma-title">{title}</h1>
+          ) : (
           <header className={`ma-large${title.length > 24 ? " is-long" : ""}`}>
             {glyph && (
               <span className="ma-appic" style={{ "--off": hue } as CSSProperties} aria-hidden="true">
@@ -78,10 +86,12 @@ export function AppScreen({
               {subtitle && <p className="ma-sub">{subtitle}</p>}
             </div>
           </header>
+          )}
           {children}
         </div>
       </main>
-      {nav && <AppNav tabs={nav.tabs} mega={nav.mega} title={title} contact={contact} messageHref={messageHref} />}
+      {nav && home && <PhoneDock mega={nav.mega} />}
+      {nav && !home && <AppNav tabs={nav.tabs} mega={nav.mega} title={title} contact={contact} messageHref={messageHref} />}
       <ShareHost />
       {cta && !nav && <CtaBar contact={contact} messageHref={messageHref} />}
     </div>

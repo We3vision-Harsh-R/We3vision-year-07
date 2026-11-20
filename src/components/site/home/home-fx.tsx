@@ -14,9 +14,10 @@ export function HomeFx() {
     const root = document.querySelector<HTMLElement>(".hb2");
     if (!root) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    // phones and small screens: one column, no pinned fly-through (the page is plain scrolling; see the max-width 900px block in home.css)
+    // phones and small screens: the same fly-through as the laptop (through the middle of the door, out of the middle of the disc), only softer:
+    // a shorter and gentler zoom, a slower fade of the words. The rest of the page is one column (the max-width 900px blocks in home.css, home-mobile.css)
     const phone = window.matchMedia("(max-width: 900px)").matches;
-    const fly = phone ? null : root.querySelector<HTMLElement>(".hb2-fly");
+    const fly = root.querySelector<HTMLElement>(".hb2-fly");
     root.setAttribute("data-fx", "");
 
     const io = new IntersectionObserver(
@@ -57,12 +58,12 @@ export function HomeFx() {
     // "Explore": fly through the door on a long eased scroll and land on the About part (instead of a jump to the anchor)
     const onGo = (e: MouseEvent) => {
       const a = (e.target as HTMLElement | null)?.closest<HTMLElement>(".hb2-go");
-      const f = phone ? root.querySelector<HTMLElement>(".hb2-s1") : fly;
+      const f = fly;
       if (!a || !f) return;
       e.preventDefault();
-      const y = phone ? f.getBoundingClientRect().top + window.scrollY : f.getBoundingClientRect().top + window.scrollY + (f.offsetHeight - window.innerHeight) * 0.96;
+      const y = f.getBoundingClientRect().top + window.scrollY + (f.offsetHeight - window.innerHeight) * 0.96;
       const lenis = (window as unknown as { __lenis?: { scrollTo: (v: number, o?: { duration?: number; easing?: (t: number) => number }) => void } }).__lenis;
-      if (lenis) lenis.scrollTo(y, { duration: phone ? 1.4 : 3, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) });
+      if (lenis) lenis.scrollTo(y, { duration: phone ? 2.4 : 3, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) });
       else window.scrollTo({ top: y, behavior: "smooth" });
     };
     root.addEventListener("click", onGo);
@@ -81,8 +82,10 @@ export function HomeFx() {
     const aboutTexts = Array.from(root.querySelectorAll<HTMLElement>(".hb2-s1-top > *"));
     let oy = 520; // y of the middle of the door inside the first screen (the vanishing point of the camera)
     let discCy = 600; // y of the middle of the disc inside the pinned screen, when it has settled
+    const pin = q(".hb2-pin");
     const measure = () => {
-      if (arch) oy = arch.offsetTop + arch.offsetHeight / 2;
+      // on a phone the world is a box at the top of the screen (not the whole screen), so its own position is added
+      if (arch) oy = arch.offsetTop + arch.offsetHeight / 2 + (phone && world ? world.offsetTop : 0);
       if (disc) discCy = disc.offsetTop + disc.offsetHeight * 0.67;
       if (hero) hero.style.perspectiveOrigin = `50% ${oy.toFixed(1)}px`;
     };
@@ -94,14 +97,16 @@ export function HomeFx() {
     const draw = (p: number) => {
       if (p === lastP) return;
       lastP = p;
-      const mid = Math.max(window.innerHeight, 780) / 2;
+      const mid = phone && pin ? pin.offsetHeight / 2 : Math.max(window.innerHeight, 780) / 2;
       // phase 1 (p 0..0.52): in through the door, towards the vanishing point in the middle of the door (the door slides to the middle as we go)
       const t = clamp(p / 0.52);
-      const ease = 0.55 * t + 0.45 * t * t;
-      put(world, "transform", `translate3d(0,0,${(835 * ease).toFixed(1)}px)`);
+      // phone: a smoothstep ease (starts and ends slowly) and a shorter zoom than the laptop's 835px
+      const ease = phone ? 0.3 * t + 0.7 * (t * t * (3 - 2 * t)) : 0.55 * t + 0.45 * t * t;
+      put(world, "transform", `translate3d(0,0,${((phone ? 640 : 835) * ease).toFixed(1)}px)`);
       put(hero, "transform", `translate3d(0,${((mid - oy) * (t * t * (3 - 2 * t))).toFixed(1)}px,0)`);
       put(hero, "opacity", p < 0.51 ? "1" : "0");
-      const text = (1 - t * 4 > 0 ? 1 - t * 4 : 0).toFixed(2);
+      const k = phone ? 3 : 4;
+      const text = (1 - t * k > 0 ? 1 - t * k : 0).toFixed(2);
       for (const el of heroTexts) put(el, "opacity", text);
       // "This year, open your success door": as the door comes close the words blur and vanish (before they could get lost in the light of the door)
       const wk = clamp(t * 3.4);
@@ -114,7 +119,7 @@ export function HomeFx() {
       const u = clamp((p - 0.5) / 0.42);
       const e2 = 1 - Math.pow(1 - u, 3);
       put(s1, "opacity", p > 0.5 ? "1" : "0");
-      put(discWorld, "transform", `translate3d(0,0,${(690 * (1 - e2)).toFixed(1)}px)`);
+      put(discWorld, "transform", `translate3d(0,0,${((phone ? 540 : 690) * (1 - e2)).toFixed(1)}px)`);
       put(disc, "transform", `translate3d(0,${((mid - discCy) * (1 - e2)).toFixed(1)}px,0)`);
       const tx = clamp((p - 0.84) / 0.12).toFixed(2);
       for (const el of aboutTexts) put(el, "opacity", tx);

@@ -2111,3 +2111,77 @@
     }
   }
 }
+
+/* hfl-: the first screen on a PHONE flies through the door like the laptop (owner, 2026-11-20): the first screen is pinned, the scroll zooms in to the middle of
+   the door, the light fills the screen, and the About part comes out of the middle of the disc. The movement itself is in home-fx.tsx (a shorter, softer zoom on a
+   phone). Only while the script runs and motion is allowed (.hb2[data-fx]); otherwise the plain stacked first screen above stays. A soft fade-in on load. */
+@keyframes hfl-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+}
+@keyframes hfl-glow {
+  from {
+    opacity: 0;
+  }
+}
+@media (max-width: 900px) {
+  html .hb2[data-fx] .hb2-fly {
+    height: 330vh;
+  }
+  html .hb2[data-fx] .hb2-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+  }
+  html .hb2[data-fx] .hb2-hero {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    min-height: 0;
+    perspective: 900px;
+  }
+  html .hb2[data-fx] .hb2-world {
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+  }
+  html .hb2[data-fx] .hb2-flood {
+    display: block;
+  }
+  html .hb2[data-fx] .hb2-s1 {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+  }
+  html .hb2[data-fx] .hb2-s1-top > * {
+    opacity: 0;
+  }
+  html .hb2[data-fx] .hb2-s1-top {
+    padding-top: 84px;
+  }
+  html .hb2[data-fx] .hb2-s1 h2 {
+    margin-top: 22px;
+  }
+  html .hb2[data-fx] .hb2-disc {
+    margin-top: 28px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html .hb2[data-fx] .hb2-world {
+      animation: hfl-glow 1.4s ease-out backwards;
+    }
+    html .hb2[data-fx] .hb2-copy {
+      animation: hfl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s backwards;
+    }
+    html .hb2[data-fx] .hb2-lede {
+      animation: hfl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s backwards;
+    }
+    html .hb2[data-fx] .hb2-ph-row {
+      animation: hfl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.55s backwards;
+    }
+  }
+}

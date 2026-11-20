@@ -274,3 +274,120 @@
 /* aipm-: the sliding model names get the same chip as the tools above (border, dark background, glowing dot) */
 .ma-root .mp-ai-track li { gap: 10px; min-height: 0; padding: 11px 18px; border-radius: 16px; font-size: 16px; letter-spacing: 0; border: 1px solid hsl(calc(var(--th) + 0) calc(50% * var(--ts)) 72% / 0.2); background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 12% / 0.8); color: var(--ma-text); }
 .ma-root .mp-ai-track li::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; background: hsl(calc(var(--th) + 6) calc(90% * var(--ts)) 70%); box-shadow: 0 0 12px hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 62%); }
+
+/* aih-: the AI page in the theme of the home page (app/home-theme.css): the first screen as the home page's one (left aligned, one type scale),
+   the same two buttons (dark glass with the turning ring, and an outline). Only while the page is switched over (`.ma-home`). Phones only. */
+@media (max-width: 699.98px) {
+  .ma-root.ma-home .mp-ai-hero {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    padding-top: 12px;
+    text-align: left;
+  }
+  .ma-root.ma-home .mp-ai-orb {
+    width: 96px;
+    height: 96px;
+    margin: 0 0 24px;
+  }
+  .ma-root.ma-home .mp-ai-chip {
+    font-size: 14px;
+    letter-spacing: 0.04em;
+  }
+  .ma-root.ma-home .mp-ai-h {
+    margin-top: 10px;
+    font-size: 26px;
+    line-height: 1.16;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .ma-root.ma-home .mp-ai-t {
+    max-width: none;
+    margin: 14px 0 0;
+    font-size: 16px;
+    line-height: 1.62;
+    letter-spacing: 0;
+  }
+  .ma-root.ma-home .mp-ai-btns {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .ma-root.ma-home .mp-ai-btn:not(.is-main) {
+    flex: 1 1 0;
+  }
+  .ma-root.ma-home .mp-ai-btn {
+    min-height: 52px;
+    min-width: 0;
+    padding: 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    border: 1px solid var(--ma-rim);
+    background: transparent;
+    color: var(--ma-text);
+  }
+  .ma-root.ma-home .mp-ai-btn.is-main {
+    position: relative;
+    isolation: isolate;
+    flex: 1 1 0;
+    border: 0;
+    color: #fff;
+    background:
+      radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
+      linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  }
+  .ma-root.ma-home .mp-ai-btn.is-main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    padding: 1.5px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(from var(--ht-a), hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%), hsl(calc(var(--th) + 70) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 160) calc(90% * var(--ts)) 62%), hsl(calc(var(--th) + 230) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 330) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: ht-ring 6s linear infinite;
+  }
+  /* the section headings as on every other page: a plain label, the heading, the intro (no terminal rail, no framed chip, no bar beside the heading) */
+  .ma-root.ma-home[data-page="ai"] .ma-sec {
+    padding-left: 0;
+    padding-top: 80px;
+  }
+  .ma-root.ma-home[data-page="ai"] .ma-sec::before,
+  .ma-root.ma-home[data-page="ai"] .ma-sec::after {
+    display: none;
+  }
+  .ma-root.ma-home[data-page="ai"] .ma-chip {
+    min-height: 0;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--ma-text2);
+  }
+  .ma-root.ma-home[data-page="ai"] .ma-chip::before {
+    display: none;
+  }
+  .ma-root.ma-home[data-page="ai"] .ma-h2,
+  .ma-root.ma-home[data-page="ai"] .ma-sec-head .ma-h2 {
+    padding-left: 0;
+    border-left: 0;
+    margin-top: 10px;
+    font-size: 22px;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+  }
+  .ma-root.ma-home[data-page="ai"] .ma-sec-head .ma-intro {
+    font-size: 16px;
+    line-height: 1.62;
+    letter-spacing: 0;
+  }
+
+}

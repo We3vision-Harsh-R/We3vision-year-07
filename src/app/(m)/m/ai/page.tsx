@@ -9,6 +9,7 @@ export const generateMetadata = () => mobileMetadata("ai");
 
 export default function Page() {
   return renderMobilePage("ai", {
+    home: true,
     keepOpen: ["flow", "automate", "services", "industries"],
     overrides: {
       pageHero: AiHero,
