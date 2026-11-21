@@ -192,11 +192,23 @@
 .ma-root.ma-home[data-page] .ma-sec-head::before {
   display: none;
 }
+/* every button is ONE line (icon and words side by side); two buttons of a row stand one under the other, each as wide as the screen allows */
 .ma-root.ma-home[data-page] .ma-btn,
 .ma-root.ma-home[data-page] [class*="-btn"]:is(a, button) {
-  white-space: normal;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  white-space: nowrap;
   text-align: center;
   line-height: 1.25;
+}
+.ma-root.ma-home[data-page] :is(.ma-actions, [class*="-btns"], [class*="-hero-act"], [class*="-acts"]) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
 }
 .ma-root.ma-home[data-page] .ma-chip::after,
 .ma-root.ma-home[data-page] .ma-sec-head > .ma-h2::before,

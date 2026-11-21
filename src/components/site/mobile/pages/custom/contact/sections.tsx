@@ -5,6 +5,7 @@ import { IcChat, IcChevron, IcMail, IcPhone, IcPin, IcWhatsApp } from "../../../
 import { Lines, Rich, lines } from "../../../app/text";
 import { Segmented } from "./client";
 import { GTA_ON } from "@/lib/gta";
+import { HomeMessageRoute } from "@/components/site/home/home-message-route";
 
 // /contact in iOS 27 style, like the Contacts card of We3vision: a glass monogram, the large title, four round glass quick actions
 // (call, WhatsApp, mail, map) from the real settings, then one segmented control that switches between the message form (one grouped field)
@@ -176,10 +177,17 @@ export const ContactForm: MobileSection<"contact"> = ({ data, site }) => {
     <Section id="contact" chip={data.chip} title={data.heading} intro={data.text}>
       <div className={g("gtc-phone")}>
         {GTA_ON && (
-          <p className="gtc-top" aria-hidden="true">
-            <span>We3vision</span>
-            <span>Messages</span>
-          </p>
+          <>
+            <p className="gtc-top" aria-hidden="true">
+              <span>We3vision</span>
+              <span>Messages</span>
+            </p>
+            {/* as on the home page: the message goes to Lucia, and a small map shows the route of the message while the form is filled in */}
+            <h3 className="gtc-lucia">
+              Send message to <em>Lucia</em>
+            </h3>
+            <HomeMessageRoute />
+          </>
         )}
         {details.length > 0 ? <Segmented label="How to reach us" tabs={["Message", "Phone and e-mail"]} panels={[form, <div key="d" className="mp-con-list">{details}</div>]} /> : form}
       </div>
