@@ -595,73 +595,19 @@
 }
 
 /* dk3- / mm4- (2026-11-10, owner): phone + tablet only.
-   1. the lit tab of the bottom bar is a glass box with a slowly turning light ring (like the glass button of the reference);
+   1. the lit tab of the bottom bar is a SOLID pill in the colour of the theme (2026-11-21, owner: no rainbow ring on any button);
    2. in the big menu the seven main services are the tiles at the top (where the products were), the products are a list under Explore. */
-@property --dk-a {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
 @media (max-width: 1023.98px) {
   :root:root .dk-pill i {
     position: relative;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-    -webkit-backdrop-filter: blur(10px) saturate(1.8);
-    backdrop-filter: blur(10px) saturate(1.8);
+    background: linear-gradient(180deg, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 64%), hsl(calc(var(--th) + 358) calc(78% * var(--ts)) 46%));
     box-shadow:
-      inset 0 0.5px 0 rgba(255, 255, 255, 0.45),
-      inset 0 -8px 14px -10px rgba(255, 255, 255, 0.25),
-      0 6px 18px -8px rgba(0, 0, 0, 0.6);
-  }
-  :root:root .dk-pill i::before,
-  :root:root .dk-pill i::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: conic-gradient(
-      from var(--dk-a),
-      hsl(calc(var(--th) + 20) 95% 62%),
-      hsl(calc(var(--th) + 70) 95% 66%),
-      hsl(calc(var(--th) + 160) 90% 62%),
-      hsl(calc(var(--th) + 230) 95% 66%),
-      hsl(calc(var(--th) + 330) 95% 66%),
-      hsl(calc(var(--th) + 20) 95% 62%)
-    );
-    animation: dk-ring 5s linear infinite;
-  }
-  /* the thin ring on the edge */
-  :root:root .dk-pill i::before {
-    padding: 1.5px;
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#000 0 0) content-box exclude,
-      linear-gradient(#000 0 0);
-  }
-  /* the soft glow it throws */
-  :root:root .dk-pill i::after {
-    z-index: -1;
-    filter: blur(12px);
-    opacity: 0.32;
-  }
-  @keyframes dk-ring {
-    to {
-      --dk-a: 360deg;
-    }
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.4),
+      0 6px 18px -6px hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 40% / 0.6);
   }
 
   /* the menu: the order of the blocks */
   /* the services tiles are the highlight of the menu: a glow behind them and a brighter ring on every tile */
-}
-@media (max-width: 1023.98px) and (prefers-reduced-motion: reduce) {
-  :root:root .dk-pill i::before,
-  :root:root .dk-pill i::after {
-    animation: none;
-  }
 }
 @media (max-width: 1023.98px) {
   /* long service names wrap inside the tile instead of being cut */

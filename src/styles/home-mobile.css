@@ -2193,3 +2193,37 @@
     }
   }
 }
+
+/* hab-: the "About We3vision" statement on phones and tablets: the label and the heading sit in the centre of the screen, at every width, and the lines are balanced
+   (no single word alone on the last line). Laptop unchanged. */
+@media (max-width: 1023.98px) {
+  html .hb2 .hb2-s1-top {
+    text-align: center;
+  }
+  html .hb2 .hb2-s1-top .hb2-label {
+    text-align: center;
+  }
+  html .hb2 .hb2-s1 h2 {
+    margin-inline: auto;
+    text-align: center;
+    text-wrap: balance;
+  }
+}
+
+/* hgp-: two empty areas of the home page on PHONES taken away (owner, 2026-11-21, white boxes on screenshots): (1) the dark space under the lit disc: the four
+   "why" cards now come up right under it (the sticky first stage keeps its height, the cards are pulled up into its empty lower part); (2) the gap between the
+   "Products" label and its heading. Phones up to 699px only. */
+@media (max-width: 699.98px) {
+  html .hb2 .hb2-s1b {
+    margin-top: calc(-1 * (100svh - 520px));
+  }
+  html .hb2 .hb2-s2 .hb2-grid {
+    margin-top: 6px;
+  }
+  html .hb2 .hb2-s2 .hb2-grid > .hb2-head {
+    padding-top: 0;
+  }
+  html .hb2 .hb2-s2 .hb2-head h2 {
+    margin-top: 0;
+  }
+}
