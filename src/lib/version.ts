@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 181,
+    date: "2026-11-21",
+    title: "Home service cards: Start project box",
+    notes: [
+      "On the laptop home page the service cards no longer show the small label after MISSION or the Start mission pill; every card has a pink Start project box that comes in with the objectives on hover.",
+    ],
+  },
+  {
     v: 180,
     date: "2026-11-21",
     title: "Laptop big menu: no overlap on a small laptop",
