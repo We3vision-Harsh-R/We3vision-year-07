@@ -54,11 +54,6 @@ export function HomeServices({ stats }: { stats: Stats }) {
                   <b className="gt-m-no">
                     Mission {String(i + 1).padStart(2, "0")}
                   </b>
-                  <span className="gt-m-sub">
-                    {st && st.n > 0
-                      ? `${st.n} ${st.n === 1 ? "project" : "projects"}`
-                      : s.kick}
-                  </span>
                 </span>
                 <span className="gt-pk">
                   {st && st.n > 0
@@ -92,26 +87,14 @@ export function HomeServices({ stats }: { stats: Stats }) {
               </ol>
             </div>
           )}
-          {(big || GTA_ON) && (
-            <div
-              className={GTA_ON && !big ? "hb2-sv-foot gt-foot" : "hb2-sv-foot"}
-            >
-              {GTA_ON && (
-                <span className="gt-m-go">
-                  <svg viewBox="0 0 10 10" aria-hidden>
-                    <path d="M1.5 0.8 9 5 1.5 9.2Z" />
-                  </svg>
-                  Start mission
-                </span>
-              )}
-              {big && (
-                <span className={GTA_ON ? "hb2-sv-tags gt-pk" : "hb2-sv-tags"}>
-                  {s.tags.map((t) => (
-                    <b key={t}>{t}</b>
-                  ))}
-                </span>
-              )}
-              {big && st?.latest && (
+          {big && (
+            <div className="hb2-sv-foot">
+              <span className={GTA_ON ? "hb2-sv-tags gt-pk" : "hb2-sv-tags"}>
+                {s.tags.map((t) => (
+                  <b key={t}>{t}</b>
+                ))}
+              </span>
+              {st?.latest && (
                 <span className="hb2-sv-last">Latest: {st.latest}</span>
               )}
             </div>
