@@ -1,5 +1,6 @@
 /* GTA theme: laptop and desktop only (task 162) */
-.gt-m-obj {
+.gt-m-obj,
+.gt-m-start {
   display: none;
 }
 @media (min-width: 1024px) {
@@ -36,6 +37,33 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gt-pink);
+}
+/* the "Start project" box at the foot of every card: it comes in with the objectives while the card is open (the card itself is the link) */
+.gt-m-start {
+  position: absolute;
+  z-index: 5;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  display: grid;
+  place-items: center;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gt-dark);
+  background: var(--gt-pink);
+  box-shadow: 0 0 26px var(--gt-pink-a);
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition:
+    opacity 0.35s ease,
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+}
+.hb2-sv-cell[data-on] .gt-m-start {
+  opacity: 1;
+  transform: none;
 }
 /* the objectives: the list of what we build, ticked one by one while the card is open */
 .gt-m-obj {
