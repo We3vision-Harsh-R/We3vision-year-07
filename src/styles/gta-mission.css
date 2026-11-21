@@ -1,12 +1,6 @@
 /* GTA theme: laptop and desktop only (task 162) */
-.gt-m-obj,
-.gt-m-go {
+.gt-m-obj {
   display: none;
-}
-@media (max-width: 1023px) {
-  .hb2-sv-foot.gt-foot {
-    display: none;
-  }
 }
 @media (min-width: 1024px) {
 .gt-m-obj {
@@ -42,46 +36,6 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gt-pink);
-}
-.gt-m-sub {
-  min-width: 0;
-  overflow: hidden;
-  color: var(--mute);
-  text-overflow: ellipsis;
-}
-.gt-m-sub::before {
-  content: "·";
-  margin-right: 8px;
-}
-/* the button at the foot of every card (the card itself is the link) */
-.gt-m-go {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 8px 17px 8px 15px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  color: var(--ink);
-  border: 1px solid var(--gt-pink-a);
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 68% / 0.08);
-  transition:
-    background 0.35s,
-    color 0.35s,
-    box-shadow 0.35s,
-    border-color 0.35s;
-}
-.gt-m-go svg {
-  width: 10px;
-  height: 10px;
-  fill: currentColor;
-}
-.hb2-sv-cell[data-on] .gt-m-go {
-  color: var(--gt-dark);
-  border-color: transparent;
-  background: var(--gt-pink);
-  box-shadow: 0 0 26px var(--gt-pink-a);
 }
 /* the objectives: the list of what we build, ticked one by one while the card is open */
 .gt-m-obj {
@@ -167,18 +121,6 @@
 }
 .hb2-sv-cell[data-on] .gt-m-obj li i::after {
   opacity: 1;
-}
-/* the small cards of the second row keep their picture clean: the button shows while the card is open */
-.hb2-sv[data-gta] .hb2-sv-r2 .hb2-sv-foot {
-  opacity: 0;
-  transform: translate3d(0, 8px, 0);
-  transition:
-    opacity 0.35s ease,
-    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.hb2-sv[data-gta] .hb2-sv-r2 .hb2-sv-cell[data-on] .hb2-sv-foot {
-  opacity: 1;
-  transform: none;
 }
 /* the small cards of the second row grow upward over the first row while they are open, to make room for the objectives */
 .hb2-sv[data-gta] .hb2-sv-card {
