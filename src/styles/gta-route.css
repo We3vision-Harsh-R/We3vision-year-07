@@ -1,25 +1,26 @@
-/* GTA theme: laptop and desktop only (task 162) */
-.mr {
-  display: none;
+/* GTA theme (task 160): the message route. The home contact section shows it on laptops and desktops only (task 162); the phone Contact page shows it too
+   (it has its own width rules in (m)/m/contact/page.css). Everywhere else it is not mounted. */
+@media (max-width: 1023.98px) {
+  .hb2-m-ctg .mr {
+    display: none;
+  }
 }
 @media (min-width: 1024px) {
-.mr {
-  display: block;
+  /* GTA theme (task 160), part 7: the contact section of the home page: the words go to the top of the left column and under them sits the route map
+     (prefix mr-; components/site/home/home-message-route.tsx). Only active while the section has data-gta (lib/gta.ts GTA_ON). */
+  .hb2-m-ctg[data-gta] {
+    align-items: stretch;
+  }
+  .hb2-m-ctg[data-gta] .hb2-m-ct {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hb2-m-ctg[data-gta] .hb2-m-ct > .hb2-m-btn {
+    margin-bottom: 30px;
+  }
 }
-/* GTA theme (task 160), part 7: the contact section of the home page. The words go to the top of the left column and under them sits a small city map with a
-   route "You -> Lucia" (prefix mr-; components/site/home/home-message-route.tsx). Only active while the section has data-gta (lib/gta.ts GTA_ON).
-   Colours: the theme hue plus an offset (pink +40, sun +100, water +290). SVG text is 15px in a 520 px wide drawing, so it stays >= 14px. */
-.hb2-m-ctg[data-gta] {
-  align-items: stretch;
-}
-.hb2-m-ctg[data-gta] .hb2-m-ct {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.hb2-m-ctg[data-gta] .hb2-m-ct > .hb2-m-btn {
-  margin-bottom: 30px;
-}
+/* Colours: the theme hue plus an offset (pink +40, sun +100, water +290). SVG text is 15px in a 520 px wide drawing, so it stays >= 14px. */
 .mr {
   --mr-pink: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 68%);
   --mr-pink-a: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 68% / 0.5);
@@ -235,5 +236,4 @@
   .mr-env-in {
     animation: none;
   }
-}
 }

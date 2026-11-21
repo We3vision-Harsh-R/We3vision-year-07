@@ -49,10 +49,11 @@ export function ServiceWheel({ open, onClose }: { open: boolean; onClose: () => 
       const d = (i - st.pos) * ITEM;
       const ad = Math.abs(d);
       const a = Math.min(ad, R - 1);
+      // the far rows lean to the right a little (at most 36px), so no icon leaves the screen
       // entrance: the rows slide in along the arc from the right, the ones nearest the middle first
       const p = Math.min(1, Math.max(0, (now - st.openedAt - Math.abs(i - st.pos) * 38) / 640));
       const e = 1 - (1 - p) * (1 - p) * (1 - p);
-      li.style.transform = `translate3d(${(R - Math.sqrt(R * R - a * a) + (1 - e) * 90).toFixed(1)}px,${d.toFixed(1)}px,0) scale(${Math.max(0.88, 1 - ad / 1500).toFixed(3)})`;
+      li.style.transform = `translate3d(${(Math.min(36, (R - Math.sqrt(R * R - a * a)) * 0.4) + (1 - e) * 90).toFixed(1)}px,${d.toFixed(1)}px,0) scale(${Math.max(0.88, 1 - ad / 1500).toFixed(3)})`;
       li.style.opacity = String((Math.max(0.42, 1 - ad / (ITEM * 8.5)) * e).toFixed(3));
       li.style.setProperty("--h", Math.max(0, 1 - ad / ITEM).toFixed(3));
       // the rows far from the middle go soft (a little blur), the ones near it stay sharp

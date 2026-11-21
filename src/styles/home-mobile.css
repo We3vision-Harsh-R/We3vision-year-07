@@ -1870,7 +1870,7 @@
 }
 
 /* hph-h: the first screen of the home page on a PHONE (owner, 2026-11-20): the wish line ("This year / Open your success door") and the recognition logos are gone from it,
-   the door is taller, the title stays, the paragraph is ONE line with "Read more…", the buttons stay. Phones up to 699px only. */
+   the door is taller, the title stays, the paragraph is ONE line with "Read more…", the main button stays (the round Explore button is not shown on phones). Phones up to 699px only. */
 .hph-more {
   display: none;
 }
@@ -1936,16 +1936,6 @@
     place-items: center;
     height: 54px;
     font-size: 16px;
-  }
-  .hb2 .hb2-go {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 54px;
-    height: 54px;
-  }
-  .hb2 .hb2-go em {
-    font-size: 14px;
   }
 }
 
@@ -2201,5 +2191,39 @@
     html .hb2[data-fx] .hb2-ph-row {
       animation: hfl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.55s backwards;
     }
+  }
+}
+
+/* hab-: the "About We3vision" statement on phones and tablets: the label and the heading sit in the centre of the screen, at every width, and the lines are balanced
+   (no single word alone on the last line). Laptop unchanged. */
+@media (max-width: 1023.98px) {
+  html .hb2 .hb2-s1-top {
+    text-align: center;
+  }
+  html .hb2 .hb2-s1-top .hb2-label {
+    text-align: center;
+  }
+  html .hb2 .hb2-s1 h2 {
+    margin-inline: auto;
+    text-align: center;
+    text-wrap: balance;
+  }
+}
+
+/* hgp-: two empty areas of the home page on PHONES taken away (owner, 2026-11-21, white boxes on screenshots): (1) the dark space under the lit disc: the four
+   "why" cards now come up right under it (the sticky first stage keeps its height, the cards are pulled up into its empty lower part); (2) the gap between the
+   "Products" label and its heading. Phones up to 699px only. */
+@media (max-width: 699.98px) {
+  html .hb2 .hb2-s1b {
+    margin-top: calc(-1 * (100svh - 520px));
+  }
+  html .hb2 .hb2-s2 .hb2-grid {
+    margin-top: 6px;
+  }
+  html .hb2 .hb2-s2 .hb2-grid > .hb2-head {
+    padding-top: 0;
+  }
+  html .hb2 .hb2-s2 .hb2-head h2 {
+    margin-top: 0;
   }
 }

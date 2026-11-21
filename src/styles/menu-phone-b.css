@@ -496,3 +496,17 @@
     font-size: 14px;
   }
 }
+
+/* mml2-: the Login button of the big menu is one line: the icon and the word side by side (a block link put the icon above the word) */
+@media (max-width: 1023.98px) {
+  :root:root:root .mm .mm-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 22px;
+    white-space: nowrap;
+    font-size: 15px;
+  }
+}

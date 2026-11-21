@@ -150,3 +150,28 @@
     margin-top: 0;
   }
 }
+
+/* lcn-: the Contact page as the home page's contact section: "Send message to Lucia" and the route map above the form; the Send button is white on the theme colour */
+.ma-root .gtc-lucia {
+  margin: 14px 0 12px;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.ma-root .gtc-lucia em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--gtc-pink);
+}
+.ma-root .gtc-phone .mr {
+  display: block;
+  margin: 0 0 18px;
+}
+.ma-root.ma-home[data-page="contact"] .gtc-phone .ma-btn-fill,
+.ma-root.ma-home[data-page="contact"] .gtc-hero .mp-con-btns .ma-btn-fill {
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 64%), hsl(calc(var(--th) + 358) calc(78% * var(--ts)) 46%));
+  color: #fff;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+}

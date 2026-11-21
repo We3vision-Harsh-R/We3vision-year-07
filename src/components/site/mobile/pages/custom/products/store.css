@@ -91,24 +91,8 @@
   .ma-root.ma-home .mp-store-get {
     position: relative;
     isolation: isolate;
-    background:
-      radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
-      linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
-  }
-  .ma-root.ma-home .mp-store-get::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    padding: 1.5px;
-    border-radius: inherit;
-    pointer-events: none;
-    background: conic-gradient(from var(--ht-a), hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%), hsl(calc(var(--th) + 70) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 160) calc(90% * var(--ts)) 62%), hsl(calc(var(--th) + 230) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 330) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-    animation: ht-ring 6s linear infinite;
+    background: linear-gradient(180deg, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 64%), hsl(calc(var(--th) + 358) calc(78% * var(--ts)) 46%));
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 8px 22px hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 40% / 0.4);
   }
   .ma-root.ma-home .mp-store-alt { background: transparent; border: 1px solid var(--ma-rim); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
   .ma-root.ma-home .mp-store-t,

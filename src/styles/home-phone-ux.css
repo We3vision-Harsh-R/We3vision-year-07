@@ -24,31 +24,25 @@
     margin-top: -48px;
   }
 
-  /* ---- 2. the main buttons: a dark glass button with a soft, slowly turning multicolour border (the look of the lit tab of the bottom bar) ---- */
+  /* ---- 2. the main buttons: ONE solid button in the colour of the theme (owner, 2026-11-21: no rainbow ring) ---- */
   html .hb2 .hb2-ph-cta,
   html .hb2-m-btn,
   html button.hb2-m-btn {
-    position: relative;
-    isolation: isolate;
     border: 0;
     color: #fff;
-    background:
-      radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
-      linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
+    background: linear-gradient(180deg, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 64%), hsl(calc(var(--th) + 358) calc(78% * var(--ts)) 46%));
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.3),
+      0 8px 22px hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 40% / 0.4);
   }
-  html .hb2 .hb2-ph-cta::before,
-  html .hb2-m-btn::before,
-  html button.hb2-m-btn::before,
-  html .hb2 .hb2-ph-cta::after,
-  html .hb2-m-btn::after,
-  html button.hb2-m-btn::after,
+  /* "We3vision AI" in the picture of the AI section: its own ring (a picture, not a button) */
   html .hba-core .hba-ring {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
+    padding: 1.5px;
     background: conic-gradient(
       from var(--hpx-a),
       hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%),
@@ -58,14 +52,6 @@
       hsl(calc(var(--th) + 330) calc(95% * var(--ts)) 66%),
       hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%)
     );
-    animation: hpx-ring 6s linear infinite;
-  }
-  /* the thin ring on the edge */
-  html .hb2 .hb2-ph-cta::before,
-  html .hb2-m-btn::before,
-  html button.hb2-m-btn::before,
-  html .hba-core .hba-ring {
-    padding: 1.5px;
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
@@ -73,16 +59,8 @@
     mask:
       linear-gradient(#000 0 0) content-box exclude,
       linear-gradient(#000 0 0);
+    animation: hpx-ring 6s linear infinite;
   }
-  /* the soft light it throws */
-  html .hb2 .hb2-ph-cta::after,
-  html .hb2-m-btn::after,
-  html button.hb2-m-btn::after {
-    z-index: -1;
-    filter: blur(12px);
-    opacity: 0.3;
-  }
-  /* "We3vision AI" in the picture of the AI section: the same ring */
   html .hba-core {
     background:
       radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),

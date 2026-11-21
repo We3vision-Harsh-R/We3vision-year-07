@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState, type FormEvent } from "react";
+import { useActionState, useEffect, useRef, useState, type FormEvent } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";
 import { leadProblems, limitPhone, type LeadProblems, type LeadValues } from "@/lib/contact-validation";
 
@@ -18,6 +18,13 @@ export function LeadForm({ buttonLabel = "Send a Message" }: { buttonLabel?: str
   const [seen, setSeen] = useState<Partial<Record<Key, boolean>>>({});
   const ref = useRef<HTMLFormElement>(null);
   const problems: LeadProblems = leadProblems(v, { phoneRequired: true });
+  // the Contact page shows the route of the message (components/site/home/home-message-route.tsx): it is told how many fields are right and what the form is doing
+  useEffect(() => {
+    const done = ORDER.filter((k) => v[k].trim() && !problems[k]).length;
+    const stage = state.status === "success" ? "sent" : pending ? "sending" : state.status === "error" ? "fail" : "typing";
+    window.dispatchEvent(new CustomEvent("w3v-lead", { detail: { done, stage } }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [v, pending, state.status]);
   const shown = (k: Key) => (seen[k] ? problems[k] : undefined);
   const set = (k: Key, value: string) => setV((x) => ({ ...x, [k]: value }));
 
