@@ -23,22 +23,6 @@
 .ma-root .mp-store-t { margin: 24px 0 0; padding-top: 18px; border-top: 1px solid var(--ma-line); font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
 @keyframes mp-store-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
 
-/* centred header (coming soon): a big icon with a soft halo */
-.ma-root .mp-store-head.is-center { text-align: center; }
-.ma-root .mp-store-head.is-center .mp-store-id { flex-direction: column; gap: 20px; }
-.ma-root .mp-store-head.is-center .mp-store-nm { justify-items: center; }
-.ma-root .mp-store-head.is-center .mp-store-ic { box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.45), 0 0 0 12px var(--ma-wash), 0 20px 50px hsl(calc(var(--ma-h) + var(--o)) calc(80% * var(--ts)) 40% / 0.45); }
-
-/* a header that starts with a 16:9 "slide" (glass frame, the name as its title) */
-.ma-root .mp-store-slide { position: relative; display: grid; align-content: center; gap: 10px; aspect-ratio: 16 / 9; margin-bottom: 22px; padding: 0 24px; border-radius: 24px; overflow: hidden; background: radial-gradient(90% 80% at 90% 0%, hsl(calc(var(--ma-h) + var(--o) + 40) calc(80% * var(--ts)) 60% / 0.5), transparent 60%), linear-gradient(135deg, hsl(calc(var(--ma-h) + var(--o)) calc(80% * var(--ts)) 44%), hsl(calc(var(--ma-h) + var(--o) - 30) calc(70% * var(--ts)) 22%)); box-shadow: 0 0 0 0.5px hsl(0 0% 100% / 0.22), inset 0 1px 0 hsl(0 0% 100% / 0.28), 0 18px 44px hsl(0 0% 0% / 0.32); }
-.ma-root .mp-store-slide span { font-size: 34px; line-height: 1.1; font-weight: 600; letter-spacing: 0.37px; color: #fff; overflow-wrap: anywhere; }
-.ma-root .mp-store-slide i { display: block; height: 8px; width: 62%; border-radius: 4px; background: hsl(0 0% 100% / 0.35); transform-origin: left center; animation: mp-store-line 0.6s var(--ma-ease) 0.35s backwards; }
-.ma-root .mp-store-slide i + i { width: 40%; opacity: 0.7; animation-delay: 0.5s; }
-@keyframes mp-store-line { from { opacity: 0; transform: scaleX(0.2); } }
-
-/* "note" header: a squircle with a softer, paper-like icon */
-.ma-root .mp-store-head.is-note .mp-store-ic { background: linear-gradient(180deg, hsl(calc(var(--ma-h) + var(--o)) calc(70% * var(--ts)) 70%), hsl(calc(var(--ma-h) + var(--o) - 10) calc(70% * var(--ts)) 50%)); }
-
 /* ---- description, App Store style: the first paragraph, then "more" ---- */
 .ma-root .mp-store-desc p { margin: 0; font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
 .ma-root .mp-store-desc em { font-style: normal; font-weight: 500; color: var(--ma-text); }
@@ -77,11 +61,10 @@
 
 @media (min-width: 700px) {
   .ma-root .mp-store-acts { max-width: 520px; }
-  .ma-root .mp-store-head.is-center .mp-store-acts { margin-inline: auto; }
-}
+  }
 
 @media (prefers-reduced-motion: reduce) {
-  .ma-root .mp-store-head > *, .ma-root .mp-store-slide i, .ma-root .mp-store-more[open] p, .ma-root .mp-store-qa details p { animation: none; }
+  .ma-root .mp-store-head > *, .ma-root .mp-store-more[open] p, .ma-root .mp-store-qa details p { animation: none; }
   .ma-root .mp-store-get, .ma-root .mp-store-alt, .ma-root .mp-store-pill { transition: none; }
 }
 
@@ -92,3 +75,59 @@
 .ma-root .mp-store-rank { flex: none; width: 18px; font-size: 17px; font-weight: 700; letter-spacing: -0.43px; color: var(--ma-text2); text-align: center; font-variant-numeric: tabular-nums; }
 .ma-root .mp-store-sheet { display: grid; justify-items: center; gap: 10px; padding: 6px 0 16px; text-align: center; }
 .ma-root .mp-store-sheet b { font-size: 24px; line-height: 1.2; font-weight: 700; letter-spacing: 0.07px; }
+
+/* prh-: the product pages and the product rows in the theme of the home page (app/home-theme.css): one type scale, the two buttons as on the home page,
+   rows as cards, plain description text. Phones only. */
+@media (max-width: 699.98px) {
+  .ma-root.ma-home .mp-store-head { padding-top: 12px; }
+  .ma-root.ma-home .mp-store-ic.is-lg { width: 72px; height: 72px; font-size: 32px; }
+  .ma-root.ma-home .mp-store-id { gap: 16px; }
+  .ma-root.ma-home .mp-store-h { font-size: 26px; line-height: 1.16; letter-spacing: -0.015em; }
+  .ma-root.ma-home .mp-store-sub { font-size: 16px; letter-spacing: 0; }
+  .ma-root.ma-home .mp-store-badge { font-size: 14px; font-weight: 400; letter-spacing: 0.04em; color: var(--ma-text2); }
+  .ma-root.ma-home .mp-store-acts { gap: 12px; }
+  .ma-root.ma-home .mp-store-get,
+  .ma-root.ma-home .mp-store-alt { min-height: 52px; font-weight: 600; letter-spacing: 0; }
+  .ma-root.ma-home .mp-store-get {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 150% at 50% 0%, hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 60% / 0.3), transparent 70%),
+      linear-gradient(180deg, hsl(calc(var(--th) + 350) calc(50% * var(--ts)) 12%), hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 6%));
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  }
+  .ma-root.ma-home .mp-store-get::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    padding: 1.5px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(from var(--ht-a), hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%), hsl(calc(var(--th) + 70) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 160) calc(90% * var(--ts)) 62%), hsl(calc(var(--th) + 230) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 330) calc(95% * var(--ts)) 66%), hsl(calc(var(--th) + 20) calc(95% * var(--ts)) 62%));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: ht-ring 6s linear infinite;
+  }
+  .ma-root.ma-home .mp-store-alt { background: transparent; border: 1px solid var(--ma-rim); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+  .ma-root.ma-home .mp-store-t,
+  .ma-root.ma-home .mp-store-desc p { font-size: 16px; line-height: 1.62; letter-spacing: 0; }
+  .ma-root.ma-home .mp-store-t { margin-top: 24px; padding-top: 0; border-top: 0; }
+  .ma-root.ma-home .mp-store-more summary { font-size: 16px; letter-spacing: 0; }
+  .ma-root.ma-home .mp-store-list { display: grid; gap: 12px; }
+  .ma-root.ma-home .mp-store-list li + li::before { display: none; }
+  .ma-root.ma-home .mp-store-row { min-height: 0; padding: 18px; border: 1px solid var(--ma-line); border-radius: 24px; background: var(--ma-card); }
+  .ma-root.ma-home .mp-store-lb b { font-size: 18px; font-weight: 600; letter-spacing: 0; }
+  .ma-root.ma-home .mp-store-lb span { font-size: 16px; line-height: 1.5; letter-spacing: 0; }
+  .ma-root.ma-home .mp-store-rank { display: none; }
+  .ma-root.ma-home .mp-store-row .mp-store-ic { width: 52px; height: 52px; font-size: 24px; }
+  .ma-root.ma-home .mp-store-row { gap: 14px; }
+  .ma-root.ma-home .mp-store-pill { width: 36px; height: 36px; }
+  .ma-root.ma-home .mp-store-pill { background: transparent; border: 1px solid var(--ma-line); }
+  .ma-root.ma-home .mp-store-qa summary { font-size: 16px; font-weight: 500; letter-spacing: 0; }
+  .ma-root.ma-home .mp-store-qa details p { max-width: none; font-size: 16px; line-height: 1.62; letter-spacing: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ma-root.ma-home .mp-store-get::before { animation: none; }
+}

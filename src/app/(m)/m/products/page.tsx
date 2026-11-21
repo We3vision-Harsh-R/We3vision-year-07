@@ -9,5 +9,5 @@ export const revalidate = 600;
 export const generateMetadata = () => mobileMetadata("products");
 
 export default function Page() {
-  return renderMobilePage("products", { overrides: { pageHero: ProductsToday, services: StoreList } });
+  return renderMobilePage("products", { home: true, overrides: { pageHero: ProductsToday, services: StoreList } });
 }

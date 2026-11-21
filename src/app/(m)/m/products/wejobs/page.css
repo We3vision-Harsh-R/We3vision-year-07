@@ -1,9 +1,0 @@
-/* /products/wejobs ("mp-wej-"): iOS 27 App Store coming-soon page: a centred icon with a slow breathing halo. Store pieces: custom/products/store.css. Kit tokens only. */
-.ma-root[data-page="wejobs"] .ma-h2 { font-size: 28px; line-height: 1.14; font-weight: 600; letter-spacing: 0.36px; text-wrap: balance; }
-.ma-root[data-page="wejobs"] .ma-intro { font-size: 17px; line-height: 1.45; letter-spacing: -0.43px; font-weight: 400; color: var(--ma-text2); }
-.ma-root[data-page="wejobs"] .ma-sec { margin-top: 72px; }
-.ma-root[data-page="wejobs"] .ma-sec-head { margin-bottom: 20px; }
-.ma-root[data-page="wejobs"] .mp-store-about { margin-top: 40px; }
-.ma-root .mp-store-head.is-center .mp-store-ic { animation: mp-wej-pulse 3.2s var(--ma-ease) 0.8s infinite; }
-@keyframes mp-wej-pulse { 50% { transform: scale(1.04); } }
-@media (prefers-reduced-motion: reduce) { .ma-root .mp-store-head.is-center .mp-store-ic { animation: none; } }

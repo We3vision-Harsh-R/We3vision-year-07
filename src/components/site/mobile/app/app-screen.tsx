@@ -72,7 +72,13 @@ export function AppScreen({
       <main className="ma-screen" id="ma-main" tabIndex={-1}>
         <div className="ma-wrap">
           {home ? (
-            titleIsH1 && <h1 className="ma-title">{title}</h1>
+            titleIsH1 && (
+              <>
+                {kicker && <p className="ma-kick">{kicker}</p>}
+                <h1 className="ma-title">{title}</h1>
+                {subtitle && <p className="ma-sub">{subtitle}</p>}
+              </>
+            )
           ) : (
           <header className={`ma-large${title.length > 24 ? " is-long" : ""}`}>
             {glyph && (

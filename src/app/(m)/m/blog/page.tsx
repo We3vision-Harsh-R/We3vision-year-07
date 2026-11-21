@@ -8,5 +8,5 @@ export const revalidate = 600;
 export const generateMetadata = () => mobileMetadata("blog");
 
 export default function Page() {
-  return renderMobilePage("blog", BLOG_MOBILE);
+  return renderMobilePage("blog", { ...BLOG_MOBILE, home: true });
 }

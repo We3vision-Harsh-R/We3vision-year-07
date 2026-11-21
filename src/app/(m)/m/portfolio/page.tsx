@@ -8,5 +8,5 @@ export const revalidate = 600;
 export const generateMetadata = () => mobileMetadata("portfolio");
 
 export default function Page() {
-  return renderMobilePage("portfolio", { overrides: { pageHero: PortfolioHead, projects: PortfolioGrid } });
+  return renderMobilePage("portfolio", { home: true, overrides: { pageHero: PortfolioHead, projects: PortfolioGrid } });
 }

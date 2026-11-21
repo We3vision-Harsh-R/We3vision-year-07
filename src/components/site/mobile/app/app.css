@@ -926,7 +926,6 @@ details.ma-acc[open] > summary { font-weight: 500; }
     font-size: 22px;
     line-height: 1.22;
   }
-  html .ma-root[data-page] .mp-about-slide h3,
   html .ma-root[data-page] .ma-card h3,
   html .ma-root[data-page] [class*="-step"] h3,
   html .ma-root[data-page] [class*="-vcard"] h3 {

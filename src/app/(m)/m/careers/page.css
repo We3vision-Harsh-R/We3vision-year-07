@@ -118,3 +118,10 @@
 .ma-root button.mp-car-job:active { opacity: 0.6; }
 .ma-root .mp-car-applyb { margin-top: 16px; }
 @media (prefers-reduced-motion: reduce) { .ma-root .mp-car-pin::after { animation: none; } }
+
+/* cah-: the Careers page in the theme of the home page (app/home-theme.css): one 80px space between sections (the 72px margin of the app look is gone). */
+@media (max-width: 699.98px) {
+  .ma-root.ma-home[data-page="careers"] .ma-sec {
+    margin-top: 0;
+  }
+}

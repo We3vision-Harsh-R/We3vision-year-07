@@ -68,3 +68,147 @@
   .ma-root .mp-blog-mast > *, .ma-root .mp-blog-panel { animation: none; }
   .ma-root .mp-blog-pic, .ma-root .mp-blog-row, .ma-root .mp-blog-tabs button, .ma-root .mp-blog-more { transition: none; }
 }
+
+/* blh-: the Blog page in the theme of the home page (app/home-theme.css): a masthead like the home hero, topic pills in the home chip style, the top story and the
+   headline rows on the home cards (24px corners, thin line), 16px text, 80px between the parts. Only while the page is switched over (`.ma-home`). Phones only. */
+@media (max-width: 699.98px) {
+  .ma-root.ma-home .mp-blog-mast {
+    padding: 12px 0 0;
+  }
+  .ma-root.ma-home .mp-blog-kick {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--ma-text2);
+  }
+  .ma-root.ma-home .mp-blog-h {
+    margin-top: 10px;
+    font-size: 26px;
+    line-height: 1.16;
+    letter-spacing: -0.015em;
+  }
+  .ma-root.ma-home .mp-blog-t {
+    max-width: none;
+    margin-top: 14px !important;
+    font-size: 16px;
+    line-height: 1.62;
+    letter-spacing: 0;
+  }
+  .ma-root.ma-home .mp-blog-acts {
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .ma-root.ma-home .mp-blog-acts .ma-btn {
+    min-height: 52px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .ma-root.ma-home .mp-blog-feed,
+  .ma-root.ma-home[data-page="blog"] .ma-sec {
+    padding-top: 64px;
+  }
+  .ma-root.ma-home .mp-blog-tabs button {
+    min-height: 42px;
+    padding: 0 18px;
+    border: 1px solid var(--ma-line);
+    background: var(--ma-card);
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+  .ma-root.ma-home .mp-blog-tabs button.is-on {
+    border-color: var(--ma-tint);
+    background: var(--ma-card2);
+    box-shadow: none;
+    color: var(--ma-text);
+    font-weight: 600;
+  }
+  .ma-root.ma-home .mp-blog-cat,
+  .ma-root.ma-home .mp-blog-date {
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .ma-root.ma-home .mp-blog-empty {
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+  .ma-root.ma-home .mp-blog-pic {
+    border-radius: 24px;
+    box-shadow: none;
+    border: 1px solid var(--ma-line);
+  }
+  .ma-root.ma-home .mp-blog-tb {
+    gap: 8px;
+    padding-top: 18px;
+  }
+  .ma-root.ma-home .mp-blog-tt {
+    font-size: 22px;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+  }
+  .ma-root.ma-home .mp-blog-sum {
+    font-size: 16px;
+    line-height: 1.62;
+    letter-spacing: 0;
+  }
+  .ma-root.ma-home .mp-blog-list {
+    margin-top: 32px;
+  }
+  .ma-root.ma-home .mp-blog-row {
+    min-height: 104px;
+    padding: 18px 0;
+  }
+  .ma-root.ma-home .mp-blog-rt {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0;
+  }
+  .ma-root.ma-home .mp-blog-th {
+    border-radius: 16px;
+    box-shadow: none;
+    border: 1px solid var(--ma-line);
+  }
+  .ma-root.ma-home .mp-blog-more {
+    min-height: 52px;
+    margin-top: 24px;
+    border: 1px solid var(--ma-rim);
+    background: transparent;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--ma-text);
+  }
+  .ma-root.ma-home .mp-blog-more span {
+    font-size: 14px;
+    background: var(--ma-card2);
+  }
+  /* the featured article card (a CMS section) */
+  .ma-root.ma-home .mbx-top {
+    border-radius: 24px;
+  }
+  .ma-root.ma-home .mbx-top-t {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .ma-root.ma-home .mbx-cat,
+  .ma-root.ma-home .mbx-meta {
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .ma-root.ma-home .mbx-sum {
+    font-size: 16px;
+    line-height: 1.62;
+    letter-spacing: 0;
+  }
+  .ma-root.ma-home .mbx-go {
+    padding: 13px 22px;
+    border: 1px solid var(--ma-rim);
+    background: transparent;
+    font-size: 16px;
+    letter-spacing: 0;
+    color: var(--ma-text);
+  }
+
+}
