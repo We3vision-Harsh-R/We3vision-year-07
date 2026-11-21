@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 180,
+    date: "2026-11-21",
+    title: "Laptop big menu: no overlap on a small laptop",
+    notes: [
+      "Between 1024px and about 1280px wide the five service columns no longer run past the right edge (they share the width and a long name wraps) and the Coming soon tags no longer stand on the Explore list.",
+      "On the narrowest laptops the Recognised-by and Follow-us block moves under the lists. Wide laptops are unchanged.",
+    ],
+  },
+  {
     v: 179,
     date: "2026-11-21",
     title: "Phone: every page in the home page theme",
