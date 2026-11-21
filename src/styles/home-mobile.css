@@ -1870,7 +1870,7 @@
 }
 
 /* hph-h: the first screen of the home page on a PHONE (owner, 2026-11-20): the wish line ("This year / Open your success door") and the recognition logos are gone from it,
-   the door is taller, the title stays, the paragraph is ONE line with "Read more…", the buttons stay. Phones up to 699px only. */
+   the door is taller, the title stays, the paragraph is ONE line with "Read more…", the main button stays (the round Explore button is not shown on phones). Phones up to 699px only. */
 .hph-more {
   display: none;
 }
@@ -1936,16 +1936,6 @@
     place-items: center;
     height: 54px;
     font-size: 16px;
-  }
-  .hb2 .hb2-go {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 54px;
-    height: 54px;
-  }
-  .hb2 .hb2-go em {
-    font-size: 14px;
   }
 }
 
