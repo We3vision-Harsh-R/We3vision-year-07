@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 182,
+    date: "2026-11-21",
+    title: "Phone: solid theme buttons on one line, centred About, Contact with the Lucia map",
+    notes: [
+      "On phones every button is one solid button in the theme colour (no rainbow ring), icon and words on one line; the Login button of the big menu is one line too.",
+      "Home page on phones: the About statement is centred, the empty space under the lit disc and above the product heading is gone, and the Explore button is removed.",
+      "The Contact page on phones has the Send message to Lucia heading and the route map above the form, like the home page; the service wheel no longer cuts its icons.",
+    ],
+  },
+  {
     v: 181,
     date: "2026-11-21",
     title: "Home service cards: Start project box",
