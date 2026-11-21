@@ -87,6 +87,7 @@ export function HomeServices({ stats }: { stats: Stats }) {
               </ol>
             </div>
           )}
+          {GTA_ON && <span className="gt-m-start">Start project</span>}
           {big && (
             <div className="hb2-sv-foot">
               <span className={GTA_ON ? "hb2-sv-tags gt-pk" : "hb2-sv-tags"}>
