@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 179,
+    date: "2026-11-21",
+    title: "Phone: every page in the home page theme",
+    notes: [
+      "On phones all service pages and the Explore pages (About, Portfolio, Products, Blog, Team, Contact, Careers) now use the home page theme: the home bottom bar and big menu instead of their own bars, one heading and text scale, the same buttons, plain labels and 80px between sections.",
+      "The About page was redesigned for the phone with the story, services, journey, reasons and leaders; Products no longer uses the app-store look. Laptop and tablet are unchanged.",
+    ],
+  },
+  {
     v: 178,
     date: "2026-11-20",
     title: "Phone AI page in the home page theme",
