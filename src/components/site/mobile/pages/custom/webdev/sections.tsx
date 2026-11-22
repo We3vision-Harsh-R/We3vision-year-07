@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink, Button, Clamp, Points, Section } from "../../../app";
-import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import { APPS } from "../../../launcher-data";
 import { Glyph } from "../../../glyph";
@@ -244,11 +243,8 @@ export const WebContact: MobileSection<"contact"> = ({ data, site }) => (
   <Section id="contact" chip={data.chip} title={data.heading} intro={data.text}>
     <PaperForm label={data.buttonLabel || undefined} />
     {site.contactCards.length > 0 && (
-      <details className="mp-wd-ct">
-        <summary>
-          <span>Phone, e-mail and offices</span>
-          <IcChevron />
-        </summary>
+      <div className="mp-wd-ct">
+        <h3 className="ma-open-ct-t">Phone, e-mail and offices</h3>
         <div className="mp-wd-ct-b">
           {site.contactCards.map((card, i) => (
             <div key={i} className="mp-wd-ct-g">
@@ -262,7 +258,7 @@ export const WebContact: MobileSection<"contact"> = ({ data, site }) => (
             </div>
           ))}
         </div>
-      </details>
+      </div>
     )}
   </Section>
 );

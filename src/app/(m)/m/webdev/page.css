@@ -215,13 +215,6 @@
 .ma-root .mp-wd-pp-done button:active { transform: scale(0.96); }
 
 /* phone, e-mail and offices: a quiet disclosure, then open lists with hairlines (no boxes) */
-.ma-root .mp-wd-ct { margin-top: 28px; border-top: 1px solid var(--ma-line); }
-.ma-root .mp-wd-ct > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; color: var(--ma-tint); font-size: 17px; font-weight: 400; letter-spacing: -0.43px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.ma-root .mp-wd-ct > summary::-webkit-details-marker { display: none; }
-.ma-root .mp-wd-ct > summary:active { opacity: 0.6; }
-.ma-root .mp-wd-ct > summary svg { flex: none; width: 18px; height: 18px; transition: transform 0.35s var(--ma-ease); }
-.ma-root .mp-wd-ct[open] > summary svg { transform: rotate(90deg); }
-.ma-root .mp-wd-ct[open] > .mp-wd-ct-b { animation: mp-wd-open 0.4s var(--ma-ease) backwards; }
 .ma-root .mp-wd-ct-b { padding-bottom: 8px; }
 .ma-root .mp-wd-ct-g + .mp-wd-ct-g { margin-top: 20px; }
 .ma-root .mp-wd-ct-h { margin: 8px 0 2px; font-size: 13px; line-height: 1.35; font-weight: 500; letter-spacing: -0.08px; color: var(--ma-text2); }

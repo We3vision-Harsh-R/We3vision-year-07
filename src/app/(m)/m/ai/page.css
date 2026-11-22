@@ -26,7 +26,6 @@
 .ma-root[data-page="ai"] .ma-intro { margin-top: 12px; font-size: 17px; line-height: 1.45; font-weight: 400; letter-spacing: -0.43px; color: var(--ma-text2); text-wrap: pretty; }
 .ma-root[data-page="ai"] .ma-actions { margin-top: 28px; }
 .ma-root[data-page="ai"] .ma-pts li { font-size: 16px; line-height: 1.5; letter-spacing: -0.32px; }
-.ma-root[data-page="ai"] .ma-fold > summary { font-size: 17px; font-weight: 400; letter-spacing: -0.43px; }
 .ma-root .mp-ai-cap { margin: 20px 0 6px; font-size: 13px; line-height: 1.35; letter-spacing: -0.08px; color: var(--ma-text3); }
 .ma-root .mp-ai-p { margin: 0; font-size: 17px; line-height: 1.5; letter-spacing: -0.43px; color: var(--ma-text); text-wrap: pretty; }
 .ma-root .mp-ai-p + .mp-ai-p { margin-top: 14px; }
