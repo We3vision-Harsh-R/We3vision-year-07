@@ -303,10 +303,10 @@
 /* ---- phones: the same scenery, smaller (owner, 2026-11-22: "the footer of the phone like the laptop's: the skyline, the sun, the word") ---- */
 @media (max-width: 699.98px) {
   html .hb2-f[data-gta] {
-    padding-bottom: 330px;
+    padding-bottom: 236px;
   }
   .hb2-f[data-gta]::before {
-    bottom: -60px;
+    bottom: 40px;
     width: 440px;
     height: 440px;
     margin-left: -220px;
