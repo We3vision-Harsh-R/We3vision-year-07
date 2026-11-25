@@ -3,49 +3,32 @@ import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink, LeadForm, Section } from "../../../app";
 import { SwipeDeck, TapSheet } from "../../../../lazy";
-import { IcChevron, IcPin } from "../../../app/icons";
-import { Lines, lines } from "../../../app/text";
+import { IcChevron } from "../../../app/icons";
+import { Lines } from "../../../app/text";
 import { JobBoard } from "./client";
-import { CareersRail, TrainArt } from "./rail";
+import { CareersBooking } from "./booking";
 
 // /careers like Apple's own apps (iOS 27): the top as a Wallet pass, the values as Tips cards that swipe, the teams as a Settings list whose rows
 // open a sheet, the station as an Apple Maps card, the open jobs (Admin > Careers) filtered by team where every job opens its sheet with Apply,
 // the help desk form as one grouped field. Same CMS words. Kit pieces: app/apple.tsx (ma-ap-); page styles: (m)/m/careers/page.css (mp-car-).
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE = /^\+?\d[\d\s().-]{6,}$/;
 
-/** the top: a Wallet pass with the heading, the text and the "Your location" capsule that jumps to the help desk */
-export const CareersPass: MobileSection<"careerJourney"> = ({ data, index }) => {
+/** the top: a Wallet pass with the heading and the text, then "Your location" and the booking form (booking.tsx): the same booking as the laptop page, without the railway */
+export const CareersPass: MobileSection<"careerJourney"> = ({ data, index, extra }) => {
   const H = index === 0 ? "h1" : "h2";
-  return (
-    <section className="mp-car-hero">
-      <CareersRail />
-      <div className="mp-car-pass">
-        <div className="mp-car-pass-top">
-          {data.chip && <span className="mp-car-pass-k">{data.chip}</span>}
-          <img className="mp-car-pass-logo" src="/brand/logo-mark.webp" alt="" width={480} height={395} />
-        </div>
-        <H className="mp-car-h">
-          <Lines text={data.heading} />
-        </H>
-        <div className="mp-car-perf" aria-hidden="true" />
-        {data.text && <p className="mp-car-t">{data.text}</p>}
-        <div className="mp-car-track" aria-hidden="true">
-          <span className="mp-car-go">
-            <TrainArt />
-          </span>
-        </div>
-        {data.locationLabel && (
-          <a className="mp-car-loc" href="#contact">
-            <IcPin className="mp-car-ic" />
-            <span>{data.locationLabel}</span>
-            <IcChevron className="mp-car-chev" />
-          </a>
-        )}
+  const top = (
+    <>
+      <div className="mp-car-pass-top">
+        {data.chip && <span className="mp-car-pass-k">{data.chip}</span>}
+        <img className="mp-car-pass-logo" src="/brand/logo-mark.webp" alt="" width={480} height={395} />
       </div>
-    </section>
+      <H className="mp-car-h">
+        <Lines text={data.heading} />
+      </H>
+      {data.text && <p className="mp-car-t">{data.text}</p>}
+    </>
   );
+  return <CareersBooking top={top} locationLabel={data.locationLabel || "Your location"} roles={extra.career?.roles ?? []} questions={extra.career?.questions ?? []} />;
 };
 
 /** "A Place To Grow": Tips cards that swipe sideways, with page dots */
@@ -66,7 +49,7 @@ export const CareersValues: MobileSection<"careerValues"> = ({ data, id }) => (
 
 /** "Seven Teams, One Company": a Settings list; a row opens the team's sheet and its service */
 export const CareersTeams: MobileSection<"careerTeams"> = ({ data, id }) => (
-  <Section id={id} chip={data.chip} title={data.heading} intro={data.intro}>
+  <Section id={id} chip="About our team" title={data.heading} intro={data.intro}>
     <ul className="ma-ap-group">
       {data.teams.map((t, i) => (
         <li key={i} style={{ "--k": i } as CSSProperties}>
@@ -106,39 +89,13 @@ export const CareersTeams: MobileSection<"careerTeams"> = ({ data, id }) => (
   </Section>
 );
 
-/** "Welcome To Surat Junction" as an Apple Maps card + the open jobs: filter by team, every job opens its sheet with Apply */
-export const CareersDestination: MobileSection<"careerDestination"> = ({ data, id, extra }) => {
+/** "Available roles": the open jobs (Admin > Careers), filtered by team; every job opens its sheet with Apply */
+export const CareersDestination: MobileSection<"careerDestination"> = ({ data, extra }) => {
   const jobs = extra.jobs ?? [];
-  // the place for Apple Maps: the station and the lines of the address (not an e-mail or a phone number written under it)
-  const where = [data.station, ...lines(data.address).filter((l) => !(l.includes("@") || PHONE.test(l)))].filter(Boolean).join(", ");
   return (
     <>
-      <Section id={id} chip={data.chip} title={data.heading} intro={data.text}>
-        {(data.station || data.address) && (
-          <div className="mp-car-map">
-            <div className="mp-car-map-art" aria-hidden="true">
-              <i className="mp-car-road" />
-              <i className="mp-car-road is-b" />
-              <span className="mp-car-pin">
-                <IcPin />
-              </span>
-            </div>
-            <div className="mp-car-map-b">
-              <div>
-                {data.station && <p className="mp-car-sn">{data.station}</p>}
-                {data.address && <p className="mp-car-sa">{data.address}</p>}
-              </div>
-              {where && (
-                <a className="mp-car-dir" href={`https://maps.apple.com/?q=${encodeURIComponent(where)}`} target="_blank" rel="noopener noreferrer" aria-label={`Open ${where} in Maps`}>
-                  <IcPin />
-                </a>
-              )}
-            </div>
-          </div>
-        )}
-      </Section>
       {data.jobsHeading && (
-        <Section id="jobs" title={data.jobsHeading} intro={data.jobsText}>
+        <Section id="jobs" chip="Available roles" title={data.jobsHeading} intro={data.jobsText}>
           {jobs.length === 0 ? (
             <p className="mp-car-empty">{data.jobsEmpty}</p>
           ) : (
@@ -204,22 +161,61 @@ export const CareersDestination: MobileSection<"careerDestination"> = ({ data, i
   );
 };
 
-/** the help desk: the enquiry form as one grouped field and the contact cards as open rows */
+const HR_EMAIL = "hr@we3vision.com";
+const HR_PHONE = "+91 7383216096";
+
+/** the help desk (the enquiry form), then Contact HR, the contact details and the footer of the page */
 export const CareersHelpDesk: MobileSection<"careerHelpDesk"> = ({ data, site }) => (
-  <Section id="contact" chip={data.chip} title={data.heading} intro={data.text}>
-    <div className="mp-car-form">
-      <LeadForm buttonLabel={data.buttonLabel || undefined} />
-    </div>
-    {site.contactCards.map((card, i) => (
-      <div key={i} className="mp-car-fields">
-        {card.title && <p className="mp-car-fh">{card.title}</p>}
-        <ul>
-          {lines(card.lines).map((l, n) => {
-            const href = EMAIL.test(l) ? "mailto:" + l : PHONE.test(l) ? "tel:" + l.replace(/[^\d+]/g, "") : undefined;
-            return <li key={n}>{href ? <a href={href} className="mp-car-f is-link">{l}</a> : <span className="mp-car-f">{l}</span>}</li>;
-          })}
-        </ul>
+  <>
+    <Section id="contact" chip={data.chip} title={data.heading} intro={data.text}>
+      <div className="mp-car-form">
+        <LeadForm buttonLabel={data.buttonLabel || undefined} />
       </div>
-    ))}
-  </Section>
+    </Section>
+    <Section id="contact-hr" chip="Contact HR" title="Talk to our HR team" intro="Write to us or call us. We read every message.">
+      <div className="mp-car-hr">
+        <a className="ma-btn ma-btn-fill ma-btn-block" href={`mailto:${HR_EMAIL}`}>
+          Email HR
+        </a>
+        <a className="ma-btn ma-btn-block" href={`tel:${HR_PHONE.replace(/[^\d+]/g, "")}`}>
+          Call HR
+        </a>
+      </div>
+    </Section>
+    <Section id="contact-details" chip="Contact details" title="Reach us">
+      <ul className="mp-car-det">
+        <li>
+          <span>Email</span>
+          <a href={`mailto:${HR_EMAIL}`}>{HR_EMAIL}</a>
+        </li>
+        <li>
+          <span>Phone</span>
+          <a href={`tel:${HR_PHONE.replace(/[^\d+]/g, "")}`}>{HR_PHONE}</a>
+        </li>
+      </ul>
+    </Section>
+    <footer className="mp-car-foot">
+      <img className="mp-car-foot-logo" src="/brand/logo-mark.webp" alt="" width={480} height={395} />
+      <p className="mp-car-foot-n">{site.legalName || site.name}</p>
+      <nav aria-label="Footer">
+        <ul>
+          {[...site.nav.map((n) => ({ label: n.label, href: n.href })), { label: "Careers", href: "/careers" }, { label: "Contact", href: "/contact" }].map((l) => (
+            <li key={l.label}>
+              <AppLink href={l.href}>{l.label}</AppLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      {site.social.length > 0 && (
+        <ul className="mp-car-foot-s">
+          {site.social.map((l) => (
+            <li key={l.label}>
+              <AppLink href={l.href}>{l.label}</AppLink>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="mp-car-foot-c">{site.copyright}</p>
+    </footer>
+  </>
 );

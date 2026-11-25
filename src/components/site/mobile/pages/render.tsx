@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import type { Metadata } from "next";
 import { PageJsonLd } from "@/components/site/page-jsonld";
 import { getBlogEntries } from "@/lib/blog";
-import { getOpenJobs } from "@/lib/careers";
+import { getCareerSetup, getOpenJobs } from "@/lib/careers";
 import { PAGES, type PageSlug } from "@/lib/cms/pages";
 import { getDraftPage, getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
 import type { SectionType } from "@/lib/cms/sections";
@@ -23,20 +23,24 @@ export async function loadMobilePage(slug: PageSlug, draft = false) {
   const sections = page.content.sections;
   const has = (...t: SectionType[]) => sections.some((s) => t.includes(s.type));
   const extra: MobileData = {};
-  const [projects, posts, jobs] = await Promise.all([
+  const [projects, posts, jobs, career] = await Promise.all([
     has("projects") || sections.some((s) => s.type === "archGallery" && typeof s.data.group === "string" && s.data.group !== "") ? getProjects() : undefined,
     has("blogs", "blogFeatured", "blogPicks") ? getBlogEntries() : undefined,
     has("careerOpenings") || sections.some((s) => s.type === "careerDestination" && s.data.jobsHeading) ? getOpenJobs() : undefined,
+    has("careerJourney") ? getCareerSetup() : undefined,
   ]);
   if (projects) extra.projects = projects;
   if (posts) extra.posts = posts;
   if (jobs) extra.jobs = jobs;
+  if (career) extra.career = career;
   return { page, site, sections, extra, contact: contactFrom(site) };
 }
 
 export type RenderOptions = {
   /** Show one section type differently on THIS page only (e.g. { faq: MyFaq }). Everything else keeps the default screens. */
   overrides?: { [T in SectionType]?: MobileSection<T> };
+  /** show the sections in this order (types that are not listed keep their place after the listed ones) */
+  order?: SectionType[];
   /** section types that are always shown whole (no "Show more") on this page */
   keepOpen?: SectionType[];
   /** the unpublished draft instead of the live page (the preview of the admin panel; the route checks the login) */
@@ -58,7 +62,9 @@ const KEEP_OPEN: ReadonlySet<SectionType> = new Set<SectionType>(["contact", "ca
 const appOf = (slug: PageSlug) => Object.values(APPS).find((a) => a.href === PAGES[slug].path);
 
 export async function renderMobilePage(slug: PageSlug, opts: RenderOptions = {}) {
-  const { page, site, sections, extra, contact } = await loadMobilePage(slug, opts.draft);
+  const { page, site, sections: cms, extra, contact } = await loadMobilePage(slug, opts.draft);
+  const rank = (t: SectionType) => { const i = opts.order?.indexOf(t) ?? -1; return i < 0 ? 999 : i; };
+  const sections = opts.order ? [...cms].sort((a, b) => rank(a.type) - rank(b.type)) : cms;
   const app = appOf(slug);
   const first = sections[0]?.type;
   const hasForm = sections.some((s) => s.type === "contact" || s.type === "careerHelpDesk");

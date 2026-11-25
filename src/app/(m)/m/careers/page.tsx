@@ -10,6 +10,7 @@ export const generateMetadata = () => mobileMetadata("careers");
 export default function Page() {
   return renderMobilePage("careers", {
     home: true,
+    order: ["careerJourney", "careerTeams", "careerDestination", "careerValues", "careerHelpDesk"],
     overrides: { careerJourney: CareersPass, careerValues: CareersValues, careerTeams: CareersTeams, careerDestination: CareersDestination, careerHelpDesk: CareersHelpDesk },
   });
 }

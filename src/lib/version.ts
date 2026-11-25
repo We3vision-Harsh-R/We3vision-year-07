@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 186,
+    date: "2026-11-25",
+    title: "Phone and tablet Careers: location first, then the booking form, new section order",
+    notes: [
+      "The phone and tablet Careers page asks for your location first, then opens the same booking form as the laptop page (status, position, join date, notice period, resume, HR call, then your details). The train is removed.",
+      "Sections in this order: location and booking, About our team, Available roles, What we value, Help desk, Contact HR, Contact details, footer.",
+    ],
+  },
+  {
     v: 185,
     date: "2026-11-25",
     title: "No /m/ in any address",
