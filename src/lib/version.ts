@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 188,
+    date: "2026-11-25",
+    title: "Book your interview slot: a calendar that HR sets in the admin panel",
+    notes: [
+      "Phone and tablet Careers: Book your interview slot is a small calendar (days, then time windows). A window that another candidate has booked is shown as full, and the server allows one candidate per window.",
+      "Admin > Careers > Interview schedule: every booked interview day by day with the free windows, and a form to set the open days, the time windows, how far ahead candidates can book, the first bookable day and the closed days. The laptop booking uses the same schedule.",
+    ],
+  },
+  {
     v: 187,
     date: "2026-11-25",
     title: "Phone and tablet Careers: simple hero, team card, no ticket words",

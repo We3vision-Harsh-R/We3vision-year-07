@@ -257,3 +257,23 @@
 @media (prefers-reduced-motion: reduce) { .ma-root .mp-car-gr-row { animation: none; } }
 .ma-root .mp-car-gr > :not(.mp-car-gr-rows) { margin: 0; margin-inline: 22px; max-width: calc(100% - 44px); }
 .ma-root .mp-car-gr-b { width: auto; max-width: calc(100% - 44px); }
+
+/* v188: the interview calendar */
+.ma-root .mp-car-cal { display: grid; gap: 12px; padding: 14px; border-radius: 20px; border: 1px solid var(--ma-line); background: var(--ma-fill); }
+.ma-root .mp-car-cal-t { margin: 0; font-size: 17px; font-weight: 600; color: var(--ma-text); }
+.ma-root .mp-car-cal-g { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.ma-root .mp-car-cal-h { text-align: center; font-size: 14px; color: var(--ma-text3); padding-bottom: 4px; }
+.ma-root .mp-car-cal-x { min-height: 44px; }
+.ma-root .mp-car-cal-d { position: relative; display: grid; place-items: center; min-height: 44px; padding: 0; border: 1px solid transparent; border-radius: 12px; background: var(--ma-card2); color: var(--ma-text); font: inherit; font-size: 16px; font-weight: 600; }
+.ma-root .mp-car-cal-d small { position: absolute; top: 2px; left: 0; right: 0; text-align: center; font-size: 14px; line-height: 1; font-weight: 500; color: var(--ma-tint); }
+.ma-root .mp-car-cal-d:disabled { opacity: 0.35; text-decoration: line-through; }
+.ma-root .mp-car-cal-d[data-on="true"] { border-color: var(--ma-tint); box-shadow: 0 0 14px hsl(var(--ma-h) calc(80% * var(--ts)) 55% / 0.45); }
+.ma-root .mp-car-cal-d[data-pick="true"] { background: var(--ma-tint); color: #fff; }
+.ma-root .mp-car-cal-times { display: grid; gap: 8px; }
+.ma-root .mp-car-cal-times > p { margin: 0; font-size: 16px; font-weight: 600; color: var(--ma-text2); }
+.ma-root .mp-car-cal-times > div { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.ma-root .mp-car-cal-times button { display: grid; place-items: center; gap: 0; min-height: 48px; padding: 4px 8px; border: 1px solid var(--ma-line); border-radius: 14px; background: var(--ma-card2); color: var(--ma-text); font: inherit; font-size: 16px; font-weight: 500; }
+.ma-root .mp-car-cal-times button small { font-size: 14px; color: var(--ma-text3); }
+.ma-root .mp-car-cal-times button:disabled { opacity: 0.45; }
+.ma-root .mp-car-cal-times button[data-on="true"] { background: var(--ma-tint); border-color: var(--ma-tint); color: #fff; font-weight: 600; }
+.ma-root .mp-car-cal-v { margin: 0; font-size: 16px; line-height: 1.45; color: var(--ma-text2); }

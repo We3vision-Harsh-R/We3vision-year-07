@@ -56,6 +56,9 @@ export default async function CareersAdminPage({ searchParams }: { searchParams:
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <Link href="/admin/careers/interviews" className={btnSecondary}>
+            Interview schedule
+          </Link>
           <Link href="/admin/careers/setup" className={btnSecondary}>
             Questions of HR
           </Link>

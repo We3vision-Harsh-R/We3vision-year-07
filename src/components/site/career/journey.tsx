@@ -10,7 +10,7 @@ import { setCareer } from "@/lib/career-store";
 import { cleanStatus, fieldProblem, statusProblem } from "@/lib/contact-validation";
 import { resumeNameProblem } from "@/lib/resume-check";
 import { ToastView, useToast } from "./cj-toast";
-import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, type CareerQuestionView, type CareerRoleView } from "@/lib/careers-shared";
+import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, type CareerQuestionView, type CareerRoleView, type InterviewSchedule } from "@/lib/careers-shared";
 import { Combo, DatePick, Dropdown, ResumeBox, SlotPick } from "./form-controls";
 import { LocationPicker } from "./location-picker";
 
@@ -42,6 +42,7 @@ export function CareerJourney({
   locationLabel,
   roles,
   questions,
+  schedule,
 }: {
   chip: string;
   heading: string;
@@ -49,6 +50,7 @@ export function CareerJourney({
   locationLabel: string;
   roles: CareerRoleView[];
   questions: CareerQuestionView[];
+  schedule?: InterviewSchedule;
 }) {
   const [city, setCity] = useState("");
   const [status, setStatus] = useState("");
@@ -76,7 +78,7 @@ export function CareerJourney({
   const warned = useRef(false);
 
   const role = roles.find((r) => r.id === roleId) ?? null;
-  const days = useMemo(() => callSlots(), []);
+  const days = useMemo(() => callSlots(new Date(), schedule), [schedule]);
   const roleOptions = useMemo(() => roles.map((r) => ({ value: r.id, label: r.team ? `${r.title} · ${r.team}` : r.title })), [roles]);
   const noticeOptions = useMemo(() => NOTICE_PERIODS.map((n) => ({ value: n, label: n })), []);
 
@@ -262,10 +264,10 @@ export function CareerJourney({
               </div>
               <div className="cj-cell">
                 <span className="cj-lab">
-                  A call with HR
-                  <small>Book a call slot with our HR team</small>
+                  Book your interview slot
+                  <small>Choose a day and a time for your interview</small>
                 </span>
-                <SlotPick value={slot} days={days} label="A call slot with HR" onChange={setSlot} />
+                <SlotPick value={slot} days={days} label="Your interview slot" onChange={setSlot} />
               </div>
               <div className="cj-act">
                 <button type="button" className="cj-book" disabled={busy} onClick={() => void book()}>

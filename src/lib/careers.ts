@@ -1,6 +1,6 @@
 import "server-only";
 import { db, hasDb } from "@/lib/db";
-import type { CareerQuestionView, CareerRoleView, JobView, QuestionKind } from "@/lib/careers-shared";
+import { DEFAULT_SCHEDULE, cleanSchedule, type CareerQuestionView, type CareerRoleView, type InterviewSchedule, type JobView, type QuestionKind } from "@/lib/careers-shared";
 
 // The positions and the questions of HR for the Careers page (Careers in the admin panel). Without a database the built-in positions are
 // the destinations of the ticket and there are no job pages.
@@ -70,15 +70,28 @@ export async function getOpenJob(slug: string): Promise<JobView | null> {
   return toJob(r);
 }
 
-export async function getCareerSetup(): Promise<{ roles: CareerRoleView[]; questions: CareerQuestionView[] }> {
-  if (!hasDb) return { roles: BUILT_IN_ROLES.map(([title, team], i) => ({ id: `built-in-${i}`, title, team })), questions: [] };
-  const [roles, questions] = await Promise.all([
+/** When interviews can be booked (set in Admin > Careers > Interview schedule) */
+export async function getInterviewSchedule(): Promise<InterviewSchedule> {
+  if (!hasDb) return DEFAULT_SCHEDULE;
+  try {
+    const row = await db.setting.findUnique({ where: { key: "careers:schedule" } });
+    return row ? cleanSchedule(row.value) : DEFAULT_SCHEDULE;
+  } catch {
+    return DEFAULT_SCHEDULE;
+  }
+}
+
+export async function getCareerSetup(): Promise<{ roles: CareerRoleView[]; questions: CareerQuestionView[]; schedule: InterviewSchedule }> {
+  if (!hasDb) return { roles: BUILT_IN_ROLES.map(([title, team], i) => ({ id: `built-in-${i}`, title, team })), questions: [], schedule: DEFAULT_SCHEDULE };
+  const [roles, questions, schedule] = await Promise.all([
     db.careerRole.findMany({ where: { active: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] }),
     db.careerQuestion.findMany({ where: { active: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] }),
+    getInterviewSchedule(),
   ]);
   const now = today();
   return {
     roles: roles.filter((r) => !r.closesAt || r.closesAt >= now).map((r) => ({ id: r.id, title: r.title, team: r.team })),
+    schedule,
     questions: questions.map((q) => ({ id: q.id, label: q.label, kind: kindOf(q.kind), options: optionsOf(q.options), required: q.required })),
   };
 }

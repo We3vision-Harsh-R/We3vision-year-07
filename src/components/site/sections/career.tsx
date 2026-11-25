@@ -14,11 +14,11 @@ const two = (n: number) => String(n).padStart(2, "0");
 
 /** The ticket office of the Careers page and the railway that runs through the whole page (see career/journey.tsx and career/railway.tsx). */
 export const CareerJourneySection: SectionComponent<"careerJourney"> = async ({ data }) => {
-  const { roles, questions } = await getCareerSetup();
+  const { roles, questions, schedule } = await getCareerSetup();
   return (
     <>
       <CareerRailway />
-      <CareerJourney chip={data.chip} heading={data.heading} text={data.text} locationLabel={data.locationLabel || "Your location"} roles={roles} questions={questions} />
+      <CareerJourney chip={data.chip} heading={data.heading} text={data.text} locationLabel={data.locationLabel || "Your location"} roles={roles} questions={questions} schedule={schedule} />
     </>
   );
 };

@@ -179,7 +179,7 @@ export const CareersDestination: MobileSection<"careerDestination"> = ({ data, e
           )}
         </Section>
       )}
-      <CareersBooking locationLabel="Your location" roles={jobs.map((j) => ({ id: j.id, title: j.title, team: j.team }))} questions={extra.career?.questions ?? []} />
+      <CareersBooking locationLabel="Your location" roles={jobs.map((j) => ({ id: j.id, title: j.title, team: j.team }))} questions={extra.career?.questions ?? []} schedule={extra.career?.schedule} />
     </>
   );
 };

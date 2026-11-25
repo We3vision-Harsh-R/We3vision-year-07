@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import { bookSeat, completeTicket } from "@/actions/careers";
-import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, cityLabel, type CareerQuestionView, type CareerRoleView } from "@/lib/careers-shared";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { bookSeat, completeTicket, takenSlots } from "@/actions/careers";
+import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, DEFAULT_SCHEDULE, cityLabel, interviewDays, type CareerQuestionView, type CareerRoleView, type InterviewSchedule } from "@/lib/careers-shared";
 import { fieldProblem, statusProblem } from "@/lib/contact-validation";
 import { resumeNameProblem } from "@/lib/resume-check";
 import { Dropdown } from "../../../app/dropdown";
 import { IcPin } from "../../../app/icons";
+import { SlotCalendar } from "./slot-calendar";
 
 // The top of /careers on a phone or tablet: the same booking as the laptop page (career/journey.tsx), in the app's own look and without the railway.
 //   1. "Your location": the visitor types the first letters of their city and taps one (the cities of the whole world, public/data/cities.json).
@@ -26,10 +27,12 @@ export function CareersBooking({
   locationLabel,
   roles,
   questions,
+  schedule = DEFAULT_SCHEDULE,
 }: {
   locationLabel: string;
   roles: CareerRoleView[];
   questions: CareerQuestionView[];
+  schedule?: InterviewSchedule;
 }) {
   const [city, setCity] = useState("");
   const [query, setQuery] = useState("");
@@ -42,8 +45,8 @@ export function CareersBooking({
   const [resume, setResume] = useState<Resume | null>(null);
   const [uploadBusy, setUploadBusy] = useState(false);
   const [uploadErr, setUploadErr] = useState("");
-  const [slotDay, setSlotDay] = useState(-1);
-  const [slotTime, setSlotTime] = useState(-1);
+  const [slot, setSlot] = useState("");
+  const [taken, setTaken] = useState<Set<string>>(() => new Set());
   const [ticketId, setTicketId] = useState("");
   const [view, setView] = useState<"form" | "details">("form");
   const [done, setDone] = useState(false);
@@ -56,11 +59,15 @@ export function CareersBooking({
   const detailsRef = useRef<HTMLElement>(null);
   const bookRef = useRef<HTMLElement>(null);
 
-  const days = useMemo(() => callSlots(), []);
+  const days = useMemo(() => interviewDays(new Date(), schedule), [schedule]);
+  // the slots that other candidates have already booked
+  useEffect(() => {
+    if (!city) return;
+    void takenSlots().then((l) => setTaken(new Set(l))).catch(() => {});
+  }, [city]);
   const roleLabels = useMemo(() => roles.map((r) => (r.team ? `${r.title} · ${r.team}` : r.title)), [roles]);
   const roleIdx = roles.findIndex((r) => r.id === roleId);
   const role = roleIdx >= 0 ? roles[roleIdx] : null;
-  const slot = slotDay >= 0 && slotTime >= 0 ? `${days[slotDay].label}, ${days[slotDay].times[slotTime]}` : "";
   const tomorrow = useMemo(() => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
@@ -172,7 +179,7 @@ export function CareersBooking({
     ["Status", status],
     ["Joins", joinShown],
     ["Notice", notice],
-    ["HR call", slot],
+    ["Interview", slot],
     ["Resume", resume?.name ?? ""],
   ];
 
@@ -291,19 +298,8 @@ export function CareersBooking({
               {uploadErr && <p className="ma-note ma-note-er">{uploadErr}</p>}
             </div>
             <div className="ma-field">
-              <span>Book a call with HR</span>
-              <div className="mp-car-slot">
-                <Dropdown
-                  options={days.map((d) => d.label)}
-                  value={slotDay}
-                  placeholder="Choose a day"
-                  onChange={(i) => {
-                    setSlotDay(i);
-                    setSlotTime(-1);
-                  }}
-                />
-                {slotDay >= 0 && <Dropdown options={days[slotDay].times} value={slotTime} placeholder="Choose a time" onChange={setSlotTime} />}
-              </div>
+              <span>Book your interview slot</span>
+              <SlotCalendar days={days} taken={taken} value={slot} onChange={setSlot} />
             </div>
             <button type="button" className="ma-btn ma-btn-fill ma-btn-block" disabled={busy} onClick={() => void book()}>
               {busy ? "Please wait…" : "Continue"}

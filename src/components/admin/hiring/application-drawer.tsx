@@ -422,7 +422,7 @@ export function ApplicationDrawer({ row, admins, allTags, duplicates, position, 
               <Row k="Current status" v={row.currentStatus} />
               <Row k="Can join" v={row.joinDate} />
               <Row k="Notice period" v={row.noticePeriod} />
-              <Row k="Call slot with HR" v={row.callSlot} />
+              <Row k="Interview slot (booked by the candidate)" v={row.callSlot} />
               <Row k="Email" v={row.email} />
               <Row k="Phone" v={row.phone} />
               <Row k="LinkedIn / portfolio" v={row.linkedin} />

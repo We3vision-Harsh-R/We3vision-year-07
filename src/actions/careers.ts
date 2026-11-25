@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
-import { COMMON_FIELDS, NOTICE_PERIODS, callSlots } from "@/lib/careers-shared";
+import { COMMON_FIELDS, NOTICE_PERIODS, callSlots, cleanSchedule } from "@/lib/careers-shared";
+import { getInterviewSchedule } from "@/lib/careers";
 import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
 import { cityProblem, fieldProblem, isValidEmail, isValidPhone, joinDateProblem, leadPhone, statusProblem } from "@/lib/contact-validation";
@@ -48,7 +49,8 @@ export async function bookSeat(input: BookInput): Promise<{ ok: true; id: string
   const noticePeriod = line(input.noticePeriod, 40);
   if (noticePeriod && !NOTICE_PERIODS.includes(noticePeriod)) return { ok: false, error: "Arrival time: please choose one of the options." };
   const callSlot = line(input.callSlot, 60);
-  if (callSlot && !callSlots(new Date(Date.now() - 86_400_000), 8).some((d) => d.times.some((t) => `${d.label}, ${t}` === callSlot))) return { ok: false, error: "A call with HR: please choose a slot from the list." };
+  const schedule = callSlot ? await getInterviewSchedule() : null;
+  if (callSlot && schedule && !callSlots(new Date(Date.now() - 86_400_000), { ...schedule, daysAhead: schedule.daysAhead + 2 }).some((d) => d.times.some((t) => `${d.label}, ${t}` === callSlot))) return { ok: false, error: "Interview slot: please choose a slot from the calendar." };
   if (input.resume && !(typeof input.resume === "string" && /^\/media\/[a-z0-9]{10,40}$/i.test(input.resume))) return { ok: false, error: "Please upload your resume again." };
   const resume = typeof input.resume === "string" ? input.resume : "";
   try {
@@ -59,6 +61,12 @@ export async function bookSeat(input: BookInput): Promise<{ ok: true; id: string
       if (!role) return { ok: false, error: "Your destination: please choose an open position from the list." };
       roleId = role.id;
       roleTitle = role.title;
+    }
+    // one candidate per interview slot (a rejected or withdrawn application gives its slot back)
+    if (callSlot) {
+      const own = typeof input.id === "string" && /^[a-z0-9]{10,40}$/i.test(input.id) ? input.id : "";
+      const taken = await db.careerApplication.count({ where: { callSlot, status: { not: "rejected" }, ...(own ? { NOT: { id: own } } : {}) } });
+      if (taken > 0) return { ok: false, error: "This interview slot has just been taken. Please choose another one." };
     }
     const data = { city, currentStatus, roleId, roleTitle, joinDate, noticePeriod, callSlot, resume };
     if (typeof input.id === "string" && /^[a-z0-9]{10,40}$/i.test(input.id)) {
@@ -165,6 +173,35 @@ export async function saveCareerSetup(input: SetupInput): Promise<ActionResult> 
   } catch (error) {
     console.error("saveCareerSetup failed", error);
     alertFailure("Saving the Careers setup (admin)", error, "warning");
+    return { ok: false, error: "Could not save. Please try again." };
+  }
+}
+
+/** The interview slots that are already booked ("Wed, 26 Nov, 11:00 – 12:00"), so that the calendar can show them as full. Names are never sent. */
+export async function takenSlots(): Promise<string[]> {
+  if (!hasDb) return [];
+  try {
+    const rows = await db.careerApplication.findMany({ where: { callSlot: { not: "" }, status: { not: "rejected" } }, select: { callSlot: true }, take: 2000 });
+    return [...new Set(rows.map((r) => r.callSlot))];
+  } catch {
+    return [];
+  }
+}
+
+/** Admin > Careers > Interview schedule: the days and windows that candidates can book. */
+export async function saveInterviewSchedule(input: unknown): Promise<ActionResult> {
+  await requireAdmin();
+  const schedule = cleanSchedule(input);
+  try {
+    const value = schedule as unknown as Prisma.InputJsonValue;
+    await db.setting.upsert({ where: { key: "careers:schedule" }, update: { value }, create: { key: "careers:schedule", value } });
+    revalidatePath("/careers");
+    revalidatePath("/m/careers");
+    revalidatePath("/admin/careers/interviews");
+    return { ok: true, message: "Saved. The calendar on the Careers page is updated." };
+  } catch (error) {
+    console.error("saveInterviewSchedule failed", error);
+    alertFailure("Saving the interview schedule (admin)", error, "warning");
     return { ok: false, error: "Could not save. Please try again." };
   }
 }

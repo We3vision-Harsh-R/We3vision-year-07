@@ -1,13 +1,13 @@
 import type { ComponentType } from "react";
 import type { BlogEntry } from "@/lib/blog-shared";
-import type { CareerQuestionView, CareerRoleView, JobView } from "@/lib/careers-shared";
+import type { CareerQuestionView, CareerRoleView, InterviewSchedule, JobView } from "@/lib/careers-shared";
 import type { SectionData, SectionType } from "@/lib/cms/sections";
 import type { SiteSettings } from "@/lib/cms/settings";
 import type { ProjectView } from "@/lib/projects";
 import type { ContactInfo } from "../app/contact";
 
 /** Data a section may need besides its own content; loaded once by renderMobilePage, only when a section of the page uses it. */
-export type MobileData = { projects?: ProjectView[]; posts?: BlogEntry[]; jobs?: JobView[]; career?: { roles: CareerRoleView[]; questions: CareerQuestionView[] } };
+export type MobileData = { projects?: ProjectView[]; posts?: BlogEntry[]; jobs?: JobView[]; career?: { roles: CareerRoleView[]; questions: CareerQuestionView[]; schedule: InterviewSchedule } };
 
 /** What every mobile section component receives. */
 export type MobileSectionProps<T extends SectionType> = {
