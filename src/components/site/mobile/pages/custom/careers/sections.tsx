@@ -6,6 +6,7 @@ import { SwipeDeck, TapSheet } from "../../../../lazy";
 import { IcChevron, IcPin } from "../../../app/icons";
 import { Lines, lines } from "../../../app/text";
 import { JobBoard } from "./client";
+import { CareersRail, TrainArt } from "./rail";
 
 // /careers like Apple's own apps (iOS 27): the top as a Wallet pass, the values as Tips cards that swipe, the teams as a Settings list whose rows
 // open a sheet, the station as an Apple Maps card, the open jobs (Admin > Careers) filtered by team where every job opens its sheet with Apply,
@@ -19,6 +20,7 @@ export const CareersPass: MobileSection<"careerJourney"> = ({ data, index }) => 
   const H = index === 0 ? "h1" : "h2";
   return (
     <section className="mp-car-hero">
+      <CareersRail />
       <div className="mp-car-pass">
         <div className="mp-car-pass-top">
           {data.chip && <span className="mp-car-pass-k">{data.chip}</span>}
@@ -29,6 +31,11 @@ export const CareersPass: MobileSection<"careerJourney"> = ({ data, index }) => 
         </H>
         <div className="mp-car-perf" aria-hidden="true" />
         {data.text && <p className="mp-car-t">{data.text}</p>}
+        <div className="mp-car-track" aria-hidden="true">
+          <span className="mp-car-go">
+            <TrainArt />
+          </span>
+        </div>
         {data.locationLabel && (
           <a className="mp-car-loc" href="#contact">
             <IcPin className="mp-car-ic" />

@@ -125,3 +125,20 @@
     margin-top: 0;
   }
 }
+
+/* ---- the railway in micro design (owner, 2026-11-25): a thin line at the left edge with a dot for every part of the page and a tiny train that rides down it;
+   the ticket has its own little track with the train running to "Your location" ---- */
+.ma-root .mp-car-hero > .mp-car-rail { animation: none; }
+.ma-root .mp-car-rail { position: fixed; z-index: 5; left: 5px; top: 84px; bottom: 120px; width: 12px; pointer-events: none; }
+.ma-root .mp-car-rail::before { content: ""; position: absolute; left: 5px; top: 0; bottom: 0; width: 1px; background: repeating-linear-gradient(180deg, hsl(0 0% 100% / 0.28) 0 4px, transparent 4px 8px); }
+.ma-root .mp-car-st { position: absolute; left: 2px; width: 7px; height: 7px; border: 1px solid hsl(0 0% 100% / 0.45); border-radius: 50%; background: var(--ma-bg); transition: background-color 0.35s, border-color 0.35s, box-shadow 0.35s; }
+.ma-root .mp-car-st[data-on="1"] { border-color: var(--ma-tint); background: var(--ma-tint); box-shadow: 0 0 8px hsl(var(--ma-h) calc(100% * var(--ts)) 70% / 0.7); }
+.ma-root .mp-car-rt { position: absolute; left: 1px; top: 0; display: block; width: 10px; height: 34px; color: var(--ma-tint); will-change: transform; filter: drop-shadow(0 0 6px hsl(var(--ma-h) calc(100% * var(--ts)) 70% / 0.6)); }
+.ma-root .mp-car-rt svg { display: block; }
+.ma-root .mp-car-track { position: relative; height: 12px; margin: 2px 0 -2px; overflow: hidden; }
+.ma-root .mp-car-track::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 1px; background: hsl(0 0% 100% / 0.4); }
+.ma-root .mp-car-track::after { content: ""; position: absolute; left: 0; right: 0; top: 8px; height: 3px; background: repeating-linear-gradient(90deg, hsl(0 0% 100% / 0.32) 0 1px, transparent 1px 9px); }
+.ma-root .mp-car-go { position: absolute; left: 0; top: 0; display: block; width: 34px; height: 10px; color: #fff; animation: mp-car-ride 7s linear infinite; }
+.ma-root .mp-car-go svg { display: block; }
+@keyframes mp-car-ride { from { transform: translate3d(-40px, 0, 0); } to { transform: translate3d(calc(100vw - 80px), 0, 0); } }
+@media (prefers-reduced-motion: reduce) { .ma-root .mp-car-go { animation: none; left: 55%; } }

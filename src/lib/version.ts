@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 184,
+    date: "2026-11-25",
+    title: "Phone Careers: the train journey in micro design",
+    notes: [
+      "A thin railway runs down the left edge of the phone Careers page: a small dot for every part of the page and a tiny train that rides down the line as you read.",
+      "The ticket at the top has its own little track with a train running to Your location.",
+    ],
+  },
+  {
     v: 183,
     date: "2026-11-25",
     title: "Home FAQ (laptop): lilac theme colours and less space",
