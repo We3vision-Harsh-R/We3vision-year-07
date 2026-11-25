@@ -14,21 +14,45 @@ import { CareersBooking } from "./booking";
 
 
 /** the top: a Wallet pass with the heading and the text, then "Your location" and the booking form (booking.tsx): the same booking as the laptop page, without the railway */
-export const CareersPass: MobileSection<"careerJourney"> = ({ data, index, extra }) => {
+export const CareersPass: MobileSection<"careerJourney"> = ({ index }) => {
   const H = index === 0 ? "h1" : "h2";
   const top = (
     <>
-      <div className="mp-car-pass-top">
-        {data.chip && <span className="mp-car-pass-k">{data.chip}</span>}
-        <img className="mp-car-pass-logo" src="/brand/logo-mark.webp" alt="" width={480} height={395} />
-      </div>
+      <span className="mp-car-pass-k">Careers</span>
       <H className="mp-car-h">
-        <Lines text={data.heading} />
+        <Lines text={"Build your career\nwith We3vision"} />
       </H>
-      {data.text && <p className="mp-car-t">{data.text}</p>}
+      <p className="mp-car-t">Tell us where you are, choose a position and talk to our HR team. It takes only two minutes.</p>
     </>
   );
-  return <CareersBooking top={top} locationLabel={data.locationLabel || "Your location"} roles={extra.career?.roles ?? []} questions={extra.career?.questions ?? []} />;
+  return (
+    <>
+      <section className="mp-car-top" aria-label="Careers at We3vision">
+        {top}
+        <div className="mp-car-cta">
+          <a className="ma-btn ma-btn-fill" href="#mp-car-start">
+            Start your application
+          </a>
+          <a className="ma-btn" href="#jobs">
+            Open roles
+          </a>
+        </div>
+      </section>
+      <nav className="mp-car-jump" aria-label="Jump to a part of this page">
+        {[
+          ["Our team", "#careerTeams"],
+          ["Open roles", "#jobs"],
+          ["Apply", "#mp-car-start"],
+          ["What we value", "#why-we3vision"],
+          ["Contact HR", "#contact-hr"],
+        ].map(([t, h]) => (
+          <a key={h} href={h}>
+            {t}
+          </a>
+        ))}
+      </nav>
+    </>
+  );
 };
 
 /** "A Place To Grow": Tips cards that swipe sideways, with page dots */
@@ -48,46 +72,44 @@ export const CareersValues: MobileSection<"careerValues"> = ({ data, id }) => (
 );
 
 /** "Seven Teams, One Company": a Settings list; a row opens the team's sheet and its service */
-export const CareersTeams: MobileSection<"careerTeams"> = ({ data, id }) => (
-  <Section id={id} chip="About our team" title={data.heading} intro={data.intro}>
-    <ul className="ma-ap-group">
-      {data.teams.map((t, i) => (
-        <li key={i} style={{ "--k": i } as CSSProperties}>
-          <TapSheet
-            triggerClass="ma-ap-row"
-            label={t.name}
-            title={t.name}
-            trigger={
-              <>
-                <span className="ma-ap-ic" aria-hidden="true">
-                  {i + 1}
-                </span>
-                <span className="ma-ap-rt">
-                  <b>{t.name}</b>
-                  {t.text && <small>{t.text}</small>}
-                </span>
-                <IcChevron className="ma-ap-chev" />
-              </>
-            }
-          >
-            <div className="ma-ap-hd" style={{ "--k": i } as CSSProperties}>
-              <span className="ma-ap-ic" aria-hidden="true">
-                {i + 1}
-              </span>
-              <b>{t.name}</b>
-            </div>
-            {t.text && <p>{t.text}</p>}
-            {t.href && (
-              <AppLink href={t.href} className="ma-btn ma-btn-fill ma-btn-block">
-                {t.name}
-              </AppLink>
-            )}
-          </TapSheet>
-        </li>
-      ))}
-    </ul>
-  </Section>
-);
+export const CareersTeams: MobileSection<"careerTeams"> = ({ data, id }) => {
+  const [lead, ...rest] = data.heading.replace(/\n/g, " ").split(/,\s*/);
+  const names = data.teams.map((t) => t.name);
+  const half = Math.ceil(names.length / 2);
+  const rows = [names.slice(0, half), names.slice(half)];
+  return (
+    <section id={id} className="ma-sec mp-car-gr-sec" aria-labelledby="mp-car-gr-t">
+      <div className="mp-car-gr">
+        <span className="mp-car-gr-k">About our team</span>
+        <h2 id="mp-car-gr-t" className="mp-car-gr-h">
+          {rest.length ? (
+            <>
+              {lead}, <em>{rest.join(", ")}</em>
+            </>
+          ) : (
+            lead
+          )}
+        </h2>
+        {data.intro && <p className="mp-car-gr-p">{data.intro}</p>}
+        <a className="ma-btn ma-btn-fill mp-car-gr-b" href="#mp-car-start">
+          Start your application
+        </a>
+        <div className="mp-car-gr-rows" aria-label="Our teams">
+          {rows.map((r, ri) => (
+            <ul key={ri} className="mp-car-gr-row" data-r={ri} aria-hidden={undefined}>
+              {[...r, ...r, ...r].map((n, i) => (
+                <li key={i} aria-hidden={i >= r.length ? true : undefined}>
+                  <i aria-hidden="true" />
+                  {n}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 /** "Available roles": the open jobs (Admin > Careers), filtered by team; every job opens its sheet with Apply */
 export const CareersDestination: MobileSection<"careerDestination"> = ({ data, extra }) => {
@@ -97,7 +119,7 @@ export const CareersDestination: MobileSection<"careerDestination"> = ({ data, e
       {data.jobsHeading && (
         <Section id="jobs" chip="Available roles" title={data.jobsHeading} intro={data.jobsText}>
           {jobs.length === 0 ? (
-            <p className="mp-car-empty">{data.jobsEmpty}</p>
+            <p className="mp-car-empty">No position is open right now. You can still apply at the top of this page, and we will write to you when one opens.</p>
           ) : (
             <JobBoard
               allLabel="All"
@@ -157,6 +179,7 @@ export const CareersDestination: MobileSection<"careerDestination"> = ({ data, e
           )}
         </Section>
       )}
+      <CareersBooking locationLabel="Your location" roles={jobs.map((j) => ({ id: j.id, title: j.title, team: j.team }))} questions={extra.career?.questions ?? []} />
     </>
   );
 };

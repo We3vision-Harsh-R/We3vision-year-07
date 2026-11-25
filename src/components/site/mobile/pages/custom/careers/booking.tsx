@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, type ReactNode } from "react";
+import { useMemo, useRef, useState } from "react";
 import { bookSeat, completeTicket } from "@/actions/careers";
 import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, cityLabel, type CareerQuestionView, type CareerRoleView } from "@/lib/careers-shared";
 import { fieldProblem, statusProblem } from "@/lib/contact-validation";
@@ -23,13 +23,10 @@ const pick = (v: string, options: string[]) => (v ? options.indexOf(v) : -1);
 type Resume = { url: string; name: string };
 
 export function CareersBooking({
-  top,
   locationLabel,
   roles,
   questions,
 }: {
-  /** the pass at the top: chip, heading and text (built on the server) */
-  top: ReactNode;
   locationLabel: string;
   roles: CareerRoleView[];
   questions: CareerQuestionView[];
@@ -57,6 +54,7 @@ export function CareersBooking({
   const [custom, setCustom] = useState<Record<string, string>>({});
   const [website, setWebsite] = useState("");
   const detailsRef = useRef<HTMLElement>(null);
+  const bookRef = useRef<HTMLElement>(null);
 
   const days = useMemo(() => callSlots(), []);
   const roleLabels = useMemo(() => roles.map((r) => (r.team ? `${r.title} · ${r.team}` : r.title)), [roles]);
@@ -68,6 +66,13 @@ export function CareersBooking({
     d.setDate(d.getDate() + 1);
     return d.toISOString().slice(0, 10);
   }, []);
+
+  // choosing the city opens the form under the card: bring it into view so the visitor does not have to look for it
+  const chooseCity = (label: string) => {
+    setCity(label);
+    window.setTimeout(() => bookRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 140);
+  };
+  const step = done ? 4 : !city ? 1 : view === "form" ? 2 : 3;
 
   const load = () => {
     if (cities || loading.current) return;
@@ -173,12 +178,23 @@ export function CareersBooking({
 
   return (
     <>
-      <section className="mp-car-hero">
+      <section className="mp-car-hero" id="mp-car-start">
         <div className="mp-car-pass">
-          {top}
-          <div className="mp-car-perf" aria-hidden="true" />
+          <div className="mp-car-prog">
+            <p>
+              <b>Step {Math.min(step, 3)} of 3</b>
+              <span>{["Your city", "Your choice", "Your details"][Math.min(step, 3) - 1]}</span>
+            </p>
+            <ol className="mp-car-steps" aria-label="Your progress">
+              {["Your city", "Your choice", "Your details"].map((t, i) => (
+                <li key={t} data-state={step > i + 1 ? "done" : step === i + 1 ? "now" : "next"} aria-current={step === i + 1 ? "step" : undefined}>
+                  <span className="ma-sr">{t}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
           <div className="mp-car-where">
-            <h2 className="mp-car-q">{locationLabel}</h2>
+            <h2 className="mp-car-q">Where are you based?</h2>
             {city ? (
               <div className="mp-car-picked">
                 <IcPin className="mp-car-ic" />
@@ -191,7 +207,9 @@ export function CareersBooking({
               </div>
             ) : (
               <>
-                <p className="mp-car-sub">Type the first letters of your city, then tap it. The booking form opens under this card.</p>
+                <p className="mp-car-sub">Type your city, then tap it in the list. The form opens right below.</p>
+                <label className="mp-car-inp">
+                <IcPin className="mp-car-ic" />
                 <input
                   className="mp-car-cin"
                   value={query}
@@ -207,19 +225,22 @@ export function CareersBooking({
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && shown[0]) {
                       e.preventDefault();
-                      setCity(cityLabel(shown[0]));
+                      chooseCity(cityLabel(shown[0]));
                     }
                   }}
                 />
-                <ul className="mp-car-cities" aria-label="Cities">
-                  {shown.map((l) => (
-                    <li key={l}>
-                      <button type="button" onClick={() => setCity(cityLabel(l))}>
-                        {cityLabel(l)}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                </label>
+                {query && shown.length > 0 && (
+                  <ul className="mp-car-cities" aria-label="Cities">
+                    {shown.map((l) => (
+                      <li key={l}>
+                        <button type="button" onClick={() => chooseCity(cityLabel(l))}>
+                          {cityLabel(l)}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 {query && shown.length === 0 && <p className="mp-car-none">{cities ? `No city starts with “${query}”. Check the spelling.` : "Loading the cities of the world…"}</p>}
               </>
             )}
@@ -228,12 +249,12 @@ export function CareersBooking({
       </section>
 
       {city && view === "form" && (
-        <section className="ma-sec mp-car-book" aria-labelledby="mp-car-book-t">
+        <section ref={bookRef} id="book" className="ma-sec mp-car-book" aria-labelledby="mp-car-book-t">
           <header className="ma-sec-head">
             <h2 id="mp-car-book-t" className="ma-h2">
-              Book your seat
+              Start your application
             </h2>
-            <p className="ma-intro">Only your city is needed. The rest helps us to prepare for you.</p>
+            <p className="ma-intro">Only your city is needed. Every field below is optional, but it helps us to prepare for you.</p>
           </header>
           <div className="mp-car-fm">
             <div className="ma-field">
@@ -241,11 +262,11 @@ export function CareersBooking({
               <Dropdown options={CURRENT_STATUS_SUGGESTIONS} value={pick(status, CURRENT_STATUS_SUGGESTIONS)} placeholder="Choose your current status" onChange={(i) => setStatus(CURRENT_STATUS_SUGGESTIONS[i])} />
             </div>
             <div className="ma-field">
-              <span>Your destination (the open position)</span>
+              <span>The position you want</span>
               {roles.length > 0 ? (
                 <Dropdown options={roleLabels} value={roleIdx} placeholder="Choose an open position" onChange={(i) => setRoleId(roles[i].id)} />
               ) : (
-                <p className="ma-note">No position is listed right now. You can still book a seat.</p>
+                <p className="ma-note">No position is open right now. You can still apply, and we will write to you when one opens.</p>
               )}
             </div>
             <label className="ma-field">
@@ -253,7 +274,7 @@ export function CareersBooking({
               <input className="ma-input" type="date" min={tomorrow} value={joinDate} onChange={(e) => setJoinDate(e.target.value)} />
             </label>
             <div className="ma-field">
-              <span>Arrival time (your notice period)</span>
+              <span>Your notice period</span>
               <Dropdown options={NOTICE_PERIODS} value={pick(notice, NOTICE_PERIODS)} placeholder="Choose your notice period" onChange={(i) => setNotice(NOTICE_PERIODS[i])} />
             </div>
             <div className="ma-field">
@@ -270,7 +291,7 @@ export function CareersBooking({
               {uploadErr && <p className="ma-note ma-note-er">{uploadErr}</p>}
             </div>
             <div className="ma-field">
-              <span>A call with HR</span>
+              <span>Book a call with HR</span>
               <div className="mp-car-slot">
                 <Dropdown
                   options={days.map((d) => d.label)}
@@ -285,7 +306,7 @@ export function CareersBooking({
               </div>
             </div>
             <button type="button" className="ma-btn ma-btn-fill ma-btn-block" disabled={busy} onClick={() => void book()}>
-              {busy ? "Please wait…" : "Book your seat"}
+              {busy ? "Please wait…" : "Continue"}
             </button>
             {error && <p className="ma-note ma-note-er">{error}</p>}
           </div>
@@ -296,9 +317,9 @@ export function CareersBooking({
         <section ref={detailsRef} className="ma-sec mp-car-book mp-car-pd" aria-labelledby="mp-car-pd-t" data-done={done}>
           <header className="ma-sec-head">
             <h2 id="mp-car-pd-t" className="ma-h2">
-              {done ? "Ticket confirmed" : "Your details"}
+              {done ? "Application sent" : "Your details"}
             </h2>
-            <p className="ma-intro">{done ? "Thank you. Our HR team will read your details and write to you." : `Your seat is booked${ticketNo ? ` (ticket ${ticketNo})` : ""}. Tell us about yourself, then confirm the ticket.`}</p>
+            <p className="ma-intro">{done ? "Thank you. Our HR team will read your details and write to you." : `Your answers are saved${ticketNo ? ` (reference ${ticketNo})` : ""}. Tell us about yourself, then send your application.`}</p>
           </header>
           <dl className="mp-car-sum">
             {summary
@@ -312,12 +333,12 @@ export function CareersBooking({
           </dl>
           {!done && (
             <button type="button" className="ma-link mp-car-edit" onClick={() => setView("form")}>
-              Change the booking
+              Change my answers
             </button>
           )}
           {done ? (
             <p className="ma-note ma-note-ok" role="status">
-              Ticket confirmed. We will write to {fields.email || "you"} soon.
+              Application sent. We will write to {fields.email || "you"} soon.
             </p>
           ) : (
             <form
@@ -375,7 +396,7 @@ export function CareersBooking({
               })}
               <input value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden="true" className="ma-hp" />
               <button type="submit" className="ma-btn ma-btn-fill ma-btn-block" disabled={busy}>
-                {busy ? "Please wait…" : "Confirm the ticket"}
+                {busy ? "Please wait…" : "Send my application"}
               </button>
               {error && <p className="ma-note ma-note-er">{error}</p>}
             </form>

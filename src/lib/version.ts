@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 187,
+    date: "2026-11-25",
+    title: "Phone and tablet Careers: simple hero, team card, no ticket words",
+    notes: [
+      "New order: hero, About our team, Available roles, Start your application, What we value, Help desk, Contact HR, Contact details, footer.",
+      "The train-ticket wording is gone (Start your application, Send my application). The city card has no tags, only a search box with a step bar.",
+      "About our team is one glowing card with two drifting rows of team names. The position list shows only the open roles.",
+    ],
+  },
+  {
     v: 186,
     date: "2026-11-25",
     title: "Phone and tablet Careers: location first, then the booking form, new section order",
