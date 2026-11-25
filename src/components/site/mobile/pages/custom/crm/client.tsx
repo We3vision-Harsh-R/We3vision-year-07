@@ -130,7 +130,7 @@ export function CrmPipeline({ steps, label }: { steps: CrmStep[]; label: string 
             Back
           </button>
           {k === n - 1 ? (
-            <Link href="/m/contact" className="ma-btn ma-btn-fill">
+            <Link href="/contact" className="ma-btn ma-btn-fill">
               Start your CRM project
             </Link>
           ) : (

@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 185,
+    date: "2026-11-25",
+    title: "No /m/ in any address",
+    notes: [
+      "An address like /m/careers is no longer served: it goes to /careers. Phones still get their own page at the normal address (careers, about, contact ...).",
+      "The one link that pointed to /m/contact now points to /contact.",
+    ],
+  },
+  {
     v: 184,
     date: "2026-11-25",
     title: "Phone Careers: the train journey in micro design",

@@ -6,7 +6,7 @@ import { shield, takeAlerts } from "@/lib/shield";
 // 0) The shield: hacking tools, attack text in the address and floods are answered here, before any page runs (src/lib/shield.ts).
 // 1) First line of defence for /admin. Pages and server actions re-check with requireAdmin().
 // 2) Device routing: a phone or tablet that asks for a page which has a mobile version is served /m/<page> (a rewrite: the address in the
-//    browser does not change). Everything else is untouched. See src/lib/device.ts and brain/03-architecture.md.
+//    browser does not change; the /m/ address itself redirects to the clean one). Everything else is untouched. See src/lib/device.ts and brain/03-architecture.md.
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
 
@@ -39,7 +39,13 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
 
   // only plain page requests are rewritten (a server action is a POST to the page and must reach the same page)
   if (request.method !== "GET" && request.method !== "HEAD") return NextResponse.next();
-  if (pathname === "/m" || pathname.startsWith("/m/") || pathname.startsWith("/preview")) return NextResponse.next();
+  // the phone pages live inside the server at /m/<page>, but that address is never shown or served: a visit to /m/careers (an old link, a typed address) goes to /careers, and the phone then gets its page from the rewrite below
+  if ((pathname === "/m" || pathname.startsWith("/m/")) && !pathname.startsWith("/m/preview")) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.slice(2).replace(/^\/+/, "/") || "/";
+    return NextResponse.redirect(url, 308);
+  }
+  if (pathname === "/m/preview" || pathname.startsWith("/m/preview/") || pathname.startsWith("/preview")) return NextResponse.next();
 
   // ?view=desktop or ?view=mobile: the visitor chooses by hand (remembered in a cookie)
   const asked = request.nextUrl.searchParams.get("view");
