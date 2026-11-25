@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 183,
+    date: "2026-11-25",
+    title: "Home FAQ (laptop): lilac theme colours and less space",
+    notes: [
+      "The questions phone uses the site accent (lilac and the light button gradient) instead of pink and orange; the selected question is a soft rounded chip.",
+      "All 13 questions now have an equal row (the last three were squeezed), the section has less padding above and below, and the phone is a little lower and wider so the answers fit.",
+    ],
+  },
+  {
     v: 182,
     date: "2026-11-21",
     title: "Phone: solid theme buttons on one line, centred About, Contact with the Lucia map",
