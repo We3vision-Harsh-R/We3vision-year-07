@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
 import type { MobileSection } from "../../types";
 import { AppLink, Button, Clamp, GroupedList, ListRow, Points, Section } from "../../../app";
-import { IcChevron } from "../../../app/icons";
 import { Lines, Rich, lines, oneLine, paragraphs } from "../../../app/text";
 import { Ask, Flip, Prompt, RunSlider } from "../../../../lazy";
 
@@ -302,11 +301,8 @@ export const AiFaq: MobileSection<"faq"> = ({ data, id }) => (
 export const AiContact: MobileSection<"contact"> = ({ data, site }) => (
   <Section id="contact" chip={data.chip} title={data.heading} intro={data.text}>
     <Prompt label={data.buttonLabel || undefined} />
-    <details className="ma-fold ma-gap">
-      <summary>
-        Phone, e-mail and offices
-        <IcChevron />
-      </summary>
+    <div className="ma-open-ct ma-gap">
+      <h3 className="ma-open-ct-t">Phone, e-mail and offices</h3>
       <div className="ma-stack ma-gap">
         {site.contactCards.map((card, i) => (
           <GroupedList key={i} header={card.title}>
@@ -316,6 +312,6 @@ export const AiContact: MobileSection<"contact"> = ({ data, site }) => (
           </GroupedList>
         ))}
       </div>
-    </details>
+    </div>
   </Section>
 );

@@ -1,16 +1,7 @@
-/* GTA theme: laptop and desktop only (task 162) */
-.fw-band,
-.fc-city,
-.fc-palms {
-  display: none;
-}
-@media (min-width: 1024px) {
+/* GTA theme footer (tasks 157, 159). The scenery (the big neon word, the striped sun, the Miami skyline, the palms, the neon beam) shows at every width, on phones
+   too (owner, 2026-11-22); the "Mission passed" band, the numbered columns and the Respawn text are laptop-only (task 162). */
 .fw-band {
-  display: block;
-}
-.hb2-f[data-gta] .fc-city,
-.hb2-f[data-gta] .fc-palms {
-  display: block;
+  display: none;
 }
 /* The big "We3vision" word of the footer lights up like a neon sign where the cursor is (task 157, prefix fw-; components/site/home/home-footer-word.tsx).
    --fx / --fy (px from the top left of the word) and --fo (0..1) are set by the component. Colours: the theme hue plus an offset (sun +100, pink +40),
@@ -84,113 +75,6 @@
   mask-image: repeating-linear-gradient(to bottom, #000 0 26px, transparent 26px 38px);
   opacity: 0.2;
 }
-/* "Mission passed": a dark band across the footer, played once when it comes into view */
-.fw-band {
-  position: relative;
-  margin: 0 0 56px;
-  padding: 26px 0 24px;
-  overflow: hidden;
-  text-align: center;
-  border-block: 1px solid var(--fw-pink-a);
-  background: linear-gradient(to right, transparent, hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 3% / 0.8) 14%, hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 3% / 0.8) 86%, transparent);
-}
-.fw-pass {
-  margin: 0;
-  font-size: clamp(30px, 3.4vw, 46px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: 0.16em;
-  text-indent: 0.16em;
-  text-transform: uppercase;
-  color: transparent;
-  background: linear-gradient(to bottom, var(--fw-sun), var(--fw-pink));
-  -webkit-background-clip: text;
-  background-clip: text;
-  filter: drop-shadow(0 0 18px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 60% / 0.4));
-}
-.fw-thanks {
-  margin: 8px 0 0;
-  font-size: 16px;
-  color: var(--mute);
-}
-.fw-band::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(100deg, transparent 38%, hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 80% / 0.28) 50%, transparent 62%);
-  transform: translateX(-100%);
-}
-.fw-band:not([data-in]) .fw-pass,
-.fw-band:not([data-in]) .fw-thanks {
-  opacity: 0;
-}
-.fw-band[data-in] .fw-pass {
-  animation: fw-pass 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-.fw-band[data-in] .fw-thanks {
-  animation: fw-fade 0.8s ease 0.5s both;
-}
-.fw-band[data-in]::after {
-  animation: fw-sheen 1.4s ease 0.3s both;
-}
-@keyframes fw-pass {
-  from {
-    opacity: 0;
-    letter-spacing: 0.5em;
-    text-indent: 0.5em;
-  }
-}
-@keyframes fw-fade {
-  from {
-    opacity: 0;
-  }
-}
-@keyframes fw-sheen {
-  to {
-    transform: translateX(100%);
-  }
-}
-/* the column headings are mission labels: a diamond marker in front */
-.hb2-f[data-gta] .hb2-f-col h3 {
-  color: var(--fw-pink);
-}
-.hb2-f[data-gta] .hb2-f-col h3::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 10px;
-  vertical-align: 1px;
-  background: var(--fw-pink);
-  box-shadow: 0 0 8px var(--fw-pink);
-  transform: rotate(45deg);
-}
-/* the services are numbered like the missions of the home page */
-.hb2-f[data-gta] .hb2-f-col[aria-label="Services"] ul {
-  counter-reset: fm;
-}
-.hb2-f[data-gta] .hb2-f-col[aria-label="Services"] li {
-  counter-increment: fm;
-}
-.hb2-f[data-gta] .hb2-f-col[aria-label="Services"] li a::before {
-  content: counter(fm, decimal-leading-zero);
-  margin-right: 10px;
-  font-size: 14px;
-  letter-spacing: 0.06em;
-  color: var(--fw-pink-a);
-}
-.hb2-f[data-gta] .hb2-f-bot a:hover .hb2-f-up {
-  box-shadow: 0 0 20px var(--fw-pink-a);
-}
-@media (prefers-reduced-motion: reduce) {
-  .fw-band[data-in] .fw-pass,
-  .fw-band[data-in] .fw-thanks,
-  .fw-band[data-in]::after {
-    animation: none;
-  }
-}
-
 /* ---------------------------------------------------------------- the Miami night skyline along the bottom of the footer (task 159, prefix fc-) */
 .hb2-f[data-gta] .fc-city {
   --fc-pink: hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 66%);
@@ -301,4 +185,142 @@
     animation: none;
   }
 }
+
+/* ---- laptop only ---- */
+@media (min-width: 1024px) {
+.fw-band {
+  display: block;
+}
+/* "Mission passed": a dark band across the footer, played once when it comes into view */
+.fw-band {
+  position: relative;
+  margin: 0 0 56px;
+  padding: 26px 0 24px;
+  overflow: hidden;
+  text-align: center;
+  border-block: 1px solid var(--fw-pink-a);
+  background: linear-gradient(to right, transparent, hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 3% / 0.8) 14%, hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 3% / 0.8) 86%, transparent);
+}
+.fw-pass {
+  margin: 0;
+  font-size: clamp(30px, 3.4vw, 46px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.16em;
+  text-indent: 0.16em;
+  text-transform: uppercase;
+  color: transparent;
+  background: linear-gradient(to bottom, var(--fw-sun), var(--fw-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 60% / 0.4));
+}
+.fw-thanks {
+  margin: 8px 0 0;
+  font-size: 16px;
+  color: var(--mute);
+}
+.fw-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 38%, hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 80% / 0.28) 50%, transparent 62%);
+  transform: translateX(-100%);
+}
+.fw-band:not([data-in]) .fw-pass,
+.fw-band:not([data-in]) .fw-thanks {
+  opacity: 0;
+}
+.fw-band[data-in] .fw-pass {
+  animation: fw-pass 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.fw-band[data-in] .fw-thanks {
+  animation: fw-fade 0.8s ease 0.5s both;
+}
+.fw-band[data-in]::after {
+  animation: fw-sheen 1.4s ease 0.3s both;
+}
+@keyframes fw-pass {
+  from {
+    opacity: 0;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+  }
+}
+@keyframes fw-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fw-sheen {
+  to {
+    transform: translateX(100%);
+  }
+}
+/* the column headings are mission labels: a diamond marker in front */
+.hb2-f[data-gta] .hb2-f-col h3 {
+  color: var(--fw-pink);
+}
+.hb2-f[data-gta] .hb2-f-col h3::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  vertical-align: 1px;
+  background: var(--fw-pink);
+  box-shadow: 0 0 8px var(--fw-pink);
+  transform: rotate(45deg);
+}
+/* the services are numbered like the missions of the home page */
+.hb2-f[data-gta] .hb2-f-col[aria-label="Services"] ul {
+  counter-reset: fm;
+}
+.hb2-f[data-gta] .hb2-f-col[aria-label="Services"] li {
+  counter-increment: fm;
+}
+.hb2-f[data-gta] .hb2-f-col[aria-label="Services"] li a::before {
+  content: counter(fm, decimal-leading-zero);
+  margin-right: 10px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--fw-pink-a);
+}
+.hb2-f[data-gta] .hb2-f-bot a:hover .hb2-f-up {
+  box-shadow: 0 0 20px var(--fw-pink-a);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fw-band[data-in] .fw-pass,
+  .fw-band[data-in] .fw-thanks,
+  .fw-band[data-in]::after {
+    animation: none;
+  }
+}
+
+}
+
+/* ---- phones: the same scenery, smaller (owner, 2026-11-22: "the footer of the phone like the laptop's: the skyline, the sun, the word") ---- */
+@media (max-width: 699.98px) {
+  html .hb2-f[data-gta] {
+    padding-bottom: 236px;
+  }
+  .hb2-f[data-gta]::before {
+    bottom: 40px;
+    width: 440px;
+    height: 440px;
+    margin-left: -220px;
+    -webkit-mask-image: repeating-linear-gradient(to bottom, #000 0 16px, transparent 16px 24px);
+    mask-image: repeating-linear-gradient(to bottom, #000 0 16px, transparent 16px 24px);
+  }
+  /* the skyline stands 96px above the end of the page, so the bottom bar does not cover it */
+  .hb2-f[data-gta] .fc-city {
+    height: 130px;
+    bottom: 96px;
+  }
+  .hb2-f[data-gta] .fc-palms {
+    width: 110px;
+    height: 140px;
+    bottom: 96px;
+  }
 }

@@ -15,11 +15,8 @@ export function ContactBlock({ chip, heading, text, buttonLabel, site }: { chip:
         <LeadForm buttonLabel={buttonLabel || undefined} />
       </div>
       {site.contactCards.length > 0 && (
-        <details className="ma-s27 ma-s27-more">
-          <summary>
-            <span>Phone, e-mail and offices</span>
-            <i aria-hidden="true" />
-          </summary>
+        <div className="ma-s27 ma-open-ct">
+          <h3 className="ma-open-ct-t">Phone, e-mail and offices</h3>
           <div className="ma-s27-cards">
             {site.contactCards.map((card, i) => (
               <section key={i}>
@@ -40,7 +37,7 @@ export function ContactBlock({ chip, heading, text, buttonLabel, site }: { chip:
               </section>
             ))}
           </div>
-        </details>
+        </div>
       )}
     </Section>
   );

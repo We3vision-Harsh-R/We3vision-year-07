@@ -260,3 +260,52 @@
   letter-spacing: 0.04em;
   color: var(--ma-text2);
 }
+
+/* ---- the glass cards (the contact form card and the like) = the card of the home page's service cards: dark violet, a thin theme border with a shining line
+   at two corners, a soft glow at the foot (owner, 2026-11-22). The fields inside are dark too. ---- */
+.ma-root.ma-home[data-page] .ma-s27-glass {
+  position: relative;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.14);
+  border-radius: 24px;
+  background:
+    radial-gradient(70% 50% at 50% 100%, hsl(calc(var(--th) + 0) calc(85% * var(--ts)) 60% / 0.2), transparent 75%),
+    hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 6.5%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.ma-root.ma-home[data-page] .ma-s27-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(45deg, hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 82% / 0.75) 0%, transparent 26%, transparent 74%, hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 82% / 0.75) 100%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+.ma-root.ma-home[data-page] .ma-s27-glass .ma-input {
+  background: hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 9.5%);
+  border: 1px solid var(--ma-line);
+}
+
+/* ---- "Phone, e-mail and offices" under a contact form: always open, a plain heading with the details under it (no fold, no + icon) ---- */
+.ma-root.ma-home .ma-open-ct,
+.ma-root.ma-home .mp-wd-ct {
+  margin-top: 32px;
+  border: 0;
+  padding: 0;
+}
+.ma-root.ma-home .ma-open-ct-t {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.28;
+}

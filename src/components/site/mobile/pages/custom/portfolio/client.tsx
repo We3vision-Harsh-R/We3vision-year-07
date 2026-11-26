@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- project pictures are uploads / links from the admin panel (Projects), like the kit's <Pic> */
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PhotoViewer } from "../../../app/apple";
 
 /** the interactive part of /portfolio: Photos albums that filter the grid, and a tap opens the picture full screen */
@@ -9,6 +9,79 @@ import { PhotoViewer } from "../../../app/apple";
 export type PfItem = { id: string; slug: string; title: string; category: string; cover: string };
 
 const STEP = 12;
+const GLIDE_SPEED = 26; // px per second: the same slow glide as the card rows of the home page (home-glide.tsx)
+const GLIDE_START = 1000;
+const GLIDE_RESUME = 1400;
+
+/** the row of albums glides slowly from right to left by itself, as the card rows of the home page: it starts a second after it is on screen, a touch takes
+ *  over and it glides on 1.4 s after the finger is lifted; it loops with no gap (the albums are shown twice, the second set is a hidden copy). */
+function useGlide(row: React.RefObject<HTMLUListElement | null>, n: number) {
+  useEffect(() => {
+    const el = row.current;
+    if (!el || n < 3 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let visible = false;
+    let startAt = 0;
+    let touching = false;
+    let lastTouch = 0;
+    let pos = el.scrollLeft;
+    let last = 0;
+    let raf = 0;
+    const tick = (t: number) => {
+      raf = 0;
+      if (!visible || document.hidden) return;
+      const dt = last ? Math.min(0.1, (t - last) / 1000) : 0;
+      last = t;
+      const now = performance.now();
+      const items = el.children;
+      const loop = (items[n] as HTMLElement | undefined)?.offsetLeft ?? 0;
+      const base = (items[0] as HTMLElement).offsetLeft;
+      if (now < startAt || touching || now - lastTouch < GLIDE_RESUME) {
+        pos = el.scrollLeft;
+      } else if (loop > base) {
+        pos += GLIDE_SPEED * dt;
+        if (pos >= loop - base) pos -= loop - base;
+        el.scrollLeft = pos;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    const run = () => {
+      if (!raf) {
+        last = 0;
+        raf = requestAnimationFrame(tick);
+      }
+    };
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) {
+        startAt = performance.now() + GLIDE_START;
+        run();
+      }
+    });
+    io.observe(el);
+    const down = () => {
+      touching = true;
+    };
+    const up = () => {
+      touching = false;
+      lastTouch = performance.now();
+    };
+    const wheel = () => {
+      lastTouch = performance.now();
+    };
+    el.addEventListener("touchstart", down, { passive: true });
+    el.addEventListener("touchend", up, { passive: true });
+    el.addEventListener("touchcancel", up, { passive: true });
+    el.addEventListener("wheel", wheel, { passive: true });
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+      el.removeEventListener("touchstart", down);
+      el.removeEventListener("touchend", up);
+      el.removeEventListener("touchcancel", up);
+      el.removeEventListener("wheel", wheel);
+    };
+  }, [row, n]);
+}
 
 /**
  * Apple Photos: a row of albums (All first, then one per category, with a cover and a count) works as a filter; the grid below shows the
@@ -24,6 +97,8 @@ export function PortfolioBrowser({ items, allLabel = "All", openLabel = "Open" }
   }
   const [k, setK] = useState(0);
   const [shown, setShown] = useState(STEP);
+  const row = useRef<HTMLUListElement>(null);
+  useGlide(row, albums.length);
   const cur = albums[k] ?? albums[0];
   const list = cur.list.slice(0, shown);
   const more = cur.list.length - list.length;
@@ -34,16 +109,20 @@ export function PortfolioBrowser({ items, allLabel = "All", openLabel = "Open" }
   return (
     <div className="mp-pf-br">
       {albums.length > 2 && (
-        <ul className="mp-pf-albums" aria-label="Albums">
-          {albums.map((a, i) => (
-            <li key={a.name}>
-              <button type="button" className={i === k ? "mp-pf-album is-on" : "mp-pf-album"} aria-pressed={i === k} onClick={() => pick(i)}>
-                <span className="mp-pf-ac">{a.list[0]?.cover ? <img src={a.list[0].cover} alt="" loading="lazy" decoding="async" /> : <span aria-hidden="true">{a.name.charAt(0).toUpperCase()}</span>}</span>
-                <span className="mp-pf-an">{a.name}</span>
-                <span className="mp-pf-aq">{a.list.length}</span>
-              </button>
-            </li>
-          ))}
+        <ul ref={row} className="mp-pf-albums" aria-label="Albums">
+          {[...albums, ...albums].map((a, j) => {
+            const i = j % albums.length;
+            const copy = j >= albums.length; // the second set is only there for the endless glide: hidden from readers and not clickable
+            return (
+              <li key={`${copy ? "c" : "a"}${a.name}`} aria-hidden={copy || undefined} inert={copy || undefined}>
+                <button type="button" tabIndex={copy ? -1 : undefined} className={i === k ? "mp-pf-album is-on" : "mp-pf-album"} aria-pressed={i === k} onClick={() => pick(i)}>
+                  <span className="mp-pf-ac">{a.list[0]?.cover ? <img src={a.list[0].cover} alt="" loading="lazy" decoding="async" /> : <span aria-hidden="true">{a.name.charAt(0).toUpperCase()}</span>}</span>
+                  <span className="mp-pf-an">{a.name}</span>
+                  <span className="mp-pf-aq">{a.list.length}</span>
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
       <PhotoViewer photos={cur.list.map((p) => ({ id: p.id, src: p.cover, title: p.title, kicker: p.category, href: "/portfolio/" + p.slug }))} openLabel={openLabel}>
