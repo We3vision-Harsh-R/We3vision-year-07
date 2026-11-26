@@ -1,10 +1,8 @@
 import type { CSSProperties } from "react";
 import { SmartLink } from "@/components/site/smart-link";
 import { getSiteSettings } from "@/lib/cms/queries";
-import { HomeContact } from "./home-contact";
+import { HomeTalk } from "./home-talk";
 import { HomeFaq } from "./home-faq";
-import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (the contact form is a message to Lucia)
-import { HomeMessageRoute } from "./home-message-route";
 import "@/styles/gta-device.css";
 
 // The sections of the home page after the services (prefix hb2-m in styles/home.css). All facts are the ones already on the site (Home page content):
@@ -197,47 +195,8 @@ export async function HomeMore() {
       {/* ---- the questions people ask (open text, also the FAQPage data of the home page) */}
       <HomeFaq site={site} />
 
-      {/* ---- the contact section: the words on the left, the form on the right (the same form and rules as the Contact page) */}
-      <section className="hb2-m-ctc" id="contact" aria-labelledby="hb2-t8">
-        <div className="hb2-wrap hb2-m-ctg" data-gta={GTA_ON ? "" : undefined}>
-          <div className="hb2-m-ct" data-r>
-            <p className="hb2-m-k">Let&apos;s talk</p>
-            <h2 id="hb2-t8">
-              Ready to start <em>your project?</em>
-            </h2>
-            <p>Tell us about your idea and the We3vision team will get back to you. Web, AI, apps, VR and design: we are happy to help.</p>
-            <ul className="hb2-m-cl">
-              {lines.map((t) => (
-                <li key={t}>{t.includes("@") ? <a href={`mailto:${t}`}>{t}</a> : <a href={`tel:${t.replace(/\s/g, "")}`}>{t}</a>}</li>
-              ))}
-            </ul>
-            <SmartLink href="/contact" className="hb2-m-btn">
-              All contact details
-            </SmartLink>
-            {/* GTA theme: the route of your message to Lucia (it follows the form) */}
-            {GTA_ON && <HomeMessageRoute />}
-          </div>
-          <div className="hb2-ct-panel" data-r style={{ "--d": "120ms" } as CSSProperties}>
-            <h2>
-              {GTA_ON ? (
-                <>
-                  <span className="gt-dk">
-                    Send message to <em>Lucia</em>
-                  </span>
-                  <span className="gt-pk">
-                    Send us a <em>message</em>
-                  </span>
-                </>
-              ) : (
-                <>
-                  Send us a <em>message</em>
-                </>
-              )}
-            </h2>
-            <HomeContact />
-          </div>
-        </div>
-      </section>
+      {/* ---- the contact section: a sentence that the visitor completes, with a signal that lights up (home-talk.tsx); the same form rules as the Contact page */}
+      <HomeTalk lines={lines} />
     </>
   );
 }

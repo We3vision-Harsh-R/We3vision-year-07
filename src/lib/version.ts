@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 189,
+    date: "2026-11-26",
+    title: "New home Contact section, FAQ as cards, GTA theme off",
+    notes: [
+      "Home Contact: a sentence the visitor completes (name, email, phone, what they want, the idea) that appears word by word, a glowing signal that lights up as the parts are right, and a card with the email and phone side by side.",
+      "Home FAQ: two columns of Q&A cards, all in regular weight.",
+      "The GTA theme is switched off on the whole website.",
+    ],
+  },
+  {
     v: 188,
     date: "2026-11-25",
     title: "Book your interview slot: a calendar that HR sets in the admin panel",

@@ -1,0 +1,470 @@
+/* tk-: the contact section of the home page, a sentence to complete (components/site/home/home-talk.tsx). Theme colours only (--th / --ts, through the .hb2
+   variables --ink --mute --line --v1); paragraphs >= 16px, labels >= 14px. One font (Poppins), one weight (regular), one accent colour (--v1); the sizes
+   are only these: 44 (heading), 26 (the sentence), 21 (its small lines), 18 (captions), 16 (chips, notes). */
+.tk {
+  position: relative;
+  padding: 80px 0 90px;
+}
+.tk::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(48% 60% at 78% 60%, hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 45% / 0.2), transparent 70%);
+  pointer-events: none;
+}
+.tk,
+.tk * {
+  font-weight: 400;
+}
+
+/* ---- heading ---- */
+.tk-head {
+  position: relative;
+  margin-bottom: 30px;
+}
+.tk-k {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--v1);
+}
+.tk-head h2 {
+  margin: 8px 0 0;
+  font-size: 44px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.tk-head h2 em {
+  font-style: italic;
+  color: var(--v1);
+}
+.tk-cap {
+  margin: 12px 0 0;
+  max-width: 60ch;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--mute);
+}
+
+/* ---- layout ---- */
+.tk-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+  gap: 60px;
+  align-items: center;
+}
+
+/* ---- the sentence ---- */
+.tk-line {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.tk-line2 {
+  margin-top: 18px;
+  font-size: 21px;
+  line-height: 1.4;
+  color: var(--mute);
+}
+.tk-in {
+  field-sizing: content;
+  min-width: 7ch;
+  max-width: 100%;
+  padding: 0 4px 2px;
+  border: 0;
+  border-bottom: 1px solid hsl(0 0% 100% / 0.22);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  letter-spacing: inherit;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.tk-in::placeholder,
+.tk-idea::placeholder {
+  color: hsl(0 0% 100% / 0.28);
+}
+.tk-in:focus,
+.tk-idea:focus {
+  border-bottom-color: var(--v1);
+  box-shadow: 0 8px 14px -12px var(--v1);
+}
+.tk-in[aria-invalid="true"],
+.tk-idea[aria-invalid="true"] {
+  border-bottom-color: hsl(350 60% 62% / 0.6);
+}
+.tk-wants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.tk-wants button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 8% / 0.6);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+.tk-wants button:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.6);
+  transform: translateY(-2px);
+}
+.tk-wants button[data-on="true"] {
+  border-color: var(--v1);
+  background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 55% / 0.22);
+  box-shadow: 0 0 20px hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 60% / 0.3);
+}
+.tk-idea {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 2px 4px 8px;
+  border: 0;
+  border-bottom: 1px solid hsl(0 0% 100% / 0.22);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 20px;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.tk-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.tk-err {
+  margin: 16px 0 0;
+  font-size: 16px;
+  color: hsl(350 85% 72%);
+}
+.tk-send {
+  margin-top: 24px;
+  min-height: 52px;
+  padding: 0 30px;
+  font-size: 17px;
+}
+.tk-send span {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.tk-send:hover span {
+  transform: translateX(6px);
+}
+.tk-ok strong {
+  display: block;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.tk-ok p {
+  margin: 14px 0 0;
+  max-width: 46ch;
+  font-size: 21px;
+  line-height: 1.6;
+  color: var(--mute);
+}
+
+/* ---- the appearing (when the section comes into view): a word at a time, a soft blur that clears, each word lit for a moment ---- */
+.tk-w {
+  display: inline;
+  opacity: 0;
+  filter: blur(12px);
+}
+.tk-rv {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(14px);
+}
+.tk[data-in] .tk-w {
+  animation: tk-word 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 55ms + 250ms);
+}
+.tk[data-in] .tk-rv {
+  animation: tk-blur 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes tk-word {
+  0% {
+    opacity: 0;
+    filter: blur(12px);
+    color: var(--v1);
+  }
+  55% {
+    opacity: 1;
+    filter: blur(0);
+    color: var(--v1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    color: inherit;
+  }
+}
+@keyframes tk-blur {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+/* ---- the card on the right: the signal, then the contact details ---- */
+.tk-card {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 26px 28px 24px;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.35);
+  border-radius: 26px;
+  background: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 8% / 0.55);
+  box-shadow: 0 0 34px hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 60% / 0.2), inset 0 0 24px hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 60% / 0.06);
+}
+.tk-orb {
+  position: relative;
+  width: 200px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+.tk-orb svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.tk-r-dash {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 354) calc(50% * var(--ts)) 70% / 0.25);
+  stroke-width: 1;
+  stroke-dasharray: 3 9;
+  transform-origin: 110px 110px;
+  animation: tk-spin 60s linear infinite;
+}
+.tk-r-arc {
+  fill: none;
+  stroke: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 60% / 0.22);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke 0.5s, filter 0.5s;
+}
+.tk-r-arc[data-on="true"] {
+  stroke: var(--v1);
+  filter: drop-shadow(0 0 7px var(--v1));
+}
+.tk-orb::before {
+  content: "";
+  position: absolute;
+  inset: 17%;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(calc(var(--th) + 354) calc(75% * var(--ts)) 55% / calc(0.12 + var(--tk-p, 0) * 0.5)), transparent 70%);
+  transition: background 0.6s;
+}
+.tk-orb[data-done="1"] { --tk-p: 0.2; }
+.tk-orb[data-done="2"] { --tk-p: 0.4; }
+.tk-orb[data-done="3"] { --tk-p: 0.65; }
+.tk-orb[data-done="4"], .tk-orb[data-sent="true"] { --tk-p: 1; }
+.tk-mark {
+  position: relative;
+  width: 34%;
+  height: auto;
+  filter: drop-shadow(0 0 16px hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 62% / 0.55));
+  animation: tk-float 5s ease-in-out infinite;
+}
+.tk-orb[data-busy="true"] .tk-mark {
+  animation-duration: 1.2s;
+}
+.tk-ripple {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  border: 2px solid var(--v1);
+  opacity: 0;
+}
+.tk-orb[data-sent="true"] .tk-ripple {
+  animation: tk-out 2.4s ease-out infinite;
+}
+.tk-orb[data-sent="true"] .tk-ripple2 {
+  animation-delay: 1.2s;
+}
+.tk-status {
+  margin: 0;
+  font-size: 18px;
+  color: var(--ink);
+}
+.tk-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 6px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.tk-or::before,
+.tk-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.tk-cl {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.tk-cl a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: var(--ink);
+  font-size: 17px;
+  text-decoration: none;
+  transition: border-color 0.3s, background-color 0.3s, transform 0.3s;
+}
+.tk-cl a:hover {
+  border-color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.6);
+  background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 55% / 0.1);
+  transform: translateY(-2px);
+}
+.tk-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 55% / 0.16);
+  color: var(--v1);
+}
+.tk-ic svg {
+  width: 20px;
+  height: 20px;
+}
+.tk-ct {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.tk-ct small {
+  font-size: 14px;
+  color: var(--mute);
+}
+.tk-all {
+  font-size: 16px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.3s, border-color 0.3s;
+}
+.tk-all span {
+  display: inline-block;
+  color: var(--v1);
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.tk-all:hover {
+  color: var(--v1);
+  border-color: var(--v1);
+}
+.tk-all:hover span {
+  transform: translateX(4px);
+}
+@keyframes tk-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes tk-float {
+  50% { transform: translateY(-6px); }
+}
+@keyframes tk-out {
+  0% { transform: scale(0.7); opacity: 0.8; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tk-w, .tk-rv { opacity: 1; filter: none; transform: none; }
+  .tk[data-in] .tk-w, .tk[data-in] .tk-rv { animation: none; }
+  .tk-r-dash, .tk-mark, .tk-orb[data-sent="true"] .tk-ripple { animation: none; }
+}
+/* below a laptop the sentence is smaller and the card goes under it (the phone home page has its own contact section) */
+@media (max-width: 1023.98px) {
+  .tk { padding: 60px 0 80px; }
+  .tk-head h2 { font-size: 32px; }
+  .tk-grid { grid-template-columns: 1fr; gap: 36px; }
+  .tk-line { font-size: 22px; }
+  .tk-line2 { font-size: 19px; }
+  .tk-idea { font-size: 18px; }
+  .tk-in { min-width: 5ch; }
+}
+
+/* the card is not taller than the sentence */
+@media (min-width: 1024px) {
+  .tk-card { gap: 10px; padding: 20px 24px 18px; }
+  .tk-orb { width: 150px; }
+  .tk-status { font-size: 16px; }
+  .tk-or { margin-top: 2px; }
+  .tk-cl { gap: 8px; }
+  .tk-cl a { padding: 8px 14px; }
+  .tk-ic { width: 36px; height: 36px; }
+}
+
+/* v189: the card, ordered: signal, what is ready, then the ways to reach us; everything on one centre line and one width */
+.tk-card { justify-items: stretch; text-align: center; }
+.tk-card .tk-orb { justify-self: center; }
+.tk-status { text-align: center; }
+.tk-chk { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 0; padding: 0; list-style: none; }
+.tk-chk li { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 0 6px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: var(--mute); transition: border-color 0.4s, color 0.4s, background-color 0.4s; }
+.tk-chk i { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line); font-style: normal; font-size: 14px; line-height: 1; color: transparent; transition: background-color 0.4s, border-color 0.4s, color 0.4s; }
+.tk-chk li[data-on="true"] { border-color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.55); color: var(--ink); background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 55% / 0.12); }
+.tk-chk li[data-on="true"] i { background: var(--v1); border-color: var(--v1); color: hsl(var(--th) 40% 10%); font-size: 11px; }
+.tk-cl a { justify-content: flex-start; text-align: left; }
+.tk-cl a::after { content: "→"; margin-left: auto; padding-left: 10px; color: var(--v1); transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.tk-cl a:hover::after { transform: translateX(4px); }
+.tk-all { justify-self: center; margin-top: 2px; }
+
+/* v189: the box starts at "Let's talk" and ends with the send button: it is as tall as the whole left side */
+.tk-grid { align-items: stretch; }
+.tk-card { align-content: center; }
+
+/* the global link rules of the home page win over a single class, so the rows are written with the section class in front */
+.tk .tk-cl a { display: flex; box-sizing: border-box; width: 100%; align-items: center; justify-content: flex-start; text-align: left; }
+.tk .tk-cl .tk-ct { flex: 1; min-width: 0; }
+.tk .tk-cl a::after { margin-left: 0; padding-left: 10px; }
+.tk .tk-all { justify-self: center; }
+
+/* v189 (last word): a simple card: the signal, one line of status, then the email and the phone as two boxes side by side, then the link */
+.tk-card { align-content: space-evenly; gap: 14px; padding: 28px 26px; }
+.tk-card .tk-orb { width: 170px; }
+.tk-card .tk-status { font-size: 17px; }
+.tk .tk-cl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tk .tk-cl a { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; height: 100%; position: relative; }
+.tk .tk-cl a::after { position: absolute; top: 14px; right: 16px; padding: 0; }
+.tk .tk-cl .tk-ct { flex: none; width: 100%; font-size: 16px; }
+.tk .tk-cl .tk-ct small { font-size: 14px; }
+.tk .tk-cl a { padding: 16px 14px; }
+.tk .tk-cl .tk-ct { font-size: 15px; letter-spacing: -0.01em; overflow-wrap: normal; white-space: nowrap; }

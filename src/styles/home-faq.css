@@ -185,3 +185,127 @@
     transition: none;
   }
 }
+
+/* ---- laptop and desktop (owner, 2026-11-25): the questions as a 2-column grid of cards; a tapped card opens its answer (faq-toggle.tsx), one at a time ---- */
+@media (min-width: 1024px) {
+  .hfq {
+    padding: 100px 0 30px;
+  }
+  .hfq-grid {
+    display: block;
+  }
+  .hfq-side {
+    position: static;
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 60px;
+    align-items: end;
+    margin-bottom: 44px;
+  }
+  .hfq-side .hb2-m-k,
+  .hfq-side .hb2-m-h,
+  .hfq-side .hfq-lede {
+    grid-column: 1;
+  }
+  .hfq-side .hb2-m-btn {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: end;
+  }
+  .hfq-lede {
+    max-width: 62ch;
+  }
+  .hfq-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 22px;
+    align-items: start;
+    border-bottom: 0;
+  }
+  .hfq-item {
+    position: relative;
+    display: block;
+    padding: 0;
+    border: 1px solid hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.22);
+    border-radius: 20px;
+    background: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 8% / 0.6);
+    box-shadow: 0 0 0 0 transparent;
+    transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+  }
+  .hfq-item:hover {
+    border-color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.5);
+    box-shadow: 0 0 22px hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 60% / 0.18);
+  }
+  .hfq-item[data-open="true"] {
+    border-color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 70% / 0.6);
+    background: hsl(calc(var(--th) + 350) calc(45% * var(--ts)) 11% / 0.8);
+    box-shadow: 0 0 28px hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 60% / 0.28), inset 0 0 20px hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 60% / 0.07);
+  }
+  .hfq-n {
+    position: absolute;
+    top: 22px;
+    left: 24px;
+    padding: 0;
+    font-size: 14px;
+  }
+  .hfq-body h3 {
+    font-size: 19px;
+    line-height: 1.4;
+  }
+  .hfq-q {
+    position: relative;
+    min-height: 72px;
+    padding: 20px 60px 20px 64px;
+    cursor: pointer;
+  }
+  .hfq-q::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    width: 9px;
+    height: 9px;
+    margin-top: -7px;
+    border-right: 2px solid var(--v1);
+    border-bottom: 2px solid var(--v1);
+    transform: rotate(45deg);
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), margin-top 0.3s;
+  }
+  .hfq-item[data-open="true"] .hfq-q::after {
+    margin-top: -2px;
+    transform: rotate(-135deg);
+  }
+  .hfq-a-in {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 24px 0 64px;
+    transition: max-height 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), padding 0.35s;
+  }
+  .hfq-item[data-open="true"] .hfq-a-in {
+    max-height: 700px;
+    padding-bottom: 24px;
+  }
+  .hfq-body p {
+    margin: 0;
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+}
+
+/* ---- one weight (owner, 2026-11-25): everything in the FAQ is regular ---- */
+.hfq h2,
+.hfq h3,
+.hfq em,
+.hfq .hb2-m-k,
+.hfq .hb2-m-h,
+.hfq .hb2-m-btn,
+.hfq-lede,
+.hfq-n,
+.hfq-q,
+.hfq-body h3,
+.hfq-body p,
+.hfq-more {
+  font-weight: 400;
+}
