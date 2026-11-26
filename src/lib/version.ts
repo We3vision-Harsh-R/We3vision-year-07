@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 190,
+    date: "2026-11-26",
+    title: "Phone footer scenery, portfolio albums, form cards, route boundaries",
+    notes: [
+      "The phone home footer shows the sun, the skyline, the palms and the neon word like the laptop footer.",
+      "Portfolio albums on phones glide by themselves at the home speed and the chosen album keeps its full ring; the form cards of the phone pages look like the home service cards; Phone, e-mail and offices is always open; the industry tags use the technology chip style.",
+      "Route architecture: a route audit tool, an error page for the admin panel and the phone app, a last-resort error page, and a route map in the project notes.",
+    ],
+  },
+  {
     v: 189,
     date: "2026-11-26",
     title: "New home Contact section, FAQ as cards, GTA theme off",
