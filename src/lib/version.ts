@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 191,
+    date: "2026-11-26",
+    title: "Big menu on phones: service tags flow with one gap",
+    notes: [
+      "The seven service tags of the big menu on phones and tablets are as wide as their words, with the same 8px gap, and the next tag starts where one ends.",
+    ],
+  },
+  {
     v: 190,
     date: "2026-11-26",
     title: "Phone footer scenery, portfolio albums, form cards, route boundaries",
