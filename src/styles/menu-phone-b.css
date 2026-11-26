@@ -393,9 +393,6 @@
       inset 0 0.5px 0 rgba(255, 255, 255, 0.4),
       0 10px 26px -14px hsl(calc(var(--th) + 350) 90% 55% / 0.7);
   }
-  :root:root .mm .mm-svc7 .mm-li li {
-    width: 10.2rem;
-  }
   :root:root .mm .mm-svc7 .mm-li a {
     font-size: 1.0625rem;
     line-height: 1.2;
@@ -404,8 +401,7 @@
 @media (max-width: 1023.98px) {
   :root:root .mm .mm-svc7 .mm-li a {
     display: flex;
-    white-space: normal;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
     text-align: left;
   }
 }
@@ -508,5 +504,23 @@
     padding: 0 22px;
     white-space: nowrap;
     font-size: 15px;
+  }
+}
+
+/* mml3-: the seven service tags of the big menu flow like tags: each as wide as its words (number, name), one gap (8px) everywhere, the next tag starts where one ends and wraps to the next line */
+@media (max-width: 1023.98px) {
+  :root:root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li li {
+    width: max-content;
+  }
+  :root:root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a {
+    min-height: 0;
+    gap: 8px;
+    padding: 10px 14px;
+  }
+  :root:root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li a i {
+    position: static;
+    width: auto;
+    font-size: 13px;
+    opacity: 0.7;
   }
 }

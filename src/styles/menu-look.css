@@ -32,16 +32,12 @@
 }
 @media (max-width: 1023.98px) {
   :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li {
-    display: grid;
-    grid-template-columns: none;
-    grid-template-rows: repeat(2, auto);
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 8px;
-    margin-inline: -1rem;
-    padding: 4px 1rem 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
+    margin: 0;
+    padding: 4px 0 8px;
   }
   :root:root .mm .mm-row3 .mm-col.mm-tiles.mm-svc7 .mm-li li {
     width: max-content;
