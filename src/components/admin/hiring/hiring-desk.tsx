@@ -53,6 +53,27 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
   const dupOf = (r: HireRow) => Math.max(1, ...idKeys(r).map((k) => dupes.get(k) ?? 1));
   const allTags = useMemo(() => [...new Set(list.flatMap((r) => r.meta.tags))].sort((a, b) => a.localeCompare(b)), [list]);
   const jobTitle = (r: HireRow) => r.roleTitle || jobs.find((j) => j.id === r.roleId)?.title || "General application";
+  // the job an application is for, as a coloured tag: one colour per job (the theme hue moved by the place of the job in the list), so a column is read at a glance
+  const jobHue = (r: HireRow) => (Math.max(0, jobs.findIndex((j) => j.id === r.roleId)) * 47 + (r.roleId ? 20 : 200)) % 360;
+  const jobStyle = (h: number) => ({ background: `hsl(calc(var(--th) + ${h}) calc(55% * var(--ts)) 22% / 0.75)`, color: `hsl(calc(var(--th) + ${h}) calc(90% * var(--ts)) 82%)`, borderColor: `hsl(calc(var(--th) + ${h}) calc(70% * var(--ts)) 60% / 0.35)` });
+  const jobTag = (r: HireRow) => (
+    <span className="inline-flex max-w-full items-center gap-1.5 truncate rounded-full border px-2.5 py-0.5 text-xs font-medium" style={jobStyle(jobHue(r))} title={`Applied for: ${jobTitle(r)}`}>
+      <svg viewBox="0 0 24 24" aria-hidden className="size-3 shrink-0 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM9 6V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" />
+      </svg>
+      <span className="truncate">{jobTitle(r)}</span>
+    </span>
+  );
+  // "2 d ago"
+  const ago = (iso: string) => {
+    const m = Math.max(0, Math.round((now - Date.parse(iso)) / 60_000));
+    return m < 60 ? `${m || 1} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : m < 43200 ? `${Math.round(m / 1440)} d ago` : `${Math.round(m / 43200)} mo ago`;
+  };
+  const initials = (n: string) => (n.trim().split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? "").join("") || "·");
+  const nextStep = (status: string) => {
+    const i = PIPELINE.findIndex((p) => p.value === status);
+    return i >= 0 && i < PIPELINE.length - 1 && PIPELINE[i + 1].value !== "rejected" ? PIPELINE[i + 1] : null;
+  };
 
   // everything except the step filter (the board shows every step; the counters count every step)
   const base = useMemo(() => {
@@ -86,6 +107,14 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
   const seatOnly = list.filter((r) => r.stage !== "complete").length;
   const thisWeek = base.filter((r) => now - Date.parse(r.createdAt) < WEEK).length;
   const interviews = base.filter((r) => r.meta.interview && Date.parse(r.meta.interview.at) >= now - 60 * 60_000).sort((a, b) => (a.meta.interview?.at ?? "").localeCompare(b.meta.interview?.at ?? ""));
+
+  // how many applications each job has (the quick filter above the board)
+  const perJob = useMemo(() => {
+    const visible = list.filter((r) => seats || r.stage === "complete");
+    const n = new Map<string, number>();
+    for (const r of visible) n.set(r.roleId, (n.get(r.roleId) ?? 0) + 1);
+    return { total: visible.length, n };
+  }, [list, seats]);
 
   const patch = useCallback((id: string, p: { meta?: AppMeta; status?: string }) => setList((l) => l.map((r) => (r.id === id ? { ...r, ...(p.meta ? { meta: p.meta } : {}), ...(p.status ? { status: p.status } : {}) } : r))), []);
 
@@ -173,41 +202,82 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
   const at = order.findIndex((r) => r.id === open);
   const cur = list.find((r) => r.id === open);
 
-  const renderCard = (r: HireRow) => (
-    <button
-      key={r.id}
-      type="button"
-      draggable
-      onDragStart={(e) => {
-        e.dataTransfer.setData("text/plain", r.id);
-        e.dataTransfer.effectAllowed = "move";
-        setDrag(r.id);
-      }}
-      onDragEnd={() => {
-        setDrag("");
-        setOver("");
-      }}
-      onClick={() => setOpen(r.id)}
-      className={`block w-full rounded-xl border bg-white p-3 text-left shadow-sm transition hover:border-brand/40 hover:shadow ${drag === r.id ? "opacity-40" : ""} ${r.meta.starred ? "border-amber-300" : "border-zinc-200"}`}
-    >
-      <span className="flex items-start justify-between gap-2">
-        <span className="min-w-0 truncate text-sm font-semibold text-zinc-900">{r.name || "Seat only"}</span>
-        {r.meta.rating > 0 && <span className="shrink-0 text-xs text-amber-500">{"★".repeat(r.meta.rating)}</span>}
-      </span>
-      <span className="mt-0.5 block truncate text-xs text-zinc-500">{[jobTitle(r), r.city].filter(Boolean).join(" · ")}</span>
-      <span className="mt-2 flex flex-wrap gap-1 text-[11px]">
-        {r.meta.interview && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-amber-800">{interviewLabel(r.meta.interview.at)}</span>}
-        {dupOf(r) > 1 && <span className="rounded-full bg-amber-50 px-2 py-0.5 text-amber-700">{dupOf(r)}×</span>}
-        {r.stage !== "complete" && <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-zinc-600">seat only</span>}
-        {r.meta.tags.slice(0, 2).map((t) => (
-          <span key={t} className="rounded-full bg-zinc-100 px-2 py-0.5 text-zinc-600">
-            {t}
+  const renderCard = (r: HireRow) => {
+    const nx = nextStep(r.status);
+    return (
+      <div
+        key={r.id}
+        role="button"
+        tabIndex={0}
+        draggable
+        onDragStart={(e) => {
+          e.dataTransfer.setData("text/plain", r.id);
+          e.dataTransfer.effectAllowed = "move";
+          setDrag(r.id);
+        }}
+        onDragEnd={() => {
+          setDrag("");
+          setOver("");
+        }}
+        onClick={() => setOpen(r.id)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen(r.id);
+          }
+        }}
+        className={`group block w-full cursor-pointer rounded-xl border bg-white p-3 text-left shadow-sm transition hover:-translate-y-px hover:border-brand/50 hover:shadow focus-visible:outline-2 focus-visible:outline-brand ${drag === r.id ? "opacity-40" : ""} ${r.meta.starred ? "border-amber-300" : "border-zinc-200"}`}
+      >
+        <span className="flex items-center gap-2.5">
+          <span className="grid size-9 shrink-0 place-items-center rounded-full text-xs font-semibold" style={jobStyle(jobHue(r))} aria-hidden>
+            {initials(r.name)}
           </span>
-        ))}
-      </span>
-      <span className="mt-2 block text-[11px] text-zinc-400">{r.created}</span>
-    </button>
-  );
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm font-semibold text-zinc-900">
+              {r.meta.starred && <span className="text-amber-500">★ </span>}
+              {r.name || "Seat only"}
+            </span>
+            <span className="block truncate text-xs text-zinc-500">{[r.city, r.experience].filter(Boolean).join(" · ") || r.email}</span>
+          </span>
+          {r.meta.rating > 0 && <span className="shrink-0 text-xs text-amber-500">{"★".repeat(r.meta.rating)}</span>}
+        </span>
+        <span className="mt-2.5 block">
+          {jobTag(r)}
+        </span>
+        <span className="mt-2 flex flex-wrap gap-1 text-[11px]">
+          {r.meta.interview && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-amber-800">{interviewLabel(r.meta.interview.at)}</span>}
+          {dupOf(r) > 1 && (
+            <span className="rounded-full bg-amber-50 px-2 py-0.5 text-amber-700" title="The same person applied more than once">
+              {dupOf(r)}× applied
+            </span>
+          )}
+          {r.stage !== "complete" && <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-zinc-600">seat only</span>}
+          {r.meta.tags.slice(0, 2).map((t) => (
+            <span key={t} className="rounded-full bg-zinc-100 px-2 py-0.5 text-zinc-600">
+              {t}
+            </span>
+          ))}
+        </span>
+        <span className="mt-2.5 flex items-center justify-between gap-2 text-[11px] text-zinc-400">
+          <span title={r.created}>{ago(r.createdAt)}</span>
+          {nx && (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={(e) => {
+                e.stopPropagation();
+                move(r.id, nx.value);
+              }}
+              className="rounded-full border border-zinc-300 px-2.5 py-1 text-xs font-medium text-zinc-700 opacity-0 transition hover:border-brand hover:text-brand focus-visible:opacity-100 group-hover:opacity-100"
+              title={`Move to ${nx.label}`}
+            >
+              {nx.label} →
+            </button>
+          )}
+        </span>
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-5">
@@ -251,6 +321,25 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
             ))}
           </ul>
         </section>
+      )}
+
+      {/* the jobs as tags: tap one to see only the people who applied for it */}
+      {jobs.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by job">
+          <button type="button" aria-pressed={job === ""} onClick={() => setJob("")} className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${job === "" ? "border-zinc-900 bg-zinc-900 text-white" : "border-zinc-300 text-zinc-700 hover:bg-zinc-100"}`}>
+            All jobs <span className="opacity-70">{perJob.total}</span>
+          </button>
+          {jobs.map((j, i) => {
+            const on = job === j.id;
+            const h = (i * 47 + 20) % 360;
+            return (
+              <button key={j.id} type="button" aria-pressed={on} onClick={() => setJob(on ? "" : j.id)} className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition hover:brightness-125 ${on ? "ring-2 ring-white/70" : ""}`} style={jobStyle(h)}>
+                {j.title}
+                {j.active ? "" : " (closed)"} <span className="opacity-70">{perJob.n.get(j.id) ?? 0}</span>
+              </button>
+            );
+          })}
+        </div>
       )}
 
       {/* tools */}
@@ -337,7 +426,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
                   setDrag("");
                   if (id) move(id, s.value);
                 }}
-                className={`flex w-64 shrink-0 flex-col rounded-2xl border p-2 transition ${over === s.value ? "border-brand bg-brand/5" : "border-zinc-200 bg-zinc-50"}`}
+                className={`flex w-72 shrink-0 flex-col rounded-2xl border p-2 transition ${over === s.value ? "border-brand bg-brand/5" : "border-zinc-200 bg-zinc-50"}`}
               >
                 <h3 className="flex items-center gap-2 px-2 py-1.5 text-sm font-semibold text-zinc-800">
                   <span className={`size-2.5 rounded-full ${s.dot}`} aria-hidden="true" />
@@ -448,7 +537,9 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
                           </p>
                           <p className="truncate text-xs text-zinc-500">{r.email || r.city}</p>
                         </td>
-                        <td className="max-w-48 truncate px-2 py-2.5 text-zinc-700">{jobTitle(r)}</td>
+                        <td className="max-w-56 px-2 py-2.5">
+                          {jobTag(r)}
+                        </td>
                         <td className="px-2 py-2.5" onClick={(e) => e.stopPropagation()}>
                           <select className={`rounded-full border-0 px-2 py-1 text-xs font-medium ${s.chip}`} value={r.status} disabled={pending} onChange={(e) => move(r.id, e.target.value)} aria-label="Step">
                             {PIPELINE.map((p) => (

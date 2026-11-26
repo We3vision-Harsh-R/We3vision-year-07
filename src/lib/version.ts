@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 192,
+    date: "2026-11-26",
+    title: "Admin applications: job tags, job filter pills, one-click next step",
+    notes: [
+      "In Admin > Careers > Applications every application shows a coloured tag with the job it applied for, on the board cards and in the list.",
+      "Job pills above the board filter by job and show how many applications each job has; a card has a hover button that moves it to the next step.",
+    ],
+  },
+  {
     v: 191,
     date: "2026-11-26",
     title: "Big menu on phones: service tags flow with one gap",
