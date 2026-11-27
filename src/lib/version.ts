@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 201,
+    date: "2026-11-27",
+    title: "New Services page, no black shadows, plainer wording",
+    notes: [
+      "Services page: every service in five groups (Development, Creatives, Branding, E-commerce, Marketing) with one plain line each, the services that go well with it, and the usual combinations. Hovering a group in the sticky bar opens the list of its services.",
+      "The dark shadow under the cards and behind some text and icons is removed on the laptop pages (box, text and icon shadows).",
+      "A few stock phrases in the About and service texts were replaced with plain words.",
+    ],
+  },
+  {
     v: 200,
     date: "2026-11-27",
     title: "Game Development removed from the website",

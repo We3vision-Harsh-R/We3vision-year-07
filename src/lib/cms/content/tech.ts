@@ -131,7 +131,7 @@ export const HEADLESS_SECTIONS = build({
       { title: "UI/UX design", text: "Our design team turns your ideas into simple, clear and easy-to-use layouts that look great and are user-friendly.", points: "Clear editing screens\nLayouts for every device" },
       { title: "Development", text: "We build strong and secure features for your CMS that improve how your website works and help grow your business.", points: "Clean code, modern tools\nSecure and scalable" },
       { title: "Rigorous testing", text: "We test everything carefully to make sure there are no bugs or issues.", points: "Many devices and browsers" },
-      { title: "Seamless deployment", text: "We launch the final product smoothly, with less downtime, so your users get the best experience from day one.", points: "Live launch\nSupport afterwards" },
+      { title: "Smooth deployment", text: "We launch the final product smoothly, with less downtime, so your users get the best experience from day one.", points: "Live launch\nSupport afterwards" },
     ],
   },
   tools: { heading: "Our CMS\nTech Stack", items: "HTML5\nCSS3\nReact.js\nVue.js\nBootstrap\nContentful\nStrapi\nSanity\nREST APIs\nGraphQL" },
@@ -303,7 +303,7 @@ export const SHOPIFY_SECTIONS = build({
     intro: "Shopify Development Services extend across many industries, each with its own needs.",
     items: [
       { name: "Diamond and jewellery", description: "Tools to track inventory and sales on Shopify, in a secure and simple store for valuable items." },
-      { name: "Retail and e-commerce", description: "Shopify stores that make shopping fun and seamless, with carts and payments that work without fuss." },
+      { name: "Retail and e-commerce", description: "Shopify stores that make shopping fun and easy, with carts and payments that work without fuss." },
       { name: "Logistics and transportation", description: "Shopify software to track deliveries and make your team more efficient." },
       { name: "Insurance", description: "Shopify systems to handle policies and claims smoothly and safely." },
       { name: "Healthcare", description: "Shopify platforms for patient care and billing that are easy and helpful." },
@@ -417,7 +417,7 @@ export const SHOPIFYAPP_SECTIONS = build({
     cards: [
       { title: "Custom app\ndevelopment", description: "Custom apps tailored to your business needs, built to solve your exact problem." },
       { title: "Feature\nenhancements", description: "New features added to the apps and the store you already have." },
-      { title: "Third-party\nintegration", description: "Seamless integration with the business tools you rely on, so operations run smoothly." },
+      { title: "Third-party\nintegration", description: "Easy integration with the business tools you rely on, so operations run smoothly." },
       { title: "Private app\ndevelopment", description: "For businesses that need an exclusive solution: private apps for the Shopify admin." },
       { title: "Public app\ndevelopment", description: "Public apps for the Shopify App Store, to expand your business reach." },
       { title: "Maintenance\nand updates", description: "Keeping apps running smoothly takes continuous support and updates." },
@@ -507,7 +507,7 @@ export const PLUGIN_SECTIONS = build({
     items: [
       { title: "Developers who know WordPress", description: "When it comes to building or customising plugins, experience matters. Every plugin is built around your needs." },
       { title: "Plugins you can rely on", description: "Free of bugs, performing well under heavy traffic and meeting WordPress coding standards." },
-      { title: "Integration with third-party tools", description: "Payment gateways, CRM systems or analytics platforms connected seamlessly to your site." },
+      { title: "Integration with third-party tools", description: "Payment gateways, CRM systems or analytics platforms connected properly to your site." },
       { title: "Timely delivery", description: "Work delivered on time, so your project does not stall." },
       { title: "Ongoing support and maintenance", description: "Our relationship with you does not end once the plugin is delivered." },
       { title: "Fit for small budgets too", description: "We understand that small businesses and startups often have limited budgets." },

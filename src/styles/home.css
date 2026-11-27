@@ -704,8 +704,7 @@
   transform: scale(1.035);
   border-color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 78% / 0.55);
   box-shadow:
-    0 0 60px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 62% / 0.38),
-    0 30px 60px -20px hsl(0 0% 0% / 0.7);
+    0 0 60px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 62% / 0.38);
 }
 .hb2-sv-cell[data-on] .hb2-sv-a {
   transform: scale(calc(var(--as, 0.8) * 1.1));
@@ -732,8 +731,7 @@
 .hb2-sv-cell[data-on] .hb2-sv-brand {
   box-shadow:
     0 0 90px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 62% / 0.7),
-    0 0 200px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 55% / 0.35),
-    0 30px 60px -20px hsl(0 0% 0% / 0.7);
+    0 0 200px hsl(calc(var(--th) + 0) calc(95% * var(--ts)) 55% / 0.35);
 }
 .hb2-sv[data-live] .hb2-sv-brand::after {
   animation: hb2-sv-breathe 4.5s ease-in-out infinite;

@@ -682,8 +682,7 @@ input[type="date"].cj-in {
   border-radius: 16px;
   background: hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 8% / 0.98);
   box-shadow:
-    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.12),
-    0 26px 60px -22px rgba(0, 0, 0, 0.85);
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.12);
   animation: cj-pop 0.22s ease both;
 }
 .cj-dd-list [role="option"] {
@@ -1046,8 +1045,7 @@ input[type="date"].cj-in {
   border-radius: 24px;
   background: var(--card);
   box-shadow:
-    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16),
-    0 30px 70px -40px rgba(0, 0, 0, 0.8);
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16);
 }
 .cj-pd-top {
   display: flex;
@@ -1265,7 +1263,7 @@ input[type="date"].cj-in {
   border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.25);
   border-radius: 22px;
   background: hsl(calc(var(--th) + 347) calc(56% * var(--ts)) 6% / 0.92);
-  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.85);
+  box-shadow: none;
 }
 .rt-board-top {
   display: flex;
@@ -1350,8 +1348,7 @@ a.rt-row:hover {
   border-radius: 34px;
   background: hsl(calc(var(--th) + 347) calc(52% * var(--ts)) 6% / 0.9);
   box-shadow:
-    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.12),
-    0 40px 90px -50px rgba(0, 0, 0, 0.9);
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.12);
 }
 .rh-sign {
   display: flex;
@@ -1784,8 +1781,7 @@ a.rt-row:hover {
   border-radius: 22px;
   background: hsl(calc(var(--th) + 347) calc(52% * var(--ts)) 7% / 0.97);
   box-shadow:
-    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16),
-    0 30px 80px -20px rgba(0, 0, 0, 0.9);
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16);
   animation: cj-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .cj-miss-ic {
@@ -2357,8 +2353,7 @@ a.rt-row:hover {
   border-radius: 28px;
   background: var(--card);
   box-shadow:
-    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16),
-    0 30px 70px -40px rgba(0, 0, 0, 0.8);
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.16);
   scroll-margin-top: 100px;
 }
 .jb-apply h2 {
@@ -2442,7 +2437,7 @@ a.rt-row:hover {
   backdrop-filter: blur(34px) saturate(1.9);
   border: 1px solid hsl(0 0% 100% / 0.22);
   border-radius: 22px;
-  box-shadow: inset 0 1.5px 1px hsl(0 0% 100% / 0.3), 0 26px 64px hsl(0 0% 0% / 0.5);
+  box-shadow: inset 0 1.5px 1px hsl(0 0% 100% / 0.3);
   animation: cj-glass-in 0.34s cubic-bezier(0.34, 1.4, 0.64, 1) both;
   transform-origin: 50% 0;
 }
@@ -2479,7 +2474,7 @@ a.rt-row:hover {
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 16px;
   background: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 10% / 0.96);
-  box-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.7);
+  box-shadow: none;
   color: #fff;
   font-size: 1rem;
   line-height: 1.4;

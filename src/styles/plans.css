@@ -247,7 +247,7 @@
   padding: 16px;
   border-radius: 34px;
   background: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(30% * var(--ts)) 98%), hsl(calc(var(--th) + 350) calc(22% * var(--ts)) 92%));
-  box-shadow: 0 40px 70px -28px rgba(0, 0, 0, 0.7), inset 0 1px 0 #fff;
+  box-shadow: inset 0 1px 0 #fff;
   transform: rotate(-2.2deg);
 }
 .pln[data-look="notes"] .pln-c:nth-of-type(2) .pln-card {

@@ -275,8 +275,7 @@ html.theme-anim {
     inset 0 1px 1px rgba(255, 255, 255, 0.6),
     inset 0 -1px 1px rgba(255, 255, 255, 0.14),
     inset 0 0 24px rgba(255, 255, 255, 0.07),
-    0 24px 60px hsl(calc(var(--th) + 337) calc(100% * var(--ts)) 7.84% / 0.55),
-    0 2px 8px rgba(0, 0, 0, 0.25);
+    0 24px 60px hsl(calc(var(--th) + 337) calc(100% * var(--ts)) 7.84% / 0.55);
 }
 .lg::before {
   content: "";
@@ -1309,8 +1308,7 @@ html.theme-anim {
   border-radius: 50%;
   background: radial-gradient(circle at 36% 32%, hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 44%), hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 22%) 70%);
   box-shadow:
-    0 0 0 3px hsl(calc(var(--th) + 14) calc(34% * var(--ts)) 24%),
-    0 4px 8px rgba(0, 0, 0, 0.4);
+    0 0 0 3px hsl(calc(var(--th) + 14) calc(34% * var(--ts)) 24%);
   z-index: 3;
 }
 
@@ -1588,7 +1586,7 @@ html.theme-anim {
   background:
     linear-gradient(90deg, transparent calc(33.3% - 1px), rgba(0, 0, 0, 0.35) calc(33.3% - 1px) 33.3%, transparent 33.3% calc(66.6% - 1px), rgba(0, 0, 0, 0.35) calc(66.6% - 1px) 66.6%, transparent 66.6%),
     linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(40% * var(--ts)) 36%), hsl(calc(var(--th) + 330) calc(40% * var(--ts)) 25%));
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.45);
+  box-shadow: none;
   z-index: 2;
 }
 .of-sofa-b {
@@ -1605,7 +1603,7 @@ html.theme-anim {
   height: 56px;
   border-radius: 50%;
   background: radial-gradient(circle at 36% 32%, hsl(calc(var(--th) + 14) calc(34% * var(--ts)) 38%), hsl(calc(var(--th) + 14) calc(34% * var(--ts)) 22%));
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.45);
+  box-shadow: none;
   z-index: 2;
 }
 
@@ -1714,8 +1712,7 @@ html.theme-anim {
   border-radius: calc(var(--p) * 13);
   background: linear-gradient(180deg, hsl(calc(var(--th) + 349) calc(30% * var(--ts)) 26%), hsl(calc(var(--th) + 349) calc(30% * var(--ts)) 16%));
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 calc(var(--p) * 5) calc(var(--p) * 10) rgba(0, 0, 0, 0.5);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 .of-chair-b::before {
   content: "";
@@ -1745,8 +1742,7 @@ html.theme-anim {
   border-radius: calc(var(--p) * 10);
   background: linear-gradient(160deg, hsl(calc(var(--th) + 14) calc(38% * var(--ts)) 34%), hsl(calc(var(--th) + 14) calc(36% * var(--ts)) 22%));
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 calc(var(--p) * 6) calc(var(--p) * 14) rgba(0, 0, 0, 0.5);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 .of-mon {
   position: absolute;
@@ -1819,8 +1815,7 @@ html.theme-anim {
   border-radius: max(20px, calc(var(--p) * 16));
   background: linear-gradient(160deg, hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 15% / 0.92), hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 9% / 0.92));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 20px 50px -18px rgba(0, 0, 0, 0.7);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   text-align: center;
 }
 .of-goal h3 {
@@ -1946,8 +1941,7 @@ html.theme-anim {
   position: absolute;
   background: hsl(calc(var(--th) + 347.58) calc(46% * var(--ts)) 17%);
   box-shadow:
-    inset 0 0 0 1px hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.16),
-    0 calc(var(--p) * 5) calc(var(--p) * 12) rgba(0, 0, 0, 0.5);
+    inset 0 0 0 1px hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.16);
 }
 .of-wall-t {
   top: 0;
@@ -2028,7 +2022,7 @@ html.theme-anim {
   height: 22px;
   border-radius: 8px;
   background: linear-gradient(180deg, hsl(calc(var(--th) + 22) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 24%));
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
   z-index: 2;
 }
 .cf-mach {
@@ -2068,8 +2062,7 @@ html.theme-anim {
   border-radius: 50%;
   background: hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 30%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 3px 8px rgba(0, 0, 0, 0.4);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   z-index: 2;
 }
 .of-cup {
@@ -2079,7 +2072,7 @@ html.theme-anim {
   height: 7px;
   border-radius: 50%;
   background: hsl(calc(var(--th) + 76) calc(70% * var(--ts)) 90%);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
 }
 .of-cup::after {
   content: "";
@@ -2111,7 +2104,7 @@ html.theme-anim {
   height: 30px;
   border-radius: 12px;
   background: linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 24%));
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  box-shadow: none;
   z-index: 2;
 }
 .cf-plant {
@@ -2996,8 +2989,7 @@ html.has-sb::-webkit-scrollbar {
   backdrop-filter: blur(14px) saturate(1.7);
   -webkit-backdrop-filter: blur(14px) saturate(1.7);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 4px 18px rgba(0, 0, 0, 0.35);
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
   cursor: grab;
   opacity: 0.4;
   touch-action: none;
@@ -3490,7 +3482,7 @@ html.has-sb::-webkit-scrollbar {
   text-align: center;
   transform: translateX(-50%);
   white-space: nowrap;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
+  text-shadow: none;
 }
 .ts-pl-name b {
   color: #fff;
@@ -3623,7 +3615,6 @@ html.has-sb::-webkit-scrollbar {
   background: linear-gradient(170deg, hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 12% / 0.98), hsl(calc(var(--th) + 346) calc(75% * var(--ts)) 6% / 0.99));
   box-shadow:
     inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3),
-    0 50px 100px -24px rgba(0, 0, 0, 0.85),
     0 0 80px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.22);
   animation: tx-pop 0.5s cubic-bezier(0.2, 1.1, 0.3, 1) both;
 }
@@ -4700,8 +4691,7 @@ html.has-sb::-webkit-scrollbar {
     border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
     border-radius: 26px;
     box-shadow:
-      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2),
-      0 30px 80px -30px rgba(0, 0, 0, 0.7);
+      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2);
   }
   .cm-p-in {
     animation: ss-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -5938,7 +5928,7 @@ html.has-sb::-webkit-scrollbar {
   border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
   border-radius: 18px;
   background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 8% / 0.94);
-  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.8);
+  box-shadow: none;
   color: #fff;
   font-size: 0.875rem;
 }
@@ -6147,8 +6137,7 @@ html.has-sb::-webkit-scrollbar {
     border-radius: 20px;
     background: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 7% / 0.94);
     box-shadow:
-      0 0 0 1px hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 5% / 0.6),
-      0 24px 50px -22px rgba(0, 0, 0, 0.9);
+      0 0 0 1px hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 5% / 0.6);
   }
   .cm-bird .cm-rail button {
     padding: 0.55rem 0.8rem;
@@ -6177,8 +6166,7 @@ html.has-sb::-webkit-scrollbar {
     background: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 14% / 0.97), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8% / 0.97));
     box-shadow:
       0 0 36px -6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55),
-      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 85% / 0.35),
-      0 28px 60px -24px rgba(0, 0, 0, 0.9);
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 85% / 0.35);
   }
   .cm-bird .cm-p-top span {
     background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
@@ -6222,8 +6210,7 @@ html.has-sb::-webkit-scrollbar {
     background: linear-gradient(165deg, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 14% / 0.97), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 7% / 0.97));
     box-shadow:
       0 0 30px -8px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.45),
-      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 85% / 0.3),
-      0 26px 56px -24px rgba(0, 0, 0, 0.9);
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 85% / 0.3);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -7238,7 +7225,7 @@ html.has-sb::-webkit-scrollbar {
   background:
     radial-gradient(120% 70% at 100% 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16), transparent 60%),
     hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 9% / 0.7);
-  box-shadow: 0 30px 60px -36px rgba(0, 0, 0, 0.8);
+  box-shadow: none;
 }
 @media (max-width: 899px) {
 
@@ -8028,7 +8015,7 @@ html.has-sb::-webkit-scrollbar {
   left: 50%;
   height: 2.3rem;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.55));
+  filter: none;
 }
 .lm[data-scrolled="true"] .lm-text {
   opacity: 0;
@@ -8889,8 +8876,7 @@ html.has-sb::-webkit-scrollbar {
 }
 .ss-track .ss-p[data-active="true"] {
   box-shadow:
-    inset 0 1px 0 hsl(0 0% 100% / 0.16),
-    0 26px 56px -36px rgba(0, 0, 0, 0.7);
+    inset 0 1px 0 hsl(0 0% 100% / 0.16);
 }
 
 /* ---------------------------------------------------------------------------------------------------------------------------------
@@ -9031,8 +9017,7 @@ html.has-sb::-webkit-scrollbar {
     hsl(calc(var(--th) + 347) calc(38% * var(--ts)) 9% / 0.52);
   border-color: hsl(0 0% 100% / 0.12);
   box-shadow:
-    inset 0 1px 0 hsl(0 0% 100% / 0.11),
-    0 26px 56px -40px rgba(0, 0, 0, 0.8);
+    inset 0 1px 0 hsl(0 0% 100% / 0.11);
 }
 @media (min-width: 1024px) {
 
@@ -9190,7 +9175,7 @@ html.has-sb::-webkit-scrollbar {
 }
 .fn-root .fn-link {
   color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 92%);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  text-shadow: none;
 }
 .fn-root .fn-link:hover {
   color: #fff;
@@ -11656,8 +11641,7 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   border-color: hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 88% / 0.22);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.34),
-    inset 0 0 34px hsl(calc(var(--th) + 330) calc(90% * var(--ts)) 72% / 0.1),
-    0 22px 44px -26px rgb(0 0 0 / 0.75);
+    inset 0 0 34px hsl(calc(var(--th) + 330) calc(90% * var(--ts)) 72% / 0.1);
   --card-bg: hsl(calc(var(--th) + 348) calc(55% * var(--ts)) 13%);
 }
 

@@ -66,7 +66,7 @@
 }
 .wm-drag {
   cursor: grabbing;
-  filter: drop-shadow(0 7px 6px rgba(0, 0, 0, 0.35));
+  filter: none;
 }
 .wm-eyes {
   transform: translate(calc(var(--ex, 0) * 1px), calc(var(--ey, 0) * 1px));

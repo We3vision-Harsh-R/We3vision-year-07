@@ -28,7 +28,6 @@ html.tp-open {
   background: linear-gradient(160deg, color-mix(in srgb, var(--color-dusk) 78%, transparent), color-mix(in srgb, var(--color-void) 92%, transparent));
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 40px 90px -20px rgba(0, 0, 0, 0.7),
     0 0 80px -30px var(--color-violet);
   text-align: center;
   animation: tp-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -96,7 +95,7 @@ html.tp-open {
   border: 3px solid rgba(255, 255, 255, 0.9);
   border-radius: 50%;
   background: var(--pc);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 8px 26px color-mix(in srgb, var(--pc) 55%, transparent);
+  box-shadow: 0 8px 26px color-mix(in srgb, var(--pc) 55%, transparent);
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4), background 0.4s, box-shadow 0.4s;
 }
@@ -168,7 +167,7 @@ html.tp-open {
   position: absolute;
   border: 2px solid rgba(255, 255, 255, 0.16);
   border-radius: 50%;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
   cursor: pointer;
   transform: scale(0);
   transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4), border-color 0.3s;
@@ -208,7 +207,7 @@ html.tp-open {
   border-radius: 50%;
   background: #fff;
   color: var(--pc);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  box-shadow: none;
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4);
 }
@@ -230,7 +229,7 @@ html.tp-open {
   border: 3px solid #fff;
   border-radius: 50%;
   background: var(--pc);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  box-shadow: none;
   cursor: grab;
   touch-action: none;
 }
@@ -317,7 +316,7 @@ html.tp-open {
   background: color-mix(in srgb, var(--color-void) 60%, transparent);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
   cursor: pointer;
   transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.4), opacity 0.3s;
 }

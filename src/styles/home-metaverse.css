@@ -170,7 +170,7 @@
   border: 1px solid hsl(calc(var(--th) + 0) calc(50% * var(--ts)) 88% / 0.22);
   border-radius: 16px;
   background: linear-gradient(160deg, hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 90% / 0.16), hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 90% / 0.04));
-  box-shadow: inset 0 1px 0 hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 96% / 0.2), 0 6px 18px -6px #000;
+  box-shadow: inset 0 1px 0 hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 96% / 0.2);
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s, border-color 0.3s;
 }
@@ -231,7 +231,7 @@
   border: 1px solid hsl(calc(var(--th) + 0) calc(50% * var(--ts)) 88% / 0.22);
   border-radius: 16px;
   background: linear-gradient(160deg, hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 90% / 0.16), hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 90% / 0.04));
-  box-shadow: inset 0 1px 0 hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 96% / 0.2), 0 6px 18px -6px #000;
+  box-shadow: inset 0 1px 0 hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 96% / 0.2);
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s, border-color 0.3s;
 }

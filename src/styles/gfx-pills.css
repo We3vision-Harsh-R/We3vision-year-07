@@ -9,12 +9,12 @@
 
 .gpl-r1 { left: 7%; top: 0; width: 93%; height: 17.5%; }
 .gpl-r1 .gpl-white { width: 55%; justify-content: center; }
-.gpl-chip { position: relative; z-index: 1; margin-left: 4%; width: 16%; aspect-ratio: 1; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: 0 1cqw 2cqw -.6cqw rgb(0 0 0 / .35); transform: translateY(-4%); }
+.gpl-chip { position: relative; z-index: 1; margin-left: 4%; width: 16%; aspect-ratio: 1; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: none; transform: translateY(-4%); }
 .gpl-chip svg { width: 52%; fill: none; stroke: var(--gpl-ink); stroke-width: 1.8; stroke-linecap: round; }
 .gpl-orb { position: relative; z-index: 1; margin-left: auto; width: 13%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 25% 25%, hsl(calc(var(--th) + 330) 100% 78%), var(--gpl-b2) 55%, var(--gpl-b)); transform: translate(20%, 0); }
 
 .gpl-r2 { left: 0; top: 18%; width: 84%; height: 17.5%; }
-.gpl-knob { position: relative; z-index: 1; margin-left: 4%; width: 14%; aspect-ratio: 1; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: 0 1cqw 2cqw -.6cqw rgb(0 0 0 / .35); }
+.gpl-knob { position: relative; z-index: 1; margin-left: 4%; width: 14%; aspect-ratio: 1; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: none; }
 .gpl-knob i { width: 52%; aspect-ratio: 1; border-radius: 50%; background: linear-gradient(135deg, hsl(calc(var(--th) + 330) 90% 62%), var(--gpl-b)); }
 .gpl-bubble { padding-left: 38%; position: relative; z-index: 1; margin-left: 5%; flex: 0 0 30%; height: 118%; margin-top: -3%; border-radius: 3cqw 3cqw 3cqw .6cqw; background: linear-gradient(180deg, hsl(calc(var(--th) + 220) calc(60% * var(--ts)) 55%), hsl(calc(var(--th) + 220) calc(55% * var(--ts)) 42%)); display: grid; place-content: center; text-align: center; color: var(--gpl-ink); }
 .gpl-bubble b, .gpl-bubble small { background: #fff; display: block; }
@@ -24,14 +24,14 @@
 
 .gpl-r3 { left: 38%; top: 36.5%; width: 62%; height: 17.5%; }
 .gpl-r3 .gpl-band { background: var(--gpl-b); }
-.gpl-gear { position: absolute; left: -9%; top: 50%; width: 8%; aspect-ratio: 1; transform: translateY(-50%); z-index: 2; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: 0 1cqw 2cqw -.6cqw rgb(0 0 0 / .3); }
+.gpl-gear { position: absolute; left: -9%; top: 50%; width: 8%; aspect-ratio: 1; transform: translateY(-50%); z-index: 2; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: none; }
 .gpl-gear svg { width: 60%; fill: none; stroke: var(--gpl-b); stroke-width: 1.6; stroke-linecap: round; }
 .gpl-r3 .gpl-white { width: 100%; justify-content: center; }
 
 .gpl-r4 { left: 24%; top: 56%; width: 40%; height: 17%; }
-.gpl-face { position: relative; z-index: 1; width: 29%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 38%, hsl(30 70% 78%) 0 22%, transparent 23%), radial-gradient(circle at 50% 100%, hsl(calc(var(--th) + 350) 80% 62%) 0 42%, transparent 43%), hsl(42 95% 62%); box-shadow: 0 1cqw 2cqw -.6cqw rgb(0 0 0 / .35); margin-left: -2%; }
-.gpl-ring { position: relative; z-index: 1; margin-left: 2%; width: 29%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, transparent 0 40%, hsl(calc(var(--th) + 220) 55% 52%) 41% 56%, transparent 57%), #fff; box-shadow: 0 1cqw 2cqw -.6cqw rgb(0 0 0 / .35); }
-.gpl-back { position: relative; z-index: 1; margin-left: 2%; width: 29%; aspect-ratio: 1; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: 0 1cqw 2cqw -.6cqw rgb(0 0 0 / .35); }
+.gpl-face { position: relative; z-index: 1; width: 29%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 38%, hsl(30 70% 78%) 0 22%, transparent 23%), radial-gradient(circle at 50% 100%, hsl(calc(var(--th) + 350) 80% 62%) 0 42%, transparent 43%), hsl(42 95% 62%); box-shadow: none; margin-left: -2%; }
+.gpl-ring { position: relative; z-index: 1; margin-left: 2%; width: 29%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, transparent 0 40%, hsl(calc(var(--th) + 220) 55% 52%) 41% 56%, transparent 57%), #fff; box-shadow: none; }
+.gpl-back { position: relative; z-index: 1; margin-left: 2%; width: 29%; aspect-ratio: 1; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: none; }
 .gpl-back svg { width: 52%; fill: none; stroke: var(--gpl-b); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
 .gpl-dot { position: absolute; width: 1.8cqw; aspect-ratio: 1; border-radius: 50%; background: var(--gpl-b); animation: gpl-bob 5s ease-in-out infinite; }

@@ -100,7 +100,7 @@
   background: hsl(calc(var(--th) + 347) calc(44% * var(--ts)) 10%);
   color: #fff;
   text-decoration: none;
-  box-shadow: 0 20px 50px -26px rgba(0, 0, 0, 0.9);
+  box-shadow: none;
 }
 .vl-dk:hover {
   border-color: var(--a);

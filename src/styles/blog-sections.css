@@ -25,7 +25,7 @@
 @keyframes bx-in { from { opacity: 0; transform: translate3d(0, 16px, 0); } }
 .bx-card, .bx-pick { display: flex; flex-direction: column; gap: 16px; height: 100%; color: inherit; text-decoration: none; }
 .bx-list .bx-card { flex-direction: row; align-items: center; gap: 20px; padding: 16px 0; border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12); }
-.bx-pic { position: relative; display: block; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 16px; background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 12%); box-shadow: 0 18px 50px -28px rgba(0, 0, 0, 0.8); }
+.bx-pic { position: relative; display: block; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 16px; background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 12%); box-shadow: none; }
 .bx-list .bx-pic { flex: none; width: 168px; aspect-ratio: 4 / 3; border-radius: 12px; }
 .bx-pic img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
 .bx-card:hover .bx-pic img, .bx-pick:hover .bx-pic img { transform: scale(1.05); }
@@ -49,7 +49,7 @@
 .bx-more button:hover { transform: translateY(-2px); background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14); }
 
 /* the top story */
-.bx-top { position: relative; display: grid; overflow: hidden; border-radius: 28px; color: #fff; text-decoration: none; background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 10%); border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14); box-shadow: 0 40px 100px -50px rgba(0, 0, 0, 0.9); }
+.bx-top { position: relative; display: grid; overflow: hidden; border-radius: 28px; color: #fff; text-decoration: none; background: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 10%); border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14); box-shadow: none; }
 .bx-top-pic { position: relative; display: block; overflow: hidden; }
 .bx-top-pic img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1); }
 .bx-top:hover .bx-top-pic img { transform: scale(1.04); }
@@ -80,7 +80,7 @@
     radial-gradient(80% 120% at 50% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.22), transparent 60%),
     hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 10%);
   border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
-  box-shadow: 0 40px 100px -50px rgba(0, 0, 0, 0.9), inset 0 1px 0 hsl(0 0% 100% / 0.08);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.08);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -111,7 +111,7 @@
   width: 44px;
   height: 36px;
   background: url("/brand/logo-white.webp") center / contain no-repeat;
-  filter: drop-shadow(0 1px 5px hsl(0 0% 0% / 0.6)) drop-shadow(0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.35));
+  filter: drop-shadow(0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.35));
   pointer-events: none;
 }
 .bx-list .bx-pic::before {

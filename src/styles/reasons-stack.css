@@ -213,8 +213,7 @@
     transform: none;
     box-shadow:
       inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84% / 0.4),
-      0 40px 90px -34px rgba(0, 0, 0, 0.8),
-      0 0 80px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.18);
+    0 0 80px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.18);
   }
 .rs-no {
     font-size: 11rem;

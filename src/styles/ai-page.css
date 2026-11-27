@@ -567,7 +567,7 @@
   border-radius: 28px;
   border: 1px solid var(--aip-line);
   background: radial-gradient(60% 50% at 100% 0, hsl(calc(var(--th) + 0) calc(88% * var(--ts)) 62% / 0.2), transparent 70%), hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 6.5% / 0.92);
-  box-shadow: 0 30px 70px -30px #000, inset 0 1px 0 hsl(0 0% 100% / 0.1);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.1);
   animation: aip-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 @keyframes aip-in {

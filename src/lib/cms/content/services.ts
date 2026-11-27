@@ -117,7 +117,7 @@ export const WEBDEV_SECTIONS = build({
       { title: "Information architecture", text: "We structure navigation and user flow. Wireframes define layout, content hierarchy and journeys." },
       { title: "UI design & prototyping", text: "We design brand-aligned, responsive interfaces focused on usability, aesthetics and accessibility.", points: "High-fidelity UI and design system\nInteractive prototypes" },
       { title: "Front-end development", text: "Using React, Angular or Vue, we build interactive, pixel-perfect pages optimized for all devices.", points: "Component-based implementation\nPerformance and responsiveness" },
-      { title: "Back-end development", text: "We build scalable back-end systems with Node.js, Laravel or PHP to ensure seamless performance.", points: "API design and integrations\nSecurity and scalability" },
+      { title: "Back-end development", text: "We build scalable back-end systems with Node.js, Laravel or PHP so everything runs reliably.", points: "API design and integrations\nSecurity and scalability" },
       { title: "Content integration & CMS setup", text: "We integrate optimized content and set up a CMS (WordPress or a custom admin) for easy management.", points: "Content loading and SEO basics\nCMS configuration and training" },
       { title: "Testing & quality assurance", text: "Comprehensive testing: speed, SEO, accessibility, cross-browser compatibility and security.", points: "Functional and UX testing\nPerformance, SEO and security checks" },
       { title: "Launch & ongoing support", text: "We deploy on secure servers and provide monitoring, updates and optimization for long-term success.", points: "Production deployment\nMonitoring and continuous improvements" },
