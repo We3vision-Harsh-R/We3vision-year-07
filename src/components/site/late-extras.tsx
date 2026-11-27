@@ -13,7 +13,7 @@ import { CHAT_FULL_ON } from "@/lib/chat-overlay"; // the full-screen chat (task
  * `picker` is what Admin > Settings > "Colour picker" says (when the card opens, which colours).
  */
 export function LateExtras({ picker }: { picker?: PickerConfig }) {
-  const [parts, setParts] = useState<{ Cursor: ComponentType; Theme: ComponentType<{ config?: PickerConfig }>; Pause: ComponentType; Presence: ComponentType; Winter: ComponentType | null; Gta: ComponentType | null; Chat: ComponentType | null } | null>(null);
+  const [parts, setParts] = useState<{ Cursor: ComponentType; Theme: ComponentType<{ config?: PickerConfig }>; Pause: ComponentType; Presence: ComponentType; Winter: ComponentType | null; Gta: ComponentType | null; Chat: ComponentType | null; Fx: ComponentType } | null>(null);
   useEffect(() => {
     let off = false;
     const load = () => {
@@ -25,8 +25,8 @@ export function LateExtras({ picker }: { picker?: PickerConfig }) {
       const gta = GTA_ON && desk ? import("./gta-stars").then((m) => m.GtaStars) : Promise.resolve(null);
       // the full-screen chat (task 160): every chat box of the site opens its conversation in it
       const chat = CHAT_FULL_ON && desk ? import("./chat-overlay").then((m) => m.ChatOverlay) : Promise.resolve(null);
-      void Promise.all([import("./custom-cursor"), import("./theme-picker"), import("./pause-offscreen"), import("./presence"), winter, gta, chat]).then(([cursor, theme, pause, presence, Winter, Gta, Chat]) => {
-        if (!off) setParts({ Cursor: cursor.CustomCursor, Theme: theme.ThemeProvider, Pause: pause.PauseOffscreen, Presence: presence.PresenceLive, Winter, Gta, Chat });
+      void Promise.all([import("./custom-cursor"), import("./theme-picker"), import("./pause-offscreen"), import("./presence"), winter, gta, chat, import("./page-fx")]).then(([cursor, theme, pause, presence, Winter, Gta, Chat, fx]) => {
+        if (!off) setParts({ Cursor: cursor.CustomCursor, Theme: theme.ThemeProvider, Pause: pause.PauseOffscreen, Presence: presence.PresenceLive, Winter, Gta, Chat, Fx: fx.PageFx });
       });
     };
     const w = window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (h: number) => void };
@@ -38,13 +38,14 @@ export function LateExtras({ picker }: { picker?: PickerConfig }) {
     };
   }, []);
   if (!parts) return null;
-  const { Cursor, Theme, Pause, Presence, Winter, Gta, Chat } = parts;
+  const { Cursor, Theme, Pause, Presence, Winter, Gta, Chat, Fx } = parts;
   return (
     <>
       <Cursor />
       <Theme config={picker} />
       <Pause />
       <Presence />
+      <Fx />
       {Winter && <Winter />}
       {Gta && <Gta />}
       {Chat && <Chat />}
