@@ -45,14 +45,14 @@ export const BLOG_SECTIONS: PageSection[] = [
 
 // ---- Contact ----
 export const CONTACT_SEO = {
-  title: "Contact We3vision | Surat, India & Marburg, Germany",
-  description: "Contact We3vision Private Limited: send us a message, or write or call our offices in Surat, India and Marburg, Germany. Web, AI, apps, VR and design.",
+  title: "Contact We3vision | Software Company in Surat, India",
+  description: "Contact We3vision, a software company in Surat, India with an office in Marburg, Germany. Get a quote for web, apps, AI, AR/VR, UI/UX or CRM.",
 };
 export const CONTACT_SECTIONS: PageSection[] = [
   section("pageHero", {
     chip: "Contact us",
     heading: "Let's Talk\nAbout Your Project",
-    text: "Tell us what you need: a website, an app, AI, VR or a new brand. We will get back to you.",
+    text: "Tell us what you need: web, mobile app, AI, AR/VR, UI/UX or CRM. We work with clients in India, USA, UK, Canada and Australia.",
     primaryLabel: "Send a message",
     primaryHref: "#contact",
     secondaryLabel: "Our offices",
@@ -61,13 +61,13 @@ export const CONTACT_SECTIONS: PageSection[] = [
   section("contact", {
     chip: "Contact",
     heading: "Let's Get\nStarted!",
-    text: "Fill in the form and the We3vision team will reply. You can also write or call one of our offices below.",
+    text: "Fill in the form to ask for a quote and the We3vision team will reply. You can also write or call one of our offices below.",
     buttonLabel: "Send a message",
   }),
   section("reach", {
     chip: "Our offices",
     heading: "Surat, India\nAnd Marburg, Germany",
-    text: "Our head office and development team are in Surat, Gujarat. Our second office is in Marburg, Germany. Write to info@we3vision.com or call +91 7383216096.",
+    text: "Our head office and development team are in Surat, Gujarat, India. Our second office is in Marburg, Germany. We also work remotely with clients in the USA, UK, Canada and Australia. Write to info@we3vision.com or call +91 7383216096.",
     buttonLabel: "Send a message",
     buttonHref: "#contact",
     places: [
