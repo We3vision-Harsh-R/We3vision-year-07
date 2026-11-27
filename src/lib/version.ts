@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 196,
+    date: "2026-11-27",
+    title: "Blog cards always show the topic and its tag",
+    notes: [
+      "On the laptop Blog page every card shows its tag and its topic at the bottom all the time, not only when the mouse is over it.",
+    ],
+  },
+  {
     v: 195,
     date: "2026-11-27",
     title: "Snow on the page floor, whole bottom bar in the services wheel",
