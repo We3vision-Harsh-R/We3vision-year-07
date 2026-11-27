@@ -771,7 +771,7 @@ export const MODELING_SECTIONS = build({
 export const GRAPHICS_SEO = {
   title: "Graphic Design Company in Surat, India | We3vision",
   description:
-    "Graphic design company in Surat, Gujarat, India: logos, brand identity and packaging for clients in the USA, UK, Canada and Australia. Get in touch.",
+    "Graphic design company in Surat, India: logo, brand identity, social media and packaging design for clients in India, USA, UK, Canada and Australia.",
 };
 // Graphic design plans (owner asked for plans on 2026-11-10; the prices are a starting point and are edited in Admin > Pages > Plans & pricing)
 const GRAPHICS_PLANS = section(
@@ -779,7 +779,7 @@ const GRAPHICS_PLANS = section(
   {
     chip: "Design plans",
     heading: "Graphic Design Plans\nThat Fit Your Business",
-    intro: "Monthly design plans for businesses that need fresh creatives all the time. Pick one, and change it when your business grows.",
+    intro: "Monthly graphic design plans for businesses that need fresh creatives all the time. Pick one, and change it when you grow.",
     look: "cards",
     plans: [
       {
@@ -836,25 +836,25 @@ export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
   hero: {
     chip: "Graphic Design",
     heading: "Graphic Design Services\nThat Make Brands Unforgettable",
-    text: "We3vision is a graphic design company in Surat, Gujarat, India. We create logo design, brand identity, social media graphics, packaging and brochures in Adobe Illustrator, Photoshop and InDesign for businesses in India, the USA, UK, Canada and Australia.",
+    text: "We3vision is a graphic design company in Surat, Gujarat, India, working since 2019. We create logo design, brand identity, social media graphics, packaging and brochures in Adobe Illustrator, Photoshop and InDesign for businesses in India and, remotely, in the USA, UK, Canada and Australia.",
     primaryLabel: "Start your design project",
     secondaryLabel: "What we design",
   },
   story:
-    "*Graphic design* is the art of turning an idea into a picture that people understand at a glance. A good *logo design*, a clear *brand identity*, a sharp *social media post* or a well made *brochure* tells customers who you are before you say a word.\n\nOur *graphic designers in Surat, India* draw, test and refine every design: sketches first, then *vector artwork in Adobe Illustrator*, *image editing in Photoshop* and *print layouts in InDesign*, with the right colours, typography and file formats for screen and print. We also design *website and app interfaces (UI/UX)* so your brand looks the same everywhere.",
+    "As a *graphic design company in Surat, India*, we turn an idea into a picture that people understand at a glance. A good *logo design*, a clear *brand identity*, a sharp *social media post* or a well made *brochure* tells customers who you are before you say a word.\n\nOur *graphic designers in Surat, Gujarat* draw, test and refine every design: sketches first, then *vector artwork in Adobe Illustrator*, *image editing in Photoshop* and *print layouts in InDesign*, with the right colours, typography and file formats for screen and print. We also design *website and app interfaces (UI/UX)* so your brand looks the same everywhere.\n\nBusinesses in India hire us as their *graphic designers*, and we also work remotely with clients in the *USA, UK, Canada and Australia*, with clear communication and the plan agreed up front.",
   subs: {
     chip: "What we design",
     heading: "Our Graphic Design\nServices",
-    intro: "Logo, brand, marketing, packaging, print and digital design: one creative team for everything your brand shows to the world.",
+    intro: "Logo, brand, social media, packaging, print and digital design: one graphic design team for everything your brand shows to the world.",
     cards: [
-      { title: "Logo\nDesign", description: "Memorable logos and logo suites in Adobe Illustrator: vector files that stay sharp on a business card and on a billboard.", href: "/brand-identity" },
-      { title: "Brand Identity\nDesign", description: "Colour palette, typography, icons, patterns and brand guidelines that make your business easy to recognise.", href: "/brand-identity" },
-      { title: "Social Media\nGraphics", description: "Instagram, Facebook and LinkedIn posts, stories, carousels and covers designed to stop the scroll and stay on brand." },
-      { title: "Packaging &\nLabel Design", description: "Box, pouch, bottle and label designs with print-ready dielines, CMYK colour and clear product information." },
-      { title: "Brochure &\nCatalogue Design", description: "Company profiles, product catalogues, brochures and flyers laid out in InDesign for easy reading and clean printing." },
+      { title: "Logo\nDesign", description: "Logo design for startups and established brands: memorable logos and logo suites in Adobe Illustrator, in vector files that stay sharp on a card and a billboard.", href: "/brand-identity" },
+      { title: "Brand Identity\nDesign", description: "Brand identity design beyond the logo: colour palette, typography, icons, patterns and brand guidelines that make your business easy to recognise.", href: "/brand-identity" },
+      { title: "Social Media\nGraphics", description: "Social media design for Instagram, Facebook and LinkedIn: posts, stories, carousels and covers that stop the scroll and stay on brand." },
+      { title: "Packaging &\nLabel Design", description: "Packaging design for boxes, pouches, bottles and labels, with print-ready dielines, CMYK colour and clear product information that shoppers can read." },
+      { title: "Brochure &\nCatalogue Design", description: "Brochure and print design: company profiles, product catalogues, brochures and flyers laid out in InDesign for easy reading and clean printing." },
       { title: "Poster, Banner &\nAd Creatives", description: "Posters, hoardings, standees, web banners and campaign creatives that carry one clear message." },
-      { title: "Stationery &\nBusiness Cards", description: "Business cards, letterheads, envelopes, invoices and ID cards that match your logo and brand colours." },
-      { title: "Illustration &\nIcon Design", description: "Custom vector illustrations, icons, infographics and characters that explain ideas and give your brand its own look." },
+      { title: "Stationery &\nBusiness Cards", description: "Business cards, letterheads, envelopes, invoices and ID cards that match your logo and brand colours, so every paper you hand out looks like one brand." },
+      { title: "Illustration &\nIcon Design", description: "Illustration design in vector: custom illustrations, icons, infographics and characters that explain ideas and give your brand its own look." },
       { title: "Pitch Decks &\nPresentations", description: "Investor decks, sales presentations and reports with clean layouts, charts and visuals that tell your story." },
       { title: "Website &\nApp UI/UX Design", description: "Website interfaces, mobile app screens, dashboards and design systems with a clear, user-friendly flow.", href: "/ui-ux-design" },
       { title: "E-commerce\nGraphics", description: "Product banners, listing images, store graphics and offer creatives that help online shoppers decide." },
@@ -890,7 +890,7 @@ export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
   why: {
     heading: "Why Choose We3vision\nFor Graphic Design",
     items: [
-      { title: "Design that meets business goals", description: "Your business goals and target audience guide every layout, colour and font, so the design works as well as it looks." },
+      { title: "Design that meets business goals", description: "Your business goals and target audience guide every layout, colour and font, so the design works as well as it looks, in Surat or abroad." },
       { title: "Hand-drawn thinking, professional tools", description: "We sketch ideas first and then build them with Adobe Illustrator, Photoshop and InDesign for precise, professional results." },
       { title: "One consistent brand everywhere", description: "Logo, brand guidelines, social media, packaging, print and digital interfaces share one look, so customers remember you." },
       { title: "Print-ready and screen-ready files", description: "We deliver the right formats and colour modes (CMYK for print, RGB for screen) so printers and developers can use your files without problems." },
@@ -898,17 +898,16 @@ export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
     ],
   },
   faq: [
-    { question: "What is graphic design?", answer: "Graphic design is the art and craft of combining images, shapes, colours and typography to communicate an idea. It is used for logos, brand identities, advertisements, packaging, brochures, social media posts and the look of websites and apps." },
     { question: "What graphic design services do you offer in Surat?", answer: "We3vision, a graphic design company in Surat, India, offers logo design, brand identity design, social media graphics, packaging and label design, brochure and catalogue design, poster and banner design, stationery, illustration, pitch decks, photo editing and website and app UI/UX design. We shape the work around your requirements." },
-    { question: "Which software do your graphic designers use?", answer: "We3vision designers work with Adobe Illustrator for logos and vector artwork, Adobe Photoshop for image editing, Adobe InDesign for print layouts, and Figma, Adobe XD and other tools for interface design." },
-    { question: "How does your logo design process work?", answer: "We start with a short brief and research, sketch several ideas, refine the strongest concepts in Illustrator, show them to you with mock-ups and then polish the chosen logo. You receive a full set of logo files for print and screen." },
-    { question: "What is the difference between graphic design and UI/UX design?", answer: "Graphic design creates visuals such as logos, posters, packaging and social media graphics. UI/UX design plans and designs how a website or app works and feels for its users. We offer both, so your visuals and your digital products look like one brand." },
-    { question: "Will I get print-ready files?", answer: "Yes. We prepare print-ready files in CMYK with the right size, bleed and resolution, and screen files in RGB. You can also receive the editable source files depending on the project scope." },
-    { question: "Can you redesign my existing logo or website?", answer: "Yes. We3vision offers logo redesign, brand refresh, website redesign and mobile app redesign to update your look with modern visuals and better user experience." },
-    { question: "How long does a graphic design project take?", answer: "It depends on the project. On average it takes 1–2 weeks to design a website or mobile application UI/UX, and a logo or a brochure usually needs less time than a complete brand identity or design system. We give you a clear timeline before we start." },
-    { question: "Do you offer affordable graphic design services?", answer: "We3vision offers competitive graphic design packages depending on your project scope, business goals and design requirements. Contact us to discuss your project and get a customised quote." },
-    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver graphic design projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front." },
-    { question: "How can I get started?", answer: "Contact We3vision to discuss your project. We will understand your needs and share a proposal and a timeline." },
+    { question: "Logo design or full brand identity: which do I need?", answer: "A logo is one mark, while a brand identity is the whole system around it: colour palette, typography, icons, patterns and brand guidelines. A new business can start with a logo and grow into a full identity, and we can do either. Tell us your goals and we will suggest the right scope." },
+    { question: "Do you design social media posts and packaging?", answer: "Yes, we design social media graphics (posts, stories, carousels and covers) and packaging and label design for boxes, pouches and bottles. Packaging comes with print-ready dielines and CMYK colour. Our monthly design plans cover social media, ads and print together." },
+    { question: "Can I hire graphic designers in India for my business abroad?", answer: "Yes, you can hire our graphic designers from Surat, India, for a one-off project or a monthly plan. We work remotely, share work for review and agree the scope and deliverables up front. Clients from the USA, Canada, UK, Germany, UAE, Singapore and Australia have worked with us." },
+    { question: "Why choose a graphic design company in Surat, India?", answer: "A graphic design company in Surat gives you a full creative team in one place: logo, brand, social media, packaging, print and UI/UX. We3vision has worked from Surat, Gujarat since 2019 and also has a second office in Marburg, Germany. You get clear communication and one consistent brand look." },
+    { question: "How does your logo design process work?", answer: "We start with a short brief and research, sketch several ideas, refine the strongest concepts in Adobe Illustrator, show them to you with mock-ups and then polish the chosen logo. You review in revision rounds, and receive a full set of logo files for print and screen." },
+    { question: "What file formats will I get?", answer: "You get AI, PSD, PDF, SVG and PNG files, with CMYK print-ready versions and RGB screen versions. We prepare print files with the right size, bleed and resolution, and share organised source files depending on the project scope." },
+    { question: "How long does a graphic design project take?", answer: "It depends on the project: a logo or a brochure usually needs less time than a complete brand identity or design system. We give you a clear timeline before we start, and our monthly plans state the turnaround for each design." },
+    { question: "How much do graphic design services cost?", answer: "The cost depends on your scope: a single design, a brand identity or a monthly plan. The design plans on this page show where each plan starts, and after a short call we share an exact quote for your project." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver graphic design projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front. Contact us and we will share a proposal and a timeline." },
   ],
   related: [
     { title: "Brand Identity\nDesign", description: "Brand strategy, logo, visual identity and guidelines.", href: "/brand-identity" },
@@ -916,7 +915,7 @@ export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
     { title: "2D/3D\nAnimation", description: "Animation and 3D visualization.", href: "/animation" },
     { title: "Brand Kit\nDesign", description: "Logo, colours, type and templates in one kit.", href: "/brand-kit-design" },
   ],
-  cta: { heading: "Have A\nDesign Project?", text: "Whether you need a logo, a brand identity, social media graphics, packaging, a brochure or a website interface, We3vision can help. Let's talk about your project.", button: "Start your design project" },
+  cta: { heading: "Have A\nDesign Project?", text: "Need a graphic design company in Surat for a logo, brand identity, social media graphics, packaging or a brochure? We3vision can help, in India or remotely. Let's talk.", button: "Start your design project" },
 }));
 
 // ---------------------------------------------------------------------------------------------------------------------
