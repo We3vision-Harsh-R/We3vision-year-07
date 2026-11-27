@@ -224,7 +224,9 @@ export function ServiceWheel({ open, onClose }: { open: boolean; onClose: () => 
           </ul>
         </div>
         <SmartLink href={cur.href} onClick={onClose} className="sw-go">
-          Open {cur.label}
+          <span className="swn" key={cur.label}>
+            Open {cur.label}
+          </span>
         </SmartLink>
       </div>
     </div>,

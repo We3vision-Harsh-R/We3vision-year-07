@@ -12327,3 +12327,37 @@ a.itg-tag:hover {
     font-size: 17px;
   }
 }
+
+/* ---- swn-: the white "Open <service>" box of the services wheel: a long name wraps inside the box (never outside), and the name glides in when it changes */
+@media (max-width: 1023.98px) {
+  :root:root:root .sw-go {
+    height: auto;
+    min-height: 54px;
+    min-width: 0;
+    padding: 8px 20px;
+    overflow: hidden;
+  }
+  .swn {
+    display: block;
+    max-width: 100%;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    animation: swn-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+@keyframes swn-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .swn {
+    animation: none;
+  }
+}
