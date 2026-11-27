@@ -16,6 +16,17 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 193,
+    date: "2026-11-27",
+    title: "Industry training: fees, role tags, new internships, cleaner applications board",
+    notes: [
+      "Industrial Training pages show the fees of 21 domains for the 3 and 6 month training (managed in Admin > Industrial Training; 9 month on request).",
+      "A role can carry the tag \"Industry training available\": set it in the job form; it shows on the Careers list, the job page, the phone pages and in Admin Careers (jobs, applications board filter, application drawer).",
+      "Six internships and two jobs (Brand Designer, AI Content Creator) are open on the Careers page.",
+      "Admin > Careers > Applications board is simpler and cleaner: bigger cards with name, job, city, phone and a Next button, and a floating bar to move or tag many at once.",
+    ],
+  },
+  {
     v: 192,
     date: "2026-11-26",
     title: "Admin applications: job tags, job filter pills, one-click next step",

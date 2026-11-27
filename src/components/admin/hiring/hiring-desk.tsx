@@ -12,7 +12,7 @@ import { ApplicationDrawer } from "./application-drawer";
 // Search, filters and sorting work on both. A click opens the application (application-drawer.tsx).
 // Seat-only tickets (a visitor booked a seat on the Careers page but did not give the details) are hidden unless "Seat-only tickets" is on.
 
-type Job = { id: string; title: string; active: boolean };
+type Job = { id: string; title: string; active: boolean; training: boolean };
 type Sort = "new" | "old" | "rating" | "name";
 
 const WEEK = 7 * 24 * 60 * 60_000;
@@ -30,6 +30,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
   const [sort, setSort] = useState<Sort>("new");
   const [starred, setStarred] = useState(false);
   const [seats, setSeats] = useState(false);
+  const [trainingOnly, setTrainingOnly] = useState(false);
   const [open, setOpen] = useState(initialOpen && rows.some((r) => r.id === initialOpen) ? initialOpen : "");
   const [picked, setPicked] = useState<Set<string>>(new Set());
   const [drag, setDrag] = useState("");
@@ -52,6 +53,9 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
   }, [list]);
   const dupOf = (r: HireRow) => Math.max(1, ...idKeys(r).map((k) => dupes.get(k) ?? 1));
   const allTags = useMemo(() => [...new Set(list.flatMap((r) => r.meta.tags))].sort((a, b) => a.localeCompare(b)), [list]);
+  // the jobs where Industrial Training (fee-based) is available: their applications get a tag and a filter
+  const trainingIds = useMemo(() => new Set(jobs.filter((j) => j.training).map((j) => j.id)), [jobs]);
+  const hasTraining = (r: HireRow) => trainingIds.has(r.roleId);
   const jobTitle = (r: HireRow) => r.roleTitle || jobs.find((j) => j.id === r.roleId)?.title || "General application";
   // the job an application is for, as a coloured tag: one colour per job (the theme hue moved by the place of the job in the list), so a column is read at a glance
   const jobHue = (r: HireRow) => (Math.max(0, jobs.findIndex((j) => j.id === r.roleId)) * 47 + (r.roleId ? 20 : 200)) % 360;
@@ -69,7 +73,6 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
     const m = Math.max(0, Math.round((now - Date.parse(iso)) / 60_000));
     return m < 60 ? `${m || 1} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : m < 43200 ? `${Math.round(m / 1440)} d ago` : `${Math.round(m / 43200)} mo ago`;
   };
-  const initials = (n: string) => (n.trim().split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? "").join("") || "·");
   const nextStep = (status: string) => {
     const i = PIPELINE.findIndex((p) => p.value === status);
     return i >= 0 && i < PIPELINE.length - 1 && PIPELINE[i + 1].value !== "rejected" ? PIPELINE[i + 1] : null;
@@ -84,6 +87,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
       if (source === "job" && r.source !== "job") return false;
       if (source === "ticket" && r.source === "job") return false;
       if (starred && !r.meta.starred) return false;
+      if (trainingOnly && !trainingIds.has(r.roleId)) return false;
       if (tag && !r.meta.tags.includes(tag)) return false;
       if (who === "me" && r.meta.assignee !== me) return false;
       if (who === "none" && r.meta.assignee) return false;
@@ -101,7 +105,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
       name: (a, b) => (a.name || "~").localeCompare(b.name || "~"),
     };
     return out.sort(by[sort]);
-  }, [list, q, job, source, starred, tag, who, me, seats, sort]);
+  }, [list, q, job, source, starred, trainingOnly, trainingIds, tag, who, me, seats, sort]);
   const shown = useMemo(() => (step === "all" ? base : step === "active" ? base.filter((r) => isActiveStage(r.status)) : base.filter((r) => r.status === step)), [base, step]);
   const count = (s: string) => base.filter((r) => r.status === s).length;
   const seatOnly = list.filter((r) => r.stage !== "complete").length;
@@ -202,8 +206,12 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
   const at = order.findIndex((r) => r.id === open);
   const cur = list.find((r) => r.id === open);
 
+  const stop = (e: { stopPropagation: () => void }) => e.stopPropagation();
   const renderCard = (r: HireRow) => {
     const nx = nextStep(r.status);
+    const sel = picked.has(r.id);
+    const waiting = r.status === "new" ? Math.floor((now - Date.parse(r.createdAt)) / 86_400_000) : 0;
+    const where = [r.city, r.experience].filter(Boolean).join(" · ");
     return (
       <div
         key={r.id}
@@ -221,44 +229,43 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
         }}
         onClick={() => setOpen(r.id)}
         onKeyDown={(e) => {
+          if (e.target !== e.currentTarget) return;
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             setOpen(r.id);
           }
         }}
-        className={`group block w-full cursor-pointer rounded-xl border bg-white p-3 text-left shadow-sm transition hover:-translate-y-px hover:border-brand/50 hover:shadow focus-visible:outline-2 focus-visible:outline-brand ${drag === r.id ? "opacity-40" : ""} ${r.meta.starred ? "border-amber-300" : "border-zinc-200"}`}
+        className={`group relative block w-full cursor-pointer rounded-xl border bg-white p-4 text-left shadow-sm transition hover:border-brand/50 focus-visible:outline-2 focus-visible:outline-brand ${drag === r.id ? "opacity-40" : ""} ${sel ? "border-brand ring-2 ring-brand/30" : "border-zinc-200"}`}
       >
-        <span className="flex items-center gap-2.5">
-          <span className="grid size-9 shrink-0 place-items-center rounded-full text-xs font-semibold" style={jobStyle(jobHue(r))} aria-hidden>
-            {initials(r.name)}
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block truncate text-sm font-semibold text-zinc-900">
-              {r.meta.starred && <span className="text-amber-500">★ </span>}
-              {r.name || "Seat only"}
-            </span>
-            <span className="block truncate text-xs text-zinc-500">{[r.city, r.experience].filter(Boolean).join(" · ") || r.email}</span>
-          </span>
-          {r.meta.rating > 0 && <span className="shrink-0 text-xs text-amber-500">{"★".repeat(r.meta.rating)}</span>}
-        </span>
-        <span className="mt-2.5 block">
-          {jobTag(r)}
-        </span>
-        <span className="mt-2 flex flex-wrap gap-1 text-[11px]">
-          {r.meta.interview && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-amber-800">{interviewLabel(r.meta.interview.at)}</span>}
-          {dupOf(r) > 1 && (
-            <span className="rounded-full bg-amber-50 px-2 py-0.5 text-amber-700" title="The same person applied more than once">
-              {dupOf(r)}× applied
-            </span>
-          )}
-          {r.stage !== "complete" && <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-zinc-600">seat only</span>}
-          {r.meta.tags.slice(0, 2).map((t) => (
-            <span key={t} className="rounded-full bg-zinc-100 px-2 py-0.5 text-zinc-600">
-              {t}
-            </span>
-          ))}
-        </span>
-        <span className="mt-2.5 flex items-center justify-between gap-2 text-[11px] text-zinc-400">
+        <input
+          type="checkbox"
+          checked={sel}
+          onClick={stop}
+          onChange={() => togglePick(r.id)}
+          aria-label={`Choose ${r.name || "ticket"}`}
+          className={`absolute right-3 top-3.5 size-4 cursor-pointer ${sel ? "" : "opacity-0 focus-visible:opacity-100 group-hover:opacity-100"}`}
+        />
+        <p className="truncate pr-6 text-base font-semibold text-zinc-900">
+          {r.meta.starred && <span className="text-amber-500">★ </span>}
+          {r.name || "Seat only"}
+        </p>
+        <p className="mt-1 flex items-center gap-2 text-sm text-zinc-600">
+          <span className="size-2 shrink-0 rounded-full" style={{ background: `hsl(calc(var(--th) + ${jobHue(r)}) calc(80% * var(--ts)) 60%)` }} aria-hidden />
+          <span className="truncate">{jobTitle(r)}</span>
+          {hasTraining(r) && <span className="shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Training</span>}
+        </p>
+        {(where || r.phone) && (
+          <p className="mt-1 truncate text-sm text-zinc-500">{[where, r.phone].filter(Boolean).join(" · ")}</p>
+        )}
+        {(r.meta.interview || waiting >= 3 || dupOf(r) > 1 || r.meta.rating > 0) && (
+          <p className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+            {r.meta.interview && <span className="font-medium text-amber-600">Interview {interviewLabel(r.meta.interview.at)}</span>}
+            {waiting >= 3 && <span className="text-rose-500">Waiting {waiting} days</span>}
+            {dupOf(r) > 1 && <span className="text-zinc-500">{dupOf(r)}× applied</span>}
+            {r.meta.rating > 0 && <span className="text-amber-500">{"★".repeat(r.meta.rating)}</span>}
+          </p>
+        )}
+        <div className="mt-3 flex items-center justify-between gap-2 border-t border-zinc-200/70 pt-2.5 text-sm text-zinc-500">
           <span title={r.created}>{ago(r.createdAt)}</span>
           {nx && (
             <button
@@ -268,43 +275,55 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
                 e.stopPropagation();
                 move(r.id, nx.value);
               }}
-              className="rounded-full border border-zinc-300 px-2.5 py-1 text-xs font-medium text-zinc-700 opacity-0 transition hover:border-brand hover:text-brand focus-visible:opacity-100 group-hover:opacity-100"
+              className="font-medium text-brand hover:underline"
               title={`Move to ${nx.label}`}
             >
               {nx.label} →
             </button>
           )}
-        </span>
+        </div>
       </div>
     );
   };
 
   return (
     <div className="space-y-5">
-      {/* numbers */}
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <div className={card}>
+      {/* numbers: one slim strip */}
+      <div className={`${card} !p-0 grid grid-cols-2 overflow-hidden xl:grid-cols-4 xl:divide-x xl:divide-zinc-200`}>
+        <div className="px-5 py-3.5">
           <p className="text-sm text-zinc-500">Applications</p>
-          <p className="mt-1 text-3xl font-bold">{base.length}</p>
-          <p className="mt-1 text-xs text-zinc-400">{thisWeek} this week</p>
+          <p className="mt-0.5 flex items-baseline gap-2">
+            <span className="text-2xl font-bold">{base.length}</span>
+            <span className="text-xs text-zinc-400">{thisWeek} this week</span>
+          </p>
         </div>
-        <button type="button" className={`${card} text-left transition hover:border-brand/40`} onClick={() => {
+        <button
+          type="button"
+          className="px-5 py-3.5 text-left transition hover:bg-brand/5"
+          onClick={() => {
             setView("list");
             setStep("new");
-          }}>
+          }}
+        >
           <p className="text-sm text-zinc-500">Waiting for a reply</p>
-          <p className="mt-1 text-3xl font-bold text-brand">{count("new")}</p>
-          <p className="mt-1 text-xs text-zinc-400">step “New”</p>
+          <p className="mt-0.5 flex items-baseline gap-2">
+            <span className="text-2xl font-bold text-brand">{count("new")}</span>
+            <span className="text-xs text-zinc-400">step “New”</span>
+          </p>
         </button>
-        <div className={card}>
+        <div className="px-5 py-3.5">
           <p className="text-sm text-zinc-500">In process</p>
-          <p className="mt-1 text-3xl font-bold">{base.filter((r) => isActiveStage(r.status) && r.status !== "new").length}</p>
-          <p className="mt-1 text-xs text-zinc-400">contacted → offer</p>
+          <p className="mt-0.5 flex items-baseline gap-2">
+            <span className="text-2xl font-bold">{base.filter((r) => isActiveStage(r.status) && r.status !== "new").length}</span>
+            <span className="text-xs text-zinc-400">contacted → offer</span>
+          </p>
         </div>
-        <div className={card}>
+        <div className="px-5 py-3.5">
           <p className="text-sm text-zinc-500">Hired</p>
-          <p className="mt-1 text-3xl font-bold text-emerald-700">{count("hired")}</p>
-          <p className="mt-1 text-xs text-zinc-400">{count("rejected")} not now</p>
+          <p className="mt-0.5 flex items-baseline gap-2">
+            <span className="text-2xl font-bold text-emerald-700">{count("hired")}</span>
+            <span className="text-xs text-zinc-400">{count("rejected")} not now</span>
+          </p>
         </div>
       </div>
 
@@ -346,15 +365,6 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
       <section className={`${card} !p-4 space-y-3`}>
         <div className="flex flex-wrap items-center gap-2">
           <input className={`${inputClass} !mt-0 !w-72`} type="search" placeholder="Search name, e-mail, phone, skills, city…" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search" />
-          <select className={`${inputClass} !mt-0 !w-auto`} value={job} onChange={(e) => setJob(e.target.value)} aria-label="Job">
-            <option value="">All jobs</option>
-            {jobs.map((j) => (
-              <option key={j.id} value={j.id}>
-                {j.title}
-                {j.active ? "" : " (closed)"}
-              </option>
-            ))}
-          </select>
           <select className={`${inputClass} !mt-0 !w-auto`} value={source} onChange={(e) => setSource(e.target.value as typeof source)} aria-label="Came from">
             <option value="all">Job page + ticket office</option>
             <option value="job">Job page</option>
@@ -393,12 +403,15 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
               </button>
             ))}
           </div>
-          <label className="flex items-center gap-2 rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700">
-            <input type="checkbox" checked={starred} onChange={(e) => setStarred(e.target.checked)} /> Starred only
-          </label>
-          <label className="flex items-center gap-2 rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700">
-            <input type="checkbox" checked={seats} onChange={(e) => setSeats(e.target.checked)} /> Seat-only tickets ({seatOnly})
-          </label>
+          <button type="button" aria-pressed={starred} onClick={() => setStarred(!starred)} className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition ${starred ? "border-amber-400 bg-amber-400/15 text-amber-500" : "border-zinc-200 text-zinc-600 hover:bg-zinc-100"}`}>
+            ★ Starred only
+          </button>
+          <button type="button" aria-pressed={trainingOnly} onClick={() => setTrainingOnly(!trainingOnly)} className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition ${trainingOnly ? "border-emerald-500 bg-emerald-500/15 text-emerald-600" : "border-zinc-200 text-zinc-600 hover:bg-zinc-100"}`}>
+            Industry training
+          </button>
+          <button type="button" aria-pressed={seats} onClick={() => setSeats(!seats)} className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition ${seats ? "border-brand bg-brand/15 text-brand" : "border-zinc-200 text-zinc-600 hover:bg-zinc-100"}`}>
+            Seat-only tickets ({seatOnly})
+          </button>
           <button type="button" className={`${btnSecondary} ml-auto`} onClick={() => exportCsv(shown)} disabled={!shown.length}>
             Export CSV ({shown.length})
           </button>
@@ -406,7 +419,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
       </section>
 
       {view === "board" ? (
-        <div className="-mx-1 flex gap-3 overflow-x-auto px-1 pb-3">
+        <div className="-mx-1 flex items-start gap-4 overflow-x-auto px-1 pb-3">
           {PIPELINE.map((s) => {
             const col = base.filter((r) => r.status === s.value);
             return (
@@ -426,16 +439,16 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
                   setDrag("");
                   if (id) move(id, s.value);
                 }}
-                className={`flex w-72 shrink-0 flex-col rounded-2xl border p-2 transition ${over === s.value ? "border-brand bg-brand/5" : "border-zinc-200 bg-zinc-50"}`}
+                className={`flex w-80 shrink-0 flex-col rounded-2xl border p-3 transition-colors ${over === s.value ? "border-brand bg-brand/5" : "border-zinc-200 bg-zinc-50"}`}
               >
-                <h3 className="flex items-center gap-2 px-2 py-1.5 text-sm font-semibold text-zinc-800">
+                <h3 className="flex items-center gap-2 px-1 pb-3 text-base font-semibold text-zinc-800">
                   <span className={`size-2.5 rounded-full ${s.dot}`} aria-hidden="true" />
                   {s.label}
-                  <span className="ml-auto rounded-full bg-white px-2 py-0.5 text-xs font-medium text-zinc-500">{col.length}</span>
+                  <span className="ml-auto text-sm font-medium text-zinc-400">{col.length}</span>
                 </h3>
-                <div className="mt-1 flex max-h-[62vh] min-h-24 flex-col gap-2 overflow-y-auto p-0.5">
+                <div className="flex max-h-[70vh] min-h-20 flex-col gap-3 overflow-y-auto">
                   {col.map(renderCard)}
-                  {col.length === 0 && <p className="px-2 py-6 text-center text-xs text-zinc-400">Drop here</p>}
+                  {col.length === 0 && <p className="py-6 text-center text-sm text-zinc-400">Drop here</p>}
                 </div>
               </section>
             );
@@ -453,8 +466,77 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
                 </option>
               ))}
             </select>
+          </div>
+          {shown.length === 0 ? (
+            <p className="px-4 py-10 text-center text-sm text-zinc-500">No applications here. Change the search or the filters.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
+                  <tr>
+                    <th className="w-10 px-4 py-2">
+                      <input type="checkbox" checked={allPicked} onChange={() => setPicked(allPicked ? new Set() : new Set(shown.map((r) => r.id)))} aria-label="Choose all" />
+                    </th>
+                    <th className="px-2 py-2">Name</th>
+                    <th className="px-2 py-2">Position</th>
+                    <th className="px-2 py-2">Step</th>
+                    <th className="px-2 py-2">Rating</th>
+                    <th className="px-2 py-2">Tags</th>
+                    <th className="px-2 py-2">Applied</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100">
+                  {shown.map((r) => {
+                    const s = stageOf(r.status);
+                    return (
+                      <tr key={r.id} className={`cursor-pointer hover:bg-zinc-50 ${picked.has(r.id) ? "bg-brand/5" : ""}`} onClick={() => setOpen(r.id)}>
+                        <td className="px-4 py-2.5" onClick={(e) => e.stopPropagation()}>
+                          <input type="checkbox" checked={picked.has(r.id)} onChange={() => togglePick(r.id)} aria-label={`Choose ${r.name || "ticket"}`} />
+                        </td>
+                        <td className="max-w-56 px-2 py-2.5">
+                          <p className="truncate font-medium text-zinc-900">
+                            {r.meta.starred && <span className="text-amber-500">★ </span>}
+                            {r.name || "Seat only"}
+                            {dupOf(r) > 1 && <span className="ml-1 rounded-full bg-amber-50 px-1.5 text-[11px] text-amber-700">{dupOf(r)}×</span>}
+                          </p>
+                          <p className="truncate text-xs text-zinc-500">{r.email || r.city}</p>
+                        </td>
+                        <td className="max-w-56 px-2 py-2.5">
+                          {jobTag(r)}
+                          {hasTraining(r) && <span className="ml-1.5 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Training</span>}
+                        </td>
+                        <td className="px-2 py-2.5" onClick={(e) => e.stopPropagation()}>
+                          <select className={`rounded-full border-0 px-2 py-1 text-xs font-medium ${s.chip}`} value={r.status} disabled={pending} onChange={(e) => move(r.id, e.target.value)} aria-label="Step">
+                            {PIPELINE.map((p) => (
+                              <option key={p.value} value={p.value}>
+                                {p.label}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="px-2 py-2.5 text-amber-500">{r.meta.rating ? "★".repeat(r.meta.rating) : <span className="text-zinc-300">–</span>}</td>
+                        <td className="max-w-40 px-2 py-2.5">
+                          <span className="flex flex-wrap gap-1">
+                            {r.meta.tags.slice(0, 3).map((t) => (
+                              <span key={t} className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] text-zinc-600">
+                                {t}
+                              </span>
+                            ))}
+                          </span>
+                        </td>
+                        <td className="whitespace-nowrap px-2 py-2.5 text-xs text-zinc-500">{r.created}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      )}
+
             {picked.size > 0 && (
-              <div className="flex flex-wrap items-center gap-2 rounded-lg bg-zinc-900 px-3 py-1.5 text-sm text-white">
+        <div className="fixed bottom-6 left-1/2 z-40 flex max-w-[92vw] -translate-x-1/2 flex-wrap items-center gap-2 rounded-2xl bg-zinc-900 px-4 py-2.5 text-sm text-white shadow-2xl ring-1 ring-white/15" role="toolbar" aria-label="Chosen applications">
                 <b>{picked.size} chosen</b>
                 <select
                   className="rounded-md bg-white/10 px-2 py-1 text-sm text-white"
@@ -502,73 +584,6 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
                 </button>
               </div>
             )}
-          </div>
-          {shown.length === 0 ? (
-            <p className="px-4 py-10 text-center text-sm text-zinc-500">No applications here. Change the search or the filters.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
-                  <tr>
-                    <th className="w-10 px-4 py-2">
-                      <input type="checkbox" checked={allPicked} onChange={() => setPicked(allPicked ? new Set() : new Set(shown.map((r) => r.id)))} aria-label="Choose all" />
-                    </th>
-                    <th className="px-2 py-2">Name</th>
-                    <th className="px-2 py-2">Position</th>
-                    <th className="px-2 py-2">Step</th>
-                    <th className="px-2 py-2">Rating</th>
-                    <th className="px-2 py-2">Tags</th>
-                    <th className="px-2 py-2">Applied</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100">
-                  {shown.map((r) => {
-                    const s = stageOf(r.status);
-                    return (
-                      <tr key={r.id} className={`cursor-pointer hover:bg-zinc-50 ${picked.has(r.id) ? "bg-brand/5" : ""}`} onClick={() => setOpen(r.id)}>
-                        <td className="px-4 py-2.5" onClick={(e) => e.stopPropagation()}>
-                          <input type="checkbox" checked={picked.has(r.id)} onChange={() => togglePick(r.id)} aria-label={`Choose ${r.name || "ticket"}`} />
-                        </td>
-                        <td className="max-w-56 px-2 py-2.5">
-                          <p className="truncate font-medium text-zinc-900">
-                            {r.meta.starred && <span className="text-amber-500">★ </span>}
-                            {r.name || "Seat only"}
-                            {dupOf(r) > 1 && <span className="ml-1 rounded-full bg-amber-50 px-1.5 text-[11px] text-amber-700">{dupOf(r)}×</span>}
-                          </p>
-                          <p className="truncate text-xs text-zinc-500">{r.email || r.city}</p>
-                        </td>
-                        <td className="max-w-56 px-2 py-2.5">
-                          {jobTag(r)}
-                        </td>
-                        <td className="px-2 py-2.5" onClick={(e) => e.stopPropagation()}>
-                          <select className={`rounded-full border-0 px-2 py-1 text-xs font-medium ${s.chip}`} value={r.status} disabled={pending} onChange={(e) => move(r.id, e.target.value)} aria-label="Step">
-                            {PIPELINE.map((p) => (
-                              <option key={p.value} value={p.value}>
-                                {p.label}
-                              </option>
-                            ))}
-                          </select>
-                        </td>
-                        <td className="px-2 py-2.5 text-amber-500">{r.meta.rating ? "★".repeat(r.meta.rating) : <span className="text-zinc-300">–</span>}</td>
-                        <td className="max-w-40 px-2 py-2.5">
-                          <span className="flex flex-wrap gap-1">
-                            {r.meta.tags.slice(0, 3).map((t) => (
-                              <span key={t} className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] text-zinc-600">
-                                {t}
-                              </span>
-                            ))}
-                          </span>
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2.5 text-xs text-zinc-500">{r.created}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
-      )}
 
       {cur && (
         <ApplicationDrawer
@@ -577,6 +592,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
           admins={admins}
           allTags={allTags}
           duplicates={dupOf(cur)}
+          training={hasTraining(cur)}
           position={at >= 0 ? `${at + 1} of ${order.length}` : "1 of 1"}
           onChange={patch}
           onRemoved={(id) => {

@@ -57,6 +57,8 @@ type Props = {
   admins: AdminOption[];
   allTags: string[];
   duplicates: number;
+  /** Industrial Training is available in the job this person applied for */
+  training?: boolean;
   position: string;
   onChange: (id: string, patch: { meta?: AppMeta; status?: string }) => void;
   onRemoved: (id: string) => void;
@@ -65,7 +67,7 @@ type Props = {
   onNext?: () => void;
 };
 
-export function ApplicationDrawer({ row, admins, allTags, duplicates, position, onChange, onRemoved, onClose, onPrev, onNext }: Props) {
+export function ApplicationDrawer({ row, admins, allTags, duplicates, training, position, onChange, onRemoved, onClose, onPrev, onNext }: Props) {
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [tag, setTag] = useState("");
@@ -418,6 +420,7 @@ export function ApplicationDrawer({ row, admins, allTags, duplicates, position, 
             <h3 className="text-sm font-semibold text-zinc-800">What they sent</h3>
             <dl className="mt-2">
               <Row k="Position" v={row.roleTitle} />
+              {training && <Row k="Industry training" v="Available in this role (fee-based, 3 / 6 / 9 months)" />}
               <Row k="Location" v={row.city} />
               <Row k="Current status" v={row.currentStatus} />
               <Row k="Can join" v={row.joinDate} />

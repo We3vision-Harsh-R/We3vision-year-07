@@ -63,6 +63,7 @@ export function draftToJobView(d: DraftData, slug: string): JobView {
     workMode: str(d.workMode) || "On-site",
     experience: str(d.experience),
     openings: typeof d.openings === "number" ? d.openings : 1,
+    training: false,
     salary: str(d.salary),
     closesAt: str(d.closesAt),
     postedAt: new Date().toISOString(),

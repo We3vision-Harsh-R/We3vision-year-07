@@ -163,6 +163,8 @@ model CareerRole {
   workMode         String   @default("On-site")
   experience       String   @default("")
   openings         Int      @default(1)
+  /// Industrial Training (fee-based 3 / 6 / 9 month training) is available in this role: shown as a tag everywhere
+  training         Boolean  @default(false)
   salary           String   @default("")
   /// yyyy-mm-dd or empty
   closesAt         String   @default("")

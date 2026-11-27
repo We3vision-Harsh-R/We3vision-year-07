@@ -124,7 +124,7 @@ export const CareersDestination: MobileSection<"careerDestination"> = ({ data, e
             <JobBoard
               allLabel="All"
               jobs={jobs.map((j) => {
-                const meta = [j.location, j.workMode, j.workType, j.experience].filter(Boolean);
+                const meta = [j.location, j.workMode, j.workType, j.experience, j.training ? "Industry training available" : ""].filter(Boolean);
                 return {
                   id: j.id,
                   team: j.team,

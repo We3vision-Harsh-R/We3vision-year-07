@@ -112,6 +112,7 @@ export type JobInput = {
   workMode?: unknown;
   experience?: unknown;
   openings?: unknown;
+  training?: unknown;
   salary?: unknown;
   closesAt?: unknown;
   active?: unknown;
@@ -148,6 +149,7 @@ export async function saveJob(input: JobInput): Promise<ActionResult & { id?: st
     workMode,
     experience: line(input.experience, 40),
     openings,
+    training: input.training === true,
     salary: line(input.salary, 60),
     closesAt,
     active: input.active !== false,
@@ -234,6 +236,7 @@ export async function duplicateJob(id: string): Promise<ActionResult & { id?: st
         workMode: r.workMode,
         experience: r.experience,
         openings: r.openings,
+        training: r.training,
         salary: r.salary,
         closesAt: "",
         active: false,

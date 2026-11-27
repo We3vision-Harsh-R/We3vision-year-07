@@ -23,6 +23,7 @@ export default async function CareersJobsPage() {
     workType: r.workType,
     location: r.location,
     openings: r.openings,
+    training: r.training,
     active: r.active,
     closesAt: r.closesAt,
     applications: sum(r.id, () => true),

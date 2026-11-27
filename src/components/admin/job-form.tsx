@@ -25,6 +25,7 @@ export type JobFormValue = {
   workMode: string;
   experience: string;
   openings: number;
+  training: boolean;
   salary: string;
   closesAt: string;
   active: boolean;
@@ -45,6 +46,7 @@ export const EMPTY_JOB: JobFormValue = {
   workMode: "On-site",
   experience: "",
   openings: 1,
+  training: false,
   salary: "",
   closesAt: "",
   active: true,
@@ -178,6 +180,10 @@ export function JobForm({ initial, onSave, backHref }: { initial: JobFormValue; 
               Open: shown on the Careers page and open for applications
             </label>
           )}
+          <label className="flex items-center gap-2 text-sm font-medium text-zinc-700">
+            <input type="checkbox" checked={v.training} onChange={(e) => set("training", e.target.checked)} />
+            Industry training is available in this role (shows a tag and a link to the training fees)
+          </label>
           <label className={labelClass}>
             Last day to apply (optional: the job closes by itself after it)
             <input className={inputClass} type="date" value={v.closesAt} onChange={(e) => set("closesAt", e.target.value)} />

@@ -52,6 +52,15 @@ export function JobPage({ job, questions }: { job: JobView; questions: CareerQue
               <li key={f}>{f}</li>
             ))}
           </ul>
+          {job.training && (
+            <p className="itg-box">
+              <span className="itg-tag">Industry training available</span>
+              <span>
+                You can also join this role as a fee-based industry training (3, 6 or 9 months) and learn what the industry needs.{" "}
+                <Link href="/industrial-training/6-month#fees">See the training fees</Link>
+              </span>
+            </p>
+          )}
           <p className="jb-meta">
             {job.postedLabel}
             {job.closesAt ? ` · Last day to apply: ${day(job.closesAt)}` : ""}

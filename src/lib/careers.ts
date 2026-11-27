@@ -48,6 +48,7 @@ const toJob = (r: Row): JobView => ({
   workMode: r.workMode,
   experience: r.experience,
   openings: r.openings,
+  training: r.training,
   salary: r.salary,
   closesAt: r.closesAt,
   postedAt: r.createdAt.toISOString(),

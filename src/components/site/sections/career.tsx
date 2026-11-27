@@ -70,6 +70,11 @@ export const CareerOpeningsSection: SectionComponent<"careerOpenings"> = async (
                     <Link href={`/careers/${j.slug}`}>{j.title}</Link>
                   </h3>
                   {j.summary && <p className="ro-sum">{j.summary}</p>}
+                  {j.training && (
+                    <Link href="/industrial-training/6-month" className="itg-tag" title="Industry training is available in this role: see the fees">
+                      Industry training available
+                    </Link>
+                  )}
                   <ul className="ro-facts">
                     {[j.workType, j.workMode, j.location, j.experience].filter(Boolean).map((f) => (
                       <li key={f}>{f}</li>

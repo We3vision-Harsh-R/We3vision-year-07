@@ -57,7 +57,10 @@ export function CareerDestination({ chip, heading, text, station, address, butto
                   {jobs.map((j) => (
                     <li key={j.id} className="cj-role">
                       <Link href={`/careers/${j.slug}`} className="cj-role-main">
-                        <span className="cj-role-t">{j.title}</span>
+                        <span className="cj-role-t">
+                          {j.title}
+                          {j.training && <span className="itg-tag itg-tag-s">Industry training</span>}
+                        </span>
                         <span className="cj-role-m">{[j.team, j.workType, j.workMode, j.location, j.experience].filter(Boolean).join(" · ")}</span>
                       </Link>
                       <span className="cj-role-act">

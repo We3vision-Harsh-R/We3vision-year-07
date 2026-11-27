@@ -138,6 +138,8 @@ export type JobView = {
   workMode: string;
   experience: string;
   openings: number;
+  /** Industrial Training (fee-based) is available in this role: shown as a tag */
+  training: boolean;
   salary: string;
   /** yyyy-mm-dd, or empty when the job has no closing day */
   closesAt: string;

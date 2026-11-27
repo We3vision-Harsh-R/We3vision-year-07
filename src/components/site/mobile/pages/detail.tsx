@@ -184,7 +184,7 @@ export async function renderMobileJob(slug: string) {
   if (!job) notFound();
   const { questions } = await getCareerSetup();
   const app = APPS.careers;
-  const facts = [job.workType, job.workMode, job.location, job.experience, job.openings > 1 ? `${job.openings} openings` : "1 opening"].filter(Boolean);
+  const facts = [job.workType, job.workMode, job.location, job.experience, job.openings > 1 ? `${job.openings} openings` : "1 opening", job.training ? "Industry training available" : ""].filter(Boolean);
   const intro = job.description.split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean);
   const blocks: { id: string; title: string; items: string[] }[] = [
     { id: "do", title: "What you will do", items: job.responsibilities },

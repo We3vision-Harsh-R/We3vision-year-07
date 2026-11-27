@@ -19,6 +19,7 @@ export type JobRow = {
   workType: string;
   location: string;
   openings: number;
+  training: boolean;
   active: boolean;
   closesAt: string;
   applications: number;
@@ -119,6 +120,7 @@ export function CareersJobs({ rows }: { rows: JobRow[] }) {
                 <p className="mt-0.5 truncate text-sm text-zinc-500">{[r.team, r.workType, r.location, `${r.openings} opening${r.openings > 1 ? "s" : ""}`].filter(Boolean).join(" · ")}</p>
                 <p className="mt-1.5 flex flex-wrap items-center gap-2 text-xs">
                   <span className={`rounded-full px-2 py-0.5 ${isOpen(r) ? "bg-emerald-100 text-emerald-800" : "bg-zinc-100 text-zinc-600"}`}>{r.expired ? "Closed (last day passed)" : r.active ? "Open" : "Closed"}</span>
+                  {r.training && <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-emerald-800">Industry training</span>}
                   {r.closesAt && <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-zinc-600">Last day {r.closesAt}</span>}
                   <Link href={`/admin/careers?job=${r.id}`} className="rounded-full bg-brand/10 px-2 py-0.5 text-brand hover:bg-brand/20">
                     {r.applications} application{r.applications === 1 ? "" : "s"}
