@@ -83,19 +83,19 @@ const build = (s: Svc): PageSection[] => [
 export const WEBDEV_SEO = {
   title: "Web Development Company in Surat, India | We3vision",
   description:
-    "Fast, secure, SEO-friendly websites: WordPress, WooCommerce, Shopify, headless CMS and custom portals, built by We3vision and easy for you to manage.",
+    "Web development company in Surat, Gujarat, India serving clients in the USA, UK, Canada and Australia. WordPress, Shopify, custom portals. Get a quote.",
 };
 export const WEBDEV_SECTIONS = build({
   seo: WEBDEV_SEO,
   hero: {
     chip: "Web Development",
-    heading: "Professional Websites\nThat Drive Results",
-    text: "We create modern, responsive and SEO-friendly websites tailored to your business needs. Whether you are a startup, a growing brand or an established enterprise, we develop websites that are fast, secure and easy to manage.",
+    heading: "Web Development Company\nIn Surat, India",
+    text: "We3vision is a web development company in Surat, Gujarat, India. We build fast, secure, SEO-friendly websites for businesses in India, the USA, UK, Canada and Australia, from startups to enterprises, easy for you to manage.",
     primaryLabel: "Get a free quote",
     secondaryLabel: "What we build",
   },
   story:
-    "Our *web development* services help you *attract more visitors, improve the user experience and increase conversions*. From *landing pages to complex web portals* we build everything with *clean code and a focus on performance*.\n\nEvery project is custom developed to reflect your brand and your business goals (we do not use generic templates). We build with *WordPress and WooCommerce, Shopify, headless CMS front ends in React, Vue or Angular*, and custom back ends in *Node.js, Laravel or PHP*, and we can help you with *domain, hosting and SSL* as well.",
+    "Our *website development services in Surat* help you *attract more visitors, improve the user experience and increase conversions*. From *landing pages to complex web portals* we build everything with *clean code and a focus on performance*.\n\nEvery project is custom developed to reflect your brand and your business goals (we do not use generic templates). We build with *WordPress and WooCommerce, Shopify, headless CMS front ends in React, Vue or Angular*, and custom back ends in *Node.js, Laravel or PHP*, and we can help you with *domain, hosting and SSL* as well.",
   subs: {
     chip: "What we build",
     heading: "Websites For\nEvery Need",
@@ -143,10 +143,11 @@ export const WEBDEV_SECTIONS = build({
       { title: "Tailored solutions for every business", description: "We do not use generic templates. Every project is custom developed to reflect your brand's identity and your business goals." },
       { title: "Optimised for all devices & search engines", description: "Our websites are mobile-first, fully responsive and built with clean, SEO-optimized code to maximize visibility." },
       { title: "Scalable & future-ready architecture", description: "Whether you launch small or scale up, our development ensures your site can grow with your business." },
-      { title: "Transparent communication & support", description: "You always know where your project stands. We offer clear timelines, open communication and dedicated post-launch support." },
+      { title: "Transparent communication & support", description: "You always know where your project stands: clear timelines, open communication and post-launch support, also remotely for clients in the USA, UK, Canada and Australia." },
     ],
   },
   faq: [
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver web projects remotely from Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. We agree the plan, scope and timeline up front and keep communication clear through calls, chat and email." },
     { question: "Do you only work with specific industries?", answer: "No, we develop websites for all industries including education, health, real estate and more." },
     { question: "Will my website work on all devices?", answer: "Yes, we create fully responsive websites that look great on desktop, tablet and mobile." },
     { question: "Do you provide hosting and domain help?", answer: "Yes, we can help you purchase and set up a domain, hosting and SSL." },
@@ -167,9 +168,9 @@ export const WEBDEV_SECTIONS = build({
 // Mobile App Development (/mobile)
 // ---------------------------------------------------------------------------------------------------------------------
 export const MOBILE_SEO = {
-  title: "Mobile App Development Company in Surat | We3vision",
+  title: "Mobile App Development Company in Surat, India | We3vision",
   description:
-    "Custom Android, iOS and cross-platform apps in Flutter, React Native, Kotlin and Swift, from idea to Play Store and App Store launch and beyond.",
+    "Mobile app development company in Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. Android, iOS and Flutter apps. Ask for a quote.",
 };
 /** puts the app showcase (tablet + phones) right after the hero */
 const withShowcase = (list: PageSection[]): PageSection[] => {
@@ -192,13 +193,13 @@ export const MOBILE_SECTIONS = withShowcase(build({
   seo: MOBILE_SEO,
   hero: {
     chip: "Mobile App Development",
-    heading: "Custom Mobile Apps\nBuilt For Growth",
-    text: "We design and develop mobile applications that are fast, user-friendly and built to scale. Whether you need an app for Android, iOS or a hybrid solution, we create mobile experiences that help your business stand out in a competitive app market.",
+    heading: "Mobile App Company\nIn Surat, India",
+    text: "We3vision is a mobile app development company in Surat, Gujarat, India. We build fast, user-friendly Android, iOS and cross-platform apps built to scale, for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Get a free quote",
     secondaryLabel: "What we build",
   },
   story:
-    "From *food delivery apps to fitness trackers and enterprise tools*, our team builds apps tailored to your goals, your users and your industry. Expect *high performance, beautiful design and reliable functionality* across every device.\n\nWe build *native Android and iOS apps* (Kotlin and Swift) and *cross-platform apps* with *Flutter and React Native*, connect them to your back end through *APIs and databases*, and take care of the *Google Play and App Store submission* and the updates after launch.",
+    "As a *mobile app development company*, we build everything from *food delivery apps to fitness trackers and enterprise tools*, tailored to your goals, your users and your industry. Expect *high performance, beautiful design and reliable functionality* across every device.\n\nWe build *native Android and iOS apps* (Kotlin and Swift) and *cross-platform apps* with *Flutter and React Native*, connect them to your back end through *APIs and databases*, and take care of the *Google Play and App Store submission* and the updates after launch.",
   subs: {
     chip: "What we build",
     heading: "Apps For\nEvery Platform",
@@ -246,10 +247,11 @@ export const MOBILE_SECTIONS = withShowcase(build({
       { title: "Custom solutions, not templates", description: "We create fully tailored mobile apps that solve real user problems and reflect your brand identity." },
       { title: "Cross-platform & native expertise", description: "Whether you want native iOS, Android or hybrid apps, we pick the right tech for your goals and budget." },
       { title: "Performance-focused development", description: "Speed, stability and scalability are at the core of every app we develop." },
-      { title: "Ongoing support & optimization", description: "We do not stop at launch. We offer updates, new features and performance improvements as your app scales." },
+      { title: "Ongoing support & optimization", description: "We do not stop at launch. We offer updates, new features and improvements as your app scales, from Surat to clients abroad." },
     ],
   },
   faq: [
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we build mobile apps remotely from Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. We agree the plan, scope and timeline up front and share regular updates and test builds." },
     { question: "Do you build both Android and iOS apps?", answer: "Yes, we develop native and cross-platform apps for Android and iOS." },
     { question: "Can I see progress during development?", answer: "Absolutely! We share regular updates and test builds, and collect your feedback." },
     { question: "Do you help with publishing on app stores?", answer: "Yes, we assist with Play Store and App Store submissions, compliance and metadata." },
@@ -269,22 +271,22 @@ export const MOBILE_SECTIONS = withShowcase(build({
 // Metaverse Solutions (/metaverse)
 // ---------------------------------------------------------------------------------------------------------------------
 export const METAVERSE_SEO = {
-  title: "Metaverse Development Company in India | We3vision",
+  title: "Metaverse Development Company in Surat, India | We3vision",
   description:
-    "Metaverse solutions, virtual worlds, apps and events built with Unity, Unreal Engine, WebGL and WebXR around your business goals.",
+    "Metaverse development company in Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. AR, VR, XR, virtual worlds. Share your idea.",
 };
 // the earlier Metaverse page (all sections), kept for when the page is built up again
 export const METAVERSE_FULL_SECTIONS = build({
   seo: METAVERSE_SEO,
   hero: {
     chip: "Metaverse Solutions",
-    heading: "Metaverse Solutions For\nImmersive Experiences",
-    text: "We3vision provides metaverse concepts and interactive digital environments to help businesses explore virtual experiences. From metaverse applications and virtual worlds to virtual events, we build engaging experiences around your business objectives and audience needs.",
+    heading: "Metaverse Development\nCompany In Surat",
+    text: "We3vision is a metaverse development company in Surat, Gujarat, India. We build metaverse applications, virtual worlds and virtual events around your business goals and audience, for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Discuss your metaverse project",
     secondaryLabel: "What we build",
   },
   story:
-    "*Metaverse solutions* are interactive digital experiences that can include *virtual worlds, metaverse applications, virtual events and immersive environments*. We plan every project around your *business goals and your audience*, and we use *3D development, 3D modeling and interactive 3D experiences* to make them real.\n\nWe build with *Unity, Unreal Engine, WebGL, Three.js and WebXR*, and we follow a clear process from *project discovery to deployment*. Project features and implementation requirements are discussed together during the planning stage.",
+    "*Metaverse development* creates interactive digital experiences that can include *virtual worlds, metaverse applications, virtual events and immersive environments*. We plan every project around your *business goals and your audience*, and we use *3D development, 3D modeling and interactive 3D experiences* to make them real.\n\nWe build with *Unity, Unreal Engine, WebGL, Three.js and WebXR*, and we follow a clear process from *project discovery to deployment*. Project features and implementation requirements are discussed together during the planning stage.",
   subs: {
     chip: "What we build",
     heading: "The Metaverse\nTech We Build",
@@ -358,7 +360,8 @@ export const METAVERSE_FULL_SECTIONS = build({
   },
   faq: [
     { question: "What are metaverse solutions?", answer: "Metaverse solutions are interactive digital experiences that may include virtual worlds, metaverse applications, virtual events and immersive environments." },
-    { question: "What metaverse services does We3vision offer?", answer: "Our listed services include metaverse development, metaverse applications, virtual world development and virtual events and experiences." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver metaverse projects remotely from Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. We agree the scope and plan up front and keep communication clear through calls and written updates." },
+    { question: "Is We3vision a metaverse development company in Surat?", answer: "Yes, We3vision Private Limited is based in Surat, Gujarat, India and offers metaverse development. Our listed services include metaverse development, metaverse applications, virtual world development and virtual events and experiences." },
     { question: "Can We3vision develop a custom virtual world?", answer: "We3vision offers virtual world development as part of its metaverse service portfolio. Project features and implementation requirements can be discussed during the planning stage." },
     { question: "Can metaverse solutions support virtual events?", answer: "Yes. Our listed services include virtual events and experiences for businesses exploring interactive digital gatherings." },
     { question: "Can metaverse experiences include 3D environments?", answer: "Yes. Metaverse projects can be planned alongside our 3D development, 3D modeling and interactive 3D experience services." },
@@ -374,7 +377,7 @@ export const METAVERSE_FULL_SECTIONS = build({
     { title: "UI/UX\nDesign", description: "Interfaces for AR/VR, XR and metaverse environments.", href: "/ui-ux-design" },
   ],
   guide: { scene: "metaverse", chip: "Step inside", heading: "Put on the headset,\nenter the metaverse", text: "Our guide explores virtual worlds with a headset on. Click the portal to teleport to another world and move your mouse to look around.", tips: ["Welcome to the metaverse! Click the portal to teleport.","Virtual worlds, applications and events, built with Unity and Unreal.","Move your mouse: the whole world tilts with you.","Virtual showrooms, campuses and arenas are all possible."] },
-  cta: { heading: "Ready To Build Your\nVirtual Experience?", text: "Discuss your metaverse idea with We3vision and explore virtual worlds, metaverse applications and immersive digital experiences for your business.", button: "Discuss your metaverse project" },
+  cta: { heading: "Ready To Build Your\nVirtual Experience?", text: "Discuss your metaverse idea with We3vision in Surat, India: virtual worlds, applications and immersive experiences for clients in the USA, UK, Canada and Australia.", button: "Discuss your metaverse project" },
 });
 
 // The Metaverse page: the 3D office walk (the visitor puts on a headset), the floor with Rutvi and the four cabins, the glass windows,
@@ -405,21 +408,21 @@ export const METAVERSE_SECTIONS: PageSection[] = [
 // UI/UX Design (/ui-ux-design)
 // ---------------------------------------------------------------------------------------------------------------------
 export const UIUX_SEO = {
-  title: "UI/UX Design Services in Surat, India | We3vision",
+  title: "UI/UX Design Company in Surat, India | We3vision",
   description:
-    "UX research, wireframes, prototypes, UI design, design systems and usability testing for websites and apps that look great and convert.",
+    "UI/UX design company in Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. Research, prototypes, design systems. Get a quote.",
 };
 export const UIUX_SECTIONS = build({
   seo: UIUX_SEO,
   hero: {
     chip: "UI/UX Design",
-    heading: "UI/UX Design\nServices",
-    text: "At We3vision Private Limited we design user experiences that work beautifully and perform flawlessly. We blend creativity with strategy, designing websites, apps and interfaces that attract users, hold their attention and guide them naturally toward action.",
+    heading: "UI/UX Design\nCompany",
+    text: "We3vision Private Limited is a UI/UX design company in Surat, Gujarat, India. We design websites, apps and interfaces that attract users, hold their attention and guide them to action, for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Get a free quote",
     secondaryLabel: "What we design",
   },
   story:
-    "Our *UI/UX design services* help businesses create digital products that are not only *visually impressive* but also *easy to use, fast and conversion-driven*. From *wireframes to pixel-perfect prototypes*, we make sure every click, swipe and scroll feels effortless.\n\nWe work in *Figma, Adobe XD, Sketch and InVision*, we hand over *editable design files*, and because We3vision also has a full development team, your designs can be turned into *working websites and apps*.",
+    "Our *UI/UX design services in Surat* help businesses create digital products that are not only *visually impressive* but also *easy to use, fast and conversion-driven*. From *wireframes to pixel-perfect prototypes*, we make sure every click, swipe and scroll feels effortless.\n\nWe work in *Figma, Adobe XD, Sketch and InVision*, we hand over *editable design files*, and because We3vision also has a full development team, your designs can be turned into *working websites and apps*.",
   subs: {
     chip: "What we design",
     heading: "Our UI/UX\nDesign Services",
@@ -469,12 +472,13 @@ export const UIUX_SECTIONS = build({
       { title: "User-first design philosophy", description: "Everything we design starts with empathy: user needs, pain points and emotions." },
       { title: "Data-driven creativity", description: "Our designs are backed by analytics, usability testing and behavioral insights." },
       { title: "Industry-specific expertise", description: "We adapt our approach to your industry, audience segment and brand identity." },
-      { title: "Collaborative & transparent process", description: "We work as an extended part of your team, with open communication, regular feedback and design previews." },
+      { title: "Collaborative & transparent process", description: "We act as part of your team with regular feedback, remotely for clients in the USA, UK, Canada and Australia." },
       { title: "Design systems that scale", description: "Reusable UI kits and design systems keep your product consistent and make future updates faster." },
       { title: "End-to-end delivery & support", description: "We collaborate with developers, perform handoff checks and keep suggesting improvements after launch." },
     ],
   },
   faq: [
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver UI/UX design remotely from Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. We agree the plan and scope up front, share design previews and collect your feedback regularly." },
     { question: "What does UI/UX design include?", answer: "It includes user research, wireframing, prototyping, interface design and usability testing." },
     { question: "What tools do you use for UI/UX design?", answer: "We mainly use Figma, Adobe XD, Sketch and InVision for design and prototyping." },
     { question: "How long does it take to design a UI/UX project?", answer: "Typically 2–6 weeks depending on project complexity and number of screens." },
@@ -498,21 +502,21 @@ export const UIUX_SECTIONS = build({
 // CRM Development (/crm)
 // ---------------------------------------------------------------------------------------------------------------------
 export const CRM_SEO = {
-  title: "Custom CRM Development Company in India | We3vision",
+  title: "CRM Development Company in Surat, India | We3vision",
   description:
-    "Custom CRM development: sales, marketing and support CRMs with automation, dashboards and ERP, HubSpot, Salesforce or WhatsApp integrations.",
+    "CRM development company in Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. Custom sales and support CRMs. Get a quote.",
 };
 export const CRM_SECTIONS = build({
   seo: CRM_SEO,
   hero: {
     chip: "CRM Development",
-    heading: "Smart CRM Solutions\nThat Grow With You",
-    text: "We3vision Private Limited builds custom CRM systems that streamline your customer relationships, automate workflows and centralize your data, so your team can sell smarter, support better and scale faster.",
+    heading: "CRM Development\nCompany In Surat",
+    text: "We3vision Private Limited is a CRM development company in Surat, Gujarat, India. We build custom CRM systems that automate workflows and centralize your data, for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Get a free quote",
     secondaryLabel: "What we build",
   },
   story:
-    "Whether you need a *lightweight CRM for a growing startup* or a *full-scale enterprise system with API integrations*, we architect CRM platforms that align with your operations, goals and customer journey.\n\nYour CRM is built *from the ground up around your workflows, teams and business model*, with *modules, dashboards, roles and permissions*, *automation* and connections to the tools you already use: *ERP and CMS systems, HubSpot, Salesforce, email, SMS and the WhatsApp Business API*.",
+    "As a *custom CRM development company*, we build everything from a *lightweight CRM for a growing startup* to a *full-scale enterprise system with API integrations*, aligned with your operations, goals and customer journey.\n\nYour CRM is built *from the ground up around your workflows, teams and business model*, with *modules, dashboards, roles and permissions*, *automation* and connections to the tools you already use: *ERP and CMS systems, HubSpot, Salesforce, email, SMS and the WhatsApp Business API*.",
   subs: {
     chip: "What we build",
     heading: "CRM Systems For\nEvery Team",
@@ -555,7 +559,7 @@ export const CRM_SECTIONS = build({
   why: {
     heading: "A CRM That Works\nThe Way You Do",
     items: [
-      { title: "Built from the ground up", description: "We do not believe in one-size-fits-all. Your CRM is tailored exactly to your workflows, teams and business model." },
+      { title: "Built from the ground up", description: "Tailored to your workflows and business model, for teams in India, the USA, UK, Canada and Australia." },
       { title: "User-centric design", description: "We design clean, modern dashboards that reduce learning curves and increase user adoption across your organization." },
       { title: "Modular & scalable", description: "Add features, integrations and automations as you grow. Your CRM evolves with your business." },
       { title: "Automation-first approach", description: "We help you eliminate repetitive tasks, reduce human error and scale faster with smart workflows and triggers." },
@@ -563,6 +567,7 @@ export const CRM_SECTIONS = build({
     ],
   },
   faq: [
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we build custom CRMs remotely from Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. We agree the modules, integrations and plan up front and keep communication clear throughout." },
     { question: "Why not use existing CRMs like HubSpot or Salesforce?", answer: "They are great, but they can be overkill, expensive and hard to customize. We build CRMs tailored exactly to your business needs, workflows and goals." },
     { question: "Can you migrate data from our old system?", answer: "Yes, we handle data migration from spreadsheets, legacy CRMs and third-party apps with minimal downtime." },
     { question: "Can I integrate email, SMS or WhatsApp into the CRM?", answer: "Absolutely. We integrate your preferred communication tools and automate messages, follow-ups and workflows." },
@@ -582,27 +587,27 @@ export const CRM_SECTIONS = build({
 // 2D & 3D Animation (/animation)
 // ---------------------------------------------------------------------------------------------------------------------
 export const ANIMATION_SEO = {
-  title: "2D & 3D Animation Services in India | We3vision",
+  title: "2D & 3D Animation Company in Surat, India | We3vision",
   description:
-    "2D and 3D animation, CGI and product visualization for explainers, promotions and brand storytelling, tailored to your project.",
+    "2D and 3D animation company in Surat, Gujarat, India. CGI and product visualization for clients in the USA, UK, Canada and Australia. Ask for a quote.",
 };
 export const ANIMATION_SECTIONS = build({
   seo: ANIMATION_SEO,
   hero: {
     chip: "2D/3D Animation",
     heading: "Bring Your Ideas To Life\nWith 2D & 3D Animation",
-    text: "Transform concepts into engaging digital experiences through creative 2D animation, 3D animation, CGI and product visualization. We3vision helps businesses communicate ideas, showcase products and create memorable digital content aligned to their project requirements.",
+    text: "We3vision is a 2D and 3D animation company in Surat, Gujarat, India. We create 2D animation, 3D animation, CGI and product visualization for businesses in India, the USA, UK, Canada and Australia, matched to your project requirements.",
     primaryLabel: "Discuss your animation project",
     secondaryLabel: "Our animation services",
   },
   story:
-    "*Animation* is one of the clearest ways to explain a product, tell a brand story or present an idea. We create *2D animation, 3D animation, CGI and 3D visualization* in a style that fits your *audience and your goals*.\n\nOur animation and 3D capabilities connect with broader digital work too, including *AR/VR, metaverse solutions and creative design services*. Every project starts with understanding your objectives and ends with the animation delivered in the format you need.",
+    "*2D and 3D animation* is one of the clearest ways to explain a product, tell a brand story or present an idea. We create *explainer animation, 3D animation, CGI and 3D visualization* in a style that fits your *audience and your goals*.\n\nOur animation and 3D capabilities connect with broader digital work too, including *AR/VR, metaverse solutions and creative design services*. Every project starts with understanding your objectives and ends with the animation delivered in the format you need.",
   subs: {
     chip: "Tailored visual experiences",
     heading: "Our Animation\nServices",
     intro: "Three kinds of animation work, each tailored to your creative goals and project requirements.",
     cards: [
-      { title: "2D\nAnimation", description: "Engaging visual content for explainers, promotional campaigns, educational content and brand storytelling." },
+      { title: "2D\nAnimation", description: "2D animation for explainer videos, promotional campaigns, educational content and brand storytelling." },
       { title: "3D\nAnimation", description: "Bring products, concepts and digital experiences to life with 3D modeling, 3D product visualization and animation.", href: "/3d-modeling" },
       { title: "CGI & 3D\nVisualization", description: "Present concepts and products through visual content that communicates product ideas and supports promotions." },
     ],
@@ -635,14 +640,14 @@ export const ANIMATION_SECTIONS = build({
   why: {
     heading: "Why Animate\nWith We3vision",
     items: [
-      { title: "Project-focused solutions", description: "We focus on understanding your business goals and developing animation concepts that align with your project requirements." },
+      { title: "Project-focused solutions", description: "From Surat, Gujarat, India we serve clients in the USA, UK, Canada and Australia, and shape each animation around your goals." },
       { title: "Creative & 3D capabilities", description: "Our portfolio covers 3D modeling, 3D product visualization, 3D animation and interactive 3D experiences." },
       { title: "Structured development process", description: "A well-defined process organizes creative planning, production, feedback and final delivery." },
       { title: "Connected digital services", description: "Animation and 3D work can be used for broader digital experiences, including AR/VR, metaverse solutions and creative design." },
     ],
   },
   faq: [
-    { question: "What animation services does We3vision offer?", answer: "We3vision's service portfolio covers 3D animation, 3D modeling, 3D product visualization and interactive 3D experiences. The availability of specific 2D animation and CGI deliverables depends on your project requirements." },
+    { question: "Which 2D and 3D animation services do you offer?", answer: "We3vision offers 2D animation, 3D animation, CGI and 3D product visualization from Surat, India. Our service portfolio covers 3D animation, 3D modeling, 3D product visualization and interactive 3D experiences. The availability of specific 2D animation and CGI deliverables depends on your project requirements." },
     { question: "Can you create custom 3D animation for my business?", answer: "Yes, custom 3D animation requirements can be discussed as per your project objectives, creative concept, visual requirements and expected deliverables." },
     { question: "What is the difference between 2D and 3D animation?", answer: "2D animation follows two-dimensional artwork and motion, while 3D animation creates depth in the visual. The right approach depends on your content, audience and project goals." },
     { question: "Can you create 3D product visualization?", answer: "3D product visualization falls under We3vision's 3D service portfolio. The final output and level of detail depend on the product, reference materials and project requirements." },
@@ -650,6 +655,7 @@ export const ANIMATION_SECTIONS = build({
     { question: "How much do 2D and 3D animation services cost?", answer: "The cost depends on the project complexity, time, visual quality, design requirements and production scope. Contact our team to discuss your requirements and receive a project-specific quotation." },
     { question: "Can animation be used for marketing and promotional content?", answer: "Yes, animation can be used to explain products, communicate concepts, present services and create promotional visuals. The suitable format depends on your campaign goals and target audience." },
     { question: "How do I start an animation project with We3vision?", answer: "Share your project idea, animation type, reference materials, expected deliverables and timeline. Our team can review your requirements and discuss the next steps." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver animation projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front." },
   ],
   related: [
     { title: "3D\nModeling", description: "3D assets, product visuals and digital environments.", href: "/3d-modeling" },
@@ -665,16 +671,16 @@ export const ANIMATION_SECTIONS = build({
 // 3D Modeling (/3d-modeling)
 // ---------------------------------------------------------------------------------------------------------------------
 export const MODELING_SEO = {
-  title: "3D Modeling Services in India | We3vision",
+  title: "3D Modeling Services in Surat, India | We3vision",
   description:
-    "Custom 3D modeling and product visualization for brands and immersive experiences: detailed assets with PBR materials, lighting and optimization.",
+    "3D modeling services from Surat, Gujarat, India: product models, assets and 3D visualization for clients in the USA, UK, Canada and Australia. Get a quote.",
 };
 export const MODELING_SECTIONS = build({
   seo: MODELING_SEO,
   hero: {
     chip: "3D Modeling",
     heading: "Bring Your Concepts To Life\nWith Custom 3D Modeling",
-    text: "We create detailed 3D assets, product visuals and digital environments for businesses, brands and immersive experiences. Turn concepts into engaging visuals designed for your specific project requirements.",
+    text: "We3vision provides 3D modeling services from Surat, Gujarat, India for businesses in India, the USA, UK, Canada and Australia: detailed 3D product models, assets and digital environments built for your project requirements.",
     primaryLabel: "Discuss your 3D project",
     secondaryLabel: "What we model",
   },
@@ -685,7 +691,7 @@ export const MODELING_SECTIONS = build({
     heading: "Our 3D\nServices",
     intro: "From a single asset to a complete visualization project.",
     cards: [
-      { title: "3D Product\nModels", description: "Custom product models and 3D product visualization for presentations, catalogs and interactive shopping." },
+      { title: "3D Product\nModels", description: "Custom 3D product modeling and product visualization for presentations, catalogs and interactive shopping." },
       { title: "3D Assets &\nEnvironments", description: "Characters, props and digital environments for games, walkthroughs and immersive experiences." },
       { title: "Texturing &\nLighting", description: "PBR materials, realistic textures, lighting setups and look development so models look as intended." },
       { title: "Optimization\nfor Platforms", description: "High and low-poly structures and polygon optimization for interactive, AR, VR and metaverse use." },
@@ -720,7 +726,7 @@ export const MODELING_SECTIONS = build({
   why: {
     heading: "Why Choose We3vision\nFor 3D Modeling",
     items: [
-      { title: "Custom 3D solutions", description: "Our 3D modeling services are made to your project requirements, visualization references and business use." },
+      { title: "Custom 3D solutions", description: "Our 3D modeling services in Surat, India are made to your project requirements and references, for clients in the USA, UK, Canada and Australia too." },
       { title: "Design and technology integration", description: "Our 3D development can be combined with related creative and technology projects such as product visualization, animation and interactive 3D experiences." },
       { title: "Project-focused workflow", description: "A consistent approach from concept planning to asset creation, refinement and delivery." },
       { title: "Assets for different digital experiences", description: "3D models for product presentation, immersive experiences, digital environments and other approved applications." },
@@ -729,12 +735,13 @@ export const MODELING_SECTIONS = build({
   },
   faq: [
     { question: "What is 3D modeling?", answer: "3D modeling is the process of creating digital three-dimensional objects or environments. These can be used for product visualization, animation, games, immersive experiences and other digital applications." },
-    { question: "What types of 3D modeling services does We3vision offer?", answer: "We3vision's listed 3D services include 3D development, 3D product visualization, 3D modeling, 3D animation and interactive 3D experiences. The specific deliverables depend on your project requirements." },
+    { question: "Which 3D modeling services does We3vision offer?", answer: "We3vision offers 3D modeling and 3D product visualization from Surat, India. Our listed 3D services include 3D development, 3D product visualization, 3D modeling, 3D animation and interactive 3D experiences. The specific deliverables depend on your project requirements." },
     { question: "Can you create custom 3D product models?", answer: "Yes, custom 3D product modeling can be discussed based on your product references, design requirements and intended use. Product complexity, formats and deliverables are confirmed before starting the project." },
     { question: "Can 3D models be used in AR, VR or metaverse projects?", answer: "Yes. 3D models can be used as assets in AR, VR and metaverse experiences. The modeling and optimization requirements are determined by the target platform and the planned interactions." },
     { question: "What information do you need to start a 3D modeling project?", answer: "Share your project concept, reference images, product specifications, preferred visual style, intended platform and expected deliverables. Our team can then discuss the scope and requirements." },
     { question: "How long does a 3D modeling project take?", answer: "The timeline depends on the complexity of the model, level of detail, number of assets, revisions and project requirements. We3vision can provide it after reviewing your project scope." },
     { question: "Can you optimize 3D models for interactive experiences?", answer: "3D asset optimization can be considered when the project needs performance for interactive or immersive platforms. The approach depends on the target device and application." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver 3D modeling projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front." },
     { question: "How much do 3D modeling services cost?", answer: "The cost depends on the complexity of the model, design requirements, number of assets, texturing, revisions and final deliverables. Contact We3vision for a project-specific estimate." },
   ],
   related: [
@@ -751,7 +758,7 @@ export const MODELING_SECTIONS = build({
 export const GRAPHICS_SEO = {
   title: "Graphic Design Company in Surat, India | We3vision",
   description:
-    "Logo design, brand identity, social media graphics, packaging, print and illustration made in Illustrator, Photoshop and InDesign, in Surat, India.",
+    "Graphic design company in Surat, Gujarat, India: logos, brand identity and packaging for clients in the USA, UK, Canada and Australia. Get in touch.",
 };
 // Graphic design plans (owner asked for plans on 2026-11-10; the prices are a starting point and are edited in Admin > Pages > Plans & pricing)
 const GRAPHICS_PLANS = section(
@@ -816,7 +823,7 @@ export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
   hero: {
     chip: "Graphic Design",
     heading: "Graphic Design Services\nThat Make Brands Unforgettable",
-    text: "We3vision is a graphic design company in Surat, India. We create logos, brand identities, social media graphics, packaging, brochures and UI designs by hand and in Adobe Illustrator, Photoshop and InDesign, so your business looks as good as it deserves.",
+    text: "We3vision is a graphic design company in Surat, Gujarat, India. We create logo design, brand identity, social media graphics, packaging and brochures in Adobe Illustrator, Photoshop and InDesign for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Start your design project",
     secondaryLabel: "What we design",
   },
@@ -874,12 +881,12 @@ export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
       { title: "Hand-drawn thinking, professional tools", description: "We sketch ideas first and then build them with Adobe Illustrator, Photoshop and InDesign for precise, professional results." },
       { title: "One consistent brand everywhere", description: "Logo, brand guidelines, social media, packaging, print and digital interfaces share one look, so customers remember you." },
       { title: "Print-ready and screen-ready files", description: "We deliver the right formats and colour modes (CMYK for print, RGB for screen) so printers and developers can use your files without problems." },
-      { title: "A collaborative creative process", description: "We listen, show our thinking and include your feedback at every stage." },
+      { title: "A collaborative creative process", description: "We listen, show our thinking and include your feedback at every stage, with remote delivery for clients in the USA, UK, Canada and Australia." },
     ],
   },
   faq: [
     { question: "What is graphic design?", answer: "Graphic design is the art and craft of combining images, shapes, colours and typography to communicate an idea. It is used for logos, brand identities, advertisements, packaging, brochures, social media posts and the look of websites and apps." },
-    { question: "What graphic design services does We3vision offer?", answer: "We3vision offers logo design, brand identity design, social media graphics, packaging and label design, brochure and catalogue design, poster and banner design, stationery, illustration, pitch decks, photo editing and website and app UI/UX design. We shape the work around your requirements." },
+    { question: "What graphic design services do you offer in Surat?", answer: "We3vision, a graphic design company in Surat, India, offers logo design, brand identity design, social media graphics, packaging and label design, brochure and catalogue design, poster and banner design, stationery, illustration, pitch decks, photo editing and website and app UI/UX design. We shape the work around your requirements." },
     { question: "Which software do your graphic designers use?", answer: "We3vision designers work with Adobe Illustrator for logos and vector artwork, Adobe Photoshop for image editing, Adobe InDesign for print layouts, and Figma, Adobe XD and other tools for interface design." },
     { question: "How does your logo design process work?", answer: "We start with a short brief and research, sketch several ideas, refine the strongest concepts in Illustrator, show them to you with mock-ups and then polish the chosen logo. You receive a full set of logo files for print and screen." },
     { question: "What is the difference between graphic design and UI/UX design?", answer: "Graphic design creates visuals such as logos, posters, packaging and social media graphics. UI/UX design plans and designs how a website or app works and feels for its users. We offer both, so your visuals and your digital products look like one brand." },
@@ -887,6 +894,7 @@ export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
     { question: "Can you redesign my existing logo or website?", answer: "Yes. We3vision offers logo redesign, brand refresh, website redesign and mobile app redesign to update your look with modern visuals and better user experience." },
     { question: "How long does a graphic design project take?", answer: "It depends on the project. On average it takes 1–2 weeks to design a website or mobile application UI/UX, and a logo or a brochure usually needs less time than a complete brand identity or design system. We give you a clear timeline before we start." },
     { question: "Do you offer affordable graphic design services?", answer: "We3vision offers competitive graphic design packages depending on your project scope, business goals and design requirements. Contact us to discuss your project and get a customised quote." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver graphic design projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front." },
     { question: "How can I get started?", answer: "Contact We3vision to discuss your project. We will understand your needs and share a proposal and a timeline." },
   ],
   related: [
@@ -902,21 +910,21 @@ export const GRAPHICS_SECTIONS = withPlans(GRAPHICS_PLANS, build({
 // SEO Optimization (/seo)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SEO_SEO = {
-  title: "SEO & AEO Services | Search Visibility | We3vision",
+  title: "SEO Company in Surat, India | We3vision",
   description:
-    "Improve website discoverability with technical SEO, keyword research, content optimization and AI search readiness strategies from We3vision.",
+    "SEO company in Surat, Gujarat, India: technical SEO, local SEO and AI search readiness for clients in the USA, UK, Canada and Australia. Talk to us.",
 };
 export const SEO_SECTIONS = build({
   seo: SEO_SEO,
   hero: {
     chip: "SEO & AEO",
     heading: "Be Found Where\nYour Customers Search.",
-    text: "Struggling to appear on search engines? Our SEO services are designed to put your website in front of the right audience without paid ads. From keyword research to content optimization and technical audits, we make sure your site ranks higher, loads faster and attracts more traffic that converts.",
+    text: "We3vision is an SEO company in Surat, Gujarat, India. Our SEO services help your website get found on Google without paid ads, for businesses in India, the USA, UK, Canada and Australia: keyword research, content optimization, local SEO and technical audits, with clear reporting.",
     primaryLabel: "Get a free quote",
     secondaryLabel: "What we do",
   },
   story:
-    "Whether you are a *local business, a startup or a global brand*, we create *custom SEO strategies* that drive *long-term growth and visibility* on Google and beyond.\n\nWe balance *high-quality content and a technically sound website* for a complete SEO solution, we follow *white hat practices only*, and we keep you informed with *clear, regular reports* from Google Analytics and Search Console.",
+    "Whether you are a *local business, a startup or a global brand*, our *SEO company in Surat* creates *custom SEO strategies* for *long-term growth and visibility* on Google and beyond.\n\nWe balance *high-quality content and a technically sound website* for a complete SEO solution, we follow *white hat practices only*, and we keep you informed with *clear, regular reports* from Google Analytics and Search Console.",
   subs: {
     chip: "What we do",
     heading: "Our SEO\nServices",
@@ -959,7 +967,7 @@ export const SEO_SECTIONS = build({
   why: {
     heading: "SEO You Can\nTrust",
     items: [
-      { title: "Proven SEO track record", description: "We have helped startups and established brands climb the rankings and increase leads organically." },
+      { title: "Experience since 2019", description: "From Surat, India we plan SEO for clients in India, the USA, UK, Canada and Australia, and keep the work clear." },
       { title: "Custom SEO strategies", description: "No copy-paste plans. We build your strategy around your industry, audience and goals." },
       { title: "White hat SEO only", description: "We follow Google's best practices: no shady tactics, no penalties, just clean, long-term results." },
       { title: "Content + technical balance", description: "We focus on both high-quality content and a technically sound website for a complete SEO solution." },
@@ -973,6 +981,8 @@ export const SEO_SECTIONS = build({
     { question: "Do you provide technical SEO and content SEO?", answer: "Yes. Technical SEO, on-page work, keyword research, content strategy and optimization, local SEO and AEO are all part of our scope, depending on what your site needs." },
     { question: "Can you help improve AI search visibility?", answer: "We can help you make your information clearer, more consistent and easier to crawl, which can make it more eligible to be used in AI-generated answers. No one can guarantee inclusion in them." },
     { question: "How is SEO progress measured?", answer: "Where tracking is set up, we look at organic clicks and impressions, query performance, indexed pages, landing-page engagement and relevant conversions, and we keep activity metrics separate from business outcomes." },
+    { question: "Do you offer local SEO in Surat?", answer: "Yes, local SEO is part of our scope: Google Business Profile, citations and location pages. We work from Surat, Gujarat, India and can focus on Surat, other Indian cities or markets abroad." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver SEO projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and reporting up front." },
     { question: "Do you guarantee search rankings?", answer: "No. Rankings depend on competition, technical condition, content quality, authority and many other factors, some of which we do not control. We commit to careful, ethical work and clear reporting, not to a ranking position." },
   ],
   related: [

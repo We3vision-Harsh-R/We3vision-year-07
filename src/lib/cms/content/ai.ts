@@ -18,16 +18,16 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>, id: strin
 });
 
 export const AI_SEO = {
-  title: "AI Development Company in India | We3vision",
+  title: "AI Development Company in Surat, India | We3vision",
   description:
-    "Custom AI development: chatbots, computer vision, predictive analytics and machine learning that automate real business work and plug into your CRM or ERP.",
+    "AI development company in Surat, Gujarat, India: chatbots, machine learning and computer vision for clients in the USA, UK, Canada, Australia. Get a quote.",
 };
 
 export const AI_SECTIONS: PageSection[] = [
   section("pageHero", {
     chip: "AI Development",
     heading: "Build Smarter Applications\nWith Custom AI",
-    text: "We help businesses unlock the power of Artificial Intelligence by creating custom AI tools and integrations: from chatbots and recommendation systems to image recognition and predictive analytics, we turn your ideas into smart, scalable solutions.",
+    text: "We3vision is an AI development company in Surat, Gujarat, India. We build custom AI solutions, chatbots, recommendation systems, computer vision and predictive analytics for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Get a free quote",
     primaryHref: "#contact",
     secondaryLabel: "See how AI works",
@@ -186,17 +186,18 @@ export const AI_SECTIONS: PageSection[] = [
     heading: "Questions\nWe Often Hear",
     intro: "",
     items: [
-      { question: "What type of AI solutions do you build?", answer: "We build chatbots, recommendation systems, AI search, computer vision, predictive models and custom machine learning tools." },
+      { question: "What AI development services do you offer?", answer: "We3vision builds custom AI solutions in Surat, India, including chatbots, recommendation systems, AI search, computer vision, predictive models and custom machine learning tools." },
       { question: "Do I need to have my own data?", answer: "If you have data, great! If not, we help gather or use open-source / public data to train your model." },
       { question: "How much time does an AI project take?", answer: "It depends. Simple bots can be done in 2–3 weeks. Complex models take 1–3 months." },
       { question: "Can your AI integrate with our current systems?", answer: "Yes! We build APIs or plugins that connect with your website, CRM, mobile app or ERP." },
+      { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver AI projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front." },
       { question: "Will I need a developer to maintain it later?", answer: "Not always. We can automate monitoring and even offer ongoing support packages." },
     ],
   }),
   section("contact", {
     chip: "Let's talk",
     heading: "Ready To Bring\nYour Idea To Life?",
-    text: "Fill out the form or contact us directly to get a free consultation. Tell us the problem you would like to automate and We3vision will suggest how AI can help.",
+    text: "Fill out the form for a free consultation with our Surat, India team, who also serve clients in the USA, UK, Canada and Australia. Tell us what you want to automate.",
     buttonLabel: "Get a free quote",
   }),
 ];

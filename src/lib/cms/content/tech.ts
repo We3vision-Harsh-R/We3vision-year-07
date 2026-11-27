@@ -95,18 +95,18 @@ export const build = (t: Tech): PageSection[] => [
 // Headless CMS (/headless-cms-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const HEADLESS_SEO = {
-  title: "Headless CMS Development Services | We3vision",
-  description: "Custom headless CMS development, migration, API integration and React or Vue front ends from We3vision, Surat, India, for websites, apps and more.",
+  title: "Headless CMS Development Company in Surat, India | We3vision",
+  description: "Headless CMS development services from We3vision in Surat, Gujarat, India, for clients in the USA, UK, Canada and Australia. Get a free quote today.",
 };
 export const HEADLESS_SECTIONS = build({
   seo: HEADLESS_SEO,
   hero: {
     chip: "Headless CMS",
     heading: "Headless CMS\nDevelopment Services",
-    text: "Manage your content in one place and deliver it to your website, mobile apps and other channels through fast APIs. We build the CMS, the API and the front end.",
+    text: "Headless CMS development from Surat, Gujarat, India for businesses in India, the USA, UK, Canada and Australia. Manage content once and deliver it to websites and apps through fast APIs.",
   },
   story:
-    "A *headless CMS* stores and manages your content separately from the way it is shown. Content travels through *REST or GraphQL APIs*, so the same text, images and videos can feed a *website, a mobile app and any other channel* without being written twice.\n\nWe work with tools like *Contentful, Strapi and Sanity*, build modern *React or Vue front ends*, and move you over from a traditional CMS such as WordPress or Drupal with as little downtime as possible.",
+    "A *headless CMS* stores and manages your content separately from the way it is shown. Content travels through *REST or GraphQL APIs*, so the same text, images and videos can feed a *website, a mobile app and any other channel* without being written twice.\n\nAs a headless CMS development company, we work with *Contentful, Strapi and Sanity*, build modern *React or Vue front ends*, and move you over from a traditional CMS such as WordPress or Drupal with as little downtime as possible.",
   services: {
     heading: "Headless CMS\nServices We Provide",
     intro: "From the first plan to the support after launch, everything you need to run content on a headless platform.",
@@ -164,32 +164,34 @@ export const HEADLESS_SECTIONS = build({
   faq: [
     { question: "What is a headless CMS and how does it work?", answer: "A headless CMS stores and manages content separately from the website or app design. It uses APIs to send content to websites, apps or other digital channels, making content flexible and reusable." },
     { question: "Can I manage my content without technical skills?", answer: "Yes. A headless CMS usually has a simple admin panel where you can create and update content without coding. Developers handle how the content is shown on different platforms." },
-    { question: "Which headless CMS platform is best for my business?", answer: "It depends on your needs. Popular options include Strapi, Contentful and Sanity. We guide you to choose the best one based on your goals and budget." },
+    { question: "Which headless CMS platform should I choose?", answer: "It depends on your needs. Popular options include Strapi, Contentful and Sanity. We guide you to choose the right one based on your goals and budget." },
     { question: "Is a headless CMS secure for my business?", answer: "Yes, when it is set up properly. We follow strong security steps like safe API access, backups and regular updates to protect your data." },
     { question: "Can I connect other tools with my headless CMS?", answer: "Yes. A headless CMS works well with payment gateways, CRMs, marketing software and analytics through API integrations." },
     { question: "How long does it take to build a headless CMS?", answer: "The time varies with the size of the project. Simple setups take about 3 to 5 weeks, while complex projects may take longer. We give you a clear timeline before starting." },
     { question: "Will my headless CMS work on mobile devices?", answer: "Yes. A headless CMS delivers content through APIs that work on all devices: phones, tablets and desktops." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We3vision works remotely from Surat, Gujarat, India with clients in the USA, UK, Canada and Australia, with clear communication and a project plan agreed up front." },
+    { question: "Is We3vision a headless CMS development company in India?", answer: "Yes. We3vision Private Limited is a headless CMS development company in Surat, Gujarat, India, founded in 2019, building the CMS, the API and the front end." },
   ],
   related: related("web", "wordpress", "plugin"),
-  cta: { heading: "Ready To Go\nHeadless?", text: "Tell us about your content and your channels, and we will suggest the right headless CMS and a plan to get there.", button: "Get a free quote" },
+  cta: { heading: "Ready To Go\nHeadless?", text: "Share your content and channels. From Surat, India we plan the right headless CMS for clients in the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Custom WordPress (/custom-wordpress-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const WORDPRESS_SEO = {
-  title: "Custom WordPress Development Services | We3vision",
-  description: "Custom WordPress websites, themes, plugins, WooCommerce stores, migration and support from We3vision, Surat, India. Per project, per hour or with a dedicated team.",
+  title: "Custom WordPress Development Services, Surat | We3vision",
+  description: "Custom WordPress development services from We3vision in Surat, Gujarat, India, for clients in the USA, UK, Canada and Australia. Get a free quote.",
 };
 export const WORDPRESS_SECTIONS = build({
   seo: WORDPRESS_SEO,
   hero: {
     chip: "WordPress",
     heading: "Custom WordPress\nDevelopment Services",
-    text: "Transform your online presence with custom WordPress websites: designed around your brand, fast, secure and easy for you to manage.",
+    text: "Custom WordPress development services from Surat, Gujarat, India for brands in India, the USA, UK, Canada and Australia: fast, secure and easy to manage.",
   },
   story:
-    "No two brands are the same, so why settle for a generic theme? We start from *your goals and your audience* and build *custom WordPress themes, plugins and stores* that fit your brand, from a simple blog to a large business platform.\n\nYou can work with us *per project, by the hour, or hire a dedicated WordPress developer or a full team*, whichever suits the way your project grows.",
+    "No two brands are the same, so we build *custom WordPress websites*, not generic themes. We start from *your goals and your audience* and build *custom WordPress themes, plugins and stores* that fit your brand, from a simple blog to a large business platform.\n\nYou can work with us *per project, by the hour, or hire a dedicated WordPress developer or a full team*, whichever suits the way your project grows.",
   services: {
     heading: "Our WordPress\nDevelopment Services",
     intro: "Everything a WordPress website needs, from the first design to the support after launch.",
@@ -251,26 +253,28 @@ export const WORDPRESS_SECTIONS = build({
     { question: "Can We3vision move my existing website to WordPress?", answer: "Yes. WordPress migration is one of our services: we move your site to WordPress safely, without losing data." },
     { question: "Does We3vision look after a WordPress website after launch?", answer: "Yes. Support and maintenance covers updates and fixes after launch, and a retainer gives you ongoing support to improve and optimise your site whenever you need." },
     { question: "How does We3vision build a WordPress website?", answer: "In four steps: we learn your goals, audience and the type of website, then design it, build the custom theme, features and integrations, and finally test, launch and support it." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We3vision works remotely from Surat, Gujarat, India with clients in the USA, UK, Canada and Australia, with clear communication and a project plan agreed up front." },
+    { question: "Is We3vision a custom WordPress development company in Surat?", answer: "Yes. We3vision Private Limited, founded in 2019, is a custom WordPress development company in Surat, Gujarat, India, working per project, by the hour or with a dedicated team." },
   ],
-  cta: { heading: "Ready For Your\nWordPress Website?", text: "Tell us what you want to build and we will get back to you with the right approach.", button: "Get a free quote" },
+  cta: { heading: "Ready For Your\nWordPress Website?", text: "Tell us what you want to build. We work from Surat, India with clients in the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Shopify (/shopify-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SHOPIFY_SEO = {
-  title: "Shopify Development Services | Custom Stores | We3vision",
-  description: "Shopify store design, theme customisation, app integration, custom apps, migration and support from We3vision, Surat, India. Fast, tailored Shopify websites.",
+  title: "Shopify Development Company in Surat, India | We3vision",
+  description: "Shopify development services from We3vision in Surat, Gujarat, India, for clients in the USA, UK, Canada and Australia. Get a free quote today.",
 };
 export const SHOPIFY_SECTIONS = build({
   seo: SHOPIFY_SEO,
   hero: {
     chip: "Shopify",
     heading: "Shopify\nDevelopment Services",
-    text: "Delayed projects and rising costs holding your store back? We design and build fast, affordable and tailored Shopify stores that fit your brand.",
+    text: "A Shopify development company in Surat, Gujarat, India. We build fast, tailored Shopify stores for brands in India, the USA, UK, Canada and Australia.",
   },
   story:
-    "We build *unique Shopify stores* that fit your brand and goals: every detail, from colours to layouts, is designed to match what your business is about.\n\nFrom *theme customisation and app integration* to *custom apps, platform migration and ongoing support*, we take care of the technical work, so you can focus on *selling and growing*.",
+    "As a Shopify development company, we build *unique Shopify stores* that fit your brand and goals: every detail, from colours to layouts, is designed to match what your business is about.\n\nFrom *theme customisation and app integration* to *custom apps, platform migration and ongoing support*, we take care of the technical work, so you can focus on *selling and growing*.",
   services: {
     heading: "Shopify\nDevelopment Services",
     intro: "Everything your Shopify store needs, from the first design to the support after launch.",
@@ -321,26 +325,28 @@ export const SHOPIFY_SECTIONS = build({
     { question: "Can We3vision move my store to Shopify from another platform?", answer: "Yes. Platform migration moves your products, customers and data to Shopify safely." },
     { question: "Does We3vision build custom Shopify apps?", answer: "Yes. We3vision builds special Shopify apps for what regular apps cannot do, and also adds payment tools, marketing helpers and analytics trackers to your store and makes them work smoothly." },
     { question: "Why work with We3vision for Shopify?", answer: "We3vision is an India-based agency that builds Shopify stores for businesses of all sizes, from startups to larger companies, at fair costs. The team works across time zones, so your project can keep moving forward." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We3vision works remotely from Surat, Gujarat, India with clients in the USA, UK, Canada and Australia, with clear communication and a project plan agreed up front." },
+    { question: "Is We3vision a Shopify development company in India?", answer: "Yes. We3vision Private Limited, founded in 2019, is a Shopify development company in Surat, Gujarat, India, offering store design, theme customisation, apps and migration." },
   ],
-  cta: { heading: "Ready To Launch\nYour Shopify Store?", text: "Partner with We3vision to turn your ideas into reality. Tell us what you want to sell and we will get back to you.", button: "Get a free quote" },
+  cta: { heading: "Ready To Launch\nYour Shopify Store?", text: "Tell us what you want to sell. We work from Surat, India with Shopify clients in the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Custom WooCommerce (/custom-woocommerce-development)
 // ---------------------------------------------------------------------------------------------------------------------
 export const WOOCOMMERCE_SEO = {
-  title: "Custom WooCommerce Development Services | We3vision",
-  description: "WooCommerce store development, theme customisation, plugins, API integration, migration, speed and SEO optimisation, and support from We3vision, Surat, India.",
+  title: "WooCommerce Development Company in Surat, India | We3vision",
+  description: "Custom WooCommerce development services from We3vision in Surat, Gujarat, India, for clients in the USA, UK, Canada and Australia. Get a free quote.",
 };
 export const WOOCOMMERCE_SECTIONS = build({
   seo: WOOCOMMERCE_SEO,
   hero: {
     chip: "WooCommerce",
     heading: "Custom WooCommerce\nDevelopment Services",
-    text: "Create an online store that shows your products and services in the best possible way: flexible, scalable, SEO-friendly and secure.",
+    text: "WooCommerce development from Surat, Gujarat, India for stores in India, the USA, UK, Canada and Australia: flexible, SEO-friendly and secure.",
   },
   story:
-    "*WooCommerce* is an open-source e-commerce platform for WordPress, which gives you *flexibility to customise your store* exactly the way you want, and a wide choice of *extensions for payments, shipping and more*.\n\nWe build, migrate, integrate and look after WooCommerce stores, and we make them *fast, secure and easy for you to manage*.",
+    "*WooCommerce* is an open-source e-commerce platform for WordPress, which gives you *flexibility to customise your store* exactly the way you want, and a wide choice of *extensions for payments, shipping and more*.\n\nAs a custom WooCommerce development company, we build, migrate, integrate and look after WooCommerce stores, and we make them *fast, secure and easy for you to manage*.",
   services: {
     heading: "Our Complete Range Of\nWooCommerce Services",
     intro: "From building a new store to keeping it fast and up to date.",
@@ -349,7 +355,7 @@ export const WOOCOMMERCE_SECTIONS = build({
       { title: "Store design\n& development", description: "Visually captivating, responsive WooCommerce stores that attract visitors and turn them into loyal customers." },
       { title: "Theme development\n& customisation", description: "Custom theme design and development so your store mirrors your brand identity." },
       { title: "Plugin\ndevelopment", description: "Custom plugins that enhance your store's functionality and automate tasks." },
-      { title: "WooCommerce\nintegration", description: "We help you select and integrate the best plugins to extend what your store can do." },
+      { title: "WooCommerce\nintegration", description: "We help you select and integrate the right plugins to extend what your store can do." },
       { title: "WooCommerce API\ndevelopment", description: "Third-party services connected and workflows automated with custom API development." },
       { title: "WooCommerce\nmigration", description: "A well-planned migration from your existing platform with smooth data transfer and platform compatibility." },
       { title: "PSD to\nWooCommerce", description: "Your design files converted into a working WooCommerce store." },
@@ -391,26 +397,28 @@ export const WOOCOMMERCE_SECTIONS = build({
     { question: "Can We3vision migrate my online store to WooCommerce?", answer: "Yes. We plan the migration from your existing platform carefully, with smooth data transfer and platform compatibility." },
     { question: "Why choose WooCommerce for an online store?", answer: "WooCommerce is open source and easy to set up. It supports many payment methods and shipping services, lets you sell products, subscriptions, memberships and appointments, and has strong SEO features and secure payment options." },
     { question: "How does We3vision build a WooCommerce store?", answer: "We start with a consultation on your business goals and requirements, then design wireframes, develop the store, test its quality and performance, launch it, and keep improving it with ongoing support and optimisation." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We3vision works remotely from Surat, Gujarat, India with clients in the USA, UK, Canada and Australia, with clear communication and a project plan agreed up front." },
+    { question: "Is We3vision a WooCommerce development company in India?", answer: "Yes. We3vision Private Limited, founded in 2019, is a custom WooCommerce development company in Surat, Gujarat, India, building and supporting online stores on WordPress." },
   ],
-  cta: { heading: "Ready To Open\nYour Online Store?", text: "Tell us about your products and your customers and we will plan your WooCommerce store with you.", button: "Get a free quote" },
+  cta: { heading: "Ready To Open\nYour Online Store?", text: "Tell us about your products and customers. From Surat, India we plan WooCommerce stores for clients in the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Shopify apps (/shopify-app-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SHOPIFYAPP_SEO = {
-  title: "Shopify App Development Services | We3vision",
-  description: "Custom Shopify apps, private and public apps for the Shopify App Store, third-party integrations, maintenance and optimisation from We3vision, Surat, India.",
+  title: "Shopify App Development Company in Surat, India | We3vision",
+  description: "Shopify app development services from We3vision in Surat, Gujarat, India, for clients in the USA, UK, Canada and Australia. Get a free quote today.",
 };
 export const SHOPIFYAPP_SECTIONS = build({
   seo: SHOPIFYAPP_SEO,
   hero: {
     chip: "Shopify Apps",
     heading: "Shopify App\nDevelopment Services",
-    text: "Stuck with limited Shopify features? Generic apps can slow your growth and frustrate customers. We build custom apps around your business.",
+    text: "Shopify app development from Surat, Gujarat, India for stores in India, the USA, UK, Canada and Australia. We build custom apps around your business.",
   },
   story:
-    "*Shopify* is a powerful and flexible platform, and the right app can add exactly the feature your store is missing. We specialise in *custom apps tailored to your business needs*: for your own store, or for the *Shopify App Store*.\n\nWe work from India with a team that keeps your project moving, fits its size to your needs and builds at *cost-effective rates*.",
+    "*Shopify* is a powerful and flexible platform, and the right app can add exactly the feature your store is missing. As a Shopify app development company, we specialise in *custom apps tailored to your business needs*: for your own store, or for the *Shopify App Store*.\n\nWe work from Surat, India with a team that keeps your project moving, fits its size to your needs and builds at *cost-effective rates*.",
   services: {
     heading: "Shopify App\nDevelopment Services",
     intro: "Apps for your own store, apps for the Shopify App Store, and everything that keeps them running.",
@@ -459,26 +467,28 @@ export const SHOPIFYAPP_SECTIONS = build({
     { question: "Can We3vision add features to my existing Shopify store or app?", answer: "Yes. Feature enhancements add new features to the apps and the store you already have." },
     { question: "Does We3vision maintain Shopify apps after launch?", answer: "Yes. Maintenance and updates give your apps continuous support so they keep running smoothly, and optimisation improves their functionality and the shopping experience." },
     { question: "Why choose We3vision for Shopify app development?", answer: "The team's time-zone advantage allows continuous development, the team size fits the job from minor tweaks to full-scale development, rates are budget-friendly, apps are tested rigorously, and confidentiality agreements protect your intellectual property." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We3vision works remotely from Surat, Gujarat, India with clients in the USA, UK, Canada and Australia, with clear communication and a project plan agreed up front." },
+    { question: "Is We3vision a Shopify app development company in India?", answer: "Yes. We3vision Private Limited, founded in 2019, is a Shopify app development company in Surat, Gujarat, India, building private and public Shopify apps." },
   ],
-  cta: { heading: "Ready To Build\nYour Shopify App?", text: "Tell us what your store needs and we will suggest how an app can do it.", button: "Get a free quote" },
+  cta: { heading: "Ready To Build\nYour Shopify App?", text: "Tell us what your store needs. From Surat, India we build apps for clients in the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // WordPress plugins (/wordpress-plugin-development-company)
 // ---------------------------------------------------------------------------------------------------------------------
 export const PLUGIN_SEO = {
-  title: "WordPress Plugin Development Company | We3vision",
-  description: "Custom WordPress plugin development, integration, upgrades and maintenance from We3vision, Surat, India. Reliable plugins built to WordPress standards.",
+  title: "WordPress Plugin Development Company, Surat | We3vision",
+  description: "WordPress plugin development services from We3vision in Surat, Gujarat, India, for clients in the USA, UK, Canada and Australia. Get a free quote.",
 };
 export const PLUGIN_SECTIONS = build({
   seo: PLUGIN_SEO,
   hero: {
     chip: "WordPress Plugins",
     heading: "WordPress Plugin\nDevelopment Services",
-    text: "Need a custom solution to elevate your WordPress website? We build plugins that extend what your site can do.",
+    text: "Custom WordPress plugin development from Surat, Gujarat, India for businesses in India, the USA, UK, Canada and Australia. Plugins that extend what your site can do.",
   },
   story:
-    "Our plugins *extend the capabilities of your WordPress site*, with features like e-commerce, SEO and integrations. Every business is unique, and so are our plugins: we build them *from the ground up around your requirements*.\n\nWe write plugins that are *free of bugs, perform well under heavy traffic and follow WordPress coding standards*, and we keep looking after them when they are live.",
+    "As a WordPress plugin development company, our plugins *extend the capabilities of your WordPress site*, with features like e-commerce, SEO and integrations. Every business is unique, and so are our plugins: we build them *from the ground up around your requirements*.\n\nWe write plugins that are *free of bugs, perform well under heavy traffic and follow WordPress coding standards*, and we keep looking after them when they are live.",
   services: {
     heading: "Our WordPress Plugin\nDevelopment Services",
     intro: "From a new plugin to the care of the ones you already use.",
@@ -520,6 +530,8 @@ export const PLUGIN_SECTIONS = build({
     { question: "Can We3vision customise or upgrade a plugin I already use?", answer: "Yes. We adapt existing plugins to the way your business works, provide plugin upgrade services, and build extensions and add-ons for the plugins you already have." },
     { question: "Does We3vision maintain plugins after delivery?", answer: "Yes. Maintenance keeps your plugins running smoothly over time, and our support continues after the plugin is delivered." },
     { question: "How does We3vision build a WordPress plugin?", answer: "In four steps: define your business, goals and requirements, design how the plugin looks and behaves, develop it with clean code that follows WordPress standards, and deliver it after rigorous testing, with hand-over and support." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We3vision works remotely from Surat, Gujarat, India with clients in the USA, UK, Canada and Australia, with clear communication and a project plan agreed up front." },
+    { question: "Is We3vision a WordPress plugin development company in India?", answer: "Yes. We3vision Private Limited, founded in 2019, is a WordPress plugin development company in Surat, Gujarat, India, building custom plugins to WordPress standards." },
   ],
-  cta: { heading: "Ready For A\nCustom Plugin?", text: "Describe the feature you are missing and we will tell you how we would build it.", button: "Get a free quote" },
+  cta: { heading: "Ready For A\nCustom Plugin?", text: "Describe the feature you are missing. From Surat, India we build plugins for clients in the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });

@@ -33,9 +33,9 @@ export const SHOWCASE = Array.from({ length: 30 }, (_, i) => ({
 }));
 
 export const BRAND_SEO = {
-  title: "Brand Identity Design Services in Surat, India | We3vision",
+  title: "Brand Identity Design Agency in Surat, India | We3vision",
   description:
-    "Brand strategy, logo design, visual identity, guidelines and collateral. We3vision builds a clear, consistent brand identity that people remember.",
+    "Brand identity design agency in Surat, Gujarat, India: logo, visual identity and guidelines for clients in the USA, UK, Canada and Australia. Get in touch.",
 };
 
 export const BRAND_SECTIONS: PageSection[] = [
@@ -45,7 +45,7 @@ export const BRAND_SECTIONS: PageSection[] = [
     words:
       "English · UK | Brand\nHindi · India | ब्रांड\nRussian · Russia | Бренд\nGreek · Greece | Μάρκα\nJapanese · Japan | ブランド\nKorean · Korea | 브랜드\nChinese · China | 品牌",
     heading: "Build a brand identity that people remember.",
-    text: "Your brand is more than a logo. We3vision helps businesses develop a clear and consistent visual identity through thoughtful brand design, visual systems and creative assets.",
+    text: "We3vision is a brand identity design agency in Surat, Gujarat, India. We build logos, visual identity and brand guidelines for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Start your brand project",
     primaryHref: "#contact",
     secondaryLabel: "Explore brand services",
@@ -111,7 +111,7 @@ export const BRAND_SECTIONS: PageSection[] = [
     heading: "A Practical Approach\nTo Building Your Brand",
     intro: "A good branding partner understands your requirements and keeps your creative materials consistent.",
     items: [
-      { title: "Business-focused design", description: "We begin with your goals and your audience, and let them guide the design direction." },
+      { title: "Business-focused design", description: "We begin with your goals and audience, and work with clients in India, the USA, UK, Canada and Australia." },
       { title: "Consistent visual identity", description: "We unify your logo, colours, typography and brand assets into one coherent visual system." },
       { title: "Design suited to your needs", description: "Your project scope can include exactly the brand elements and creative materials you require." },
       { title: "Connected creative services", description: "Brand identity connects with graphic design, website design and advertising creatives where relevant." },
@@ -216,9 +216,9 @@ export const BRAND_SECTIONS: PageSection[] = [
     intro: "",
     items: [
       {
-        question: "Does We3vision provide brand identity design services?",
+        question: "Is We3vision a brand identity design agency in Surat?",
         answer:
-          "Yes. We3vision in Surat, India provides brand identity design services. We build brand strategy, logo design, visual identity, brand guidelines and marketing collateral, so your business has one clear and consistent look across every platform.",
+          "Yes. We3vision is a brand identity design agency in Surat, Gujarat, India. We build brand strategy, logo design, visual identity, brand guidelines and marketing collateral, so your business has one clear and consistent look across every platform.",
       },
       {
         question: "What is included in a brand identity design project?",
@@ -228,6 +228,10 @@ export const BRAND_SECTIONS: PageSection[] = [
       {
         question: "Which tools does We3vision use for brand design?",
         answer: "We design with Adobe Illustrator, Photoshop, InDesign, Figma, Canva, Google Fonts and Typekit, and plan and share the work with Notion, Miro, Loom and Pitch.",
+      },
+      {
+        question: "Do you work with clients in the USA, UK, Canada and Australia?",
+        answer: "Yes, we deliver brand identity projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front.",
       },
       {
         question: "Who is brand identity design for?",

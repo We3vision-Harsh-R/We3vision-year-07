@@ -14,7 +14,8 @@ export async function pageMetadata(slug: PageSlug): Promise<Metadata> {
   return {
     title: page.title,
     description: page.description,
-    alternates: { canonical: path },
+    // one English page for every market: the same address is declared for India, USA, UK, Canada and Australia (valid hreflang)
+    alternates: { canonical: path, languages: { "en-IN": path, "en-US": path, "en-GB": path, "en-CA": path, "en-AU": path, "x-default": path } },
     openGraph: { type: "website", url: path, locale: "en_IN", siteName: site.legalName || site.name, title: page.title, description: page.description, images: [SHARE_IMAGE] },
     twitter: { card: "summary_large_image", title: page.title, description: page.description, images: [SHARE_IMAGE.url] },
   };

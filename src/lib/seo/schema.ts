@@ -48,6 +48,10 @@ export const AREA_SERVED = [
   { "@type": "City", name: "Surat" },
   { "@type": "State", name: "Gujarat" },
   { "@type": "Country", name: "India" },
+  { "@type": "Country", name: "United States" },
+  { "@type": "Country", name: "United Kingdom" },
+  { "@type": "Country", name: "Canada" },
+  { "@type": "Country", name: "Australia" },
   "Worldwide",
 ];
 export const logoUrl = (base: string) => `${base}/brand/logo-stacked.png`;
@@ -66,7 +70,7 @@ const isPhone = (l: string) => /^\+?\d[\d\s().-]{6,}$/.test(l);
 
 /** The company in one sentence (facts of the About and Home pages). */
 export const COMPANY_DESCRIPTION =
-  "We3vision Private Limited is a software and digital company in Surat, India, founded in 2019. It builds websites, mobile apps, AI solutions, AR/VR and metaverse experiences, games, UI/UX design, brand design, CRM and custom software for businesses in India and worldwide.";
+  "We3vision Private Limited is a software and digital company in Surat, India, founded in 2019. It builds websites, mobile apps, AI solutions, AR/VR and metaverse experiences, UI/UX design, brand design, CRM and custom software for businesses in India and worldwide.";
 
 /** Every service of the menu, grouped like the menu, as the company's catalogue. Each item points at the same Service @id as its own page
  *  (serviceNode), so search engines and AI assistants see one company connected to each of its service pages. */

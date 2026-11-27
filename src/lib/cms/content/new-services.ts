@@ -9,18 +9,18 @@ import { build, related } from "./tech";
 // Shopify Plugin Development (/shopify-plugin-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SHOPIFYPLUGIN_SEO = {
-  title: "Shopify Plugin Development Services | We3vision",
-  description: "Custom Shopify plugins: theme extensions, sections, widgets, checkout add-ons and integrations by We3vision, a Shopify company in Surat, India.",
+  title: "Shopify Plugin Development Company in Surat | We3vision",
+  description: "Shopify plugin development company in Surat, Gujarat, India. Custom plugins for stores in the USA, UK, Canada and Australia. Get a free quote.",
 };
 export const SHOPIFYPLUGIN_SECTIONS = build({
   seo: SHOPIFYPLUGIN_SEO,
   hero: {
     chip: "Shopify Plugins",
-    heading: "Shopify Plugin\nDevelopment Services",
-    text: "Need one more feature in your Shopify store? We build custom plugins and add-ons that plug into your theme and checkout, so your store does exactly what your business needs.",
+    heading: "Shopify Plugin\nDevelopment Company",
+    text: "Need one more feature in your Shopify store? We build custom Shopify plugins for your theme and checkout, from Surat, Gujarat, India, for stores in India, the USA, UK, Canada and Australia.",
   },
   story:
-    "A Shopify store becomes powerful when it has the *right small features*: a size guide, a product bundle, a delivery date picker, a custom discount, a pop-up that really fits your brand. Ready-made apps often give you *ten features when you need one*, and slow the store down.\n\nAs a *Shopify development company in Surat, India*, we build *light, custom Shopify plugins* with theme app extensions, Liquid, JavaScript and Shopify's own APIs. They load fast, match your design and are easy for your team to switch on and off.",
+    "A Shopify store becomes powerful when it has the *right small features*: a size guide, a product bundle, a delivery date picker, a custom discount, a pop-up that really fits your brand. Ready-made apps often give you *ten features when you need one*, and slow the store down.\n\nAs a *Shopify plugin development company in Surat, India*, we build *light, custom Shopify plugins* with theme app extensions, Liquid, JavaScript and Shopify's own APIs. They load fast, match your design and are easy for your team to switch on and off.",
   services: {
     heading: "Our Shopify Plugin\nDevelopment Services",
     intro: "Small or large, every plugin is built for your theme, your products and your way of selling.",
@@ -55,7 +55,7 @@ export const SHOPIFYPLUGIN_SECTIONS = build({
       { title: "Easy for your team", description: "Settings live in the theme editor, so your team can change text, colours and placement without a developer." },
       { title: "You own the code", description: "A custom plugin is yours. There is no monthly app fee for a feature you only need once." },
       { title: "Safe updates", description: "We build with current Shopify standards, so your plugin keeps working as Shopify improves." },
-      { title: "One team for everything", description: "Design, development, testing and support from the same team, so nothing is lost between people." },
+      { title: "One team for everything", description: "One Surat-based team for design, build, testing and support, working remotely with stores in the USA, UK, Canada and Australia." },
     ],
   },
   industries: {
@@ -72,6 +72,7 @@ export const SHOPIFYPLUGIN_SECTIONS = build({
   },
   faq: [
     { question: "What is the difference between a Shopify plugin and a Shopify app?", answer: "People often use both words for the same thing. A plugin usually means a small add-on feature for your store, such as a theme extension or section. A Shopify app can be larger, has its own admin screens and can serve many stores. We help you pick the lighter option that does the job." },
+    { question: "Do you work with Shopify stores in the USA, UK, Canada and Australia?", answer: "Yes. We deliver remotely from Surat, India, with clear communication and a project plan agreed up front, so the work is easy to follow wherever your store is based." },
     { question: "Can you build a plugin for my existing theme?", answer: "Yes. We build plugins for most themes, including Online Store 2.0 themes, and test them on a duplicate of your theme first." },
     { question: "Will a custom plugin slow down my store?", answer: "A custom plugin carries only the code it needs, so it is usually lighter than a ready-made app. We also check the speed of your store before and after." },
     { question: "Can my team manage the plugin without a developer?", answer: "Yes. We add settings to the theme editor so that your team can change text, colours and where the plugin appears." },
@@ -86,18 +87,18 @@ export const SHOPIFYPLUGIN_SECTIONS = build({
 // Custom Software Development (/software-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const SOFTWARE_SEO = {
-  title: "Custom Software Development in Surat, India | We3vision",
-  description: "Custom software in Surat, India: business portals, dashboards, ERP and CRM systems, SaaS, automation and API integrations built around your team.",
+  title: "Custom Software Development Company in Surat | We3vision",
+  description: "Custom software development company in Surat, Gujarat, India. ERP, CRM, portals and SaaS for clients in the USA, UK, Canada and Australia. Get a quote.",
 };
 export const SOFTWARE_SECTIONS = build({
   seo: SOFTWARE_SEO,
   hero: {
     chip: "Software Development",
     heading: "Custom Software\nDevelopment Company",
-    text: "Spreadsheets, scattered tools and manual work slow a business down. We build custom software around the way your team really works: simple to use, secure and ready to grow.",
+    text: "Spreadsheets and manual work slow a business down. We build custom software around how your team really works, from Surat, Gujarat, India, for clients in India, the USA, UK, Canada and Australia.",
   },
   story:
-    "Off-the-shelf software forces you to change your process to fit the tool. *Custom software does the opposite*: it fits your process, connects your tools and removes repeated manual work.\n\nWe are a *custom software development company in Surat, India*. We plan with you, design clear screens, build *web-based business software* and keep supporting it after launch, for startups, growing companies and established businesses.",
+    "Off-the-shelf software forces you to change your process to fit the tool. *Custom software development does the opposite*: it fits your process, connects your tools and removes repeated manual work.\n\nWe are a *custom software development company in Surat, Gujarat, India*. We plan with you, design clear screens, build *web-based business software* and support it after launch, for startups and growing businesses in India, the USA, UK, Canada and Australia.",
   services: {
     heading: "Our Software\nDevelopment Services",
     intro: "From a small internal tool to a full product, we cover the whole journey.",
@@ -151,7 +152,8 @@ export const SOFTWARE_SECTIONS = build({
     ],
   },
   faq: [
-    { question: "What is custom software development?", answer: "It is software designed and built for one business, around its own process, instead of using a ready-made product that every company shares." },
+    { question: "What is custom software development?", answer: "Custom software development means designing and building software for one business, around its own process, instead of using a ready-made product that every company shares." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We deliver remotely from Surat, India, with clear communication, regular demos and a project plan agreed up front." },
     { question: "Why choose custom software instead of ready-made software?", answer: "Custom software fits your process exactly, connects with your other tools, and you pay for the features you really need. You also own and control it." },
     { question: "How long does it take to build custom software?", answer: "A simple tool can take a few weeks, while a bigger system takes a few months. After discovery we give you a plan with stages and a timeline." },
     { question: "Can you improve or replace our old software?", answer: "Yes. We can upgrade, rebuild or replace old software and move your data safely to the new system." },
@@ -160,25 +162,25 @@ export const SOFTWARE_SECTIONS = build({
     { question: "Is my data safe?", answer: "We use secure logins, roles and permissions, encrypted connections and regular backups, and we agree on confidentiality before we start." },
   ],
   related: related("mobile", "ai", "web"),
-  cta: { heading: "Ready To Build\nYour Software?", text: "Tell us how your team works today and where it slows down. We will suggest what to build and how to start.", button: "Get a free quote" },
+  cta: { heading: "Ready To Build\nYour Software?", text: "Tell us where your team slows down. We work remotely with clients in India, the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Brand Development (/brand-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const BRANDDEV_SEO = {
-  title: "Brand Development Services in Surat, India | We3vision",
-  description: "Complete brand development: strategy, naming, logo and identity, packaging, brand guidelines and launch for startups and companies in Surat, India.",
+  title: "Brand Development Agency in Surat, India | We3vision",
+  description: "Brand development agency in Surat, Gujarat, India: strategy, naming, logo and launch for clients in the USA, UK, Canada and Australia. Get a quote.",
 };
 export const BRANDDEV_SECTIONS = build({
   seo: BRANDDEV_SEO,
   hero: {
     chip: "Brand Development",
     heading: "Brand Development\nServices",
-    text: "Brand development is much more than a logo. We3vision builds the whole brand for a new business: strategy, name, identity, design, communication, guidelines and launch.",
+    text: "Brand development is much more than a logo. We3vision, a brand development agency in Surat, India, builds the whole brand: strategy, name, identity, design, guidelines and launch.",
   },
   story:
-    "*Brand development is not only logo design.* It is a complete service that helps a business establish itself in the market as a *new brand*: *brand strategy, brand identity, design, communication and brand guidelines*, everything from the first research to the day of the launch.\n\nIt is made for any company that wants to build a *website, a mobile app or a software product* and *launch it as a brand*. As a *brand development agency in Surat, India*, We3vision follows one clear process and delivers every part of it: *research and positioning, naming and tagline, logo and visual identity, stationery and marketing material, digital and social media branding, packaging, brand guidelines and a brand launch plan*.",
+    "*Brand development is not only logo design.* It is a complete service that helps a business establish itself in the market as a *new brand*: *brand strategy, brand identity, design, communication and brand guidelines*, everything from the first research to the day of the launch.\n\nIt is made for any company that wants to build a *website, a mobile app or a software product* and *launch it as a brand*. As a *brand development agency in Surat, Gujarat, India*, We3vision follows one clear process and delivers every part of it: *research and positioning, naming and tagline, logo and visual identity, stationery and marketing material, digital and social media branding, packaging, brand guidelines and a brand launch plan*.",
   services: {
     heading: "Our Brand Development\nService Lines",
     intro: "Seven service lines that together make a complete brand, from research to rebranding.",
@@ -233,6 +235,7 @@ export const BRANDDEV_SECTIONS = build({
   faq: [
     { question: "What is brand development?", answer: "Brand development is the complete process of building a brand: research, positioning, name and story, logo and visual identity, communication, brand guidelines and the launch. It is much more than logo design." },
     { question: "What is the difference between brand development and logo design?", answer: "A logo is one part of a brand. Brand development covers the strategy behind the logo, the name, the voice, the visual identity system, the stationery, the digital and packaging design, the brand book and the launch." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We deliver remotely from Surat, India, with clear communication, regular reviews and a project plan agreed up front." },
     { question: "Who needs brand development services?", answer: "Any new business, startup or company that wants to launch a website, a mobile app or a software product as a brand, and any existing business that needs a brand refresh or rebranding." },
     { question: "What does We3vision deliver in a brand development project?", answer: "Depending on the package: brand research and strategy, name and tagline, logo and logo variations, typography and colours, stationery, social media templates, brand guidelines, packaging, website or app branding and a launch kit. Deliverables and revisions are written in the project scope and contract." },
     { question: "Can you do only a part of the brand?", answer: "Yes. We offer a starter, a complete and a premium brand package, and individual services such as brand strategy, logo design, brand kit design, packaging or a brand launch." },
@@ -241,25 +244,25 @@ export const BRANDDEV_SECTIONS = build({
     { question: "Do you offer social media management?", answer: "Our brand development includes social media branding: templates, profile design and guidelines. Daily posting, content calendars and community management are offered as a separate service." },
   ],
   related: related("brandkit", "brand", "zero"),
-  cta: { heading: "Ready To Launch\nYour Brand?", text: "Tell us about your business, your product and your plan. We will suggest the right brand package and how to start.", button: "Get a free quote" },
+  cta: { heading: "Ready To Launch\nYour Brand?", text: "Tell us about your business and plan. We work from Surat, India with clients in the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Brand Kit Design (/brand-kit-design)
 // ---------------------------------------------------------------------------------------------------------------------
 export const BRANDKIT_SEO = {
-  title: "Brand Kit Design Services in Surat, India | We3vision",
-  description: "Brand kit design in Surat, India: logo suite, colour palette, typography, social media and stationery templates and guidelines in one ready-to-use kit.",
+  title: "Brand Kit Design Company in Surat, India | We3vision",
+  description: "Brand kit design company in Surat, Gujarat, India: logo suite, templates and guidelines for clients in the USA, UK, Canada and Australia. Get a quote.",
 };
 export const BRANDKIT_SECTIONS = build({
   seo: BRANDKIT_SEO,
   hero: {
     chip: "Brand Kit",
     heading: "Brand Kit\nDesign Services",
-    text: "Your logo, colours, fonts and templates in one kit. Anyone in your team, or any printer or designer you work with, can use it and your brand will look the same everywhere.",
+    text: "Your logo, colours, fonts and templates in one brand kit, designed from Surat, Gujarat, India for businesses in India, the USA, UK, Canada and Australia. Your brand looks the same everywhere.",
   },
   story:
-    "A business without a brand kit looks different on every post, brochure and signboard. A *brand kit puts everything in one place*: your logo versions, colour palette, fonts, icon style, photo style and ready-made templates.\n\nWe are a *brand kit design company in Surat, India*. We design the kit, test it on real examples such as a post, a visiting card and a signboard, and hand it over with simple *brand guidelines* so that your brand stays consistent as you grow.",
+    "A business without a brand kit looks different on every post, brochure and signboard. A *brand kit puts everything in one place*: your logo versions, colour palette, fonts, icon style, photo style and ready-made templates.\n\nWe are a *brand kit design company in Surat, Gujarat, India*. We design the kit, test it on real examples such as a post, a visiting card and a signboard, and hand it over with simple *brand guidelines* so that your brand stays consistent as you grow.",
   services: {
     heading: "What Is Inside\nYour Brand Kit",
     intro: "Every kit is made for your brand, but most contain the following.",
@@ -299,31 +302,32 @@ export const BRANDKIT_SECTIONS = build({
   faq: [
     { question: "What is a brand kit?", answer: "A brand kit, also called a brand identity kit, is a set of files that contains your logo versions, colours, fonts, graphic style and templates, plus guidelines on how to use them." },
     { question: "What is included in a brand kit?", answer: "Usually a logo suite, colour palette, typography, icons and graphic elements, photo style, social media templates, stationery templates and brand guidelines. We shape the kit around what your business needs." },
+    { question: "Do you design brand kits for clients in the USA, UK, Canada and Australia?", answer: "Yes. We work remotely from Surat, India, with clear communication, feedback at every stage and a project plan agreed up front." },
     { question: "Can you make a kit if I already have a logo?", answer: "Yes. We can build the rest of the kit around your existing logo, and improve the logo files if they need cleaning up." },
     { question: "What file formats do I get?", answer: "You receive files for print and screen, such as vector files, PNG and PDF, along with editable templates." },
     { question: "How long does it take?", answer: "A brand kit usually takes a few weeks, depending on how much is included. We agree on the stages and dates at the start." },
     { question: "I need a complete brand, not only a kit. Can you help?", answer: "Yes. Our brand development and end-to-end brand development services cover strategy, design, printing and launch." },
   ],
   related: related("branddev", "brand", "graphics"),
-  cta: { heading: "Ready For A Brand\nThat Looks The Same Everywhere?", text: "Send us your logo or your idea. We will tell you what your brand kit needs.", button: "Get a free quote" },
+  cta: { heading: "Ready For A Brand\nThat Looks The Same Everywhere?", text: "Send us your logo or idea. We work with clients in India, the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Brand Video Production (/brand-video-production)
 // ---------------------------------------------------------------------------------------------------------------------
 export const BRANDVIDEO_SEO = {
-  title: "Brand Video Production in Surat, India | We3vision",
-  description: "Brand video production from planning to editing: brand films, product videos, reels and influencer-based video shoots. Video production company in Surat, India.",
+  title: "Brand Video Production Company in Surat | We3vision",
+  description: "Brand video production company in Surat, Gujarat, India: brand films, videos and reels for clients in the USA, UK, Canada and Australia. Get a quote.",
 };
 export const BRANDVIDEO_SECTIONS = build({
   seo: BRANDVIDEO_SEO,
   hero: {
     chip: "Brand Video",
     heading: "Brand Video\nProduction",
-    text: "From the first idea to the final edit. We plan, shoot and edit your brand videos, including influencer-based shoots, and hand you finished videos that are ready to post.",
+    text: "From idea to final edit, we plan, shoot and edit your brand videos from Surat, Gujarat, India for businesses in India, the USA, UK, Canada and Australia, including influencer-based shoots.",
   },
   story:
-    "Video is the fastest way for people to understand and *trust a brand*. But a good video is more than a camera: it needs a *clear idea, a script, the right people, careful shooting and sharp editing*.\n\nAs a *video production company in Surat, India*, we handle the whole job. You tell us about your brand and your goal; we take care of *planning, shooting and editing*, and we also arrange *influencer-based videos* when your brand needs a human face and a wider reach.",
+    "Video is the fastest way for people to understand and *trust a brand*. But a good video is more than a camera: it needs a *clear idea, a script, the right people, careful shooting and sharp editing*.\n\nAs a *brand video production company in Surat, Gujarat, India*, we handle the whole job. You tell us about your brand and your goal; we take care of *planning, shooting and editing*, and we also arrange *influencer-based videos* when your brand needs a human face and a wider reach.",
   services: {
     heading: "Our Brand Video\nServices",
     intro: "One team for the whole video, from idea to final cut.",
@@ -376,6 +380,7 @@ export const BRANDVIDEO_SECTIONS = build({
   },
   faq: [
     { question: "What is included in brand video production?", answer: "Planning, scripting, shooting, editing and delivery. We handle the whole process so you receive finished videos that are ready to publish." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We plan, script and edit remotely from Surat, India, with clear communication and a project plan agreed up front. Where a shoot is needed, we agree the location and how it will be handled in the plan." },
     { question: "Do you work with influencers?", answer: "Yes. We arrange and brief suitable influencers, plan the shoot together and edit the final content so it fits your brand." },
     { question: "Can you shoot and edit in one package?", answer: "Yes. Planning, shooting and editing are all handled by our team." },
     { question: "How long does a brand video take?", answer: "It depends on the length and the shoot. A short reel can be ready in days, and a brand film takes a few weeks. We share a schedule before we begin." },
@@ -384,22 +389,22 @@ export const BRANDVIDEO_SECTIONS = build({
     { question: "Where do you shoot?", answer: "We shoot at your location, in a studio or at a chosen outdoor location, depending on the video. We are based in Surat, India and can plan shoots in other cities." },
   ],
   related: related("brand", "animation", "meta"),
-  cta: { heading: "Ready To Put\nYour Brand On Video?", text: "Tell us about your brand and the video you imagine. We will plan it, shoot it and edit it for you.", button: "Get a free quote" },
+  cta: { heading: "Ready To Put\nYour Brand On Video?", text: "Tell us about your brand and the video you imagine. We work with clients in India, the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // End-to-End Brand Development, was "0 to N" (/zero-to-n-brand-development, the route stays)
 // ---------------------------------------------------------------------------------------------------------------------
 export const ZERO_SEO = {
-  title: "End-to-End Brand Development Services | We3vision",
-  description: "Build your brand from the ground up: strategy, naming, logo, visual identity, packaging, digital branding, brand videos and launch support.",
+  title: "End-to-End Brand Development in Surat | We3vision",
+  description: "End-to-end brand development in Surat, Gujarat, India: strategy, logo, packaging and launch for clients in the USA, UK, Canada and Australia. Get a quote.",
 };
 export const ZERO_SECTIONS = build({
   seo: ZERO_SEO,
   hero: {
     chip: "End-to-End Brand Development",
     heading: "From Zero to a\nBrand That Leads.",
-    text: "We build brands from the ground up: from research, strategy and naming to visual identity, digital experiences, packaging, brand films and launch-ready brand systems. Everything your business needs to create a consistent, recognizable and future-ready brand, under one roof.",
+    text: "We are an end-to-end brand development company in Surat, Gujarat, India. We build brands from the ground up for clients in India, the USA, UK, Canada and Australia: strategy, naming, identity, packaging, brand films and launch, under one roof.",
   },
   story:
     "Starting a brand usually means finding a strategist, a designer, a printer, a photographer, a website developer and a marketer, and then trying to make them work together. *End-to-end brand development* is our answer: *one team that builds your whole brand from the starting phase to the end*.\n\nYou bring the idea, the product or the service. We take care of *planning, design, printing and execution*. We have built brands for *many different industries*, so whatever you sell, we know how to make it look and feel like a real brand.",
@@ -457,6 +462,7 @@ export const ZERO_SECTIONS = build({
   },
   faq: [
     { question: "What is included in end-to-end brand development?", answer: "It can include research, strategy, naming, logo design, visual identity, brand assets, guidelines and launch materials, depending on the agreed scope." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We deliver remotely from Surat, India, with clear communication and a project plan and scope agreed up front. Printing and production abroad depend on the agreed scope." },
     { question: "Can I choose only one branding service?", answer: "Yes. Individual services such as Brand Design, Brand Kit Design and Brand Video can also be commissioned separately." },
     { question: "Can you rebrand an existing business?", answer: "Yes. We can assess your current identity and develop a refreshed brand strategy, visual system and rollout plan." },
     { question: "Do you provide website and packaging design?", answer: "Yes. Website, app and packaging design can be included according to your business needs and project scope." },
@@ -464,25 +470,25 @@ export const ZERO_SECTIONS = build({
     { question: "How much does brand development cost?", answer: "Pricing depends on the scope, number of deliverables, complexity and timeline. Contact our team for a tailored proposal." },
   ],
   related: related("branddev", "brandkit", "brandvideo"),
-  cta: { heading: "Start Your\nBrand Journey", text: "Tell us about your business, your goals and the brand you want to create.", button: "Let's Build Your Brand" },
+  cta: { heading: "Start Your\nBrand Journey", text: "Tell us your goals. We work with clients in India, the USA, UK, Canada and Australia.", button: "Let's Build Your Brand" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Meta Marketing (/meta-marketing-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const META_SEO = {
-  title: "Meta Ads & Marketing Services | We3vision",
-  description: "Plan and optimize Facebook and Instagram advertising with campaign strategy, creative production, audience testing and performance measurement.",
+  title: "Meta Marketing Agency in Surat, India | We3vision",
+  description: "Meta marketing agency in Surat, Gujarat, India: Facebook and Instagram ads and creative for clients in the USA, UK, Canada and Australia. Get a quote.",
 };
 export const META_SECTIONS = build({
   seo: META_SEO,
   hero: {
     chip: "Meta Marketing",
     heading: "Meta Marketing\nServices",
-    text: "Reach the people who are looking for you on Facebook and Instagram. We plan, design and run your Meta campaigns and report what they bring in plain words.",
+    text: "Reach people who are looking for you on Facebook and Instagram. We are a Meta marketing agency in Surat, India: we plan, design and run your Meta ads and report in plain words.",
   },
   story:
-    "Facebook and Instagram are where *many of your customers spend their time*. Good Meta marketing is not just boosting a post: it is a *clear goal, the right audience, strong creative and careful testing*.\n\nAs a *Meta marketing agency in Surat, India*, we handle the whole job: strategy, *ad creative, copy, campaign set-up, optimisation and reporting*. Your brand, ads and videos come from the same team, so everything looks and sounds consistent.",
+    "Facebook and Instagram are where *many of your customers spend their time*. Good Meta marketing is not just boosting a post: it is a *clear goal, the right audience, strong creative and careful testing*.\n\nAs a *Meta marketing agency in Surat, Gujarat, India*, we handle the whole job for businesses in India, the USA, UK, Canada and Australia: strategy, *ad creative, copy, campaign set-up, optimisation and reporting*. Your brand, ads and videos come from the same team, so everything looks and sounds consistent.",
   services: {
     heading: "Our Meta Marketing\nServices",
     intro: "Everything that is needed to turn Facebook and Instagram into a steady source of customers.",
@@ -533,7 +539,8 @@ export const META_SECTIONS = build({
     ],
   },
   faq: [
-    { question: "What is Meta marketing?", answer: "It is advertising and promotion on Meta platforms such as Facebook and Instagram: planning the campaign, creating the ads, choosing audiences, running the campaign and measuring what it delivers." },
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We run campaigns remotely from Surat, India, with clear communication, plain reports and a plan agreed up front. We do not guarantee leads or sales." },
+    { question: "What is Meta marketing?", answer: "Meta marketing is advertising and promotion on Meta platforms such as Facebook and Instagram: planning the campaign, creating the ads, choosing audiences, running the campaign and measuring what it delivers." },
     { question: "Do you manage Facebook and Instagram ads?", answer: "Yes. We set up, run, monitor and optimize campaigns, and report on them clearly." },
     { question: "Do you create ad creatives?", answer: "Yes. Static images, carousels, short videos, reels-style content and motion graphics, with variations for testing." },
     { question: "Can you help generate leads?", answer: "Yes. We can plan lead campaigns with instant forms or landing pages and help connect them to your team or CRM. We cannot promise a number of leads." },
@@ -543,25 +550,25 @@ export const META_SECTIONS = build({
     { question: "Can you manage existing ad accounts?", answer: "Yes. We can review an existing account and campaigns, then improve the structure, creative and tracking." },
   ],
   related: related("seo", "brandvideo", "physical"),
-  cta: { heading: "Let's Build Your\nNext Campaign.", text: "Tell us what you want to achieve, who you want to reach and what you are promoting. We'll help you plan the right campaign approach.", button: "Discuss Your Meta Campaign" },
+  cta: { heading: "Let's Build Your\nNext Campaign.", text: "Tell us your goal, audience and offer. We work with clients in India, the USA, UK, Canada and Australia and will help you plan the right campaign.", button: "Discuss Your Meta Campaign" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Physical Marketing (/physical-marketing-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const PHYSICAL_SEO = {
-  title: "Physical Marketing & Offline Campaigns | We3vision",
-  description: "Explore physical marketing, print collateral, outdoor advertising, event branding and offline-to-online campaign design with We3vision.",
+  title: "Physical Marketing Agency in Surat, India | We3vision",
+  description: "Physical marketing agency in Surat, Gujarat, India: print, signage, packaging and branding for clients in the USA, UK, Canada and Australia. Get a quote.",
 };
 export const PHYSICAL_SECTIONS = build({
   seo: PHYSICAL_SEO,
   hero: {
     chip: "Physical Marketing",
     heading: "Physical Marketing\nServices",
-    text: "Be seen in the real world as well as online. We design and deliver print, outdoor and on-ground marketing that people can see, touch and remember.",
+    text: "Be seen in the real world as well as online. A physical marketing agency in Surat, India, we design and deliver print, outdoor and on-ground marketing people remember.",
   },
   story:
-    "Not every customer is scrolling on a phone. People walk past a *signboard*, pick up a *brochure*, hold a *package* and visit a *stall*. Physical marketing builds trust in places where screens cannot.\n\nWe are a *physical marketing and branding agency in Surat, India*. We design the material in the same brand identity as your digital work, take care of *printing and production*, and help you plan how and where to put it in front of people.",
+    "Not every customer is scrolling on a phone. People walk past a *signboard*, pick up a *brochure*, hold a *package* and visit a *stall*. Physical marketing builds trust in places where screens cannot.\n\nWe are a *physical marketing agency in Surat, Gujarat, India*, designing for businesses in India, the USA, UK, Canada and Australia. We match the material to your digital brand identity, take care of *printing and production*, and help you plan how and where to put it in front of people.",
   services: {
     heading: "Our Physical\nMarketing Services",
     intro: "From a visiting card to a full exhibition stall, designed, produced and delivered.",
@@ -595,7 +602,7 @@ export const PHYSICAL_SECTIONS = build({
       { title: "One point of contact", description: "You deal with one team, not separate designers, printers and installers." },
       { title: "Quality checked", description: "We check colours, materials and finish before delivery." },
       { title: "Plan for the place", description: "We design with the real location in mind: distance, light, size and surroundings." },
-      { title: "Connected with digital", description: "Physical campaigns planned together with Meta marketing, SEO and your website." },
+      { title: "Connected with digital", description: "Physical campaigns planned together with Meta marketing, SEO and your website, for clients in India and abroad." },
     ],
   },
   industries: {
@@ -611,6 +618,7 @@ export const PHYSICAL_SECTIONS = build({
     ],
   },
   faq: [
+    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, for design and planning, which we deliver remotely from Surat, India, with clear communication and a plan agreed up front. Printing and installation abroad depend on the agreed scope and local vendors." },
     { question: "What services are included in physical marketing?", answer: "Design and planning for print, outdoor, retail, event, promotional and activation materials, so your brand shows up in the real world and connects with your digital marketing." },
     { question: "Do you design brochures, posters and catalogues?", answer: "Yes. We design them and prepare print-ready artwork, with specifications for the printer." },
     { question: "Can you help with billboard and outdoor advertising?", answer: "We can plan the format and design the artwork. Media space, permissions and installation come from media owners and production partners, which we can coordinate where it is in the scope." },

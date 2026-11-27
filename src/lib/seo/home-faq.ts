@@ -19,7 +19,7 @@ export function homeFaq(site: SiteSettings): HomeFaqItem[] {
     {
       question: "What services does We3vision Private Limited provide?",
       answer:
-        "We3vision Private Limited is a software and digital company in Surat, India, founded in 2019. It builds websites, mobile apps, AI solutions, AR/VR and metaverse experiences, games, UI/UX design, brand and graphic design, 2D and 3D animation, CRM and custom software for businesses in India and around the world.",
+        "We3vision Private Limited is a software and digital company in Surat, India, founded in 2019. It builds websites, mobile apps, AI solutions, AR/VR and metaverse experiences, UI/UX design, brand and graphic design, 2D and 3D animation, CRM and custom software for businesses in India and around the world.",
       href: "/services",
       link: "See all services",
     },
@@ -75,7 +75,7 @@ export function homeFaq(site: SiteSettings): HomeFaqItem[] {
     {
       question: "Does We3vision provide metaverse development services?",
       answer:
-        "Yes. Metaverse development is one of We3vision's core services: virtual worlds and platforms, virtual events and spaces, immersive brand experiences and metaverse games, planned around your business goals and audience.",
+        "Yes. Metaverse development is one of We3vision's core services: virtual worlds and platforms, virtual events and spaces, immersive brand experiences and metaverse experiences, planned around your business goals and audience.",
       href: "/metaverse",
       link: "Metaverse development",
     },
