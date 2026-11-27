@@ -12314,3 +12314,16 @@ a.itg-tag:hover {
     text-align: center;
   }
 }
+
+/* ---- swd-: the bottom bar stays whole while the services wheel is open (owner, 2026-11-27); the "Open" button stands above the bar */
+@media (max-width: 1023.98px) {
+  :root:root .sw-panel {
+    inset: 0 0 calc(88px + env(safe-area-inset-bottom)) 0;
+  }
+  :root:root .sw-go {
+    height: 54px;
+    margin: 6px 20px 8px;
+    padding: 0 20px;
+    font-size: 17px;
+  }
+}

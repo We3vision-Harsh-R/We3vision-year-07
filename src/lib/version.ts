@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 195,
+    date: "2026-11-27",
+    title: "Snow on the page floor, whole bottom bar in the services wheel",
+    notes: [
+      "The falling snow now lands on the bottom of the window: a thin snow line along the floor and a heap in each bottom corner (laptop).",
+      "Phone and tablet: the bottom bar stays whole while the services wheel is open, and the Open button stands above it.",
+    ],
+  },
+  {
     v: 194,
     date: "2026-11-27",
     title: "Careers job page and job rows fit phones",
