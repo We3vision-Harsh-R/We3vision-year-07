@@ -79,14 +79,14 @@ export const CONTACT_SECTIONS: PageSection[] = [
 
 // ---- Careers ----
 export const CAREERS_SEO = {
-  title: "Careers at We3vision | Join Our Team in Surat, India",
-  description: "Work with We3vision Private Limited in Surat: web, apps, AI, metaverse, UI/UX, brand design and CRM. Send your details and tell us what you want to build.",
+  title: "Careers at We3vision | IT Jobs in Surat, India",
+  description: "We3vision is a software company in Surat, Gujarat, India, founded in 2019. See IT and software jobs and apply online or email hr@we3vision.com.",
 };
 export const CAREERS_SECTIONS: PageSection[] = [
   section("careerJourney", {
     chip: "Careers",
     heading: "Reach Your\nDestination",
-    text: "Book the ticket of your career journey with We3vision. Tell us where you are, where you want to go, and we will have a seat ready for you.",
+    text: "Book the ticket of your career journey with We3vision, a software company in Surat, India. Tell us where you are and where you want to go, and we will have a seat ready for you.",
     locationLabel: "Your location",
   }),
   section("careerValues", {
@@ -104,7 +104,7 @@ export const CAREERS_SECTIONS: PageSection[] = [
   section("careerTeams", {
     chip: "Our teams",
     heading: "Seven Teams,\nOne Company",
-    intro: "These are the lines we work on. Tell us which one fits you.",
+    intro: "Web, app, AI and UI/UX lines we work on. Tell us which fits you.",
     teams: [
       { name: "Brand Design", text: "Brand identity, logos, visual identity and marketing material.", href: "/brand-identity" },
       { name: "Web Development", text: "Websites and web portals, from WordPress and Shopify to custom builds.", href: "/webdev" },
@@ -124,12 +124,12 @@ export const CAREERS_SECTIONS: PageSection[] = [
   section("careerDestination", {
     chip: "Destination",
     heading: "Welcome To\nSurat Junction",
-    text: "This is where the journey ends and your work with We3vision begins. Our head office and development team are here in Surat.",
+    text: "This is where the journey ends and your work with We3vision begins. Our head office and development team are here in Surat, Gujarat, India. We were founded in 2019.",
     station: "Surat Junction",
     address: "We3vision House 1/936, Bhim Kachchhi Mohallo, Nanpura, Surat, Gujarat, India 395001. hr@we3vision.com",
     jobsHeading: "Jobs you can apply for",
-    jobsText: "These are the positions that are open now. Open one to read about it and to apply.",
-    jobsEmpty: "No position is open right now. You can still book a ticket above, and we will write to you when one opens.",
+    jobsText: "These are the IT and software jobs in Surat that are open now. Open one to read about it and to apply.",
+    jobsEmpty: "No position is open right now. You can still book a ticket above, and we will write to you when one opens. Students: see our internship page.",
     buttonLabel: "",
     buttonHref: "",
   }),
