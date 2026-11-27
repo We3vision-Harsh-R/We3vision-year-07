@@ -172,9 +172,9 @@ export const WEBDEV_SECTIONS = build({
 // Mobile App Development (/mobile)
 // ---------------------------------------------------------------------------------------------------------------------
 export const MOBILE_SEO = {
-  title: "Mobile App Development Company in Surat, India | We3vision",
+  title: "Mobile App Development Company in Surat | Android, iOS",
   description:
-    "Mobile app development company in Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. Android, iOS and Flutter apps. Ask for a quote.",
+    "Mobile app development company in Surat, India. Android, iOS, Flutter and React Native apps for clients in India, the USA, UK, Canada and Australia.",
 };
 /** puts the app showcase (tablet + phones) right after the hero */
 const withShowcase = (list: PageSection[]): PageSection[] => {
@@ -198,69 +198,73 @@ export const MOBILE_SECTIONS = withShowcase(build({
   hero: {
     chip: "Mobile App Development",
     heading: "Mobile App Company\nIn Surat, India",
-    text: "We3vision is a mobile app development company in Surat, Gujarat, India. We build fast, user-friendly Android, iOS and cross-platform apps built to scale, for businesses in India, the USA, UK, Canada and Australia.",
+    text: "We3vision is a mobile app development company in Surat, Gujarat, India. We build custom Android, iOS, Flutter and React Native apps, fast, user-friendly and built to scale, for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Get a free quote",
     secondaryLabel: "What we build",
   },
   story:
-    "As a *mobile app development company*, we build everything from *food delivery apps to fitness trackers and enterprise tools*, tailored to your goals, your users and your industry. Expect *high performance, beautiful design and reliable functionality* across every device.\n\nWe build *native Android and iOS apps* (Kotlin and Swift) and *cross-platform apps* with *Flutter and React Native*, connect them to your back end through *APIs and databases*, and take care of the *Google Play and App Store submission* and the updates after launch.",
+    "Looking for a *mobile app development company in Surat*? We3vision builds *custom mobile apps*, from *food delivery apps to fitness trackers and enterprise tools*, shaped around your goals, your users and your industry. Expect *high performance, beautiful design and reliable functionality* on every device.\n\nOur *Android app development* and *iOS app development* use *Kotlin and Swift*, while *Flutter and React Native* give you one codebase for both. We connect apps to your back end through *APIs and databases*, help with *Google Play and App Store submission*, and support updates after launch. Clients in the *USA, UK, Canada and Australia* work with us remotely from Surat, with the plan agreed up front.",
   subs: {
     chip: "What we build",
     heading: "Apps For\nEvery Platform",
-    intro: "Six kinds of app work, from a first version to a full-scale product.",
+    intro: "Six kinds of mobile app development work, from a first version to a full-scale product.",
     cards: [
-      { title: "Android\nApps", description: "Native Kotlin and cross-platform Android apps tuned for performance on every device." },
-      { title: "iOS\nApps", description: "Native Swift apps with clean, brand-aligned interfaces, ready for App Store approval." },
-      { title: "Cross-platform\n& Hybrid Apps", description: "One codebase for Android and iOS with Flutter or React Native, picked to fit your goals and budget." },
-      { title: "MVP\nDevelopment", description: "A focused first version with the core features, so you can launch and learn quickly." },
-      { title: "Full-scale\nProducts", description: "Apps with APIs, real-time sync and storage, authentication and ongoing updates as you grow." },
+      { title: "Android\nApps", description: "Android app development in native Kotlin or cross-platform, tuned for performance on every device." },
+      { title: "iOS\nApps", description: "iOS app development in native Swift, with clean, brand-aligned interfaces and App Store submission support." },
+      { title: "Cross-platform\n& Hybrid Apps", description: "Flutter or React Native app development: one codebase for Android and iOS, chosen to fit your goals and budget." },
+      { title: "MVP\nDevelopment", description: "A focused first version with the core features, so you can launch, learn from real users and grow." },
+      { title: "Full-scale\nProducts", description: "Custom apps with APIs, real-time sync, storage, authentication and updates as your product grows." },
       { title: "Store Launch\n& Maintenance", description: "Play Store and App Store submission with listing optimization, then monitoring, fixes and new features." },
     ],
   },
   process: {
     heading: "How We Build\nYour App",
-    intro: "A simple, collaborative process, from the first conversation to long-term support.",
+    intro: "A simple, collaborative process, from the first conversation to long-term support, with updates along the way.",
     items: [
-      { title: "Discovery & strategy", text: "We discuss business goals, target users and objectives to define the right features, platforms and technologies.", points: "Goals, users and KPIs\nPlatforms and tech stack" },
-      { title: "UX research & wireframing", text: "We map app flow, navigation and interactions. Wireframes act as the blueprint for structure and journeys.", points: "User flows and navigation\nLow-fidelity wireframes" },
-      { title: "UI design & prototyping", text: "We design clean, brand-aligned interfaces focused on usability, engagement and responsiveness.", points: "High-fidelity UI screens\nInteractive prototypes" },
-      { title: "App development", text: "We build native (iOS/Android) or cross-platform apps with Flutter, React Native or Swift, focusing on performance and scalability.", points: "Native or cross-platform builds\nPerformance and scalability" },
-      { title: "API & database integration", text: "We connect to back-end systems and databases for auth, data sync and real-time updates.", points: "API integration and auth\nReal-time sync and storage" },
-      { title: "Testing & quality assurance", text: "Rigorous testing across devices for performance, security and a bug-free experience before going live.", points: "Functional, performance, security\nMulti-device QA" },
-      { title: "Deployment & launch", text: "We handle Google Play and App Store submissions with metadata optimization for smooth approval.", points: "Play Store and App Store submission\nStore listing optimization" },
-      { title: "Maintenance & updates", text: "Post-launch monitoring, issue fixes and feature updates to align with user needs and platform changes.", points: "Ongoing maintenance and updates\nPerformance monitoring" },
+      { title: "Discovery & strategy", text: "We discuss business goals, target users and objectives to define the right features, platforms and technologies, and agree the plan up front.", points: "Goals, users and KPIs\nPlatforms and tech stack" },
+      { title: "UX research & wireframing", text: "We map app flow, navigation and interactions. Wireframes act as the blueprint for structure and user journeys.", points: "User flows and navigation\nLow-fidelity wireframes" },
+      { title: "UI design & prototyping", text: "We design clean, brand-aligned interfaces focused on usability, engagement and responsiveness, and share prototypes for your feedback.", points: "High-fidelity UI screens\nInteractive prototypes" },
+      { title: "App development", text: "We build native (iOS/Android) or cross-platform apps with Flutter, React Native or Swift, focusing on performance and scalability, with regular test builds.", points: "Native or cross-platform builds\nPerformance and scalability" },
+      { title: "API & database integration", text: "We connect the app to back-end systems and databases for auth, data sync and real-time updates.", points: "API integration and auth\nReal-time sync and storage" },
+      { title: "Testing & quality assurance", text: "We test across devices for performance, security and a smooth experience, and fix issues before going live.", points: "Functional, performance, security\nMulti-device QA" },
+      { title: "Deployment & launch", text: "We handle Google Play and App Store submissions with metadata optimization, and guide you through store requirements.", points: "Play Store and App Store submission\nStore listing optimization" },
+      { title: "Maintenance & updates", text: "Post-launch monitoring, issue fixes and feature updates to match user needs and platform changes.", points: "Ongoing maintenance and updates\nPerformance monitoring" },
     ],
   },
   tools: { heading: "The Technology\nBehind Our Apps", items: "Flutter\nReact Native\nKotlin\nSwift\nFirebase\nMongoDB\nMySQL\nNode.js\nExpress.js\nLaravel\nAWS\nGoogle Cloud\nAzure\nRESTful APIs\nGraphQL\nFigma\nAdobe XD\nZeplin" },
   industries: {
     heading: "Apps For\nEvery Industry",
-    intro: "The same app ideas work differently in every business. Here is what apps look like in some of them.",
+    intro: "The same app idea works differently in every business. Here is what mobile apps look like in some of them.",
     items: [
-      { name: "Healthcare", description: "Appointment booking, health tracking and doctor-patient communication apps." },
-      { name: "E-commerce", description: "Shopping apps with secure payments, inventory sync and push notifications." },
-      { name: "Finance", description: "Secure banking, investment tracking and wallet-based mobile solutions." },
-      { name: "Education", description: "Learning apps with video content, quizzes and student dashboards." },
-      { name: "Logistics", description: "Real-time tracking, route optimization and fleet management solutions." },
-      { name: "On-demand services", description: "From food delivery to salon services, we build user-friendly on-demand apps." },
+      { name: "Healthcare", description: "Appointment booking, health tracking and doctor-patient communication apps, built with data privacy in mind." },
+      { name: "E-commerce", description: "Shopping apps with secure payments, inventory sync, push notifications and easy checkout." },
+      { name: "Finance", description: "Secure banking, investment tracking and wallet-based mobile apps with protected data and sign-in." },
+      { name: "Education", description: "Learning apps with video content, quizzes, progress tracking and student dashboards." },
+      { name: "Logistics", description: "Real-time tracking, route optimization and fleet management apps for drivers and managers." },
+      { name: "On-demand services", description: "From food delivery to salon services, user-friendly on-demand apps for customers and providers." },
     ],
   },
   why: {
     heading: "Apps People\nKeep Using",
     items: [
-      { title: "Experienced mobile developers", description: "Our team has hands-on experience building apps for startups, SMEs and enterprise clients across various domains." },
-      { title: "Custom solutions, not templates", description: "We create fully tailored mobile apps that solve real user problems and reflect your brand identity." },
-      { title: "Cross-platform & native expertise", description: "Whether you want native iOS, Android or hybrid apps, we pick the right tech for your goals and budget." },
-      { title: "Performance-focused development", description: "Speed, stability and scalability are at the core of every app we develop." },
+      { title: "Experienced mobile developers", description: "Our Surat team has hands-on experience building apps for startups, SMEs and enterprise clients across various domains." },
+      { title: "Custom solutions, not templates", description: "We create fully tailored custom mobile apps that solve real user problems and reflect your brand identity." },
+      { title: "Cross-platform & native expertise", description: "Whether you want native iOS, Android or hybrid apps, we pick the right tech for your goals and budget, and explain why." },
+      { title: "Performance-focused development", description: "Speed, stability and scalability are at the core of every app we develop, from the first screen to the last." },
       { title: "Ongoing support & optimization", description: "We do not stop at launch. We offer updates, new features and improvements as your app scales, from Surat to clients abroad." },
     ],
   },
   faq: [
-    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we build mobile apps remotely from Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. We agree the plan, scope and timeline up front and share regular updates and test builds." },
-    { question: "Do you build both Android and iOS apps?", answer: "Yes, we develop native and cross-platform apps for Android and iOS." },
-    { question: "Can I see progress during development?", answer: "Absolutely! We share regular updates and test builds, and collect your feedback." },
-    { question: "Do you help with publishing on app stores?", answer: "Yes, we assist with Play Store and App Store submissions, compliance and metadata." },
-    { question: "How secure will my app be?", answer: "Security is a top priority. We use encryption, secure APIs and best practices for data protection." },
-    { question: "Can you maintain and update my app post-launch?", answer: "Yes, we offer app maintenance, bug fixes and feature enhancements after launch." },
+    { question: "Which is the right mobile app development company in Surat for my project?", answer: "The right company is one that fits your goals, shows a clear plan and communicates openly. We3vision is a mobile app development company in Surat, Gujarat, India, founded in 2019, that builds custom Android, iOS and cross-platform apps. We agree the scope and plan with you before development starts." },
+    { question: "How do you build a mobile app, step by step?", answer: "We build a mobile app in clear steps: discovery, UX wireframes, UI design, development, API and database integration, testing, store launch and maintenance. You see prototypes and test builds along the way. This keeps the plan clear and your feedback built in." },
+    { question: "Should I choose native or cross-platform app development?", answer: "Choose native for the deepest device features and cross-platform for one codebase across both stores. We build native apps with Kotlin and Swift and cross-platform apps with Flutter or React Native. We explain the trade-offs for your goals and budget before we start." },
+    { question: "Should I build the Android or the iOS app first?", answer: "Start with the platform where most of your users are, or build both together with Flutter or React Native. We look at your audience and market, such as India, the USA, UK, Canada or Australia, and suggest the best order. An MVP can launch on one platform first." },
+    { question: "Do you work with mobile app clients in the USA, UK, Canada and Australia?", answer: "Yes, we build mobile apps remotely from Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. We agree the plan, scope and timeline up front and share regular updates and test builds. We have worked with clients from the USA, Canada, UK, Germany, UAE, Singapore and Australia." },
+    { question: "Can I hire mobile app developers from India through We3vision?", answer: "Yes, you can work with our mobile app developers in Surat, India on a project you define with us. We agree the scope, plan and updates up front, and you can follow progress through test builds. Ask for a quote to discuss your app idea." },
+    { question: "Will my app need a backend and APIs?", answer: "Most apps that store data, sign users in or sync between devices need a backend and APIs. We connect your app to back ends and databases using RESTful APIs or GraphQL, with Node.js, Firebase, MongoDB, MySQL or Laravel. We pick what fits your product." },
+    { question: "Do you help with publishing on app stores?", answer: "Yes, we assist with Google Play and App Store submissions, compliance and metadata. We guide you through the store requirements and prepare the listing. Store decisions rest with Google and Apple." },
+    { question: "How secure will my app be?", answer: "We build security in from the start: encryption, secure APIs and best practices for data protection. We also test for security before launch. The right measures depend on your app and the data it handles, and we discuss them with you." },
+    { question: "Can you maintain and update my app after launch?", answer: "Yes, we offer app maintenance, bug fixes and feature enhancements after launch. We monitor performance and update the app as your users and platforms change. We can agree the support plan with you before go-live." },
   ],
   related: [
     { title: "UI/UX\nDesign", description: "Clean, brand-aligned app interfaces and prototypes.", href: "/ui-ux-design" },
@@ -268,7 +272,7 @@ export const MOBILE_SECTIONS = withShowcase(build({
     { title: "AI\nDevelopment", description: "Add chatbots, recommendations and predictions to your app.", href: "/ai" },
     { title: "CRM\nDevelopment", description: "Connect your app with a custom CRM.", href: "/crm" },
   ],
-  cta: { heading: "Have An App Idea?\nLet's Bring It To Life.", text: "Share your concept with us and we will guide you on the tech, timeline and cost.", button: "Get a free quote" },
+  cta: { heading: "Have An App Idea?\nLet's Bring It To Life.", text: "Share your concept from Surat or abroad and we will guide you on the right tech, plan and a clear quote.", button: "Get a free quote" },
 }));
 
 // ---------------------------------------------------------------------------------------------------------------------
