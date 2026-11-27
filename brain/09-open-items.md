@@ -360,3 +360,9 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Phone home (task 167): only Why cards + products were stacked; more sections (AI work cards, industries bento) could be stacked the same way if the owner wants a taller page.
 - 2026-11-20 (clean-up, branch menu-light, not committed): removed 5 components nothing imports (admin/status-badge, site/contact-form, industries-orbit, modern/neon-reveal, panda-walker) and my git-ignored build copies (.next-audit*, tmp-shots). Left on purpose: their orphan CSS blocks in globals.css (industries-orbit, neon-reveal; remove only with node tools/style-diff.mjs check), public/images/industries/*.webp + team.webp (no code uses them, but CMS data in the database might), brand logo variants, global-not-found.tsx (Next convention).
 - Industry training fees: 9 month fees are empty (owner has not given them). Check the two odd cells of the fee sheet: Flutter 6 month 28,000 (3 month 9,000) and Project Management 12,000 / 11,000 (3 month higher than half). Sheet note "Total fee / 4" (instalments?) not used. Role flags (CareerRole.training) were set by me: all internships + roles matching a course; AI Content Creator job is off.
+
+## Open after the 2026-11-27 page rewrite
+- Look at every rewritten page at 1440 px (hero texts, cards and FAQs are 10-50% longer; a few cards grew more). Nothing was seen in a browser.
+- Pages published in Admin override these code defaults: re-save the wording there too.
+- Contact content was edited on main while the branch contact-partner-page has a new Contact page: expect a merge conflict in lib/cms/content/company.ts.
+- Physical Marketing says printing/production is done in India (my assumption): confirm.
