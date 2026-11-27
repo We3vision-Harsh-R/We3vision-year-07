@@ -24,6 +24,20 @@ export function homeFaq(site: SiteSettings): HomeFaqItem[] {
       link: "See all services",
     },
     {
+      question: "Is We3vision a software company in Surat?",
+      answer:
+        "Yes. We3vision Private Limited is a software and IT company in Surat, Gujarat, founded in 2019. Its head office is in Nanpura, Surat, and its team builds websites, mobile apps, AI, UI/UX design, CRM and custom software and metaverse experiences for businesses in Surat, India and abroad.",
+      href: "/software-company-in-surat",
+      link: "Software company in Surat",
+    },
+    {
+      question: "Where is We3vision located?",
+      answer:
+        "The We3vision head office is at We3vision House 1/936, Bhim Kachchhi Mohallo, Nanpura, Surat, Gujarat, India, 395001. A second office is at Zum Lahnberg 64, Marburg, 35037, Germany.",
+      href: "/contact",
+      link: "Contact We3vision",
+    },
+    {
       question: "Is We3vision an AI development company in India?",
       answer:
         "Yes. We3vision is based in Surat, Gujarat, and builds custom AI for businesses: chatbots and AI assistants, document and data understanding, prediction and automation, and the integration of these into the software a team already uses.",

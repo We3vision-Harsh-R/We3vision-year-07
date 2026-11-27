@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
-import { JsonLd } from "@/components/site/json-ld";
+import { FaqJsonLd, JsonLd } from "@/components/site/json-ld";
 import { SmartLink } from "@/components/site/smart-link";
-import { ISO, PROGRAM, PROGRAMS, SDLC, type Months } from "@/lib/industrial-training";
+import { ISO, PROGRAM, PROGRAMS, SDLC, TRAINING_FAQ, type Months } from "@/lib/industrial-training";
 import type { Course } from "@/lib/training-shared";
 import { SHARE_IMAGE } from "@/lib/share-image";
 import { siteBase } from "@/lib/seo-ping";
@@ -45,11 +45,12 @@ export function TrainingPage({ months, courses }: { months: Months; courses: Cou
     websiteNode(),
     breadcrumbNode(url, [{ name: "Home", url: `${base}/` }, { name: p.title, url }]),
     webPageNode({ url, name: p.seoTitle, description: p.seoDescription, mainEntityId: `${url}#course` }),
-    { "@type": "Course", "@id": `${url}#course`, name: p.title, description: p.seoDescription, url, inLanguage: "en", provider: orgRef(base) },
+    { "@type": "Course", "@id": `${url}#course`, name: p.title, description: p.seoDescription, url, inLanguage: "en", provider: orgRef(base), timeRequired: `P${months}M` },
   ];
   return (
     <>
       <JsonLd graph={ld} />
+      <FaqJsonLd items={TRAINING_FAQ} url={url} />
       <div className="tr">
         {/* ---- the top */}
         <section className="tr-hero">
@@ -221,6 +222,26 @@ export function TrainingPage({ months, courses }: { months: Months; courses: Cou
                   <h3>{o.title}</h3>
                   <p>{o.fit}</p>
                   {o.months === months ? <span className="tr-here">You are here</span> : <SmartLink href={o.path} className="tr-link">See this training &rarr;</SmartLink>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ---- questions and answers (the same text is the FAQPage data) */}
+        <section className="tr-sec" aria-labelledby="tr-faq">
+          <div className="tr-wrap">
+            <p className="tr-label">FAQ</p>
+            <h2 id="tr-faq">
+              Questions about the <em>training</em>
+            </h2>
+            <ul className="tfq-list">
+              {TRAINING_FAQ.map((f) => (
+                <li key={f.q}>
+                  <details>
+                    <summary>{f.q}</summary>
+                    <p>{f.a}</p>
+                  </details>
                 </li>
               ))}
             </ul>

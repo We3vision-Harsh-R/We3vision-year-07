@@ -1,4 +1,4 @@
-/* Loaded only by: headless-CMS-devlopment-services (see tools/css-split.config.mjs). Add new "hl-" rules HERE, not in globals.css. */
+/* Loaded only by: headless-cms-development-services (see tools/css-split.config.mjs). Add new "hl-" rules HERE, not in globals.css. */
 .hl {
   --hl-a: hsl(calc(var(--th) + 342) calc(95% * var(--ts)) 72%);
   --hl-a2: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);

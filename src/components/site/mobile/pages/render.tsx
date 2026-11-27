@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import type { Metadata } from "next";
+import { FaqJsonLd } from "@/components/site/json-ld";
 import { PageJsonLd } from "@/components/site/page-jsonld";
 import { getBlogEntries } from "@/lib/blog";
 import { getCareerSetup, getOpenJobs } from "@/lib/careers";
@@ -58,6 +59,9 @@ async function draftView(slug: PageSlug) {
 /** the sections that are never collapsed: forms and the first card of a page */
 const KEEP_OPEN: ReadonlySet<SectionType> = new Set<SectionType>(["contact", "careerHelpDesk", "pageHero", "wordHero", "aboutHero", "aboutWorld", "blogFeatured", "ctaBand"]);
 
+/** the mobile pages whose own FAQ section already writes the FAQPage data (custom/seo/sections.tsx: SeoFaq) */
+const SELF_FAQ: ReadonlySet<string> = new Set(["seo", "meta-marketing", "physical-marketing"]);
+
 /** the launcher icon (glyph + colour) of a page: the page is the app that this icon opens */
 const appOf = (slug: PageSlug) => Object.values(APPS).find((a) => a.href === PAGES[slug].path);
 
@@ -67,10 +71,12 @@ export async function renderMobilePage(slug: PageSlug, opts: RenderOptions = {})
   const sections = opts.order ? [...cms].sort((a, b) => rank(a.type) - rank(b.type)) : cms;
   const app = appOf(slug);
   const first = sections[0]?.type;
+  const faq = sections.find((s) => s.type === "faq")?.data as { items: { question: string; answer: string }[] } | undefined;
   const hasForm = sections.some((s) => s.type === "contact" || s.type === "careerHelpDesk");
   return (
     <>
       <PageJsonLd slug={slug} title={page.title} description={page.description} />
+      {faq && !SELF_FAQ.has(slug) ? <FaqJsonLd items={faq.items} /> : null}
       <AppScreen
         title={PAGES[slug].title}
         page={slug}

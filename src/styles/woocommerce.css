@@ -1,4 +1,4 @@
-/* Loaded only by: custom-woocommerce-devlopment (see tools/css-split.config.mjs). Add new "woo-" rules HERE, not in globals.css. */
+/* Loaded only by: custom-woocommerce-development (see tools/css-split.config.mjs). Add new "woo-" rules HERE, not in globals.css. */
 .woo {
   --wo-a: hsl(calc(var(--th) + 346) calc(55% * var(--ts)) 58%);
   --wo-d: hsl(calc(var(--th) + 346) calc(55% * var(--ts)) 40%);

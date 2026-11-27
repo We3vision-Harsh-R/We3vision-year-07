@@ -431,3 +431,35 @@
     font-size: 16px;
   }
 }
+
+/* tfq-: the questions and answers on the training pages (visible FAQ, same text as the FAQPage data). Theme colours only; answers >= 16px. */
+.tr .tfq-list {
+  display: grid;
+  gap: 12px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 880px;
+}
+.tr .tfq-list details {
+  border: 1px solid var(--tr-line);
+  border-radius: 16px;
+  background: var(--tr-card);
+}
+.tr .tfq-list summary {
+  padding: 18px 22px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--tr-ink);
+  cursor: pointer;
+}
+.tr .tfq-list details[open] {
+  border-color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 74% / 0.55);
+}
+.tr .tfq-list p {
+  margin: 0;
+  padding: 0 22px 20px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--tr-mute);
+}

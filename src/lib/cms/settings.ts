@@ -143,10 +143,10 @@ export const SITE_DEFAULTS = {
     {
       label: "Technology",
       items: [
-        { label: "Headless CMS Development", href: "/headless-CMS-devlopment-services" },
-        { label: "Custom WordPress Development", href: "/custom-wordpress-devlopment-services" },
+        { label: "Headless CMS Development", href: "/headless-cms-development-services" },
+        { label: "Custom WordPress Development", href: "/custom-wordpress-development-services" },
         { label: "Shopify Development Services", href: "/shopify-development-services" },
-        { label: "Custom WooCommerce Development", href: "/custom-woocommerce-devlopment" },
+        { label: "Custom WooCommerce Development", href: "/custom-woocommerce-development" },
         { label: "Shopify App Development Services", href: "/shopify-app-development-services" },
         { label: "WordPress Plugin Development Services", href: "/wordpress-plugin-development-company" },
       ],

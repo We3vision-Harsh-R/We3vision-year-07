@@ -16,7 +16,7 @@ export const SERVICE_GROUPS: MenuGroup[] = [
       { label: "Web Development", href: "/webdev" },
       { label: "App Development", href: "/mobile" },
       { label: "CRM Development", href: "/crm" },
-      { label: "Headless CMS Development", href: "/headless-CMS-devlopment-services" },
+      { label: "Headless CMS Development", href: "/headless-cms-development-services" },
     ],
   },
   {
@@ -35,8 +35,8 @@ export const SERVICE_GROUPS: MenuGroup[] = [
       { label: "Shopify Development", href: "/shopify-development-services" },
       { label: "Shopify Plugin Development", href: "/shopify-plugin-development-services" },
       { label: "Shopify App Development", href: "/shopify-app-development-services" },
-      { label: "WordPress Development", href: "/custom-wordpress-devlopment-services" },
-      { label: "Custom WooCommerce Development", href: "/custom-woocommerce-devlopment" },
+      { label: "WordPress Development", href: "/custom-wordpress-development-services" },
+      { label: "Custom WooCommerce Development", href: "/custom-woocommerce-development" },
       { label: "WordPress Plugin Development", href: "/wordpress-plugin-development-company" },
     ],
   },
@@ -96,4 +96,5 @@ export const TRAINING_LINKS: MenuLink[] = [
   { label: "3 Month Industrial training", href: "/industrial-training/3-month" },
   { label: "6 Month Industrial training", href: "/industrial-training/6-month" },
   { label: "9 Month Industrial training", href: "/industrial-training/9-month" },
+  { label: "Internship in Surat", href: "/internship-in-surat" },
 ];

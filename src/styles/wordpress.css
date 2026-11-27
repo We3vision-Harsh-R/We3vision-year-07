@@ -1,4 +1,4 @@
-/* Loaded only by: custom-wordpress-devlopment-services (see tools/css-split.config.mjs). Add new "wpa-" rules HERE, not in globals.css. */
+/* Loaded only by: custom-wordpress-development-services (see tools/css-split.config.mjs). Add new "wpa-" rules HERE, not in globals.css. */
 .wpa-wrap { width: min(1280px, 100% - 48px); margin: 0 auto; padding: 112px 0 40px; }
 .wpa { --wp-blue: var(--tw-ac); --wp-dark: var(--tw-dk); --wp-side: var(--tw-dk2); --wp-bg: var(--tw-bg); --wp-line: var(--tw-ln); --wp-text: var(--tw-dk3);
   border-radius: 10px; overflow: hidden; background: var(--wp-bg); color: var(--wp-text); box-shadow: 0 40px 120px hsl(calc(var(--th) + 330) 60% 3% / 0.7), 0 0 0 1px hsl(0 0% 100% / 0.1); }

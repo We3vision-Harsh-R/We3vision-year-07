@@ -17,7 +17,7 @@ const asJson = args.includes("--json");
 const profileName = flag("profile", "desktop");
 const positional = args.filter((a) => !a.startsWith("--"));
 const base = (positional[0] ?? "http://localhost:1010").replace(/\/+$/, "");
-const paths = positional.slice(1).length ? positional.slice(1) : flag("device", "desktop") !== "desktop" ? ["/", "/about", "/blog", "/contact", "/careers", "/webdev", "/seo", "/portfolio"] : ["/", "/about", "/blog", "/contact", "/careers", "/webdev", "/seo", "/graphics", "/metaverse", "/brand-development-services", "/headless-CMS-devlopment-services"];
+const paths = positional.slice(1).length ? positional.slice(1) : flag("device", "desktop") !== "desktop" ? ["/", "/about", "/blog", "/contact", "/careers", "/webdev", "/seo", "/portfolio"] : ["/", "/about", "/blog", "/contact", "/careers", "/webdev", "/seo", "/graphics", "/metaverse", "/brand-development-services", "/headless-cms-development-services"];
 const PROFILES = {
   desktop: { down: 0, up: 0, rtt: 0, cpu: 1 },
   "4g": { down: (9 * 1024 * 1024) / 8, up: (9 * 1024 * 1024) / 8, rtt: 170, cpu: 2 },
