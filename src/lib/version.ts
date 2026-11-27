@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 194,
+    date: "2026-11-27",
+    title: "Careers job page and job rows fit phones",
+    notes: [
+      "On a small screen the job page is one column (it overlapped before) and each job row stacks, so the Industry training tag and the buttons fit.",
+    ],
+  },
+  {
     v: 193,
     date: "2026-11-27",
     title: "Industry training: fees, role tags, new internships, cleaner applications board",

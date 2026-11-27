@@ -12282,3 +12282,35 @@ a.itg-tag:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* ---- rsp-: narrow windows (the job page and the Industry training pieces fit a small screen) */
+@media (max-width: 700px) {
+  body .jb-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  body .jb-side {
+    position: static;
+  }
+  body .jb-grid-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .itg-box {
+    padding: 12px 14px;
+  }
+  .itg-tag-s {
+    display: inline-flex;
+    margin: 6px 0 0;
+  }
+}
+@media (max-width: 560px) {
+  body .cj-role {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px 18px;
+  }
+  body .cj-role-act > * {
+    flex: 1;
+    text-align: center;
+  }
+}
