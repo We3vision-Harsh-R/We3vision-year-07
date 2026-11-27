@@ -137,14 +137,14 @@ export const CAREERS_SECTIONS: PageSection[] = [
 
 // ---- Portfolio (the projects you add under Projects in the admin panel) ----
 export const PORTFOLIO_SEO = {
-  title: "Portfolio | Our Work | We3vision",
-  description: "A selection of the projects We3vision has built for clients: brand identity, websites, apps, AI and immersive experiences.",
+  title: "We3vision Portfolio | Web, App, AI & Immersive Work",
+  description: "See the web, app, AI and immersive projects We3vision, a software company in Surat, Gujarat, India, built for clients worldwide. Start yours.",
 };
 export const PORTFOLIO_SECTIONS: PageSection[] = [
   section("pageHero", {
     chip: "Portfolio",
     heading: "Our Work",
-    text: "Brands, websites, apps and experiences we have made together with our clients.",
+    text: "Brands, websites, apps and experiences made by our Surat team with clients in India and worldwide.",
     primaryLabel: "See the projects",
     primaryHref: "#projects",
     secondaryLabel: "Start a project",
