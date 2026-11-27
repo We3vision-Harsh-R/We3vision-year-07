@@ -510,42 +510,42 @@ export const UIUX_SECTIONS = build({
 // CRM Development (/crm)
 // ---------------------------------------------------------------------------------------------------------------------
 export const CRM_SEO = {
-  title: "CRM Development Company in Surat, India | We3vision",
+  title: "Custom CRM Development Company in Surat | We3vision",
   description:
-    "CRM development company in Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. Custom sales and support CRMs. Get a quote.",
+    "Custom CRM development company in Surat, India. Sales, support and automation CRMs for clients in India, the USA, UK, Canada and Australia. Get a quote.",
 };
 export const CRM_SECTIONS = build({
   seo: CRM_SEO,
   hero: {
     chip: "CRM Development",
     heading: "CRM Development\nCompany In Surat",
-    text: "We3vision Private Limited is a CRM development company in Surat, Gujarat, India. We build custom CRM systems that automate workflows and centralize your data, for businesses in India, the USA, UK, Canada and Australia.",
+    text: "We3vision Private Limited is a CRM development company in Surat, Gujarat, India. We provide custom CRM development services: sales CRM, support CRM, CRM integration and CRM automation that centralize your data, for businesses in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Get a free quote",
     secondaryLabel: "What we build",
   },
   story:
-    "As a *custom CRM development company*, we build everything from a *lightweight CRM for a growing startup* to a *full-scale enterprise system with API integrations*, aligned with your operations, goals and customer journey.\n\nYour CRM is built *from the ground up around your workflows, teams and business model*, with *modules, dashboards, roles and permissions*, *automation* and connections to the tools you already use: *ERP and CMS systems, HubSpot, Salesforce, email, SMS and the WhatsApp Business API*.",
+    "As a *CRM development company in Surat*, we provide *custom CRM software development* for every size, from a *lightweight CRM for a growing startup* to a *full-scale enterprise system with API integrations*, aligned with your operations, goals and customer journey.\n\nYour CRM is built *from the ground up around your workflows, teams and business model*, with *modules, dashboards, roles and permissions*, *CRM automation* and connections to the tools you already use: *ERP and CMS systems, HubSpot, Salesforce, email, SMS and the WhatsApp Business API*.\n\nWorking from Surat, Gujarat, India, we also build *custom CRMs for clients in the USA, UK, Canada and Australia*, remotely, with the plan agreed up front.",
   subs: {
     chip: "What we build",
     heading: "CRM Systems For\nEvery Team",
-    intro: "Six kinds of CRM, plus the ERP, lead tracking and inventory tools that go with them.",
+    intro: "Six kinds of CRM, plus the ERP, lead tracking and inventory tools that go with them, all custom-built.",
     cards: [
-      { title: "Sales\nCRM", description: "Manage leads, track pipelines, forecast deals and close more efficiently." },
-      { title: "Marketing\nCRM", description: "Automate campaigns, track engagement, segment users and improve conversions." },
-      { title: "Customer Support\nCRM", description: "Centralize tickets, manage SLAs, chat integrations and feedback loops." },
-      { title: "ERP Software\n& Connectors", description: "ERP and CMS connectors so all your systems share one source of data." },
+      { title: "Sales\nCRM", description: "Manage leads, track pipelines and forecast deals in a sales CRM built around how your team sells." },
+      { title: "Marketing\nCRM", description: "Automate campaigns, track engagement, segment users and improve conversions with CRM automation." },
+      { title: "Customer Support\nCRM", description: "Centralize tickets, manage SLAs, chat integrations and feedback loops in one support CRM." },
+      { title: "ERP Software\n& Connectors", description: "ERP and CMS connectors so all your systems share one source of data, through CRM integration." },
       { title: "Lead Tracking\n& Automation", description: "Pipelines and automation with email, analytics and the WhatsApp Business API." },
-      { title: "Inventory\n& Support", description: "Track stock and customer requests, with team onboarding, training and ongoing support." },
+      { title: "Inventory\n& Support", description: "Track stock and customer requests, with team onboarding, training and ongoing support after go-live." },
     ],
   },
   process: {
     heading: "How We Build\nYour CRM",
-    intro: "A simple, collaborative process, from the CRM structure to training and long-term support.",
+    intro: "A simple, collaborative process, from the CRM structure to training and long-term support, planned with you up front.",
     items: [
-      { title: "Planning & architecture design", text: "We define the CRM structure, modules and integrations, ensuring flexibility and scalability for growth.", points: "CRM structure and modules\nIntegration points and scalability\nDashboards and data hierarchies" },
+      { title: "Planning & architecture design", text: "We define the CRM structure, modules and integrations with you, ensuring flexibility and scalability for growth.", points: "CRM structure and modules\nIntegration points and scalability\nDashboards and data hierarchies" },
       { title: "UI/UX design", text: "We design a clean, intuitive interface to enhance usability for sales, marketing and support teams." },
       { title: "Development & customization", text: "We build and customize your CRM, integrating tools like email automation, analytics and contact management.", points: "Core CRM engine and automation\nFields, roles and permissions\nERP/CMS connectors" },
-      { title: "Integration with existing systems", text: "We integrate ERP, CMS or third-party apps such as HubSpot, Salesforce or the WhatsApp Business API.", points: "3rd-party API integrations" },
+      { title: "Integration with existing systems", text: "We integrate ERP, CMS or third-party apps such as HubSpot, Salesforce or the WhatsApp Business API, so your CRM fits your existing tools.", points: "3rd-party API integrations" },
       { title: "Testing & quality assurance", text: "We test modules for data accuracy, performance and smooth workflows to ensure reliability.", points: "Functional and performance QA\nData validation and security" },
       { title: "Deployment & user training", text: "We deploy the CRM and train teams to ensure everyone understands features and workflows.", points: "Go-live and configuration\nTeam onboarding and training" },
       { title: "Post-launch support & optimization", text: "We monitor performance, ship updates and optimize to improve efficiency and ROI.", points: "Monitoring and updates\nWorkflow and ROI optimization" },
@@ -554,33 +554,37 @@ export const CRM_SECTIONS = build({
   tools: { heading: "The Technology\nBehind Our CRMs", items: "Laravel\nNode.js\nDjango\nReact\nAngular\nVue.js\nMySQL\nMongoDB\nPostgreSQL\nFirebase\nAWS\nREST & GraphQL APIs\nZapier\nHubSpot APIs\nDocker\nGit\nCI/CD Pipelines" },
   industries: {
     heading: "CRM For Every\nKind Of Business",
-    intro: "The kind of CRM depends on the work your team does. Here are some we build.",
+    intro: "The kind of CRM depends on the work your team does. Here are some CRM types we build.",
     items: [
-      { name: "Sales CRM", description: "Manage leads, track pipelines, forecast deals and close more efficiently." },
-      { name: "Marketing CRM", description: "Automate campaigns, track engagement, segment users and improve conversions." },
-      { name: "Customer support CRM", description: "Centralize tickets, manage SLAs, chat integrations and feedback loops." },
-      { name: "Project-based CRM", description: "Integrate tasks, time tracking, file sharing and client communication." },
-      { name: "Healthcare / clinic CRM", description: "Patient management, scheduling, reports and secure data handling (HIPAA-ready)." },
-      { name: "Real estate CRM", description: "Property listings, lead scoring, appointment management and CRM-to-website sync." },
+      { name: "Sales CRM", description: "Leads, pipelines and deal forecasts in one view, so sales teams follow up and close more efficiently." },
+      { name: "Marketing CRM", description: "Campaigns, engagement tracking and user segments that help improve conversions." },
+      { name: "Customer support CRM", description: "One place for tickets, SLAs, chat integrations and customer feedback loops." },
+      { name: "Project-based CRM", description: "Tasks, time tracking, file sharing and client communication connected in one project CRM." },
+      { name: "Healthcare / clinic CRM", description: "Patient management, scheduling, reports and secure data handling for clinics (HIPAA-ready)." },
+      { name: "Real estate CRM", description: "Property listings, lead scoring, appointment management and CRM-to-website sync for real estate teams." },
     ],
   },
   why: {
     heading: "A CRM That Works\nThe Way You Do",
     items: [
-      { title: "Built from the ground up", description: "Tailored to your workflows and business model, for teams in India, the USA, UK, Canada and Australia." },
-      { title: "User-centric design", description: "We design clean, modern dashboards that reduce learning curves and increase user adoption across your organization." },
-      { title: "Modular & scalable", description: "Add features, integrations and automations as you grow. Your CRM evolves with your business." },
-      { title: "Automation-first approach", description: "We help you eliminate repetitive tasks, reduce human error and scale faster with smart workflows and triggers." },
+      { title: "Built from the ground up", description: "A custom CRM tailored to your workflows and business model, built in Surat, India for teams in India, the USA, UK, Canada and Australia." },
+      { title: "User-centric design", description: "We design clean, modern dashboards that reduce learning curves and increase user adoption across your sales, marketing and support teams." },
+      { title: "Modular & scalable", description: "Add modules, integrations and automations as you grow, so your custom CRM evolves with your business." },
+      { title: "Automation-first approach", description: "CRM automation that helps you eliminate repetitive tasks, reduce human error and scale faster with smart workflows and triggers." },
       { title: "Security & compliance ready", description: "Your data is protected with enterprise-grade encryption, access control and audit logs, GDPR and HIPAA ready." },
     ],
   },
   faq: [
+    { question: "What is a custom CRM?", answer: "A custom CRM is customer relationship management software built around your own workflows, teams and data instead of a fixed template. It can cover leads and pipelines, support tickets, automation, dashboards, roles and permissions. We3vision builds custom CRM software from Surat, Gujarat, India." },
+    { question: "Custom CRM or a ready-made CRM: which is better?", answer: "A custom CRM is usually the better fit when a ready-made tool is overkill, expensive or hard to adapt to how your team works. Ready-made CRMs such as HubSpot or Salesforce suit standard processes, and we can integrate with them too. We build the CRM tailored to your business needs, workflows and goals." },
     { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we build custom CRMs remotely from Surat, Gujarat, India for clients in the USA, UK, Canada and Australia. We agree the modules, integrations and plan up front and keep communication clear throughout." },
-    { question: "Why not use existing CRMs like HubSpot or Salesforce?", answer: "They are great, but they can be overkill, expensive and hard to customize. We build CRMs tailored exactly to your business needs, workflows and goals." },
-    { question: "Can you migrate data from our old system?", answer: "Yes, we handle data migration from spreadsheets, legacy CRMs and third-party apps with minimal downtime." },
-    { question: "Can I integrate email, SMS or WhatsApp into the CRM?", answer: "Absolutely. We integrate your preferred communication tools and automate messages, follow-ups and workflows." },
-    { question: "Is the CRM cloud-based?", answer: "Yes, we build secure, scalable, cloud-based CRMs accessible anytime from desktop or mobile." },
-    { question: "What does CRM development typically cost?", answer: "Pricing depends on features, integrations and scale. We offer transparent pricing for startups, SMBs and enterprises." },
+    { question: "Why choose a CRM development company in Surat, India?", answer: "A CRM development company in Surat gives you a team that builds custom CRMs around your workflows and works with you remotely. We3vision Private Limited has been building software since 2019 and has worked with clients from the USA, UK, Canada, Australia, Germany, UAE and Singapore. You get one clear plan before work starts." },
+    { question: "What features can a custom CRM include?", answer: "A custom CRM can include lead and pipeline tracking, deal forecasting, campaign automation, support tickets with SLAs, dashboards, and roles and permissions. We choose the modules with you, then build, test and extend them as your needs grow." },
+    { question: "Can I integrate email, SMS or WhatsApp into the CRM?", answer: "Yes, we integrate email, SMS and the WhatsApp Business API, along with ERP and CMS systems and third-party apps such as HubSpot and Salesforce. We then automate messages, follow-ups and workflows on top of them." },
+    { question: "How secure is the data in a custom CRM?", answer: "Your CRM data is protected with encryption, access control and audit logs, and the system is built to be GDPR and HIPAA ready. We also validate data and test security before go-live. Roles and permissions decide who on your team sees what." },
+    { question: "Can you migrate data from our old system?", answer: "Yes, we handle data migration from spreadsheets, legacy CRMs and third-party apps with minimal downtime. We check the migrated data for accuracy before your team starts using the new CRM." },
+    { question: "How much does CRM development cost, and how long does it take?", answer: "Cost and timeline depend on your features, integrations and scale, so we plan them after understanding your requirements. We offer transparent pricing for startups, SMBs and enterprises. You receive a project-specific quote before development starts." },
+    { question: "Do you train our team and support the CRM after launch?", answer: "Yes, we deploy the CRM, train your team and continue with post-launch support. This includes monitoring, updates and workflow optimization, and sessions can run remotely for teams in the USA, UK, Canada and Australia." },
   ],
   related: [
     { title: "Web\nDevelopment", description: "Connect your website and forms to the CRM.", href: "/webdev" },
@@ -588,7 +592,7 @@ export const CRM_SECTIONS = build({
     { title: "Mobile App\nDevelopment", description: "A mobile app for your sales and support teams.", href: "/mobile" },
     { title: "UI/UX\nDesign", description: "Dashboards your team enjoys using.", href: "/ui-ux-design" },
   ],
-  cta: { heading: "Let's Build A CRM That\nWorks The Way You Do", text: "Tell us how you run your business and we will build a CRM that makes it faster, smarter and more profitable.", button: "Get a free quote" },
+  cta: { heading: "Let's Build A CRM That\nWorks The Way You Do", text: "Tell us how your team sells, supports and follows up, and we will build a custom CRM that fits your workflow, from Surat to your market.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
