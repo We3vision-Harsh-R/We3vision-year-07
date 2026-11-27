@@ -268,38 +268,38 @@ export const WORDPRESS_SECTIONS = build({
 // ---------------------------------------------------------------------------------------------------------------------
 export const SHOPIFY_SEO = {
   title: "Shopify Development Company in Surat, India | We3vision",
-  description: "Shopify development services from We3vision in Surat, Gujarat, India, for clients in the USA, UK, Canada and Australia. Get a free quote today.",
+  description: "Shopify development company in Surat, India: custom themes, migration and store setup. Hire Shopify developers for USA, UK, Canada, Australia.",
 };
 export const SHOPIFY_SECTIONS = build({
   seo: SHOPIFY_SEO,
   hero: {
     chip: "Shopify",
     heading: "Shopify\nDevelopment Services",
-    text: "A Shopify development company in Surat, Gujarat, India. We build fast, tailored Shopify stores for brands in India, the USA, UK, Canada and Australia.",
+    text: "Shopify development company in Surat, India: custom Shopify stores and themes, built on a clear plan so projects do not stall, for brands in India, the USA, UK, Canada and Australia.",
   },
   story:
-    "As a Shopify development company, we build *unique Shopify stores* that fit your brand and goals: every detail, from colours to layouts, is designed to match what your business is about.\n\nFrom *theme customisation and app integration* to *custom apps, platform migration and ongoing support*, we take care of the technical work, so you can focus on *selling and growing*.",
+    "As a Shopify development company in Surat, India, we build *custom Shopify stores* that fit your brand and goals, from colours to layouts, for clients in India, the USA, UK, Canada and Australia.\n\nFrom *custom Shopify theme development and app integration* to *custom apps, Shopify migration and ongoing support*, we handle the technical work, so you can focus on *selling and growing*.\n\nYou can hire Shopify developers from India per project or as a team, with a plan agreed up front and clear updates for clients working with us remotely.",
   services: {
     heading: "Shopify\nDevelopment Services",
-    intro: "Everything your Shopify store needs, from the first design to the support after launch.",
+    intro: "Shopify development services for every stage, from first design to support after launch.",
     cards: [
-      { title: "Custom store design\nand development", description: "Unique Shopify stores that fit your brand and goals, designed in every detail to look great and work well." },
-      { title: "Theme\ncustomisation", description: "We take a theme and tweak it to look amazing and fit your style, keeping it simple to navigate on phones, tablets and computers." },
-      { title: "App\nintegration", description: "Payment tools, marketing helpers or analytics trackers added to your store and made to work smoothly." },
-      { title: "Custom app\ndevelopment", description: "Special Shopify apps built just for your business, for what regular apps cannot do." },
-      { title: "Platform\nmigration", description: "Switching to Shopify from another platform: your products, customers and data move over safely." },
-      { title: "Ongoing support\nand maintenance", description: "Updates and fixes whenever you need them, new features and a store that stays up to date." },
-      { title: "Performance\noptimisation", description: "A Shopify store that loads faster and feels smoother, by tuning things like images and code." },
+      { title: "Custom store design\nand development", description: "Unique Shopify stores that fit your brand and goals, designed in every detail to look great and work well, from first page to checkout." },
+      { title: "Theme\ncustomisation", description: "We take a theme and tweak it to fit your style, simple to use on phones, tablets and computers, or build a custom Shopify theme." },
+      { title: "App\nintegration", description: "Payment tools, marketing helpers or analytics trackers added to your store and made to work smoothly, including shipping and tax tools." },
+      { title: "Custom app\ndevelopment", description: "Special Shopify apps built just for your business, for what regular apps cannot do, such as links to your own systems." },
+      { title: "Platform\nmigration", description: "Switching to Shopify from another platform: your products, customers and data move over safely, with links and key pages checked." },
+      { title: "Ongoing support\nand maintenance", description: "Updates and fixes whenever you need them, new features and a store that stays up to date after launch." },
+      { title: "Performance\noptimisation", description: "A Shopify store that loads faster and feels smoother, by tuning images, apps and code, which also helps search visibility." },
     ],
   },
   tools: { heading: "Our Tech Stack", items: "Shopify\nLiquid\nHTML5\nCSS3\nJavaScript\nReact.js\nNode.js" },
   why: {
     heading: "Why Partner With\nWe3vision For Shopify",
     items: [
-      { title: "Experienced team", description: "A team that builds Shopify stores for businesses of all sizes, from startups to larger companies, with scalability in mind." },
-      { title: "Steady project momentum", description: "Steady progress so your project never stalls, with timely updates, bug fixes and improvements." },
-      { title: "Cost-effective", description: "As an India-based agency we offer high-quality Shopify design and development at fair costs." },
-      { title: "Progress around the clock", description: "A team across time zones means your project can keep moving forward while you rest." },
+      { title: "Experienced team", description: "A team that builds Shopify stores for businesses of all sizes, from startups to larger companies, with scalability in mind, since 2019." },
+      { title: "Steady project momentum", description: "Steady progress so your project does not stall, with timely updates, bug fixes and improvements, and a plan agreed up front." },
+      { title: "Cost-effective", description: "As an India-based agency we offer high-quality Shopify design and development at fair costs for clients worldwide." },
+      { title: "Clear remote communication", description: "Clear updates and a plan agreed up front, so clients in the USA, UK, Canada and Australia know where the project stands." },
       { title: "Focus on your core business", description: "Let us handle design, development and updates, so you can spend your time on sales and customers." },
       { title: "Scalable teams", description: "We adjust our team size to the project: one developer or a full team, big or small." },
       { title: "Faster time-to-market", description: "Quick workflows and efficient development, so your store goes live sooner and you start selling faster." },
@@ -308,10 +308,10 @@ export const SHOPIFY_SECTIONS = build({
   },
   industries: {
     heading: "Shopify For\nEvery Industry",
-    intro: "Shopify Development Services extend across many industries, each with its own needs.",
+    intro: "Shopify store development for many industries, each with its own needs and customers.",
     items: [
-      { name: "Diamond and jewellery", description: "Tools to track inventory and sales on Shopify, in a secure and simple store for valuable items." },
-      { name: "Retail and e-commerce", description: "Shopify stores that make shopping fun and easy, with carts and payments that work without fuss." },
+      { name: "Diamond and jewellery", description: "Tools to track inventory and sales on Shopify, in a secure and simple store for valuable items, ready for buyers abroad." },
+      { name: "Retail and e-commerce", description: "Shopify stores that make shopping fun and easy, with carts and payments that work without fuss for buyers in India and abroad." },
       { name: "Logistics and transportation", description: "Shopify software to track deliveries and make your team more efficient." },
       { name: "Insurance", description: "Shopify systems to handle policies and claims smoothly and safely." },
       { name: "Healthcare", description: "Shopify platforms for patient care and billing that are easy and helpful." },
@@ -325,14 +325,18 @@ export const SHOPIFY_SECTIONS = build({
   },
   related: related("shopapp", "web", "woo"),
   faq: [
-    { question: "What Shopify services does We3vision offer?", answer: "We3vision offers custom store design and development, theme customisation, app integration, custom app development, platform migration, ongoing support and maintenance, and performance optimisation." },
-    { question: "Can We3vision move my store to Shopify from another platform?", answer: "Yes. Platform migration moves your products, customers and data to Shopify safely." },
-    { question: "Does We3vision build custom Shopify apps?", answer: "Yes. We3vision builds special Shopify apps for what regular apps cannot do, and also adds payment tools, marketing helpers and analytics trackers to your store and makes them work smoothly." },
-    { question: "Why work with We3vision for Shopify?", answer: "We3vision is an India-based agency that builds Shopify stores for businesses of all sizes, from startups to larger companies, at fair costs. The team works across time zones, so your project can keep moving forward." },
-    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We3vision works remotely from Surat, Gujarat, India with clients in the USA, UK, Canada and Australia, with clear communication and a project plan agreed up front." },
-    { question: "Is We3vision a Shopify development company in India?", answer: "Yes. We3vision Private Limited, founded in 2019, is a Shopify development company in Surat, Gujarat, India, offering store design, theme customisation, apps and migration." },
+    { question: "What Shopify development services does We3vision offer?", answer: "We3vision offers custom store design and development, theme customisation, app integration, custom app development, migration to Shopify, ongoing support and performance optimisation. You can take one service or the full set, depending on where your store is today." },
+    { question: "Can you migrate my store to Shopify from another platform?", answer: "Yes, Shopify migration is one of our services. We move your products, customers and data from your current platform, then check links, key pages and checkout so nothing important is lost." },
+    { question: "Should I choose a custom Shopify theme or a ready theme?", answer: "A ready theme suits a simple store, and a custom Shopify theme suits a brand that needs its own look or features. We can customise a ready theme or build a custom one, and we help you pick the one that fits your goals." },
+    { question: "Shopify or WooCommerce: which is better for my store?", answer: "Shopify is simpler to run, while WooCommerce on WordPress gives more control over code and hosting. We3vision builds both, so we can suggest the one that fits your products, team and plans for growth." },
+    { question: "Do you build custom Shopify apps and integrations?", answer: "Yes. We build custom Shopify apps for what regular apps cannot do, and we connect payment tools, marketing helpers, analytics and your own systems so they work smoothly together." },
+    { question: "Can you set up payments and shipping for customers in different countries?", answer: "Yes. We set up payment options, shipping and tax settings for the countries you sell to, such as India, the USA, UK, Canada and Australia. The exact options depend on Shopify and your business setup, and we confirm them before building." },
+    { question: "Will my Shopify store be fast and good for SEO?", answer: "Yes, we build for both from the start. We use clean Liquid code, light themes, tuned images and apps, and clear titles and page structure so search engines can read the store. Rankings depend on many things, so we do not promise a position." },
+    { question: "How much does Shopify development cost and how long does it take?", answer: "Cost and time depend on the design, features, apps and number of products, so we agree both in a plan before work starts. Tell us what you want to sell and we will give a clear quote." },
+    { question: "Do you work with Shopify clients in the USA, UK, Canada and Australia?", answer: "Yes. We3vision works remotely from Surat, Gujarat, India with Shopify clients in the USA, UK, Canada and Australia, with clear communication and a plan agreed up front. We have also worked with clients from Germany, the UAE and Singapore." },
+    { question: "Why choose a Shopify development company in Surat, India?", answer: "We3vision Private Limited, founded in 2019, is a Shopify development company in Surat, Gujarat, India, and you can hire Shopify developers from India per project or as a team. You get design, theme and app work, migration and support from one team, with fair costs." },
   ],
-  cta: { heading: "Ready To Launch\nYour Shopify Store?", text: "Tell us what you want to sell. We work from Surat, India with Shopify clients in the USA, UK, Canada and Australia.", button: "Get a free quote" },
+  cta: { heading: "Ready To Launch\nYour Shopify Store?", text: "Tell us what you want to sell and who buys it. From Surat, India we build Shopify stores for clients in India, the USA, UK, Canada and Australia.", button: "Get a free quote" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
