@@ -408,50 +408,50 @@ export const BRANDVIDEO_SECTIONS = build({
 // End-to-End Brand Development, was "0 to N" (/zero-to-n-brand-development, the route stays)
 // ---------------------------------------------------------------------------------------------------------------------
 export const ZERO_SEO = {
-  title: "End-to-End Brand Development in Surat | We3vision",
-  description: "End-to-end brand development in Surat, Gujarat, India: strategy, logo, packaging and launch for clients in the USA, UK, Canada and Australia. Get a quote.",
+  title: "End-to-End Brand Development Surat, India | We3vision",
+  description: "End-to-end brand development in Surat, India: strategy, logo, packaging, website and launch for brands in India, the USA, UK, Canada and Australia.",
 };
 export const ZERO_SECTIONS = build({
   seo: ZERO_SEO,
   hero: {
     chip: "End-to-End Brand Development",
     heading: "From Zero to a\nBrand That Leads.",
-    text: "We are an end-to-end brand development company in Surat, Gujarat, India. We build brands from the ground up for clients in India, the USA, UK, Canada and Australia: strategy, naming, identity, packaging, brand films and launch, under one roof.",
+    text: "We are an end-to-end brand development company in Surat, Gujarat, India. We offer complete branding services for brand building from scratch: strategy, naming, identity, packaging, website, brand film and launch, for clients in India, the USA, UK, Canada and Australia.",
   },
   story:
-    "Starting a brand usually means finding a strategist, a designer, a printer, a photographer, a website developer and a marketer, and then trying to make them work together. *End-to-end brand development* is our answer: *one team that builds your whole brand from the starting phase to the end*.\n\nYou bring the idea, the product or the service. We take care of *planning, design, printing and execution*. We have built brands for *many different industries*, so whatever you sell, we know how to make it look and feel like a real brand.",
+    "*End-to-end brand development in Surat* means one team builds your whole brand, from the first idea to the launch. Starting a brand usually means finding a strategist, a designer, a printer, a photographer, a website developer and a marketer, and then making them work together. *We do all of it as one team, from the starting phase to the end*.\n\nYou bring the idea, the product or the service. We take care of *planning, design, printing and execution*. We have built brands for *many different industries*, so whatever you sell, we know how to make it look and feel like a real brand.\n\nWe are based in Surat, Gujarat, India, and also work with *brand owners in the USA, UK, Canada and Australia*, remotely, with a plan agreed up front and clear updates at every stage.",
   services: {
     heading: "Everything Your\nBrand Needs",
-    intro: "N is whatever your brand needs. These are the parts we usually build.",
+    intro: "N is whatever your brand needs. These are the parts we usually build, all under one plan.",
     cards: [
-      { title: "Brand strategy\nand planning", description: "Purpose, positioning, audience and a clear plan for what your brand should become." },
-      { title: "Name, logo and\nidentity", description: "A name, tagline and logo with a complete visual identity that suits your market." },
-      { title: "Brand kit and\nguidelines", description: "Colours, fonts, templates and rules, so every future design stays consistent." },
+      { title: "Brand strategy\nand planning", description: "Purpose, positioning, audience and a clear plan for what your brand should become, before any design starts." },
+      { title: "Name, logo and\nidentity", description: "A name, tagline and logo with a complete visual identity that suits your market, in India or abroad." },
+      { title: "Brand kit and\nguidelines", description: "Colours, fonts, templates and rules, so every future design stays consistent across print and online." },
       { title: "Packaging and\nlabels", description: "Boxes, pouches, bottles and labels designed to stand out on the shelf and online." },
       { title: "Printing and\nstationery", description: "Visiting cards, brochures, catalogues, bags, uniforms and more, designed and printed for you." },
-      { title: "Website and\nonline presence", description: "A website, social media profiles and online listings that match your brand and are ready to find." },
+      { title: "Website and\nonline presence", description: "A website, social media profiles and online listings that match your brand and are built with SEO basics." },
       { title: "Photos and\nbrand video", description: "Product photography and brand video that give your brand real content from the first day." },
-      { title: "Launch and\nmarketing", description: "A launch plan with social media, digital marketing and on-ground activity to introduce your brand." },
+      { title: "Launch and\nmarketing", description: "A brand launch plan with social media, digital marketing and on-ground activity to introduce your brand to buyers." },
     ],
   },
   process: {
     heading: "From Zero\nTo Launch",
-    intro: "A single, connected journey. You always know the next step.",
+    intro: "A single, connected journey from idea to launch. You always know the next step.",
     items: [
-      { title: "Idea and discovery", text: "We understand your idea, your customers and your market, and decide where your brand should stand.", points: "Idea and goals\nMarket and audience" },
+      { title: "Idea and discovery", text: "We understand your idea, your customers and your market, and decide where your brand should stand among competitors.", points: "Idea and goals\nMarket and audience" },
       { title: "Strategy and name", text: "We define the brand, its promise and its voice, and create the name and tagline.", points: "Positioning\nName and tagline" },
       { title: "Design and identity", text: "We design the logo, colours, typography and the full brand kit.", points: "Logo and identity\nBrand kit" },
       { title: "Products and print", text: "We design and prepare packaging, labels and printed material and supervise printing.", points: "Packaging and labels\nPrint production" },
       { title: "Online presence", text: "We build the website and social media profiles and prepare photos and videos.", points: "Website and social media\nPhoto and video content" },
-      { title: "Launch and execution", text: "We plan and run the launch and stay with you for the first steps.", points: "Launch plan\nMarketing in action" },
+      { title: "Launch and execution", text: "We plan and run the brand launch and stay with you for the first steps, with updates by call or e-mail.", points: "Launch plan\nMarketing in action" },
     ],
   },
   tools: { heading: "Services Inside\nEnd-To-End Branding", items: "Brand strategy\nLogo design\nBrand kit\nPackaging design\nPrint design\nWebsite development\nBrand video\nSocial media\nMarketing" },
   why: {
     heading: "Why Choose We3vision\nFor End-To-End Branding",
     items: [
-      { title: "One team, one brand", description: "Strategy, design, print, website, video and marketing are all done by one team, so everything fits." },
-      { title: "Nothing left for you to arrange", description: "You do not need to find designers, printers or developers. We take care of it." },
+      { title: "One team, one brand", description: "Strategy, design, print, website, video and marketing are all done by one team, so identity, website and marketing fit together." },
+      { title: "Nothing left for you to arrange", description: "You do not need to find designers, printers or developers. We take care of it, from Surat, for clients near or far." },
       { title: "Planning to execution", description: "We do not stop at designs. We see your brand through to printing, launch and first marketing." },
       { title: "Every industry", description: "We have built brands for many industries and know how to adapt a brand to each market." },
       { title: "Clear stages", description: "Each stage has a clear outcome, so you can see progress and approve step by step." },
@@ -473,16 +473,19 @@ export const ZERO_SECTIONS = build({
     ],
   },
   faq: [
-    { question: "What is included in end-to-end brand development?", answer: "It can include research, strategy, naming, logo design, visual identity, brand assets, guidelines and launch materials, depending on the agreed scope." },
-    { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes. We deliver remotely from Surat, India, with clear communication and a project plan and scope agreed up front. Printing and production abroad depend on the agreed scope." },
-    { question: "Can I choose only one branding service?", answer: "Yes. Individual services such as Brand Design, Brand Kit Design and Brand Video can also be commissioned separately." },
-    { question: "Can you rebrand an existing business?", answer: "Yes. We can assess your current identity and develop a refreshed brand strategy, visual system and rollout plan." },
-    { question: "Do you provide website and packaging design?", answer: "Yes. Website, app and packaging design can be included according to your business needs and project scope." },
-    { question: "Will I receive the source files?", answer: "Deliverable formats, editable files and source assets will be specified in the project proposal." },
-    { question: "How much does brand development cost?", answer: "Pricing depends on the scope, number of deliverables, complexity and timeline. Contact our team for a tailored proposal." },
+    { question: "What is end-to-end brand development?", answer: "End-to-end brand development is one team building your whole brand, from the first idea to the launch. It joins strategy, name, logo, brand kit, packaging, print, website, photos and video, and marketing in one connected plan. That way every part looks and sounds like the same brand." },
+    { question: "What does end-to-end branding in Surat include?", answer: "It includes brand strategy and planning, name, logo and identity, brand kit and guidelines, packaging and labels, printing and stationery, website and online presence, photos and brand video, and launch and marketing. The exact parts depend on the scope agreed in your proposal. You can start with the stages you need most." },
+    { question: "Who is a full branding services package for?", answer: "It suits founders, startups and growing businesses that want to build a brand from scratch, and owners who want to rebrand an existing business. It also fits companies that prefer one team instead of managing a designer, a printer and a developer. We have built brands for many industries, from food and fashion to manufacturing and education." },
+    { question: "How is it different from a logo or brand identity only?", answer: "A logo or brand identity covers how your brand looks, while end-to-end brand development also covers strategy, packaging, print, website and launch. The result is a brand that is ready to be used and introduced to buyers, not only a set of design files. If you only need part of it, you can commission single services such as Brand Design, Brand Kit Design or Brand Video." },
+    { question: "How does the brand building process work?", answer: "We work in six clear stages: idea and discovery, strategy and name, design and identity, products and print, online presence, and launch and execution. Each stage has a clear outcome that you review and approve before we move on. You always know the next step." },
+    { question: "How much do your branding services cost?", answer: "The cost depends on the scope, the number of deliverables, the complexity and the timeline. A startup branding package with a few stages costs differently from a full launch with packaging, website and video. Contact our team and we will prepare a proposal that fits your goals." },
+    { question: "How long does a full brand launch take?", answer: "The time depends on the stages you choose and how quickly feedback and approvals come in. We agree on the timeline for each stage in the project plan before work starts. Starting with strategy and identity and adding other stages later is also possible." },
+    { question: "What will I receive at the end?", answer: "You receive the deliverables listed in your proposal, such as the logo, brand kit and guidelines, packaging, print and online material that were part of the scope. Deliverable formats, editable files and source assets are specified in the project proposal. Nothing is left unclear at hand-over." },
+    { question: "Can you do end-to-end branding for USA, UK, Canada and Australia clients?", answer: "Yes. We deliver remotely from Surat, India, with clear communication, regular updates and a project plan and scope agreed up front. Printing and production abroad depend on the agreed scope. We have worked with clients from the USA, Canada, the UK, Germany, UAE, Singapore and Australia." },
+    { question: "Why hire a branding agency from India like We3vision?", answer: "A branding company in India like We3vision gives you strategy, design, print, website, video and marketing from one team, with remote communication for overseas clients. We3vision Private Limited was founded in 2019 in Surat, Gujarat, and also has a second office in Marburg, Germany. We can also rebrand an existing business and assess your current identity first." },
   ],
   related: related("branddev", "brandkit", "brandvideo"),
-  cta: { heading: "Start Your\nBrand Journey", text: "Tell us your goals. We work with clients in India, the USA, UK, Canada and Australia.", button: "Let's Build Your Brand" },
+  cta: { heading: "Start Your\nBrand Journey", text: "Tell us your goals. We work with clients in Surat, India, the USA, UK, Canada and Australia.", button: "Let's Build Your Brand" },
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
