@@ -20,14 +20,14 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>, id: strin
 export const AI_SEO = {
   title: "AI Development Company in Surat, India | We3vision",
   description:
-    "AI development company in Surat, Gujarat, India: chatbots, machine learning and computer vision for clients in the USA, UK, Canada, Australia. Get a quote.",
+    "AI development company in Surat, India: custom AI solutions, chatbots, machine learning and LLM integration for clients in the USA, UK, Canada, Australia.",
 };
 
 export const AI_SECTIONS: PageSection[] = [
   section("pageHero", {
     chip: "AI Development",
     heading: "Build Smarter Applications\nWith Custom AI",
-    text: "We3vision is an AI development company in Surat, Gujarat, India. We build custom AI solutions, chatbots, recommendation systems, computer vision and predictive analytics for businesses in India, the USA, UK, Canada and Australia.",
+    text: "We3vision is an AI development company in India, based in Surat, Gujarat. We build custom AI solutions, AI chatbots, AI automation for business, machine learning, computer vision and predictive analytics for clients in India, the USA, UK, Canada and Australia.",
     primaryLabel: "Get a free quote",
     primaryHref: "#contact",
     secondaryLabel: "See how AI works",
@@ -36,7 +36,7 @@ export const AI_SECTIONS: PageSection[] = [
   section("flow", {
     chip: "How AI works for you",
     heading: "From Your Data\nTo Real Actions",
-    intro: "AI connects to the places where your information already lives, understands it, and then does the work: answering, sorting, predicting and updating your systems. Here is the whole idea in one picture.",
+    intro: "AI connects to the places where your information already lives, understands it, and then does the work: answering, sorting, predicting and updating your systems. This is AI automation for business in one picture.",
     triggerLabel: "Something happens",
     triggerText: "A customer writes: \"Hi, what is the price of your premium plan?\"",
     steps: "Reads and understands the message\nChecks your CRM, documents and prices\nDecides the best next step\nDoes the work for you",
@@ -64,7 +64,7 @@ export const AI_SECTIONS: PageSection[] = [
     ],
   }),
   section("story", {
-    body: "*AI development* means building software that can *learn from your data* and make decisions or predictions without being told every single step. A normal program always follows the same fixed rules. An AI system finds patterns, understands text and images, and gets better as it sees more examples.\n\nAt We3vision we build *custom AI solutions*: *chatbots, recommendation systems, AI search, computer vision, predictive models* and custom machine learning tools. We use *machine learning, natural language processing and deep learning* to build intelligent systems that grow with your business, and every project is built from scratch around your goals and the tools you already use.",
+    body: "We3vision is an *AI development company in Surat, India*. *AI development* means building software that can *learn from your data* and make decisions or predictions without being told every single step. A normal program always follows the same fixed rules. An AI system finds patterns, understands text and images, and gets better as it sees more examples.\n\nWe build *custom AI solutions*: *AI chatbots, recommendation systems, AI search, computer vision, predictive models* and custom machine learning tools. We use *machine learning, natural language processing and deep learning*, and every project is built from scratch around your goals and the tools you already use.\n\nWe also do *AI integration into existing software* and *generative AI and LLM integration for business*, so you can *hire AI developers from India* without changing the tools your team uses. Clients in the USA, UK, Canada and Australia work with us remotely, with the plan agreed up front.",
   }),
   section("guide", {
     chip: "What can an AI agent do?",
@@ -79,13 +79,13 @@ export const AI_SECTIONS: PageSection[] = [
   section("automate", {
     chip: "What AI can automate",
     heading: "Problems AI Can\nTake Off Your Plate",
-    intro: "If a task is repetitive, data-heavy or waiting for a human to read something, AI can probably help. Watch the switches flip.",
+    intro: "If a task is repetitive, data-heavy or waiting for a human to read something, AI automation for business can probably help. Watch the switches flip.",
     beforeLabel: "Today: by hand",
     afterLabel: "With AI",
     doneLabel: "automated",
     items: [
-      { icon: "chat", problem: "Customers wait for answers", solution: "AI chatbots answer common questions instantly, at any hour, and pass the rest to your team." },
-      { icon: "database", problem: "Too much manual data work", solution: "AI automates data-heavy tasks such as entering, sorting and checking information." },
+      { icon: "chat", problem: "Customers wait for answers", solution: "AI chatbots built for your business answer common questions instantly and pass the rest to your team." },
+      { icon: "database", problem: "Too much manual data work", solution: "AI automation for business handles data-heavy tasks such as entering, sorting and checking information." },
       { icon: "chart", problem: "You cannot tell what will sell", solution: "Predictive models and recommendation engines forecast demand and suggest the right product to each customer." },
       { icon: "users", problem: "Leads are not sorted", solution: "Lead qualification bots score and route enquiries, so your team talks to the right people first." },
       { icon: "image", problem: "Images take hours to review", solution: "Computer vision reads images, such as medical scans or property photos, and flags what matters." },
@@ -97,21 +97,21 @@ export const AI_SECTIONS: PageSection[] = [
   section("services", {
     chip: "Our AI services",
     heading: "What We\nBuild",
-    intro: "Four kinds of AI work, from a simple chatbot to a full machine learning system.",
+    intro: "Four kinds of AI work, from a simple AI chatbot to a full machine learning system, for India and abroad.",
     buttonLabel: "",
     buttonHref: "",
     cards: [
       {
         title: "Generative AI\n& AI Agents",
-        description: "Chatbots and AI assistants connected to your own data, tools and systems, built on models such as OpenAI.",
+        description: "AI chatbot development and LLM integration: assistants connected to your own data, tools and systems, built on models such as OpenAI.",
         href: "",
-        fit: "You want something that talks to customers or your team, understands the question and then does the work, at any hour.",
+        fit: "You want something that talks to customers or your team, understands the question and then does the work.",
         problems: "Customers waiting for simple answers\nYour team repeating the same replies\nInformation spread over many tools",
         outcomes: "A chatbot or assistant that knows your business\nAgents connected to your CRM, e-mail and documents\nHard cases passed to your team with the full story",
       },
       {
         title: "Machine\nLearning",
-        description: "Recommendation engines, customer behaviour prediction and other models trained on your business data.",
+        description: "Machine learning development: recommendation engines, customer behaviour prediction and other models trained on your business data.",
         href: "",
         fit: "You already have data (orders, visits, enquiries) and want to know what is likely to happen next.",
         problems: "Guessing what will sell\nNo idea which customers may leave\nEvery customer sees the same offers",
@@ -119,7 +119,7 @@ export const AI_SECTIONS: PageSection[] = [
       },
       {
         title: "Computer\nVision",
-        description: "Image recognition for use cases like medical image analysis or property listings.",
+        description: "Image recognition for use cases like medical image analysis or property listings, with a person checking what matters.",
         href: "",
         fit: "Your work depends on looking at images or video, and people spend hours doing it by eye.",
         problems: "Images checked one by one by hand\nThings missed when people get tired\nPhotos and scans nobody has time to sort",
@@ -138,13 +138,13 @@ export const AI_SECTIONS: PageSection[] = [
   section("process", {
     chip: "Our process",
     heading: "How We Build\nYour AI",
-    intro: "A simple, collaborative process, from the first conversation to long-term support.",
+    intro: "A simple, collaborative process, from the first conversation to long-term support, with the plan agreed up front.",
     items: [
       { title: "Discovery & strategy", text: "We identify your business challenges and define how AI can deliver measurable impact.", points: "Define problems and objectives\nSet success metrics" },
       { title: "Data collection & preparation", text: "We gather, clean and structure data to make sure it is accurate and reliable for training.", points: "Data sourcing and cleansing\nFeature engineering and labeling" },
       { title: "Model design & development", text: "We design and build machine learning and deep learning models tailored to your goals and datasets.", points: "Model selection and design\nBaseline training" },
       { title: "Algorithm training & testing", text: "We train with real-world data and test for accuracy, efficiency and predictive performance.", points: "Hyperparameter tuning\nValidation and test evaluation" },
-      { title: "Integration with systems", text: "We integrate the AI into your existing software, CRM or platforms through APIs and services.", points: "API / service integration\nSecurity and compliance checks" },
+      { title: "Integration with systems", text: "We handle AI integration into your existing software, CRM or platforms through APIs and services.", points: "API / service integration\nSecurity and compliance checks" },
       { title: "Performance optimization", text: "We fine-tune the algorithms for speed, accuracy and real-time adaptability.", points: "Latency and throughput tuning\nModel compression / optimization" },
       { title: "Deployment & monitoring", text: "We deploy to production and continuously monitor stability and performance.", points: "Production deployment\nObservability and alerts" },
       { title: "Support & scalability", text: "We provide ongoing support, retraining and scaling as your data and needs evolve.", points: "Retraining and updates\nCapacity planning and scaling" },
@@ -159,7 +159,7 @@ export const AI_SECTIONS: PageSection[] = [
   section("industries", {
     chip: "Industries We Serve",
     heading: "AI For\nEvery Industry",
-    intro: "The same ideas work differently in every business. Here is what AI looks like in some of them.",
+    intro: "The same ideas work differently in every business. Here is what AI looks like in some industries we serve in India and abroad.",
     items: [
       { name: "Healthcare", description: "AI-powered medical image analysis, symptom checkers and patient prediction models." },
       { name: "E-commerce & retail", description: "Recommendation engines, customer behaviour prediction and AI chatbots for sales." },
@@ -174,11 +174,11 @@ export const AI_SECTIONS: PageSection[] = [
     heading: "AI That Actually\nSolves Problems",
     intro: "",
     items: [
-      { title: "AI experts + business thinkers", description: "We combine data science with domain knowledge to build AI that actually solves problems." },
-      { title: "Custom AI, no templates", description: "Every project is built from scratch to fit your needs, goals and tech stack." },
+      { title: "AI experts + business thinkers", description: "We combine data science with domain knowledge to build AI that solves real business problems, for India and overseas clients." },
+      { title: "Custom AI, no templates", description: "Custom AI solutions built from scratch to fit your needs, goals and tech stack." },
       { title: "Ethical & secure development", description: "We follow best practices in data privacy, model transparency and ethical AI design." },
       { title: "Scalable & future-ready code", description: "Our AI systems are designed to grow with your business, flexible and easy to update." },
-      { title: "Ongoing support & model tuning", description: "AI needs updates: we monitor, retrain and keep your model sharp over time." },
+      { title: "Ongoing support & model tuning", description: "AI needs updates: we monitor, retrain and keep your model sharp over time, with human review where it matters." },
     ],
   }, "why-we3vision"),
   section("faq", {
@@ -186,18 +186,22 @@ export const AI_SECTIONS: PageSection[] = [
     heading: "Questions\nWe Often Hear",
     intro: "",
     items: [
-      { question: "What AI development services do you offer?", answer: "We3vision builds custom AI solutions in Surat, India, including chatbots, recommendation systems, AI search, computer vision, predictive models and custom machine learning tools." },
-      { question: "Do I need to have my own data?", answer: "If you have data, great! If not, we help gather or use open-source / public data to train your model." },
-      { question: "How much time does an AI project take?", answer: "It depends. Simple bots can be done in 2–3 weeks. Complex models take 1–3 months." },
-      { question: "Can your AI integrate with our current systems?", answer: "Yes! We build APIs or plugins that connect with your website, CRM, mobile app or ERP." },
-      { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, we deliver AI projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front." },
-      { question: "Will I need a developer to maintain it later?", answer: "Not always. We can automate monitoring and even offer ongoing support packages." },
+      { question: "What is custom AI development?", answer: "Custom AI development means building AI software around your own data, tasks and tools instead of using a ready-made product. As an AI development company in Surat, India, We3vision builds chatbots, recommendation systems, AI search, computer vision, predictive models and custom machine learning tools. Every project is built from scratch around your goals." },
+      { question: "Which business tasks can AI automate?", answer: "AI can automate repetitive, data-heavy tasks such as answering customer questions, sorting leads, entering and checking data, reading images and forecasting demand. Tasks that need judgment still go to your team. Tell us what slows you down and we will say what is realistic." },
+      { question: "AI chatbot or AI automation: which do I need?", answer: "Choose an AI chatbot when people need answers, and AI automation when work has to move between your systems. Many projects use both: the chatbot talks to people while the automation updates your CRM, e-mail or documents. We help you pick after hearing the task." },
+      { question: "Where should a small business start with AI?", answer: "Start with one repetitive task, such as answering common customer questions or sorting leads, and build from there. If you have data we use it, and if not we help gather or use public data to train your model. We can scope a small first project with you." },
+      { question: "How much does AI development cost?", answer: "The cost depends on what you want built, how much data you have and which systems it connects to, so we quote after a short discussion. We agree the scope and deliverables up front. Use the form below to get a free quote." },
+      { question: "How much time does an AI project take?", answer: "It depends on the project. Simple bots can be done in 2–3 weeks, and complex models take 1–3 months." },
+      { question: "Is my data safe with an AI development company?", answer: "We follow best practices in data privacy, model transparency and ethical AI design, and our integration step includes security and compliance checks. Tell us which data is sensitive and we plan around it before work starts." },
+      { question: "Can AI be integrated into our existing software?", answer: "Yes, we build APIs or plugins that connect AI with your website, CRM, mobile app or ERP. This is AI integration into existing software, so your team keeps using the tools it already knows." },
+      { question: "Do you work with clients in the USA, UK, Canada and Australia?", answer: "Yes, our Surat, India team delivers AI projects remotely for clients in the USA, UK, Canada and Australia, as well as India. You can hire AI developers from India for your project. We keep communication clear and agree the plan, scope and deliverables up front." },
+      { question: "Will AI work without people, and who maintains it?", answer: "People stay in control: hard cases are passed to your team with the full story, and important items are flagged for a person to check. You do not always need your own developer, because we can automate monitoring and offer ongoing support." },
     ],
   }),
   section("contact", {
     chip: "Let's talk",
     heading: "Ready To Bring\nYour Idea To Life?",
-    text: "Fill out the form for a free consultation with our Surat, India team, who also serve clients in the USA, UK, Canada and Australia. Tell us what you want to automate.",
+    text: "Fill out the form for a free consultation with our AI development team in Surat, India, who also serve clients in the USA, UK, Canada and Australia remotely. Tell us what you want to automate.",
     buttonLabel: "Get a free quote",
   }),
 ];
