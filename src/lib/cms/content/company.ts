@@ -10,8 +10,8 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>, id: strin
 
 // ---- Blog ----
 export const BLOG_SEO = {
-  title: "Blog | Web, AI, Design & Digital Insights | We3vision",
-  description: "Articles from We3vision on UI/UX design, AI automation and building better websites, apps and digital products.",
+  title: "Blog | Web, AI, UI/UX & Business Tips from Surat | We3vision",
+  description: "Guides from We3vision, a software company in Surat, India: UI/UX design, AI automation, web development, internships and choosing an IT partner.",
 };
 export const BLOG_SECTIONS: PageSection[] = [
   section("pageHero", {
