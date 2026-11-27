@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 197,
+    date: "2026-11-27",
+    title: "Blog cards: the small We3vision icon in the top right corner",
+    notes: [
+      "Every blog card (picture wall, grid and list) has the small We3vision icon in its top right corner.",
+    ],
+  },
+  {
     v: 196,
     date: "2026-11-27",
     title: "Blog cards always show the topic and its tag",

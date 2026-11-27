@@ -87,3 +87,27 @@
   .bx-grid > li, .bx-list > li, .bx-picks > li, .bx-picks-cards > li { animation: none; }
   .bx-pic img, .bx-top-pic img, .bx-top-btn, .bx-topics button { transition: none; }
 }
+
+/* blogmark-: the small We3vision icon in the top right corner of every blog card (picture wall, grid and list) */
+.bm-card::after,
+.bx-pic::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border: 1px solid hsl(0 0% 100% / 0.18);
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 8% / 0.65) url("/brand/logo-mark.webp") center / 62% auto no-repeat;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+.bx-list .bx-pic::after {
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+}
