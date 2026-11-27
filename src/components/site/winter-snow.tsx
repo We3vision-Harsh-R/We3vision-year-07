@@ -29,6 +29,11 @@ const WTS = (() => {
   return w.map((v) => v / s);
 })();
 const GRAV = 900; // px/s2 for a falling clump
+// the snow on the floor of the page (owner, 2026-11-27): a thin line along the bottom of the window, heaped up in the two bottom corners
+const GW = 4; // px of floor per snow column
+const FLOOR_H = 3; // the thin line (px)
+const CORNER_H = 40; // the heap in each bottom corner (px)
+const CORNER_W = 190; // how far a corner heap reaches along the floor (px)
 
 type Flake = { x: number; y: number; vx: number; vy: number; r: number; vt: number; ph: number; fq: number; sway: number; a: number };
 type Clump = { x: number; y: number; vx: number; vy: number; r: number };
@@ -72,7 +77,23 @@ export function WinterSnow() {
       canvas.height = Math.round(vh * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
+    // ---------- the snow on the floor ----------
+    let floor = new Float32Array(0); // the fixed shape: thin line + two corner heaps
+    let extra = new Float32Array(0); // snow that has landed on top, it settles slowly
+    const buildFloor = () => {
+      const n = Math.ceil(vw / GW) + 1;
+      floor = new Float32Array(n);
+      extra = new Float32Array(n);
+      for (let i = 0; i < n; i++) {
+        const x = i * GW;
+        const d = Math.min(x, vw - x);
+        const heap = CORNER_H * Math.exp(-Math.pow(d / CORNER_W, 2) * 1.6);
+        const bump = 1 + 0.12 * Math.sin(x * 0.07 + 1.2) + 0.08 * Math.sin(x * 0.19);
+        floor[i] = FLOOR_H + heap * bump + 0.8 * Math.sin(x * 0.045);
+      }
+    };
     resize();
+    buildFloor();
 
     // ---------- the snow on the bar ----------
     const h = new Float32Array(COLS); // snow height per column (px)
@@ -440,6 +461,20 @@ export function WinterSnow() {
               continue;
             }
           }
+          // lands on the floor: a little more snow on the line (more in the corners), then the flake starts again at the top
+          if (f.y > vh - CORNER_H - 4) {
+            const i = clamp(Math.floor(f.x / GW), 0, floor.length - 1);
+            if (f.y + f.r * 0.4 >= vh - (floor[i] + extra[i])) {
+              const cap = 3 + 9 * (floor[i] > FLOOR_H + 6 ? 1 : 0);
+              const vol = f.r * f.r * 1.6;
+              for (let k = -4; k <= 4; k++) {
+                const j = i + k;
+                if (j >= 0 && j < extra.length) extra[j] = Math.min(cap, extra[j] + (vol * WTS[k + 4]) / 2);
+              }
+              spawn(f, false);
+              continue;
+            }
+          }
           if (f.y > vh + 10 || f.x < -60 || f.x > vw + 60) {
             spawn(f, false);
             continue;
@@ -450,6 +485,21 @@ export function WinterSnow() {
         }
       }
       ctx.globalAlpha = 1;
+
+      // ----- the snow on the floor: thin line along the bottom, heaped in both bottom corners -----
+      const nF = floor.length;
+      for (let i = 0; i < nF; i++) if (extra[i] > 0) extra[i] = Math.max(0, extra[i] - dt * 0.35);
+      ctx.beginPath();
+      ctx.moveTo(0, vh + 2);
+      for (let i = 0; i < nF; i++) ctx.lineTo(i * GW, vh - (floor[i] + extra[i]));
+      ctx.lineTo(vw, vh + 2);
+      ctx.closePath();
+      const gg = ctx.createLinearGradient(0, vh - CORNER_H - 12, 0, vh);
+      gg.addColorStop(0, "#ffffff");
+      gg.addColorStop(0.45, "#eef4fd");
+      gg.addColorStop(1, "#c3d4ee");
+      ctx.fillStyle = gg;
+      ctx.fill();
     };
 
     const start = () => {
@@ -466,6 +516,7 @@ export function WinterSnow() {
     const onWide = () => (wide.matches ? start() : stop());
     const onResize = () => {
       resize();
+      buildFloor();
       for (const f of flakes) if (f.x > vw + 60) f.x = Math.random() * vw;
     };
     const onVis = () => {
