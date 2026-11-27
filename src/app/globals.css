@@ -12361,3 +12361,47 @@ a.itg-tag:hover {
     animation: none;
   }
 }
+
+/* ---- ctm-: the Contact page on phones and tablets (owner, 2026-11-27): the form comes first (before the address cards), and every phone number and e-mail is a big tap row */
+@media (max-width: 900px) {
+  :root:root .hb2-ct-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  :root:root .hb2-ct-panel {
+    order: -1;
+    padding: 24px 20px 26px;
+  }
+  :root:root .hb2-ct-panel h2 {
+    margin-bottom: 18px;
+    font-size: 28px;
+  }
+  :root:root .hb2-ct-cards {
+    gap: 14px;
+  }
+  :root:root .hb2-ct-card {
+    padding: 22px 20px;
+  }
+  :root:root .hb2-ct-card h2 {
+    margin-bottom: 12px;
+  }
+  :root:root .hb2-ct-card p {
+    gap: 8px;
+  }
+  :root:root .hb2-ct-card p a {
+    display: flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 80% / 0.16);
+    background: hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 70% / 0.08);
+    font-size: 17px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  :root:root .hb2-ct-card p a:active {
+    background: hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 70% / 0.18);
+  }
+}
