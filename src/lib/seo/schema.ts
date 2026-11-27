@@ -22,7 +22,6 @@ const KNOWS_ABOUT = [
   "Mobile app development",
   "Augmented reality (AR) and virtual reality (VR)",
   "Metaverse development",
-  "Game development",
   "UI/UX design",
   "Brand and graphic design",
   "3D modeling and animation",

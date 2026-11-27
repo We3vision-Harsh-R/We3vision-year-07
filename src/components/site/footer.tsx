@@ -30,7 +30,6 @@ const MORE_GROUPS = [
     label: "Software",
     items: [
       { label: "Software Development", href: "/software-development-services" },
-      { label: "Game Development", href: "/game-development" },
       { label: "Shopify Plugin Development", href: "/shopify-plugin-development-services" },
       { label: "WordPress Plugin Development", href: "/wordpress-plugin-development-company" },
     ],

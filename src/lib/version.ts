@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 200,
+    date: "2026-11-27",
+    title: "Game Development removed from the website",
+    notes: [
+      "The Game Development page, its 20 blog articles (the GTA-style series) and their pictures are removed. /game-development goes to the home page and the old article addresses go to the Blog.",
+      "Game Development is also taken out of the menus, the footer, the service cards, the home FAQ, the chat fallback list and the search description.",
+    ],
+  },
+  {
     v: 199,
     date: "2026-11-27",
     title: "Blog cards: a clearer icon in the corner",

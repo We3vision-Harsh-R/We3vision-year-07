@@ -11,7 +11,6 @@ import "@/styles/blog-post.css";
 // described to Google as a breadcrumb, an Article and a FAQPage (lib/seo/schema.ts). Look: globals.css (.bp-*) for the column, styles/blog-post.css (.bpx-*) for the sides.
 // the service page that belongs to the topic of an article: a link from the article to it (and the page links back through its list of articles)
 const SERVICE_OF: Record<string, { label: string; href: string }> = {
-  "Game Development": { label: "Game development services", href: "/game-development" },
 };
 const words = (post: BlogEntry) => post.blocks.reduce((n, b) => n + ("h" in b ? b.h : "p" in b ? b.p : b.ul.join(" ")).split(/\s+/).length, 0);
 

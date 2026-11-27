@@ -45,7 +45,13 @@ const nextConfig: NextConfig = {
   // adds a 301 from the bare domain to www. It is off by default because it relies on the host forwarding the original Host header: if it did not, www would
   // redirect to itself. Turn it on, open https://we3vision.com/about in a private window, and remove the variable again if it does not land on www.
   async redirects() {
-    return ["07.we3vision.com", ...(process.env.FORCE_WWW === "1" ? ["we3vision.com"] : [])].map((host) => ({ source: "/:path*", has: [{ type: "host" as const, value: host }], destination: "https://www.we3vision.com/:path*", permanent: true }));
+    // Game Development was removed from the website (owner, 2026-11-27): the page goes to the home page, its articles to the Blog
+    const gameGone = [
+      { source: "/game-development", destination: "/", permanent: true },
+      ...["how-gta-style-open-world-games-are-made", "open-world-map-streaming-chunks-and-lod", "vehicle-physics-in-3d-games-explained", "traffic-and-crowd-ai-in-open-world-games", "pathfinding-navmesh-and-a-star-in-games", "multiplayer-game-architecture-client-server", "netcode-lag-prediction-and-interpolation", "scaling-game-servers-for-thousands-of-players", "mission-and-quest-systems-in-open-world-games", "third-person-camera-and-controls-in-3d-games", "3d-model-pipeline-for-games-concept-to-engine", "rendering-big-3d-cities-culling-and-draw-calls", "day-night-cycle-lighting-and-weather-in-games", "procedural-generation-for-3d-game-worlds", "spatial-audio-and-sound-design-in-3d-games", "game-ui-minimaps-waypoints-and-hud-design", "player-accounts-and-databases-for-online-games", "anti-cheat-and-security-for-online-games", "unity-vs-unreal-engine-open-world-games", "gta-style-game-development-cost-time-and-team"].map((slug) => ({ source: `/blog/${slug}`, destination: "/blog", permanent: true })),
+    ];
+    const hosts = ["07.we3vision.com", ...(process.env.FORCE_WWW === "1" ? ["we3vision.com"] : [])].map((host) => ({ source: "/:path*", has: [{ type: "host" as const, value: host }], destination: "https://www.we3vision.com/:path*", permanent: true }));
+    return [...gameGone, ...hosts];
   },
   async headers() {
     return [

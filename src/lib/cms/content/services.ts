@@ -372,7 +372,6 @@ export const METAVERSE_FULL_SECTIONS = build({
     { title: "3D\nModeling", description: "3D assets and environments for virtual worlds.", href: "/3d-modeling" },
     { title: "2D/3D\nAnimation", description: "Animation, CGI and 3D visualization.", href: "/animation" },
     { title: "UI/UX\nDesign", description: "Interfaces for AR/VR, XR and metaverse environments.", href: "/ui-ux-design" },
-    { title: "Game\nDevelopment", description: "Interactive 3D games and game worlds with Unity and Unreal Engine.", href: "/game-development" },
   ],
   guide: { scene: "metaverse", chip: "Step inside", heading: "Put on the headset,\nenter the metaverse", text: "Our guide explores virtual worlds with a headset on. Click the portal to teleport to another world and move your mouse to look around.", tips: ["Welcome to the metaverse! Click the portal to teleport.","Virtual worlds, applications and events, built with Unity and Unreal.","Move your mouse: the whole world tilts with you.","Virtual showrooms, campuses and arenas are all possible."] },
   cta: { heading: "Ready To Build Your\nVirtual Experience?", text: "Discuss your metaverse idea with We3vision and explore virtual worlds, metaverse applications and immersive digital experiences for your business.", button: "Discuss your metaverse project" },
@@ -741,7 +740,6 @@ export const MODELING_SECTIONS = build({
   related: [
     { title: "2D/3D\nAnimation", description: "Animation, CGI and 3D visualization.", href: "/animation" },
     { title: "Metaverse\nSolutions", description: "Virtual worlds that use your 3D assets.", href: "/metaverse" },
-    { title: "Game\nDevelopment", description: "Use your 3D assets in a playable game for web, mobile and VR.", href: "/game-development" },
     { title: "Graphics &\nUI/UX Design", description: "Brand visuals and interfaces.", href: "/graphics" },
   ],
   cta: { heading: "Bring Your 3D\nConcept To Life", text: "Do you have a product, character, environment or creative idea that you want to see in 3D? Tell us about your project and discuss the right approach.", button: "Start your 3D project" },

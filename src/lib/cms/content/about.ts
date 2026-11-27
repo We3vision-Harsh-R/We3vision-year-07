@@ -52,11 +52,6 @@ export const ABOUT_SECTIONS: PageSection[] = [
         href: "/mobile",
       },
       {
-        title: "Game\nDevelopment",
-        description: "Engaging and interactive games for web, mobile and emerging platforms, blending creativity and technology.",
-        href: "/game-development",
-      },
-      {
         title: "UI/UX &\nBranding",
         description: "Beautiful, intuitive interfaces and strong brand identities that leave a lasting impression.",
         href: "/ui-ux-design",
@@ -81,7 +76,7 @@ export const ABOUT_SECTIONS: PageSection[] = [
       { year: "2022", text: "Launched metaverse solutions and grew a specialized team." },
       { year: "2023", text: "Scaled AR/VR pilots and boosted UI/UX with new prototypes." },
       { year: "2024", text: "Delivered diverse VR projects in construction, real estate and mining." },
-      { year: "2025", text: "Focused on metaverse, game development, graphic design and animation." },
+      { year: "2025", text: "Focused on metaverse, graphic design and animation." },
       { year: "2026", text: "Started building our own SaaS product, expanding our solutions into scalable software." },
     ],
   }),

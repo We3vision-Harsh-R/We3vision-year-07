@@ -26,7 +26,6 @@ import {
   WEBDEV_SEO,
 } from "./content/services";
 import { SHOPIFYPLUGIN_SECTIONS, SHOPIFYPLUGIN_SEO, SOFTWARE_SECTIONS, SOFTWARE_SEO, BRANDDEV_SECTIONS, BRANDDEV_SEO, BRANDKIT_SECTIONS, BRANDKIT_SEO, BRANDVIDEO_SECTIONS, BRANDVIDEO_SEO, ZERO_SECTIONS, ZERO_SEO, META_SECTIONS, META_SEO, PHYSICAL_SECTIONS, PHYSICAL_SEO } from "./content/new-services";
-import { GAME_SECTIONS, GAME_SEO } from "./content/game-development";
 import { PRODUCTS_SECTIONS, PRODUCTS_SEO, WEBUGMATE_SECTIONS, WEBUGMATE_SEO, WEJOBS_SECTIONS, WEJOBS_SEO, WETHINK_SECTIONS, WETHINK_SEO, WEPRESENT_SECTIONS, WEPRESENT_SEO } from "./content/products";
 import { normalize } from "./fields";
 import { SECTIONS, isSectionType } from "./sections";
@@ -123,12 +122,6 @@ export const PAGES = {
     path: "/software-development-services",
     defaultSeo: SOFTWARE_SEO,
     defaultContent: { sections: SOFTWARE_SECTIONS } satisfies PageContent,
-  },
-  "game": {
-    title: "Game Development",
-    path: "/game-development",
-    defaultSeo: GAME_SEO,
-    defaultContent: { sections: GAME_SECTIONS } satisfies PageContent,
   },
   "brand-development": {
     title: "Brand Development",
