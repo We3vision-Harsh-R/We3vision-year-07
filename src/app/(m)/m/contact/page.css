@@ -175,3 +175,21 @@
   letter-spacing: 0;
   font-weight: 600;
 }
+
+/* the topics of the Contact page (owner, 2026-11-27): five segments, a title and text per topic, the Partner program ways, checkboxes in the form */
+.ma-root .mp-con-seg button { padding: 0 4px; font-size: 14px; }
+.ma-root .mp-con-th { margin: 18px 0 8px; font-size: 22px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.2; color: var(--ma-text); }
+.ma-root .mp-con-tt { margin: 0 0 14px; font-size: 16px; line-height: 1.5; color: var(--ma-text2); }
+.ma-root .mp-con-tl { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.ma-root .mp-con-ways { display: grid; gap: 12px; margin: 16px 0 0; padding: 0; list-style: none; }
+.ma-root .mp-con-way { display: grid; gap: 8px; padding: 16px; border-radius: 22px; background: hsl(240 6% 50% / 0.14); box-shadow: inset 0 0 0 0.5px hsl(0 0% 100% / 0.08); }
+.ma-root .mp-con-way b { font-size: 18px; font-weight: 600; color: var(--ma-text); }
+.ma-root .mp-con-way span { font-size: 16px; line-height: 1.5; color: var(--ma-text2); }
+.ma-root .mp-con-way .ma-btn { justify-self: start; min-height: 44px; }
+.ma-root .ma-checks { display: grid; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.ma-root .ma-checks legend { padding: 0; margin-bottom: 8px; font-size: 14px; color: var(--ma-text2); }
+.ma-root .ma-check { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 14px; border-radius: 14px; background: hsl(240 6% 50% / 0.16); cursor: pointer; }
+.ma-root .ma-check input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: hsl(calc(var(--th) + 0) calc(85% * var(--ts)) 60%); }
+.ma-root .ma-check span { font-size: 16px; color: var(--ma-text); }
+.ma-root select.ma-input { appearance: auto; }
+.ma-root select.ma-input option { color: #111; }

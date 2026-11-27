@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState, type FormEvent } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";
 import { leadProblems, limitPhone, type LeadProblems, type LeadValues } from "@/lib/contact-validation";
+import type { Topic } from "@/lib/contact-topics";
 
 type Key = keyof LeadValues;
 const ORDER: Key[] = ["name", "email", "phone", "message"];
@@ -12,7 +13,7 @@ const ORDER: Key[] = ["name", "email", "phone", "message"];
  * The values are kept in state (a form action empties an uncontrolled form when the server answers, so a wrong phone number used to erase everything the
  * visitor had typed). The same rules as the laptop form (lib/contact-validation.ts) run while the visitor types, with a clear line under the field.
  */
-export function LeadForm({ buttonLabel = "Send a Message" }: { buttonLabel?: string }) {
+export function LeadForm({ buttonLabel = "Send a Message", topic, courses = [], ticked = [] }: { buttonLabel?: string; topic?: Topic; courses?: string[]; ticked?: string[] }) {
   const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, { status: "idle" });
   const [v, setV] = useState<LeadValues>({ name: "", email: "", phone: "", message: "" });
   const [seen, setSeen] = useState<Partial<Record<Key, boolean>>>({});
@@ -74,15 +75,50 @@ export function LeadForm({ buttonLabel = "Send a Message" }: { buttonLabel?: str
         <input className="ma-input" {...common("phone")} onChange={(e) => set("phone", limitPhone(e.target.value))} type="tel" inputMode="tel" maxLength={20} autoComplete="tel" placeholder="Mobile number (+91)" />
         {err("phone")}
       </label>
+      {topic?.extras.map((x) => {
+        const opts = x.key === "domain" ? [...courses, "Not sure yet"] : (x.options ?? []);
+        if (x.kind === "checks")
+          return (
+            <fieldset key={x.key} className="ma-checks">
+              <legend>{x.label}</legend>
+              {opts.map((o) => (
+                <label key={o} className="ma-check">
+                  <input type="checkbox" name={`d_${x.key}`} value={o} defaultChecked={ticked.includes(o)} />
+                  <span>{o}</span>
+                </label>
+              ))}
+            </fieldset>
+          );
+        if (x.kind === "select")
+          return (
+            <label key={x.key} className="ma-field">
+              <span>{x.label}</span>
+              <select className="ma-input" name={`d_${x.key}`} defaultValue={opts[0]}>
+                {opts.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </label>
+          );
+        return (
+          <label key={x.key} className="ma-field">
+            <span>{x.label}</span>
+            <input className="ma-input" name={`d_${x.key}`} maxLength={120} placeholder={x.placeholder} />
+          </label>
+        );
+      })}
       <label className="ma-field">
-        <span>How can we help?</span>
-        <textarea className="ma-input" {...common("message")} onChange={(e) => set("message", e.target.value)} maxLength={2000} placeholder="Tell us about your project" />
+        <span>{topic?.messageLabel ?? "How can we help?"}</span>
+        <textarea className="ma-input" {...common("message")} onChange={(e) => set("message", e.target.value)} maxLength={2000} placeholder={topic?.placeholder ?? "Tell us about your project"} />
         {err("message")}
       </label>
+      {topic && <input type="hidden" name="topic" value={topic.id} />}
       <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="ma-hp" />
       <input type="hidden" name="phoneRequired" value="1" />
       <button type="submit" className="ma-btn ma-btn-fill ma-btn-block" disabled={pending} aria-busy={pending}>
-        {pending ? "Sending…" : buttonLabel}
+        {pending ? "Sending…" : (topic?.button ?? buttonLabel)}
       </button>
       {state.status === "error" && (
         <p className="ma-note ma-note-er" role="alert">

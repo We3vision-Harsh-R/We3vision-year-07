@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MobileDock } from "@/components/site/mobile-dock";
 import type { MegaData } from "@/components/site/mega-menu";
+import { PageFx } from "@/components/site/page-fx";
 import "@/styles/nav-bar.css";
 
 /**
@@ -23,6 +24,7 @@ export function PhoneDock({ mega }: { mega: MegaData }) {
   };
   return (
     <>
+      <PageFx />
       <MobileDock
         menuOpen={menuOpen}
         wheelOpen={wheel}

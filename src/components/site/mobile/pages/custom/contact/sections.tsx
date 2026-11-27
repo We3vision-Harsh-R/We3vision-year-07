@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import type { MobileSection } from "../../types";
-import { AppLink, LeadForm, Section } from "../../../app";
+import { AppLink, Section } from "../../../app";
 import { IcChat, IcChevron, IcMail, IcPhone, IcPin, IcWhatsApp } from "../../../app/icons";
 import { Lines, Rich, lines } from "../../../app/text";
-import { Segmented } from "./client";
+import { ContactTopics } from "./client";
+import { getCourses } from "@/lib/training-server";
 import { GTA_ON } from "@/lib/gta";
 import { HomeMessageRoute } from "@/components/site/home/home-message-route";
 
@@ -146,7 +147,8 @@ export const ContactCard: MobileSection<"pageHero"> = ({ data, index, site, cont
 };
 
 /** the form and the contact cards behind one segmented control */
-export const ContactForm: MobileSection<"contact"> = ({ data, site }) => {
+export const ContactForm: MobileSection<"contact"> = async ({ data, site }) => {
+  const courses = (await getCourses().catch(() => [])).filter((c) => c.show).map((c) => c.name);
   const details = site.contactCards.map((card, i) => (
     <div key={i} className="mp-con-fields">
       {card.title && <p className="mp-con-fh">{card.title}</p>}
@@ -172,7 +174,6 @@ export const ContactForm: MobileSection<"contact"> = ({ data, site }) => {
       </ul>
     </div>
   ));
-  const form = <LeadForm buttonLabel={data.buttonLabel || undefined} />;
   return (
     <Section id="contact" chip={data.chip} title={data.heading} intro={data.text}>
       <div className={g("gtc-phone")}>
@@ -189,7 +190,7 @@ export const ContactForm: MobileSection<"contact"> = ({ data, site }) => {
             <HomeMessageRoute />
           </>
         )}
-        {details.length > 0 ? <Segmented label="How to reach us" tabs={["Message", "Phone and e-mail"]} panels={[form, <div key="d" className="mp-con-list">{details}</div>]} /> : form}
+        <ContactTopics courses={courses} details={<div className="mp-con-list">{details}</div>} />
       </div>
     </Section>
   );
