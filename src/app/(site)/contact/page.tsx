@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
-import { HomeContact } from "@/components/site/home/home-contact";
+import { ContactDesk } from "@/components/site/contact/contact-desk";
+import { getCourses } from "@/lib/training-server";
 import { HomePageHero, HomeShell } from "@/components/site/home/home-chrome";
 import { PageJsonLd } from "@/components/site/page-jsonld";
 import { getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
@@ -19,16 +20,17 @@ function Line({ t }: { t: string }) {
 }
 
 export default async function PageContact() {
-  const [site, page] = await Promise.all([getSiteSettings(), getPublishedPage("contact")]);
+  const [site, page, courses] = await Promise.all([getSiteSettings(), getPublishedPage("contact"), getCourses().catch(() => [])]);
   return (
     <HomeShell>
       <PageJsonLd slug="contact" title={page.title} description={page.description} site={site} mainEntityId={orgId(siteBase())} />
-      <HomePageHero label="Contact us" line="Tell us about your idea and the We3vision team will get back to you. Web, AI, apps, VR and design: we are happy to help.">
-        <em>Let&apos;s build</em> something together
+      <HomePageHero label="Contact us" line="Choose what you want to talk about: a project, a partnership, an internship or job, or industry training. The We3vision team replies to every message.">
+        <em>How can</em> we help you?
       </HomePageHero>
-      <section className="hb2-ct" aria-label="Contact">
-        <div className="hb2-wrap hb2-ct-grid">
-          <div className="hb2-ct-cards">
+      <ContactDesk courses={courses.filter((c) => c.show).map((c) => c.name)} />
+      <section className="hb2-ct" aria-label="Our offices">
+        <div className="hb2-wrap">
+          <div className="hb2-ct-cards ctd-offices">
             {site.contactCards.map((c, i) => (
               <article key={c.title} className="hb2-ct-card" data-r style={{ "--d": `${i * 100}ms` } as CSSProperties}>
                 <h2>{c.title}</h2>
@@ -39,12 +41,6 @@ export default async function PageContact() {
                 </p>
               </article>
             ))}
-          </div>
-          <div className="hb2-ct-panel" data-r style={{ "--d": "150ms" } as CSSProperties}>
-            <h2>
-              Send us a <em>message</em>
-            </h2>
-            <HomeContact />
           </div>
         </div>
       </section>

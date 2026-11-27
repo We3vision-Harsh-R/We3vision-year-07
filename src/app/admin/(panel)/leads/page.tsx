@@ -24,6 +24,9 @@ export default async function LeadsPage() {
               <div>
                 <p className="font-semibold">
                   {lead.name} {!lead.isRead && <span className="ml-1 rounded-full bg-brand px-2 py-0.5 text-xs font-medium text-white">new</span>}
+                  {/^Topic: (.+)$/m.exec(lead.message)?.[1] && (
+                    <span className="ml-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">{/^Topic: (.+)$/m.exec(lead.message)?.[1]}</span>
+                  )}
                 </p>
                 <p className="mt-0.5 text-sm text-zinc-500">
                   <a className="hover:text-brand" href={`mailto:${lead.email}`}>

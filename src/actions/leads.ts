@@ -8,6 +8,7 @@ import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
 import { cleanLeadName, leadPhone, leadProblems } from "@/lib/contact-validation";
 import { clientIp } from "@/lib/request";
+import { topicHeader } from "@/lib/contact-topics";
 
 export type LeadState = { status: "idle" | "success" | "error"; message?: string };
 
@@ -26,7 +27,14 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
   const first = (["name", "email", "phone", "message"] as const).map((k) => problems[k]).find(Boolean);
   if (first) return { status: "error", message: first };
   const phone = input.phone.trim() ? (() => { const p = leadPhone(input.phone); return p.ok ? p.value : ""; })() : "";
-  const parsed = { success: true as const, data: { name: cleanLeadName(input.name), email: input.email.toLowerCase(), phone, message: input.message.trim().slice(0, 2000) } };
+  // the Contact page topics (project / partner / internship and job / industry training): the topic and its extra answers go at the top of the message
+  const topic = typeof formData.get("topic") === "string" ? String(formData.get("topic")) : "";
+  const header = topicHeader(topic, (k) => formData.getAll(`d_${k}`).filter((x): x is string => typeof x === "string"));
+  const body = input.message.trim();
+  const message = header ? `${header}
+
+${body.slice(0, 2000 - header.length - 2)}` : body.slice(0, 2000);
+  const parsed = { success: true as const, data: { name: cleanLeadName(input.name), email: input.email.toLowerCase(), phone, message } };
   if (!hasDb) return { status: "error", message: "The form is not available right now. Please email us instead." };
 
   try {
