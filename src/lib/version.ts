@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 199,
+    date: "2026-11-27",
+    title: "Blog cards: a clearer icon in the corner",
+    notes: [
+      "The We3vision icon on the blog cards is bigger, has a soft shadow and sits on a stronger dark corner, so it is easy to see on every picture.",
+    ],
+  },
+  {
     v: 198,
     date: "2026-11-27",
     title: "Blog cards: white icon on a dark corner",
