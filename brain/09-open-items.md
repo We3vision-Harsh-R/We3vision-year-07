@@ -382,3 +382,5 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Sign in once as each account and check: Parth sees only ticked screens (menu, dashboard, typing a forbidden address goes back to the dashboard with a note); a master cannot remove a master; Latest applications shows the right people.
 - Run `npm run build` and add the version entry (lib/version.ts) when pushing; commit in one batch with the hiring glow, board and contact work (not pushed).
 - Optional: let the team member change his own password; delete the unused donut CSS.
+- Admin RBAC is live (v205): sign in as Harsh@ and as Parth@ once and check the rights; tick Parth's screens in Admin access. harshc@we3vision.com can no longer sign in (remove that row in Admin access when sure).
+- A build made with `NEXT_DIST_DIR=.next-rel` (the other chat's release build) writes `.next-rel/` and reformats tsconfig.json; `.next-rel/` is not in .gitignore: add it.
