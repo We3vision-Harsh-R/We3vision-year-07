@@ -8000,4 +8000,28 @@ a.itg-tag:hover {
     order: 0;
   }}
 
-
+/* lt-: LIGHT MODE + speed helpers (lib/lite.ts). <html data-lite> = a weak laptop (few cores / little memory / data saver / reduced motion / measured
+   slow frames): no backdrop blur (the biggest GPU cost), no text glow, no leftover will-change layers, the scroll bar and cursor of the browser stay
+   native. <html data-hid="1"> = the tab is hidden: every CSS animation is paused. The design is otherwise the same. */
+html[data-lite] *,
+html[data-lite] *::before,
+html[data-lite] *::after {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  text-shadow: none !important;
+  will-change: auto !important;
+}
+html[data-lite] .pgx {
+  display: none; /* the blur between two pages is only a blur: it needs a backdrop filter */
+}
+html[data-hid="1"] *,
+html[data-hid="1"] *::before,
+html[data-hid="1"] *::after {
+  animation-play-state: paused !important;
+}
+/* the home sections below the first screen are only laid out and painted when they are near the screen */
+.hba,
+.hbd {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}

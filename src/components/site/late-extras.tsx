@@ -5,6 +5,7 @@ import type { PickerConfig } from "./theme-picker";
 
 import { WINTER_ON } from "@/lib/winter"; // the winter master switch
 import { CHAT_FULL_ON } from "@/lib/chat-overlay"; // the full-screen chat (task 160)
+import { isLite, sniffSlow, watchHidden } from "@/lib/lite"; // light mode for weak laptops (see lib/lite.ts)
 
 /**
  * The extras that are not needed to see and use the first screen: the custom mouse cursor, the colour picker and the pause of off-screen
@@ -13,11 +14,14 @@ import { CHAT_FULL_ON } from "@/lib/chat-overlay"; // the full-screen chat (task
  */
 export function LateExtras({ picker }: { picker?: PickerConfig }) {
   const [parts, setParts] = useState<{ Cursor: ComponentType; Theme: ComponentType<{ config?: PickerConfig }>; Pause: ComponentType; Presence: ComponentType; Winter: ComponentType | null; Chat: ComponentType | null; Fx: ComponentType } | null>(null);
+  const [lite, setLite] = useState(false);
   useEffect(() => {
     let off = false;
+    const stop = [watchHidden(), sniffSlow(() => setLite(true))];
     const load = () => {
+      setLite(isLite());
       // the winter snow (task 152, preview): its own chunk, only fetched while WINTER_ON is true
-      const winter = WINTER_ON ? import("./winter-snow").then((m) => m.WinterSnow) : Promise.resolve(null);
+      const winter = WINTER_ON && !isLite() ? import("./winter-snow").then((m) => m.WinterSnow) : Promise.resolve(null);
       // (task 162: the full-screen chat is for laptop and desktop screens only, so phones and tablets do not even fetch it)
             const desk = window.matchMedia("(min-width: 1024px)").matches;
       // the full-screen chat (task 160): every chat box of the site opens its conversation in it
@@ -30,6 +34,7 @@ export function LateExtras({ picker }: { picker?: PickerConfig }) {
     const handle = w.requestIdleCallback ? w.requestIdleCallback(load, { timeout: 1500 }) : window.setTimeout(load, 400);
     return () => {
       off = true;
+      stop.forEach((f) => f());
       if (w.requestIdleCallback) w.cancelIdleCallback?.(handle);
       else window.clearTimeout(handle);
     };
@@ -38,12 +43,12 @@ export function LateExtras({ picker }: { picker?: PickerConfig }) {
   const { Cursor, Theme, Pause, Presence, Winter, Chat, Fx } = parts;
   return (
     <>
-      <Cursor />
+      {!lite && <Cursor />}
       <Theme config={picker} />
       <Pause />
       <Presence />
       <Fx />
-      {Winter && <Winter />}
+      {Winter && !lite && <Winter />}
       {Chat && <Chat />}
     </>
   );

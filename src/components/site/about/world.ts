@@ -63,8 +63,8 @@ function labelTexture(text: string, sub: string | null, hsl: [number, number, nu
 
 export function createWorld(canvas: HTMLCanvasElement, opt: WorldOptions): World {
   const mobile = opt.mobile;
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.75));
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile && (window.devicePixelRatio || 1) < 1.5, powerPreference: "high-performance" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.5));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.1;
   renderer.shadowMap.enabled = !mobile;

@@ -18,7 +18,10 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
   poweredByHeader: false,
   // build on small hosts: use worker threads (no extra processes) and few workers
-  experimental: { workerThreads: true, cpus: 2, globalNotFound: true },
+  experimental: { workerThreads: true, cpus: 2, globalNotFound: true, optimizePackageImports: ["three", "gsap"] },
+  // gzip/brotli of text (on by default, kept explicit); pictures through next/image: AVIF/WebP, kept 31 days at the CDN/browser
+  compress: true,
+  images: { formats: ["image/avif", "image/webp"], minimumCacheTTL: 2678400 },
   // development only: lets other computers on the same Wi-Fi open the dev server (http://<this PC's IP>:1010)
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*"],
   // `ANALYZE_STATS=1 npm run build` writes .next/stats-client.json (what is inside every browser chunk); read it with node tools/chunk-report.mjs
@@ -62,12 +65,13 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
-      // Files in /public keep the same name when they are replaced, so they are not "immutable": a day in the browser, a week of
-      // serving the old copy while a new one is fetched (stale-while-revalidate). Repeat visits and page changes skip the download.
-      ...["images", "brand", "data"].map((dir) => ({
+      // Files in /public keep the same name when they are replaced, so they are not "immutable": 30 days in the browser/CDN, a year of
+      // serving the old copy while a new one is fetched (stale-while-revalidate). cities.json (1 MB, only loaded when the location field is used): 7 days.
+      ...["images", "brand", "mobile", "fonts"].map((dir) => ({
         source: `/${dir}/:path*`,
-        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=31536000" }],
       })),
+      { source: "/data/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=2592000" }] },
       {
         // Admin + draft preview must never be indexed or cached.
         source: "/admin/:path*",

@@ -102,7 +102,7 @@ export function AboutWorld({ hero, chapters, meet }: { hero: AboutHero; chapters
     (async () => {
       try {
         // visitors who prefer less motion get the words one under the other (no 3D)
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) throw new Error("reduced motion");
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.perf === "lite") throw new Error("reduced motion / lite device");
         const mod = await import("./world");
         if (disposed) return;
         const t = themeNow();

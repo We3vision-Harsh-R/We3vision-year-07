@@ -13,7 +13,10 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
     headers: {
       "Content-Type": row.mime,
       ...(isImage ? {} : { "Content-Disposition": `attachment; filename="${row.name.replace(/[^\w.-]+/g, "_")}"` }),
-      "Cache-Control": "public, max-age=31536000, immutable",
+      // a picture is public and never changes; a resume holds personal data: never kept in a shared cache or a CDN, never indexed
+      "Cache-Control": isImage ? "public, max-age=31536000, immutable" : "private, no-store",
+      ...(isImage ? {} : { "X-Robots-Tag": "noindex, nofollow" }),
+      "Cross-Origin-Resource-Policy": "same-origin",
       "X-Content-Type-Options": "nosniff",
       "Content-Security-Policy": "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'",
     },

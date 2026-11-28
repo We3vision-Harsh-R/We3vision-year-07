@@ -7,7 +7,27 @@ import { shield, takeAlerts } from "@/lib/shield";
 // 1) First line of defence for /admin. Pages and server actions re-check with requireAdmin().
 // 2) Device routing: a phone or tablet that asks for a page which has a mobile version is served /m/<page> (a rewrite: the address in the
 //    browser does not change; the /m/ address itself redirects to the clean one). Everything else is untouched. See src/lib/device.ts and brain/03-architecture.md.
+// Security headers on every page answer. The CSP is wide enough for what the site loads (Next inline scripts, 3D blob workers, images/video, the
+// chat and AI endpoints on this origin) but closes plugins, <base> tricks, foreign forms and framing. next.config.ts adds its own (the browser applies both).
+const CSP = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' https: wss: blob: data:; worker-src 'self' blob:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'";
+const HEADERS: Record<string, string> = {
+  "Content-Security-Policy": CSP,
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+  "Strict-Transport-Security": "max-age=31536000",
+};
+const secure = (res: NextResponse) => {
+  for (const [k, v] of Object.entries(HEADERS)) res.headers.set(k, v);
+  return res;
+};
+
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
+  return secure(await route(request, event));
+}
+
+async function route(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
 
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
@@ -21,7 +41,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   }
 
   if (pathname.startsWith("/admin")) {
-    if (pathname === "/admin/login") return NextResponse.next();
+    if (pathname === "/admin/login") return NextResponse.next({ headers: { "Cache-Control": "no-store" } });
     let userId: string | null = null;
     try {
       userId = await verifySession(request.cookies.get(SESSION_COOKIE)?.value);
@@ -34,7 +54,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
       if (pathname !== "/admin") login.searchParams.set("next", pathname + request.nextUrl.search);
       return NextResponse.redirect(login);
     }
-    return NextResponse.next();
+    return NextResponse.next({ headers: { "Cache-Control": "no-store" } }); // admin pages hold personal data: never cached
   }
 
   // only plain page requests are rewritten (a server action is a POST to the page and must reach the same page)

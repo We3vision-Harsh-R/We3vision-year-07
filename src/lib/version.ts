@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 203,
+    date: "2026-11-28",
+    title: "Security headers, light mode for slow laptops, lighter loading",
+    notes: [
+      "Security: a content security policy and the usual safety headers on every page; resumes are never cached or indexed; admin pages are never cached.",
+      "Slow laptops: a light mode (fewer blurs, no snow or custom cursor, no smooth-scroll) switches on by itself, and animations pause when off-screen or the tab is hidden.",
+      "Loading: long sections paint only when near the screen, images and static files are cached longer, and the team page updates on phones at once.",
+    ],
+  },
+  {
     v: 202,
     date: "2026-11-28",
     title: "GTA theme and 3D industries city removed, lighter pages",

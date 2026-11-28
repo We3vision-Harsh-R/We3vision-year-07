@@ -42,7 +42,7 @@ const SOLVE = [
 
 export function HomeAi() {
   return (
-    <section className="hba" id="ai-development" aria-labelledby="hba-title">
+    <section className="hba" id="ai-development" aria-labelledby="hba-title" data-pause-off>
       <div className="hb2-wrap">
         <p className="hb2-label">AI development</p>
         <div className="hba-top">

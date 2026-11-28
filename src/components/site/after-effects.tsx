@@ -42,12 +42,22 @@ export function AfterEffects() {
   const [play, setPlay] = useState(true);
   const trackRef = useRef<HTMLDivElement>(null);
   const drag = useRef(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [seen, setSeen] = useState(false); // the 25 Hz ticker below runs only while the box is on the screen
 
   useEffect(() => {
-    if (!play || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(() => setT((v) => (v + 0.9) % 100), 40);
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setSeen(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!play || !seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => !document.hidden && setT((v) => (v + 0.9) % 100), 40);
     return () => window.clearInterval(id);
-  }, [play]);
+  }, [play, seen]);
 
   const at = (clientX: number) => {
     const r = trackRef.current?.getBoundingClientRect();
@@ -63,7 +73,7 @@ export function AfterEffects() {
   }).join("");
 
   return (
-    <div className="ae" data-play={play}>
+    <div ref={rootRef} className="ae" data-play={play}>
       <div className="ae-bar">
         <span className="ae-dots" aria-hidden>
           <i />

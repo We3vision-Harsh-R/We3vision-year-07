@@ -3,11 +3,12 @@
 import { useEffect } from "react";
 import type Lenis from "lenis";
 import "lenis/dist/lenis.css";
+import { isLite } from "@/lib/lite";
 
 /** Buttery smooth scrolling (Lenis). Skipped for visitors who prefer reduced motion. The library (about 11 KB) is loaded when the browser is idle, after the first paint. */
 export function SmoothScroll() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (isLite() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; // light mode (lib/lite.ts): the browser scrolls natively
     // a phone / tablet scrolls natively (no JS loop on every frame): smoother and cooler; the callers of window.__lenis all check that it exists
     if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1024) return;
     let lenis: Lenis | undefined;

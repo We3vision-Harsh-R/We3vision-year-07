@@ -15,21 +15,30 @@ export function ScrollAurora() {
     // a phone / tablet: the lights stand still (no work on every scroll frame; owner 2026-11-07: the phone scroll must be smooth)
     if (window.innerWidth < 1024) return;
     let raf = 0;
+    let max = 0; // the scrollable height is read only when the page changes size, never inside the scroll frame
+    const size = () => (max = document.documentElement.scrollHeight - window.innerHeight);
     const update = () => {
       raf = 0;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       el.style.setProperty("--p", p.toFixed(4));
     };
     const schedule = () => {
       if (!raf) raf = requestAnimationFrame(update);
     };
+    size();
     update();
+    const onSize = () => {
+      size();
+      schedule();
+    };
+    const ro = new ResizeObserver(onSize);
+    ro.observe(document.body);
+    window.addEventListener("resize", onSize);
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
     return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", onSize);
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);

@@ -1,0 +1,13 @@
+/* perf-sections: long sections below the first two screens are not painted until they come near the screen (the space is kept, so nothing jumps),
+   and the "lite" switch (<html data-perf="lite">, set from device detection) removes the costly effects. Imported by sections/index.tsx. */
+main > section.py-24:nth-of-type(n + 3) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+:root[data-perf="lite"] main * {
+  backdrop-filter: none !important;
+  will-change: auto !important;
+}
+:root[data-perf="lite"] main :is(.glow, [class*="blur"], [class*="aurora"]) {
+  filter: none !important;
+}

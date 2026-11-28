@@ -17,6 +17,7 @@ export async function saveTeam(input: unknown): Promise<ActionResult> {
       db.teamMember.createMany({ data: people.map((p, i) => ({ ...p, sortOrder: i + 1, updatedAt: new Date() })) }),
     ]);
     revalidatePath("/team");
+    revalidatePath("/m/team");
     revalidatePath("/admin/team");
     return { ok: true, message: `Saved. ${people.length} ${people.length === 1 ? "person is" : "people are"} in the office on the live Team page.` };
   } catch (error) {

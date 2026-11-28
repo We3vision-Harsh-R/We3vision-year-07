@@ -127,9 +127,18 @@ export function HomeFx() {
     // slow drifts tied to the scroll: the tile grid floats up and down
     
     const tiles = q(".hb2-m-grid");
+    let tilesOn = false; // the tile box is near the screen (no layout read for it while it is far away)
+    const tio = new IntersectionObserver(
+      ([e]) => {
+        tilesOn = e.isIntersecting;
+        on();
+      },
+      { rootMargin: "20% 0px" },
+    );
+    if (tiles?.parentElement) tio.observe(tiles.parentElement);
     const drift = (el: HTMLElement | null, x: number, y: number, base: string) => {
       const box = el?.parentElement;
-      if (!el || !box) return;
+      if (!el || !box || !tilesOn) return;
       const r = box.getBoundingClientRect();
       const prog = (innerHeight - r.top) / (innerHeight + r.height);
       if (prog < -0.1 || prog > 1.1) return;
@@ -173,6 +182,7 @@ export function HomeFx() {
       root.removeEventListener("click", onGo);
       cancelAnimationFrame(raf);
       io.disconnect();
+      tio.disconnect();
       root.removeAttribute("data-fx");
       for (const el of [world, hero, flood, s1, disc, discWorld, wish, ...heroTexts, ...aboutTexts]) el?.removeAttribute("style");
     };

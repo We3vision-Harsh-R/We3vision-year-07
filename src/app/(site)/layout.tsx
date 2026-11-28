@@ -20,6 +20,7 @@ import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { HomeGlide } from "@/components/site/home/home-glide";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { getPresenceConfig } from "@/lib/presence-server";
+import { LITE_BOOT } from "@/lib/lite";
 import { RootShell, baseMetadata } from "@/lib/root-shell";
 
 // ROOT LAYOUT of the laptop website (see src/lib/root-shell.tsx): the only one that loads globals.css and the desktop scenes.
@@ -34,7 +35,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   // a first-time visitor is asked for a name only (components/site/presence.tsx): the colour card then opens only from its small round button
   const picker = presence.askName && site.picker.show !== "off" ? { ...site.picker, show: "button" } : site.picker;
   return (
-    <RootShell htmlClass="sb-pre" boot={site.picker.show === "off" ? PICKER_OFF_BOOT : undefined}>
+    <RootShell htmlClass="sb-pre" boot={LITE_BOOT + (site.picker.show === "off" ? PICKER_OFF_BOOT : "")}>
       <div className="relative overflow-x-clip">
         <a href="#main-content" className="skp-link">
           Skip to content
