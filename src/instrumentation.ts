@@ -5,7 +5,7 @@ import type { Instrumentation } from "next";
 // redirect(), notFound(), a visitor who closed the page, an old browser tab that calls a server action of the previous build.
 const SKIP_DIGEST = /^(?:NEXT_REDIRECT|NEXT_HTTP_ERROR_FALLBACK|NEXT_NOT_FOUND|DYNAMIC_SERVER_USAGE|BAILOUT_TO_CLIENT_SIDE_RENDERING|HANGING_PROMISE_REJECTION)/;
 // "The destination stream closed early" = the visitor closed the tab or reloaded while the page was still streaming: not a bug of the site.
-const SKIP_MESSAGE = /aborted|ECONNRESET|EPIPE|socket hang up|destination stream closed early/i;
+const SKIP_MESSAGE = /aborted|ECONNRESET|EPIPE|socket hang up|destination stream (?:closed early|errored)/i;
 const OLD_ACTION = /Failed to find Server Action|Server Action .* was not found/i;
 
 export const onRequestError: Instrumentation.onRequestError = async (err, request, context) => {

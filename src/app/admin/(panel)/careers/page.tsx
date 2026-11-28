@@ -1,3 +1,4 @@
+import { healedCareerRead } from "@/lib/db-heal";
 import Link from "next/link";
 import { HiringDesk } from "@/components/admin/hiring/hiring-desk";
 import { btnPrimary, btnSecondary } from "@/components/admin/ui";
@@ -17,7 +18,7 @@ export default async function CareersAdminPage({ searchParams }: { searchParams:
   const [rows, metas, roles, admins] = await Promise.all([
     db.careerApplication.findMany({ orderBy: { createdAt: "desc" }, take: 1500 }),
     readAllMeta(),
-    db.careerRole.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, title: true, active: true, training: true } }),
+    healedCareerRead(() => db.careerRole.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, title: true, active: true, training: true } })),
     db.adminUser.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
   ]);
   const view: HireRow[] = rows.map((r) => ({

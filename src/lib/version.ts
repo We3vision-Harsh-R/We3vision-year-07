@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 204,
+    date: "2026-11-28",
+    title: "Alerts fixed: lead delete, careers training column, settings read",
+    notes: [
+      "Admin > Leads: deleting or marking a message that is already gone (double click, second tab) no longer crashes.",
+      "Careers: the Industry training tag no longer takes the careers pages down when the database is one step behind (the column is added safely and the read is tried again); the migration file is added too.",
+      "Home and page reads of the settings try once more when a connection drops, and a closed tab while a page streams is no longer logged as an error.",
+    ],
+  },
+  {
     v: 203,
     date: "2026-11-28",
     title: "Security headers, light mode for slow laptops, lighter loading",

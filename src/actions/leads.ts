@@ -51,14 +51,15 @@ ${body.slice(0, 2000 - header.length - 2)}` : body.slice(0, 2000);
 
 export async function markLeadRead(formData: FormData) {
   await requireAdmin();
-  await db.lead.update({ where: { id: String(formData.get("id")) }, data: { isRead: true } });
+  // updateMany / deleteMany: a lead that is already gone (a double click, a second tab) is not an error
+  await db.lead.updateMany({ where: { id: String(formData.get("id")) }, data: { isRead: true } });
   revalidatePath("/admin/leads");
   revalidatePath("/admin");
 }
 
 export async function deleteLead(formData: FormData) {
   await requireAdmin();
-  await db.lead.delete({ where: { id: String(formData.get("id")) } });
+  await db.lead.deleteMany({ where: { id: String(formData.get("id")) } });
   revalidatePath("/admin/leads");
   revalidatePath("/admin");
 }

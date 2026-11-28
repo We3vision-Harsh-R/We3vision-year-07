@@ -1,3 +1,4 @@
+import { healedCareerRead } from "@/lib/db-heal";
 import "server-only";
 import { db, hasDb } from "@/lib/db";
 import { DEFAULT_SCHEDULE, cleanSchedule, type CareerQuestionView, type CareerRoleView, type InterviewSchedule, type JobView, type QuestionKind } from "@/lib/careers-shared";
@@ -58,7 +59,7 @@ const toJob = (r: Row): JobView => ({
 /** the open jobs, in the order of the admin panel (a job whose closing day has passed is not open any more) */
 export async function getOpenJobs(): Promise<JobView[]> {
   if (!hasDb) return [];
-  const rows = await db.careerRole.findMany({ where: { active: true, slug: { not: "" } }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] });
+  const rows = await healedCareerRead(() => db.careerRole.findMany({ where: { active: true, slug: { not: "" } }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] }));
   const now = today();
   return rows.filter((r) => !r.closesAt || r.closesAt >= now).map(toJob);
 }
@@ -66,7 +67,7 @@ export async function getOpenJobs(): Promise<JobView[]> {
 /** one job by the address of its page; null when it does not exist or is closed */
 export async function getOpenJob(slug: string): Promise<JobView | null> {
   if (!hasDb || !/^[a-z0-9-]{1,80}$/.test(slug)) return null;
-  const r = await db.careerRole.findUnique({ where: { slug } });
+  const r = await healedCareerRead(() => db.careerRole.findUnique({ where: { slug } }));
   if (!r || !r.active || (r.closesAt && r.closesAt < today())) return null;
   return toJob(r);
 }
@@ -85,7 +86,7 @@ export async function getInterviewSchedule(): Promise<InterviewSchedule> {
 export async function getCareerSetup(): Promise<{ roles: CareerRoleView[]; questions: CareerQuestionView[]; schedule: InterviewSchedule }> {
   if (!hasDb) return { roles: BUILT_IN_ROLES.map(([title, team], i) => ({ id: `built-in-${i}`, title, team })), questions: [], schedule: DEFAULT_SCHEDULE };
   const [roles, questions, schedule] = await Promise.all([
-    db.careerRole.findMany({ where: { active: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] }),
+    healedCareerRead(() => db.careerRole.findMany({ where: { active: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] })),
     db.careerQuestion.findMany({ where: { active: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] }),
     getInterviewSchedule(),
   ]);
