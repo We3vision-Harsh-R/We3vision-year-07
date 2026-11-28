@@ -29,20 +29,6 @@ export type BlogData = {
   published: boolean;
 };
 
-export const EMPTY_BLOG = (position: number): BlogData => ({
-  title: "",
-  category: "",
-  summary: "",
-  cover: "",
-  tile: "portrait",
-  content: "",
-  tags: "",
-  faq: "",
-  date: new Date().toISOString().slice(0, 10),
-  position,
-  published: true,
-});
-
 /** The other articles of the blog, in the order of the Blog page (for the preview: the one that is edited is put among them). */
 export type OtherPost = MasonryItem & { published: boolean };
 

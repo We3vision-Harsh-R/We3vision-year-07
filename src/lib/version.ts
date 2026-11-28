@@ -16,6 +16,15 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 207,
+    date: "2026-11-28",
+    title: "Admin: Add article page fixed",
+    notes: [
+      "Admin > Blog > Add article opens without a server error (the empty form is now built in the page itself).",
+      "A visitor or admin who closes or reloads a page while it loads no longer creates a critical alert.",
+    ],
+  },
+  {
     v: 206,
     date: "2026-11-28",
     title: "Contact page redesign",
