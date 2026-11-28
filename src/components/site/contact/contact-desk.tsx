@@ -32,40 +32,42 @@ export function ContactDesk({ courses }: { courses: string[] }) {
   return (
     <section className="ctd" aria-label="Contact">
       <div className="hb2-wrap">
-        <div className="ctd-tabs" role="tablist" aria-label="What do you want to talk about?">
-          {TOPICS.map((t) => (
-            <button key={t.id} type="button" role="tab" aria-selected={t.id === id} className="ctd-tab" onClick={() => pick(t.id)}>
-              <span className="ctd-ic" aria-hidden>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                  <path d={t.icon} />
-                </svg>
-              </span>
-              <span className="ctd-tl">{t.label}</span>
-              <span className="ctd-ts">{t.short}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="ctd-panel" ref={panel}>
-          <div className="ctd-side" key={topic.id}>
-            <h2>{topic.title}</h2>
-            <p>{topic.text}</p>
-            <div className="ctd-links">
-              {topic.links.map((l) =>
-                l.href.startsWith("#") ? (
-                  <a key={l.href} href={l.href} className="ctd-link">
-                    {l.label}
-                  </a>
-                ) : (
-                  <Link key={l.href} href={l.href} className="ctd-link">
-                    {l.label}
-                  </Link>
-                ),
-              )}
-            </div>
+        <div className="ctd-card">
+          <div className="ctd-tabs" role="tablist" aria-label="What do you want to talk about?">
+            {TOPICS.map((t) => (
+              <button key={t.id} type="button" role="tab" aria-selected={t.id === id} className="ctd-tab" onClick={() => pick(t.id)}>
+                <span className="ctd-ic" aria-hidden>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={t.icon} />
+                  </svg>
+                </span>
+                <span className="ctd-tl">{t.label}</span>
+                <span className="ctd-ts">{t.short}</span>
+              </button>
+            ))}
           </div>
-          <div className="hb2-ct-panel ctd-form">
-            <HomeContact key={`${topic.id}-${round}`} topic={topic} courses={courses} ticked={ticked} />
+
+          <div className="ctd-main" ref={panel}>
+            <div className="ctd-side" key={topic.id}>
+              <h2>{topic.title}</h2>
+              <p>{topic.text}</p>
+              <div className="ctd-links">
+                {topic.links.map((l) =>
+                  l.href.startsWith("#") ? (
+                    <a key={l.href} href={l.href} className="ctd-link">
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link key={l.href} href={l.href} className="ctd-link">
+                      {l.label}
+                    </Link>
+                  ),
+                )}
+              </div>
+            </div>
+            <div className="hb2-ct-panel ctd-form">
+              <HomeContact key={`${topic.id}-${round}`} topic={topic} courses={courses} ticked={ticked} />
+            </div>
           </div>
         </div>
 

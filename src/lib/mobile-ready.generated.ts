@@ -10,7 +10,6 @@ export const MOBILE_PAGES: string[] = [
   "/brand-kit-design",
   "/brand-video-production",
   "/careers",
-  "/contact",
   "/crm",
   "/custom-woocommerce-development",
   "/custom-wordpress-development-services",

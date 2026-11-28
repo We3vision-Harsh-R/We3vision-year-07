@@ -1,7 +1,8 @@
 import type { CSSProperties } from "react";
 import { ContactDesk } from "@/components/site/contact/contact-desk";
 import { getCourses } from "@/lib/training-server";
-import { HomePageHero, HomeShell } from "@/components/site/home/home-chrome";
+import { ContactHero } from "@/components/site/contact/contact-hero";
+import { HomeShell } from "@/components/site/home/home-chrome";
 import { PageJsonLd } from "@/components/site/page-jsonld";
 import { getPublishedPage, getSiteSettings } from "@/lib/cms/queries";
 import { pageMetadata } from "@/lib/cms/page-route";
@@ -24,9 +25,7 @@ export default async function PageContact() {
   return (
     <HomeShell>
       <PageJsonLd slug="contact" title={page.title} description={page.description} site={site} mainEntityId={orgId(siteBase())} />
-      <HomePageHero label="Contact us" line="Choose what you want to talk about: a project, a partnership, an internship or job, or industry training. The We3vision team replies to every message.">
-        <em>How can</em> we help you?
-      </HomePageHero>
+      <ContactHero site={site} />
       <ContactDesk courses={courses.filter((c) => c.show).map((c) => c.name)} />
       <section className="hb2-ct" aria-label="Our offices">
         <div className="hb2-wrap">

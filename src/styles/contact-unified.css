@@ -1,0 +1,243 @@
+/* Contact page, one design for laptop and phone (owner, 2026-11-28, second pass): prefix cth- (top) and the .ctd overrides (topic card).
+   Theme colours only (no fixed violet/pink). */
+.cth {
+  position: relative;
+  overflow: hidden;
+  padding: 180px 0 36px;
+  background: radial-gradient(60% 70% at 50% 0%, hsl(calc(var(--th) + 352) calc(75% * var(--ts)) 16% / 0.9), transparent 70%);
+}
+.cth-in {
+  position: relative;
+  z-index: 1;
+}
+.cth-label {
+  margin: 0 0 18px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v1);
+}
+.cth h1 {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(42px, 4.8vw, 68px);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.cth h1 em {
+  color: var(--v1);
+}
+.cth-line {
+  max-width: 620px;
+  margin: 20px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--mute);
+}
+
+/* the four "reach us now" items: one glass bar, divided by thin lines */
+.cth-acts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 40px;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.18);
+  background: hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 6.5% / 0.8);
+}
+.cth .cth-act,
+html .cth a.cth-act[href] {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px 22px;
+  color: var(--ink);
+  text-decoration: none;
+  border-left: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.12);
+  transition: background 0.3s;
+}
+.cth-act:first-child {
+  border-left: 0;
+}
+.cth-act:hover {
+  background: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 62% / 0.1);
+}
+.cth-ai {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  color: var(--v1);
+  border-radius: 15px;
+  background: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 62% / 0.16);
+}
+.cth-ai svg {
+  width: 22px;
+  height: 22px;
+}
+.cth-at {
+  display: block;
+  min-width: 0;
+}
+.cth-al,
+.cth-av {
+  display: block;
+}
+.cth-al {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.cth-av {
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--mute);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hb2[data-fx] .cth-label,
+.hb2[data-fx] .cth h1,
+.hb2[data-fx] .cth-line,
+.hb2[data-fx] .cth-acts {
+  animation: hb2-rise 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.hb2[data-fx] .cth h1 {
+  animation-delay: 0.12s;
+}
+.hb2[data-fx] .cth-line {
+  animation-delay: 0.26s;
+}
+.hb2[data-fx] .cth-acts {
+  animation-delay: 0.36s;
+}
+
+/* the topic card: topics on the left, the questions of the chosen topic on the right (one card, no second row of cards) */
+.ctd {
+  padding: 8px 0 16px;
+}
+.ctd .ctd-card {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.18);
+  background: hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 6% / 0.85);
+}
+.ctd .ctd-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-right: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.12);
+  background: hsl(calc(var(--th) + 352) calc(45% * var(--ts)) 4.5% / 0.7);
+}
+.ctd .ctd-tab {
+  grid-template-columns: 44px minmax(0, 1fr);
+  column-gap: 14px;
+  row-gap: 1px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 18px;
+  border-color: transparent;
+  background: transparent;
+}
+.ctd .ctd-tab:hover {
+  transform: none;
+  background: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 62% / 0.08);
+}
+.ctd .ctd-tab[aria-selected="true"] {
+  border-color: hsl(calc(var(--th) + 0) calc(90% * var(--ts)) 70% / 0.5);
+  background: hsl(calc(var(--th) + 0) calc(80% * var(--ts)) 62% / 0.14);
+}
+.ctd .ctd-ic {
+  grid-row: 1 / span 2;
+  margin: 0;
+}
+.ctd .ctd-main {
+  min-width: 0;
+  padding: 36px 40px 40px;
+  scroll-margin-top: 90px;
+}
+.ctd .ctd-side {
+  padding: 0;
+  margin-bottom: 26px;
+}
+.ctd .ctd-side h2 {
+  font-size: 30px;
+}
+.ctd .ctd-form {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* laptop narrow and tablet */
+@media (max-width: 1023.98px) {
+  .cth {
+    padding: 150px 0 28px;
+  }
+  .cth-acts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cth-act:nth-child(3) {
+    border-left: 0;
+  }
+  .cth-act:nth-child(n + 3) {
+    border-top: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.12);
+  }
+  .ctd .ctd-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ctd .ctd-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-right: 0;
+    border-bottom: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.12);
+  }
+}
+/* phone: contact items one under the other, topics two by two (icon on top), the form fills the width */
+@media (max-width: 600px) {
+  .cth {
+    padding: 112px 0 20px;
+  }
+  .cth-line {
+    margin-top: 14px;
+    font-size: 17px;
+  }
+  .cth-acts {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 28px;
+  }
+  .cth .cth-act,
+  html .cth a.cth-act[href] {
+    padding: 14px 16px;
+    border-left: 0;
+  }
+  .cth-act:nth-child(n + 2) {
+    border-top: 1px solid hsl(calc(var(--th) + 0) calc(40% * var(--ts)) 72% / 0.12);
+  }
+  .ctd .ctd-tabs {
+    gap: 8px;
+    padding: 12px;
+  }
+  .ctd .ctd-tab {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2px;
+    padding: 12px;
+  }
+  .ctd .ctd-ic {
+    grid-row: auto;
+    margin-bottom: 6px;
+  }
+  .ctd .ctd-main {
+    padding: 24px 18px 26px;
+  }
+  .ctd .ctd-side h2 {
+    font-size: 25px;
+  }
+}
