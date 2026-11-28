@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { alertFailure, alertLater } from "@/lib/alerts";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { CONTENT_TYPES } from "@/lib/ai-content/registry";
 import { INSTRUCTION_LIMITS, type StoredInstructions } from "@/lib/ai-content/instructions";
 import { saveStoredInstructions } from "@/lib/ai-content/server/instructions-store";
@@ -18,7 +18,7 @@ export type InstructionsForm = {
 };
 
 export async function saveAiInstructions(input: InstructionsForm): Promise<ActionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-instructions");
   const general = typeof input?.general === "string" ? input.general : "";
   if (general.length > INSTRUCTION_LIMITS.general) return { ok: false, error: `The general instructions are too long (${general.length}, at most ${INSTRUCTION_LIMITS.general} characters).` };
 

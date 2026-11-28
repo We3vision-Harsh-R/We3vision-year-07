@@ -2,14 +2,14 @@ import { notFound, redirect } from "next/navigation";
 import { SubmissionEditForm } from "@/components/admin/submission-edit-form";
 import type { OtherPost } from "@/components/admin/blog-form";
 import { CONTENT_TYPE_KEYS, getContentType, type ContentTypeKey } from "@/lib/ai-content/registry";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export const metadata = { title: "Edit AI submission" };
 
 // The normal admin form of the content type, filled with the draft an AI tool sent. Saving keeps the changes in the submission only.
 export default async function EditSubmissionPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireAdmin();
+  await requireArea("ai-submissions");
   const { id } = await params;
   if (!/^[a-z0-9]{10,40}$/i.test(id)) notFound();
   const sub = await db.contentSubmission.findUnique({ where: { id } });

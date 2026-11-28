@@ -22,3 +22,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 164 | Products grid bottom-left cells: back to snow + balls as before, the Vice City art becomes a soft city skyline background (reference banner) | done |
 | 165 | Blog: every article in its own box shape (landscape/square/portrait/tall) with a new cover drawn for that shape (22 covers) | done |
 | 166 | Interview slot calendar on the phone Careers page + interview schedule in admin | done |
+| 167 | Admin RBAC: only 3 accounts, Admin@ grants page access to the others | done |

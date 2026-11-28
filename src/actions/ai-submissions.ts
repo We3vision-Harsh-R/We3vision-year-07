@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { alertFailure } from "@/lib/alerts";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notifySearchEngines } from "@/lib/seo-ping";
 import { getContentType, validateDraft } from "@/lib/ai-content/registry";
@@ -27,7 +27,7 @@ const errorLines = (errors: { field: string; message: string }[]) => errors.map(
  * be opened and published later; the submission is then closed.
  */
 export async function approveSubmission(id: string, mode: "publish" | "draft"): Promise<ActionResult & { slug?: string }> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-submissions");
   const sub = await db.contentSubmission.findUnique({ where: { id } });
   if (!sub) return { ok: false, error: "This submission does not exist any more." };
   if (sub.status !== "pending_review") return { ok: false, error: "This submission was already handled." };
@@ -71,7 +71,7 @@ export async function approveSubmission(id: string, mode: "publish" | "draft"): 
 
 /** The submission is kept with the reason and is never shown on the website. */
 export async function rejectSubmission(id: string, reason: unknown): Promise<ActionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-submissions");
   const why = (typeof reason === "string" ? reason : "").replace(/[\u0000-\u001F]+/g, " ").trim().slice(0, 500);
   if (why.length < 3) return { ok: false, error: "Please write a short reason (the AI tool can read it)." };
   try {
@@ -88,7 +88,7 @@ export async function rejectSubmission(id: string, reason: unknown): Promise<Act
 
 /** The "Edit" screen: the normal admin form saves into the submission (not into the live list). The draft is checked with the registry first. */
 export async function saveSubmissionEdit(id: string, values: Record<string, unknown>): Promise<ActionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-submissions");
   const sub = await db.contentSubmission.findUnique({ where: { id }, select: { contentType: true, status: true } });
   if (!sub) return { ok: false, error: "This submission does not exist any more." };
   if (sub.status !== "pending_review") return { ok: false, error: "Only a submission that is waiting can be edited." };

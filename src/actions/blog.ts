@@ -3,7 +3,7 @@
 import { after } from "next/server";
 import { notifySearchEngines } from "@/lib/seo-ping";
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
 import { isSafeHref } from "@/lib/cms/fields";
@@ -98,7 +98,7 @@ const fail = (error: unknown): ActionResult => ({
 });
 
 export async function createBlogPost(input: BlogInput): Promise<ActionResult & { id?: string }> {
-  await requireAdmin();
+  await requireArea("blog");
   try {
     const data = clean(input);
     const last = await db.blogPost.aggregate({ _max: { sortOrder: true } });
@@ -113,7 +113,7 @@ export async function createBlogPost(input: BlogInput): Promise<ActionResult & {
 }
 
 export async function updateBlogPost(id: string, input: BlogInput): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("blog");
   try {
     const data = clean(input);
     const old = await db.blogPost.findUnique({ where: { id }, select: { title: true, slug: true } });
@@ -131,7 +131,7 @@ export async function updateBlogPost(id: string, input: BlogInput): Promise<Acti
 }
 
 export async function deleteBlogPost(id: string): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("blog");
   try {
     await db.blogPost.delete({ where: { id } });
     refresh();
@@ -143,7 +143,7 @@ export async function deleteBlogPost(id: string): Promise<ActionResult> {
 
 /** Moves an article one place up or down in the list of the Blog page. */
 export async function moveBlogPost(id: string, direction: "up" | "down"): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("blog");
   try {
     const list = await db.blogPost.findMany({ orderBy: [{ sortOrder: "asc" }, { publishedAt: "desc" }], select: { id: true } });
     const i = list.findIndex((p) => p.id === id);
@@ -159,7 +159,7 @@ export async function moveBlogPost(id: string, direction: "up" | "down"): Promis
 }
 
 export async function setBlogPostPublished(id: string, published: boolean): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("blog");
   try {
     const post = await db.blogPost.update({ where: { id }, data: { published }, select: { slug: true } });
     refresh();

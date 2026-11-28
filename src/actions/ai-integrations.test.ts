@@ -14,6 +14,10 @@ vi.mock("@/lib/auth", () => ({
     if (!fake.admin) throw new Error("NEXT_REDIRECT /admin/login");
     return fake.admin;
   },
+  requireArea: async () => {
+    if (!fake.admin) throw new Error("NEXT_REDIRECT /admin/login");
+    return fake.admin;
+  },
 }));
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 vi.mock("next/headers", () => ({ headers: async () => new Headers({ host: "site.example", "x-forwarded-proto": "https" }) }));

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { z } from "zod";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { COMMON_FIELDS, NOTICE_PERIODS, callSlots, cleanSchedule } from "@/lib/careers-shared";
 import { getInterviewSchedule } from "@/lib/careers";
 import { alertFailure, notifyNewApplication } from "@/lib/alerts";
@@ -153,7 +153,7 @@ export type SetupInput = {
 
 /** The questions of HR: the whole list is saved in the order it has. (The positions are written one by one, see jobs.ts.) */
 export async function saveCareerSetup(input: SetupInput): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("setup");
   const questions = (Array.isArray(input.questions) ? input.questions : [])
     .slice(0, 30)
     .map((q) => {
@@ -190,7 +190,7 @@ export async function takenSlots(): Promise<string[]> {
 
 /** Admin > Careers > Interview schedule: the days and windows that candidates can book. */
 export async function saveInterviewSchedule(input: unknown): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("careers");
   const schedule = cleanSchedule(input);
   try {
     const value = schedule as unknown as Prisma.InputJsonValue;

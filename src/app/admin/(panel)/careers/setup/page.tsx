@@ -2,14 +2,14 @@ import Link from "next/link";
 import { CareersSetup, type QuestionItem } from "@/components/admin/careers-setup";
 import { btnSecondary } from "@/components/admin/ui";
 import type { QuestionKind } from "@/lib/careers-shared";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { IconBtn } from "@/components/admin/icon-btn";
 
 export const metadata = { title: "Careers: questions of HR" };
 
 export default async function CareersSetupPage() {
-  await requireAdmin();
+  await requireArea("setup");
   const questions = await db.careerQuestion.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] });
   const q: QuestionItem[] = questions.map((x) => ({
     key: x.id,

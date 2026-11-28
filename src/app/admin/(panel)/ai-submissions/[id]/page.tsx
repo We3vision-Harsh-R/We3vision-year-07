@@ -6,7 +6,7 @@ import { SubmissionSeo } from "@/components/admin/submission-seo";
 import { FieldList, SubmissionBadge } from "@/components/admin/submission-parts";
 import { card } from "@/components/admin/ui";
 import { getContentType, validateDraft } from "@/lib/ai-content/registry";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export const metadata = { title: "AI submission" };
@@ -15,7 +15,7 @@ const fmt = new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "
 const ACTION: Record<string, string> = { submitted: "Sent by the AI tool", edited: "Edited", approved: "Approved and published", saved_draft: "Saved as a hidden draft", rejected: "Rejected" };
 
 export default async function SubmissionPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireAdmin();
+  await requireArea("ai-submissions");
   const { id } = await params;
   if (!/^[a-z0-9]{10,40}$/i.test(id)) notFound();
   const sub = await db.contentSubmission.findUnique({ where: { id }, include: { events: { orderBy: { at: "asc" } } } });

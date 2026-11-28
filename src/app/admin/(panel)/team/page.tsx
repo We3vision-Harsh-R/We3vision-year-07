@@ -1,11 +1,11 @@
 import { TeamManager } from "@/components/admin/team-manager";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { getTeam } from "@/lib/team";
 
 export const metadata = { title: "Team" };
 
 export default async function TeamAdminPage() {
-  await requireAdmin();
+  await requireArea("team");
   const people = await getTeam();
   return (
     <div className="space-y-6">

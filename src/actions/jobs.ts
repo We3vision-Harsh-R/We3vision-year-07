@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { z } from "zod";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { WORK_MODES, WORK_TYPES, slugify } from "@/lib/careers-shared";
 import { alertFailure, notifyNewApplication } from "@/lib/alerts";
 import { db, hasDb } from "@/lib/db";
@@ -128,7 +128,7 @@ const lines = (v: unknown, max: number, each: number) =>
 
 /** Writes one job (new or changed). The address of its page comes from the title unless an address is given. */
 export async function saveJob(input: JobInput): Promise<ActionResult & { id?: string; slug?: string }> {
-  await requireAdmin();
+  await requireArea("jobs");
   const title = line(input.title, 100);
   if (title.length < 2) return { ok: false, error: "Please write the name of the position." };
   const workType = WORK_TYPES.find((w) => w === input.workType) ?? "Full-time";
@@ -187,7 +187,7 @@ export async function saveJob(input: JobInput): Promise<ActionResult & { id?: st
 
 /** Opens or closes a job without losing it. */
 export async function setJobOpen(id: string, open: boolean): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("jobs");
   try {
     const row = await db.careerRole.update({ where: { id }, data: { active: open }, select: { slug: true } });
     revalidatePath("/careers");
@@ -200,7 +200,7 @@ export async function setJobOpen(id: string, open: boolean): Promise<ActionResul
 }
 
 export async function deleteJob(id: string): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("jobs");
   try {
     const row = await db.careerRole.delete({ where: { id }, select: { slug: true } });
     revalidatePath("/careers");
@@ -214,7 +214,7 @@ export async function deleteJob(id: string): Promise<ActionResult> {
 
 /** A copy of a job (closed, so it can be checked before it goes on the site): the quick way to post a similar position. */
 export async function duplicateJob(id: string): Promise<ActionResult & { id?: string }> {
-  await requireAdmin();
+  await requireArea("jobs");
   try {
     const r = await db.careerRole.findUnique({ where: { id } });
     if (!r) return { ok: false, error: "This job does not exist any more." };
@@ -256,7 +256,7 @@ export async function duplicateJob(id: string): Promise<ActionResult & { id?: st
 
 /** Moves a job one place up or down (the order of the Careers page). */
 export async function moveJob(id: string, direction: "up" | "down"): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("jobs");
   try {
     const list = await db.careerRole.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true } });
     const i = list.findIndex((r) => r.id === id);

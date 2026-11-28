@@ -17,6 +17,7 @@ function kind(b: Uint8Array): string | null {
 export async function POST(req: Request) {
   const admin = await getAdmin();
   if (!admin) return Response.json({ error: "Please log in again." }, { status: 401 });
+  if (!admin.isSuper && admin.areas.length === 0) return Response.json({ error: "You have no access to any screen yet." }, { status: 403 });
   try {
     const form = await req.formData();
     const file = form.get("file");

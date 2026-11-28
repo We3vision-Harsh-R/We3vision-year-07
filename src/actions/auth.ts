@@ -3,7 +3,7 @@
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { ADMIN_DOMAIN, isCompanyEmail } from "@/lib/admin-access";
+import { isAllowedAccount } from "@/lib/admin-access";
 import { alertFailure, alertLater } from "@/lib/alerts";
 import { createSession, destroySession, sessionVersion } from "@/lib/auth";
 import { db, hasDb } from "@/lib/db";
@@ -29,7 +29,8 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
     password: formData.get("password"),
   });
   if (!parsed.success) return { error: "Enter a valid email and password." };
-  if (!isCompanyEmail(parsed.data.email)) return { error: `Please sign in with your @${ADMIN_DOMAIN} email address.` };
+  // the admin panel has exactly three accounts (lib/admin-access.ts); any other address is refused before the database is asked
+  if (!isAllowedAccount(parsed.data.email)) return { error: "This e-mail address cannot sign in to the admin panel. Use your own company account." };
   if (!hasDb || !process.env.SESSION_SECRET) return { error: "Server is not configured yet (DATABASE_URL / SESSION_SECRET)." };
   // 5 wrong passwords for one account = that account is locked for 15 minutes (counted for every typed address, so it tells nothing about who exists)
   const emailKey = `login-email:${parsed.data.email}`;

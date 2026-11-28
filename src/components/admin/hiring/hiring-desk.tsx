@@ -2,7 +2,8 @@
 
 import { useCallback, useMemo, useState, useTransition } from "react";
 import { bulkApplications, moveApplication } from "@/actions/hiring";
-import { type AdminOption, type AppMeta, type HireRow, PIPELINE, interviewLabel, isActiveStage, stageOf, toCsv } from "@/lib/hiring-shared";
+import { GlowEdge } from "@/components/site/glow-edge";
+import { whoVars, type AdminOption, type AppMeta, type HireRow, PIPELINE, interviewLabel, isActiveStage, stageOf, toCsv } from "@/lib/hiring-shared";
 import { btnSecondary, card, inputClass } from "../ui";
 import { ApplicationDrawer } from "./application-drawer";
 
@@ -212,6 +213,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
     const sel = picked.has(r.id);
     const waiting = r.status === "new" ? Math.floor((now - Date.parse(r.createdAt)) / 86_400_000) : 0;
     const where = [r.city, r.experience].filter(Boolean).join(" · ");
+    const who = whoVars(admins, r.meta.assignee);
     return (
       <div
         key={r.id}
@@ -227,6 +229,8 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
           setDrag("");
           setOver("");
         }}
+        style={who}
+        title={r.meta.assignee ? `Looked after by ${admins.find((a) => a.id === r.meta.assignee)?.name ?? ""}` : undefined}
         onClick={() => setOpen(r.id)}
         onKeyDown={(e) => {
           if (e.target !== e.currentTarget) return;
@@ -235,8 +239,9 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
             setOpen(r.id);
           }
         }}
-        className={`group relative block w-full cursor-pointer rounded-xl border bg-white p-4 text-left shadow-sm transition hover:border-brand/50 focus-visible:outline-2 focus-visible:outline-brand ${drag === r.id ? "opacity-40" : ""} ${sel ? "border-brand ring-2 ring-brand/30" : "border-zinc-200"}`}
+        className={`group relative block w-full cursor-pointer rounded-xl border bg-white p-4 text-left shadow-sm transition hover:border-brand/50 focus-visible:outline-2 focus-visible:outline-brand ${drag === r.id ? "opacity-40" : ""} ${sel ? "border-brand ring-2 ring-brand/30" : "border-zinc-200"} ${who ? `bglow hwg${sel ? " hwg-sel" : ""}` : ""}`}
       >
+        {who && <GlowEdge />}
         <input
           type="checkbox"
           checked={sel}
@@ -380,6 +385,16 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
               </option>
             ))}
           </select>
+          {admins.length > 0 && (
+            <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-600" aria-label="Colour of each person">
+              {admins.map((a) => (
+                <span key={a.id} className="inline-flex items-center gap-1.5">
+                  <span className="hwg hwg-dot size-3 rounded-full border-2" style={whoVars(admins, a.id)} aria-hidden />
+                  {a.name}
+                </span>
+              ))}
+            </span>
+          )}
           {allTags.length > 0 && (
             <select className={`${inputClass} !mt-0 !w-auto`} value={tag} onChange={(e) => setTag(e.target.value)} aria-label="Tag">
               <option value="">All tags</option>
@@ -419,7 +434,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
       </section>
 
       {view === "board" ? (
-        <div className="-mx-1 flex items-start gap-4 overflow-x-auto px-1 pb-3">
+        <div className="grid grid-cols-4 gap-4">
           {PIPELINE.map((s) => {
             const col = base.filter((r) => r.status === s.value);
             return (
@@ -439,14 +454,14 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
                   setDrag("");
                   if (id) move(id, s.value);
                 }}
-                className={`flex w-80 shrink-0 flex-col rounded-2xl border p-3 transition-colors ${over === s.value ? "border-brand bg-brand/5" : "border-zinc-200 bg-zinc-50"}`}
+                className={`flex min-w-0 flex-col rounded-2xl border p-3 transition-colors ${over === s.value ? "border-brand bg-brand/5" : "border-zinc-200 bg-zinc-50"}`}
               >
                 <h3 className="flex items-center gap-2 px-1 pb-3 text-base font-semibold text-zinc-800">
                   <span className={`size-2.5 rounded-full ${s.dot}`} aria-hidden="true" />
                   {s.label}
                   <span className="ml-auto text-sm font-medium text-zinc-400">{col.length}</span>
                 </h3>
-                <div className="flex max-h-[70vh] min-h-20 flex-col gap-3 overflow-y-auto">
+                <div className="-m-3 flex max-h-[52vh] min-h-20 flex-1 flex-col gap-3 overflow-y-auto p-3">
                   {col.map(renderCard)}
                   {col.length === 0 && <p className="py-6 text-center text-sm text-zinc-400">Drop here</p>}
                 </div>
@@ -489,7 +504,7 @@ export function HiringDesk({ rows, jobs, admins, me, initialJob = "", initialOpe
                   {shown.map((r) => {
                     const s = stageOf(r.status);
                     return (
-                      <tr key={r.id} className={`cursor-pointer hover:bg-zinc-50 ${picked.has(r.id) ? "bg-brand/5" : ""}`} onClick={() => setOpen(r.id)}>
+                      <tr key={r.id} className={`cursor-pointer hover:bg-zinc-50 ${picked.has(r.id) ? "bg-brand/5" : ""} ${r.meta.assignee && whoVars(admins, r.meta.assignee) ? "hwg hwg-row" : ""}`} style={whoVars(admins, r.meta.assignee)} onClick={() => setOpen(r.id)}>
                         <td className="px-4 py-2.5" onClick={(e) => e.stopPropagation()}>
                           <input type="checkbox" checked={picked.has(r.id)} onChange={() => togglePick(r.id)} aria-label={`Choose ${r.name || "ticket"}`} />
                         </td>

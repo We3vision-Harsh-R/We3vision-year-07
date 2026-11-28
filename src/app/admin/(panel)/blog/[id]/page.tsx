@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
 import { BlogForm, type BlogData, type OtherPost } from "@/components/admin/blog-form";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { faqToText, tileOf } from "@/lib/blog-shared";
 
 export const metadata = { title: "Edit article" };
 
 export default async function EditBlogPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ added?: string }> }) {
-  await requireAdmin();
+  await requireArea("blog");
   const { id } = await params;
   const { added } = await searchParams;
   const all = await db.blogPost.findMany({ orderBy: [{ sortOrder: "asc" }, { publishedAt: "desc" }] });

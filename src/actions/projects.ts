@@ -3,7 +3,7 @@
 import { after } from "next/server";
 import { notifySearchEngines } from "@/lib/seo-ping";
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
 import { isSafeHref } from "@/lib/cms/fields";
@@ -74,7 +74,7 @@ function refresh() {
 }
 
 export async function createProject(input: ProjectInput): Promise<ActionResult & { id?: string }> {
-  await requireAdmin();
+  await requireArea("projects");
   try {
     const data = clean(input);
     const last = await db.project.aggregate({ where: { group: data.group }, _max: { sortOrder: true } });
@@ -87,7 +87,7 @@ export async function createProject(input: ProjectInput): Promise<ActionResult &
 }
 
 export async function updateProject(id: string, input: ProjectInput): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("projects");
   try {
     const data = clean(input);
     const old = await db.project.findUnique({ where: { id }, select: { title: true, slug: true } });
@@ -103,7 +103,7 @@ export async function updateProject(id: string, input: ProjectInput): Promise<Ac
 }
 
 export async function deleteProject(id: string): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("projects");
   try {
     await db.project.delete({ where: { id } });
     refresh();
@@ -115,7 +115,7 @@ export async function deleteProject(id: string): Promise<ActionResult> {
 
 /** Moves a project one place up or down inside its group (the order of the slider and of the Portfolio page). */
 export async function moveProject(id: string, direction: "up" | "down"): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("projects");
   try {
     const me = await db.project.findUnique({ where: { id }, select: { group: true } });
     if (!me) return { ok: false, error: "This project does not exist any more." };
@@ -133,7 +133,7 @@ export async function moveProject(id: string, direction: "up" | "down"): Promise
 }
 
 export async function setProjectPublished(id: string, published: boolean): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("projects");
   try {
     const project = await db.project.update({ where: { id }, data: { published }, select: { slug: true } });
     refresh();

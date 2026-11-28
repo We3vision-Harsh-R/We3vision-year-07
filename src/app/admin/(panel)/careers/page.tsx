@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { HiringDesk } from "@/components/admin/hiring/hiring-desk";
 import { btnPrimary, btnSecondary } from "@/components/admin/ui";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { listAdmins } from "@/lib/admin-users";
 import { readAllMeta } from "@/lib/hiring";
 import { EMPTY_META, type HireRow } from "@/lib/hiring-shared";
 
@@ -12,13 +13,13 @@ const fmt = new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "
 const ID = /^[a-z0-9]{10,40}$/i;
 
 export default async function CareersAdminPage({ searchParams }: { searchParams: Promise<{ job?: string; open?: string }> }) {
-  const admin = await requireAdmin();
+  const admin = await requireArea("careers");
   const { job, open } = await searchParams;
   const [rows, metas, roles, admins] = await Promise.all([
     db.careerApplication.findMany({ orderBy: { createdAt: "desc" }, take: 1500 }),
     readAllMeta(),
     db.careerRole.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, title: true, active: true, training: true } }),
-    db.adminUser.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
+    listAdmins(),
   ]);
   const view: HireRow[] = rows.map((r) => ({
     id: r.id,

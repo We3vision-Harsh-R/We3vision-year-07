@@ -5,7 +5,7 @@ import { AlertRecheck } from "@/components/admin/alert-recheck";
 import { btnDanger, btnPrimary, btnSecondary, card } from "@/components/admin/ui";
 import { alertKindName } from "@/lib/alert-report";
 import { type AlertLevel, readAlerts } from "@/lib/alerts";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { formatDate } from "@/lib/format";
 import { whatsappProvider } from "@/lib/whatsapp";
 import { IconBtn } from "@/components/admin/icon-btn";
@@ -31,7 +31,7 @@ const TEST: Record<string, { text: string; good: boolean }> = {
 };
 
 export default async function AlertsPage({ searchParams }: { searchParams: Promise<{ level?: string; test?: string }> }) {
-  await requireAdmin();
+  await requireArea("alerts");
   const { level, test } = await searchParams;
   const all = await readAlerts();
   const shown = level === "solved" ? all.filter((a) => a.resolved) : LEVELS.some((l) => l.value === level) ? all.filter((a) => a.level === level) : all;

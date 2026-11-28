@@ -1,11 +1,11 @@
 import { SettingsForm } from "@/components/admin/settings-form";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { getSiteSettings } from "@/lib/cms/queries";
 
 export const metadata = { title: "Site settings" };
 
 export default async function SettingsPage() {
-  await requireAdmin();
+  await requireArea("settings");
   const site = await getSiteSettings();
   return (
     <div className="max-w-3xl space-y-6">

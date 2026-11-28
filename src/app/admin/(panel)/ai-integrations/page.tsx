@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { AiIntegrations, type ConnectionRow, type ToolRow } from "@/components/admin/ai-integrations";
 import { getAiSettings } from "@/lib/ai-content/server/settings";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export const metadata = { title: "AI Integrations" };
@@ -26,7 +26,7 @@ function hostOf(uri: string) {
 }
 
 export default async function AiIntegrationsPage() {
-  const me = await requireAdmin();
+  const me = await requireArea("ai-integrations");
   const [rows, pending, clients, settings] = await Promise.all([
     db.aiConnection.findMany({ orderBy: { createdAt: "desc" }, include: { admin: { select: { email: true } }, _count: { select: { submissions: true } } } }),
     db.contentSubmission.count({ where: { status: "pending_review" } }),

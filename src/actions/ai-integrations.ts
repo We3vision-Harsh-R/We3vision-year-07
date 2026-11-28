@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { alertFailure, alertLater } from "@/lib/alerts";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { checkAuthorize, issueCode, type AuthorizeParams } from "@/lib/ai-content/server/oauth";
 import { aiEnabled, getAiSettings, saveAiSettings } from "@/lib/ai-content/server/settings";
@@ -25,7 +25,7 @@ export type CreateConnectionResult = ActionResult & { token?: string; mcpUrl?: s
 
 /** Makes a personal access token for tools that connect with a header (Claude Code, Cursor …). The token is shown once; only its hash is kept. */
 export async function createConnection(input: { name?: unknown; scopes?: unknown; days?: unknown }): Promise<CreateConnectionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-integrations");
   const name = typeof input.name === "string" ? input.name.replace(/[\u0000-\u001F<>]/g, "").trim().slice(0, 60) : "";
   if (name.length < 2) return { ok: false, error: 'Give the connection a name, for example "Claude laptop".' };
   const scopes = SCOPES.filter((s) => Array.isArray(input.scopes) && input.scopes.includes(s));
@@ -50,7 +50,7 @@ export async function createConnection(input: { name?: unknown; scopes?: unknown
 
 /** Stops a connection at once (its tokens do not work from the next request). The record stays for the history. */
 export async function revokeConnection(id: string): Promise<ActionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-integrations");
   try {
     const row = await db.aiConnection.update({ where: { id }, data: { revokedAt: new Date() }, select: { name: true } });
     alertLater({ level: "info", kind: "ai", title: `AI connection revoked: ${row.name}`, detail: `By ${admin.email}` });
@@ -63,7 +63,7 @@ export async function revokeConnection(id: string): Promise<ActionResult> {
 
 /** Removes a revoked connection from the list (its submissions stay, they keep the connection's name). */
 export async function removeConnection(id: string): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("ai-integrations");
   try {
     const row = await db.aiConnection.findUnique({ where: { id }, select: { revokedAt: true } });
     if (!row?.revokedAt) return { ok: false, error: "Revoke the connection first." };
@@ -79,7 +79,7 @@ export type DecideResult = { ok: true; url: string } | { ok: false; error: strin
 
 /** The consent screen: the admin pressed "Allow" or "Deny". Everything is checked again here; the answer is the address to send the browser to. */
 export async function decideAuthorization(input: AuthorizeParams & { approve: boolean }): Promise<DecideResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-integrations");
   if (!(await aiEnabled())) return { ok: false, error: "The AI integration is switched off on this website." };
   const check = await checkAuthorize({
     clientId: String(input.clientId ?? ""),
@@ -112,7 +112,7 @@ export async function decideAuthorization(input: AuthorizeParams & { approve: bo
 
 /** The two switches of the page: allow AI tools at all, and the WhatsApp alert for a new draft. (AI_INTEGRATION=off / ALERT_AI=off in the environment always win.) */
 export async function saveAiSwitches(input: { enabled?: unknown; alerts?: unknown }): Promise<ActionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-integrations");
   const now = await getAiSettings();
   const next = { enabled: input.enabled !== false, alerts: input.alerts !== false };
   if (next.enabled && now.forcedOff) return { ok: false, error: "AI_INTEGRATION=off is set on the server, so it cannot be switched on here. Remove that variable first." };
@@ -130,7 +130,7 @@ export async function saveAiSwitches(input: { enabled?: unknown; alerts?: unknow
 
 /** Stops every connection of every tool at once. */
 export async function revokeAllConnections(): Promise<ActionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-integrations");
   try {
     const done = await db.aiConnection.updateMany({ where: { revokedAt: null }, data: { revokedAt: new Date() } });
     alertLater({ level: "info", kind: "ai", title: `All AI connections revoked (${done.count})`, detail: `By ${admin.email}` });
@@ -143,7 +143,7 @@ export async function revokeAllConnections(): Promise<ActionResult> {
 
 /** Forgets a tool that signed in (Claude, Cursor …): its connections are revoked and it has to be added and allowed again. */
 export async function removeTool(clientId: string): Promise<ActionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-integrations");
   try {
     const id = String(clientId ?? "");
     await db.aiConnection.updateMany({ where: { clientId: id, revokedAt: null }, data: { revokedAt: new Date() } });
@@ -158,7 +158,7 @@ export async function removeTool(clientId: string): Promise<ActionResult> {
 
 /** Deletes the record of a submission that is finished (approved, rejected or saved as a draft). The live item, if any, is not touched. */
 export async function deleteSubmissionRecord(id: string): Promise<ActionResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-integrations");
   try {
     const row = await db.contentSubmission.findUnique({ where: { id }, select: { status: true, title: true } });
     if (!row) return { ok: false, error: "This submission does not exist any more." };

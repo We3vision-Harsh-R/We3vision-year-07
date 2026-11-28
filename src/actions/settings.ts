@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/generated/prisma/client";
@@ -9,7 +9,7 @@ import { normalizeSite } from "@/lib/cms/settings";
 import type { ActionResult } from "./types";
 
 export async function saveSiteSettings(input: unknown): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("settings");
   try {
     const value = normalizeSite(input);
     await db.setting.upsert({ where: { key: "site" }, create: { key: "site", value: value as unknown as Prisma.InputJsonValue }, update: { value: value as unknown as Prisma.InputJsonValue } });

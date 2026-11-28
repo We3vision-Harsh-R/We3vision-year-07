@@ -1,5 +1,6 @@
 // The hiring desk of the admin panel (Careers): the pipeline, the extra facts HR keeps on an application, the message templates and the
 // CSV export. Shared by the server (actions/hiring.ts, lib/hiring.ts) and the admin screens. No server-only imports.
+import type { CSSProperties } from "react";
 
 /** the pipeline, in order; "hold" and "rejected" sit beside it */
 export const PIPELINE = [
@@ -181,3 +182,15 @@ export type HireRow = {
   meta: AppMeta;
 };
 export type AdminOption = { id: string; name: string };
+
+/** The hue of the person who looks after an application: an offset from the theme hue (--th), one per admin, 67 degrees apart; null when nobody does. */
+export const whoHue = (admins: AdminOption[], id: string): number | null => {
+  const i = admins.findIndex((a) => a.id === id);
+  return i < 0 ? null : (i * 67 + 25) % 360;
+};
+
+/** Carries that hue into the CSS: put it in `style` together with the class `hwg` (the glow, prefix hwg- in styles/admin-shell.css). undefined when nobody looks after it. */
+export const whoVars = (admins: AdminOption[], id: string): CSSProperties | undefined => {
+  const h = whoHue(admins, id);
+  return h === null ? undefined : ({ "--who": h } as CSSProperties);
+};

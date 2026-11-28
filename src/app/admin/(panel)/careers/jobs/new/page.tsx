@@ -1,12 +1,12 @@
 import { EMPTY_JOB, JobForm } from "@/components/admin/job-form";
 
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { IconBtn } from "@/components/admin/icon-btn";
 
 export const metadata = { title: "Careers: new job" };
 
 export default async function NewJobPage() {
-  await requireAdmin();
+  await requireArea("jobs");
   return (
     <div className="max-w-5xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">

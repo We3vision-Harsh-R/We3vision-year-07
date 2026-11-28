@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { alertFailure } from "@/lib/alerts";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { deleteMeta, editMeta, entry } from "@/lib/hiring";
 import { type AppMeta, INTERVIEW_MODES, TEMPLATES, type TimelineEntry, interviewLabel, isStage, stageOf } from "@/lib/hiring-shared";
@@ -22,7 +22,7 @@ const fail = (what: string, error: unknown): HireResult => {
 
 /** moves an application to another step of the pipeline */
 export async function moveApplication(id: string, status: string): Promise<HireResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("careers");
   if (!ID.test(id) || !isStage(status)) return { ok: false, error: "Unknown step." };
   try {
     const before = await db.careerApplication.findUnique({ where: { id }, select: { status: true } });
@@ -39,7 +39,7 @@ export async function moveApplication(id: string, status: string): Promise<HireR
 
 /** rating, star, tags, the admin who looks after it */
 export async function updateApplicationMeta(id: string, patch: { rating?: unknown; starred?: unknown; tags?: unknown; assignee?: unknown }): Promise<HireResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("careers");
   if (!ID.test(id)) return { ok: false, error: "Unknown application." };
   try {
     let assigneeName = "";
@@ -74,7 +74,7 @@ export async function updateApplicationMeta(id: string, patch: { rating?: unknow
 
 /** a note of HR (only seen in the admin panel) */
 export async function addApplicationNote(id: string, note: unknown): Promise<HireResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("careers");
   const body = text(note, 2000);
   if (!ID.test(id)) return { ok: false, error: "Unknown application." };
   if (!body) return { ok: false, error: "Write the note first." };
@@ -87,7 +87,7 @@ export async function addApplicationNote(id: string, note: unknown): Promise<Hir
 }
 
 export async function deleteApplicationNote(id: string, entryId: string): Promise<HireResult> {
-  await requireAdmin();
+  await requireArea("careers");
   if (!ID.test(id) || typeof entryId !== "string") return { ok: false, error: "Unknown note." };
   try {
     const meta = await editMeta(id, (m) => ({ ...m, timeline: m.timeline.filter((e) => !(e.id === entryId && e.kind === "note")) }));
@@ -99,7 +99,7 @@ export async function deleteApplicationNote(id: string, entryId: string): Promis
 
 /** plans the interview (or removes it with at = ""); a new interview moves the application to "Interview" */
 export async function scheduleInterview(id: string, input: { at?: unknown; mode?: unknown; place?: unknown; with?: unknown }): Promise<HireResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("careers");
   if (!ID.test(id)) return { ok: false, error: "Unknown application." };
   const at = typeof input.at === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(input.at) ? input.at : "";
   const mode = INTERVIEW_MODES.find((m) => m === input.mode) ?? INTERVIEW_MODES[0];
@@ -133,7 +133,7 @@ export async function scheduleInterview(id: string, input: { at?: unknown; mode?
 
 /** writes in the timeline that a message was prepared (the message itself is sent from HR's own WhatsApp or e-mail) */
 export async function logApplicationMessage(id: string, templateId: string, channel: "WhatsApp" | "E-mail"): Promise<HireResult> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("careers");
   const t = TEMPLATES.find((x) => x.id === templateId);
   if (!ID.test(id) || (channel !== "WhatsApp" && channel !== "E-mail")) return { ok: false, error: "Unknown message." };
   try {
@@ -146,7 +146,7 @@ export async function logApplicationMessage(id: string, templateId: string, chan
 
 /** the same change for many applications at once: a step, a tag, or remove them */
 export async function bulkApplications(ids: unknown, op: { status?: unknown; tag?: unknown; remove?: unknown }): Promise<HireResult & { count?: number }> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("careers");
   const list = Array.isArray(ids) ? [...new Set(ids.filter((x): x is string => typeof x === "string" && ID.test(x)))].slice(0, 300) : [];
   if (!list.length) return { ok: false, error: "Choose at least one application." };
   try {
@@ -177,7 +177,7 @@ export async function bulkApplications(ids: unknown, op: { status?: unknown; tag
 
 /** removes one application and what HR kept on it */
 export async function removeApplication(id: string): Promise<HireResult> {
-  await requireAdmin();
+  await requireArea("careers");
   if (!ID.test(id)) return { ok: false, error: "Unknown application." };
   try {
     await db.careerApplication.delete({ where: { id } });

@@ -1,12 +1,12 @@
 import { card } from "@/components/admin/ui";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { formatDate } from "@/lib/format";
 import { SITE_VERSION, VERSION_LOG } from "@/lib/version";
 
 export const metadata = { title: "Versions" };
 
 export default async function VersionsPage() {
-  await requireAdmin();
+  await requireArea("versions");
   return (
     <div className="space-y-6">
       <div>

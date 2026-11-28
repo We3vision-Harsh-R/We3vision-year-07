@@ -12,6 +12,7 @@ import {
   updateApplicationMeta,
 } from "@/actions/hiring";
 import {
+  whoVars,
   type AdminOption,
   type AppMeta,
   type HireRow,
@@ -147,7 +148,8 @@ export function ApplicationDrawer({ row, admins, allTags, duplicates, training, 
         role="dialog"
         aria-modal="true"
         aria-label={`Application of ${row.name || "a visitor"}`}
-        className="flex h-full w-full max-w-[680px] flex-col bg-white shadow-2xl"
+        className={`flex h-full w-full max-w-[680px] flex-col bg-white shadow-2xl ${whoVars(admins, row.meta.assignee) ? "hwg hwg-drawer" : ""}`}
+        style={whoVars(admins, row.meta.assignee)}
         onClick={(e) => e.stopPropagation()}
       >
         <header className="flex items-start gap-3 border-b border-zinc-200 px-6 py-4">
@@ -207,7 +209,7 @@ export function ApplicationDrawer({ row, admins, allTags, duplicates, training, 
             </div>
             <label className="ml-auto flex items-center gap-2 text-sm text-zinc-600">
               Looked after by
-              <select className={`${inputClass} !mt-0 !w-auto`} value={row.meta.assignee} disabled={pending} onChange={(e) => run(() => updateApplicationMeta(row.id, { assignee: e.target.value }))}>
+              <select className={`${inputClass} !mt-0 !w-auto ${whoVars(admins, row.meta.assignee) ? "hwg hwg-select" : ""}`} style={whoVars(admins, row.meta.assignee)} value={row.meta.assignee} disabled={pending} onChange={(e) => run(() => updateApplicationMeta(row.id, { assignee: e.target.value }))}>
                 <option value="">Nobody</option>
                 {admins.map((a) => (
                   <option key={a.id} value={a.id}>

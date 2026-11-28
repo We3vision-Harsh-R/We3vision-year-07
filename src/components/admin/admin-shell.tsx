@@ -32,13 +32,15 @@ export function AdminShell({
   pathOverride,
   children,
 }: {
-  admin: { name: string; email: string };
+  /** isSuper + areas = what this admin may open (lib/admin-grants.ts); left out (a design sandbox) = everything */
+  admin: { name: string; email: string; isSuper?: boolean; areas?: readonly string[] };
   badges: AdminBadges;
   siteName?: string;
   pathOverride?: string;
   children: React.ReactNode;
 }) {
   const { weekday, date } = todayIst();
+  const access = { isSuper: admin.isSuper ?? true, areas: admin.areas ?? [] };
   return (
     <div className="ads-app">
       <aside className="ads-side">
@@ -49,7 +51,7 @@ export function AdminShell({
             <small>Admin panel · v{SITE_VERSION}</small>
           </span>
         </Link>
-        <AdminNav badges={badges} pathOverride={pathOverride} />
+        <AdminNav badges={badges} pathOverride={pathOverride} access={access} />
         <div className="ads-side-foot">
           <a href="/" target="_blank" rel="noreferrer" className="ads-site-link">
             View website
@@ -61,7 +63,7 @@ export function AdminShell({
             </span>
             <span>
               <b>{admin.name}</b>
-              <small>Administrator</small>
+              <small>{access.isSuper ? "Master admin" : "Team member"}</small>
             </span>
           </div>
           <form action={logout}>
@@ -73,7 +75,7 @@ export function AdminShell({
         </div>
       </aside>
       <div className="ads-main">
-        <AdminTopbar weekday={weekday} date={date} alerts={badges.alerts} siteName={siteName} pathOverride={pathOverride} />
+        <AdminTopbar weekday={weekday} date={date} alerts={access.isSuper || access.areas.includes("alerts") ? badges.alerts : 0} siteName={siteName} pathOverride={pathOverride} />
         <div className="ads-content">{children}</div>
       </div>
     </div>

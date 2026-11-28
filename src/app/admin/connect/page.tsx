@@ -1,5 +1,5 @@
 import { ConsentCard } from "@/components/admin/consent-card";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { checkAuthorize } from "@/lib/ai-content/server/oauth";
 
 export const metadata = { title: "Connect an AI tool" };
@@ -10,7 +10,7 @@ const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) 
 // The consent screen of the OAuth flow: an AI tool (Claude, Cursor …) sent the admin here. Not logged in -> the proxy sends them to the login
 // and back. The address is under /admin, so it is never indexed or cached. Nothing happens until the admin presses "Allow".
 export default async function ConnectPage({ searchParams }: { searchParams: Promise<Search> }) {
-  const admin = await requireAdmin();
+  const admin = await requireArea("ai-integrations");
   const q = await searchParams;
   const params = {
     clientId: one(q.client_id),

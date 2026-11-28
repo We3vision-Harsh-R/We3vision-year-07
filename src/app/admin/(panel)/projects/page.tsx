@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { ProjectsList, type ProjectRow } from "@/components/admin/projects-list";
 import { btnPrimary } from "@/components/admin/ui";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export const metadata = { title: "Projects" };
 
 export default async function ProjectsPage() {
-  await requireAdmin();
+  await requireArea("projects");
   const projects = await db.project.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] });
   const rows: ProjectRow[] = projects.map((p) => ({
     id: p.id,

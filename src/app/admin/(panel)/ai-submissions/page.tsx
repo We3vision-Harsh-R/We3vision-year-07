@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SubmissionBadge } from "@/components/admin/submission-parts";
 import { card } from "@/components/admin/ui";
 import { getContentType } from "@/lib/ai-content/registry";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export const metadata = { title: "AI Submissions" };
@@ -17,7 +17,7 @@ const TABS = [
 ] as const;
 
 export default async function AiSubmissionsPage({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
-  await requireAdmin();
+  await requireArea("ai-submissions");
   const wanted = (await searchParams).status;
   const tab = TABS.find((t) => t.key === wanted)?.key ?? "pending_review";
   const [rows, counts] = await Promise.all([

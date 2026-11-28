@@ -1,11 +1,11 @@
 import { EMPTY_BLOG, BlogForm, type OtherPost } from "@/components/admin/blog-form";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export const metadata = { title: "Add article" };
 
 export default async function NewBlogPage() {
-  await requireAdmin();
+  await requireArea("blog");
   const posts = await db.blogPost.findMany({ orderBy: [{ sortOrder: "asc" }, { publishedAt: "desc" }] });
   const others: OtherPost[] = posts.map((p) => ({ id: p.id, title: p.title, category: p.category, image: p.cover, tile: p.tile, href: "#", published: p.published }));
   return (

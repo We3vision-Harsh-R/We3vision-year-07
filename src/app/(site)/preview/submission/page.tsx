@@ -5,7 +5,7 @@ import { JobPage } from "@/components/site/career/job-page";
 import { ProjectArticle } from "@/components/site/project-article";
 import { draftToBlogEntry, draftToJobView, draftToProjectView } from "@/lib/ai-content/preview-data";
 import { CONTENT_TYPE_KEYS, getContentType, validateDraft, type ContentTypeKey } from "@/lib/ai-content/registry";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getCareerSetup } from "@/lib/careers";
 
@@ -28,7 +28,7 @@ const RENDER: Record<ContentTypeKey, (data: Record<string, unknown>, slug: strin
 };
 
 export default async function SubmissionPreview({ searchParams }: { searchParams: Promise<{ id?: string; embed?: string }> }) {
-  await requireAdmin();
+  await requireArea("ai-submissions");
   const { id, embed } = await searchParams;
   const sub = id && /^[a-z0-9]{10,40}$/i.test(id) ? await db.contentSubmission.findUnique({ where: { id } }) : null;
   const def = sub ? getContentType(sub.contentType) : undefined;

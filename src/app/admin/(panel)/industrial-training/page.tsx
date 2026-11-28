@@ -1,12 +1,12 @@
 import { TrainingManager } from "@/components/admin/training-manager";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { getCourses } from "@/lib/training-server";
 
 export const metadata = { title: "Industrial Training" };
 export const dynamic = "force-dynamic";
 
 export default async function TrainingAdminPage() {
-  await requireAdmin();
+  await requireArea("training");
   const courses = await getCourses();
   return (
     <div className="max-w-5xl space-y-6">

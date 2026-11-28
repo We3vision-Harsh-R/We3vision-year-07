@@ -1,14 +1,14 @@
 "use server";
 
 import { alertFailure } from "@/lib/alerts";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { cleanPresence } from "@/lib/presence";
 import { savePresenceConfig } from "@/lib/presence-server";
 import type { ActionResult } from "./types";
 
 /** Admin > Visitors: saves the live cursor settings; the open pages pick them up within a few seconds */
 export async function savePresence(input: unknown): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("visitors");
   try {
     await savePresenceConfig(cleanPresence(input));
     return { ok: true, message: "Saved. The website uses it now." };

@@ -1,6 +1,6 @@
 import { deleteLead, markLeadRead } from "@/actions/leads";
 import { card } from "@/components/admin/ui";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatDate } from "@/lib/format";
 import { IconBtn } from "@/components/admin/icon-btn";
@@ -8,7 +8,7 @@ import { IconBtn } from "@/components/admin/icon-btn";
 export const metadata = { title: "Leads" };
 
 export default async function LeadsPage() {
-  await requireAdmin();
+  await requireArea("leads");
   const leads = await db.lead.findMany({ orderBy: { createdAt: "desc" }, take: 100 });
   return (
     <div className="max-w-4xl space-y-6">

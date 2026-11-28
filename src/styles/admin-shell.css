@@ -341,6 +341,10 @@
   margin: 0 auto;
   padding: 0 8px 48px;
 }
+/* the dashboard fills the main column from edge to edge (still capped on a very wide monitor) */
+.ads-content:has(.ads-dash) {
+  max-width: 1880px;
+}
 .ads-top {
   position: sticky;
   top: 16px;
@@ -444,6 +448,7 @@
 /* ---------- dashboard ---------- */
 .ads-dash {
   display: grid;
+  grid-template-columns: minmax(0, 1fr); /* a long enquiry text must never widen the page (the column used to be "auto") */
   gap: 28px;
 }
 .ads-dash-head {
@@ -486,11 +491,11 @@
 
 .ads-hero-grid {
   display: grid;
-  grid-template-columns: 1.08fr 1fr 1fr;
-  grid-auto-rows: minmax(160px, auto);
-  gap: 22px;
+  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); /* --n = how many counters this admin may see */
+  gap: 16px;
 }
 .ads-card {
+  min-width: 0;
   padding: 26px 28px;
   border: 1px solid var(--ads-glass-line);
   border-radius: 28px;
@@ -626,10 +631,15 @@
 /* count cards with a round icon */
 .ads-stat {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 24px 26px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "value chip"
+    "label label"
+    "hint hint";
+  align-content: start;
+  row-gap: 2px;
+  padding: 22px 22px 20px;
   border: 1px solid var(--ads-glass-line);
   border-radius: 28px;
   background: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(46% * var(--ts)) 11% / 0.86), hsl(calc(var(--th) + 349) calc(52% * var(--ts)) 8.5% / 0.86));
@@ -640,27 +650,29 @@
   transform: translateY(-3px);
 }
 .ads-stat-label {
+  grid-area: label;
+  margin-top: 14px;
   font-size: 1rem;
   color: hsl(calc(var(--th) + 352) calc(22% * var(--ts)) 82%);
 }
 .ads-stat-value {
-  margin-top: auto;
+  grid-area: value;
+  align-self: center;
   font-size: 3.25rem;
   font-weight: 700;
   line-height: 1;
 }
 .ads-stat-hint {
+  grid-area: hint;
   font-size: 0.9375rem;
   color: var(--ads-muted);
 }
 .ads-stat-chip {
-  position: absolute;
-  right: 22px;
-  bottom: 24px;
+  grid-area: chip;
   display: grid;
   place-items: center;
-  width: 54px;
-  height: 54px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: var(--ads-accent-soft);
   color: var(--ads-accent);
@@ -693,6 +705,7 @@
 /* list rows (latest enquiries, pages) */
 .ads-rows {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   margin: 0;
   padding: 0;
@@ -701,8 +714,8 @@
 .ads-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 14px 20px;
+  gap: 14px;
+  padding: 11px 18px;
   border: 1px solid var(--ads-glass-line);
   border-radius: 22px;
   background: hsl(calc(var(--th) + 349) calc(50% * var(--ts)) 9.5% / 0.7);
@@ -716,8 +729,11 @@
   flex: none;
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   border-radius: 50%;
   background: var(--ads-ok-soft);
   color: var(--ads-ok);
@@ -744,10 +760,90 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.ads-row[data-new="true"] {
+  border-color: hsl(calc(var(--th) + 352) calc(50% * var(--ts)) 30%);
+}
+/* first line of a row: the name and, next to it, how long ago */
+.ads-row-top {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+.ads-row-top b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .ads-row-when {
   flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ads-muted);
+  white-space: nowrap;
+}
+/* the colour dot of the person who looks after an application (same hue as on the hiring board, see hwg-) */
+.ads-dot {
+  display: inline-block;
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 2px solid;
+  border-radius: 50%;
+}
+/* the two newest lists side by side: same height, the footer line sits at the bottom of each */
+.ads-duo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+.ads-duo:has(> :only-child) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.ads-feed {
+  display: flex;
+  flex-direction: column;
+}
+/* a message at the top of the dashboard (a screen that was not allowed) */
+.ads-notice {
+  margin: 0;
+  padding: 14px 20px;
+  border: 1px solid var(--ads-warn);
+  border-radius: 18px;
+  background: var(--ads-warn-soft);
+  color: var(--ads-warn);
+  font-size: 1rem;
+  font-weight: 500;
+}
+.ads-feed h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ads-feed .ads-rows {
+  align-content: start;
+}
+.ads-feed .ads-card-foot {
+  margin-top: auto;
+  padding-top: 18px;
+}
+.ads-card-sub {
+  margin: 4px 0 0;
   font-size: 0.9375rem;
-  font-weight: 600;
+  color: var(--ads-muted);
+}
+.ads-chip {
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: var(--ads-accent-soft);
+  color: var(--ads-accent);
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 .ads-pill {
   flex: none;
@@ -772,11 +868,23 @@
   color: var(--ads-muted);
 }
 
-/* category tiles */
+/* category tiles: the sections share ONE three-column grid (same column as the tiles inside); a section is as wide as its tiles (--cols, set by the
+   view), and "dense" lets a small section move up beside another one, so there are no half-empty rows */
+.ads-cats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: row dense;
+  gap: 30px 16px;
+  align-items: start;
+}
+.ads-cat {
+  grid-column: span var(--cols, 3);
+}
 .ads-cat-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 14px;
+  gap: 2px 14px;
   margin: 0 4px 14px;
 }
 .ads-cat-head h2 {
@@ -791,7 +899,7 @@
 }
 .ads-tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
   gap: 16px;
 }
 .ads-tile {
@@ -1217,4 +1325,79 @@
   .ads-ib::after {
     transition: none;
   }
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------------
+   hwg-: the person who looks after an application ("Looked after by", Careers > Hiring). Each person has ONE hue = an offset from the theme hue --th
+   (lib/hiring-shared.ts whoVars sets it as --who). The Kanban card is the website's own border-glow card (.bglow + <GlowEdge />, styles/glow-edge.css:
+   the pointer light that runs along the edge) re-coloured to that hue and with a soft always-on glow; the list row, the profile panel, the select and the
+   legend dot carry the same hue and the same glow layers. Theme colours only (--th / --ts), so a new website theme recolours all of it. To go back: delete this block. */
+.hwg {
+  --hwg-hue: calc(var(--th) + var(--who));
+  --hwg-line: hsl(var(--hwg-hue) calc(85% * var(--ts)) 60%);
+  --hwg-glow: var(--hwg-hue) calc(100% * var(--ts)) 72%;
+}
+/* the card: the glow of the website cards, in the colour of the person */
+:root:root .hwg.bglow {
+  --glow-padding: 10px; /* the board column scrolls: the light must stay inside its padding */
+  --card-bg: var(--ads-card);
+  --bg-c1: hsl(var(--hwg-hue) calc(100% * var(--ts)) 72%);
+  --bg-c2: hsl(calc(var(--hwg-hue) + 40) calc(92% * var(--ts)) 68%);
+  --bg-c3: hsl(calc(var(--hwg-hue) - 40) calc(90% * var(--ts)) 66%);
+  --glow-color: hsl(var(--hwg-glow) / 100%);
+  --glow-color-60: hsl(var(--hwg-glow) / 60%);
+  --glow-color-50: hsl(var(--hwg-glow) / 50%);
+  --glow-color-40: hsl(var(--hwg-glow) / 40%);
+  --glow-color-30: hsl(var(--hwg-glow) / 30%);
+  --glow-color-20: hsl(var(--hwg-glow) / 20%);
+  --glow-color-10: hsl(var(--hwg-glow) / 10%);
+  border-color: var(--hwg-line);
+  background:
+    linear-gradient(150deg, hsl(var(--hwg-hue) calc(70% * var(--ts)) 52% / 0.2), transparent 62%),
+    var(--ads-card);
+  box-shadow:
+    0 0 0 1px hsl(var(--hwg-glow) / 45%),
+    0 0 5px 0 hsl(var(--hwg-glow) / 45%),
+    0 0 14px 1px hsl(var(--hwg-glow) / 28%),
+    0 0 30px 2px hsl(var(--hwg-glow) / 14%),
+    inset 0 0 22px 0 hsl(var(--hwg-glow) / 10%);
+  transition: box-shadow 0.25s ease-out;
+}
+:root:root .hwg.bglow:hover {
+  box-shadow:
+    0 0 0 1px hsl(var(--hwg-glow) / 60%),
+    0 0 7px 0 hsl(var(--hwg-glow) / 60%),
+    0 0 18px 2px hsl(var(--hwg-glow) / 36%),
+    0 0 36px 3px hsl(var(--hwg-glow) / 18%),
+    inset 0 0 26px 0 hsl(var(--hwg-glow) / 14%);
+}
+/* a picked card keeps its ring (the glow replaced the Tailwind ring) */
+.hwg-sel {
+  outline: 2px solid var(--ads-accent);
+  outline-offset: 2px;
+}
+/* the list row: a bar with the glow on the first cell */
+.hwg-row > td:first-child {
+  box-shadow:
+    inset 4px 0 0 var(--hwg-line),
+    inset 26px 0 26px -20px hsl(var(--hwg-glow) / 55%);
+}
+/* the profile panel: its left edge glows into the page behind it */
+.hwg-drawer {
+  border-left: 3px solid var(--hwg-line);
+  box-shadow:
+    -2px 0 8px 0 hsl(var(--hwg-glow) / 50%),
+    -14px 0 36px 0 hsl(var(--hwg-glow) / 28%),
+    -40px 0 90px 0 hsl(var(--hwg-glow) / 14%);
+}
+.hwg-select {
+  border: 2px solid var(--hwg-line);
+  box-shadow:
+    0 0 8px 0 hsl(var(--hwg-glow) / 45%),
+    0 0 20px 0 hsl(var(--hwg-glow) / 20%);
+}
+.hwg-dot {
+  border-color: var(--hwg-line);
+  background: hsl(var(--hwg-hue) calc(85% * var(--ts)) 60% / 0.35);
+  box-shadow: 0 0 7px 0 hsl(var(--hwg-glow) / 70%);
 }

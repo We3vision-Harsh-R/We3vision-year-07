@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { btnPrimary, btnSecondary } from "@/components/admin/ui";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { InterviewScheduleForm } from "@/components/admin/interview-schedule-form";
 import { interviewDays, parseSlot } from "@/lib/careers-shared";
 import { getInterviewSchedule } from "@/lib/careers";
@@ -15,7 +15,7 @@ const statusChip = (s: string) => PIPELINE.find((p) => p.value === s) ?? null;
 
 /** Careers > Interview schedule: the interview slots that the candidates book on the Careers page, day by day, with the free windows. */
 export default async function InterviewSchedulePage() {
-  await requireAdmin();
+  await requireArea("careers");
   const [rows, schedule] = await Promise.all([db.careerApplication.findMany({ where: { callSlot: { not: "" } }, orderBy: { createdAt: "desc" }, take: 1500 }), getInterviewSchedule()]);
   const TIMES = schedule.times;
   const booked: Booked[] = rows.map((r) => ({

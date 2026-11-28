@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { alertFailure } from "@/lib/alerts";
 import { db } from "@/lib/db";
 import { cleanPeople } from "@/lib/team-shared";
@@ -9,7 +9,7 @@ import type { ActionResult } from "./types";
 
 /** Saves the whole list of people of the office (the order of the list is the order in the office). The Team page is updated at once. */
 export async function saveTeam(input: unknown): Promise<ActionResult> {
-  await requireAdmin();
+  await requireArea("team");
   const people = cleanPeople(input);
   try {
     await db.$transaction([

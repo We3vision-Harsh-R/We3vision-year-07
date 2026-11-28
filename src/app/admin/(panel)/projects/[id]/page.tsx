@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import { ProjectForm } from "@/components/admin/project-form";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export const metadata = { title: "Edit project" };
 
 export default async function EditProjectPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ added?: string }> }) {
-  await requireAdmin();
+  await requireArea("projects");
   const { id } = await params;
   const { added } = await searchParams;
   const p = await db.project.findUnique({ where: { id } });

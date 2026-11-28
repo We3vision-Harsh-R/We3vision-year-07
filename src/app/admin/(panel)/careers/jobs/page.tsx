@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { CareersJobs, type JobRow } from "@/components/admin/careers-jobs";
 import { btnPrimary } from "@/components/admin/ui";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { IconBtn } from "@/components/admin/icon-btn";
 
 export const metadata = { title: "Careers: jobs" };
 
 export default async function CareersJobsPage() {
-  await requireAdmin();
+  await requireArea("jobs");
   const [roles, counts] = await Promise.all([
     db.careerRole.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] }),
     db.careerApplication.groupBy({ by: ["roleId", "status"], _count: { _all: true } }),

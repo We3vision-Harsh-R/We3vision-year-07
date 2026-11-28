@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { alertFailure, notifyNewLead } from "@/lib/alerts";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db, hasDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
 import { cleanLeadName, leadPhone, leadProblems } from "@/lib/contact-validation";
@@ -50,14 +50,14 @@ ${body.slice(0, 2000 - header.length - 2)}` : body.slice(0, 2000);
 }
 
 export async function markLeadRead(formData: FormData) {
-  await requireAdmin();
+  await requireArea("leads");
   await db.lead.update({ where: { id: String(formData.get("id")) }, data: { isRead: true } });
   revalidatePath("/admin/leads");
   revalidatePath("/admin");
 }
 
 export async function deleteLead(formData: FormData) {
-  await requireAdmin();
+  await requireArea("leads");
   await db.lead.delete({ where: { id: String(formData.get("id")) } });
   revalidatePath("/admin/leads");
   revalidatePath("/admin");

@@ -4,13 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AdminIcon } from "@/components/admin/admin-icons";
-import { ADMIN_GROUPS, isItemActive } from "@/components/admin/admin-menu";
+import { ADMIN_GROUPS, canSee, isItemActive } from "@/components/admin/admin-menu";
 import type { AdminBadges } from "@/lib/admin-badges";
 
 // The sidebar menu of the admin panel: the menu items sit in categories (admin-menu.ts). A category can be folded; the one that holds the open screen
 // is always shown. The open screen is a pink pill with an arrow. The look is in styles/admin-shell.css (.ads-*).
 // `pathOverride` is only for the design sandbox (it shows a chosen screen as open); the real panel always uses the address of the page.
-export function AdminNav({ badges, pathOverride }: { badges: AdminBadges; pathOverride?: string }) {
+export function AdminNav({ badges, pathOverride, access }: { badges: AdminBadges; pathOverride?: string; access: { isSuper: boolean; areas: readonly string[] } }) {
   const livePath = usePathname();
   const pathname = pathOverride ?? livePath;
   const [folded, setFolded] = useState<Record<string, boolean>>({});
@@ -23,7 +23,10 @@ export function AdminNav({ badges, pathOverride }: { badges: AdminBadges; pathOv
 
   return (
     <nav ref={nav} aria-label="Admin" className="ads-nav">
-      {ADMIN_GROUPS.map((group) => {
+      {ADMIN_GROUPS.map((fullGroup) => {
+        // only the screens this admin may open (a category with none left is not shown)
+        const group = { ...fullGroup, items: fullGroup.items.filter((item) => canSee(item, access)) };
+        if (group.items.length === 0) return null;
         const hasActive = group.items.some((item) => isItemActive(item, pathname));
         const single = group.items.length === 1 && group.id === "overview";
         const open = hasActive || !folded[group.id];

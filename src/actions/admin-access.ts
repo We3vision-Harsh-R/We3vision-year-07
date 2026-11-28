@@ -3,19 +3,22 @@
 import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { ADMIN_DOMAIN, LOGIN_SETTING_KEY, cleanLoginImage, isCompanyEmail } from "@/lib/admin-access";
+import { ADMIN_ACCOUNTS, LOGIN_SETTING_KEY, cleanLoginImage, isAllowedAccount, isMasterEmail } from "@/lib/admin-access";
+import { cleanGrants } from "@/lib/admin-grants";
+import { saveGrants } from "@/lib/admin-permissions";
 import { alertFailure, alertLater } from "@/lib/alerts";
-import { createSession, requireAdmin, sessionVersion } from "@/lib/auth";
+import { createSession, requireSuperAdmin, sessionVersion } from "@/lib/auth";
 import { SESSION_MAX_AGE } from "@/lib/session-token";
 import { db } from "@/lib/db";
 import type { ActionResult } from "./types";
 
+// Admin access: only a master admin (Admin@ or Harsh@) may use any of these (requireSuperAdmin). The panel has exactly three accounts (lib/admin-access.ts).
+
 const passwordRule = z.string().min(12, "The password needs at least 12 characters.").max(200);
-const nameRule = z.string().trim().min(1, "Enter a name.").max(80);
 
 /** The picture on the right of the login page. An empty value goes back to the default picture. */
 export async function saveLoginImage(input: unknown): Promise<ActionResult> {
-  await requireAdmin();
+  await requireSuperAdmin();
   const raw = typeof input === "string" ? input.trim() : "";
   const image = cleanLoginImage(raw);
   if (raw && !image) return { ok: false, error: "That picture address is not allowed. Upload a picture, or use /images/… or https://…" };
@@ -30,34 +33,35 @@ export async function saveLoginImage(input: unknown): Promise<ActionResult> {
   }
 }
 
-/** Adds an admin user. Only e-mail addresses of the company domain are accepted. */
-export async function createAdminUser(input: { name?: unknown; email?: unknown; password?: unknown }): Promise<ActionResult> {
-  const me = await requireAdmin();
+/** Creates the login of one of the three accounts (the name comes from the list in lib/admin-access.ts). Any other e-mail address is refused. */
+export async function createAdminUser(input: { email?: unknown; password?: unknown }): Promise<ActionResult> {
+  const me = await requireSuperAdmin();
   const email = String(input.email ?? "").trim().toLowerCase();
-  if (!isCompanyEmail(email)) return { ok: false, error: `Only an e-mail address ending in @${ADMIN_DOMAIN} can be added.` };
-  const name = nameRule.safeParse(input.name);
-  if (!name.success) return { ok: false, error: name.error.issues[0].message };
+  const account = ADMIN_ACCOUNTS.find((a) => a.email === email);
+  if (!account) return { ok: false, error: "The admin panel has only three accounts. This e-mail address is not one of them." };
   const password = passwordRule.safeParse(input.password);
   if (!password.success) return { ok: false, error: password.error.issues[0].message };
   try {
-    if (await db.adminUser.findUnique({ where: { email } })) return { ok: false, error: "There is already a user with this e-mail address." };
-    await db.adminUser.create({ data: { email, name: name.data, passwordHash: await bcrypt.hash(password.data, 12) } });
-    alertLater({ level: "info", kind: "admin", title: `New admin user: ${email}`, detail: `Added by ${me.email}`, notify: true });
-    revalidatePath("/admin/access");
+    if (await db.adminUser.findUnique({ where: { email } })) return { ok: false, error: "This account already exists." };
+    await db.adminUser.create({ data: { email, name: account.name, passwordHash: await bcrypt.hash(password.data, 12) } });
+    alertLater({ level: "info", kind: "admin", title: `Admin account created: ${email}`, detail: `Created by ${me.email}`, notify: true });
+    revalidatePath("/admin", "layout");
     return { ok: true, message: `${email} can now sign in.` };
   } catch (error) {
     console.error("createAdminUser failed", error);
-    alertFailure("Adding an admin user", error, "warning");
-    return { ok: false, error: "Could not add the user. Please try again." };
+    alertFailure("Creating an admin account", error, "warning");
+    return { ok: false, error: "Could not create the account. Please try again." };
   }
 }
 
-/** A new password for a user (the old one stops working). */
+/** A new password for one of the three accounts (the old one stops working). */
 export async function setAdminPassword(id: string, password: unknown): Promise<ActionResult> {
-  const me = await requireAdmin();
+  const me = await requireSuperAdmin();
   const parsed = passwordRule.safeParse(password);
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0].message };
   try {
+    const target = await db.adminUser.findUnique({ where: { id }, select: { email: true } });
+    if (!target || !isAllowedAccount(target.email)) return { ok: false, error: "That account cannot sign in, so it has no password to change." };
     const passwordHash = await bcrypt.hash(parsed.data, 12);
     const user = await db.adminUser.update({ where: { id }, data: { passwordHash }, select: { email: true } });
     // every device of this user is logged out now; the one who changed their own password stays signed in here
@@ -71,19 +75,41 @@ export async function setAdminPassword(id: string, password: unknown): Promise<A
   }
 }
 
-/** Removes an admin user (their login stops working at once). You cannot remove yourself, and the last user cannot be removed. */
+/** Removes a login (it stops working at once). Never a master admin (Admin@ or Harsh@: nobody can remove them, not even each other), and not yourself. Also removes a leftover row of an e-mail that is not one of the three. */
 export async function deleteAdminUser(id: string): Promise<ActionResult> {
-  const me = await requireAdmin();
+  const me = await requireSuperAdmin();
   if (me.id === id) return { ok: false, error: "You cannot remove the user you are signed in with." };
   try {
+    const target = await db.adminUser.findUnique({ where: { id }, select: { email: true } });
+    if (!target) return { ok: false, error: "That user does not exist any more." };
+    if (isMasterEmail(target.email)) return { ok: false, error: "The two master admins (Admin@ and Harsh@) cannot be removed by anybody." };
     if ((await db.adminUser.count()) <= 1) return { ok: false, error: "The last user cannot be removed." };
-    const gone = await db.adminUser.delete({ where: { id }, select: { email: true } });
-    alertLater({ level: "info", kind: "admin", title: `Admin user removed: ${gone.email}`, detail: `Removed by ${me.email}`, notify: true });
-    revalidatePath("/admin/access");
+    await db.adminUser.delete({ where: { id } });
+    alertLater({ level: "info", kind: "admin", title: `Admin user removed: ${target.email}`, detail: `Removed by ${me.email}`, notify: true });
+    revalidatePath("/admin", "layout");
     return { ok: true, message: "The user is removed." };
   } catch (error) {
     console.error("deleteAdminUser failed", error);
     alertFailure("Removing an admin user", error, "warning");
     return { ok: false, error: "Could not remove the user. Please try again." };
+  }
+}
+
+/** Which screens Harsh and Parth may open. `grants` = { "harsh@we3vision.com": ["blog", "leads"], ... }; anything unknown is dropped. Works at their next click. */
+export async function saveAdminAccess(input: { grants?: unknown }): Promise<ActionResult> {
+  const me = await requireSuperAdmin();
+  try {
+    const grants = cleanGrants({ grants: input?.grants });
+    await saveGrants(grants);
+    const summary = Object.entries(grants)
+      .map(([email, areas]) => `${email.split("@")[0]}: ${areas.length}`)
+      .join(", ");
+    alertLater({ level: "info", kind: "admin", title: "Admin access changed", detail: `By ${me.email} (screens given: ${summary})`, notify: true });
+    revalidatePath("/admin", "layout");
+    return { ok: true, message: "Saved. The new access works from the next click of each person." };
+  } catch (error) {
+    console.error("saveAdminAccess failed", error);
+    alertFailure("Saving the admin access list", error, "warning");
+    return { ok: false, error: "Could not save the access list. Please try again." };
   }
 }

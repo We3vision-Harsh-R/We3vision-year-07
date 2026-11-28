@@ -4,7 +4,7 @@ import { CopyBox } from "@/components/admin/ai-integrations";
 import { card } from "@/components/admin/ui";
 import { CONTENT_TYPES } from "@/lib/ai-content/registry";
 import { limitText } from "@/lib/ai-content/schema";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 
 export const metadata = { title: "AI Guide" };
 
@@ -49,7 +49,7 @@ function Where({ what, where, href, note }: { what: string; where: string; href:
 }
 
 export default async function AiGuidePage() {
-  await requireAdmin();
+  await requireArea("ai-guide");
   const mcpUrl = `${await siteOrigin()}/api/mcp`;
 
   return (

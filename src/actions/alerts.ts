@@ -5,7 +5,7 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { type AlertCheck, checkAlert } from "@/lib/alert-check";
 import { editAlerts, readAlerts } from "@/lib/alerts";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { rateLimit } from "@/lib/rate-limit";
 import { sendWhatsApp, whatsappProvider } from "@/lib/whatsapp";
 
@@ -13,34 +13,34 @@ import { sendWhatsApp, whatsappProvider } from "@/lib/whatsapp";
 const id = (formData: FormData) => String(formData.get("id") ?? "").slice(0, 40);
 
 export async function markAlertRead(formData: FormData) {
-  await requireAdmin();
+  await requireArea("alerts");
   const target = id(formData);
   await editAlerts((items) => items.map((a) => (a.id === target ? { ...a, read: true } : a)));
   revalidatePath("/admin", "layout");
 }
 
 export async function deleteAlert(formData: FormData) {
-  await requireAdmin();
+  await requireArea("alerts");
   const target = id(formData);
   await editAlerts((items) => items.filter((a) => a.id !== target));
   revalidatePath("/admin", "layout");
 }
 
 export async function markAllAlertsRead() {
-  await requireAdmin();
+  await requireArea("alerts");
   await editAlerts((items) => items.map((a) => (a.read ? a : { ...a, read: true })));
   revalidatePath("/admin", "layout");
 }
 
 /** removes the alerts that are already read (unread ones stay, so nothing new is lost by a click) */
 export async function clearReadAlerts() {
-  await requireAdmin();
+  await requireArea("alerts");
   await editAlerts((items) => items.filter((a) => !a.read));
   revalidatePath("/admin", "layout");
 }
 
 export async function sendTestWhatsApp() {
-  const admin = await requireAdmin();
+  const admin = await requireArea("alerts");
   if (!whatsappProvider()) redirect("/admin/alerts?test=off");
   if (!rateLimit(`wa-test:${admin.id}`, 5, 10 * 60_000)) redirect("/admin/alerts?test=wait");
   const res = await sendWhatsApp(`✅ Test message from the We3vision admin panel (sent by ${admin.email}). WhatsApp alerts are working.`);
@@ -49,7 +49,7 @@ export async function sendTestWhatsApp() {
 
 /** "Check again": tries the failed thing once more (see lib/alert-check.ts) and tells the screen what happened. Nothing is changed. */
 export async function recheckAlert(alertId: string): Promise<AlertCheck> {
-  const admin = await requireAdmin();
+  const admin = await requireArea("alerts");
   if (!rateLimit(`alert-check:${admin.id}`, 20, 60_000)) return { state: "unknown", message: "Too many checks in a minute. Please wait a little." };
   const alert = (await readAlerts()).find((a) => a.id === String(alertId).slice(0, 40));
   if (!alert) return { state: "unknown", message: "This alert is not in the list any more." };
@@ -63,7 +63,7 @@ export async function recheckAlert(alertId: string): Promise<AlertCheck> {
 
 /** "Solved": the owner checked it. The alert is marked read and solved (it stays in the list, in the Solved filter, until deleted). */
 export async function solveAlert(alertId: string) {
-  await requireAdmin();
+  await requireArea("alerts");
   const target = String(alertId).slice(0, 40);
   await editAlerts((items) => items.map((a) => (a.id === target ? { ...a, read: true, resolved: true } : a)));
   revalidatePath("/admin", "layout");

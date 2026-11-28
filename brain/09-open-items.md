@@ -371,3 +371,14 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Pages published in Admin override these code defaults: re-save the wording there too.
 - Contact content was edited on main while the branch contact-partner-page has a new Contact page: expect a merge conflict in lib/cms/content/company.ts.
 - Physical Marketing says printing/production is done in India (my assumption): confirm.
+
+## Open after the 2026-11-28 hiring glow
+- Look at the real Hiring board once with a login and 2-3 tagged people (card glow, hover edge light, drag and drop, picked card ring, list row, profile panel). Only a fake board was seen.
+- Not pushed / no version entry: add the entry in lib/version.ts and run build when the owner says push (same batch as the contact redesign and the hiring colour task).
+- Dashboard (2026-11-28): the unused donut CSS (`.ads-card-donut`, `.ads-donut*`) is still in admin-shell.css; remove it in a clean-up task. Look at the real dashboard once after a login (not pushed, no version entry yet).
+
+## Open after task 167 (RBAC + dashboard v2)
+- BEFORE PUSH: the live database must have a login for `admin@we3vision.com` (and `parth@we3vision.com`); a login of any other e-mail stops working at once. Harsh@ keeps working (master). If Admin@ is missing, sign in as Harsh@ and create it in Admin access.
+- Sign in once as each account and check: Parth sees only ticked screens (menu, dashboard, typing a forbidden address goes back to the dashboard with a note); a master cannot remove a master; Latest applications shows the right people.
+- Run `npm run build` and add the version entry (lib/version.ts) when pushing; commit in one batch with the hiring glow, board and contact work (not pushed).
+- Optional: let the team member change his own password; delete the unused donut CSS.

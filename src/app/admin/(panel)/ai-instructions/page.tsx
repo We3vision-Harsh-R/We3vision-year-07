@@ -3,12 +3,12 @@ import { AiInstructionsForm, type TypeBlock } from "@/components/admin/ai-instru
 import { CONTENT_TYPES } from "@/lib/ai-content/registry";
 import { INSTRUCTION_LIMITS, renderGuidelines, resolveInstructions } from "@/lib/ai-content/instructions";
 import { getStoredInstructions } from "@/lib/ai-content/server/instructions-store";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 
 export const metadata = { title: "AI Instructions" };
 
 export default async function AiInstructionsPage() {
-  await requireAdmin();
+  await requireArea("ai-instructions");
   const stored = await getStoredInstructions();
   const blocks: TypeBlock[] = CONTENT_TYPES.map((def) => {
     const r = resolveInstructions(def, stored);

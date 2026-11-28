@@ -5,7 +5,7 @@
 import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
-import { ADMIN_DOMAIN, isCompanyEmail } from "../src/lib/admin-access";
+import { ADMIN_ACCOUNTS, isAllowedAccount } from "../src/lib/admin-access";
 import { SHOWCASE } from "../src/lib/cms/content/brand";
 import { TEAM_MEMBERS } from "../src/lib/cms/content/team";
 
@@ -18,11 +18,12 @@ try {
 async function main() {
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_PASSWORD;
-  const name = process.env.ADMIN_NAME?.trim() || "Admin";
   const url = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
 
   if (!url) throw new Error("Set DIRECT_URL or DATABASE_URL first.");
-  if (!email || !isCompanyEmail(email)) throw new Error(`Set ADMIN_EMAIL to an email address ending in @${ADMIN_DOMAIN}.`);
+  // the admin panel has exactly three accounts (src/lib/admin-access.ts): the seed can create or reset only one of them
+  if (!email || !isAllowedAccount(email)) throw new Error(`Set ADMIN_EMAIL to one of the three admin accounts: ${ADMIN_ACCOUNTS.map((a) => a.email).join(", ")}.`);
+  const name = process.env.ADMIN_NAME?.trim() || ADMIN_ACCOUNTS.find((a) => a.email === email)?.name || "Admin";
   if (!password || password.length < 12) throw new Error("Set ADMIN_PASSWORD to at least 12 characters.");
 
   const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: url, max: 1 }) });

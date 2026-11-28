@@ -1,12 +1,12 @@
 import { VisitorsManager } from "@/components/admin/visitors-manager";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { getPresenceConfig, listVisitors, liveCount } from "@/lib/presence-server";
 
 export const metadata = { title: "Visitors" };
 export const dynamic = "force-dynamic";
 
 export default async function VisitorsPage() {
-  await requireAdmin();
+  await requireArea("visitors");
   const [cfg, rows] = await Promise.all([getPresenceConfig(), listVisitors()]);
   return (
     <div className="max-w-5xl space-y-6">

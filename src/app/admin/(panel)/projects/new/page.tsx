@@ -1,10 +1,10 @@
 import { EMPTY_PROJECT, ProjectForm } from "@/components/admin/project-form";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 
 export const metadata = { title: "Add project" };
 
 export default async function NewProjectPage() {
-  await requireAdmin();
+  await requireArea("projects");
   return (
     <div className="space-y-6">
       <div>

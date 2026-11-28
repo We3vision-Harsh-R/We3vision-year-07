@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JobForm, type JobFormValue } from "@/components/admin/job-form";
 import { btnSecondary } from "@/components/admin/ui";
-import { requireAdmin } from "@/lib/auth";
+import { requireArea } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { IconBtn } from "@/components/admin/icon-btn";
 
@@ -11,7 +11,7 @@ export const metadata = { title: "Careers: edit job" };
 const list = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string").join("\n") : "");
 
 export default async function EditJobPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireAdmin();
+  await requireArea("jobs");
   const { id } = await params;
   if (!/^[a-z0-9]{10,40}$/i.test(id)) notFound();
   const r = await db.careerRole.findUnique({ where: { id } });
