@@ -18,9 +18,10 @@ import { PersonTop } from "../timeline-art";
 // the train comes out of the gate on the other side. It is drawn on one layer
 // behind the page (it is not in a box). On the way: the first station (the ticket office) with its platform, signals, a level crossing,
 // a bridge over a stream, a little stop for every value of the company, mile posts, poles, trees, and Surat Junction at the end.
-// The train (an engine at both ends and three coaches, seen from above, every car turns with the curve) does not exist until the visitor has chosen a city,
-// a current status and a destination. Then it comes in from the top and stands at the platform. When the seat is booked it rides down the
-// page with the scroll, smoothly; when the passenger details are sent the page rides to Surat Junction and the passenger gets out.
+// The train (an engine at both ends and three coaches, seen from above, every car turns with the curve) does not exist until the visitor has chosen a city.
+// Then it comes in from the top ONCE (a timed arrival that slows down into the platform) and stands there: filling in the form, or any change of the size
+// of the page, never brings it in again (what the train and the passenger remember lives in `anim`, not in the measurement). When the visitor
+// goes on down the page without a seat it rides along; when the application is sent the page rides to Surat Junction and the passenger gets out.
 // The geometry is measured from the sections of the page: they only have to carry the markers that are listed in measure().
 // The look is in globals.css (.rl-*). Laptop and desktop screens.
 
@@ -32,6 +33,8 @@ const GAP = 6;
 const COACHES = 3;
 const CARS = COACHES + 2; // an engine at the front, the coaches, an engine at the back
 const TRAIN_L = ENGINE_L * 2 + COACHES * (COACH_L + GAP) + GAP;
+const ARRIVE_MS = 4200; // the train comes in from the top once and slows down into the platform in this time
+const ENTER_S = 640; // where its nose is when it starts: just above the top edge of the page (the line begins at y = -700)
 const LEAD = 200; // a tunnel starts this far in front of the block it goes under
 const CUT = 64; // the open cut at its start (the walls are cut across)
 const TAIL = 34; // and goes on this far after the block
@@ -124,8 +127,8 @@ function measure(root: HTMLElement): Geo | null {
 
   const x1 = Math.min(W - 60, slot1.left + slot1.width * 0.74);
   const x2 = Math.min(W - 60, slot2.left + slot2.width * 0.74);
-  // (the engine stops inside the first screen, whatever the height of the ticket is)
-  const yHead1 = slot1.top + Math.min(slot1.height, window.innerHeight - 70) * 0.8;
+  // (the engine stops inside the first screen, whatever the height of the form is: the form grows step by step and the platform must not move with it)
+  const yHead1 = slot1.top + Math.min(slot1.height, 780, window.innerHeight - 70) * 0.8;
   // the office of the last station stands in one line with the heading of that section (the centre of the office is 767px above the
   // place where the train stops); the list of the jobs is in the text column, beside the platform and not inside it
   const destHead = rel(main.querySelector("#surat-junction h2"), top0, scrollY);
@@ -641,6 +644,9 @@ export function CareerRailway() {
   const avRef = useRef<HTMLDivElement>(null);
   const youRef = useRef<HTMLSpanElement>(null);
   const geoRef = useRef<Geo | null>(null);
+  // what the train and the passenger remember when the page is measured again (the form grows with every step): where the train is, whether it has
+  // come in, how far the passenger has got. The animation effect starts again with every measurement, but it goes on from here, never from above.
+  const anim = useRef({ s: -TRAIN_L - 400, prev: -TRAIN_L - 400, speed: 0, motion: "stopped", seat: 0, exit: 0, summoned: false, landed: false, arrive: null as null | { t0: number; from: number } });
 
   // measure the page (and again when it changes size)
   useEffect(() => {
@@ -676,14 +682,9 @@ export function CareerRailway() {
   useEffect(() => {
     if (!geo) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const a = anim.current;
     let raf = 0;
     let last = 0;
-    let sCur = -TRAIN_L - 400; // out of the page, above
-    let prevS = sCur;
-    let speed = 0; // px/s, smoothed
-    let motion = "stopped";
-    let seat = 0; // 0 = on the platform .. 1 = sits in the coach
-    let exit = 0; // 0 = sits .. 1 = at the door of the office
     const sm = geo.sample;
     const top0 = rootRef.current ? rootRef.current.getBoundingClientRect().top + window.scrollY : 0;
 
@@ -692,18 +693,33 @@ export function CareerRailway() {
       const dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
       last = now;
       const c = getCareer();
+      let { s: sCur, prev: prevS, speed, motion, seat, exit } = a; // (written back at the end of the frame)
+      // the train comes once the city is chosen, and stays (a new city does not send it away and bring it back)
+      if (c.summoned) a.summoned = true;
       // where the nose of the train wants to be
       let target = -TRAIN_L - 400;
-      if (c.summoned) {
-        target = geo.sStop1;
-        // (when the visitor goes on without a booked seat the train leaves without the passenger)
-        if (c.stage !== "idle" || c.away) {
-          const centreY = window.scrollY + window.innerHeight * 0.55 - top0;
-          target = clamp(sOfYFast(sm, centreY) + 90, geo.sStop1, geo.sEnd);
+      let timed = false;
+      if (a.summoned) {
+        if (!a.landed) {
+          // THE ARRIVAL, once: from above the page, slowing down into the platform. It takes a fixed time and ignores everything else on the page.
+          if (!a.arrive) a.arrive = { t0: now, from: ENTER_S };
+          const p = reduce ? 1 : clamp((now - a.arrive.t0) / ARRIVE_MS, 0, 1);
+          sCur = a.arrive.from + (geo.sStop1 - a.arrive.from) * (1 - Math.pow(1 - p, 3));
+          if (p >= 1) a.landed = true;
+          timed = true;
+        } else {
+          target = geo.sStop1;
+          // (when the visitor goes on without a booked seat the train leaves without the passenger)
+          if (c.stage !== "idle" || c.away) {
+            const centreY = window.scrollY + window.innerHeight * 0.55 - top0;
+            target = clamp(sOfYFast(sm, centreY) + 90, geo.sStop1, geo.sEnd);
+          }
         }
       }
-      const k = reduce ? 1 : 1 - Math.exp(-dt * (c.stage === "departing" || c.stage === "arriving" ? 3.2 : 4.4));
-      sCur += (target - sCur) * k;
+      if (!timed) {
+        const k = reduce ? 1 : 1 - Math.exp(-dt * (c.stage === "departing" || c.stage === "arriving" ? 2.4 : 3.4));
+        sCur += (target - sCur) * k;
+      }
 
       // how fast the train goes: the sway, the lamps and the doors follow it
       if (dt > 0) speed += (Math.abs(sCur - prevS) / dt - speed) * 0.12;
@@ -787,6 +803,13 @@ export function CareerRailway() {
         if (youRef.current) youRef.current.style.opacity = seat > 0.9 && exit < 0.05 ? "0" : "1";
       }
 
+      a.s = sCur;
+      a.prev = prevS;
+      a.speed = speed;
+      a.motion = motion;
+      a.seat = seat;
+      a.exit = exit;
+
       // the stages that follow the train
       if ((c.stage === "departing" || c.stage === "booked") && sCur > geo.sEnd - 900 && c.stage === "departing") setCareer({ stage: "arriving" });
       if ((c.stage === "arriving" || c.stage === "departing") && sCur > geo.sEnd - 6) setCareer({ stage: "arrived" });
@@ -795,7 +818,10 @@ export function CareerRailway() {
     return () => cancelAnimationFrame(raf);
   }, [geo]);
 
-  const summoned = career.summoned;
+  // the train has come: it stays (choosing another city does not send it away)
+  const [came, setCame] = useState(false);
+  if (career.summoned && !came) setCame(true);
+  const summoned = came;
 
   return (
     <div ref={rootRef} className="rl" aria-hidden>
@@ -1004,7 +1030,7 @@ export function CareerRailway() {
               <PersonTop seated={career.stage !== "idle"} />
             </div>
             <span ref={youRef} className="rl-you">
-              You
+              {career.name || "You"}
             </span>
           </div>
         </>

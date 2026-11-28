@@ -88,6 +88,8 @@ export type PassengerInput = {
   fields: Record<string, unknown>;
   custom: Record<string, unknown>;
   website?: unknown;
+  /** the short ticket of the Careers page (first name, e-mail and phone only): the skills and the extra questions of HR are not asked */
+  lean?: boolean;
 };
 
 const emailRule = z.email().max(200);
@@ -107,7 +109,7 @@ export async function completeTicket(input: PassengerInput): Promise<ActionResul
   if (name.length < 2) return { ok: false, error: "Please enter your full name." };
   if (!emailRule.safeParse(email).success || !isValidEmail(email)) return { ok: false, error: "Please enter a valid email, like name@example.com." };
   if (!isValidPhone(phone)) { const p = leadPhone(phone); return { ok: false, error: p.ok ? "Please enter a valid phone number." : p.problem }; }
-  if (skills.length < 2) return { ok: false, error: "Please tell us your skills." };
+  if (!input.lean && skills.length < 2) return { ok: false, error: "Please tell us your skills." };
   // the same rules as the form: name, link, experience, salaries and the texts (no < >, no rows of symbols)
   for (const c of COMMON_FIELDS) {
     const bad = fieldProblem(c.key, c.key === "skills" || c.key === "about" ? para(input.fields?.[c.key], 1000) : f(c.key, 300));
@@ -124,7 +126,7 @@ export async function completeTicket(input: PassengerInput): Promise<ActionResul
     }
     for (const q of questions) {
       const a = q.kind === "textarea" ? para(input.custom?.[q.id], 1000) : line(input.custom?.[q.id], 300);
-      if (q.required && !a) return { ok: false, error: `Please answer: ${q.label}` };
+      if (q.required && !a && !input.lean) return { ok: false, error: `Please answer: ${q.label}` };
       if (a) answers.push({ q: q.label, a });
     }
     const hit = await db.careerApplication.updateMany({

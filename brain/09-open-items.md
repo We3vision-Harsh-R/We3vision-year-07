@@ -382,5 +382,11 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Sign in once as each account and check: Parth sees only ticked screens (menu, dashboard, typing a forbidden address goes back to the dashboard with a note); a master cannot remove a master; Latest applications shows the right people.
 - Run `npm run build` and add the version entry (lib/version.ts) when pushing; commit in one batch with the hiring glow, board and contact work (not pushed).
 - Optional: let the team member change his own password; delete the unused donut CSS.
-- Admin RBAC is live (v205): sign in as Harsh@ and as Parth@ once and check the rights; tick Parth's screens in Admin access. harshc@we3vision.com can no longer sign in (remove that row in Admin access when sure).
+- Admin RBAC is live (v205). Task 168 (NOT pushed yet): Parth@ is a master admin, and a master can add any @we3vision.com user in Admin access (team member, screens ticked in 'Who can open what'). After the push: sign in as a master and add one test user, tick one screen, sign in as that user (incognito) and check the menu and the yellow 'no access' note. The saved rights of Parth@ (all 16 screens) in table Setting are now ignored (a master has no row) and disappear at the next save.
 - A build made with `NEXT_DIST_DIR=.next-rel` (the other chat's release build) writes `.next-rel/` and reformats tsconfig.json; `.next-rel/` is not in .gitignore: add it.
+
+## Open after the Careers form redo (2026-11-28, not pushed)
+- Press "Apply now" once on a test database (or ask the owner to test on the dev site) and watch: the pass opens, 3.4 s later the train leaves, the page rides 12 s to Surat Junction, the chosen position is lit and the page centres it. Only the pieces were seen in the browser (the application writes a row).
+- The HR questions of Admin > Careers > Setup and the fields skills / experience / salaries are no longer asked on the journey (only first name, e-mail, phone, city, status, position, date, notice, resume, slot). They still apply on the job page (/careers/[slug]) and the mobile form. Tell the owner if HR still wants them.
+- The job page apply form (job-apply.tsx, "Apply now" on a job row) still asks the full name again: the owner said ask the name once; decide whether it should read the name given on the Careers journey.
+- The name is a first name only now, so Admin > Careers shows first names for applications made on the journey.

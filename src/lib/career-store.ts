@@ -12,8 +12,11 @@ import { useSyncExternalStore } from "react";
 export type CareerStage = "idle" | "booked" | "departing" | "arriving" | "arrived";
 export type CareerState = {
   stage: CareerStage;
+  /** the first name of the visitor (the label of the passenger) */
   name: string;
   role: string;
+  /** the id of the position that was chosen as the destination (Surat Junction lights up its row) */
+  roleId: string;
   city: string;
   /** how many answers the passenger has given (0..steps): the passenger walks that many steps towards the train */
   step: number;
@@ -26,7 +29,7 @@ export type CareerState = {
   passenger: boolean;
 };
 
-let state: CareerState = { stage: "idle", name: "", role: "", city: "", step: 0, steps: 7, summoned: false, away: false, passenger: false };
+let state: CareerState = { stage: "idle", name: "", role: "", roleId: "", city: "", step: 0, steps: 7, summoned: false, away: false, passenger: false };
 const listeners = new Set<() => void>();
 
 export function setCareer(patch: Partial<CareerState>) {

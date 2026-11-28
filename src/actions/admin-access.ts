@@ -3,16 +3,16 @@
 import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { ADMIN_ACCOUNTS, LOGIN_SETTING_KEY, cleanLoginImage, isAllowedAccount, isMasterEmail } from "@/lib/admin-access";
+import { ADMIN_DOMAIN, LOGIN_SETTING_KEY, MASTER_ADMINS, cleanLoginImage, isCompanyEmail, isMasterEmail } from "@/lib/admin-access";
 import { cleanGrants } from "@/lib/admin-grants";
-import { saveGrants } from "@/lib/admin-permissions";
+import { dropGrants, saveGrants } from "@/lib/admin-permissions";
 import { alertFailure, alertLater } from "@/lib/alerts";
 import { createSession, requireSuperAdmin, sessionVersion } from "@/lib/auth";
 import { SESSION_MAX_AGE } from "@/lib/session-token";
 import { db } from "@/lib/db";
 import type { ActionResult } from "./types";
 
-// Admin access: only a master admin (Admin@ or Harsh@) may use any of these (requireSuperAdmin). The panel has exactly three accounts (lib/admin-access.ts).
+// Admin access: only a master admin (Admin@, Harsh@ or Parth@) may use any of these (requireSuperAdmin). Master admins are fixed in lib/admin-access.ts; every other login is a team member made here.
 
 const passwordRule = z.string().min(12, "The password needs at least 12 characters.").max(200);
 
@@ -33,20 +33,28 @@ export async function saveLoginImage(input: unknown): Promise<ActionResult> {
   }
 }
 
-/** Creates the login of one of the three accounts (the name comes from the list in lib/admin-access.ts). Any other e-mail address is refused. */
-export async function createAdminUser(input: { email?: unknown; password?: unknown }): Promise<ActionResult> {
+/**
+ * Creates a login: a team member (no screen yet, tick them in "Who can open what"), or the login of a master admin that does not exist yet.
+ * Only e-mail addresses of the company can be added. The name of a master admin comes from lib/admin-access.ts.
+ */
+export async function createAdminUser(input: { name?: unknown; email?: unknown; password?: unknown }): Promise<ActionResult> {
   const me = await requireSuperAdmin();
   const email = String(input.email ?? "").trim().toLowerCase();
-  const account = ADMIN_ACCOUNTS.find((a) => a.email === email);
-  if (!account) return { ok: false, error: "The admin panel has only three accounts. This e-mail address is not one of them." };
+  if (!isCompanyEmail(email)) return { ok: false, error: `Only @${ADMIN_DOMAIN} e-mail addresses can get a login (for example name@${ADMIN_DOMAIN}).` };
+  const master = MASTER_ADMINS.find((a) => a.email === email);
+  const name = master?.name ?? String(input.name ?? "").trim().replace(/\s+/g, " ");
+  if (!name) return { ok: false, error: "Enter the name of the person." };
+  if (name.length > 60) return { ok: false, error: "The name can have at most 60 characters." };
   const password = passwordRule.safeParse(input.password);
   if (!password.success) return { ok: false, error: password.error.issues[0].message };
   try {
     if (await db.adminUser.findUnique({ where: { email } })) return { ok: false, error: "This account already exists." };
-    await db.adminUser.create({ data: { email, name: account.name, passwordHash: await bcrypt.hash(password.data, 12) } });
+    await db.adminUser.create({ data: { email, name, passwordHash: await bcrypt.hash(password.data, 12) } });
+    // a new login starts with no screen: it never inherits the rights that an earlier login of the same e-mail had
+    await dropGrants(email);
     alertLater({ level: "info", kind: "admin", title: `Admin account created: ${email}`, detail: `Created by ${me.email}`, notify: true });
     revalidatePath("/admin", "layout");
-    return { ok: true, message: `${email} can now sign in.` };
+    return { ok: true, message: master ? `${email} can now sign in.` : `${email} can now sign in. They see only the dashboard until you tick screens for them in "Who can open what".` };
   } catch (error) {
     console.error("createAdminUser failed", error);
     alertFailure("Creating an admin account", error, "warning");
@@ -54,14 +62,14 @@ export async function createAdminUser(input: { email?: unknown; password?: unkno
   }
 }
 
-/** A new password for one of the three accounts (the old one stops working). */
+/** A new password for a login (the old one stops working). */
 export async function setAdminPassword(id: string, password: unknown): Promise<ActionResult> {
   const me = await requireSuperAdmin();
   const parsed = passwordRule.safeParse(password);
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0].message };
   try {
     const target = await db.adminUser.findUnique({ where: { id }, select: { email: true } });
-    if (!target || !isAllowedAccount(target.email)) return { ok: false, error: "That account cannot sign in, so it has no password to change." };
+    if (!target || !isCompanyEmail(target.email)) return { ok: false, error: "That account cannot sign in, so it has no password to change." };
     const passwordHash = await bcrypt.hash(parsed.data, 12);
     const user = await db.adminUser.update({ where: { id }, data: { passwordHash }, select: { email: true } });
     // every device of this user is logged out now; the one who changed their own password stays signed in here
@@ -75,16 +83,17 @@ export async function setAdminPassword(id: string, password: unknown): Promise<A
   }
 }
 
-/** Removes a login (it stops working at once). Never a master admin (Admin@ or Harsh@: nobody can remove them, not even each other), and not yourself. Also removes a leftover row of an e-mail that is not one of the three. */
+/** Removes a login (it stops working at once, and its saved screens are forgotten). Never a master admin (Admin@, Harsh@, Parth@: nobody can remove them, not even each other), and not yourself. Also removes a leftover row of an e-mail that is not of the company. */
 export async function deleteAdminUser(id: string): Promise<ActionResult> {
   const me = await requireSuperAdmin();
   if (me.id === id) return { ok: false, error: "You cannot remove the user you are signed in with." };
   try {
     const target = await db.adminUser.findUnique({ where: { id }, select: { email: true } });
     if (!target) return { ok: false, error: "That user does not exist any more." };
-    if (isMasterEmail(target.email)) return { ok: false, error: "The two master admins (Admin@ and Harsh@) cannot be removed by anybody." };
+    if (isMasterEmail(target.email)) return { ok: false, error: "The master admins (Admin, Harsh and Parth) cannot be removed by anybody." };
     if ((await db.adminUser.count()) <= 1) return { ok: false, error: "The last user cannot be removed." };
     await db.adminUser.delete({ where: { id } });
+    await dropGrants(target.email);
     alertLater({ level: "info", kind: "admin", title: `Admin user removed: ${target.email}`, detail: `Removed by ${me.email}`, notify: true });
     revalidatePath("/admin", "layout");
     return { ok: true, message: "The user is removed." };
@@ -95,11 +104,12 @@ export async function deleteAdminUser(id: string): Promise<ActionResult> {
   }
 }
 
-/** Which screens Harsh and Parth may open. `grants` = { "harsh@we3vision.com": ["blog", "leads"], ... }; anything unknown is dropped. Works at their next click. */
+/** Which screens each team member may open. `grants` = { "someone@we3vision.com": ["blog", "leads"], ... }; a master admin, an e-mail without a login and anything unknown is dropped. Works at their next click. */
 export async function saveAdminAccess(input: { grants?: unknown }): Promise<ActionResult> {
   const me = await requireSuperAdmin();
   try {
-    const grants = cleanGrants({ grants: input?.grants });
+    const exists = new Set((await db.adminUser.findMany({ select: { email: true } })).map((u) => u.email.toLowerCase()));
+    const grants = Object.fromEntries(Object.entries(cleanGrants({ grants: input?.grants })).filter(([email]) => exists.has(email)));
     await saveGrants(grants);
     const summary = Object.entries(grants)
       .map(([email, areas]) => `${email.split("@")[0]}: ${areas.length}`)

@@ -16,6 +16,28 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 209,
+    date: "2026-11-28",
+    title: "Glass dropdowns, interview slot picker, admin access updates",
+    notes: [
+      "Every dropdown on the website is a blurred glass menu (careers form, contact form, chat service list), keeps the blur in light mode and scrolls inside.",
+      "Careers: the interview slot shows the day and the time side by side, and the chosen slot is written in full.",
+      "Admin: access and account updates for the master admins and page access.",
+    ],
+  },
+  {
+    v: 209,
+    date: "2026-11-28",
+    title: "Careers: step-by-step form, one train, boarding pass; admin access for the team",
+    notes: [
+      "Careers: the form now asks one small thing at a time: first name (it shows at once on your pointer), then your city (the train comes once and stays), then e-mail and phone, then your career status, the position and the rest.",
+      "Careers: \"Apply now\" opens a boarding pass with the seat, From (your career status) and To (the position). The train then leaves and the page rides slowly to Surat Junction, where the position you chose is lit and the others are soft.",
+      "Careers: the old passenger-details form and the Status row are gone; your name is asked only once. The train no longer starts again from the top when a field is filled in.",
+      "Careers form: all lists (position, notice period, date, interview slot) have the same glass look and scroll inside.",
+      "Admin access: Parth is a master admin, and a master can add any @we3vision.com team member and tick the screens that person may open.",
+    ],
+  },
+  {
     v: 208,
     date: "2026-11-28",
     title: "Admin login: works on plain http addresses",

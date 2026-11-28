@@ -3,6 +3,7 @@
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { NAME_KEY } from "@/lib/presence";
 import { THEME_EVENT, loadTheme } from "@/lib/theme";
+import { NAME_LIVE_EVENT, getLiveName } from "@/lib/visitor-name";
 
 // Same structure as the template's cursor: one 8px box centred on the mouse that holds
 //  - a soft violet glow (56px circle, blurred, colour-dodge),
@@ -15,18 +16,20 @@ const CLICKABLE = 'a[href], button:not(:disabled), [role="button"], [role="tab"]
 const subscribeName = (cb: () => void) => {
   window.addEventListener(THEME_EVENT, cb);
   window.addEventListener("we3-name", cb);
+  window.addEventListener(NAME_LIVE_EVENT, cb);
   return () => {
     window.removeEventListener(THEME_EVENT, cb);
     window.removeEventListener("we3-name", cb);
+    window.removeEventListener(NAME_LIVE_EVENT, cb);
   };
 };
-// the name of the picker, else the name given on the first visit (components/site/presence.tsx), else "You"
+// the name that is being typed on the Careers page, else the name of the picker, else the name given on the first visit (components/site/presence.tsx), else "You"
 const readName = () => {
   let own = "";
   try {
     own = localStorage.getItem(NAME_KEY) || "";
   } catch {}
-  return loadTheme()?.name || own || "You";
+  return getLiveName() || loadTheme()?.name || own || "You";
 };
 
 /** Custom mouse cursor. Only on devices with a real mouse; elsewhere the normal cursor is untouched. */

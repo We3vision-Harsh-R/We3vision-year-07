@@ -2,33 +2,33 @@
 
 import "@/styles/careers.css";
 
-
-
-
-
 import { useEffect, useMemo, useRef, useState } from "react";
 import { bookSeat, completeTicket } from "@/actions/careers";
 import { setCareer } from "@/lib/career-store";
-import { cleanStatus, fieldProblem, statusProblem } from "@/lib/contact-validation";
+import { cleanStatus, emailProblem, isValidEmail, isValidPhone, limitPhone, phoneProblem, statusProblem } from "@/lib/contact-validation";
 import { resumeNameProblem } from "@/lib/resume-check";
+import { commitName, knownName, setLiveName } from "@/lib/visitor-name";
 import { ToastView, useToast } from "./cj-toast";
-import { COMMON_FIELDS, CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, type CareerQuestionView, type CareerRoleView, type InterviewSchedule } from "@/lib/careers-shared";
+import { CURRENT_STATUS_SUGGESTIONS, NOTICE_PERIODS, callSlots, type CareerQuestionView, type CareerRoleView, type InterviewSchedule } from "@/lib/careers-shared";
 import { Combo, DatePick, Dropdown, ResumeBox, SlotPick } from "./form-controls";
 import { LocationPicker } from "./location-picker";
 
-// The first screen of the Careers page: the ticket office, all on ONE page, in three moments:
-//   1. "Your location": the visitor types the first letters of their city (the cities that do not match go away as dust, the matching ones
-//      come in) and clicks one. The city is the only thing that is needed to book a seat. Until then the page cannot be scrolled (a line says
-//      so); as soon as the city is chosen the train comes to the platform and the page opens. If the visitor goes on down the page without a
-//      booked seat, the train leaves without them and a notice says "You are missing your train".
-//   2. The questions of the booking, nothing else: current career status (typed or picked), the destination (the open positions of We3vision),
-//      the day the candidate can join, the arrival time (notice period), the resume and a call slot with HR. "Book your seat" books it.
-//   3. The passenger details (the usual questions and the ones of HR from the admin panel) under a summary of the seat. "Confirm the ticket"
-//      sends them: the train leaves and the page rides to Surat Junction.
+// The first screen of the Careers page: the ticket office, all on ONE page, one small step at a time (nothing is asked before its turn):
+//   1. "Your first name": the only question at the start. While it is typed it is the label ("You") on the visitor's own pointer (lib/visitor-name.ts).
+//   2. "Your location": the visitor types the first letters of their city (the cities that do not match go away as dust, the matching ones come in)
+//      and clicks one. The train comes to the platform, ONCE, and the page opens. If the visitor goes on down the page without a seat, the train
+//      leaves without them and a notice says "You are missing your train".
+//   3. "How can we reach you?": the e-mail and the phone number, nothing else. (The name is not asked again anywhere.)
+//   4. The journey: current career status (typed or picked) and the destination (the open positions of We3vision) are needed; the day the candidate
+//      can join, the arrival time (notice period), the resume and a call slot with HR help us to prepare. "Apply now" sends the application.
+//   5. The boarding pass: the seat, From (the career status) and To (the position), and nothing else. The train leaves and the page rides to
+//      Surat Junction (career/destination.tsx), where the chosen position is lit and the others are soft.
 // The railway itself (the platform on the right of this screen, the train, the passenger) is drawn by career/railway.tsx for the whole page.
-// The look is in globals.css (.cj-*); the fields are in career/form-controls.tsx.
+// The look is in styles/careers.css (.cj-*) and styles/careers-flow.css (.cj-f-*); the fields are in career/form-controls.tsx.
 
 type Resume = { url: string; name: string };
+
+const PASS_MS = 3400; // the boarding pass is on the screen this long before the train leaves
 
 function lenisTo(target: Element | number, opts: object) {
   const lenis = (window as unknown as { __lenis?: { scrollTo: (t: Element | number, o?: object) => void } }).__lenis;
@@ -37,13 +37,16 @@ function lenisTo(target: Element | number, opts: object) {
   else target.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+/** a first name while it is typed: letters (and marks) and single spaces, nothing else (the same letters as the server accepts for a name) */
+const cleanFirst = (v: string) => v.replace(/[^\p{L}\p{M}\s]/gu, "").replace(/^\s+/, "").replace(/\s{2,}/g, " ").slice(0, 30);
+const letters = (v: string) => (v.match(/\p{L}/gu) ?? []).length;
+
 export function CareerJourney({
   chip,
   heading,
   text,
   locationLabel,
   roles,
-  questions,
   schedule,
 }: {
   chip: string;
@@ -54,7 +57,13 @@ export function CareerJourney({
   questions: CareerQuestionView[];
   schedule?: InterviewSchedule;
 }) {
+  const [firstName, setFirstName] = useState("");
+  const [nameDone, setNameDone] = useState(false);
   const [city, setCity] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [contactDone, setContactDone] = useState(false);
+  const [edit, setEdit] = useState<"" | "name" | "contact">("");
   const [status, setStatus] = useState("");
   const [roleId, setRoleId] = useState("");
   const [joinDate, setJoinDate] = useState("");
@@ -65,33 +74,48 @@ export function CareerJourney({
   const [uploadErr, setUploadErr] = useState("");
   const [ticketId, setTicketId] = useState("");
   const [booked, setBooked] = useState(false);
-  const [view, setView] = useState<"form" | "details">("form");
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const { toast, notify, close: closeToast } = useToast();
   const [tried, setTried] = useState(false);
-  const [fields, setFields] = useState<Record<string, string>>({});
-  const [custom, setCustom] = useState<Record<string, string>>({});
+  const { toast, notify, close: closeToast } = useToast();
   const [website, setWebsite] = useState("");
-  const [nudge] = useState(0); // how many times the visitor tried to scroll before the city was chosen
   const [missed, setMissed] = useState(false);
-  const detailsRef = useRef<HTMLDivElement>(null);
+  const passRef = useRef<HTMLDivElement>(null);
   const warned = useRef(false);
+  const timers = useRef<number[]>([]);
 
   const role = roles.find((r) => r.id === roleId) ?? null;
   const days = useMemo(() => callSlots(new Date(), schedule), [schedule]);
   const roleOptions = useMemo(() => roles.map((r) => ({ value: r.id, label: r.team ? `${r.title} · ${r.team}` : r.title })), [roles]);
   const noticeOptions = useMemo(() => NOTICE_PERIODS.map((n) => ({ value: n, label: n })), []);
 
-  // what the railway of the page needs to know: the train comes as soon as the city is chosen
-  const answers = [city, status, roleId, joinDate, notice, resume?.url ?? "", slot];
+  // the name of a visitor who gave it before (the first visit or the colour picker) is already in the field
+  useEffect(() => {
+    const known = knownName().split(" ")[0] ?? "";
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one time, once the page is in the browser (the saved name is not there on the server)
+    if (known) setFirstName((cur) => cur || cleanFirst(known));
+  }, []);
+  useEffect(() => {
+    const t = timers.current;
+    return () => t.forEach((x) => window.clearTimeout(x));
+  }, []);
+
+  // the steps
+  const nameValid = letters(firstName) >= 2;
+  const nameActive = !nameDone || edit === "name";
+  const contactValid = isValidEmail(email) && isValidPhone(phone);
+  const contactActive = !contactDone || edit === "contact";
+  const showDetails = Boolean(city) && contactDone && !booked && edit === "";
+
+  // what the railway of the page needs to know: the train comes as soon as the city is chosen (and only then)
+  const answers = [nameDone ? firstName.trim() : "", city, contactDone ? "contact" : "", status.trim(), roleId, joinDate, notice, resume?.url ?? "", slot];
   const step = answers.filter(Boolean).length;
   useEffect(() => {
-    setCareer({ city, step, steps: 7, summoned: Boolean(city), passenger: Boolean(city), role: role?.title ?? "", name: fields.name ?? "" });
-  }, [city, step, role?.title, fields.name]);
+    setCareer({ city, step, steps: 9, summoned: Boolean(city), passenger: Boolean(city), role: role?.title ?? "", roleId, name: firstName.trim() });
+  }, [city, step, role?.title, roleId, firstName]);
 
-  // (until 2026-10-26 the page was locked here until the visitor chose a city: the scroll was blocked and sent back to the top. The team found it broken, so the page now scrolls freely; the booking form still opens only after a city is chosen.)
+  // (until 2026-10-26 the page was locked here until the visitor chose a city: the scroll was blocked and sent back to the top. The team found it broken, so the page now scrolls freely; the form opens step by step.)
 
   // the page is open, but the seat is not booked: when the visitor goes on down the page the train leaves without them
   useEffect(() => {
@@ -117,11 +141,19 @@ export function CareerJourney({
     setCareer({ stage: done ? "departing" : booked ? "booked" : "idle" });
   }, [booked, done]);
 
-  // every field of the passenger form is valid (the same rules as on the server, lib/contact-validation.ts) and the needed ones are filled in
-  const problems = Object.fromEntries(COMMON_FIELDS.map((c) => [c.key, fieldProblem(c.key, fields[c.key] ?? "") || (tried && c.required && !(fields[c.key] ?? "").trim() ? "This field is needed." : "")]));
-  const firstProblem = Object.values(problems).find(Boolean) ?? "";
-  const passengerOk = COMMON_FIELDS.every((c) => !c.required || (fields[c.key] ?? "").trim().length >= (c.key === "skills" || c.key === "name" ? 2 : 1)) && !firstProblem;
-  const customOk = questions.every((q) => !q.required || (custom[q.id] ?? "").trim());
+  const submitName = () => {
+    if (!nameValid) return;
+    const n = firstName.trim();
+    setFirstName(n);
+    commitName(n);
+    setNameDone(true);
+    setEdit("");
+  };
+  const submitContact = () => {
+    if (!contactValid) return;
+    setContactDone(true);
+    setEdit("");
+  };
 
   const upload = async (file: File | undefined) => {
     if (!file) return;
@@ -146,60 +178,47 @@ export function CareerJourney({
     }
   };
 
-  // the seat: the city is the only thing that has to be there
-  const book = async () => {
+  // the application: the seat is booked, the contact details are saved with it, and the boarding pass opens
+  const statusMsg = statusProblem(status) || (tried && !status.trim() ? "Please tell us your current career status." : "");
+  const roleMsg = tried && roles.length > 0 && !roleId ? "Please choose the position you want." : "";
+  const apply = async () => {
     setError("");
-    const bad = statusProblem(status);
-    if (bad) {
-      setError(`Current career status: ${bad}`);
-      return;
-    }
+    setTried(true);
+    if (statusProblem(status) || !status.trim() || (roles.length > 0 && !roleId)) return;
     setBusy(true);
     const res = await bookSeat({ id: ticketId || undefined, city, currentStatus: status, roleId, joinDate, noticePeriod: notice, callSlot: slot, resume: resume?.url ?? "" });
-    setBusy(false);
     if (!res.ok) {
+      setBusy(false);
       setError(res.error);
       return;
     }
     setTicketId(res.id);
-    setBooked(true);
-    setView("details");
-    // the passenger details open under the seat: the page rides there
-    window.setTimeout(() => {
-      if (detailsRef.current) lenisTo(detailsRef.current, { offset: -96, duration: 1.2 });
-    }, 220);
-  };
-
-  // the ticket: the passenger details are in, the train leaves and the page rides with it to Surat Junction
-  const confirm = async () => {
-    setError("");
-    if (!passengerOk || !customOk) {
-      // every field that is wrong shows its own message and a red border (no box at the bottom)
-      setTried(true);
-      if (passengerOk) setError("Please answer the questions marked with *.");
-      window.setTimeout(() => document.querySelector<HTMLElement>(".cj-pd [aria-invalid=true]")?.focus(), 60);
-      return;
-    }
-    setBusy(true);
-    const res = await completeTicket({ id: ticketId, fields, custom, website }).catch(() => ({ ok: false as const, error: "No connection. Please check your internet and try again." }));
+    // (the name was asked once, at the start; here only the contact details go with it)
+    const fin = await completeTicket({ id: res.id, fields: { name: firstName.trim(), email: email.trim(), phone: phone.trim() }, custom: {}, website, lean: true }).catch(() => ({ ok: false as const, error: "No connection. Please check your internet and try again." }));
     setBusy(false);
-    if (!res.ok) {
-      setError(res.error);
+    if (!fin.ok) {
+      setError(fin.error);
       return;
     }
-    notify("ok", "Your ticket is confirmed. The train is leaving for Surat Junction.");
-    setDone(true);
-    window.setTimeout(() => {
-      // (to the platform, which is at the end of the station: the list of the jobs is beside it)
-      const dest = document.getElementById("surat-station") ?? document.getElementById("surat-junction");
-      if (dest) lenisTo(dest, { offset: 0, duration: 11, easing: (t: number) => 1 - Math.pow(1 - t, 2.2) });
-    }, 700);
+    setBooked(true);
+    // the pass opens where the form was; after a moment the train leaves and the page rides with it to Surat Junction
+    timers.current.push(window.setTimeout(() => passRef.current && lenisTo(passRef.current, { offset: -140, duration: 0.9 }), 160));
+    timers.current.push(
+      window.setTimeout(() => {
+        notify("ok", "Your seat is booked. The train is leaving for Surat Junction.");
+        setDone(true);
+        timers.current.push(
+          window.setTimeout(() => {
+            // (to the platform, which is at the end of the station: the list of the jobs is beside it. Slow and soft: it starts gently and ends gently.)
+            const dest = document.getElementById("surat-station") ?? document.getElementById("surat-junction");
+            if (dest) lenisTo(dest, { offset: 0, duration: 12, easing: (t: number) => -(Math.cos(Math.PI * t) - 1) / 2 });
+          }, 700),
+        );
+      }, PASS_MS),
+    );
   };
 
-  const ticketNo = ticketId ? ticketId.slice(-6).toUpperCase() : "——————";
   const seatNo = ticketId ? `${(ticketId.charCodeAt(ticketId.length - 1) % 24) + 1}${"ABCD"[ticketId.charCodeAt(ticketId.length - 2) % 4]}` : "—";
-  const need = booked && !done && (!passengerOk || !customOk);
-  const joinShown = joinDate ? new Date(`${joinDate}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "";
 
   return (
     <section id="top" className="cj">
@@ -211,18 +230,131 @@ export function CareerJourney({
             {text && !city && <p>{text}</p>}
           </header>
 
-          <div className="cj-loc-block">
-            <h2 className="cj-q">{locationLabel}</h2>
-            {!city && <p className="cj-sub">Type the first letters of your city. The page opens, and the train comes, as soon as you tell us where you are.</p>}
-            <LocationPicker value={city} onSelect={setCity} onClear={() => setCity("")} locked={booked} />
-            {!city && nudge > 0 && (
-              <p key={nudge} className="cj-lock" role="status">
-                Select your location once, then the train comes and the rest of the page opens.
-              </p>
-            )}
-          </div>
+          {!booked && (
+            <div className="cj-f-step cj-f-name" key="name">
+              {nameActive ? (
+                <form
+                  noValidate
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    submitName();
+                  }}
+                >
+                  <h2 className="cj-q">Your first name</h2>
+                  <p className="cj-sub">Only your first name to start with. It is the label on your pointer while you are here.</p>
+                  <div className="cj-f-row">
+                    <input
+                      className="cj-in cj-f-in"
+                      value={firstName}
+                      placeholder="Your first name"
+                      autoComplete="given-name"
+                      maxLength={30}
+                      spellCheck={false}
+                      aria-label="Your first name"
+                      autoFocus={!nameDone}
+                      onChange={(e) => {
+                        const v = cleanFirst(e.target.value);
+                        setFirstName(v);
+                        setLiveName(v);
+                      }}
+                    />
+                    <button type="submit" className="cj-book cj-f-next" disabled={!nameValid}>
+                      Continue
+                    </button>
+                  </div>
+                  {firstName.trim() && !nameValid && <small className="cj-ferr cj-f-note">Please write at least 2 letters.</small>}
+                </form>
+              ) : (
+                <div className="cj-picked cj-f-picked">
+                  <span className="cj-f-ic" aria-hidden>
+                    {firstName.trim().charAt(0).toUpperCase()}
+                  </span>
+                  <b>{firstName}</b>
+                  <button type="button" onClick={() => setEdit("name")} aria-label="Change your first name">
+                    Change
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
 
-          {city && view === "form" && (
+          {nameDone && !booked && (
+            <div className="cj-loc-block cj-f-step" key="loc">
+              <h2 className="cj-q">{locationLabel}</h2>
+              {!city && <p className="cj-sub">Type the first letters of your city. The train comes as soon as you tell us where you are.</p>}
+              <LocationPicker value={city} onSelect={setCity} onClear={() => setCity("")} locked={booked} />
+            </div>
+          )}
+
+          {city && nameDone && !booked && (
+            <div className="cj-f-step cj-f-contact" key="contact">
+              {contactActive ? (
+                <form
+                  noValidate
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    submitContact();
+                  }}
+                >
+                  <h2 className="cj-q">How can we reach you?</h2>
+                  <p className="cj-sub">Your e-mail and your phone number. Nothing else is asked yet.</p>
+                  <div className="cj-f-two">
+                    <label className="cj-cell">
+                      <span className="cj-lab">E-mail</span>
+                      <input
+                        className="cj-in cj-f-in"
+                        type="email"
+                        inputMode="email"
+                        value={email}
+                        maxLength={200}
+                        placeholder="you@example.com"
+                        autoComplete="email"
+                        autoFocus
+                        aria-invalid={Boolean(email && emailProblem(email))}
+                        onChange={(e) => setEmail(e.target.value.replace(/\s/g, ""))}
+                      />
+                      {email && emailProblem(email) && <small className="cj-ferr">{emailProblem(email)}</small>}
+                    </label>
+                    <label className="cj-cell">
+                      <span className="cj-lab">Phone / WhatsApp</span>
+                      <input
+                        className="cj-in cj-f-in"
+                        type="tel"
+                        inputMode="tel"
+                        value={phone}
+                        maxLength={20}
+                        placeholder="+91 …"
+                        autoComplete="tel"
+                        aria-invalid={Boolean(phone && phoneProblem(phone))}
+                        onChange={(e) => setPhone(limitPhone(e.target.value))}
+                      />
+                      {phone && phoneProblem(phone) && <small className="cj-ferr">{phoneProblem(phone)}</small>}
+                    </label>
+                  </div>
+                  <input value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="cj-trap" />
+                  <div className="cj-f-row cj-f-row-end">
+                    <button type="submit" className="cj-book cj-f-next" disabled={!contactValid}>
+                      Continue
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="cj-picked cj-f-picked">
+                  <span className="cj-f-ic" aria-hidden>
+                    @
+                  </span>
+                  <b>
+                    {email} · {phone}
+                  </b>
+                  <button type="button" onClick={() => setEdit("contact")} aria-label="Change your contact details">
+                    Change
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {showDetails && (
             <div className="cj-form" key="form">
               <div className="cj-cell">
                 <span className="cj-lab">
@@ -230,9 +362,9 @@ export function CareerJourney({
                   <small>Type it yourself or pick one, like Fresher or Sr. Project Manager</small>
                 </span>
                 <Combo value={status} suggestions={CURRENT_STATUS_SUGGESTIONS} placeholder="Your current career status" label="Current career status" onChange={(v) => setStatus(cleanStatus(v))} />
-                {statusProblem(status) && (
+                {statusMsg && (
                   <small id="cj-status-err" className="cj-ferr" role="alert">
-                    {statusProblem(status)}
+                    {statusMsg}
                   </small>
                 )}
               </div>
@@ -242,6 +374,11 @@ export function CareerJourney({
                   <small>The open positions at We3vision</small>
                 </span>
                 <Dropdown value={roleId} options={roleOptions} placeholder="Choose an open position" label="Your destination" onChange={setRoleId} />
+                {roleMsg && (
+                  <small className="cj-ferr" role="alert">
+                    {roleMsg}
+                  </small>
+                )}
               </div>
               <div className="cj-cell">
                 <span className="cj-lab">
@@ -272,149 +409,40 @@ export function CareerJourney({
                 <SlotPick value={slot} days={days} label="Your interview slot" onChange={setSlot} />
               </div>
               <div className="cj-act">
-                <button type="button" className="cj-book" disabled={busy} onClick={() => void book()}>
-                  {busy ? "Please wait…" : booked ? "Update your seat" : "Book your seat"}
+                <button type="button" className="cj-book" disabled={busy} onClick={() => void apply()}>
+                  {busy ? "Please wait…" : "Apply now"}
                 </button>
-                {error ? <p className="cj-err">{error}</p> : <p className="cj-hint">Only your city is needed to book a seat. The rest helps us to prepare for you.</p>}
+                {error ? <p className="cj-err">{error}</p> : <p className="cj-hint">Your career status and your destination are needed. The rest helps us to prepare for you.</p>}
               </div>
             </div>
           )}
 
-          {city && view === "details" && (
-            <div className="cj-after" key="details">
-              <dl className="cj-sum">
-                <div data-seat>
+          {booked && (
+            <div ref={passRef} className="cj-f-pass-wrap" key="pass">
+              <dl className="cj-f-pass" data-done={done} aria-label="Your boarding pass">
+                <div className="cj-f-pass-main">
+                  <div className="cj-f-pass-end">
+                    <dt>From</dt>
+                    <dd>{status.trim()}</dd>
+                  </div>
+                  <span className="cj-f-pass-way" aria-hidden>
+                    <i />
+                  </span>
+                  <div className="cj-f-pass-end">
+                    <dt>To</dt>
+                    <dd>{role?.title ?? "Surat Junction"}</dd>
+                  </div>
+                </div>
+                <div className="cj-f-pass-seat">
                   <dt>Seat</dt>
                   <dd>{seatNo}</dd>
                 </div>
-                <div>
-                  <dt>From</dt>
-                  <dd>{city}</dd>
-                </div>
-                <div>
-                  <dt>To</dt>
-                  <dd>{role?.title ?? "—"}</dd>
-                </div>
-                {status && (
-                  <div>
-                    <dt>Status</dt>
-                    <dd>{status}</dd>
-                  </div>
-                )}
-                {joinShown && (
-                  <div>
-                    <dt>Joins</dt>
-                    <dd>{joinShown}</dd>
-                  </div>
-                )}
-                {notice && (
-                  <div>
-                    <dt>Arrives</dt>
-                    <dd>{notice}</dd>
-                  </div>
-                )}
-                {slot && (
-                  <div>
-                    <dt>HR call</dt>
-                    <dd>{slot}</dd>
-                  </div>
-                )}
-                {resume && (
-                  <div>
-                    <dt>Resume</dt>
-                    <dd>{resume.name}</dd>
-                  </div>
-                )}
-                {!done && (
-                  <button type="button" className="cj-sum-edit" onClick={() => setView("form")}>
-                    Change the booking
-                  </button>
-                )}
               </dl>
-
-              <div ref={detailsRef} className="cj-pd" data-done={done}>
-                <div className="cj-pd-top">
-                  <span>Passenger details</span>
-                  <span>Ticket · No. {ticketNo}</span>
-                </div>
-                <p className="cj-pd-sub">Your seat is booked. Tell us who is travelling, then confirm the ticket: the train leaves.</p>
-                <div className="cj-grid cj-grid-3" data-need={need}>
-                  {COMMON_FIELDS.map((f) => (
-                    <label key={f.key} className={`cj-field${f.kind === "textarea" ? " cj-span2" : ""}${f.key === "about" ? " cj-span3" : ""}`}>
-                      <span>
-                        {f.label}
-                        {f.required && <em> *</em>}
-                      </span>
-                      {f.kind === "textarea" ? (
-                        <textarea
-                          className="cj-in"
-                          rows={2}
-                          value={fields[f.key] ?? ""}
-                          placeholder={f.placeholder}
-                          maxLength={800}
-                          disabled={done}
-                          aria-invalid={Boolean(problems[f.key])}
-                          onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })}
-                        />
-                      ) : (
-                        <input
-                          className="cj-in"
-                          type={f.kind}
-                          inputMode={f.key === "phone" ? "tel" : f.key === "email" ? "email" : f.key === "currentCtc" || f.key === "expectedCtc" ? "decimal" : undefined}
-                          autoComplete={f.key === "name" ? "name" : f.key === "email" ? "email" : f.key === "phone" ? "tel" : "off"}
-                          value={fields[f.key] ?? ""}
-                          placeholder={f.placeholder}
-                          maxLength={f.key === "name" ? 50 : f.key === "phone" ? 20 : 200}
-                          disabled={done}
-                          aria-invalid={Boolean(problems[f.key])}
-                          onChange={(e) => setFields({ ...fields, [f.key]: e.target.value })}
-                        />
-                      )}
-                      {problems[f.key] && (
-                        <small className="cj-ferr" role="alert">
-                          {problems[f.key]}
-                        </small>
-                      )}
-                    </label>
-                  ))}
-                  {questions.map((q) => (
-                    <div key={q.id} className={`cj-field${q.kind === "textarea" ? " cj-span2" : ""}`}>
-                      <span>
-                        {q.label}
-                        {q.required && <em> *</em>}
-                      </span>
-                      {q.kind === "textarea" ? (
-                        <textarea className="cj-in" rows={2} value={custom[q.id] ?? ""} maxLength={1000} disabled={done} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })} />
-                      ) : q.kind === "select" || q.kind === "yesno" ? (
-                        <Dropdown
-                          value={custom[q.id] ?? ""}
-                          options={(q.kind === "yesno" ? ["Yes", "No"] : q.options).map((o) => ({ value: o, label: o }))}
-                          placeholder="Choose"
-                          label={q.label}
-                          disabled={done}
-                          onChange={(v) => setCustom({ ...custom, [q.id]: v })}
-                        />
-                      ) : (
-                        <input className="cj-in" value={custom[q.id] ?? ""} maxLength={300} disabled={done} aria-label={q.label} onChange={(e) => setCustom({ ...custom, [q.id]: e.target.value })} />
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <input value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="cj-trap" />
-                <div className="cj-act">
-                  {done ? (
-                    <p className="cj-ok">Ticket confirmed. The train is leaving for Surat Junction…</p>
-                  ) : (
-                    <button type="button" className="cj-book" disabled={busy} onClick={() => void confirm()}>
-                      {busy ? "Please wait…" : "Confirm the ticket"}
-                    </button>
-                  )}
-                  {error && <p className="cj-err">{error}</p>}
-                </div>
-              </div>
+              <p className="cj-f-pass-note" role="status">
+                {done ? "The train is leaving for Surat Junction…" : "Your seat is booked."}
+              </p>
             </div>
           )}
-
         </div>
 
         {/* the platform and the train of the railway are drawn here (see career/railway.tsx) */}
@@ -426,7 +454,7 @@ export function CareerJourney({
           <span className="cj-miss-ic" aria-hidden />
           <div>
             <b id="cj-miss-t">You are missing your train!</b>
-            <p>The train is leaving the platform without you. Go back and book your seat to board it.</p>
+            <p>The train is leaving the platform without you. Go back and apply to board it.</p>
             <div className="cj-miss-act">
               <button
                 type="button"

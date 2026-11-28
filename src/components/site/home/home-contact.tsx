@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useRef, useState, type FormEvent } from "react";
+import { GlassSelect } from "@/components/site/glass-select";
 import { GlimmerArt } from "@/components/site/glimmer-art";
 import { submitLead, type LeadState } from "@/actions/leads";
 import { leadProblems, limitPhone, type LeadProblems, type LeadValues } from "@/lib/contact-validation";
@@ -12,6 +13,17 @@ type Key = keyof LeadValues;
 const ORDER: Key[] = ["name", "email", "phone", "message"];
 
 /** `topic` = the Contact page topic (extra questions, the wording of the message box and the button); `courses` = the names for the "Domain" choice; `ticked` = ways that start ticked */
+/** a choice list in the glass dropdown of the site; the chosen value travels in a hidden field with the form */
+function PickOne({ name, opts, label }: { name: string; opts: string[]; label: string }) {
+  const [v, setV] = useState(opts[0]);
+  return (
+    <>
+      <input type="hidden" name={name} value={v} />
+      <GlassSelect value={v} options={opts.map((o) => ({ value: o, label: o }))} onChange={setV} label={label} className="ctd-gs" />
+    </>
+  );
+}
+
 export function HomeContact({ topic, courses = [], ticked = [] }: { topic?: Topic; courses?: string[]; ticked?: string[] } = {}) {
   const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, { status: "idle" });
   const [v, setV] = useState<LeadValues>({ name: "", email: "", phone: "", message: "" });
@@ -87,13 +99,7 @@ export function HomeContact({ topic, courses = [], ticked = [] }: { topic?: Topi
           return (
             <label key={x.key}>
               <span>{x.label}</span>
-              <select name={`d_${x.key}`} defaultValue={opts[0]} className="ctd-select">
-                {opts.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
+              <PickOne name={`d_${x.key}`} opts={opts} label={x.label} />
             </label>
           );
         return (

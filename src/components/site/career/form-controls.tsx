@@ -66,7 +66,7 @@ export function Dropdown({ value, options, placeholder, onChange, disabled, labe
         <span>{cur ? cur.label : placeholder}</span>
       </button>
       {open && (
-        <ul className="cj-dd-list" role="listbox" aria-label={label}>
+        <ul data-lenis-prevent className="cj-dd-list" role="listbox" aria-label={label}>
           {options.map((o, i) => (
             <li key={o.value} role="presentation" style={{ display: "contents" }}>
               {o.group && o.group !== options[i - 1]?.group && <span className="cj-dd-group">{o.group}</span>}
@@ -112,7 +112,7 @@ export function Combo({ value, suggestions, placeholder, onChange, disabled, lab
         }}
       />
       {open && list.length > 0 && (
-        <ul className="cj-dd-list" role="listbox" aria-label={label}>
+        <ul data-lenis-prevent className="cj-dd-list" role="listbox" aria-label={label}>
           {list.map((s) => (
             <li key={s} role="presentation" style={{ display: "contents" }}>
               <button
@@ -176,7 +176,7 @@ export function DatePick({ value, onChange, disabled, placeholder, label }: { va
         <span>{shown || placeholder}</span>
       </button>
       {open && (
-        <div className="cj-dd-list cj-cal" role="dialog" aria-label={label}>
+        <div data-lenis-prevent className="cj-dd-list cj-cal" role="dialog" aria-label={label}>
           <div className="cj-cal-head">
             <button type="button" disabled={!canBack} onClick={() => step(-1)} aria-label="Previous month">
               ‹
@@ -232,47 +232,59 @@ export function DatePick({ value, onChange, disabled, placeholder, label }: { va
   );
 }
 
-/** the call with HR: a button that opens the next working days and the three windows of a day */
+/** the call with HR: one panel with the next working days on the left and the times of the chosen day on the right, so day and time are seen together;
+ *  the chosen slot is written in full under them ("Tue 3 Dec · 11:00 AM") and on the button. */
 export function SlotPick({ value, days, onChange, disabled, label }: { value: string; days: { label: string; times: string[] }[]; onChange: (v: string) => void; disabled?: boolean; label: string }) {
   const [open, setOpen] = useState(false);
-  const [day, setDay] = useState(0);
+  const [day, setDay] = useState(() => Math.max(0, days.findIndex((d) => value.startsWith(`${d.label}, `))));
   const ref = useRef<HTMLDivElement>(null);
   useOutside(open, () => setOpen(false), ref);
   const cur = days[day] ?? days[0];
+  const pop = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (open) pop.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [open]);
+  const nice = (v: string) => v.replace(/, ([^,]*)$/, " · $1");
   return (
     <div ref={ref} className="cj-dd" data-open={open}>
       <button type="button" className="cj-in cj-dd-btn cj-call" aria-label={label} aria-haspopup="dialog" aria-expanded={open} data-empty={!value} disabled={disabled} onClick={() => setOpen(!open)}>
         <i aria-hidden />
-        <span>{value || "Book a call slot with HR"}</span>
+        <span>{value ? nice(value) : "Book a call slot with HR"}</span>
       </button>
       {open && cur && (
-        <div className="cj-dd-list cj-slotpop" role="dialog" aria-label={label}>
-          <p className="cj-pop-k">Choose a day</p>
-          <div className="cj-chips">
-            {days.map((d, i) => (
-              <button key={d.label} type="button" data-on={i === day} onClick={() => setDay(i)}>
-                {d.label}
-              </button>
-            ))}
+        <div ref={pop} data-lenis-prevent className="cj-dd-list cj-slotpop" role="dialog" aria-label={label}>
+          <div className="cj-sp">
+            <div className="cj-sp-col">
+              <p className="cj-pop-k">1 · Day</p>
+              <div className="cj-sp-days">
+                {days.map((d, i) => (
+                  <button key={d.label} type="button" data-on={i === day} onClick={() => setDay(i)}>
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="cj-sp-col">
+              <p className="cj-pop-k">2 · Time on {cur.label}</p>
+              <div className="cj-sp-times">
+                {cur.times.map((t) => {
+                  const v = `${cur.label}, ${t}`;
+                  return (
+                    <button key={t} type="button" data-on={v === value} onClick={() => onChange(v)}>
+                      {t}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-          <p className="cj-pop-k">Choose a time</p>
-          <div className="cj-chips">
-            {cur.times.map((t) => {
-              const v = `${cur.label}, ${t}`;
-              return (
-                <button
-                  key={t}
-                  type="button"
-                  data-on={v === value}
-                  onClick={() => {
-                    onChange(v);
-                    setOpen(false);
-                  }}
-                >
-                  {t}
-                </button>
-              );
-            })}
+          <div className="cj-sp-sum" data-set={Boolean(value)}>
+            <span>{value ? <>Your slot: <b>{nice(value)}</b></> : "Pick a day, then a time"}</span>
+            {value && (
+              <button type="button" className="cj-sp-done" onClick={() => setOpen(false)}>
+                Done
+              </button>
+            )}
           </div>
           {value && (
             <button

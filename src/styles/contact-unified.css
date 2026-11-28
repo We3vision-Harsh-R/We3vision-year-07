@@ -241,3 +241,6 @@ html .cth a.cth-act[href] {
     font-size: 25px;
   }
 }
+
+/* the "What do you need?" choice uses the same glass dropdown as the rest of the site */
+.ctd .ctd-gs { display: block; width: 100%; }

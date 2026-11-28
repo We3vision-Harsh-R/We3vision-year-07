@@ -1,73 +1,86 @@
 import { describe, expect, it } from "vitest";
 import { ADMIN_AREAS, areaOfPath, canSee, type AdminItem } from "@/components/admin/admin-menu";
-import { ADMIN_ACCOUNTS, MASTER_EMAILS, isAllowedAccount, isMasterEmail } from "@/lib/admin-access";
+import { ADMIN_DOMAIN, MASTER_ADMINS, MASTER_EMAILS, isCompanyEmail, isMasterEmail } from "@/lib/admin-access";
 import { canOpen, cleanGrants, resolveAccess } from "@/lib/admin-grants";
 
 const ALL = ADMIN_AREAS.map((a) => a.key);
 
-describe("the three accounts", () => {
+describe("the master admins", () => {
   it("are exactly Admin@, Harsh@ and Parth@ of we3vision.com", () => {
-    expect(ADMIN_ACCOUNTS.map((a) => a.email)).toEqual(["admin@we3vision.com", "harsh@we3vision.com", "parth@we3vision.com"]);
+    expect(MASTER_ADMINS.map((a) => a.email)).toEqual(["admin@we3vision.com", "harsh@we3vision.com", "parth@we3vision.com"]);
+    expect(MASTER_EMAILS).toEqual(["admin@we3vision.com", "harsh@we3vision.com", "parth@we3vision.com"]);
   });
-  it("accept the three addresses in any capital letters and nothing else", () => {
-    expect(isAllowedAccount("Admin@we3vision.com")).toBe(true);
-    expect(isAllowedAccount(" HARSH@We3vision.com ")).toBe(true);
-    expect(isAllowedAccount("parth@we3vision.com")).toBe(true);
-    expect(isAllowedAccount("someone@we3vision.com")).toBe(false);
-    expect(isAllowedAccount("harsh@w3vision.com")).toBe(false); // a different domain
-    expect(isAllowedAccount("admin@we3vision.com.evil.com")).toBe(false);
-    expect(isAllowedAccount("harsh@gmail.com")).toBe(false);
-    expect(isAllowedAccount("")).toBe(false);
-  });
-  it("Admin@ and Harsh@ are the two master admins, Parth@ is not", () => {
-    expect(MASTER_EMAILS).toEqual(["admin@we3vision.com", "harsh@we3vision.com"]);
+  it("are found in any capital letters, and nobody else is a master admin", () => {
     expect(isMasterEmail("ADMIN@we3vision.com")).toBe(true);
-    expect(isMasterEmail("Harsh@we3vision.com")).toBe(true);
-    expect(isMasterEmail("parth@we3vision.com")).toBe(false);
+    expect(isMasterEmail(" Harsh@We3vision.com ")).toBe(true);
+    expect(isMasterEmail("parth@we3vision.com")).toBe(true);
     expect(isMasterEmail("someone@we3vision.com")).toBe(false);
+    expect(isMasterEmail("parth@gmail.com")).toBe(false);
+    expect(isMasterEmail("")).toBe(false);
+  });
+});
+
+describe("the company e-mail rule (the only rule for a new login)", () => {
+  it("accepts any name at the company domain", () => {
+    expect(ADMIN_DOMAIN).toBe("we3vision.com");
+    expect(isCompanyEmail("someone@we3vision.com")).toBe(true);
+    expect(isCompanyEmail(" Rina.Shah+hr@We3vision.com ")).toBe(true);
+  });
+  it("refuses every other domain and look-alike", () => {
+    expect(isCompanyEmail("harsh@w3vision.com")).toBe(false); // a different domain
+    expect(isCompanyEmail("admin@we3vision.com.evil.com")).toBe(false);
+    expect(isCompanyEmail("harsh@gmail.com")).toBe(false);
+    expect(isCompanyEmail("a b@we3vision.com")).toBe(false);
+    expect(isCompanyEmail("@we3vision.com")).toBe(false);
+    expect(isCompanyEmail("")).toBe(false);
   });
 });
 
 describe("cleanGrants", () => {
-  it("keeps only the team member, known screens, each once, in menu order", () => {
+  it("keeps only team members, known screens, each once, in menu order", () => {
     const out = cleanGrants({
       grants: {
-        "parth@we3vision.com": ["leads", "blog", "blog", "nonsense", 7],
+        "rina@we3vision.com": ["leads", "blog", "blog", "nonsense", 7],
+        " Dev@We3vision.com ": ["careers"],
         "harsh@we3vision.com": ["blog"],
         "admin@we3vision.com": ["blog"],
-        "stranger@we3vision.com": ["blog"],
+        "parth@we3vision.com": ["blog"],
+        "stranger@gmail.com": ["blog"],
       },
     });
-    expect(Object.keys(out)).toEqual(["parth@we3vision.com"]); // the master admins have no row, nobody else counts
-    expect(out["parth@we3vision.com"]).toEqual(["blog", "leads"]); // menu order: Blog comes before Leads
+    expect(Object.keys(out).sort()).toEqual(["dev@we3vision.com", "rina@we3vision.com"]); // the master admins have no row, other domains never count
+    expect(out["rina@we3vision.com"]).toEqual(["blog", "leads"]); // menu order: Blog comes before Leads
+    expect(out["dev@we3vision.com"]).toEqual(["careers"]);
   });
   it("is safe against garbage", () => {
     expect(cleanGrants(null)).toEqual({});
     expect(cleanGrants("x")).toEqual({});
-    expect(cleanGrants({ grants: [] })).toEqual({ "parth@we3vision.com": [] });
-    expect(cleanGrants({ grants: { "parth@we3vision.com": "blog" } })).toEqual({ "parth@we3vision.com": [] });
+    expect(cleanGrants({ grants: [] })).toEqual({});
+    expect(cleanGrants({ grants: { "rina@we3vision.com": "blog" } })).toEqual({ "rina@we3vision.com": [] });
+    expect(cleanGrants({ grants: { __proto__: ["blog"], "constructor": ["blog"] } })).toEqual({});
   });
 });
 
 describe("resolveAccess", () => {
-  const grants = { "parth@we3vision.com": ["blog" as const, "leads" as const] };
-  it("both master admins have every screen, with no row in the list", () => {
-    expect(resolveAccess("Admin@we3vision.com", {})).toEqual({ isSuper: true, areas: ALL });
-    expect(resolveAccess("harsh@we3vision.com", {})).toEqual({ isSuper: true, areas: ALL });
-    expect(resolveAccess("harsh@we3vision.com", { "harsh@we3vision.com": [] } as never).areas).toEqual(ALL); // a row cannot take it away
+  const grants = { "rina@we3vision.com": ["blog" as const, "leads" as const] };
+  it("every master admin has every screen, with no row in the list", () => {
+    for (const email of ["Admin@we3vision.com", "harsh@we3vision.com", "parth@we3vision.com"]) {
+      expect(resolveAccess(email, {})).toEqual({ isSuper: true, areas: ALL });
+    }
+    expect(resolveAccess("parth@we3vision.com", { "parth@we3vision.com": [] } as never).areas).toEqual(ALL); // a row cannot take it away
   });
-  it("the team member has exactly the screens that were given, and is not a master admin", () => {
-    const p = resolveAccess("parth@we3vision.com", grants);
+  it("a team member has exactly the screens that were given, and is not a master admin", () => {
+    const p = resolveAccess("rina@we3vision.com", grants);
     expect(p.isSuper).toBe(false);
     expect(p.areas).toEqual(["blog", "leads"]);
     expect(canOpen(p, "blog")).toBe(true);
     expect(canOpen(p, "careers")).toBe(false);
   });
-  it("the team member with no row has no screen", () => {
-    expect(resolveAccess("parth@we3vision.com", {}).areas).toEqual([]);
+  it("a team member with no row has no screen", () => {
+    expect(resolveAccess("rina@we3vision.com", {}).areas).toEqual([]);
   });
-  it("any other e-mail has nothing, even with a row", () => {
-    expect(resolveAccess("stranger@we3vision.com", { "stranger@we3vision.com": ["blog"] } as never)).toEqual({ isSuper: false, areas: [] });
+  it("an e-mail of another domain has nothing, even with a row", () => {
+    expect(resolveAccess("stranger@gmail.com", { "stranger@gmail.com": ["blog"] } as never)).toEqual({ isSuper: false, areas: [] });
   });
 });
 

@@ -728,3 +728,12 @@
   background: rgba(255, 255, 255, 0.15) !important;
   margin: 14px 0 !important;
 }
+/* ptg-: the service list of the chat is a glass menu like every dropdown of the site */
+.pd-service-options {
+  border-color: hsl(0 0% 100% / 0.22);
+  border-radius: 18px;
+  background: hsl(calc(var(--th) + 347) calc(42% * var(--ts)) 15% / 0.8);
+  -webkit-backdrop-filter: blur(30px) saturate(1.8);
+  backdrop-filter: blur(30px) saturate(1.8);
+  box-shadow: inset 0 1.5px 1px hsl(0 0% 100% / 0.28);
+}

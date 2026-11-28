@@ -8025,3 +8025,11 @@ html[data-hid="1"] *::after {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
+
+/* lt- exception: the small dropdown panels keep their glass blur in light mode too (a 400px panel is cheap; without it text shows through them) */
+html[data-lite] .gsel-menu,
+html[data-lite] .cj-dd-list,
+html[data-lite] .pd-service-options {
+  -webkit-backdrop-filter: blur(22px) saturate(1.6) !important;
+  backdrop-filter: blur(22px) saturate(1.6) !important;
+}

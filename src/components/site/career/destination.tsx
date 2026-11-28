@@ -7,6 +7,7 @@ import "@/styles/careers.css";
 
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { useCareer } from "@/lib/career-store";
 import type { JobView } from "@/lib/careers-shared";
 
@@ -32,6 +33,22 @@ type Props = {
 export function CareerDestination({ chip, heading, text, station, address, buttonLabel, buttonHref, jobs, jobsHeading, jobsText, jobsEmpty }: Props) {
   const career = useCareer();
   const arriving = career.stage === "arriving" || career.stage === "arrived";
+  // when the train has reached the station, the position the visitor chose is lit (a soft glow) and the others are soft (a little blur, still readable);
+  // the page then moves by itself so that the chosen position is in the middle of the screen
+  const listRef = useRef<HTMLUListElement>(null);
+  const arrived = career.stage === "arrived";
+  const pickId = arrived && jobs.some((j) => j.id === career.roleId) ? career.roleId : "";
+  useEffect(() => {
+    if (!pickId) return;
+    const timer = window.setTimeout(() => {
+      const el = listRef.current?.querySelector<HTMLElement>('[data-sel="true"]');
+      if (!el) return;
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (t: Element, o?: object) => void } }).__lenis;
+      if (lenis) lenis.scrollTo(el, { offset: -(window.innerHeight / 2 - el.offsetHeight / 2), duration: 1.6 });
+      else el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 700);
+    return () => window.clearTimeout(timer);
+  }, [pickId]);
 
   return (
     <section id="surat-junction" className="cj-dest">
@@ -55,9 +72,9 @@ export function CareerDestination({ chip, heading, text, station, address, butto
               {jobs.length === 0 ? (
                 <p className="ro-empty">{jobsEmpty}</p>
               ) : (
-                <ul className="cj-roles">
+                <ul ref={listRef} className="cj-roles" data-pick={pickId ? "true" : undefined}>
                   {jobs.map((j) => (
-                    <li key={j.id} className="cj-role">
+                    <li key={j.id} className="cj-role" data-sel={j.id === pickId ? "true" : undefined}>
                       <Link href={`/careers/${j.slug}`} className="cj-role-main">
                         <span className="cj-role-t">
                           {j.title}

@@ -8,9 +8,11 @@ import { ImageField } from "./image-field";
 import { btnDanger, btnPrimary, btnSecondary, card, inputClass } from "./ui";
 import { IconBtn } from "./icon-btn";
 
-/** One of the three accounts, as the page found it in the database. */
-export type AccountRow = { email: string; name: string; isSuper: boolean; id: string | null; lastLogin: string; isMe: boolean };
-/** A leftover login of an e-mail that is not one of the three: it cannot sign in. */
+/** A master admin (fixed in the code), as the page found it in the database. `id` is null while the login does not exist yet. */
+export type MasterRow = { email: string; name: string; id: string | null; lastLogin: string; isMe: boolean };
+/** A team member: a login made in this screen. */
+export type MemberRow = { id: string; email: string; name: string; lastLogin: string };
+/** A leftover login of an e-mail that is not of the company: it cannot sign in. */
 export type BlockedRow = { id: string; email: string };
 
 function Notice({ result }: { result: ActionResult | null }) {
@@ -59,90 +61,199 @@ export function LoginPictureCard({ current, isDefault }: { current: string; isDe
   );
 }
 
-/** The three accounts: create a login that does not exist yet, change a password, remove a login. Nobody else can be added. */
-export function AccountsCard({ rows, blocked }: { rows: AccountRow[]; blocked: BlockedRow[] }) {
+/** A random password of 16 letters and digits (no look-alike characters), made in the browser, to hand over to the new user. */
+function makePassword(): string {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789"; // 55 characters
+  let out = "";
+  while (out.length < 16) {
+    for (const b of crypto.getRandomValues(new Uint8Array(32))) {
+      if (b < 220 && out.length < 16) out += chars[b % chars.length]; // 220 = 4 x 55: no character is more likely than another
+    }
+  }
+  return out;
+}
+
+/** The logins: the master admins (fixed), the team members (add a new user, new password, remove) and leftover rows that cannot sign in. */
+export function AccountsCard({ masters, members, blocked, domain }: { masters: MasterRow[]; members: MemberRow[]; blocked: BlockedRow[]; domain: string }) {
   const [passwords, setPasswords] = useState<Record<string, string>>({});
   const [results, setResults] = useState<Record<string, ActionResult>>({});
+  const [fresh, setFresh] = useState({ name: "", email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const [pending, start] = useTransition();
 
   const say = (key: string, res: ActionResult) => setResults((r) => ({ ...r, [key]: res }));
-  const create = (row: AccountRow) =>
+  const createMaster = (row: MasterRow) =>
     start(async () => {
       const res = await createAdminUser({ email: row.email, password: passwords[row.email] ?? "" });
       say(row.email, res);
       if (res.ok) setPasswords((p) => ({ ...p, [row.email]: "" }));
     });
-  const change = (row: AccountRow) => {
-    if (!row.id) return;
-    const id = row.id;
-    const next = window.prompt(`New password for ${row.email} (at least 12 characters):`);
+  const addUser = () =>
+    start(async () => {
+      const res = await createAdminUser(fresh);
+      say("new", res);
+      if (res.ok) {
+        setFresh({ name: "", email: "", password: "" });
+        setShowPassword(false);
+      }
+    });
+  const change = (key: string, id: string, email: string) => {
+    const next = window.prompt(`New password for ${email} (at least 12 characters):`);
     if (!next) return;
-    start(async () => say(row.email, await setAdminPassword(id, next)));
+    start(async () => say(key, await setAdminPassword(id, next)));
   };
   const remove = (key: string, id: string, email: string) => {
     if (!window.confirm(`Remove the login ${email}? It will not be able to sign in any more.`)) return;
     start(async () => say(key, await deleteAdminUser(id)));
   };
+  const canAdd = fresh.name.trim().length > 0 && fresh.email.includes("@") && fresh.password.length >= 12;
 
   return (
-    <section className={`${card} space-y-5`}>
+    <section className={`${card} space-y-6`}>
       <div>
-        <h2 className="text-lg font-semibold">The three accounts</h2>
-        <p className="mt-1 text-sm text-zinc-500">Only these three e-mail addresses can sign in to the admin panel. Nobody else can be added or can sign in.</p>
+        <h2 className="text-lg font-semibold">Logins</h2>
+        <p className="mt-1 text-sm text-zinc-500">
+          Only @{domain} e-mail addresses can get a login. The master admins are fixed. Every other login is a team member that you add here.
+        </p>
       </div>
 
-      <ul className="divide-y divide-zinc-100 rounded-xl border border-zinc-200">
-        {rows.map((row) => (
-          <li key={row.email} className="space-y-3 px-4 py-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="min-w-0">
-                <p className="flex flex-wrap items-center gap-2 text-base font-semibold">
-                  {row.name}
-                  <span className={`rounded-full px-2.5 py-0.5 text-sm font-medium ${row.isSuper ? "bg-brand/15 text-brand" : "bg-zinc-100 text-zinc-500"}`}>{row.isSuper ? "Master admin" : "Team member"}</span>
-                  {row.isMe && <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-sm text-zinc-500">you</span>}
-                </p>
-                <p className="truncate text-sm text-zinc-500">{row.email}</p>
-                <p className="text-sm text-zinc-400">{row.id ? `Last sign-in: ${row.lastLogin}` : "No login created yet"}</p>
-                {row.isSuper && <p className="text-sm text-zinc-400">Every screen, always. Nobody can remove this account.</p>}
-              </div>
-              {row.id && (
-                <div className="flex gap-2">
-                  <button type="button" className={btnSecondary} disabled={pending} onClick={() => change(row)}>
+      <div className="space-y-2">
+        <h3 className="text-base font-semibold">Master admins</h3>
+        <ul className="divide-y divide-zinc-100 rounded-xl border border-zinc-200">
+          {masters.map((row) => (
+            <li key={row.email} className="space-y-3 px-4 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="flex flex-wrap items-center gap-2 text-base font-semibold">
+                    {row.name}
+                    <span className="rounded-full bg-brand/15 px-2.5 py-0.5 text-sm font-medium text-brand">Master admin</span>
+                    {row.isMe && <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-sm text-zinc-500">you</span>}
+                  </p>
+                  <p className="truncate text-sm text-zinc-500">{row.email}</p>
+                  <p className="text-sm text-zinc-400">{row.id ? `Last sign-in: ${row.lastLogin}` : "No login created yet"}</p>
+                  <p className="text-sm text-zinc-400">Every screen, always. Nobody can remove this account.</p>
+                </div>
+                {row.id && (
+                  <button type="button" className={btnSecondary} disabled={pending} onClick={() => change(row.email, row.id!, row.email)}>
                     New password
                   </button>
-                  {!row.isMe && !row.isSuper && (
-                    <button type="button" className={btnDanger} disabled={pending} onClick={() => remove(row.email, row.id!, row.email)}>
-                      Remove
-                    </button>
-                  )}
+                )}
+              </div>
+              {!row.id && (
+                <div className="flex flex-wrap items-end gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3">
+                  <label className="min-w-64 flex-1 text-sm font-medium text-zinc-700">
+                    Password for this login (at least 12 characters)
+                    <input
+                      className={inputClass}
+                      type="password"
+                      autoComplete="new-password"
+                      value={passwords[row.email] ?? ""}
+                      onChange={(e) => setPasswords((p) => ({ ...p, [row.email]: e.target.value }))}
+                    />
+                  </label>
+                  <button type="button" className={btnPrimary} disabled={pending || (passwords[row.email] ?? "").length < 12} onClick={() => createMaster(row)}>
+                    {pending ? "Saving…" : "Create login"}
+                  </button>
                 </div>
               )}
-            </div>
-            {!row.id && (
-              <div className="flex flex-wrap items-end gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3">
-                <label className="min-w-64 flex-1 text-sm font-medium text-zinc-700">
-                  Password for this login (at least 12 characters)
-                  <input
-                    className={inputClass}
-                    type="password"
-                    autoComplete="new-password"
-                    value={passwords[row.email] ?? ""}
-                    onChange={(e) => setPasswords((p) => ({ ...p, [row.email]: e.target.value }))}
-                  />
-                </label>
-                <button type="button" className={btnPrimary} disabled={pending || (passwords[row.email] ?? "").length < 12} onClick={() => create(row)}>
-                  {pending ? "Saving…" : "Create login"}
-                </button>
-              </div>
-            )}
-            <Notice result={results[row.email] ?? null} />
-          </li>
-        ))}
-      </ul>
+              <Notice result={results[row.email] ?? null} />
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="text-base font-semibold">Team members</h3>
+        {members.length === 0 ? (
+          <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-sm text-zinc-500">No team members yet. Add the first one below.</p>
+        ) : (
+          <ul className="divide-y divide-zinc-100 rounded-xl border border-zinc-200">
+            {members.map((row) => (
+              <li key={row.id} className="space-y-3 px-4 py-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="flex flex-wrap items-center gap-2 text-base font-semibold">
+                      {row.name}
+                      <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-sm font-medium text-zinc-500">Team member</span>
+                    </p>
+                    <p className="truncate text-sm text-zinc-500">{row.email}</p>
+                    <p className="text-sm text-zinc-400">Last sign-in: {row.lastLogin}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button type="button" className={btnSecondary} disabled={pending} onClick={() => change(row.id, row.id, row.email)}>
+                      New password
+                    </button>
+                    <button type="button" className={btnDanger} disabled={pending} onClick={() => remove(row.id, row.id, row.email)}>
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <Notice result={results[row.id] ?? null} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="space-y-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+        <div>
+          <h3 className="text-base font-semibold">Add a new user</h3>
+          <p className="mt-1 text-sm text-zinc-500">
+            The new user is a team member: they see only the dashboard until you tick screens for them in &quot;Who can open what&quot; below. Give them the e-mail and the password.
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <label className="text-sm font-medium text-zinc-700">
+            Name
+            <input className={inputClass} type="text" autoComplete="off" maxLength={60} value={fresh.name} onChange={(e) => setFresh((f) => ({ ...f, name: e.target.value }))} />
+          </label>
+          <label className="text-sm font-medium text-zinc-700">
+            E-mail
+            <input
+              className={inputClass}
+              type="email"
+              autoComplete="off"
+              placeholder={`name@${domain}`}
+              value={fresh.email}
+              onChange={(e) => setFresh((f) => ({ ...f, email: e.target.value }))}
+            />
+          </label>
+          <label className="text-sm font-medium text-zinc-700">
+            Password (at least 12 characters)
+            <input
+              className={inputClass}
+              type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
+              value={fresh.password}
+              onChange={(e) => setFresh((f) => ({ ...f, password: e.target.value }))}
+            />
+          </label>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button type="button" className={btnPrimary} disabled={pending || !canAdd} onClick={addUser}>
+            {pending ? "Saving…" : "Create user"}
+          </button>
+          <button
+            type="button"
+            className={btnSecondary}
+            disabled={pending}
+            onClick={() => {
+              setFresh((f) => ({ ...f, password: makePassword() }));
+              setShowPassword(true);
+            }}
+          >
+            Make a password
+          </button>
+          <button type="button" className={btnSecondary} disabled={pending} onClick={() => setShowPassword((s) => !s)}>
+            {showPassword ? "Hide password" : "Show password"}
+          </button>
+        </div>
+        <Notice result={results.new ?? null} />
+      </div>
 
       {blocked.length > 0 && (
         <div className="space-y-2 rounded-xl border border-amber-200 bg-amber-50 p-4">
-          <p className="text-sm font-semibold text-amber-800">Other logins found in the database (they cannot sign in)</p>
+          <p className="text-sm font-semibold text-amber-800">Other logins found in the database (their e-mail is not @{domain}, so they cannot sign in)</p>
           <ul className="space-y-2">
             {blocked.map((b) => (
               <li key={b.id} className="flex flex-wrap items-center justify-between gap-3 text-sm text-amber-800">
@@ -160,7 +271,7 @@ export function AccountsCard({ rows, blocked }: { rows: AccountRow[]; blocked: B
   );
 }
 
-/** The table of rights: one row per screen, one column per team member. The admin account always has every screen. */
+/** The table of rights: one row per screen, one column per team member. The master admins always have every screen. */
 export function AccessMatrix({ members, initial }: { members: { email: string; name: string }[]; initial: Record<string, string[]> }) {
   const [grants, setGrants] = useState<Record<string, string[]>>(initial);
   const [saved, setSaved] = useState(JSON.stringify(initial));
@@ -194,12 +305,15 @@ export function AccessMatrix({ members, initial }: { members: { email: string; n
       <div>
         <h2 className="text-lg font-semibold">Who can open what</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          The two master admins (Admin and Harsh) open every screen and need nobody&apos;s permission. Tick the screens the team member may open: he sees only those in the
-          menu and on the dashboard, and the server refuses the others even if he types the address. The dashboard is open to everybody.
+          The master admins (Admin, Harsh and Parth) open every screen and need nobody&apos;s permission. Tick the screens each team member may open: they see only those in the
+          menu and on the dashboard, and the server refuses the others even if they type the address. The dashboard is open to everybody.
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-zinc-200">
+      {members.length === 0 ? (
+        <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-sm text-zinc-500">No team members yet. Add a new user above, then come back here to give them screens.</p>
+      ) : (
+      <div className="overflow-x-auto rounded-xl border border-zinc-200">
         <table className="w-full text-left">
           <thead className="bg-zinc-50 text-sm text-zinc-500">
             <tr>
@@ -232,14 +346,17 @@ export function AccessMatrix({ members, initial }: { members: { email: string; n
           </tbody>
         </table>
       </div>
+      )}
 
       <Notice result={result} />
-      <div className="flex flex-wrap items-center gap-3">
-        <button type="button" className={btnPrimary} disabled={pending || !dirty} onClick={save}>
-          {pending ? "Saving…" : "Save access"}
-        </button>
-        {dirty && !pending && <span className="text-sm text-amber-600">You have changes that are not saved yet.</span>}
-      </div>
+      {members.length > 0 && (
+        <div className="flex flex-wrap items-center gap-3">
+          <button type="button" className={btnPrimary} disabled={pending || !dirty} onClick={save}>
+            {pending ? "Saving…" : "Save access"}
+          </button>
+          {dirty && !pending && <span className="text-sm text-amber-600">You have changes that are not saved yet.</span>}
+        </div>
+      )}
     </section>
   );
 }

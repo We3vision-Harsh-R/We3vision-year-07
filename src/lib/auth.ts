@@ -4,7 +4,7 @@ import { cache } from "react";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { AdminArea } from "@/components/admin/admin-menu";
-import { isAllowedAccount, isMasterEmail } from "@/lib/admin-access";
+import { isCompanyEmail, isMasterEmail } from "@/lib/admin-access";
 import { canOpen, resolveAccess, type Access } from "@/lib/admin-grants";
 import { readGrants } from "@/lib/admin-permissions";
 import { db, hasDb } from "@/lib/db";
@@ -49,8 +49,8 @@ export const getAdmin = cache(async (): Promise<AdminSession | null> => {
   }
   if (!session) return null;
   const user = await db.adminUser.findUnique({ where: { id: session.userId }, select: { id: true, email: true, name: true, passwordHash: true } });
-  // only the three company accounts work (a row of any other e-mail is ignored); a login made before the last password change does not work either
-  if (!user || !isAllowedAccount(user.email) || session.v !== sessionVersion(user.passwordHash)) return null;
+  // only company e-mails work (a row of any other e-mail is ignored); a login made before the last password change does not work either
+  if (!user || !isCompanyEmail(user.email) || session.v !== sessionVersion(user.passwordHash)) return null;
   // the rights are read on every request, so a change in Admin access works at once (no new login needed)
   const grants = isMasterEmail(user.email) ? {} : await readGrants();
   return { id: user.id, email: user.email.toLowerCase(), name: user.name, ...resolveAccess(user.email, grants) };
@@ -70,7 +70,7 @@ export async function requireArea(area: AdminArea) {
   return admin;
 }
 
-/** Admin access (the accounts, passwords and the rights of the team member): only a master admin (Admin@ or Harsh@). */
+/** Admin access (the logins, passwords and the rights of the team members): only a master admin (Admin@, Harsh@ or Parth@). */
 export async function requireSuperAdmin() {
   const admin = await requireAdmin();
   if (!admin.isSuper) redirect("/admin?denied=access");
