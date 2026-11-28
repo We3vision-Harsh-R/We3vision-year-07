@@ -16,13 +16,23 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 205,
+    date: "2026-11-28",
+    title: "Admin: master admins and page access, new dashboard, one-screen hiring board",
+    notes: [
+      "Admin access: only three logins can sign in (Admin, Harsh, Parth). Admin and Harsh are master admins with every screen who nobody can remove; Parth opens only the screens a master ticks.",
+      "Dashboard: full width, four counters in one row, smart cards for the latest enquiries and the latest hiring applications, and no sideways scroll for a long enquiry text.",
+      "Hiring board: the eight steps fit one screen (4 x 2), and an application glows in the colour of the person who looks after it.",
+    ],
+  },
+  {
     v: 204,
     date: "2026-11-28",
-    title: "Contact page redesign",
+    title: "Alerts fixed: lead delete, careers training column, settings read",
     notes: [
-      "Contact page: one design for laptop and phone, with a single bar to call, WhatsApp, e-mail or visit us.",
-      "The four topics and the form are now one card; each topic shows its own questions.",
-      "Phones now open the same Contact page as laptops.",
+      "Admin > Leads: deleting or marking a message that is already gone (double click, second tab) no longer crashes.",
+      "Careers: the Industry training tag no longer takes the careers pages down when the database is one step behind (the column is added safely and the read is tried again); the migration file is added too.",
+      "Home and page reads of the settings try once more when a connection drops, and a closed tab while a page streams is no longer logged as an error.",
     ],
   },
   {

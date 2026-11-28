@@ -1,3 +1,4 @@
+import { healedCareerRead } from "@/lib/db-heal";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JobForm, type JobFormValue } from "@/components/admin/job-form";
@@ -14,7 +15,7 @@ export default async function EditJobPage({ params }: { params: Promise<{ id: st
   await requireArea("jobs");
   const { id } = await params;
   if (!/^[a-z0-9]{10,40}$/i.test(id)) notFound();
-  const r = await db.careerRole.findUnique({ where: { id } });
+  const r = await healedCareerRead(() => db.careerRole.findUnique({ where: { id } }));
   if (!r) notFound();
   const initial: JobFormValue = {
     id: r.id,

@@ -1,3 +1,4 @@
+import { retryOnce } from "@/lib/db-heal";
 import "server-only";
 import { db, hasDb } from "@/lib/db";
 import { PAGES, normalizeContent, type PageContent, type PageSlug } from "./pages";
@@ -15,7 +16,7 @@ export async function getPublishedPage(slug: PageSlug): Promise<PageView> {
   const def = PAGES[slug];
   const fallback: PageView = { title: def.defaultSeo.title, description: def.defaultSeo.description, content: def.defaultContent };
   if (!hasDb) return fallback;
-  const row = await db.page.findUnique({ where: { slug }, select: { seoTitle: true, seoDescription: true, published: true } });
+  const row = await retryOnce(() => db.page.findUnique({ where: { slug }, select: { seoTitle: true, seoDescription: true, published: true } }));
   if (!row?.published) return fallback;
   return {
     title: row.seoTitle || fallback.title,
@@ -57,7 +58,7 @@ export async function getDraftPage(slug: PageSlug) {
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   if (!hasDb) return SITE_DEFAULTS;
-  const row = await db.setting.findUnique({ where: { key: "site" } });
+  const row = await retryOnce(() => db.setting.findUnique({ where: { key: "site" } }));
   return row ? normalizeSite(row.value) : SITE_DEFAULTS;
 }
 
