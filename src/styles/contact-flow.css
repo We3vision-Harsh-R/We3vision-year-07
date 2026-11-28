@@ -18,7 +18,7 @@
   height: 22px;
   border-radius: 8px;
   background: linear-gradient(180deg, hsl(calc(var(--th) + 22) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 24%));
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
   z-index: 2;
 }
 .cf-mach {
@@ -58,8 +58,7 @@
   border-radius: 50%;
   background: hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 30%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 3px 8px rgba(0, 0, 0, 0.4);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   z-index: 2;
 }
 .cf-sofa {
@@ -70,7 +69,7 @@
   height: 30px;
   border-radius: 12px;
   background: linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 24%));
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  box-shadow: none;
   z-index: 2;
 }
 .cf-plant {
@@ -844,8 +843,7 @@
     hsl(calc(var(--th) + 347) calc(38% * var(--ts)) 9% / 0.52);
   border-color: hsl(0 0% 100% / 0.12);
   box-shadow:
-    inset 0 1px 0 hsl(0 0% 100% / 0.11),
-    0 26px 56px -40px rgba(0, 0, 0, 0.8);
+    inset 0 1px 0 hsl(0 0% 100% / 0.11);
 }
 @media (min-width: 1024px) {
 .cf-brief {
@@ -913,4 +911,468 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.cf-floor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 226px;
+  border-radius: 18px;
+  background: hsl(calc(var(--th) + 22) calc(30% * var(--ts)) 17% / 0.6);
+  box-shadow: inset 0 0 0 1px hsl(calc(var(--th) + 22) calc(60% * var(--ts)) 70% / 0.14);
+  z-index: 1;
+}
+.cf-bar {
+  position: absolute;
+  left: 16px;
+  top: 46px;
+  width: 268px;
+  height: 22px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 22) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 24%));
+  box-shadow: none;
+  z-index: 2;
+}
+.cf-mach {
+  position: absolute;
+  left: 12px;
+  top: 4px;
+  width: 26px;
+  height: 14px;
+  border-radius: 4px;
+  background: hsl(calc(var(--th) + 340) calc(20% * var(--ts)) 14%);
+  box-shadow: 0 0 6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+}
+.cf-cup {
+  position: absolute;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 76) calc(70% * var(--ts)) 88%);
+}
+.cf-cake {
+  position: absolute;
+  right: 16px;
+  top: 4px;
+  width: 30px;
+  height: 14px;
+  border-radius: 7px;
+  background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 78%);
+  box-shadow: inset 0 0 0 2px hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 60%);
+}
+.cf-table {
+  position: absolute;
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 30%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  z-index: 2;
+}
+.cf-sofa {
+  position: absolute;
+  left: 60px;
+  top: 182px;
+  width: 180px;
+  height: 30px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 24%));
+  box-shadow: none;
+  z-index: 2;
+}
+.cf-plant {
+  position: absolute;
+  left: 282px;
+  top: 206px;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 32%, hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 44%), hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 22%) 70%);
+  box-shadow: 0 0 0 3px hsl(calc(var(--th) + 14) calc(34% * var(--ts)) 24%);
+  z-index: 3;
+}
+.cf-progress {
+  grid-template-columns: repeat(4, 1fr);
+}
+.cf-size {
+  display: grid;
+  gap: 1.6rem;
+  align-items: center;
+  margin-top: 1.6rem;
+}
+@media (min-width: 640px) {
+.cf-size {
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: 2.4rem;
+  }
+}
+.cf-orbits {
+  position: relative;
+  width: 12rem;
+  max-width: 100%;
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+.cf-sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--a) 60%, hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 55%));
+  box-shadow: 0 0 26px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.9);
+}
+.cf-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(34% + var(--i) * 22%);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 1px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
+  border-radius: 50%;
+  opacity: 0;
+  scale: 0.5;
+  transition: opacity 0.5s, scale 0.6s cubic-bezier(0.22, 1.3, 0.36, 1);
+  animation: cf-orbit calc(7s + var(--i) * 5s) linear infinite;
+}
+.cf-ring[data-on="true"] {
+  opacity: 1;
+  scale: 1;
+}
+.cf-ring b {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--a);
+  box-shadow: 0 0 12px var(--a);
+}
+@keyframes cf-orbit {
+  to {
+    rotate: 360deg;
+  }
+}
+.cf-size-n {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  animation: cf-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cf-size-h {
+  margin: 0.4rem 0 1.6rem;
+  color: var(--soft);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.cf-range {
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  background: none;
+  cursor: grab;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.cf-range:active {
+  cursor: grabbing;
+}
+.cf-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--a) calc(var(--p) * 100%), var(--hair) 0);
+}
+.cf-range::-moz-range-track {
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--a) calc(var(--p) * 100%), var(--hair) 0);
+}
+.cf-range::-webkit-slider-thumb {
+  width: 26px;
+  height: 26px;
+  margin-top: -10px;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--a));
+  box-shadow: 0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25), 0 0 22px var(--a);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.cf-range::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--a));
+  box-shadow: 0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25), 0 0 22px var(--a);
+}
+.cf-range:focus-visible {
+  outline: 2px solid var(--a);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+.cf-ticks {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 12px;
+}
+.cf-ticks span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--hair);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.cf-ticks span[data-on="true"] {
+  background: var(--a);
+  box-shadow: 0 0 10px var(--a);
+}
+.cf-brief {
+  padding: 1.3rem 1.4rem 1.2rem;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.26);
+  border-radius: 22px;
+  background:
+    radial-gradient(120% 70% at 100% 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16), transparent 60%),
+    hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 9% / 0.7);
+  box-shadow: none;
+}
+@media (max-width: 899px) {
+.cf-brief {
+    padding: 1.3rem 1.4rem 1.2rem;
+    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.26);
+    background:
+      radial-gradient(120% 70% at 100% 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16), transparent 60%),
+      hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 9% / 0.7);
+  }
+}
+.cf-tk-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.cf-tk-no {
+  margin: 0;
+  color: var(--soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+}
+.cf-tk-note {
+  margin: 0.5rem 0 0;
+  color: #fff;
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.cf-tk-cut {
+  margin: 1.3rem -1.4rem 1.1rem;
+  border-top: 2px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.28);
+}
+.cf-fuel p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  color: var(--soft);
+  font-size: 0.9375rem;
+}
+.cf-fuel b {
+  color: #fff;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.cf-fuel-bar {
+  position: relative;
+  height: 8px;
+  margin: 1.1rem 0 0.4rem;
+  border-radius: 8px;
+  background: var(--hair);
+}
+.cf-fuel-bar i {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(90deg, hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 60%), var(--a));
+  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6);
+  transform: scaleX(var(--pct));
+  transform-origin: left;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cf-fuel-r {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--pct) * 100%);
+  width: 14px;
+  height: 24px;
+  margin: -12px 0 0 -7px;
+  rotate: 90deg;
+  transition: left 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: visible;
+}
+.cf-r-bd {
+  fill: #fff;
+}
+.cf-r-w {
+  fill: var(--a);
+}
+.cf-r-fn {
+  fill: hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 62%);
+}
+.cf-r-fl {
+  fill: #ffb86b;
+  transform-origin: 12px 26px;
+  animation: cf-flame 0.18s ease-in-out infinite alternate;
+}
+@keyframes cf-flame {
+  to {
+    transform: scaleY(1.35);
+    opacity: 0.8;
+  }
+}
+.cf-code {
+  display: block;
+  width: 100%;
+  height: 30px;
+  margin-top: 1.2rem;
+  fill: var(--soft);
+  opacity: 0.55;
+}
+.cf-brief-note {
+  margin-top: 1rem;
+}
+.cf-done {
+  position: relative;
+  min-height: 20rem;
+  align-content: center;
+}
+.cf-launch {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  width: 44px;
+  height: 0;
+  margin-left: -22px;
+  pointer-events: none;
+}
+.cf-rocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 44px;
+  height: 73px;
+  overflow: visible;
+  animation: cf-lift 1.5s cubic-bezier(0.5, 0, 0.9, 0.5) both;
+}
+@keyframes cf-lift {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  15% {
+    transform: translateY(6px) scale(1);
+  }
+  100% {
+    transform: translateY(-440px) scale(0.7);
+    opacity: 0;
+  }
+}
+.cf-smoke {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  margin-left: -35px;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.5), transparent 70%);
+  animation: cf-puff 1.5s ease-out both;
+}
+.cf-smoke-b {
+  animation-delay: 0.25s;
+}
+@keyframes cf-puff {
+  from {
+    opacity: 0.9;
+    transform: translateY(0) scale(0.3);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-30px) scale(2.6);
+  }
+}
+.cf-done .cf-check circle {
+  animation-delay: 1.1s;
+}
+.cf-done .cf-check path {
+  animation-delay: 1.8s;
+}
+.cf-done-t,
+.cf-done-p {
+  animation: cf-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.1s both;
+}
+@media (prefers-reduced-motion: reduce) {
+.cf-launch {
+    display: none;
+  }
+.cf-done-t,
+.cf-done-p,
+.cf-ring,
+.cf-r-fl,
+.cf-size-n {
+    animation: none;
+  }
+.cf-done .cf-check circle,
+.cf-done .cf-check path {
+    animation-delay: 0s;
+  }
+}
+.cf-brief {
+  background:
+    linear-gradient(155deg, hsl(0 0% 100% / 0.075) 0%, hsl(0 0% 100% / 0.025) 42%, hsl(0 0% 100% / 0.01) 100%),
+    hsl(calc(var(--th) + 347) calc(38% * var(--ts)) 9% / 0.52);
+  border-color: hsl(0 0% 100% / 0.12);
+  box-shadow:
+    inset 0 1px 0 hsl(0 0% 100% / 0.11);
+}
+@media (min-width: 1024px) {
+.cf-brief {
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    backdrop-filter: blur(14px) saturate(1.15);
+  }
+}
+.cf-nav .rp-cta {
+  justify-content: center;
+  min-width: min(204px, 100%);
+  height: 58px;
+  padding: 0 28px;
+}
+.cf-progress {
+  grid-column: 1 / -1;
+  align-self: start;
+  height: 5px;
+  margin-bottom: -1.2rem;
+}
+.cf-progress span {
+  height: 5px;
+}
+@media (min-width: 900px) {
+.cf-progress {
+    margin-bottom: -2.6rem;
+  }
 }

@@ -84,7 +84,6 @@ section.hx {
   border-radius: 999px;
   background: rgb(255 255 255 / 0.94);
   box-shadow:
-    0 14px 40px -8px rgb(0 0 0 / 0.4),
     inset 0 0 0 1px rgb(255 255 255 / 0.9);
   color: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 12%);
   font-size: 0.9375rem;

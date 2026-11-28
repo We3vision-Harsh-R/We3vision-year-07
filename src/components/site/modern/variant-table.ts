@@ -3,7 +3,7 @@
 // the pages are in the order of PAGES_ORDER, the numbers are the variants (0 = the design that was there before). The pages that are not in the
 // table keep the design they have. The look is in globals.css (.vp-*, .vf-*, .vw-*, .vl-*, .vt-*, .vz-*, .vy-*).
 
-export const PAGES_ORDER = ["webdev", "mobile", "crm", "animation", "ui-ux-design", "graphics", "seo", "brand-identity", "shopify-plugin", "software", "brand-development", "brand-kit", "brand-video", "zero-to-n", "meta-marketing", "physical-marketing", "game", "internship", "surat"] as const;
+export const PAGES_ORDER = ["webdev", "mobile", "crm", "animation", "ui-ux-design", "graphics", "seo", "brand-identity", "shopify-plugin", "software", "brand-development", "brand-kit", "brand-video", "zero-to-n", "meta-marketing", "physical-marketing", "internship", "surat"] as const;
 
 export type VariantType = "process" | "faq" | "why" | "related" | "tools" | "services" | "story";
 

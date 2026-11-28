@@ -12,7 +12,6 @@ export const SERVICE_GROUPS: MenuGroup[] = [
     items: [
       { label: "AI/ML Development", href: "/ai" },
       { label: "Metaverse Development", href: "/metaverse" },
-      { label: "Game Development", href: "/game-development" },
       { label: "Software Development", href: "/software-development-services" },
       { label: "Web Development", href: "/webdev" },
       { label: "App Development", href: "/mobile" },

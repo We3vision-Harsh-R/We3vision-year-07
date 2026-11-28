@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { HomeCta, HomePageHero, HomeShell } from "@/components/site/home/home-chrome";
-import { Art, SERVICES } from "@/components/site/home/home-svc-data";
+import { ALL, GROUPS, JOURNEYS, nameOf } from "@/components/site/services/services-data";
 import { JsonLd } from "@/components/site/json-ld";
 import { SmartLink } from "@/components/site/smart-link";
 import { breadcrumbNode, organizationRef, serviceNode, siteBase, webPageNode, websiteNode } from "@/lib/seo/schema";
 import { SHARE_IMAGE } from "@/lib/share-image";
 import "@/styles/home.css";
+import "@/styles/services-map.css";
 
-// The Services page: the seven main services of We3vision, each with its animated picture, what we build and who it is for.
+// The Services page: every service of We3vision in five groups (the groups of the big menu), what each one is, which services go well with it,
+// and the usual combinations. The words are in components/site/services/services-data.ts; the look is styles/services-map.css (svx-).
 export const revalidate = 3600;
 
-const TITLE = "Our Services | Web, AI, Apps, Metaverse, Brand & CRM | We3vision";
-const DESCRIPTION = "We3vision builds websites, AI solutions, mobile apps, metaverse experiences, brands, custom software and CRM for businesses everywhere, from Surat, India.";
+const TITLE = "Our Services | Web, AI, Apps, Metaverse, Brand, E-commerce & Marketing | We3vision";
+const DESCRIPTION = "Every service of We3vision in one place: web, apps, AI, CRM, metaverse, UI/UX, branding, e-commerce on Shopify and WordPress, SEO and marketing, from Surat, India.";
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
@@ -21,16 +23,18 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: [SHARE_IMAGE.url] },
 };
 
+const no = (n: number) => String(n).padStart(2, "0");
+
 export default function ServicesPage() {
-  // structured data: the page, its trail, and the list of the seven services (same @id as on the home page and on each service page)
+  // structured data: the page, its trail, and the list of all services (same @id as on each service page)
   const base = siteBase();
   const url = `${base}/services`;
   const list = {
     "@type": "ItemList",
     "@id": `${url}#services`,
     name: "Services of We3vision",
-    numberOfItems: SERVICES.length,
-    itemListElement: SERVICES.map((s, i) => ({ "@type": "ListItem", position: i + 1, item: serviceNode({ path: s.href, name: `${s.em} ${s.rest}`.trim() }) })),
+    numberOfItems: ALL.length,
+    itemListElement: ALL.map((s, i) => ({ "@type": "ListItem", position: i + 1, item: serviceNode({ path: s.href, name: s.name }) })),
   };
   return (
     <HomeShell>
@@ -43,50 +47,100 @@ export default function ServicesPage() {
           list,
         ]}
       />
-      <HomePageHero label="Services" line="Seven services, one team in Surat. Pick one to see what we build and who it is for, or tell us about your idea.">
-        <em>Everything we build,</em> in one place
+      <HomePageHero label="Services" line="Websites, apps, AI, brands, online stores and marketing. Pick a group to see what we do, or look at how the services work together.">
+        <em>Every service,</em> one connected team
       </HomePageHero>
 
-      <section className="hb2-sv hb2-pg-svs" data-live="">
+      <nav className="svx-nav" aria-label="Service groups">
         <div className="hb2-wrap">
-          {SERVICES.map((s, i) => (
-            <article key={s.key} id={s.key} className={`hb2-pg-svc${i % 2 ? " hb2-pg-flip" : ""}`} data-pause-off>
-              <div className={`hb2-pg-art hb2-sv-${s.key}`} data-r>
-                <span className="hb2-pg-no">{String(i + 1).padStart(2, "0")}</span>
-                <div className="hb2-sv-art" aria-hidden>
-                  <Art k={s.key} />
+          <ul>
+            {GROUPS.map((g) => (
+              <li key={g.key}>
+                <a href={`#${g.key}`}>
+                  {g.label} <span>{g.items.length}</span>
+                </a>
+                {/* hover (or keyboard focus) opens the list of the services of the group */}
+                <div className="svx-dd">
+                  <ul>
+                    {g.items.map((s) => (
+                      <li key={s.href}>
+                        <SmartLink href={s.href}>{s.name}</SmartLink>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-              <div className="hb2-pg-tx" data-r style={{ "--d": "120ms" } as CSSProperties}>
-                <p className="hb2-m-k">{s.kick}</p>
-                <h2>
-                  <em>{s.em}</em> {s.rest}
-                </h2>
-                <p className="hb2-pg-over">{s.over}</p>
-                <div className="hb2-pg-two">
-                  <div>
-                    <h3>What we build</h3>
+              </li>
+            ))}
+            <li>
+              <a href="#together">Together</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      {GROUPS.map((g, gi) => (
+        <section key={g.key} id={g.key} className="svx-grp" aria-labelledby={`svx-h-${g.key}`}>
+          <div className="hb2-wrap svx-grid">
+            <header className="svx-side" data-r>
+              <p className="svx-no">{no(gi + 1)}</p>
+              <p className="hb2-m-k">{g.label}</p>
+              <h2 id={`svx-h-${g.key}`}>
+                <em>{g.em.split(" ")[0]}</em> {g.em.split(" ").slice(1).join(" ")}
+              </h2>
+              <p className="svx-lede">{g.text}</p>
+            </header>
+            <ul className="svx-cards">
+              {g.items.map((s, i) => (
+                <li key={s.href} className="svx-card" data-r style={{ "--d": `${(i % 2) * 90}ms` } as CSSProperties}>
+                  <h3>
+                    <SmartLink href={s.href}>{s.name}</SmartLink>
+                  </h3>
+                  <p>{s.line}</p>
+                  <div className="svx-with">
+                    <span>Goes well with</span>
                     <ul>
-                      {s.builds.map((b) => (
-                        <li key={b}>{b}</li>
+                      {s.pairs.map((p) => (
+                        <li key={p}>
+                          <SmartLink href={p}>{nameOf(p)}</SmartLink>
+                        </li>
                       ))}
                     </ul>
                   </div>
-                  <div>
-                    <h3>Good for</h3>
-                    <ul>
-                      {s.fit.map((b) => (
-                        <li key={b}>{b}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-                <SmartLink href={s.href} className="hb2-m-btn">
-                  Explore {s.em} {s.rest}
-                </SmartLink>
-              </div>
-            </article>
-          ))}
+                  <span className="svx-go" aria-hidden>
+                    →
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ))}
+
+      <section id="together" className="svx-grp svx-tg" aria-labelledby="svx-h-together">
+        <div className="hb2-wrap">
+          <header className="svx-head" data-r>
+            <p className="hb2-m-k">Together</p>
+            <h2 id="svx-h-together">
+              <em>Better</em> when they work together
+            </h2>
+            <p className="svx-lede">Most projects use more than one service. These are the combinations we are asked for most, in the order we usually do them.</p>
+          </header>
+          <ul className="svx-jr">
+            {JOURNEYS.map((j, i) => (
+              <li key={j.key} className="svx-j" data-r style={{ "--d": `${(i % 2) * 90}ms` } as CSSProperties}>
+                <h3>{j.title}</h3>
+                <p>{j.text}</p>
+                <ol>
+                  {j.steps.map((s, n) => (
+                    <li key={s}>
+                      <span>{n + 1}</span>
+                      <SmartLink href={s}>{nameOf(s)}</SmartLink>
+                    </li>
+                  ))}
+                </ol>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

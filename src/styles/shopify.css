@@ -29,7 +29,7 @@
 .shp-h span { font-size: 1.02rem; font-weight: 400; color: var(--ss); margin-left: 12px; }
 .shp-sub { margin: 0 0 18px; font-size: 1.05rem; line-height: 1.6; color: var(--ss); max-width: 780px; }
 .shp-sub button { background: none; border: 0; padding: 0; color: var(--tw-ac); font: inherit; text-decoration: underline; cursor: pointer; }
-.shp-card { background: #fff; border-radius: 14px; padding: 18px 20px; box-shadow: 0 1px 0 #0001, 0 0 0 1px #0000000d; margin-bottom: 16px; }
+.shp-card { background: #fff; border-radius: 14px; padding: 18px 20px; box-shadow: 0 1px 0 #0001; margin-bottom: 16px; }
 .shp-flush { padding: 0; overflow: hidden; }
 .shp-chead { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
 .shp-chead h3 { margin: 0; font-size: 1.12rem; font-weight: 650; color: var(--tw-dk); }
@@ -70,8 +70,8 @@
 .shp-tabs button { padding: 7px 14px; border-radius: 8px; border: 0; background: none; font: 600 0.98rem inherit; font-family: inherit; color: var(--ss); cursor: pointer; }
 .shp-tabs button.is-on { background: var(--tw-ln2); color: var(--sk); }
 .shp-products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-.shp-prod { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; padding: 14px; background: #fff; border: 0; border-radius: 14px; box-shadow: 0 0 0 1px #0000000d; cursor: pointer; font-family: inherit; transition: transform 0.2s, box-shadow 0.2s; }
-.shp-prod:hover { transform: translateY(-3px); box-shadow: 0 10px 26px #0002, 0 0 0 1px #0000000d; }
+.shp-prod { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; padding: 14px; background: #fff; border: 0; border-radius: 14px; box-shadow: none; cursor: pointer; font-family: inherit; transition: transform 0.2s, box-shadow 0.2s; }
+.shp-prod:hover { transform: translateY(-3px); box-shadow: 0 10px 26px #0002; }
 .shp-prod b { font-size: 1.05rem; line-height: 1.35; color: var(--tw-dk); font-weight: 650; }
 .shp-thumb { width: 100%; height: 86px; border-radius: 10px; display: grid; place-items: center; font: 700 1.5rem inherit; font-family: inherit; color: #fff9; }
 .shp-modal { position: fixed; inset: 0; z-index: 60; background: #0007; display: grid; place-items: center; }
@@ -79,7 +79,7 @@
 .shp-modal h3 { margin: 0 0 10px; font-size: 1.4rem; color: var(--tw-dk); }
 .shp-modal p { margin: 0 0 20px; font-size: 1.05rem; line-height: 1.65; color: var(--tw-ink); }
 .shp-seg { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; align-items: start; }
-.shp-seg ul { list-style: none; margin: 0; padding: 6px; background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px #0000000d; }
+.shp-seg ul { list-style: none; margin: 0; padding: 6px; background: #fff; border-radius: 14px; box-shadow: none; }
 .shp-seg li button { width: 100%; text-align: left; padding: 11px 12px; border-radius: 9px; border: 0; background: none; font: 500 1rem inherit; font-family: inherit; cursor: pointer; color: var(--sk); }
 .shp-seg li button.is-on { background: var(--tw-bg); font-weight: 650; }
 .shp-seg .shp-card h3 { margin: 0 0 10px; font-size: 1.5rem; color: var(--tw-dk); }
@@ -93,7 +93,7 @@
 .shp-bars b { font-size: 1.05rem; }
 .shp-bars span { font-size: 0.95rem; color: var(--ss); }
 .shp-editor { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 16px; align-items: start; }
-.shp-side { background: #fff; border-radius: 14px; padding: 6px 16px 18px; box-shadow: 0 0 0 1px #0000000d; }
+.shp-side { background: #fff; border-radius: 14px; padding: 6px 16px 18px; box-shadow: none; }
 .shp-side h4 { margin: 14px 0 8px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ss); }
 .shp-side ul { list-style: none; margin: 0; padding: 0; }
 .shp-side li { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--tw-bg); font-size: 1rem; }
@@ -108,7 +108,7 @@
 .shp-set > div:not(.shp-sw) button.is-on { box-shadow: 0 0 0 2px var(--tw-dk); }
 .shp-sw button { flex: 1; padding: 8px 0; border: 1px solid var(--sl); background: #fff; font: 600 0.95rem inherit; font-family: inherit; cursor: pointer; border-radius: 8px; }
 .shp-sw button.is-on { background: var(--tw-dk3); color: #fff; border-color: var(--tw-dk3); }
-.shp-front { --ac: var(--tw-dk3); --rd: 12px; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 1px #0000001a; color: var(--tw-dk); min-height: 560px; display: flex; flex-direction: column; }
+.shp-front { --ac: var(--tw-dk3); --rd: 12px; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: none; color: var(--tw-dk); min-height: 560px; display: flex; flex-direction: column; }
 .shp-fhead { display: flex; align-items: center; gap: 22px; padding: 14px 22px; border-bottom: 1px solid var(--tw-bg); font-size: 1rem; }
 .shp-fhead b { margin-right: auto; font-size: 1.2rem; color: var(--ac); }
 .shp-cartbtn { padding: 7px 14px; border-radius: var(--rd); border: 1px solid var(--ac); background: none; color: var(--ac); font: 600 0.95rem inherit; font-family: inherit; cursor: pointer; }

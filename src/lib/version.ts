@@ -16,6 +16,67 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 202,
+    date: "2026-11-28",
+    title: "GTA theme and 3D industries city removed, lighter pages",
+    notes: [
+      "The GTA theme (loading screen, stars, minimap, mission cards, game footer) and the 3D industries city are gone from every page.",
+      "Industries are now a simple section: a heading and one card for every industry we work in.",
+      "Page-only styles moved out of the main stylesheet, so pages download less CSS.",
+    ],
+  },
+  {
+    v: 201,
+    date: "2026-11-27",
+    title: "New Services page, no black shadows, plainer wording",
+    notes: [
+      "Services page: every service in five groups (Development, Creatives, Branding, E-commerce, Marketing) with one plain line each, the services that go well with it, and the usual combinations. Hovering a group in the sticky bar opens the list of its services.",
+      "The dark shadow under the cards and behind some text and icons is removed on the laptop pages (box, text and icon shadows).",
+      "A few stock phrases in the About and service texts were replaced with plain words.",
+    ],
+  },
+  {
+    v: 200,
+    date: "2026-11-27",
+    title: "Game Development removed from the website",
+    notes: [
+      "The Game Development page, its 20 blog articles (the GTA-style series) and their pictures are removed. /game-development goes to the home page and the old article addresses go to the Blog.",
+      "Game Development is also taken out of the menus, the footer, the service cards, the home FAQ, the chat fallback list and the search description.",
+    ],
+  },
+  {
+    v: 199,
+    date: "2026-11-27",
+    title: "Blog cards: a clearer icon in the corner",
+    notes: [
+      "The We3vision icon on the blog cards is bigger, has a soft shadow and sits on a stronger dark corner, so it is easy to see on every picture.",
+    ],
+  },
+  {
+    v: 198,
+    date: "2026-11-27",
+    title: "Blog cards: white icon on a dark corner",
+    notes: [
+      "The We3vision icon on every blog card is the white icon, on a dark gradient in the top right corner that fades out.",
+    ],
+  },
+  {
+    v: 197,
+    date: "2026-11-27",
+    title: "Blog cards: the small We3vision icon in the top right corner",
+    notes: [
+      "Every blog card (picture wall, grid and list) has the small We3vision icon in its top right corner.",
+    ],
+  },
+  {
+    v: 196,
+    date: "2026-11-27",
+    title: "Blog cards always show the topic and its tag",
+    notes: [
+      "On the laptop Blog page every card shows its tag and its topic at the bottom all the time, not only when the mouse is over it.",
+    ],
+  },
+  {
     v: 195,
     date: "2026-11-27",
     title: "Snow on the page floor, whole bottom bar in the services wheel",

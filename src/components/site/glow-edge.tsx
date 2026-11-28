@@ -2,6 +2,7 @@
 
 import "@/styles/glow-edge.css";
 
+
 import { useEffect, useRef } from "react";
 
 // The "border glow" of the cards (the idea is React Bits' BorderGlow): when the pointer is near the edge of a card, a soft light in the

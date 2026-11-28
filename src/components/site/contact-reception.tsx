@@ -2,6 +2,7 @@
 
 import "@/styles/contact.css";
 
+
 import Link from "next/link";
 import { Chip } from "./ui";
 

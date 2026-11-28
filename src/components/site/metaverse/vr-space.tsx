@@ -4,6 +4,7 @@ import "@/styles/metaverse.css";
 
 
 
+
 import { useEffect, useRef, useState } from "react";
 import { ARTS, SpaceBackground } from "./space-art";
 

@@ -365,3 +365,9 @@ Rules: only inside max-width 1023.98px (laptop untouched); change no other code;
 - Optimize: `/software-development-services` CSS 123.5 KB gz > budget 122 (find more page-only CSS, e.g. hl/wpa families or contact-flow trim). Phase 3 (lazy GTA CSS) and Phase 4 (public/data/cities.json 1 MB) not started; ask owner before each. Phase 1+2 not committed yet.
 
 - GTA/industries-city removal (2026-11-28) not committed yet. The `/software-development-services` CSS budget item above is now solved (118 KB).
+
+## Open after the 2026-11-27 page rewrite
+- Look at every rewritten page at 1440 px (hero texts, cards and FAQs are 10-50% longer; a few cards grew more). Nothing was seen in a browser.
+- Pages published in Admin override these code defaults: re-save the wording there too.
+- Contact content was edited on main while the branch contact-partner-page has a new Contact page: expect a merge conflict in lib/cms/content/company.ts.
+- Physical Marketing says printing/production is done in India (my assumption): confirm.

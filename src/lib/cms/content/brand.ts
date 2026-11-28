@@ -33,9 +33,9 @@ export const SHOWCASE = Array.from({ length: 30 }, (_, i) => ({
 }));
 
 export const BRAND_SEO = {
-  title: "Brand Identity Design Services in Surat, India | We3vision",
+  title: "Brand Identity Design Agency in Surat | Logo, Guidelines",
   description:
-    "Brand strategy, logo design, visual identity, guidelines and collateral. We3vision builds a clear, consistent brand identity that people remember.",
+    "Brand identity design agency in Surat, India: logo design, brand strategy, guidelines and visual identity for USA, UK, Canada and Australia clients.",
 };
 
 export const BRAND_SECTIONS: PageSection[] = [
@@ -45,7 +45,7 @@ export const BRAND_SECTIONS: PageSection[] = [
     words:
       "English · UK | Brand\nHindi · India | ब्रांड\nRussian · Russia | Бренд\nGreek · Greece | Μάρκα\nJapanese · Japan | ブランド\nKorean · Korea | 브랜드\nChinese · China | 品牌",
     heading: "Build a brand identity that people remember.",
-    text: "Your brand is more than a logo. We3vision helps businesses develop a clear and consistent visual identity through thoughtful brand design, visual systems and creative assets.",
+    text: "We3vision is a brand identity design agency in Surat, Gujarat, India. We build logo design, brand strategy, visual identity and brand guidelines for businesses in India, and for clients in the USA, UK, Canada and Australia.",
     primaryLabel: "Start your brand project",
     primaryHref: "#contact",
     secondaryLabel: "Explore brand services",
@@ -65,8 +65,8 @@ export const BRAND_SECTIONS: PageSection[] = [
   // fills with light while scrolling, and the services as a hoverable list. The words are the old site's, unchanged.
   section("brandBoard", {
     chip: "About brand identity",
-    lead: "A strong brand identity gives your business a *consistent look* and lets people recognise it across every platform.",
-    body: "At We3vision we focus on *brand identity design* that brings together your visual direction, *logo, colours and typography* and the supporting creative materials. Whether you are launching a new business or redesigning an existing brand, we help you build a visual identity that reflects your needs and your communication.",
+    lead: "A strong brand identity gives your business a *consistent look* and lets people recognise it across every platform, from your website to your adverts.",
+    body: "As a brand identity design agency in Surat, We3vision focuses on *brand identity design* that brings together your visual direction, *logo, colours and typography* and the supporting creative materials. Whether you are launching a new business or rebranding an existing one, we help you build a visual identity that reflects your needs and your communication, with brand guidelines your team can follow.",
     listIntro: "Our branding service can include",
     points:
       "Brand strategy | Your goals, audience and brand direction, defined before any design starts.\nLogo design | A logo, colours and typography that reflect your business.\nVisual identity | One consistent look across every platform.\nBrand guidelines | Clear rules your team and partners can follow.\nMarketing collateral design | Brand-aligned materials for graphic, web and advertising design.",
@@ -77,31 +77,31 @@ export const BRAND_SECTIONS: PageSection[] = [
   section("process", {
     chip: "Our Process",
     heading: "How We Build\nYour Brand Identity",
-    intro: "A clear process lets us understand your business before we make any design decision.",
+    intro: "A clear process lets us understand your business before we make any design decision, even when we work remotely.",
     items: [
       {
         title: "Understand your brand",
-        text: "We discuss your audience, your goals and the brand direction you want to build.",
+        text: "We discuss your audience, your goals and the brand direction you want to build, by call or video.",
         points: "Business goals\nTarget audience\nBrand direction\nMoodboards\nVisual references\nCreative direction",
       },
       {
         title: "Define the visual direction",
-        text: "We explore design references, visual styles and creative directions that fit your brand and your audience.",
+        text: "We explore design references, visual styles and creative directions that fit your brand and your audience, before we start the logo.",
         points: "Design references\nVisual styles\nCreative direction",
       },
       {
         title: "Design your brand identity",
-        text: "We develop the agreed brand elements: logo design, colours, typography and visual assets.",
+        text: "We develop the agreed brand elements: logo design, colours, typography and visual assets, as one visual identity.",
         points: "Logo design\nColors & typography\nVisual identity\nDesign review\nClient feedback\nIterative refinements",
       },
       {
         title: "Review and refine",
-        text: "We review the proposed designs with you and make the agreed refinements within the project scope.",
+        text: "We review the proposed designs with you and make the agreed refinements within the project scope, so feedback stays clear.",
         points: "Design review\nAgreed refinements",
       },
       {
         title: "Prepare brand assets",
-        text: "We prepare the approved identity elements and the brand documentation or marketing assets included in your project.",
+        text: "We prepare the approved identity elements and the brand documentation or marketing assets included in your project, ready to hand over.",
         points: "Brand assets\nGuidelines documentation\nProject handover",
       },
     ],
@@ -109,12 +109,12 @@ export const BRAND_SECTIONS: PageSection[] = [
   section("advantages", {
     chip: "Why We3vision",
     heading: "A Practical Approach\nTo Building Your Brand",
-    intro: "A good branding partner understands your requirements and keeps your creative materials consistent.",
+    intro: "A good branding company in India understands your requirements and keeps your creative materials consistent.",
     items: [
-      { title: "Business-focused design", description: "We begin with your goals and your audience, and let them guide the design direction." },
-      { title: "Consistent visual identity", description: "We unify your logo, colours, typography and brand assets into one coherent visual system." },
-      { title: "Design suited to your needs", description: "Your project scope can include exactly the brand elements and creative materials you require." },
-      { title: "Connected creative services", description: "Brand identity connects with graphic design, website design and advertising creatives where relevant." },
+      { title: "Business-focused design", description: "We begin with your goals and audience, and work with clients in India and remotely in the USA, UK, Canada and Australia." },
+      { title: "Consistent visual identity", description: "We unify your logo, colours, typography and brand assets into one coherent visual system, so every touchpoint matches." },
+      { title: "Design suited to your needs", description: "Your project scope can include exactly the brand elements and creative materials you require, agreed up front." },
+      { title: "Connected creative services", description: "Brand identity connects with graphic design, website design and advertising creatives, so your look stays the same." },
     ],
   }),
   section("tags", {
@@ -150,7 +150,7 @@ export const BRAND_SECTIONS: PageSection[] = [
   section("services", {
     chip: "Brand Design Services",
     heading: "What We\nDesign For You",
-    intro: "Four connected services. Choose one, or combine them into a complete brand.",
+    intro: "Four connected branding services. Choose one, or combine them into a complete brand.",
     buttonLabel: "",
     buttonHref: "",
     cards: [
@@ -216,9 +216,9 @@ export const BRAND_SECTIONS: PageSection[] = [
     intro: "",
     items: [
       {
-        question: "Does We3vision provide brand identity design services?",
+        question: "Is We3vision a brand identity design agency in Surat?",
         answer:
-          "Yes. We3vision in Surat, India provides brand identity design services. We build brand strategy, logo design, visual identity, brand guidelines and marketing collateral, so your business has one clear and consistent look across every platform.",
+          "Yes. We3vision is a brand identity design agency in Surat, Gujarat, India, offering brand identity design services India-wide and abroad. We build brand strategy, logo design, visual identity, brand guidelines and marketing collateral, so your business has one clear and consistent look across every platform.",
       },
       {
         question: "What is included in a brand identity design project?",
@@ -230,15 +230,49 @@ export const BRAND_SECTIONS: PageSection[] = [
         answer: "We design with Adobe Illustrator, Photoshop, InDesign, Figma, Canva, Google Fonts and Typekit, and plan and share the work with Notion, Miro, Loom and Pitch.",
       },
       {
+        question: "Do you work with clients in the USA, UK, Canada and Australia?",
+        answer: "Yes, we deliver brand identity projects remotely for clients in the USA, UK, Canada and Australia, as well as India. We keep communication clear and agree the plan, scope and deliverables up front.",
+      },
+      {
         question: "Who is brand identity design for?",
         answer:
           "For businesses launching a new brand or redesigning an existing one. We create brand identities for healthcare, education, construction and real estate, e-commerce, gaming and entertainment, and marketing and corporate businesses.",
+      },
+      {
+        question: "What is the difference between a logo, brand identity and branding?",
+        answer:
+          "A logo is one mark, a brand identity is the full visual system around it, and branding is the wider work of how your business is seen and understood. Brand identity design brings together your logo, colours, typography and brand guidelines so every platform looks consistent. Brand strategy sits underneath, defining your goals, audience and direction.",
+      },
+      {
+        question: "What is a brand guidelines document and do I need one?",
+        answer:
+          "Brand guidelines are the clear rules that tell your team and partners how to use your logo, colours and typography. You need them if more than one person, agency or printer will create material for your brand. We prepare the guidelines documentation as part of the brand assets we hand over.",
+      },
+      {
+        question: "Can you redesign or rebrand an existing business identity?",
+        answer:
+          "Yes, we offer rebranding services for existing brands as well as new ones. We start by understanding your audience and current direction, then design a refreshed logo and visual identity and agree the refinements with you. The scope is confirmed before we begin.",
+      },
+      {
+        question: "How much does brand identity design cost and how long does it take?",
+        answer:
+          "The cost and the time depend on what your project includes, such as strategy, a logo, guidelines or marketing collateral. After a short conversation about your business we agree the scope, deliverables and plan up front. Then you know what you get before work starts.",
+      },
+      {
+        question: "How do the Brand Development, Brand Kit, Brand Video and End-to-End Brand pages relate to this one?",
+        answer:
+          "They are connected services, and brand identity design is the visual foundation for them. Brand Development, Brand Kit, Brand Video and End-to-End Brand each cover a wider or more specific part of building a brand. You can start with identity and add the others when your project needs them.",
+      },
+      {
+        question: "Why choose a branding company in Surat, India for a brand abroad?",
+        answer:
+          "A branding company in India lets you hire brand designers from India with a clear, agreed plan and steady communication. We3vision is based in Surat, Gujarat, founded in 2019, with a second office in Marburg, Germany. We have worked with clients from the USA, Canada, the UK, Germany, UAE, Singapore and Australia.",
       },
     ],
   }),
   contact(
     "Ready to Give Your Business\nA Clear Brand Identity?",
-    "Whether you are launching a new business, refreshing an existing identity or preparing creative assets for your next campaign, We3vision can discuss your requirements and explore a suitable branding approach.",
+    "Whether you are launching a new business, rebranding an existing identity or preparing creative assets for your next campaign, We3vision in Surat can discuss your requirements, in India or from abroad, and explore a suitable branding approach.",
     "Discuss your brand project",
   ),
 ];

@@ -10,8 +10,8 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>, id: strin
 
 // ---- Blog ----
 export const BLOG_SEO = {
-  title: "Blog | Web, AI, Design & Digital Insights | We3vision",
-  description: "Articles from We3vision on UI/UX design, AI automation and building better websites, apps and digital products.",
+  title: "Blog | Web, AI, UI/UX & Business Tips from Surat | We3vision",
+  description: "Guides from We3vision, a software company in Surat, India: UI/UX design, AI automation, web development, internships and choosing an IT partner.",
 };
 export const BLOG_SECTIONS: PageSection[] = [
   section("pageHero", {
@@ -45,14 +45,14 @@ export const BLOG_SECTIONS: PageSection[] = [
 
 // ---- Contact ----
 export const CONTACT_SEO = {
-  title: "Contact We3vision | Surat, India & Marburg, Germany",
-  description: "Contact We3vision Private Limited: send us a message, or write or call our offices in Surat, India and Marburg, Germany. Web, AI, apps, VR and design.",
+  title: "Contact We3vision | Software Company in Surat, India",
+  description: "Contact We3vision, a software company in Surat, India with an office in Marburg, Germany. Get a quote for web, apps, AI, AR/VR, UI/UX or CRM.",
 };
 export const CONTACT_SECTIONS: PageSection[] = [
   section("pageHero", {
     chip: "Contact us",
     heading: "Let's Talk\nAbout Your Project",
-    text: "Tell us what you need: a website, an app, AI, VR or a new brand. We will get back to you.",
+    text: "Tell us what you need: web, mobile app, AI, AR/VR, UI/UX or CRM. We work with clients in India, USA, UK, Canada and Australia.",
     primaryLabel: "Send a message",
     primaryHref: "#contact",
     secondaryLabel: "Our offices",
@@ -61,13 +61,13 @@ export const CONTACT_SECTIONS: PageSection[] = [
   section("contact", {
     chip: "Contact",
     heading: "Let's Get\nStarted!",
-    text: "Fill in the form and the We3vision team will reply. You can also write or call one of our offices below.",
+    text: "Fill in the form to ask for a quote and the We3vision team will reply. You can also write or call one of our offices below.",
     buttonLabel: "Send a message",
   }),
   section("reach", {
     chip: "Our offices",
     heading: "Surat, India\nAnd Marburg, Germany",
-    text: "Our head office and development team are in Surat, Gujarat. Our second office is in Marburg, Germany. Write to info@we3vision.com or call +91 7383216096.",
+    text: "Our head office and development team are in Surat, Gujarat, India. Our second office is in Marburg, Germany. We also work remotely with clients in the USA, UK, Canada and Australia. Write to info@we3vision.com or call +91 7383216096.",
     buttonLabel: "Send a message",
     buttonHref: "#contact",
     places: [
@@ -79,14 +79,14 @@ export const CONTACT_SECTIONS: PageSection[] = [
 
 // ---- Careers ----
 export const CAREERS_SEO = {
-  title: "Careers at We3vision | Join Our Team in Surat, India",
-  description: "Work with We3vision Private Limited in Surat: web, apps, AI, metaverse, UI/UX, brand design and CRM. Send your details and tell us what you want to build.",
+  title: "Careers at We3vision | IT Jobs in Surat, India",
+  description: "We3vision is a software company in Surat, Gujarat, India, founded in 2019. See IT and software jobs and apply online or email hr@we3vision.com.",
 };
 export const CAREERS_SECTIONS: PageSection[] = [
   section("careerJourney", {
     chip: "Careers",
     heading: "Reach Your\nDestination",
-    text: "Book the ticket of your career journey with We3vision. Tell us where you are, where you want to go, and we will have a seat ready for you.",
+    text: "Book the ticket of your career journey with We3vision, a software company in Surat, India. Tell us where you are and where you want to go, and we will have a seat ready for you.",
     locationLabel: "Your location",
   }),
   section("careerValues", {
@@ -104,7 +104,7 @@ export const CAREERS_SECTIONS: PageSection[] = [
   section("careerTeams", {
     chip: "Our teams",
     heading: "Seven Teams,\nOne Company",
-    intro: "These are the lines we work on. Tell us which one fits you.",
+    intro: "Web, app, AI and UI/UX lines we work on. Tell us which fits you.",
     teams: [
       { name: "Brand Design", text: "Brand identity, logos, visual identity and marketing material.", href: "/brand-identity" },
       { name: "Web Development", text: "Websites and web portals, from WordPress and Shopify to custom builds.", href: "/webdev" },
@@ -124,12 +124,12 @@ export const CAREERS_SECTIONS: PageSection[] = [
   section("careerDestination", {
     chip: "Destination",
     heading: "Welcome To\nSurat Junction",
-    text: "This is where the journey ends and your work with We3vision begins. Our head office and development team are here in Surat.",
+    text: "This is where the journey ends and your work with We3vision begins. Our head office and development team are here in Surat, Gujarat, India. We were founded in 2019.",
     station: "Surat Junction",
     address: "We3vision House 1/936, Bhim Kachchhi Mohallo, Nanpura, Surat, Gujarat, India 395001. hr@we3vision.com",
     jobsHeading: "Jobs you can apply for",
-    jobsText: "These are the positions that are open now. Open one to read about it and to apply.",
-    jobsEmpty: "No position is open right now. You can still book a ticket above, and we will write to you when one opens.",
+    jobsText: "These are the IT and software jobs in Surat that are open now. Open one to read about it and to apply.",
+    jobsEmpty: "No position is open right now. You can still book a ticket above, and we will write to you when one opens. Students: see our internship page.",
     buttonLabel: "",
     buttonHref: "",
   }),
@@ -137,14 +137,14 @@ export const CAREERS_SECTIONS: PageSection[] = [
 
 // ---- Portfolio (the projects you add under Projects in the admin panel) ----
 export const PORTFOLIO_SEO = {
-  title: "Portfolio | Our Work | We3vision",
-  description: "A selection of the projects We3vision has built for clients: brand identity, websites, apps, AI and immersive experiences.",
+  title: "We3vision Portfolio | Web, App, AI & Immersive Work",
+  description: "See the web, app, AI and immersive projects We3vision, a software company in Surat, Gujarat, India, built for clients worldwide. Start yours.",
 };
 export const PORTFOLIO_SECTIONS: PageSection[] = [
   section("pageHero", {
     chip: "Portfolio",
     heading: "Our Work",
-    text: "Brands, websites, apps and experiences we have made together with our clients.",
+    text: "Brands, websites, apps and experiences made by our Surat team with clients in India and worldwide.",
     primaryLabel: "See the projects",
     primaryHref: "#projects",
     secondaryLabel: "Start a project",

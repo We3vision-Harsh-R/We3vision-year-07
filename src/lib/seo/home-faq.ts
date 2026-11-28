@@ -19,14 +19,14 @@ export function homeFaq(site: SiteSettings): HomeFaqItem[] {
     {
       question: "What services does We3vision Private Limited provide?",
       answer:
-        "We3vision Private Limited is a software and digital company in Surat, India, founded in 2019. It builds websites, mobile apps, AI solutions, AR/VR and metaverse experiences, games, UI/UX design, brand and graphic design, 2D and 3D animation, CRM and custom software for businesses in India and around the world.",
+        "We3vision Private Limited is a software and digital company in Surat, India, founded in 2019. It builds websites, mobile apps, AI solutions, AR/VR and metaverse experiences, UI/UX design, brand and graphic design, 2D and 3D animation, CRM and custom software for businesses in India and around the world.",
       href: "/services",
       link: "See all services",
     },
     {
       question: "Is We3vision a software company in Surat?",
       answer:
-        "Yes. We3vision Private Limited is a software and IT company in Surat, Gujarat, founded in 2019. Its head office is in Nanpura, Surat, and its team builds websites, mobile apps, AI, UI/UX design, CRM and custom software, games and metaverse experiences for businesses in Surat, India and abroad.",
+        "Yes. We3vision Private Limited is a software and IT company in Surat, Gujarat, founded in 2019. Its head office is in Nanpura, Surat, and its team builds websites, mobile apps, AI, UI/UX design, CRM and custom software and metaverse experiences for businesses in Surat, India and abroad.",
       href: "/software-company-in-surat",
       link: "Software company in Surat",
     },
@@ -75,7 +75,7 @@ export function homeFaq(site: SiteSettings): HomeFaqItem[] {
     {
       question: "Does We3vision provide metaverse development services?",
       answer:
-        "Yes. Metaverse development is one of We3vision's core services: virtual worlds and platforms, virtual events and spaces, immersive brand experiences and metaverse games, planned around your business goals and audience.",
+        "Yes. Metaverse development is one of We3vision's core services: virtual worlds and platforms, virtual events and spaces, immersive brand experiences and metaverse experiences, planned around your business goals and audience.",
       href: "/metaverse",
       link: "Metaverse development",
     },
@@ -85,13 +85,6 @@ export function homeFaq(site: SiteSettings): HomeFaqItem[] {
         "Yes. We3vision designs and develops custom mobile apps, using native tools such as Kotlin and Swift as well as cross-platform frameworks such as Flutter and React Native, from planning and design through launch and ongoing support.",
       href: "/mobile",
       link: "Mobile app development",
-    },
-    {
-      question: "Does We3vision provide game development services?",
-      answer:
-        "Yes. We3vision builds interactive games and 3D game experiences for web, mobile and emerging platforms. Game development is part of its metaverse and 3D work, with engines such as Unity and Unreal Engine.",
-      href: "/game-development",
-      link: "Game development services",
     },
     {
       question: "Which industries does We3vision serve?",

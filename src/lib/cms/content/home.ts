@@ -13,14 +13,14 @@ const section = <T extends SectionType>(type: T, data: SectionData<T>): PageSect
 });
 
 export const HOME_SEO = {
-  title: "We3vision | Web, AI & Metaverse Development Company, India",
+  title: "We3vision | Software, AI & Web Development Company in Surat",
   description:
-    "Surat-based studio for web development, AI solutions, AR/VR & metaverse, mobile apps, UI/UX design, CRM and 3D animation. Get a quote today.",
+    "Software company in Surat, India since 2019: web, apps, AI, AR/VR, metaverse, UI/UX, CRM, 3D animation, brand design. Serving USA, UK, Canada, Australia.",
 };
 
 export const HOME_SECTIONS: PageSection[] = [
   section("hero", {
-    title: "We3vision: Leading Web, AI & Metaverse Development Services in India",
+    title: "We3vision: Software, Web & AI Development Company in Surat, India",
     mark: "7",
     above: "Celebrating",
     below: "Years of We3vision",
@@ -37,31 +37,31 @@ export const HOME_SECTIONS: PageSection[] = [
       {
         title: "Web\nDevelopment",
         href: "/webdev",
-        summary: "Modern, responsive and SEO-friendly websites that are fast, secure and easy to manage, from landing pages to complex web portals.",
+        summary: "Web development company in Surat: responsive, SEO-friendly websites that are fast, secure and easy to manage, from landing pages to web portals.",
         subs: "WordPress & WooCommerce | Custom WordPress websites and WooCommerce stores you can manage yourself, with CMS training.\nShopify stores | Conversion-focused Shopify stores and apps to sell your products online.\nHeadless CMS | Fast React, Vue or Angular front ends connected to a headless CMS.\nE-commerce websites | Secure online stores with scalable Node.js, Laravel or PHP back ends.",
       },
       {
         title: "Mobile App\nDevelopment",
         href: "/mobile",
-        summary: "Fast, user-friendly Android and iOS apps built to scale, from first idea to Google Play and App Store launch.",
+        summary: "Mobile app development for Android and iOS: fast, user-friendly apps built to scale, from idea to Google Play and App Store launch.",
         subs: "Android apps | Native Kotlin and cross-platform Android apps tuned for performance on every device.\niOS apps | Native Swift apps with clean, brand-aligned interfaces, ready for App Store approval.\nMVP development | A focused first version with the core features, so you can launch and learn quickly.\nFull-scale products | Flutter or React Native apps with APIs, real-time sync and ongoing updates.",
       },
       {
         title: "AI\nDevelopment",
         href: "/ai",
-        summary: "Custom AI development: chatbots, recommendation systems and predictive analytics built with machine learning, NLP and deep learning.",
+        summary: "AI development company in India: custom chatbots, recommendation systems and predictive analytics built with machine learning, NLP and deep learning.",
         subs: "Generative AI & AI agents | Chatbots and AI assistants connected to your own data, tools and systems.\nMachine learning | Recommendation engines and predictive models trained on your business data.\nComputer vision | Image recognition for use cases like medical images or property listings.\nMLOps & RAG | Production deployment, monitoring and retraining, plus answers grounded in your documents.",
       },
       {
         title: "Metaverse\nSolutions",
         href: "/metaverse",
-        summary: "Metaverse solutions and interactive digital environments, from virtual worlds and applications to virtual events, built with Unity and Unreal Engine.",
-        subs: "Metaverse platforms | Virtual worlds and applications planned around your business goals and audience.\nMetaverse games | Interactive 3D game experiences with engaging environments and interactions.\nNFT marketplace | Digital asset marketplaces with platform and wallet integration.\nImmersive marketing | Virtual events and interactive brand experiences that hold attention.",
+        summary: "Metaverse and AR/VR development: interactive digital environments, from virtual worlds and applications to virtual events, built with Unity and Unreal Engine.",
+        subs: "Metaverse platforms | Virtual worlds and applications planned around your business goals and audience.\nMetaverse worlds | Interactive 3D experiences with engaging environments and interactions.\nNFT marketplace | Digital asset marketplaces with platform and wallet integration.\nImmersive marketing | Virtual events and interactive brand experiences that hold attention.",
       },
       {
         title: "UI/UX\nDesign",
         href: "/ui-ux-design",
-        summary: "UI/UX design services for websites and apps that look great, feel effortless and guide visitors naturally towards action.",
+        summary: "UI/UX design services for websites and apps, in Surat and worldwide, that look great, feel effortless and guide visitors towards action.",
         subs: "Wireframes & prototypes | Low and high fidelity wireframes and interactive prototypes to test ideas early.\nDesign systems | Reusable components, colours and typography so every screen stays consistent.\nWeb & mobile interfaces | Responsive interfaces designed for every device and screen size.\nVisual branding | Colour, typography and iconography that carry your brand's tone.",
       },
       {
@@ -118,7 +118,7 @@ export const HOME_SECTIONS: PageSection[] = [
   section("reach", {
     chip: "Global Reach",
     heading: "From Surat\nTo The World",
-    text: "We have worked with clients from many countries around the world. From our head office in Surat, India, our team builds websites, apps, AI and immersive experiences for businesses in the global market, wherever they are.",
+    text: "We have worked with clients from the USA, Canada, the UK, Germany, UAE, Singapore and Australia. From our head office in Surat, Gujarat, India, and our second office in Marburg, Germany, we build websites, apps, AI and immersive experiences for businesses worldwide.",
     buttonLabel: "Start your project",
     buttonHref: "#contact",
     // the first place is the head office; the globe turns to every other place in turn and a line of light travels there from it
@@ -137,7 +137,7 @@ export const HOME_SECTIONS: PageSection[] = [
   section("contact", {
     chip: "Let's talk",
     heading: "Ready To Start\nYour Project?",
-    text: "Tell us about your idea and the We3vision team will get back to you. Web, AI, apps, VR and design: we are happy to help.",
+    text: "Tell us about your idea and our Surat team will get back to you. Web, mobile apps, AI, AR/VR and UI/UX design: we are happy to help.",
     buttonLabel: "Send a Message",
   }),
 ];

@@ -313,3 +313,21 @@ html .bp.bpx {
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
+
+.bp-gallery {
+  display: grid;
+  gap: 16px;
+  margin-top: 40px;
+}
+@media (min-width: 640px) {
+.bp-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.bp-pic {
+  width: 100%;
+  border: 1px solid var(--hair);
+  border-radius: 20px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}

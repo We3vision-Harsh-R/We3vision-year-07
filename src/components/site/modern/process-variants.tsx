@@ -5,6 +5,7 @@ import "@/styles/modern-process.css";
 
 
 
+
 import { GlowEdge } from "../glow-edge";
 import { Reveal } from "../reveal";
 import { VHead, lines, two, useCycle } from "./variant-kit";

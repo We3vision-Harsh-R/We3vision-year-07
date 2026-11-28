@@ -11,7 +11,7 @@ import { build, RELATED } from "./tech";
 
 export const SURAT_SEO = {
   title: "Software & IT Company in Surat, Gujarat | We3vision",
-  description: "We3vision is a software and IT company in Surat, Gujarat, since 2019: web, app, AI, UI/UX, CRM, games and metaverse. Head office in Nanpura, Surat 395001.",
+  description: "We3vision is a software and IT company in Surat, Gujarat, since 2019: web, app, AI, UI/UX, CRM and metaverse. Head office in Nanpura, Surat 395001.",
 };
 
 // the card text of every service of the big menu, from the service pages
@@ -29,10 +29,10 @@ const BASE = build({
   hero: {
     chip: "Surat, Gujarat",
     heading: "Software And IT\nCompany In Surat",
-    text: "We3vision Private Limited is a software and digital company in Surat, Gujarat, founded in 2019. One team builds websites, mobile apps, AI, UI/UX design, CRM, custom software, games and metaverse experiences for businesses in Surat, India and around the world.",
+    text: "We3vision Private Limited is a software and digital company in Surat, Gujarat, founded in 2019. One team builds websites, mobile apps, AI, UI/UX design, CRM, custom software and metaverse experiences for businesses in Surat, India and around the world.",
   },
   story:
-    "*We3vision Private Limited is a software company in Surat, Gujarat*, founded in 2019. Our head office, *We3vision House in Nanpura, Surat 395001*, is where our designers and developers plan and build websites, mobile apps, AI solutions, UI/UX design, CRM and custom software, games, AR/VR and metaverse experiences, brand design and animation.\n\nPeople search for a *software company in Surat*, an *IT company in Surat*, a *web development company in Surat*, an *app development company in Surat*, an *AI company in Surat* or a *UI/UX design company in Surat*. We3vision does all of this work under one roof, so you talk to one team from the first idea to the launch and the support after it.\n\nWe work with businesses in Surat and across Gujarat and India, and with clients abroad: we also have a second office in *Marburg, Germany*. Whether you are a start-up in Surat or a company on another continent, the way of working is the same: we listen, plan the scope with you, build in short rounds you can review, and stay on hand after launch.",
+    "*We3vision Private Limited is a software company in Surat, Gujarat*, founded in 2019. Our head office, *We3vision House in Nanpura, Surat 395001*, is where our designers and developers plan and build websites, mobile apps, AI solutions, UI/UX design, CRM and custom software, AR/VR and metaverse experiences, brand design and animation.\n\nPeople search for a *software company in Surat*, an *IT company in Surat*, a *web development company in Surat*, an *app development company in Surat*, an *AI company in Surat* or a *UI/UX design company in Surat*. We3vision does all of this work under one roof, so you talk to one team from the first idea to the launch and the support after it.\n\nWe work with businesses in Surat and across Gujarat and India, and with clients abroad: we also have a second office in *Marburg, Germany*. Whether you are a start-up in Surat or a company on another continent, the way of working is the same: we listen, plan the scope with you, build in short rounds you can review, and stay on hand after launch.",
   services: {
     heading: "Our Services\nIn Surat",
     intro: "Every service of We3vision, from the Surat office. Open a service to see what we build, how we work and the questions people ask.",
@@ -53,7 +53,7 @@ const BASE = build({
   why: {
     heading: "Why Choose We3vision\nIn Surat",
     items: [
-      { title: "One team for everything digital", description: "Web and app development, AI, design, CRM, games, AR/VR and branding come from one company, so nothing is lost between teams." },
+      { title: "One team for everything digital", description: "Web and app development, AI, design, CRM, AR/VR and branding come from one company, so nothing is lost between teams." },
       { title: "In Surat since 2019", description: "We3vision was born in Surat in 2019 and has grown here every year since, with the head office in Nanpura." },
       { title: "Local office, global work", description: "Meet us in Surat, or work with us remotely: we also have an office in Marburg, Germany, and work with clients around the world." },
       { title: "Client-centric approach", description: "We put your needs first, so every solution is tailored to your goals." },
@@ -75,7 +75,7 @@ const BASE = build({
     ],
   },
   faq: [
-    { question: "Which is a good software company in Surat?", answer: "We3vision Private Limited is a software and digital company in Surat, Gujarat, founded in 2019. Its team builds websites, mobile apps, AI solutions, UI/UX design, CRM and custom software, games and metaverse experiences. Look at its services, portfolio and process, and talk to the team, to see whether it fits your project." },
+    { question: "Which is a good software company in Surat?", answer: "We3vision Private Limited is a software and digital company in Surat, Gujarat, founded in 2019. Its team builds websites, mobile apps, AI solutions, UI/UX design, CRM and custom software and metaverse experiences. Look at its services, portfolio and process, and talk to the team, to see whether it fits your project." },
     { question: "Is We3vision an IT company in Surat?", answer: "Yes. We3vision Private Limited is an IT and software company with its head office in Nanpura, Surat, Gujarat. It provides web, app, AI, design, CRM, game and AR/VR development for businesses in India and abroad." },
     { question: "Which web development company in Surat builds websites and web apps?", answer: "We3vision is a web development company in Surat. It designs and builds fast, SEO-friendly websites and web portals on WordPress, WooCommerce, Shopify, headless CMS and custom code, with a design made for your business." },
     { question: "Is there an app development company in Surat for Android and iOS?", answer: "Yes. We3vision designs and develops custom mobile apps in Surat with native tools such as Kotlin and Swift and cross-platform frameworks such as Flutter and React Native, from planning and design to launch and support." },

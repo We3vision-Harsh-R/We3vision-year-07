@@ -2,6 +2,7 @@
 
 import "@/styles/contact-flow.css";
 
+
 import { useEffect, useRef } from "react";
 import { BOARDS } from "./timeline-boards";
 import { PersonTop } from "./timeline-art";

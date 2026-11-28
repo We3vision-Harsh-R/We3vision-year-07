@@ -33,7 +33,7 @@ export function HomeIntro({
   // the sentence under the heading: about the company, from the page "About us"
   const logos = badges.filter((b) => b.image);
   const text =
-    "Since 2019 we have been at the forefront of digital innovation, delivering cutting-edge solutions that empower businesses and individuals alike.";
+    "Since 2019 we have designed and built websites, apps and digital products for businesses.";
 
   return (
     <section className="hx" aria-labelledby="hx-title">

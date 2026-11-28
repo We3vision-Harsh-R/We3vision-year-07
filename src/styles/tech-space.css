@@ -69,7 +69,6 @@
   background: linear-gradient(170deg, hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 12% / 0.98), hsl(calc(var(--th) + 346) calc(75% * var(--ts)) 6% / 0.99));
   box-shadow:
     inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3),
-    0 50px 100px -24px rgba(0, 0, 0, 0.85),
     0 0 80px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.22);
   animation: tx-pop 0.5s cubic-bezier(0.2, 1.1, 0.3, 1) both;
 }
@@ -458,4 +457,78 @@ html body .tx-cta:focus-visible {
 html body .tx-cta:hover {
     transform: none;
   }
+}
+
+.tx-back {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.tx-back[data-on="true"] {
+  opacity: 1;
+}
+.tx-back[data-sticky="true"] {
+  pointer-events: auto;
+}
+.tx-back i,
+.tx-back b {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --rx: calc(var(--bw, 120px) * 1.42);
+  --ry: calc(var(--bh, 120px) * 1.42);
+}
+.tx-back i:nth-child(1) {
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 1000px) calc(var(--ry) + 1000px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse calc(var(--rx) + 1000px) calc(var(--ry) + 1000px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
+}
+.tx-back i:nth-child(2) {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 700px) calc(var(--ry) + 700px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse calc(var(--rx) + 700px) calc(var(--ry) + 700px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
+}
+.tx-back i:nth-child(3) {
+  -webkit-backdrop-filter: blur(3.5px);
+  backdrop-filter: blur(3.5px);
+  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 480px) calc(var(--ry) + 480px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse calc(var(--rx) + 480px) calc(var(--ry) + 480px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
+}
+.tx-back i:nth-child(4) {
+  -webkit-backdrop-filter: blur(5.5px);
+  backdrop-filter: blur(5.5px);
+  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 300px) calc(var(--ry) + 300px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse calc(var(--rx) + 300px) calc(var(--ry) + 300px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
+}
+.tx-back i:nth-child(5) {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 150px) calc(var(--ry) + 150px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse calc(var(--rx) + 150px) calc(var(--ry) + 150px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 60%, transparent 100%);
+}
+.tx-back b {
+  background: rgba(6, 3, 14, 0.3);
+  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 520px) calc(var(--ry) + 520px) at var(--bx, 50%) var(--by, 50%), #000 0%, rgba(0, 0, 0, 0.7) 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse calc(var(--rx) + 520px) calc(var(--ry) + 520px) at var(--bx, 50%) var(--by, 50%), #000 0%, rgba(0, 0, 0, 0.7) 45%, transparent 100%);
+}
+.tx-pop {
+  position: fixed;
+  z-index: 90;
+  display: flex;
+  width: min(38rem, calc(100vw - 1.5rem));
+  max-height: calc(100svh - 24px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.38);
+  border-radius: 28px;
+  background: linear-gradient(170deg, hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 12% / 0.98), hsl(calc(var(--th) + 346) calc(75% * var(--ts)) 6% / 0.99));
+  box-shadow:
+    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3),
+    0 0 80px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.22);
+  animation: tx-pop 0.5s cubic-bezier(0.2, 1.1, 0.3, 1) both;
 }

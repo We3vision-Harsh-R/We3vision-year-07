@@ -1,24 +1,4 @@
 {
   "ui-ux-design": "portrait",
-  "ai-automation": "landscape",
-  "how-gta-style-open-world-games-are-made": "tall",
-  "open-world-map-streaming-chunks-and-lod": "landscape",
-  "vehicle-physics-in-3d-games-explained": "landscape",
-  "traffic-and-crowd-ai-in-open-world-games": "square",
-  "pathfinding-navmesh-and-a-star-in-games": "portrait",
-  "multiplayer-game-architecture-client-server": "landscape",
-  "netcode-lag-prediction-and-interpolation": "tall",
-  "scaling-game-servers-for-thousands-of-players": "portrait",
-  "mission-and-quest-systems-in-open-world-games": "square",
-  "third-person-camera-and-controls-in-3d-games": "portrait",
-  "3d-model-pipeline-for-games-concept-to-engine": "landscape",
-  "rendering-big-3d-cities-culling-and-draw-calls": "tall",
-  "day-night-cycle-lighting-and-weather-in-games": "landscape",
-  "procedural-generation-for-3d-game-worlds": "square",
-  "spatial-audio-and-sound-design-in-3d-games": "portrait",
-  "game-ui-minimaps-waypoints-and-hud-design": "square",
-  "player-accounts-and-databases-for-online-games": "tall",
-  "anti-cheat-and-security-for-online-games": "square",
-  "unity-vs-unreal-engine-open-world-games": "landscape",
-  "gta-style-game-development-cost-time-and-team": "portrait"
+  "ai-automation": "landscape"
 }

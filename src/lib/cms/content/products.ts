@@ -20,7 +20,7 @@ const contact = (heading: string, text: string, button: string) => section("cont
 // ---- /products ----
 export const PRODUCTS_SEO = {
   title: "Software Products by We3vision | WeBugMate & More",
-  description: "Software products built by We3vision, Surat, India: WeBugMate, an AI-powered project and task management tool, and the upcoming WeJobs, WeThink and WePresent.",
+  description: "Software products from We3vision, a software company in Surat, India: WeBugMate, an AI-powered project and task management tool, plus WeJobs, WeThink and WePresent.",
 };
 export const PRODUCTS_SECTIONS: PageSection[] = [
   section("pageHero", {
@@ -55,7 +55,7 @@ export const PRODUCTS_SECTIONS: PageSection[] = [
 // ---- /products/webugmate ----
 export const WEBUGMATE_SEO = {
   title: "WeBugMate | AI-Powered Project & Task Management | We3vision",
-  description: "WeBugMate is an AI-powered project and task management product built by We3vision, Surat, India. Visit www.webugmate.com to see it.",
+  description: "WeBugMate is an AI-powered project and task management software built by We3vision, a software company in Surat, India. Visit www.webugmate.com to see it.",
 };
 export const WEBUGMATE_SECTIONS: PageSection[] = [
   section("pageHero", {

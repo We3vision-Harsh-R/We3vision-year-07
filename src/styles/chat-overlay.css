@@ -31,7 +31,6 @@ html.chx-lock {
     radial-gradient(60% 40% at 50% 0%, hsl(calc(var(--th) + 40) calc(90% * var(--ts)) 60% / 0.12), transparent 70%),
     hsl(calc(var(--th) + 348) calc(55% * var(--ts)) 5.5% / 0.94);
   box-shadow:
-    0 40px 120px -30px #000,
     0 0 90px hsl(calc(var(--th) + 40) calc(100% * var(--ts)) 62% / 0.16);
   color: var(--ink, #f8f0f9);
   animation: chx-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
