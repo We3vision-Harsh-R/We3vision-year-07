@@ -16,6 +16,14 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 208,
+    date: "2026-11-28",
+    title: "Admin login: works on plain http addresses",
+    notes: [
+      "Admin login: the sign-in cookie is no longer marked Secure on a local or http address, so Chrome keeps the login there too (the live https site is unchanged).",
+    ],
+  },
+  {
     v: 207,
     date: "2026-11-28",
     title: "Admin: Add article page fixed",

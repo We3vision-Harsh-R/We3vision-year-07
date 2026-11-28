@@ -1,7 +1,7 @@
 import "server-only";
 import { createHash } from "node:crypto";
 import { cache } from "react";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { AdminArea } from "@/components/admin/admin-menu";
 import { isAllowedAccount, isMasterEmail } from "@/lib/admin-access";
@@ -15,9 +15,14 @@ export const sessionVersion = (passwordHash: string) => createHash("sha256").upd
 
 export async function createSession(userId: string, maxAge = SESSION_MAX_AGE, ver = "") {
   const token = await signSession(userId, maxAge, ver);
+  // A "Secure" cookie is thrown away by Chrome when the page is opened over plain http on a local/LAN address (a production build tried on
+  // 192.168.x.x or 127.0.0.1): the login then looked like it did nothing. On the real https site the cookie is Secure as before.
+  const h = await headers();
+  const host = (h.get("x-forwarded-host") ?? h.get("host") ?? "").split(",")[0].trim();
+  const plainHttp = h.get("x-forwarded-proto")?.split(",")[0].trim() === "http" || /^(?:localhost|127\.|10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.|\[?::1)/i.test(host);
   (await cookies()).set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production" && !plainHttp,
     sameSite: "lax",
     path: "/",
     maxAge,
