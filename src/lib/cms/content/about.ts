@@ -28,8 +28,8 @@ export const ABOUT_SECTIONS: PageSection[] = [
     chip: "What we do",
     heading: "Services We Offer",
     intro: "From immersive AR/VR and AI to websites, mobile apps, games and brand design: one team that plans, designs and builds it all, from the first sketch to the launch.",
-    buttonLabel: "",
-    buttonHref: "",
+    buttonLabel: "Software company in Surat",
+    buttonHref: "/software-company-in-surat",
     cards: [
       {
         title: "AR/VR &\nMetaverse",

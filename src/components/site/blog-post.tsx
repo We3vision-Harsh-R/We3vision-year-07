@@ -1,10 +1,10 @@
+import "@/styles/blog-post.css";
 import Link from "next/link";
 import type { BlogEntry } from "@/lib/blog-shared";
 import { articleGraph } from "@/lib/seo/schema";
 import { RichText } from "./blog-rich";
 import { Img } from "./img";
 import { JsonLd } from "./json-ld";
-import "@/styles/blog-post.css";
 
 // One article of the blog (/blog/<slug>): the reading column in the middle, the index of the article on the left (sticky), and on the right (sticky)
 // the facts of the article, its tags, the author and related articles. Text is plain server HTML (nothing here needs JavaScript), the page is also

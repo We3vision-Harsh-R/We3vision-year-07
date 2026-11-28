@@ -474,3 +474,9 @@
     animation: none;
   }
 }
+
+@media (max-width: 900px) {
+:root .vf-cd-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

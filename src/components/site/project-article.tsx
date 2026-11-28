@@ -1,3 +1,4 @@
+import "@/styles/blog-post.css";
 import Link from "next/link";
 import { Img } from "@/components/site/img";
 import { coverOf, type ProjectView } from "@/lib/projects";

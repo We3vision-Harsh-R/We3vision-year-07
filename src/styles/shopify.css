@@ -255,3 +255,38 @@
     padding: 16px 16px 28px;
   }
 }
+
+html body .shp-btn,
+html body .shp-btn-p {
+  border-radius: 999px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.25s,
+    box-shadow 0.25s,
+    background-color 0.25s,
+    border-color 0.25s;
+}
+html body .shp-btn:hover,
+html body .shp-btn-p:hover {
+  transform: translate3d(0, -2px, 0);
+  filter: brightness(1.08);
+}
+html body .shp-btn:active,
+html body .shp-btn-p:active {
+  transform: translate3d(0, 0, 0) scale(0.98);
+  filter: none;
+}
+html body .shp-btn:focus-visible,
+html body .shp-btn-p:focus-visible {
+  outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+html body .shp-btn:hover,
+html body .shp-btn-p:hover {
+    transform: none;
+  }
+}

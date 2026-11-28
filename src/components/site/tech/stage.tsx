@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/tech-stage.css";
+
 import { useCallback, useEffect, useState } from "react";
 
 // PINNED STAGE of the technology pages. The app window stays fixed on the screen while the visitor scrolls; every step of the scroll opens the

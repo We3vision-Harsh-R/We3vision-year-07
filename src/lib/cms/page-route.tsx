@@ -21,7 +21,7 @@ export async function pageMetadata(slug: PageSlug): Promise<Metadata> {
 }
 
 /** The pages that have the redesigned sections. Home, About, Metaverse and Brand Design keep the earlier ones. */
-const PAGE_LIST_SLUGS = ["game","portfolio","blog","contact","careers","headless-cms","custom-wordpress","shopify","custom-woocommerce","shopify-app","wordpress-plugin","shopify-plugin","software","brand-development","brand-kit","brand-video","zero-to-n","meta-marketing","physical-marketing","products","webugmate","wejobs","wethink","wepresent"];
+const PAGE_LIST_SLUGS = ["game","surat","internship","portfolio","blog","contact","careers","headless-cms","custom-wordpress","shopify","custom-woocommerce","shopify-app","wordpress-plugin","shopify-plugin","software","brand-development","brand-kit","brand-video","zero-to-n","meta-marketing","physical-marketing","products","webugmate","wejobs","wethink","wepresent"];
 const MODERN: PageSlug[] = ["ai", "webdev", "mobile", "ui-ux-design", "crm", "animation", "3d-modeling", "graphics", "seo", "team", ...PAGE_LIST_SLUGS] as PageSlug[];
 export const skinOf = (slug: string): "classic" | "modern" => ((MODERN as string[]).includes(slug) ? "modern" : "classic");
 

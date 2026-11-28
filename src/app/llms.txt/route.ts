@@ -46,7 +46,7 @@ export async function GET() {
   );
 
   out.push("## Company", "");
-  for (const [label, path] of [["About We3vision", "/about"], ["Our team", "/team"], ["Portfolio", "/portfolio"], ["Blog", "/blog"], ["Careers", "/careers"], ["Contact", "/contact"]] as const) out.push(await link(label, path));
+  for (const [label, path] of [["About We3vision", "/about"], ["Software company in Surat", "/software-company-in-surat"],["Our team", "/team"], ["Portfolio", "/portfolio"], ["Blog", "/blog"], ["Careers", "/careers"], ["Contact", "/contact"]] as const) out.push(await link(label, path));
   out.push(`- [All services](${base}/services): The seven main services of We3vision, with what is built and who it is for.`, "");
 
   for (const g of SERVICE_GROUPS) {

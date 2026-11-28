@@ -1,9 +1,10 @@
 "use client";
 
 import "@/styles/about.css";
-import "@/styles/about-phone.css";
 import "@/styles/panda-chat.css";
 import "@/styles/modern-base.css";
+
+import "@/styles/about-phone.css";
 
 
 

@@ -46,8 +46,6 @@ export const GraphicsPage = dynamic(() => import("./graphics/graphics").then((m)
 export const GuideScene = late(() => import("./guide-scene").then((m) => m.GuideScene));
 export const HeadlessPage = dynamic(() => import("./tech/headless").then((m) => m.HeadlessPage));
 export const HeroScene = dynamic(() => import("./hero-scene").then((m) => m.HeroScene));
-export const IndustriesCity = late(() => import("./industries-city").then((m) => m.IndustriesCity));
-export const IndustriesRoad = late(() => import("./industries-road").then((m) => m.IndustriesRoad));
 export const JobApply = dynamic(() => import("./career/job-apply").then((m) => m.JobApply));
 export const JobApplyForm = dynamic(() => import("./mobile/app/job-apply").then((m) => m.JobApplyForm));
 export const LiveClock = dynamic(() => import("./rotating-word").then((m) => m.LiveClock));

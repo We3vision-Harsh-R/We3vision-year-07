@@ -1,3 +1,5 @@
+import "@/styles/hero-web.css";
+import "@/styles/hero-crm.css";
 import type { CSSProperties } from "react";
 import type { SectionProps } from "../sections/shared";
 import { HeroBadges } from "../hero-badges";

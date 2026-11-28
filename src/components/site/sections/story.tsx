@@ -1,3 +1,4 @@
+import "@/styles/story.css";
 import { AiStory } from "../lazy";
 import { IconTile } from "../icons";
 import { Reveal } from "../reveal";
@@ -28,10 +29,10 @@ const LOOK: Record<string, Look> = {
   "3d-modeling": "rail",
   graphics: "chips",
   "ui-ux-design": "lead",
-  "headless-CMS-devlopment-services": "rail",
-  "custom-wordpress-devlopment-services": "duo",
+  "headless-cms-development-services": "rail",
+  "custom-wordpress-development-services": "duo",
   "shopify-development-services": "chips",
-  "custom-woocommerce-devlopment": "lead",
+  "custom-woocommerce-development": "lead",
   "shopify-app-development-services": "duo",
   "wordpress-plugin-development-company": "rail",
 };

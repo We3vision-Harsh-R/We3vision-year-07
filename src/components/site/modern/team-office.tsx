@@ -1,6 +1,8 @@
 "use client";
+import "@/styles/timeline-boards.css";
 
 import "@/styles/team.css";
+
 
 
 

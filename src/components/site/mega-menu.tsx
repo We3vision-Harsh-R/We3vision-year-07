@@ -2,6 +2,7 @@
 
 import "@/styles/panda-chat.css";
 import "@/styles/mega-menu.css";
+
 import "@/styles/menu-phone-a.css";
 import "@/styles/menu-phone-b.css";
 import "@/styles/menu-look.css";

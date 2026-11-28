@@ -108,8 +108,9 @@
   justify-items: start;
   padding: 3.2rem 1.1rem 1.1rem;
   background: linear-gradient(to top, hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 6% / 0.92), transparent);
-  opacity: 0;
-  transform: translateY(8px);
+  /* the topic and its tag are always visible on the card (owner, 2026-11-27) */
+  opacity: 1;
+  transform: none;
   transition:
     opacity 0.3s,
     transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);

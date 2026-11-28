@@ -639,3 +639,38 @@
     animation: none;
   }
 }
+
+html body .aw-btn,
+html body .aw-btn-ghost {
+  border-radius: 999px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.25s,
+    box-shadow 0.25s,
+    background-color 0.25s,
+    border-color 0.25s;
+}
+html body .aw-btn:hover,
+html body .aw-btn-ghost:hover {
+  transform: translate3d(0, -2px, 0);
+  filter: brightness(1.08);
+}
+html body .aw-btn:active,
+html body .aw-btn-ghost:active {
+  transform: translate3d(0, 0, 0) scale(0.98);
+  filter: none;
+}
+html body .aw-btn:focus-visible,
+html body .aw-btn-ghost:focus-visible {
+  outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+html body .aw-btn:hover,
+html body .aw-btn-ghost:hover {
+    transform: none;
+  }
+}

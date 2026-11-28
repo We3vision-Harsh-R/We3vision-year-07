@@ -21,3 +21,4 @@ Project knowledge for AI tools and developers: see brain/README.md. Add every ne
 | 163 | Vice City cells: no snow floor there, the two snowballs move to another empty box | done |
 | 164 | Products grid bottom-left cells: back to snow + balls as before, the Vice City art becomes a soft city skyline background (reference banner) | done |
 | 165 | Blog: every article in its own box shape (landscape/square/portrait/tall) with a new cover drawn for that shape (22 covers) | done |
+| 166 | Interview slot calendar on the phone Careers page + interview schedule in admin | done |

@@ -27,6 +27,8 @@ import {
 } from "./content/services";
 import { SHOPIFYPLUGIN_SECTIONS, SHOPIFYPLUGIN_SEO, SOFTWARE_SECTIONS, SOFTWARE_SEO, BRANDDEV_SECTIONS, BRANDDEV_SEO, BRANDKIT_SECTIONS, BRANDKIT_SEO, BRANDVIDEO_SECTIONS, BRANDVIDEO_SEO, ZERO_SECTIONS, ZERO_SEO, META_SECTIONS, META_SEO, PHYSICAL_SECTIONS, PHYSICAL_SEO } from "./content/new-services";
 import { GAME_SECTIONS, GAME_SEO } from "./content/game-development";
+import { SURAT_SECTIONS, SURAT_SEO } from "./content/surat";
+import { INTERNSHIP_SECTIONS, INTERNSHIP_SEO } from "./content/internship";
 import { PRODUCTS_SECTIONS, PRODUCTS_SEO, WEBUGMATE_SECTIONS, WEBUGMATE_SEO, WEJOBS_SECTIONS, WEJOBS_SEO, WETHINK_SECTIONS, WETHINK_SEO, WEPRESENT_SECTIONS, WEPRESENT_SEO } from "./content/products";
 import { normalize } from "./fields";
 import { SECTIONS, isSectionType } from "./sections";
@@ -78,13 +80,13 @@ export const PAGES = {
   },
   "headless-cms": {
     title: "Headless CMS Development",
-    path: "/headless-CMS-devlopment-services",
+    path: "/headless-cms-development-services",
     defaultSeo: HEADLESS_SEO,
     defaultContent: { sections: HEADLESS_SECTIONS } satisfies PageContent,
   },
   "custom-wordpress": {
     title: "Custom WordPress Development",
-    path: "/custom-wordpress-devlopment-services",
+    path: "/custom-wordpress-development-services",
     defaultSeo: WORDPRESS_SEO,
     defaultContent: { sections: WORDPRESS_SECTIONS } satisfies PageContent,
   },
@@ -96,7 +98,7 @@ export const PAGES = {
   },
   "custom-woocommerce": {
     title: "Custom WooCommerce Development",
-    path: "/custom-woocommerce-devlopment",
+    path: "/custom-woocommerce-development",
     defaultSeo: WOOCOMMERCE_SEO,
     defaultContent: { sections: WOOCOMMERCE_SECTIONS } satisfies PageContent,
   },
@@ -129,6 +131,18 @@ export const PAGES = {
     path: "/game-development",
     defaultSeo: GAME_SEO,
     defaultContent: { sections: GAME_SECTIONS } satisfies PageContent,
+  },
+  "surat": {
+    title: "Software Company in Surat",
+    path: "/software-company-in-surat",
+    defaultSeo: SURAT_SEO,
+    defaultContent: { sections: SURAT_SECTIONS } satisfies PageContent,
+  },
+  "internship": {
+    title: "Internship in Surat",
+    path: "/internship-in-surat",
+    defaultSeo: INTERNSHIP_SEO,
+    defaultContent: { sections: INTERNSHIP_SECTIONS } satisfies PageContent,
   },
   "brand-development": {
     title: "Brand Development",

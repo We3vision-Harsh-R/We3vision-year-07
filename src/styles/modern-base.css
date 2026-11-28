@@ -636,3 +636,42 @@ a.md-rel-card:hover .md-rel-go {
     animation: none;
   }
 }
+
+@media (max-width: 900px) {
+.vk-head .md-intro {
+    display: none;
+  }
+:root .md-rel {
+    display: flex;
+    gap: 12px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 4px 20px 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+:root .md-rel::-webkit-scrollbar {
+    display: none;
+  }
+:root .md-rel > li {
+    flex: 0 0 78%;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+:root .md-faq-item button {
+    gap: 12px;
+    padding: 16px 8px 16px 16px;
+  }
+:root .md-faq-item button span {
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+:root .md-faq-side .md-intro {
+    display: none;
+  }
+:root .md-faq-help {
+    margin-top: 16px;
+    padding: 16px 18px;
+  }
+}

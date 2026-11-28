@@ -25,10 +25,10 @@ export type Tech = {
 };
 
 export const RELATED: Record<string, { title: string; description: string; href: string }> = {
-  headless: { title: "Headless CMS\nDevelopment", description: "Content managed in one place and delivered to your website, apps and more through APIs.", href: "/headless-CMS-devlopment-services" },
-  wordpress: { title: "Custom WordPress\nDevelopment", description: "Themes, plugins, migrations and support for WordPress websites built around your brand.", href: "/custom-wordpress-devlopment-services" },
+  headless: { title: "Headless CMS\nDevelopment", description: "Content managed in one place and delivered to your website, apps and more through APIs.", href: "/headless-cms-development-services" },
+  wordpress: { title: "Custom WordPress\nDevelopment", description: "Themes, plugins, migrations and support for WordPress websites built around your brand.", href: "/custom-wordpress-development-services" },
   shopify: { title: "Shopify\nDevelopment", description: "Custom Shopify stores, themes, integrations and support to sell your products online.", href: "/shopify-development-services" },
-  woo: { title: "Custom WooCommerce\nDevelopment", description: "Online stores on WordPress with the features, payments and shipping your business needs.", href: "/custom-woocommerce-devlopment" },
+  woo: { title: "Custom WooCommerce\nDevelopment", description: "Online stores on WordPress with the features, payments and shipping your business needs.", href: "/custom-woocommerce-development" },
   shopapp: { title: "Shopify App\nDevelopment", description: "Private and public Shopify apps that add the features your store is missing.", href: "/shopify-app-development-services" },
   plugin: { title: "WordPress Plugin\nDevelopment", description: "Custom plugins, integrations, upgrades and add-ons for WordPress websites.", href: "/wordpress-plugin-development-company" },
   shopplugin: { title: "Shopify Plugin\nDevelopment", description: "Theme extensions, sections and add-ons that give your Shopify store the exact feature it needs.", href: "/shopify-plugin-development-services" },
@@ -93,7 +93,7 @@ export const build = (t: Tech): PageSection[] => [
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Headless CMS (/headless-CMS-devlopment-services)
+// Headless CMS (/headless-cms-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const HEADLESS_SEO = {
   title: "Headless CMS Development Services | We3vision",
@@ -176,7 +176,7 @@ export const HEADLESS_SECTIONS = build({
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Custom WordPress (/custom-wordpress-devlopment-services)
+// Custom WordPress (/custom-wordpress-development-services)
 // ---------------------------------------------------------------------------------------------------------------------
 export const WORDPRESS_SEO = {
   title: "Custom WordPress Development Services | We3vision",
@@ -327,7 +327,7 @@ export const SHOPIFY_SECTIONS = build({
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Custom WooCommerce (/custom-woocommerce-devlopment)
+// Custom WooCommerce (/custom-woocommerce-development)
 // ---------------------------------------------------------------------------------------------------------------------
 export const WOOCOMMERCE_SEO = {
   title: "Custom WooCommerce Development Services | We3vision",

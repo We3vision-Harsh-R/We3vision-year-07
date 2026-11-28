@@ -1,3 +1,5 @@
+import "@/styles/hero-web.css";
+import "@/styles/hero-uiux.css";
 import type { SectionProps } from "../sections/shared";
 import { HeroBadges } from "../hero-badges";
 import { ButtonLink, Chip } from "../ui";

@@ -3,7 +3,6 @@ import { SmartLink } from "@/components/site/smart-link";
 import { getSiteSettings } from "@/lib/cms/queries";
 import { HomeTalk } from "./home-talk";
 import { HomeFaq } from "./home-faq";
-import "@/styles/gta-device.css";
 
 // The sections of the home page after the services (prefix hb2-m in styles/home.css). All facts are the ones already on the site (Home page content):
 // founded 2019 in Surat, 300+ projects, 7 core services, 7 industries, 6 technology platforms, the industries, the places, the tools.

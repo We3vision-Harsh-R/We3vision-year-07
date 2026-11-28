@@ -1496,3 +1496,9 @@
 .vz-pl-row {
   min-width: 0;
 }
+
+@media (max-width: 900px) {
+:root .cv-insp-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

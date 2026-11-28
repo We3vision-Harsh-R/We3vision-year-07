@@ -5,6 +5,7 @@ import "@/styles/panda-chat.css";
 
 
 
+
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { AiChat } from "./ai-chat";
 import { GuideFront, GuideSide } from "./avatar";

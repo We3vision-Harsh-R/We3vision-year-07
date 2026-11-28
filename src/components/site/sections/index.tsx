@@ -1,3 +1,4 @@
+import "@/styles/timeline-boards.css";
 import { LazyHydrate } from "../lazy-hydrate";
 import type { ComponentType } from "react";
 import type { PageSection } from "@/lib/cms/pages";

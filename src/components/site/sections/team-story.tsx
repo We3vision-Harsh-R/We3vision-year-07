@@ -1,3 +1,4 @@
+import "@/styles/team-story.css";
 import { GlowEdge } from "../glow-edge";
 import { Reveal } from "../reveal";
 import { SectionHead, Chip, Rich } from "../ui";

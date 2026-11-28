@@ -22,6 +22,7 @@ what is still open.
 | 8 | [08-task-history.md](08-task-history.md) | to avoid redoing work | Tasks 1–74, decisions, **rejected designs (do not rebuild them)** |
 | 9 | [09-open-items.md](09-open-items.md) | to know what is next | Pending requests, caveats, ideas |
 | 10 | [10-seo-indexing.md](10-seo-indexing.md) | before any new page / release | Search engine autopilot, owner checklist, how to audit indexing |
+| 27 | [27-geo-master-plan.md](27-geo-master-plan.md) | **GEO / SEO / AEO master plan, owner checklist** | Surat + internship + LinkedIn + platforms: what is in code, 7 owner steps in order, monthly test |
 | 26 | [26-aeo-ai-recommendations.md](26-aeo-ai-recommendations.md) | **AEO / "AI should suggest We3vision"** | Home FAQ, service catalogue data, /llms-full.txt, service FAQs, owner off-site steps (reviews, listings, Bing) |
 | 27 | [27-routes.md](27-routes.md) | **before adding / renaming a page or an address** | the three roots (site, phone app, admin), the public address map, error / loading boundaries, a checklist to add a page; check with `node tools/route-audit.mjs` |
 | 25 | [25-game-development-and-gta-style-seo.md](25-game-development-and-gta-style-seo.md) | **before touching the game page, the game articles or their pictures** | /game-development page, the 20 "GTA-style games" articles (addresses, keywords, pictures, how to change or hide one), after-deploy steps |

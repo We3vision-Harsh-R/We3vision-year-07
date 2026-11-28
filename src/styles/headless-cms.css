@@ -1,4 +1,4 @@
-/* Loaded only by: headless-CMS-devlopment-services (see tools/css-split.config.mjs). Add new "hl-" rules HERE, not in globals.css. */
+/* Loaded only by: headless-cms-development-services (see tools/css-split.config.mjs). Add new "hl-" rules HERE, not in globals.css. */
 .hl {
   --hl-a: hsl(calc(var(--th) + 342) calc(95% * var(--ts)) 72%);
   --hl-a2: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
@@ -260,3 +260,38 @@
 .hl-ai-md a { text-decoration: underline; }
 .hl-ai-md table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 0.9rem; }
 .hl-ai-md th, .hl-ai-md td { padding: 0.35rem 0.55rem; border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; vertical-align: top; }
+
+html body .hl-btn,
+html body .hl-btn-g {
+  border-radius: 999px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.25s,
+    box-shadow 0.25s,
+    background-color 0.25s,
+    border-color 0.25s;
+}
+html body .hl-btn:hover,
+html body .hl-btn-g:hover {
+  transform: translate3d(0, -2px, 0);
+  filter: brightness(1.08);
+}
+html body .hl-btn:active,
+html body .hl-btn-g:active {
+  transform: translate3d(0, 0, 0) scale(0.98);
+  filter: none;
+}
+html body .hl-btn:focus-visible,
+html body .hl-btn-g:focus-visible {
+  outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+html body .hl-btn:hover,
+html body .hl-btn-g:hover {
+    transform: none;
+  }
+}

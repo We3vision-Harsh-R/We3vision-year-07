@@ -1,4 +1,4 @@
-/* Loaded only by: custom-wordpress-devlopment-services (see tools/css-split.config.mjs). Add new "wpa-" rules HERE, not in globals.css. */
+/* Loaded only by: custom-wordpress-development-services (see tools/css-split.config.mjs). Add new "wpa-" rules HERE, not in globals.css. */
 .wpa-wrap { width: min(1280px, 100% - 48px); margin: 0 auto; padding: 112px 0 40px; }
 .wpa { --wp-blue: var(--tw-ac); --wp-dark: var(--tw-dk); --wp-side: var(--tw-dk2); --wp-bg: var(--tw-bg); --wp-line: var(--tw-ln); --wp-text: var(--tw-dk3);
   border-radius: 10px; overflow: hidden; background: var(--wp-bg); color: var(--wp-text); box-shadow: 0 40px 120px hsl(calc(var(--th) + 330) 60% 3% / 0.7), 0 0 0 1px hsl(0 0% 100% / 0.1); }
@@ -268,5 +268,35 @@
   .wpa-main {
     padding: 14px 16px 28px;
     overflow-x: auto;
+  }
+}
+
+html body .wpa-btn {
+  border-radius: 999px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.25s,
+    box-shadow 0.25s,
+    background-color 0.25s,
+    border-color 0.25s;
+}
+html body .wpa-btn:hover {
+  transform: translate3d(0, -2px, 0);
+  filter: brightness(1.08);
+}
+html body .wpa-btn:active {
+  transform: translate3d(0, 0, 0) scale(0.98);
+  filter: none;
+}
+html body .wpa-btn:focus-visible {
+  outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+html body .wpa-btn:hover {
+    transform: none;
   }
 }

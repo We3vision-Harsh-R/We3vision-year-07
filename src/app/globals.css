@@ -170,6 +170,7 @@ section[id] {
 
 
 
+
   [data-reveal] {
     transition: none;
   }
@@ -185,6 +186,7 @@ section[id] {
   .animate-twinkle {
     animation: none;
   }}
+
 
 
 
@@ -254,9 +256,11 @@ html.theme-anim {
 
 
 
+
   .ai-wrap {
     bottom: 108px;
   }}
+
 
 
 
@@ -327,9 +331,11 @@ html.theme-anim {
 
 
 
+
   .ai-wrap {
     bottom: 92px;
   }}
+
 
 
 
@@ -569,6 +575,7 @@ html.theme-anim {
 
 
 
+
   .orb-node {
     width: 46px;
     height: 46px;
@@ -581,6 +588,7 @@ html.theme-anim {
     text-align: center;
     white-space: normal;
   }}
+
 
 
 
@@ -693,6 +701,7 @@ html.theme-anim {
 
 
 
+
   .orb-sweep,
   .orb-dot {
     animation: none;
@@ -701,7 +710,9 @@ html.theme-anim {
 
 
 
+
 @media (max-width: 899px) {
+
 
 
 
@@ -714,6 +725,7 @@ html.theme-anim {
     max-width: 380px;
     margin: 0 auto;
   }}
+
 
 
 
@@ -929,9 +941,11 @@ html.theme-anim {
 
 @media (prefers-reduced-motion: no-preference) {
 
+
   .flow:not([data-live="false"]) .flow-core {
     animation: flow-breathe 3.2s ease-in-out 2.2s infinite;
   }}
+
 
 @keyframes flow-breathe {
   0%,
@@ -943,6 +957,7 @@ html.theme-anim {
   }
 }
 @media (max-width: 899px) {
+
 
 
 
@@ -965,6 +980,7 @@ html.theme-anim {
     top: 0;
     height: 36px;
   }}
+
 
 
 
@@ -1204,12 +1220,6 @@ html.theme-anim {
   z-index: 2;
   opacity: 0.88;
 }
-.of-board .bd {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
 .of-wt {
   position: absolute;
   left: 14px;
@@ -1369,70 +1379,6 @@ html.theme-anim {
 .of-pp[data-role="pres"] .ch-head {
   animation: of-nod 2.6s ease-in-out infinite;
 }
-
-/* ---- the wall boards ---- */
-.bd-panel {
-  fill: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 13% / 0.5);
-  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.22);
-}
-.bd-top {
-  fill: hsl(calc(var(--th) + 340) calc(34% * var(--ts)) 20% / 0.6);
-}
-.bd-dot {
-  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.7);
-}
-.bd-card {
-  fill: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 18% / 0.5);
-  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 80% / 0.18);
-}
-.bd-block {
-  fill: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 40%);
-}
-.bd-line {
-  stroke: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 82% / 0.5);
-  stroke-width: 2.2;
-  stroke-linecap: round;
-}
-.bd-line-f {
-  fill: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 82% / 0.55);
-}
-.bd-code {
-  stroke: hsl(calc(var(--th) + 76) calc(80% * var(--ts)) 80% / 0.75);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-}
-.bd-sw-0 {
-  fill: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
-}
-.bd-sw-1 {
-  fill: hsl(calc(var(--th) + 76) calc(81% * var(--ts)) 86%);
-}
-.bd-sw-2 {
-  fill: hsl(calc(var(--th) + 316) calc(66% * var(--ts)) 82%);
-}
-.bd-sw-3 {
-  fill: hsl(calc(var(--th) + 200) calc(70% * var(--ts)) 74%);
-}
-.bd-node {
-  fill: hsl(calc(var(--th) + 340) calc(40% * var(--ts)) 30%);
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
-  stroke-width: 1.4;
-}
-.bd-draw {
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 90;
-  stroke-dashoffset: 90;
-  animation: bd-draw 3.4s ease-in-out infinite;
-}
-.bd-draw-b {
-  stroke: hsl(calc(var(--th) + 76) calc(80% * var(--ts)) 14%);
-  stroke-width: 2.2;
-  stroke-dasharray: 30;
-  stroke-dashoffset: 30;
-}
 @keyframes bd-draw {
   0% {
     stroke-dashoffset: 90;
@@ -1445,15 +1391,6 @@ html.theme-anim {
     stroke-dashoffset: -90;
   }
 }
-.bd-blink {
-  animation: bd-blink 2.4s ease-in-out infinite;
-}
-.bd-d1 {
-  animation-delay: 0.6s;
-}
-.bd-d2 {
-  animation-delay: 1.2s;
-}
 @keyframes bd-blink {
   0%,
   100% {
@@ -1462,14 +1399,6 @@ html.theme-anim {
   50% {
     opacity: 0.35;
   }
-}
-.bd-tap {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1.4;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: bd-tap 1.6s ease-out infinite;
 }
 @keyframes bd-tap {
   0% {
@@ -1481,70 +1410,20 @@ html.theme-anim {
     opacity: 0;
   }
 }
-.bd-arrow {
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.7);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.bd-flow {
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.8);
-  stroke-width: 1.2;
-  stroke-dasharray: 3 7;
-  animation: bd-flow 1s linear infinite;
-}
 @keyframes bd-flow {
   to {
     stroke-dashoffset: -20;
   }
-}
-.bd-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: bd-pulse 1.4s ease-in-out infinite;
 }
 @keyframes bd-pulse {
   50% {
     transform: scale(1.25);
   }
 }
-.bd-cube-a {
-  fill: hsl(calc(var(--th) + 340) calc(50% * var(--ts)) 30%);
-}
-.bd-cube-b {
-  fill: hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 78%);
-}
-.bd-cube-c {
-  fill: hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 46%);
-}
-.bd-float {
-  animation: bd-float 3s ease-in-out infinite;
-}
 @keyframes bd-float {
   50% {
     transform: translateY(-4px);
   }
-}
-.bd-ring {
-  fill: none;
-  stroke: hsl(calc(var(--th) + 76) calc(80% * var(--ts)) 84% / 0.7);
-  stroke-width: 1.3;
-  stroke-dasharray: 6 5;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: bd-spin 9s linear infinite;
-}
-@keyframes bd-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.bd-star {
-  fill: #fff;
-  animation: bd-blink 1.8s ease-in-out infinite;
-}
-.bd-note {
-  animation: bd-note 4.2s ease-in-out infinite;
 }
 @keyframes bd-note {
   0%,
@@ -1558,9 +1437,6 @@ html.theme-anim {
   100% {
     transform: translate(0, 0) rotate(0);
   }
-}
-.bd-travel {
-  animation: bd-travel 4.6s ease-in-out infinite;
 }
 @keyframes bd-travel {
   0%,
@@ -1852,26 +1728,14 @@ html.theme-anim {
   line-height: 1.45;
 }
 @media (prefers-reduced-motion: reduce) {
-
-
-
-
-  .of-pp .ch-head,
-  .tl-p .ch-head,
-  .of-walker .ch-head,
-  .bd-draw,
-  .bd-blink,
-  .bd-tap,
-  .bd-flow,
-  .bd-pulse,
-  .bd-float,
-  .bd-ring,
-  .bd-star,
-  .bd-note,
-  .bd-travel,
-  .of-say i {
+.of-pp .ch-head,
+.tl-p .ch-head,
+.of-walker .ch-head,
+.of-say i {
     animation: none !important;
-  }}
+  }
+}
+
 
 
 
@@ -1924,10 +1788,12 @@ html.theme-anim {
 
 
 
+
   .flow-line,
   .shimmer-line {
     animation: none;
   }}
+
 
 
 
@@ -2008,70 +1874,6 @@ html.theme-anim {
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   z-index: 3;
 }
-/* the café: a floor of its own, a counter, small round tables with cups, a sofa */
-.cf-floor {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 300px;
-  height: 226px;
-  border-radius: 18px;
-  background: hsl(calc(var(--th) + 22) calc(30% * var(--ts)) 17% / 0.6);
-  box-shadow: inset 0 0 0 1px hsl(calc(var(--th) + 22) calc(60% * var(--ts)) 70% / 0.14);
-  z-index: 1;
-}
-.cf-bar {
-  position: absolute;
-  left: 16px;
-  top: 46px;
-  width: 268px;
-  height: 22px;
-  border-radius: 8px;
-  background: linear-gradient(180deg, hsl(calc(var(--th) + 22) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 24%));
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-  z-index: 2;
-}
-.cf-mach {
-  position: absolute;
-  left: 12px;
-  top: 4px;
-  width: 26px;
-  height: 14px;
-  border-radius: 4px;
-  background: hsl(calc(var(--th) + 340) calc(20% * var(--ts)) 14%);
-  box-shadow: 0 0 6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
-}
-.cf-cup {
-  position: absolute;
-  top: 8px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 76) calc(70% * var(--ts)) 88%);
-}
-.cf-cake {
-  position: absolute;
-  right: 16px;
-  top: 4px;
-  width: 30px;
-  height: 14px;
-  border-radius: 7px;
-  background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 78%);
-  box-shadow: inset 0 0 0 2px hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 60%);
-}
-.cf-table {
-  position: absolute;
-  display: block;
-  width: 44px;
-  height: 44px;
-  margin: -22px 0 0 -22px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 22) calc(34% * var(--ts)) 30%);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 3px 8px rgba(0, 0, 0, 0.4);
-  z-index: 2;
-}
 .of-cup {
   position: absolute;
   display: block;
@@ -2102,29 +1904,6 @@ html.theme-anim {
     transform: translateY(-9px) scale(1.3);
     opacity: 0;
   }
-}
-.cf-sofa {
-  position: absolute;
-  left: 60px;
-  top: 182px;
-  width: 180px;
-  height: 30px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 34%), hsl(calc(var(--th) + 330) calc(36% * var(--ts)) 24%));
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
-  z-index: 2;
-}
-.cf-plant {
-  position: absolute;
-  left: 282px;
-  top: 206px;
-  width: 22px;
-  height: 22px;
-  margin: -11px 0 0 -11px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 36% 32%, hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 44%), hsl(calc(var(--th) + 222) calc(48% * var(--ts)) 22%) 70%);
-  box-shadow: 0 0 0 3px hsl(calc(var(--th) + 14) calc(34% * var(--ts)) 24%);
-  z-index: 3;
 }
 
 /* the year is written on the floor: everybody (the founders, the walkers, the tables) is above it; only the goal card is above all */
@@ -2360,11 +2139,13 @@ html.theme-anim {
 
 
 
+
   .ch *,
   .ch {
     animation: none !important;
     transition: none !important;
   }}
+
 
 
 
@@ -2563,6 +2344,7 @@ html.theme-anim {
 
 
 
+
   .pb-body,
   .pb-head,
   .pb-elbow,
@@ -2571,6 +2353,7 @@ html.theme-anim {
   .pb-hop {
     animation: none !important;
   }}
+
 
 
 
@@ -2753,6 +2536,7 @@ html.theme-anim {
 
 
 
+
   .ss-p {
     flex: 1 1 0;
     height: 28rem;
@@ -2809,7 +2593,9 @@ html.theme-anim {
 
 
 
+
 @media (min-width: 1100px) {
+
 
 
 
@@ -2825,7 +2611,9 @@ html.theme-anim {
 
 
 
+
 @media (min-width: 1280px) {
+
 
 
 
@@ -2842,8 +2630,10 @@ html.theme-anim {
 
 
 
+
 /* tablet and phone: one swipeable row of full cards (the next card peeks in) */
 @media (max-width: 1023.98px) {
+
 
 
 
@@ -2879,7 +2669,9 @@ html.theme-anim {
 
 
 
+
 @media (prefers-reduced-motion: reduce) {
+
 
 
 
@@ -2897,6 +2689,7 @@ html.theme-anim {
 
 
 
+
 /* ---- the strip is driven by the page scroll (desktop): pinned while the panels open one after the other ---- */
 .ss-track {
   margin-top: 3rem;
@@ -2908,6 +2701,7 @@ html.theme-anim {
   display: none;
 }
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -2954,6 +2748,7 @@ html.theme-anim {
     text-align: right;
     opacity: 0.7;
   }}
+
 
 
 
@@ -3021,10 +2816,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .sb-thumb,
   .sb-track {
     transition: none;
   }}
+
 
 
 
@@ -3095,6 +2892,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-info {
     display: grid;
     gap: 1.1rem;
@@ -3113,8 +2911,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* desktop */
 @media (min-width: 1024px) {
+
 
 
 
@@ -3186,6 +2986,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @keyframes ss-in {
   from {
     opacity: 0;
@@ -3198,6 +2999,7 @@ html.has-sb::-webkit-scrollbar {
   }
 }
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -3224,7 +3026,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+
 
 
 
@@ -3236,7 +3040,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (prefers-reduced-motion: reduce) {
+
 
 
 
@@ -3256,8 +3062,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* ---- the strip, wider: every point of the detail card sits on ONE line (about 57 characters at most), the strip uses the width of the screen ---- */
 @media (min-width: 1024px) {
+
 
 
 
@@ -3294,7 +3102,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1340px) {
+
 
 
 
@@ -3313,7 +3123,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1440px) {
+
 
 
 
@@ -3329,8 +3141,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* short screens: the slim panels keep their vertical title inside the panel */
 @media (min-width: 1024px) {
+
 
 
 
@@ -3348,8 +3162,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 /* the 3D stage (desktop) */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
   @keyframes pf-ring {
@@ -3362,6 +3178,7 @@ html.has-sb::-webkit-scrollbar {
       transform: scale(1.35);
     }
   }}
+
 
 
 
@@ -3549,433 +3366,16 @@ html.has-sb::-webkit-scrollbar {
   font-size: 1rem;
   text-align: center;
 }
-
-/* the pop-up and the blur behind it (LOCKED: the card design .tx-pop and what is inside it was confirmed by the user, ask before changing) */
-.tx-back {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s;
-}
-.tx-back[data-on="true"] {
-  opacity: 1;
-}
-.tx-back[data-sticky="true"] {
-  pointer-events: auto;
-}
-/* five layers of blur, each one covering a smaller area around the box: far away only a little blur, right around the box a lot */
-.tx-back i,
-.tx-back b {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  --rx: calc(var(--bw, 120px) * 1.42);
-  --ry: calc(var(--bh, 120px) * 1.42);
-}
-.tx-back i:nth-child(1) {
-  -webkit-backdrop-filter: blur(1px);
-  backdrop-filter: blur(1px);
-  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 1000px) calc(var(--ry) + 1000px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse calc(var(--rx) + 1000px) calc(var(--ry) + 1000px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
-}
-.tx-back i:nth-child(2) {
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 700px) calc(var(--ry) + 700px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse calc(var(--rx) + 700px) calc(var(--ry) + 700px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
-}
-.tx-back i:nth-child(3) {
-  -webkit-backdrop-filter: blur(3.5px);
-  backdrop-filter: blur(3.5px);
-  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 480px) calc(var(--ry) + 480px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse calc(var(--rx) + 480px) calc(var(--ry) + 480px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
-}
-.tx-back i:nth-child(4) {
-  -webkit-backdrop-filter: blur(5.5px);
-  backdrop-filter: blur(5.5px);
-  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 300px) calc(var(--ry) + 300px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse calc(var(--rx) + 300px) calc(var(--ry) + 300px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 55%, transparent 100%);
-}
-.tx-back i:nth-child(5) {
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 150px) calc(var(--ry) + 150px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 60%, transparent 100%);
-  mask-image: radial-gradient(ellipse calc(var(--rx) + 150px) calc(var(--ry) + 150px) at var(--bx, 50%) var(--by, 50%), #000 0%, #000 60%, transparent 100%);
-}
-/* a soft shade around the box too, so the card stands out */
-.tx-back b {
-  background: rgba(6, 3, 14, 0.3);
-  -webkit-mask-image: radial-gradient(ellipse calc(var(--rx) + 520px) calc(var(--ry) + 520px) at var(--bx, 50%) var(--by, 50%), #000 0%, rgba(0, 0, 0, 0.7) 45%, transparent 100%);
-  mask-image: radial-gradient(ellipse calc(var(--rx) + 520px) calc(var(--ry) + 520px) at var(--bx, 50%) var(--by, 50%), #000 0%, rgba(0, 0, 0, 0.7) 45%, transparent 100%);
-}
-.tx-pop {
-  position: fixed;
-  z-index: 90;
-  display: flex;
-  width: min(38rem, calc(100vw - 1.5rem));
-  max-height: calc(100svh - 24px);
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.38);
-  border-radius: 28px;
-  background: linear-gradient(170deg, hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 12% / 0.98), hsl(calc(var(--th) + 346) calc(75% * var(--ts)) 6% / 0.99));
-  box-shadow:
-    inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3),
-    0 50px 100px -24px rgba(0, 0, 0, 0.85),
-    0 0 80px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.22);
-  animation: tx-pop 0.5s cubic-bezier(0.2, 1.1, 0.3, 1) both;
-}
 @keyframes tx-pop {
   from {
     opacity: 0;
     transform: translateY(18px) scale(0.94);
   }
 }
-@keyframes tx-up {
-  from {
-    opacity: 0;
-    filter: blur(5px);
-  }
-}
-.tx-x {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 3;
-  display: grid;
-  width: 2.5rem;
-  height: 2.5rem;
-  place-items: center;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25);
-  border-radius: 50%;
-  background: rgba(10, 5, 22, 0.5);
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.25s, transform 0.25s;
-}
-.tx-x:hover {
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
-  transform: rotate(90deg);
-}
-/* the head: a planet, a path like in a code editor, the name of the stack, on a faint blueprint grid */
-.tx-head {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1.1rem;
-  padding: 1.6rem 4rem 1.3rem 1.7rem;
-  background:
-    radial-gradient(110% 150% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.3), transparent 62%),
-    linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06), transparent);
-}
-.tx-head::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.09) 1px, transparent 1px);
-  background-size: 22px 22px;
-  -webkit-mask-image: linear-gradient(120deg, #000, transparent 75%);
-  mask-image: linear-gradient(120deg, #000, transparent 75%);
-  pointer-events: none;
-}
-.tx-orb {
-  position: relative;
-  display: block;
-  width: 4.2rem;
-  height: 4.2rem;
-  flex: none;
-}
-.tx-orb i {
-  position: absolute;
-  inset: 0.35rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at 32% 28%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90%) 0%, hsl(calc(var(--th) + 352) calc(85% * var(--ts)) 62%) 38%, hsl(calc(var(--th) + 346) calc(70% * var(--ts)) 14%) 100%);
-  box-shadow:
-    inset -6px -7px 12px rgba(0, 0, 0, 0.5),
-    0 0 34px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.7);
-}
-.tx-orb::after {
-  content: "";
-  position: absolute;
-  top: 38%;
-  right: -4%;
-  left: -4%;
-  height: 26%;
-  border: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.65);
-  border-radius: 50%;
-  transform: rotate(-18deg);
-}
-.tx-ht {
-  position: relative;
-  min-width: 0;
-}
-.tx-crumb {
-  display: block;
-  overflow: hidden;
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.75);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.875rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.tx-ht h3 {
-  margin: 0.25rem 0 0;
-  color: #fff;
-  font-size: 1.75rem;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-.tx-ht p {
-  margin: 0.35rem 0 0;
-  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 78%);
-  font-size: 0.95rem;
-}
-/* the tools inside the planet: a pill with a slider that glides to the selected one */
-.tx-tools {
-  position: relative;
-  display: flex;
-  gap: 0.2rem;
-  margin: 0.2rem 1.7rem 0;
-  padding: 0.3rem;
-  overflow-x: auto;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2);
-  border-radius: 999px;
-  background: rgba(8, 4, 18, 0.6);
-  scrollbar-width: none;
-}
-.tx-thumb {
-  position: absolute;
-  top: 0.3rem;
-  bottom: 0.3rem;
-  left: 0;
-  width: var(--tw, 0px);
-  border-radius: 999px;
-  background: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 86%), hsl(calc(var(--th) + 348) calc(72% * var(--ts)) 68%));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    0 4px 22px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55);
-  transform: translateX(var(--tx, 0px));
-  transition: transform 0.4s cubic-bezier(0.3, 1.2, 0.4, 1), width 0.4s cubic-bezier(0.3, 1.2, 0.4, 1);
-}
-.tx-tools button {
-  position: relative;
-  z-index: 1;
-  flex: none;
-  padding: 0.5rem 1.05rem;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 86%);
-  font-size: 0.95rem;
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-.tx-tools button:hover {
-  color: #fff;
-}
-.tx-tools button[data-on="true"] {
-  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
-  font-weight: 600;
-}
-.tx-tools button:focus-visible {
-  outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-  outline-offset: 1px;
-}
-.tx-body {
-  min-height: 0;
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding: 0.4rem 1.7rem 0.2rem;
-  scrollbar-width: thin;
-}
-.tx-detail > * {
-  animation: tx-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.tx-detail > :nth-child(2) {
-  animation-delay: 60ms;
-}
-.tx-detail > :nth-child(3) {
-  animation-delay: 110ms;
-}
-.tx-detail > :nth-child(4) {
-  animation-delay: 160ms;
-}
-.tx-detail > :nth-child(5) {
-  animation-delay: 210ms;
-}
-.tx-detail > :nth-child(6) {
-  animation-delay: 260ms;
-}
-.tx-detail > :nth-child(7) {
-  animation-delay: 310ms;
-}
-.tx-toolhead {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  margin-top: 1.1rem;
-}
-.tx-toolhead h4 {
-  margin: 0;
-  color: #fff;
-  font-size: 1.7rem;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-.tx-toolhead span {
-  padding: 0.22rem 0.7rem;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
-  border-radius: 999px;
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-.tx-tag {
-  margin: 0.55rem 0 0;
-  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 86%);
-  font-size: 1.0625rem;
-  line-height: 1.5;
-}
-.tx-l {
-  display: block;
-  margin: 1.4rem 0 0.65rem;
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.9);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-.tx-builds {
-  display: grid;
-  gap: 0.35rem;
-  margin: 0;
-  padding: 0;
-  counter-reset: tx;
-  list-style: none;
-}
-.tx-builds li {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.65rem 0.8rem;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12);
-  border-radius: 14px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.05);
-  color: hsl(calc(var(--th) + 354) calc(45% * var(--ts)) 92%);
-  font-size: 1rem;
-  line-height: 1.4;
-  counter-increment: tx;
-  transition: background 0.25s, border-color 0.25s, transform 0.25s;
-}
-.tx-builds li::before {
-  content: "0" counter(tx);
-  display: grid;
-  width: 2rem;
-  height: 2rem;
-  flex: none;
-  place-items: center;
-  border-radius: 10px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-.tx-builds li:hover {
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.11);
-  transform: translateX(3px);
-}
-.tx-inds {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.tx-inds span {
-  padding: 0.4rem 1rem;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90%);
-  font-size: 0.92rem;
-}
-/* why we use it: written like a note from the team */
-.tx-why {
-  position: relative;
-  margin: 1.4rem 0 0.4rem;
-  padding: 0.9rem 1rem 0.95rem 1.2rem;
-  border-radius: 14px;
-  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12), transparent);
-  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 88%);
-  font-size: 1rem;
-  line-height: 1.6;
-}
-.tx-why::before {
-  content: "";
-  position: absolute;
-  top: 0.7rem;
-  bottom: 0.7rem;
-  left: 0;
-  width: 3px;
-  border-radius: 3px;
-  background: linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%), hsl(calc(var(--th) + 340) calc(80% * var(--ts)) 55%));
-}
-.tx-why b {
-  display: block;
-  margin-bottom: 0.3rem;
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-.tx-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.7rem 1.3rem;
-  border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
-  background: rgba(6, 3, 14, 0.5);
-}
-.tx-foot > span {
-  color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 66%);
-  font-size: 0.875rem;
-  letter-spacing: 0.04em;
-}
-.tx-cta {
-  display: inline-flex;
-  min-height: 46px;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0 1.4rem;
-  border-radius: 999px;
-  background: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 86%), hsl(calc(var(--th) + 348) calc(72% * var(--ts)) 68%));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    0 8px 26px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.45);
-  color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
-  font-size: 0.95rem;
-  font-weight: 600;
-  transition: gap 0.25s, transform 0.25s, filter 0.25s;
-}
-.tx-cta:hover {
-  gap: 0.95rem;
-  filter: brightness(1.06);
-  transform: translateY(-1px);
-}
 
 /* tablet and phone: the planets are a grid of cards (no orbits), the pop-up is a sheet from the bottom */
 @media (max-width: 900px) {
+
 
 
 
@@ -4052,7 +3452,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (max-width: 520px) {
+
 
 
 
@@ -4064,39 +3466,16 @@ html.has-sb::-webkit-scrollbar {
 
 
 
-@media (max-width: 640px) {
-
-
-
-
-  .tx-pop {
-    top: auto !important;
-    right: 0;
-    bottom: 0;
-    left: 0 !important;
-    width: 100%;
-    max-height: 88svh;
-    border-radius: 26px 26px 0 0;
-  }}
-
-
-
 
 @media (prefers-reduced-motion: reduce) {
-
-
-
-
-  .ts-orbit,
-  .ts-sun i,
-  .ts-sphere,
-  .tx-pop,
-  .tx-detail > *,
-  .tx-thumb,
-  .tx-back {
+.ts-orbit,
+.ts-sun i,
+.ts-sphere {
     animation: none !important;
     transition: none !important;
-  }}
+  }
+}
+
 
 
 
@@ -4108,367 +3487,10 @@ html.has-sb::-webkit-scrollbar {
   inherits: true;
   initial-value: 1;
 }
-.cm-track {
-  position: relative;
-}
-.cm-sticky {
-  display: none;
-}
-/* tablet / phone / less motion: a clear list */
-.cm-list {
-  display: grid;
-  max-width: 46rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  list-style: none;
-}
-.cm-list > li {
-  display: grid;
-  grid-template-columns: 3.4rem minmax(0, 1fr);
-  gap: 1rem;
-  padding: 1.6rem 0;
-  border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
-}
-.cm-list > li:last-child {
-  border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
-}
-.cm-l-ico {
-  display: grid;
-  width: 3.2rem;
-  height: 3.2rem;
-  place-items: center;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
-  border-radius: 16px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-}
-.cm-list h3 {
-  margin: 0;
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 92%);
-  font-size: 1.35rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-}
-.cm-list p {
-  margin: 0.6rem 0 0;
-  color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 82%);
-  font-size: 1rem;
-  line-height: 1.7;
-}
 
 /* the city (desktop) */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
 
-
-
-
-  .cm-track {
-    --st: max(100svh, 38rem);
-  }
-  .cm-track[data-pin="true"] {
-    height: calc(var(--st) + (var(--n) - 1) * 110svh + 30svh);
-  }
-  .cm-list {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-  }
-  .cm-sticky {
-    position: sticky;
-    top: min(0px, calc(100svh - var(--st)));
-    display: block;
-  }
-  .cm-stage {
-    position: relative;
-    width: 100%;
-    height: var(--st);
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 17%, #000 83%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 17%, #000 83%, transparent 100%);
-  }
-  .cm-fade {
-    display: none;
-    position: absolute;
-    right: 0;
-    left: 0;
-    z-index: 2;
-    height: 18%;
-    pointer-events: none;
-  }
-  .cm-fade-t {
-    top: 0;
-    background: linear-gradient(to bottom, hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9%), transparent);
-  }
-  .cm-fade-b {
-    bottom: 0;
-    background: linear-gradient(to top, hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9%), transparent);
-  }
-  .cm-sky {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(60% 40% at 50% 8%, hsl(calc(var(--th) + 354) calc(90% * var(--ts)) 60% / 0.14), transparent 70%);
-    pointer-events: none;
-  }
-  .cm-scene {
-    position: absolute;
-    inset: 0;
-    perspective: 1900px;
-    perspective-origin: 50% 36%;
-  }
-  .cm-world {
-    position: absolute;
-    top: 62%;
-    left: calc(50% - 270px);
-    width: 0;
-    height: 0;
-    transform: scale(1.1) rotateX(58deg) rotateZ(-34deg);
-    transform-style: preserve-3d;
-    will-change: transform;
-  }
-  .cm-ground {
-    position: absolute;
-    top: -1300px;
-    height: 4000px;
-    background-color: hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 6%);
-    background-image:
-      linear-gradient(hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.07) 2px, transparent 2px),
-      linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.07) 2px, transparent 2px);
-    background-size: 80px 80px;
-  }
-  .cm-roads {
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: visible;
-    transform: translateZ(2px);
-  }
-  .cm-measure {
-    fill: none;
-    stroke: none;
-  }
-  .cm-walk,
-  .cm-road,
-  .cm-dash,
-  .cm-edge,
-  .cm-isle {
-    fill: none;
-    stroke-linejoin: round;
-  }
-  .cm-walk {
-    stroke: hsl(calc(var(--th) + 350) calc(35% * var(--ts)) 30%);
-    stroke-width: 154;
-  }
-  .cm-road {
-    stroke: hsl(calc(var(--th) + 346) calc(40% * var(--ts)) 7%);
-    stroke-width: 124;
-  }
-  .cm-edge {
-    stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90% / 0.7);
-    stroke-width: 2.5;
-  }
-  .cm-dash {
-    stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 94% / 0.85);
-    stroke-dasharray: 26 20;
-    stroke-width: 3;
-  }
-  .cm-isle {
-    fill: hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 15%);
-    stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25);
-    stroke-width: 3;
-  }
-  .cm-fountain {
-    position: absolute;
-    width: 72px;
-    height: 72px;
-    border: 5px solid hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 36%);
-    border-radius: 50%;
-    background: radial-gradient(circle, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%) 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 58% / 0.85) 70%);
-    transform: translateZ(4px);
-  }
-  .cm-pad {
-    --k: 0.58;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    transform-style: preserve-3d;
-  }
-  .cm-pad[data-on="true"] {
-    --k: 1;
-  }
-  .cm-ring {
-    position: absolute;
-    border-radius: 6px;
-    box-shadow: inset 0 0 0 0 transparent;
-    pointer-events: none;
-    transform: translateZ(9px);
-    transition: box-shadow 0.7s;
-  }
-  .cm-pad[data-on="true"] .cm-ring {
-    box-shadow:
-      inset 0 0 0 4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84% / 0.95),
-      inset 0 0 90px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.35);
-  }
-  .cm-at {
-    position: absolute;
-    width: 0;
-    height: 0;
-    transform-style: preserve-3d;
-  }
-  /* the boxes: a top, four sides, shaded like in a low-poly game; windows are stripes on the sides */
-  .cm-box {
-    --hu: calc(var(--th) + 354);
-    position: absolute;
-    transform-style: preserve-3d;
-  }
-  .cm-f {
-    position: absolute;
-    display: block;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  .cm-top {
-    inset: 0;
-    background-color: hsl(var(--hu) calc(52% * var(--ts)) calc((var(--l) + 18) * var(--k, 1) * 1%));
-  }
-  .cm-fr {
-    top: calc(100% - var(--h));
-    left: 0;
-    width: 100%;
-    height: var(--h);
-    background-color: hsl(var(--hu) calc(56% * var(--ts)) calc((var(--l) - 1) * var(--k, 1) * 1%));
-    transform: rotateX(-90deg);
-    transform-origin: 50% 100%;
-  }
-  .cm-bk {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--h);
-    background-color: hsl(var(--hu) calc(56% * var(--ts)) calc((var(--l) - 8) * var(--k, 1) * 1%));
-    transform: rotateX(90deg);
-    transform-origin: 50% 0;
-  }
-  .cm-rt {
-    top: 0;
-    left: calc(100% - var(--h));
-    width: var(--h);
-    height: 100%;
-    background-color: hsl(var(--hu) calc(56% * var(--ts)) calc((var(--l) + 8) * var(--k, 1) * 1%));
-    transform: rotateY(90deg);
-    transform-origin: 100% 50%;
-  }
-  .cm-lf {
-    top: 0;
-    left: 0;
-    width: var(--h);
-    height: 100%;
-    background-color: hsl(var(--hu) calc(56% * var(--ts)) calc((var(--l) - 6) * var(--k, 1) * 1%));
-    transform: rotateY(-90deg);
-    transform-origin: 0 50%;
-  }
-  .cm-win .cm-fr,
-  .cm-win .cm-rt,
-  .cm-win .cm-bk,
-  .cm-win .cm-lf {
-    background-image:
-      repeating-linear-gradient(0deg, hsl(var(--hu) 50% 6% / 0.5) 0 3px, transparent 3px 13px),
-      repeating-linear-gradient(90deg, hsl(var(--hu) 100% 88% / 0.3) 0 7px, transparent 7px 16px);
-  }
-  .cm-glass .cm-fr,
-  .cm-glass .cm-rt {
-    background-image:
-      repeating-linear-gradient(0deg, hsl(var(--hu) 50% 6% / 0.5) 0 2px, transparent 2px 11px),
-      repeating-linear-gradient(90deg, hsl(var(--hu) 100% 92% / 0.42) 0 10px, transparent 10px 14px);
-  }
-  .cm-top b {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    color: hsl(var(--hu) 100% 94%);
-    font-size: 26px;
-    font-weight: 800;
-    text-shadow: 0 0 14px hsl(var(--hu) 100% 70%);
-  }
-  .cm-flat {
-    --hu: calc(var(--th) + 354);
-    position: absolute;
-    background: hsl(var(--hu) calc(40% * var(--ts)) calc(var(--l) * var(--k, 1) * 1%));
-    transform: translateZ(9px);
-  }
-  .cm-p-lines {
-    box-shadow: inset 0 0 0 3px hsl(var(--hu) 100% 86% / 0.35);
-    background-image: repeating-linear-gradient(90deg, transparent 0 30px, hsl(var(--hu) 100% 86% / 0.22) 30px 33px);
-  }
-  .cm-p-runway {
-    background-image: repeating-linear-gradient(90deg, transparent 0 24px, hsl(var(--hu) 100% 92% / 0.7) 24px 44px);
-    background-position: 0 50%;
-    background-repeat: repeat-x;
-    background-size: auto 4px;
-    box-shadow: inset 0 0 0 3px hsl(var(--hu) 100% 86% / 0.4);
-  }
-  .cm-p-water {
-    background: linear-gradient(135deg, hsl(var(--hu) 100% 78%), hsl(var(--hu) 100% 56%));
-  }
-  .cm-p-road,
-  .cm-p-yard {
-    background-image: repeating-linear-gradient(90deg, transparent 0 22px, hsl(var(--hu) 100% 86% / 0.3) 22px 40px);
-    background-position: 0 50%;
-    background-repeat: repeat-x;
-    background-size: auto 2px;
-  }
-  /* signs always face the camera */
-  .cm-sign {
-    position: absolute;
-    width: 0;
-    height: 0;
-    transform-style: preserve-3d;
-  }
-  .cm-sign span {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0.25rem 0.7rem;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
-    border-radius: 10px;
-    background: rgba(14, 8, 28, 0.88);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    transform: rotateZ(34deg) rotateX(-58deg) translate(-50%, -100%);
-    transform-origin: 0 0;
-    white-space: nowrap;
-  }
-  .cm-name span {
-    padding: 0.3rem 0.9rem;
-    border-radius: 12px;
-    font-size: 17px;
-    opacity: 0.55;
-    transition: opacity 0.5s, background 0.5s, color 0.5s, box-shadow 0.5s;
-  }
-  .cm-name[data-on="true"] span {
-    padding: 0.45rem 1.2rem;
-    border-radius: 14px;
-    font-size: 26px;
-    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 90%);
-    background: linear-gradient(180deg, hsl(calc(var(--th) + 353.6) calc(100% * var(--ts)) 88%), hsl(calc(var(--th) + 348) calc(72% * var(--ts)) 68%));
-    box-shadow: 0 0 40px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.7);
-    color: hsl(calc(var(--th) + 346) calc(80% * var(--ts)) 12%);
-    opacity: 1;
-  }
-  /* the vehicles and the little moving things */
-  .cm-shuttle {
-    transform-style: preserve-3d;
-    animation: cm-shuttle var(--dur, 8s) linear infinite;
-  }
   @keyframes cm-shuttle {
     0% {
       rotate: 0deg;
@@ -4491,43 +3513,6 @@ html.has-sb::-webkit-scrollbar {
       translate: 0 0;
     }
   }
-  .cm-ambient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    offset-rotate: auto;
-    transform-style: preserve-3d;
-    animation: cm-run 40s linear infinite;
-  }
-  @keyframes cm-run {
-    to {
-      offset-distance: 100%;
-    }
-  }
-  .cm-car {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    transform-style: preserve-3d;
-  }
-  .cm-glow {
-    position: absolute;
-    top: -38px;
-    left: -58px;
-    width: 116px;
-    height: 76px;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.85), transparent 70%);
-    transform: translateZ(4px);
-  }
-  .cm-takeoff {
-    transform-style: preserve-3d;
-    animation: cm-takeoff 12s ease-in infinite;
-  }
   @keyframes cm-takeoff {
     0%,
     10% {
@@ -4547,36 +3532,6 @@ html.has-sb::-webkit-scrollbar {
       visibility: hidden;
     }
   }
-  .cm-orbit {
-    transform-style: preserve-3d;
-    animation: cm-spin var(--dur, 10s) linear infinite;
-  }
-  @keyframes cm-spin {
-    to {
-      rotate: 360deg;
-    }
-  }
-  .cm-hover {
-    transform-style: preserve-3d;
-    translate: var(--r, 60px) 0 30px;
-    animation: cm-bob 2s ease-in-out infinite alternate;
-  }
-  @keyframes cm-bob {
-    to {
-      translate: var(--r, 60px) 0 46px;
-    }
-  }
-  .cm-rotor {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform-style: preserve-3d;
-    animation: cm-spin 0.35s linear infinite;
-  }
-  .cm-swing {
-    transform-style: preserve-3d;
-    animation: cm-swing 14s ease-in-out infinite alternate;
-  }
   @keyframes cm-swing {
     from {
       rotate: -28deg;
@@ -4584,278 +3539,8 @@ html.has-sb::-webkit-scrollbar {
     to {
       rotate: 28deg;
     }
-  }
-  .cm-smoke {
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    width: 16px;
-    height: 16px;
-    background: hsl(calc(var(--th) + 354) 30% 78% / 0.5);
-    animation: cm-puff 4s ease-out infinite;
-  }
-  .cm-smoke-b {
-    animation-delay: -2s;
-  }
-  @keyframes cm-puff {
-    from {
-      opacity: 0.7;
-      translate: 0 0 0;
-      scale: 0.6;
-    }
-    to {
-      opacity: 0;
-      translate: 20px 0 90px;
-      scale: 2.6;
-    }
-  }
-  /* the steps and the reading panel lie over the floor */
-  .cm-ui {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    max-width: 1760px;
-    margin: 0 auto;
-    padding: 0 clamp(1.5rem, 4vw, 4.5rem);
-    grid-template-columns: 17.5rem minmax(0, 1fr) 33rem;
-    align-items: center;
-    pointer-events: none;
-  }
-  .cm-rail,
-  .cm-panel {
-    pointer-events: auto;
-  }
-  .cm-rail {
-    position: relative;
-    grid-column: 1;
-    padding-left: 1.3rem;
-  }
-  .cm-rail-bar {
-    position: absolute;
-    top: 0.3rem;
-    bottom: 0.3rem;
-    left: 0;
-    width: 3px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
-  }
-  .cm-rail-bar span {
-    display: block;
-    height: 100%;
-    border-radius: inherit;
-    background: linear-gradient(180deg, hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 60%), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%));
-    box-shadow: 0 0 10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
-    transform: scaleY(0);
-    transform-origin: top;
-  }
-  .cm-rail ol {
-    display: grid;
-    gap: 0.15rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .cm-rail button {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    gap: 0.7rem;
-    padding: 0.5rem 0.7rem;
-    border: 0;
-    border-radius: 12px;
-    background: transparent;
-    color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 72%);
-    font-size: 0.95rem;
-    line-height: 1.3;
-    text-align: left;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-  }
-  .cm-rail button:hover {
-    color: #fff;
-  }
-  .cm-rail button i {
-    min-width: 1.7rem;
-    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-  }
-  .cm-rail button[data-done="true"] {
-    color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 82%);
-  }
-  .cm-rail button[data-on="true"] {
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
-    color: #fff;
-    font-weight: 600;
-  }
-  .cm-rail button[data-on="true"] i {
-    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86%);
-  }
-  .cm-panel {
-    grid-column: 3;
-    padding: 1.8rem 2rem 1.3rem;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
-    border-radius: 26px;
-    box-shadow:
-      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.2),
-      0 30px 80px -30px rgba(0, 0, 0, 0.7);
-  }
-  .cm-p-in {
-    animation: ss-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  .cm-p-top {
-    margin: 0;
-  }
-  .cm-p-top span {
-    display: inline-block;
-    padding: 0.25rem 0.8rem;
-    border-radius: 999px;
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
-    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-  }
-  .cm-panel h3 {
-    margin: 1rem 0 0;
-    color: #fff;
-    font-size: 2rem;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.12;
-  }
-  .cm-p-text {
-    margin: 0.9rem 0 0;
-    color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 86%);
-    font-size: 1.0625rem;
-    line-height: 1.7;
-  }
-  .cm-p-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 1.3rem;
-    padding-top: 1rem;
-    border-top: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
-    color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 70%);
-    font-size: 0.875rem;
-  }
-  .cm-p-nav button {
-    display: grid;
-    width: 44px;
-    height: 44px;
-    place-items: center;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
-    border-radius: 50%;
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12);
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.25s, border-color 0.25s, opacity 0.25s;
-  }
-  .cm-p-nav button:hover:not(:disabled) {
-    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.8);
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  }
-  .cm-p-nav button:disabled {
-    cursor: default;
-    opacity: 0.35;
-  }
-  .cm-rail button {
-    gap: 0.75rem;
-  }
-  .cm-rail button svg {
-    flex: none;
-    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.8);
-  }
-  .cm-p-ico {
-    display: grid;
-    width: 4rem;
-    height: 4rem;
-    margin-top: 1.1rem;
-    place-items: center;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
-    border-radius: 20px;
-    background: linear-gradient(145deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25), hsl(calc(var(--th) + 346) calc(60% * var(--ts)) 12% / 0.8));
-    box-shadow: 0 0 36px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.4);
-    color: #fff;
-  }
-  .cm-p-in h3 {
-    margin-top: 1rem;
   }}
 
-
-
-
-
-/* the list of the districts gets its own glass, so it can be read over the map */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-rail {
-    padding: 1rem 1rem 1rem 1.6rem;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
-    border-radius: 22px;
-    background: rgba(10, 5, 22, 0.62);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-  }
-  .cm-rail-bar {
-    top: 1.1rem;
-    bottom: 1.1rem;
-    left: 0.7rem;
-  }}
-
-
-
-
-
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-sticky[data-live="false"] * {
-    animation-play-state: paused !important;
-  }
-  .cm-ring {
-    transition: none;
-  }
-  .cm-rail {
-    background: rgba(10, 5, 22, 0.86);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }}
-
-
-
-
-
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bl .cm-f {
-    background-color: hsl(38 90% 32%);
-  }
-  .cm-car[data-turn="r"] .cm-bl .cm-f {
-    animation: cm-blink 0.7s steps(1) infinite;
-    box-shadow: 0 0 14px hsl(38 100% 60%);
-  }
-  @keyframes cm-blink {
-    0% {
-      background-color: hsl(38 100% 62%);
-    }
-    50% {
-      background-color: hsl(38 90% 28%);
-    }
-  }}
 
 
 
@@ -4920,133 +3605,6 @@ html.has-sb::-webkit-scrollbar {
 :where(.bglow) {
   position: relative;
 }
-.bglow {
-  --edge-proximity: 0;
-  --cursor-angle: 45deg;
-  --edge-sensitivity: 30;
-  --color-sensitivity: calc(var(--edge-sensitivity) + 20);
-  --glow-padding: 36px;
-  --cone-spread: 25;
-  --fill-opacity: 0.4;
-  --card-bg: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 11.5%);
-  --bg-c1: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
-  --bg-c2: hsl(calc(var(--th) + 400) calc(92% * var(--ts)) 72%);
-  --bg-c3: hsl(calc(var(--th) + 310) calc(90% * var(--ts)) 70%);
-  --glow-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 100%);
-  --glow-color-60: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 60%);
-  --glow-color-50: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 50%);
-  --glow-color-40: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 40%);
-  --glow-color-30: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 30%);
-  --glow-color-20: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 20%);
-  --glow-color-10: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 10%);
-  --gradient-one: radial-gradient(at 80% 55%, var(--bg-c1) 0px, transparent 50%);
-  --gradient-two: radial-gradient(at 69% 34%, var(--bg-c2) 0px, transparent 50%);
-  --gradient-three: radial-gradient(at 8% 6%, var(--bg-c3) 0px, transparent 50%);
-  --gradient-four: radial-gradient(at 41% 38%, var(--bg-c1) 0px, transparent 50%);
-  --gradient-five: radial-gradient(at 86% 85%, var(--bg-c2) 0px, transparent 50%);
-  --gradient-six: radial-gradient(at 82% 18%, var(--bg-c3) 0px, transparent 50%);
-  --gradient-seven: radial-gradient(at 51% 4%, var(--bg-c2) 0px, transparent 50%);
-  --gradient-base: linear-gradient(var(--bg-c1) 0 100%);
-  isolation: isolate;
-}
-.bglow::before,
-.bglow::after,
-.bglow > .bglow-edge {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  transition: opacity 0.25s ease-out;
-  z-index: -1;
-  pointer-events: none;
-}
-.bglow:not(:hover)::before,
-.bglow:not(:hover)::after,
-.bglow:not(:hover) > .bglow-edge {
-  opacity: 0;
-  transition: opacity 0.75s ease-in-out;
-}
-/* coloured mesh-gradient border */
-.bglow::before {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--card-bg) 0 100%) padding-box,
-    linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
-    var(--gradient-one) border-box,
-    var(--gradient-two) border-box,
-    var(--gradient-three) border-box,
-    var(--gradient-four) border-box,
-    var(--gradient-five) border-box,
-    var(--gradient-six) border-box,
-    var(--gradient-seven) border-box,
-    var(--gradient-base) border-box;
-  opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
-  -webkit-mask-image: conic-gradient(from var(--cursor-angle) at center, black calc(var(--cone-spread) * 1%), transparent calc((var(--cone-spread) + 15) * 1%), transparent calc((100 - var(--cone-spread) - 15) * 1%), black calc((100 - var(--cone-spread)) * 1%));
-  mask-image: conic-gradient(from var(--cursor-angle) at center, black calc(var(--cone-spread) * 1%), transparent calc((var(--cone-spread) + 15) * 1%), transparent calc((100 - var(--cone-spread) - 15) * 1%), black calc((100 - var(--cone-spread)) * 1%));
-}
-/* a faint coloured fill near the edge */
-.bglow::after {
-  border: 1px solid transparent;
-  background:
-    var(--gradient-one) padding-box,
-    var(--gradient-two) padding-box,
-    var(--gradient-three) padding-box,
-    var(--gradient-four) padding-box,
-    var(--gradient-five) padding-box,
-    var(--gradient-six) padding-box,
-    var(--gradient-seven) padding-box,
-    var(--gradient-base) padding-box;
-  mask-image:
-    linear-gradient(to bottom, black, black),
-    radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
-    radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
-    radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
-    radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
-    radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
-    conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
-  mask-composite: subtract, add, add, add, add, add;
-  opacity: calc(var(--fill-opacity) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
-  mix-blend-mode: soft-light;
-}
-/* the glow around the card */
-.bglow > .bglow-edge {
-  inset: calc(var(--glow-padding) * -1);
-  z-index: 1;
-  -webkit-mask-image: conic-gradient(from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
-  mask-image: conic-gradient(from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
-  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
-  mix-blend-mode: plus-lighter;
-}
-.bglow > .bglow-edge::before {
-  content: "";
-  position: absolute;
-  inset: var(--glow-padding);
-  border-radius: inherit;
-  box-shadow:
-    inset 0 0 0 1px var(--glow-color),
-    inset 0 0 1px 0 var(--glow-color-60),
-    inset 0 0 3px 0 var(--glow-color-50),
-    inset 0 0 6px 0 var(--glow-color-40),
-    inset 0 0 15px 0 var(--glow-color-30),
-    inset 0 0 25px 2px var(--glow-color-20),
-    inset 0 0 50px 2px var(--glow-color-10),
-    0 0 1px 0 var(--glow-color-60),
-    0 0 3px 0 var(--glow-color-50),
-    0 0 6px 0 var(--glow-color-40),
-    0 0 15px 0 var(--glow-color-30),
-    0 0 25px 2px var(--glow-color-20),
-    0 0 50px 2px var(--glow-color-10);
-}
-@media (hover: none) {
-
-
-
-
-  .bglow::before,
-  .bglow::after,
-  .bglow > .bglow-edge {
-    display: none;
-  }}
 
 
 
@@ -5070,9 +3628,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .pm-eye {
     animation: none;
   }}
+
 
 
 @keyframes pd-ring {
@@ -5140,6 +3700,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   @keyframes mp-ring {
     from {
       opacity: 0.8;
@@ -5150,6 +3711,7 @@ html.has-sb::-webkit-scrollbar {
       transform: scale(1.4);
     }
   }}
+
 
 
 
@@ -5271,11 +3833,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .nr-tube,
   .nr-spill,
   .nr-body {
     animation: none !important;
   }}
+
 
 
 @keyframes sx-fill {
@@ -5406,9 +3970,11 @@ html.has-sb::-webkit-scrollbar {
 @media (prefers-reduced-motion: reduce) {
 
 
+
 .ah-bg i {
     animation: none;
   }}
+
 
 
 
@@ -5457,6 +4023,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .sh[data-sh] .sh-word {
     opacity: 1;
     transform: none;
@@ -5464,153 +4031,6 @@ html.has-sb::-webkit-scrollbar {
     transition: none;
   }}
 
-
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   One article of the blog (components/site/blog-post.tsx): a calm reading column. */
-.bp {
-  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
-  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
-  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.14);
-  --card: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.7);
-  position: relative;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 8rem 1rem 3rem;
-}
-.bp-head {
-  display: grid;
-  justify-items: start;
-}
-.bp-back {
-  margin-bottom: 28px;
-  color: var(--a);
-  font-size: 0.9375rem;
-  text-decoration: none;
-  transition: transform 0.25s;
-}
-.bp-back:hover {
-  transform: translateX(-4px);
-}
-.bp-chip {
-  display: inline-flex;
-  padding: 5px 16px;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
-  color: var(--a);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.bp-h1 {
-  margin: 20px 0 0;
-  background: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 352.8) calc(100% * var(--ts)) 85.29%));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-size: clamp(2rem, 5vw, 3.1rem);
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.1;
-}
-.bp-meta {
-  margin: 16px 0 0;
-  color: var(--soft);
-  font-size: 0.9375rem;
-}
-.bp-lead {
-  margin: 20px 0 0;
-  color: #fff;
-  font-size: 1.1875rem;
-  line-height: 1.6;
-}
-.bp-cover {
-  width: 100%;
-  margin-top: 32px;
-  border: 1px solid var(--hair);
-  border-radius: 22px;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-.bp-body {
-  margin-top: 40px;
-  color: var(--soft);
-  font-size: 1.0625rem;
-  line-height: 1.75;
-}
-.bp-body h2 {
-  margin: 48px 0 0;
-  color: #fff;
-  font-size: clamp(1.5rem, 3vw, 1.95rem);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
-}
-.bp-body p {
-  margin: 16px 0 0;
-}
-.bp-body ul:not(.bp-tags) {
-  display: grid;
-  gap: 10px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.bp-body ul:not(.bp-tags) li {
-  position: relative;
-  padding-left: 26px;
-}
-.bp-body ul:not(.bp-tags) li::before {
-  content: "";
-  position: absolute;
-  top: 0.7em;
-  left: 4px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--a);
-}
-.bp-faq {
-  display: grid;
-  gap: 12px;
-  margin-top: 20px;
-}
-.bp-faq details {
-  border: 1px solid var(--hair);
-  border-radius: 18px;
-  background: var(--card);
-}
-.bp-faq summary {
-  padding: 18px 22px;
-  color: #fff;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-.bp-faq details[open] summary {
-  color: var(--a);
-}
-.bp-faq details p {
-  margin: 0;
-  padding: 0 22px 20px;
-}
-.bp-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 40px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.bp-tags li {
-  padding: 5px 14px;
-  border: 1px solid var(--hair);
-  border-radius: 999px;
-  color: var(--a);
-  font-size: 0.875rem;
-}
 .pw {
   overflow: visible;
 }
@@ -5709,6 +4129,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .pw-breathe,
   .pw-wave,
   .pw-leg,
@@ -5716,6 +4137,7 @@ html.has-sb::-webkit-scrollbar {
   .pw-head {
     animation: none;
   }}
+
 
 
 
@@ -5768,160 +4190,11 @@ html.has-sb::-webkit-scrollbar {
 @media (prefers-reduced-motion: reduce) {
 
 
+
 .pw-tail {
     animation: none;
   }}
 
-
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   The industries city of the home page (industries-road.tsx with "dof"): the distance is out of focus, like with a lens focused on the
-   car: four layers of blur on the top part of the stage (the far end of the road), each a little stronger and covering a little less;
-   and a haze that hides the end of the infinite road. */
-.cm-dof {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-.cm-dof i {
-  position: absolute;
-  inset: 0;
-  -webkit-backdrop-filter: blur(calc(var(--b) * var(--cam-blur, 1)));
-  backdrop-filter: blur(calc(var(--b) * var(--cam-blur, 1)));
-  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 var(--s), transparent var(--e));
-  mask-image: linear-gradient(to bottom, #000 0, #000 var(--s), transparent var(--e));
-}
-.cm-dof i:nth-child(1) {
-  --b: 1.6px;
-  --s: 14%;
-  --e: 38%;
-}
-.cm-dof i:nth-child(2) {
-  --b: 3.6px;
-  --s: 8%;
-  --e: 25%;
-}
-.cm-dof i:nth-child(3) {
-  --b: 7px;
-  --s: 3%;
-  --e: 15%;
-}
-.cm-dof i:nth-child(4) {
-  display: none;
-}
-.cm-dof::after {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 42%;
-  background: linear-gradient(to bottom, hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.92), hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.45) 45%, transparent);
-}
-
-/* the cinematic version (home): the road runs up the middle of the screen (seen a little from the side) so that the districts on both sides
-   can be seen; the list of the industries is on the left and the reading panel on the right, as in the other versions; the title of the
-   section stays on the screen while the city is pinned, above the blur (so that you always see which section this is). */
-.cm-head {
-  position: relative;
-  z-index: 6;
-  padding-bottom: 2.5rem;
-}
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-head {
-    position: sticky;
-    top: 3.4rem;
-    height: 0;
-    padding: 0;
-    overflow: visible;
-    pointer-events: none;
-  }
-  .cm-bird .cm-head > * {
-    pointer-events: auto;
-  }
-  .cm-bird .cm-world {
-    left: 46%;
-    top: 62%;
-  }}
-
-
-
-
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  /* while the city is pinned the title is compact (the intro text is only for the page: it stays in the HTML), and the list and the
-     panel stand lower so that they do not cover it */
-  .cm-bird .cm-head p {
-    display: none;
-  }
-  .cm-bird .cm-head .sh {
-    margin-top: 1rem;
-    font-size: clamp(2.2rem, 3.6vw, 3.3rem) !important;
-  }
-  .cm-bird .cm-ui {
-    align-items: end;
-    padding-bottom: clamp(1.4rem, 7vh, 3.6rem);
-  }}
-
-
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   The layout of the cinematic city as it was drawn: the title at the top (a soft blur behind it), the list of the industries at the left
-   in the middle, the info of the industry at the right in the middle, and the map between them as a road that runs straight up the
-   middle and narrows towards the horizon (strong perspective). The camera looks at the floor from 45 degrees. */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-scene {
-    perspective: var(--cam-p, 2500px); /* a long lens: little distortion, like a portrait camera (not a wide one) */
-    perspective-origin: 50% 50%;
-  }
-  .cm-bird .cm-world {
-    left: var(--cam-x, 50%);
-    top: var(--cam-y, 71%);
-  }
-  .cm-bird .cm-ui {
-    grid-template-columns: 15.5rem minmax(0, 1fr) 22rem; /* the list and the info stand at the two edges, the map has the middle for itself */
-    align-items: center;
-    padding-right: clamp(1.5rem, 3vw, 3.5rem);
-    padding-bottom: 5vh;
-    padding-left: clamp(1.5rem, 3vw, 3.5rem);
-  }
-  .cm-bird .cm-rail {
-    align-self: center;
-  }
-  .cm-bird .cm-panel {
-    grid-column: 3;
-    justify-self: stretch;
-    width: auto;
-    padding: 1.4rem 1.5rem 1.1rem;
-  }}
-
-
-
-
-
-/* the big names of the districts are a little smaller on the small map (the small signs keep their size, they are the ones to read) */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-name span {
-    scale: 0.7;
-  }}
 
 
 
@@ -5941,9 +4214,6 @@ html.has-sb::-webkit-scrollbar {
   box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.8);
   color: #fff;
   font-size: 0.875rem;
-}
-.cm-sticky[data-live="false"] ~ .ct {
-  display: none;
 }
 .ct-head {
   display: flex;
@@ -6029,259 +4299,6 @@ html.has-sb::-webkit-scrollbar {
   transform: translateY(-2px);
 }
 
-/* the list and the info stand at the bottom of the screen so that the buildings in the middle are in the clear */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-ui {
-    align-items: end;
-    padding-bottom: clamp(0.8rem, 2.5vh, 1.6rem);
-  }
-  .cm-bird .cm-rail {
-    align-self: end;
-  }}
-
-
-
-
-
-/* the pictures of a project page (portfolio/[slug]) */
-.bp-gallery {
-  display: grid;
-  gap: 16px;
-  margin-top: 40px;
-}
-@media (min-width: 640px) {
-
-
-
-
-  .bp-gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }}
-
-
-
-
-.bp-pic {
-  width: 100%;
-  border: 1px solid var(--hair);
-  border-radius: 20px;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-/* on a wide screen the list and the info card stay near the middle (on both sides of the road), not at the far edges */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-ui {
-    max-width: 1180px;
-    margin-inline: auto;
-    grid-template-columns: 15.5rem minmax(0, 1fr) 22rem;
-  }}
-
-
-
-
-
-/* the list and the info card are not faded with the bottom of the picture: they are clear, so that you can read which industry it is
-   (only the city itself fades out at the top and the bottom) */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-stage {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  .cm-bird .cm-scene {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 10%, #000 88%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 10%, #000 88%, transparent 100%);
-  }
-  .cm-bird .cm-fade {
-    display: none;
-  }
-  .cm-bird .cm-rail ol {
-    padding: 0.5rem;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
-    border-radius: 18px;
-    background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 9% / 0.82);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  .cm-bird .cm-rail {
-    padding-left: 0;
-  }
-  .cm-bird .cm-rail-bar {
-    display: none;
-  }
-  .cm-bird .cm-rail button {
-    color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 86%);
-  }
-  .cm-bird .cm-panel {
-    background: hsl(calc(var(--th) + 347) calc(45% * var(--ts)) 9% / 0.88);
-  }}
-
-
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   Home industries: the list and the info card must be seen and read at once, over the busy picture: a solid dark glass, a bright edge, bright
-   words, and the industry you are at is lit (a bright pill in the list, the card in the colour of the brand with a glow). */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-rail ol {
-    gap: 0.2rem;
-    padding: 0.6rem;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
-    border-radius: 20px;
-    background: hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 7% / 0.94);
-    box-shadow:
-      0 0 0 1px hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 5% / 0.6),
-      0 24px 50px -22px rgba(0, 0, 0, 0.9);
-  }
-  .cm-bird .cm-rail button {
-    padding: 0.55rem 0.8rem;
-    border: 1px solid transparent;
-    color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 92% / 0.92);
-    font-size: 1.0625rem;
-  }
-  .cm-bird .cm-rail button svg {
-    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
-  }
-  .cm-bird .cm-rail button[data-done="true"] {
-    color: hsl(calc(var(--th) + 354) calc(30% * var(--ts)) 92% / 0.92);
-  }
-  .cm-bird .cm-rail button[data-on="true"] {
-    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 86% / 0.85);
-    background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55), hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 56% / 0.5));
-    box-shadow: 0 0 22px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
-    color: #fff;
-    font-weight: 700;
-  }
-  .cm-bird .cm-rail button[data-on="true"] svg {
-    color: #fff;
-  }
-  .cm-bird .cm-panel {
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.55);
-    background: linear-gradient(160deg, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 14% / 0.97), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 8% / 0.97));
-    box-shadow:
-      0 0 36px -6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55),
-      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 85% / 0.35),
-      0 28px 60px -24px rgba(0, 0, 0, 0.9);
-  }
-  .cm-bird .cm-p-top span {
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.3);
-    color: #fff;
-  }
-  .cm-bird .cm-p-ico {
-    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.6);
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-    color: #fff;
-  }
-  .cm-bird .cm-panel h3 {
-    font-size: 2.1rem;
-    font-weight: 700;
-  }
-  .cm-bird .cm-p-text {
-    color: #fff;
-    font-size: 1.125rem;
-    opacity: 0.94;
-  }
-  .cm-bird .cm-p-nav span {
-    color: hsl(calc(var(--th) + 354) calc(40% * var(--ts)) 90% / 0.9);
-  }}
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   Home industries: the list is ONE clean card (the earlier look had a card inside a card): a small title, rows of the same height with the icon
-   in a little tile, and the industry you are at as a bright pill with an arrow. */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-ui {
-    grid-template-columns: 18.5rem minmax(0, 1fr) 22rem;
-  }
-  .cm-bird .cm-rail {
-    padding: 1.15rem 0.9rem 0.9rem;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.45);
-    border-radius: 24px;
-    background: linear-gradient(165deg, hsl(calc(var(--th) + 350) calc(55% * var(--ts)) 14% / 0.97), hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 7% / 0.97));
-    box-shadow:
-      0 0 30px -8px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.45),
-      inset 0 1px 0 hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 85% / 0.3),
-      0 26px 56px -24px rgba(0, 0, 0, 0.9);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  .cm-bird .cm-rail::before {
-    content: "Industries we serve";
-    display: block;
-    margin: 0 0.3rem 0.7rem;
-    padding-bottom: 0.7rem;
-    border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.2);
-    color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .cm-bird .cm-rail ol {
-    gap: 0.25rem;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: none;
-    box-shadow: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  .cm-bird .cm-rail button {
-    min-height: 2.9rem;
-    gap: 0.8rem;
-    padding: 0.4rem 0.7rem 0.4rem 0.5rem;
-    border-radius: 14px;
-    font-size: 1rem;
-    line-height: 1.25;
-    transition:
-      background 0.25s,
-      border-color 0.25s,
-      box-shadow 0.25s;
-  }
-  .cm-bird .cm-rail button:hover {
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1);
-  }
-  .cm-bird .cm-rail button svg {
-    box-sizing: content-box;
-    width: 1.1rem;
-    height: 1.1rem;
-    padding: 0.4rem;
-    border-radius: 11px;
-    background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
-  }
-  .cm-bird .cm-rail button[data-on="true"] svg {
-    background: rgba(255, 255, 255, 0.22);
-  }
-  .cm-bird .cm-rail button[data-on="true"]::after {
-    content: "→";
-    margin-left: auto;
-    color: #fff;
-    font-size: 1.05rem;
-  }}
-
 
 
 
@@ -6349,6 +4366,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .rp-glow {
     top: auto;
     right: 50%;
@@ -6357,388 +4375,12 @@ html.has-sb::-webkit-scrollbar {
     transform: translate(50%, 20%);
   }}
 
-
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   The contact section as a short conversation (contact-flow.tsx): no box. Tiles you pick, chips, three fields and a brief that fills in. */
-.cf {
-  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
-  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.88);
-  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.18);
-  display: grid;
-  gap: 2.4rem;
-}
-@media (min-width: 900px) {
-
-
-
-
-  .cf {
-    grid-template-columns: minmax(0, 1fr) 17rem;
-    gap: 3.4rem;
-  }}
-
-
-
-
-.cf-progress {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-.cf-progress span {
-  height: 4px;
-  border-radius: 4px;
-  background: var(--hair);
-  transition: background 0.5s, box-shadow 0.5s;
-}
-.cf-progress span[data-on="true"] {
-  background: linear-gradient(90deg, var(--a), hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 66%));
-  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6);
-}
-.cf-step {
-  margin: 0.9rem 0 0;
-  color: var(--a);
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.cf-pane {
-  animation: cf-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
 @keyframes cf-in {
   from {
     opacity: 0;
     transform: translateX(26px);
   }
 }
-.cf-q {
-  margin: 1.4rem 0 0;
-  color: #fff;
-  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-}
-.cf-hint {
-  margin: 0.5rem 0 0;
-  color: var(--soft);
-  font-size: 1.0625rem;
-}
-.cf-tiles {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 1.6rem;
-}
-@media (min-width: 640px) {
-
-
-
-
-  .cf-tiles {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }}
-
-
-
-
-.cf-tile {
-  position: relative;
-  display: grid;
-  gap: 12px;
-  justify-items: start;
-  padding: 1.1rem 1rem 1.15rem;
-  border: 1px solid var(--hair);
-  border-radius: 20px;
-  background: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.55);
-  color: #fff;
-  font: inherit;
-  font-size: 1.0625rem;
-  font-weight: 500;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    border-color 0.3s,
-    background 0.3s,
-    box-shadow 0.3s;
-}
-.cf-tile:hover {
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
-}
-.cf-ic {
-  width: 30px;
-  height: 30px;
-  fill: none;
-  stroke: var(--a);
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.cf-tile:hover .cf-ic {
-  transform: translateY(-3px) scale(1.08);
-}
-.cf-tick {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 20px;
-  height: 20px;
-  border: 1.5px solid var(--hair);
-  border-radius: 50%;
-  transition: background 0.3s, border-color 0.3s, transform 0.3s;
-}
-.cf-tile[aria-pressed="true"] {
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.85);
-  background: linear-gradient(160deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.34), hsl(calc(var(--th) + 340) calc(70% * var(--ts)) 40% / 0.26));
-  box-shadow: 0 0 28px -4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55);
-}
-.cf-tile[aria-pressed="true"] .cf-tick {
-  border-color: #fff;
-  background: #fff;
-  transform: scale(1.1);
-}
-.cf-tile[aria-pressed="true"] .cf-tick::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 6px;
-  width: 5px;
-  height: 9px;
-  border: solid hsl(calc(var(--th) + 346) calc(64% * var(--ts)) 14%);
-  border-width: 0 2px 2px 0;
-  transform: rotate(40deg);
-}
-.cf-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 1.6rem;
-}
-.cf-chip {
-  padding: 0.85rem 1.4rem;
-  border: 1px solid var(--hair);
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 11% / 0.55);
-  color: #fff;
-  font: inherit;
-  font-size: 1.0625rem;
-  cursor: pointer;
-  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-}
-.cf-chip:hover {
-  transform: translateY(-2px);
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
-}
-.cf-chip[aria-pressed="true"] {
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82% / 0.85);
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.3);
-  box-shadow: 0 0 24px -4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.55);
-}
-.cf-fields {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 1.6rem;
-}
-.cf-wide {
-  grid-column: 1 / -1;
-}
-@media (max-width: 639px) {
-
-
-
-
-  .cf-fields {
-    grid-template-columns: 1fr;
-  }}
-
-
-
-
-.cf-in {
-  width: 100%;
-  padding: 0.95rem 1.1rem;
-  border: 1px solid var(--hair);
-  border-radius: 14px;
-  background: hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 10% / 0.7);
-  color: #fff;
-  font: inherit;
-  font-size: 1.0625rem;
-  outline: none;
-  resize: vertical;
-  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
-}
-.cf-in::placeholder {
-  color: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 78% / 0.7);
-}
-.cf-in:focus {
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.7);
-  box-shadow: 0 0 22px -6px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6);
-}
-.cf-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 1.8rem;
-}
-.cf-back {
-  padding: 0.6rem 0.2rem;
-  border: 0;
-  background: none;
-  color: var(--soft);
-  font: inherit;
-  font-size: 1.0625rem;
-  cursor: pointer;
-}
-.cf-back:hover {
-  color: #fff;
-}
-.cf-err {
-  margin: 1rem 0 0;
-  color: hsl(350 90% 80%);
-  font-size: 1rem;
-}
-.cf .rp-cta[disabled] {
-  opacity: 0.6;
-  cursor: wait;
-}
-/* the brief on the side */
-.cf-brief {
-  align-self: start;
-  padding: 1.4rem 1.3rem;
-  border-left: 1px solid var(--hair);
-  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06), transparent);
-}
-@media (max-width: 899px) {
-
-
-
-
-  .cf-brief {
-    border-top: 1px solid var(--hair);
-    border-left: 0;
-    padding: 1.2rem 0 0;
-    background: none;
-  }}
-
-
-
-
-.cf-brief-t {
-  margin: 0;
-  color: var(--a);
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.cf-brief-row {
-  margin-top: 1.1rem;
-}
-.cf-brief-row > span {
-  display: block;
-  color: var(--soft);
-  font-size: 0.9375rem;
-}
-.cf-brief-row > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 0.5rem;
-}
-.cf-brief-row em {
-  color: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 78% / 0.6);
-  font-size: 1rem;
-}
-.cf-pill {
-  padding: 4px 12px;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.5);
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16);
-  color: #fff;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  animation: cf-pop 0.4s cubic-bezier(0.22, 1.4, 0.36, 1) both;
-}
-@keyframes cf-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-}
-.cf-brief-note {
-  margin: 1.4rem 0 0;
-  color: var(--soft);
-  font-size: 0.9375rem;
-  line-height: 1.55;
-}
-/* sent */
-.cf-done {
-  display: grid;
-  justify-items: center;
-  gap: 0.6rem;
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  text-align: center;
-}
-.cf-check {
-  width: 84px;
-  height: 84px;
-  fill: none;
-  stroke: var(--a, #fff);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.cf-check circle {
-  stroke-dasharray: 150;
-  stroke-dashoffset: 150;
-  animation: cf-draw 0.9s ease-out 0.1s forwards;
-}
-.cf-check path {
-  stroke-dasharray: 40;
-  stroke-dashoffset: 40;
-  animation: cf-draw 0.5s ease-out 0.8s forwards;
-}
-@keyframes cf-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-.cf-done-t {
-  margin: 0.8rem 0 0;
-  color: #fff;
-  font-size: 2.2rem;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-}
-.cf-done-p {
-  margin: 0;
-  color: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 90%);
-  font-size: 1.125rem;
-}
-@media (prefers-reduced-motion: reduce) {
-
-
-
-
-  .cf-pane,
-  .cf-pill,
-  .cf-check circle,
-  .cf-check path {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-  .cf-tile {
-    transform: none;
-  }}
 
 
 
@@ -6802,9 +4444,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ft-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }}
+
 
 
 
@@ -6853,12 +4497,14 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ft-grid {
     /* every list gets the room its longest link needs (Technology is the widest), so the links do not wrap and the gaps look the same */
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 0.85fr);
     gap: 3rem 2.6rem;
     align-items: start;
   }}
+
 
 
 
@@ -7002,10 +4648,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ft-word-f {
     opacity: 1;
     animation: ft-sweep 7s ease-in-out infinite alternate;
   }}
+
 
 
 
@@ -7058,9 +4706,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ft-word-f {
     animation: none;
   }}
+
 
 
 
@@ -7074,384 +4724,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   Contact flow, more of its own (contact-flow.tsx): four steps, a slider that grows a little planet system, and the brief as a mission ticket
-   (a barcode made from the choices and a rocket that rises with the "launch readiness"); when the message is sent the rocket takes off. */
-.cf-progress {
-  grid-template-columns: repeat(4, 1fr);
-}
-/* step 3: the size */
-.cf-size {
-  display: grid;
-  gap: 1.6rem;
-  align-items: center;
-  margin-top: 1.6rem;
-}
-@media (min-width: 640px) {
-
-
-
-
-  .cf-size {
-    grid-template-columns: 12rem minmax(0, 1fr);
-    gap: 2.4rem;
-  }}
-
-
-
-
-.cf-orbits {
-  position: relative;
-  width: 12rem;
-  max-width: 100%;
-  aspect-ratio: 1;
-  margin-inline: auto;
-}
-.cf-sun {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 22px;
-  height: 22px;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff, var(--a) 60%, hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 55%));
-  box-shadow: 0 0 26px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.9);
-}
-.cf-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(34% + var(--i) * 22%);
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  border: 1px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
-  border-radius: 50%;
-  opacity: 0;
-  scale: 0.5;
-  transition: opacity 0.5s, scale 0.6s cubic-bezier(0.22, 1.3, 0.36, 1);
-  animation: cf-orbit calc(7s + var(--i) * 5s) linear infinite;
-}
-.cf-ring[data-on="true"] {
-  opacity: 1;
-  scale: 1;
-}
-.cf-ring b {
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  margin-left: -5px;
-  border-radius: 50%;
-  background: var(--a);
-  box-shadow: 0 0 12px var(--a);
-}
-@keyframes cf-orbit {
-  to {
-    rotate: 360deg;
-  }
-}
-.cf-size-n {
-  margin: 0;
-  color: #fff;
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  animation: cf-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.cf-size-h {
-  margin: 0.4rem 0 1.6rem;
-  color: var(--soft);
-  font-size: 1.0625rem;
-  line-height: 1.55;
-}
-.cf-range {
-  display: block;
-  width: 100%;
-  height: 28px;
-  margin: 0;
-  background: none;
-  cursor: grab;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.cf-range:active {
-  cursor: grabbing;
-}
-.cf-range::-webkit-slider-runnable-track {
-  height: 6px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, var(--a) calc(var(--p) * 100%), var(--hair) 0);
-}
-.cf-range::-moz-range-track {
-  height: 6px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, var(--a) calc(var(--p) * 100%), var(--hair) 0);
-}
-.cf-range::-webkit-slider-thumb {
-  width: 26px;
-  height: 26px;
-  margin-top: -10px;
-  border: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff, var(--a));
-  box-shadow: 0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25), 0 0 22px var(--a);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.cf-range::-moz-range-thumb {
-  width: 26px;
-  height: 26px;
-  border: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff, var(--a));
-  box-shadow: 0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.25), 0 0 22px var(--a);
-}
-.cf-range:focus-visible {
-  outline: 2px solid var(--a);
-  outline-offset: 6px;
-  border-radius: 8px;
-}
-.cf-ticks {
-  display: flex;
-  justify-content: space-between;
-  padding-inline: 12px;
-}
-.cf-ticks span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--hair);
-  transition: background 0.3s, box-shadow 0.3s;
-}
-.cf-ticks span[data-on="true"] {
-  background: var(--a);
-  box-shadow: 0 0 10px var(--a);
-}
-
-/* the brief as a mission ticket */
-.cf-brief {
-  padding: 1.3rem 1.4rem 1.2rem;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.26);
-  border-radius: 22px;
-  background:
-    radial-gradient(120% 70% at 100% 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16), transparent 60%),
-    hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 9% / 0.7);
-  box-shadow: 0 30px 60px -36px rgba(0, 0, 0, 0.8);
-}
-@media (max-width: 899px) {
-
-
-
-
-  .cf-brief {
-    padding: 1.3rem 1.4rem 1.2rem;
-    border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.26);
-    background:
-      radial-gradient(120% 70% at 100% 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16), transparent 60%),
-      hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 9% / 0.7);
-  }}
-
-
-
-
-.cf-tk-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.cf-tk-no {
-  margin: 0;
-  color: var(--soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.875rem;
-  letter-spacing: 0.06em;
-}
-.cf-tk-note {
-  margin: 0.5rem 0 0;
-  color: #fff;
-  font-size: 1rem;
-  font-style: italic;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-.cf-tk-cut {
-  margin: 1.3rem -1.4rem 1.1rem;
-  border-top: 2px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.28);
-}
-.cf-fuel p {
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  color: var(--soft);
-  font-size: 0.9375rem;
-}
-.cf-fuel b {
-  color: #fff;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-.cf-fuel-bar {
-  position: relative;
-  height: 8px;
-  margin: 1.1rem 0 0.4rem;
-  border-radius: 8px;
-  background: var(--hair);
-}
-.cf-fuel-bar i {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  background: linear-gradient(90deg, hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 60%), var(--a));
-  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.6);
-  transform: scaleX(var(--pct));
-  transform-origin: left;
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.cf-fuel-r {
-  position: absolute;
-  top: 50%;
-  left: calc(var(--pct) * 100%);
-  width: 14px;
-  height: 24px;
-  margin: -12px 0 0 -7px;
-  rotate: 90deg;
-  transition: left 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  overflow: visible;
-}
-.cf-r-bd {
-  fill: #fff;
-}
-.cf-r-w {
-  fill: var(--a);
-}
-.cf-r-fn {
-  fill: hsl(calc(var(--th) + 330) calc(80% * var(--ts)) 62%);
-}
-.cf-r-fl {
-  fill: #ffb86b;
-  transform-origin: 12px 26px;
-  animation: cf-flame 0.18s ease-in-out infinite alternate;
-}
-@keyframes cf-flame {
-  to {
-    transform: scaleY(1.35);
-    opacity: 0.8;
-  }
-}
-.cf-code {
-  display: block;
-  width: 100%;
-  height: 30px;
-  margin-top: 1.2rem;
-  fill: var(--soft);
-  opacity: 0.55;
-}
-.cf-brief-note {
-  margin-top: 1rem;
-}
-
-/* sent: the rocket takes off, then the check mark and the thanks appear */
-.cf-done {
-  position: relative;
-  min-height: 20rem;
-  align-content: center;
-}
-.cf-launch {
-  position: absolute;
-  left: 50%;
-  bottom: 1rem;
-  width: 44px;
-  height: 0;
-  margin-left: -22px;
-  pointer-events: none;
-}
-.cf-rocket {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 44px;
-  height: 73px;
-  overflow: visible;
-  animation: cf-lift 1.5s cubic-bezier(0.5, 0, 0.9, 0.5) both;
-}
-@keyframes cf-lift {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  15% {
-    transform: translateY(6px) scale(1);
-  }
-  100% {
-    transform: translateY(-440px) scale(0.7);
-    opacity: 0;
-  }
-}
-.cf-smoke {
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  width: 70px;
-  height: 70px;
-  margin-left: -35px;
-  border-radius: 50%;
-  background: radial-gradient(circle, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.5), transparent 70%);
-  animation: cf-puff 1.5s ease-out both;
-}
-.cf-smoke-b {
-  animation-delay: 0.25s;
-}
-@keyframes cf-puff {
-  from {
-    opacity: 0.9;
-    transform: translateY(0) scale(0.3);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-30px) scale(2.6);
-  }
-}
-.cf-done .cf-check circle {
-  animation-delay: 1.1s;
-}
-.cf-done .cf-check path {
-  animation-delay: 1.8s;
-}
-.cf-done-t,
-.cf-done-p {
-  animation: cf-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.1s both;
-}
-@media (prefers-reduced-motion: reduce) {
-
-
-
-
-  .cf-launch {
-    display: none;
-  }
-  .cf-done-t,
-  .cf-done-p,
-  .cf-ring,
-  .cf-r-fl,
-  .cf-size-n {
-    animation: none;
-  }
-  .cf-done .cf-check circle,
-  .cf-done .cf-check path {
-    animation-delay: 0s;
-  }}
-
-
-
 
 
 /* ---------------------------------------------------------------------------------------------------------------------------------
    Tech space: the whole section (heading, hint and the planets) fits in the height of the screen, the orbit lines are white, and the orbit of
    the planet you hover (or whose pop-up is open) lights up while the other orbits go quiet. */
 @media (min-width: 901px) {
+
 
 
 
@@ -7487,6 +4766,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 .ts-orbit {
   border-color: rgba(255, 255, 255, 0.2);
   box-shadow:
@@ -7506,19 +4786,6 @@ html.has-sb::-webkit-scrollbar {
     inset 0 0 18px rgba(255, 255, 255, 0.12);
 }
 
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   The end of the pinned city: when the industries are finished and the next section comes up, only the TITLE of the section ("Built for every
-   industry") goes out of focus and fades (--out from 0 to 1, set in industries-road.tsx while the city scrolls away). */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-head {
-    filter: blur(calc(var(--out, 0) * 18px));
-    opacity: calc(1 - var(--out, 0) * 0.85);
-  }}
-
 
 
 
@@ -7526,6 +4793,7 @@ html.has-sb::-webkit-scrollbar {
 /* ---------------------------------------------------------------------------------------------------------------------------------
    Tech space: its title is part of the section (it is NOT fixed at the top): it goes up with the section and the planets. Desktop only. */
 @media (min-width: 901px) {
+
 
 
 
@@ -7539,37 +4807,6 @@ html.has-sb::-webkit-scrollbar {
     background: none;
   }}
 
-
-
-
-
-
-/* the brief with many choices: smaller pills, two or three in a row, the rest as "+3 more"; a little wider so that they fit */
-@media (min-width: 900px) {
-
-
-
-
-  .cf {
-    grid-template-columns: minmax(0, 1fr) 19.5rem;
-  }}
-
-
-
-
-.cf-brief-row > div {
-  gap: 6px;
-}
-.cf-pill {
-  padding: 3px 11px;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-.cf-more {
-  border-style: dashed;
-  background: transparent;
-  color: var(--soft);
-}
 
 /* ---------------------------------------------------------------------------------------------------------------------------------
    "At a glance" of the home page as a small control room (glance-orbit.tsx): a ring that counts the years (one light for every year, a comet goes
@@ -7594,10 +4831,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .go-stage {
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     gap: clamp(2.6rem, 4.5vw, 4.4rem);
   }}
+
 
 
 
@@ -7610,6 +4849,7 @@ html.has-sb::-webkit-scrollbar {
   list-style: none;
 }
 @media (max-width: 899px) {
+
 
 
 
@@ -7629,7 +4869,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (max-width: 520px) {
+
 
 
 
@@ -7641,7 +4883,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 900px) {
+
 
 
 
@@ -7652,6 +4896,7 @@ html.has-sb::-webkit-scrollbar {
   .go-side[data-side="r"] {
     justify-items: start;
   }}
+
 
 
 
@@ -7797,10 +5042,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .go-card {
     --dir: 0;
     width: 100%;
   }}
+
 
 
 
@@ -7846,6 +5093,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .go-line {
     display: block;
     position: absolute;
@@ -7866,6 +5114,7 @@ html.has-sb::-webkit-scrollbar {
   .go-card {
     overflow: visible;
   }}
+
 
 
 
@@ -7948,10 +5197,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .go-comet,
   .go-dash {
     animation: none;
   }}
+
 
 
 
@@ -8068,11 +5319,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   /* on a phone the logo is in the middle: the badges stay small on both sides of it */
   .hb img {
     height: 1.6rem;
     max-width: 4.6rem;
   }}
+
 
 
 
@@ -8198,18 +5451,6 @@ html.has-sb::-webkit-scrollbar {
   transform: translateX(-50%) scale(1);
 }
 
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   The logo is fixed at the top centre (24 px to 68 px from the top of the screen): the titles that stay on the screen (stick) while a section is
-   pinned start below it, so nothing sticks behind the logo (the title of the tech space is not one of them: it goes up with its section). */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-head {
-    top: 5.6rem;
-  }}
-
 
 
 
@@ -8218,93 +5459,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ts-head {
     padding-top: 5.6rem;
   }}
 
-
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   The contact flow, wider and lower: on a laptop / desktop the block is wider (1280 px), the tiles lie flat (the icon beside the words, not above them)
-   so that the two rows of tiles are about half as high, and the question fits in one line. */
-@media (min-width: 900px) {
-
-
-
-
-  .cf {
-    gap: 3rem;
-  }
-  .cf-q {
-    margin-top: 1.1rem;
-    font-size: clamp(1.7rem, 2.6vw, 2.2rem);
-  }
-  .cf-tiles {
-    gap: 14px;
-    margin-top: 1.3rem;
-  }
-  .cf-tile {
-    min-height: 4.6rem;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    gap: 0.9rem;
-    padding: 0.8rem 2.4rem 0.8rem 1.1rem;
-  }
-  .cf-tile .cf-ic {
-    width: 28px;
-    height: 28px;
-  }
-  .cf-brief {
-    align-self: start;
-  }}
-
-
-
-
-@media (min-width: 900px) {
-
-
-
-
-  .cf-tick {
-    top: 50%;
-    margin-top: -10px;
-  }}
-
-
-
-
-/* the brief (the ticket) a little more compact, so that the whole block is not as high as before */
-@media (min-width: 900px) {
-
-
-
-
-  .cf-brief {
-    padding: 1.05rem 1.2rem 1rem;
-  }
-  .cf-brief-row {
-    margin-top: 0.75rem;
-  }
-  .cf-brief-row > div {
-    margin-top: 0.35rem;
-  }
-  .cf-tk-cut {
-    margin: 0.95rem -1.2rem 0.8rem;
-  }
-  .cf-fuel-bar {
-    margin: 0.8rem 0 0.3rem;
-  }
-  .cf-code {
-    height: 24px;
-    margin-top: 0.9rem;
-  }
-  .cf-brief .cf-brief-note {
-    margin-top: 0.7rem;
-    font-size: 1rem;
-  }}
 
 
 
@@ -8344,6 +5503,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-track[data-head="true"] {
     margin-top: 0;
   }
@@ -8367,7 +5527,9 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @media (min-width: 1024px) and (max-height: 860px) {
+
 
 
 
@@ -8375,6 +5537,7 @@ html.has-sb::-webkit-scrollbar {
   .ss-head p {
     display: none;
   }}
+
 
 
 
@@ -8420,9 +5583,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-h-p {
     display: none;
   }}
+
 
 
 
@@ -8446,9 +5611,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-h-p {
     display: block;
   }}
+
 
 
 
@@ -8458,9 +5625,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ss-h-p {
     display: none;
   }}
+
 
 
 
@@ -8543,6 +5712,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ab-l,
   .ab-sweep {
     animation: none;
@@ -8550,196 +5720,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 @keyframes fa-run {
   to {
     transform: translateX(350%);
   }
-}
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   The text section "about this service" (sections/story.tsx) in four looks (duo, lead, rail, chips): every page of the site has its own, so that they do
-   not all show the same narrow column between two lines. Cards have the soft coloured light of the site (two round gradients) under dark glass. */
-.sy {
-  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
-  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
-  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
-}
-.sy-wrap {
-  width: 100%;
-  max-width: 1180px;
-  margin-inline: auto;
-  padding-inline: 1rem;
-}
-.sy-p {
-  margin: 0;
-  color: var(--soft);
-  font-size: 1.1875rem;
-  line-height: 1.7;
-}
-.sy-p .text-violet {
-  font-weight: 500;
-}
-/* duo */
-.sy-duo {
-  display: grid;
-  gap: 1.2rem;
-}
-@media (min-width: 860px) {
-
-
-
-
-  .sy-duo[data-n="2"] {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }}
-
-
-
-
-.sy-card {
-  position: relative;
-  padding: 1.8rem 1.8rem 2rem;
-  border: 1px solid var(--hair);
-  border-radius: 26px;
-  background:
-    radial-gradient(130% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.22), transparent 62%),
-    radial-gradient(120% 100% at 100% 100%, hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 56% / 0.18), transparent 64%),
-    hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 10% / 0.86);
-}
-.sy-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.4rem;
-}
-.sy-no {
-  -webkit-text-stroke: 1px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
-  color: transparent;
-  font-size: 3.4rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-.sy-card .sy-p {
-  font-size: 1.25rem;
-  line-height: 1.65;
-}
-/* lead */
-.sy-lead-wrap {
-  max-width: 980px;
-  margin-inline: auto;
-}
-.sy-lead {
-  margin: 0;
-  background: linear-gradient(180deg, #fff 20%, hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 84%));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-size: clamp(1.7rem, 3.2vw, 2.7rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.22;
-}
-.sy-lead .text-violet {
-  background: linear-gradient(90deg, var(--a), hsl(calc(var(--th) + 326) calc(90% * var(--ts)) 70%));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.sy-lead-wrap .sy-cols {
-  margin-top: 2.4rem;
-  padding-top: 1.8rem;
-  border-top: 1px solid var(--hair);
-}
-.sy-cols {
-  display: grid;
-  gap: 1.4rem 3rem;
-}
-@media (min-width: 860px) {
-
-
-
-
-  .sy-cols {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }}
-
-
-
-
-/* rail */
-.sy-rail {
-  max-width: 1040px;
-  margin-inline: auto;
-  border-top: 1px solid var(--hair);
-}
-.sy-row {
-  display: grid;
-  gap: 1rem 3rem;
-  padding: 2.2rem 0;
-  border-bottom: 1px solid var(--hair);
-}
-@media (min-width: 860px) {
-
-
-
-
-  .sy-row {
-    grid-template-columns: 17rem minmax(0, 1fr);
-    align-items: start;
-  }}
-
-
-
-
-.sy-row-l {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-}
-.sy-big {
-  -webkit-text-stroke: 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
-  color: transparent;
-  font-size: clamp(3.4rem, 6vw, 5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.9;
-}
-.sy-title {
-  color: #fff;
-  font-size: 1.1875rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-.sy-rail .sy-p {
-  font-size: 1.3125rem;
-  line-height: 1.6;
-}
-/* chips */
-.sy-chips-wrap {
-  max-width: 1040px;
-  margin-inline: auto;
-}
-.sy-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  margin: 0 0 2.2rem;
-  padding: 0;
-  list-style: none;
-}
-.sy-chips li {
-  padding: 0.55rem 1.1rem;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.32);
-  border-radius: 999px;
-  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16), hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 56% / 0.1));
-  color: #fff;
-  font-size: 1.0625rem;
-  font-weight: 500;
-}
-.sy-chips-wrap .sy-p {
-  font-size: 1.1875rem;
 }
 
 /* the helper of "Take off your plate": the guide seen from above, the same figure and size as the people of the timeline on the About page (47 x 66 px) */
@@ -8828,9 +5813,11 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .au-l {
     transition: none;
   }}
+
 
 
 
@@ -8841,6 +5828,7 @@ html.has-sb::-webkit-scrollbar {
    the logo, and the whole block (heading, strip, detail card, progress line) has to fit in the screen. So the block starts a little higher, the
    description under the heading is left out (the card says it) and the panels are a little lower than on the About page. */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+
 
 
 
@@ -8865,10 +5853,8 @@ html.has-sb::-webkit-scrollbar {
   .ss-track[data-head="true"][data-detail="true"] .ss-prog {
     margin-top: 1rem;
   }}
-
 .card-glass,
-.go-card,
-.sy-card {
+.go-card {
   background:
     linear-gradient(155deg, hsl(0 0% 100% / 0.075) 0%, hsl(0 0% 100% / 0.025) 42%, hsl(0 0% 100% / 0.01) 100%),
     hsl(calc(var(--th) + 347) calc(38% * var(--ts)) 9% / 0.52);
@@ -8879,10 +5865,6 @@ html.has-sb::-webkit-scrollbar {
     inset 0 0 0 1px hsl(0 0% 100% / 0.035);
 }
 
-
-.bglow {
-  --card-bg: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 10%);
-}
 /* the open panel of the strip: the coloured light in it is much softer, and its shadow is not violet any more */
 .ss-glow {
   background: radial-gradient(90% 70% at 15% 0%, hsl(calc(var(--th) + 354 + var(--k) * 12) calc(60% * var(--ts)) 68% / 0.1), transparent 65%);
@@ -8899,13 +5881,13 @@ html.has-sb::-webkit-scrollbar {
      screen; elsewhere the glass is the same see-through tint without the blur (the sky behind is soft anyway).
    - The small uppercase labels of the panels were 11 to 12 px: 14 px is the smallest text of the site. */
 @media (max-width: 1023px), (hover: none) {
-
 .card-glass,
-.go-card,
-.sy-card {
+.go-card {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-  }}
+  }
+}
+
 
 
 .ss-d-label,
@@ -8927,21 +5909,6 @@ html.has-sb::-webkit-scrollbar {
 
 
 
-/* Industries (home, the bird's-eye city): the far edge of the city plane was a hard line where the dark city met the sky of the page. The whole upper part
-   of the picture, up to a little under the horizon, now melts into the sky, so the city rises out of the same gradient as the section above. */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-scene {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 20%, rgba(0, 0, 0, 0.35) 34%, #000 52%, #000 88%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, transparent 20%, rgba(0, 0, 0, 0.35) 34%, #000 52%, #000 88%, transparent 100%);
-  }}
-
-
-
-
 
 /* The office plan of the About timeline and of the Metaverse floor is a solid box: its top and bottom edge fade into the sky of the page, so that it
    has no hard line against the section above and below. */
@@ -8957,6 +5924,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ts-head {
     padding-top: 4.6rem;
     padding-bottom: 0.4rem;
@@ -8968,6 +5936,7 @@ html.has-sb::-webkit-scrollbar {
   .ts-hint {
     margin-top: 0.3rem;
   }}
+
 
 
 
@@ -8997,11 +5966,13 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .ts-sun {
     width: 98px;
     height: 98px;
     margin: -49px 0 0 -49px;
   }}
+
 
 
 
@@ -9025,128 +5996,6 @@ html.has-sb::-webkit-scrollbar {
     0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%),
     0 12px 34px -10px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 70% / 0.7);
 }
-.cf-brief {
-  background:
-    linear-gradient(155deg, hsl(0 0% 100% / 0.075) 0%, hsl(0 0% 100% / 0.025) 42%, hsl(0 0% 100% / 0.01) 100%),
-    hsl(calc(var(--th) + 347) calc(38% * var(--ts)) 9% / 0.52);
-  border-color: hsl(0 0% 100% / 0.12);
-  box-shadow:
-    inset 0 1px 0 hsl(0 0% 100% / 0.11),
-    0 26px 56px -40px rgba(0, 0, 0, 0.8);
-}
-@media (min-width: 1024px) {
-
-
-
-
-  .cf-brief {
-    -webkit-backdrop-filter: blur(14px) saturate(1.15);
-    backdrop-filter: blur(14px) saturate(1.15);
-  }}
-
-
-
-
-
-/* The Next / Skip button of the contact flow has the size the white box in the design showed: 204 x 58 px, the label and the arrow in the middle */
-.cf-nav .rp-cta {
-  justify-content: center;
-  min-width: min(204px, 100%);
-  height: 58px;
-  padding: 0 28px;
-}
-
-/* the line of the four steps runs over the whole width of the flow (the form and the ticket on the right), and sits close to the step it belongs to */
-.cf-progress {
-  grid-column: 1 / -1;
-  align-self: start;
-  height: 5px;
-  margin-bottom: -1.2rem;
-}
-.cf-progress span {
-  height: 5px;
-}
-@media (min-width: 900px) {
-
-
-
-
-  .cf-progress {
-    margin-bottom: -2.6rem;
-  }}
-
-
-
-/* Industries (home): the depth-of-field layers and the haze of the far end of the road started at full strength at the very top edge of the pinned picture,
-   which showed as a hard line (the stars above it, a dark band below it). They now fade IN from the top edge, so the picture melts into the sky of the
-   section above. */
-.cm-dof i {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--r, 6%), #000 var(--s), transparent var(--e));
-  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--r, 6%), #000 var(--s), transparent var(--e));
-}
-.cm-dof i:nth-child(1) {
-  --r: 6%;
-  --s: 14%;
-}
-.cm-dof i:nth-child(2) {
-  --r: 5%;
-  --s: 10%;
-  --e: 26%;
-}
-.cm-dof i:nth-child(3) {
-  --r: 4%;
-  --s: 7%;
-  --e: 17%;
-}
-.cm-dof::after {
-  height: 46%;
-  background: linear-gradient(
-    to bottom,
-    transparent 0,
-    hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.35) 12%,
-    hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.72) 28%,
-    hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 4.9% / 0.4) 58%,
-    transparent
-  );
-}
-
-/* Industries (home): a thin hard line stayed along the top edge of the pinned picture (the edge of the box that holds the city). The top of the whole stage
-   now fades in over its first 14%, so there is no edge at all against the section above. (Only the top: the list and the card at the bottom stay clear.) */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-stage {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
-  }}
-
-
-
-
-
-/* Industries (home): the colours of the city meet the colours of the sky. The ground of the city and the haze at its far end were almost black next to the
-   violet sky of the page above (a different colour, not only a darker one). They are now the same dark violet as the page background with the lights in it,
-   a little lighter, so the picture grows out of the sky without a change of tone. */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-
-
-
-
-  .cm-bird .cm-ground {
-    background-color: hsl(calc(var(--th) + 350) calc(52% * var(--ts)) 10%);
-  }
-  .cm-dof::after {
-    background: linear-gradient(
-      to bottom,
-      transparent 0,
-      hsl(calc(var(--th) + 350) calc(52% * var(--ts)) 12% / 0.3) 12%,
-      hsl(calc(var(--th) + 350) calc(52% * var(--ts)) 11% / 0.55) 30%,
-      hsl(calc(var(--th) + 350) calc(52% * var(--ts)) 10% / 0.32) 58%,
-      transparent
-    );
-  }}
 
 
 
@@ -9213,28 +6062,18 @@ html.has-sb::-webkit-scrollbar {
   transition:
     background-color 0.2s,
     box-shadow 0.2s;
-}
-
-
-.cf-in.ios-in {
-  padding: 0.95rem 1rem;
-  border: 0;
-  border-radius: 12px;
-  background: var(--ios-fill);
-  box-shadow: none;
 }.ios-in::placeholder {
   color: hsl(calc(var(--th) + 352) calc(14% * var(--ts)) 92% / 0.52);
   font-family: var(--font-sans);
   font-size: 1.0625rem;
   letter-spacing: 0;
   opacity: 1;
-}
-.ios-in:focus,
-.cf-in.ios-in:focus {
+}.ios-in:focus {
   border: 0;
   background: hsl(calc(var(--th) + 350) calc(26% * var(--ts)) 82% / 0.18);
   box-shadow: 0 0 0 2px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
 }
+
 .ios-in:-webkit-autofill {
   -webkit-text-fill-color: #fff;
   caret-color: var(--ios-tint);
@@ -9262,6 +6101,7 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .tm-grid {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: 88px;
@@ -9271,6 +6111,7 @@ html.has-sb::-webkit-scrollbar {
     top: 120px;
     align-self: start;
   }}
+
 
 
 
@@ -9338,94 +6179,6 @@ html.has-sb::-webkit-scrollbar {
   color: var(--a);
   font-size: 0.9375rem;
   font-weight: 500;
-}
-
-/* the steps of a project: numbered cards on a line, two rows of three */
-.tj {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 60px 24px;
-  margin: 84px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.tj-item {
-  position: relative;
-  display: flex;
-}
-.tj-step {
-  --card-bg: hsl(calc(var(--th) + 347) calc(40% * var(--ts)) 10%);
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 28px 26px 30px;
-  border: 1px solid var(--hair);
-  border-radius: 22px;
-  background: var(--card);
-  transition:
-    border-color 0.4s,
-    translate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.tj-step:hover {
-  translate: 0 -4px;
-  border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.35);
-}
-/* a dot on the line above every card, and the line itself */
-.tj-item::before {
-  content: "";
-  position: absolute;
-  top: -29px;
-  left: 26px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--a);
-  box-shadow: 0 0 0 5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18), 0 0 18px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
-}
-.tj-item::after {
-  content: "";
-  position: absolute;
-  top: -24px;
-  left: 44px;
-  right: -24px;
-  height: 1px;
-  background: linear-gradient(90deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.12));
-}
-.tj-item:nth-child(3n)::after {
-  display: none;
-}
-.tj-no {
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-}
-.tj-step h3 {
-  margin: 14px 0 0;
-  color: #fff;
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
-}
-.tj-who {
-  margin: 14px 0 0;
-  padding: 4px 12px;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.35);
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.08);
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.4;
-}
-.tj-text {
-  margin: 16px 0 0;
-  color: var(--soft);
-  font-size: 1.0625rem;
-  line-height: 1.7;
 }
 
 /* the values: a big number, a title and a few lines, row by row */
@@ -9595,10 +6348,12 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
   .hg::before,
   .hg > i {
     animation: none;
   }}
+
 
 
 
@@ -9618,183 +6373,6 @@ html.has-sb::-webkit-scrollbar {
   to {
     transform: translateX(-33.333%);
   }
-}
-
-/* ---- the story: stack, quote, line (.vy-*) ---- */
-.vy-stack {
-  display: grid;
-  max-width: 1040px;
-  gap: 1.2rem;
-  /* every box has the same width (the whole column) and the same height (the tallest one) */
-  grid-auto-rows: 1fr;
-  margin-inline: auto;
-}
-.vy-st {
-  display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
-  gap: 1.4rem;
-  align-items: center;
-  padding: 1.7rem 2rem;
-  border: 1px solid var(--hair);
-  border-left: 3px solid var(--a);
-  border-radius: 0 24px 24px 0;
-  background: linear-gradient(100deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.16), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 10% / 0.86) 60%);
-}
-.vy-st-no {
-  color: transparent;
-  font-size: 3.6rem;
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
-  -webkit-text-stroke: 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
-}
-.vy-st .sy-p {
-  font-size: 1.25rem;
-  line-height: 1.65;
-}
-.vy-quote {
-  display: grid;
-  gap: 2.4rem;
-  max-width: 1100px;
-  margin-inline: auto;
-}
-@media (min-width: 960px) {
-
-
-
-
-  .vy-quote {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: 3.4rem;
-    align-items: start;
-  }}
-
-
-
-
-.vy-q-main {
-  position: relative;
-  margin: 0;
-  padding: 4.6rem 2.4rem 2rem;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
-  border-radius: 30px;
-  background: radial-gradient(120% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.22), transparent 62%), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9% / 0.9);
-}
-.vy-q-mark {
-  position: absolute;
-  top: 0.6rem;
-  left: 2.2rem;
-  height: 3.4rem;
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
-  font-size: 7rem;
-  font-weight: 700;
-  line-height: 1;
-}
-.vy-q-main p {
-  position: relative;
-  margin: 0;
-  background: linear-gradient(180deg, #fff 20%, hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 84%));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-size: clamp(1.45rem, 2.3vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.3;
-}
-.vy-q-main p .text-violet {
-  color: var(--a);
-  -webkit-text-fill-color: var(--a);
-}
-.vy-q-main cite {
-  display: block;
-  margin-top: 1.4rem;
-  color: var(--a);
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.vy-q-notes {
-  display: grid;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.vy-q-notes li {
-  display: grid;
-  grid-template-columns: 2.6rem minmax(0, 1fr);
-  gap: 1rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--hair);
-}
-.vy-q-notes li:last-child {
-  border-bottom: 0;
-}
-.vy-q-notes li > span {
-  color: var(--a);
-  font-size: 1.125rem;
-  font-weight: 700;
-}
-.vy-line {
-  position: relative;
-  max-width: 1040px;
-  margin-inline: auto;
-  padding: 0.5rem 0;
-}
-.vy-line::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  background: linear-gradient(180deg, transparent, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6) 12%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6) 88%, transparent);
-  transform: translateX(-1px);
-}
-.vy-ln {
-  position: relative;
-  width: calc(50% - 2.4rem);
-  margin-bottom: 1.6rem;
-}
-.vy-ln[data-side="r"] {
-  margin-left: calc(50% + 2.4rem);
-}
-.vy-ln-dot {
-  position: absolute;
-  top: 2rem;
-  width: 18px;
-  height: 18px;
-  border: 3px solid var(--a);
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
-  box-shadow: 0 0 18px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
-}
-.vy-ln[data-side="l"] .vy-ln-dot {
-  right: -3.3rem;
-}
-.vy-ln[data-side="r"] .vy-ln-dot {
-  left: -3.3rem;
-}
-.vy-ln-card {
-  padding: 1.6rem 1.8rem 1.8rem;
-  border: 1px solid var(--hair);
-  border-radius: 24px;
-  background: radial-gradient(120% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.16), transparent 62%), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 10% / 0.86);
-}
-.vy-ln-no {
-  display: block;
-  margin-bottom: 0.6rem;
-  color: var(--a);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.vy-ln-card .sy-p {
-  font-size: 1.1875rem;
 }
 
 /* the repeated sections (.vt, .vz, .vw, .vf, .vl, .vp): one column that may be narrower than its content, so that a long row is cut or scrolls inside its own box */
@@ -9827,8 +6405,10 @@ html.has-sb::-webkit-scrollbar {
 
 
 
+
 .tgb-none,
 :is(.hl, .woo, .sha, .wpp) > section::before { animation: none !important; }}
+
 
 
 
@@ -9849,22 +6429,6 @@ html.has-sb::-webkit-scrollbar {
    the screen and the scroll opens the next tab. Each page skins the window in its own way.
    =================================================================================================================== */
 :is(.hl, .woo, .sha, .wpp).tpin { padding: 0; }
-.tw { display: flex; flex-direction: column; height: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--tw-line, hsl(calc(var(--th) + 354) 40% 80% / 0.16)); background: var(--tw-bg0, hsl(calc(var(--th) + 340) calc(35% * var(--ts)) 6% / 0.88)); backdrop-filter: blur(14px); box-shadow: 0 40px 120px hsl(calc(var(--th) + 330) 60% 3% / 0.7); }
-.tw-bar { display: flex; align-items: center; gap: 7px; padding: 11px 16px; border-bottom: 1px solid var(--tw-line, hsl(calc(var(--th) + 354) 40% 80% / 0.16)); background: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 10%); font: 400 0.9rem ui-monospace, Menlo, monospace; color: hsl(calc(var(--th) + 340) calc(12% * var(--ts)) 70%); flex: none; }
-.tw-bar i { width: 11px; height: 11px; border-radius: 50%; background: hsl(8 70% 60%); } .tw-bar i:nth-child(2) { background: hsl(42 80% 60%); } .tw-bar i:nth-child(3) { background: hsl(130 55% 52%); }
-.tw-bar b { font-weight: 400; margin: 0 auto; padding-right: 54px; }
-.tw-body { flex: 1; min-height: 0; display: grid; grid-template-columns: 220px minmax(0, 1fr); }
-.tw-nav { display: flex; flex-direction: column; padding: 10px 0; border-right: 1px solid var(--tw-line, hsl(calc(var(--th) + 354) 40% 80% / 0.16)); background: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 8% / 0.9); overflow-y: auto; }
-.tw-nav button { display: flex; align-items: center; gap: 12px; padding: 11px 18px; border: 0; border-left: 3px solid transparent; background: none; text-align: left; color: hsl(calc(var(--th) + 340) calc(12% * var(--ts)) 70%); font: 400 0.98rem inherit; font-family: inherit; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s; }
-.tw-nav button span { font: 500 0.875rem ui-monospace, monospace; opacity: 0.6; }
-.tw-nav button:hover { color: #fff; }
-.tw-nav button.is-on { color: #fff; background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1); border-left-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%); }
-.tw-panel { min-width: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 62% / 0.7) transparent; padding: 30px 38px 40px; animation: tw-in 0.45s ease; }
-@keyframes tw-in { from { opacity: 0; transform: translateY(10px); } }
-.tw-panel::-webkit-scrollbar { width: 8px; } .tw-panel::-webkit-scrollbar-thumb { background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 62% / 0.7); border-radius: 8px; }
-.tw-panel h1 { font-size: clamp(2rem, 3.3vw, 3.1rem) !important; margin: 16px 0 14px !important; }
-.tw-panel h2 { font-size: clamp(1.7rem, 2.6vw, 2.4rem) !important; }
-.tw-panel :is(.hl-coll, .hl-rows, .hl-gql > ul, .woo-grid, .woo-qa, .sha-tests ul, .sha-flip, .wpp-rbody) { max-height: none; overflow: visible; padding-right: 0; }
 @property --pc { syntax: "<percentage>"; inherits: true; initial-value: 0%; }
 
 
@@ -9893,11 +6457,6 @@ html.has-sb::-webkit-scrollbar {
 :is(.hl-pn, .woo-pn, .sha-pn, .wpp-pn, .wpa-main > section, .shp-main > section, .hl-routes, .hl-coll, .hl-rows, .woo-grid, .woo-like, .woo-qa, .woo-chips, .sha-flip, .sha-next, .sha-tests ul, .wpp-dir-grid, .wpp-rel, .wpp-badges, .wpp-git, .wpa-grid, .wpa-steps, .wpa-themes, .shp-products, .shp-apps, .shp-settings, .shp-stats, .shp-two) > :nth-child(6) { animation-delay: 0.35s; }
 :is(.hl-routes, .hl-coll, .hl-rows, .woo-grid, .woo-like, .woo-chips, .sha-flip, .sha-next, .sha-tests ul, .wpp-dir-grid, .wpp-rel, .wpp-badges, .shp-products, .shp-apps, .shp-settings) > :nth-child(n+7) { animation-delay: 0.42s; }
 @keyframes tan-flow { from { background-position: 0% 40%; } to { background-position: 100% 60%; } }
-@media (prefers-reduced-motion: reduce) {
-
-
-
-.tw-panel * { animation: none !important; }}
 
 
 
@@ -9957,13 +6516,14 @@ html { scroll-padding-top: 90px; }.smp-group h2 i,
   text-wrap: balance;
 }
 @media (min-width: 1024px) and (max-height: 800px) {
+
   .phz-hero {
     padding-top: 88px;
   }
   .phz-hero .phz-h1 {
     font-size: clamp(3rem, 8.4vh, 4.2rem);
-  }
-}
+  }}
+
 
 /* Keyboard focus, skip link, text cursor and contact form labels (task 100, prefix fcs- / skp- / cf-fld).
    1) One visible focus ring for every link, button, tab and switch when it is reached with the keyboard (:focus-visible: the mouse does not draw it).
@@ -10012,20 +6572,6 @@ html.has-custom-cursor [contenteditable="true"] {
 div.pointer-events-none[data-mode="text"][aria-hidden] {
   opacity: 0 !important;
 }
-/* 4) Contact form: a visible label above every field (it stays when the visitor types, unlike a placeholder). */
-.cf-fld {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 6px;
-  text-align: left;
-}
-.cf-lab {
-  color: hsl(calc(var(--th) + 353.78) calc(30% * var(--ts)) 82%);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
 
 /* Article / project / job pages: the logo fades away while the visitor reads (logo-mark.tsx sets data-faded) so it does not lie on the text. */
 .lm {
@@ -10037,226 +6583,6 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
 .lm[data-faded="true"] a {
   pointer-events: none;
 }
-
-/* Web Development first screen (prefix wdh-, modern/webdev-hero.tsx): words on the left, a website that builds itself in a browser window on the right.
-   Theme colours only (--th / --ts). Pure CSS: the blocks drop in one after another, then a selection outline walks over four of them and names them.
-   With "reduce motion" the finished page stands still. */
-.wdh {
-  position: relative;
-  display: grid;
-  width: 100%;
-  max-width: 1180px;
-  grid-template-columns: minmax(0, 1fr) 540px;
-  align-items: center;
-  gap: 56px;
-  text-align: left;
-}
-.wdh-copy {
-  min-width: 0;
-}
-.wdh-h1 {
-  margin: 24px 0 0;
-  background: linear-gradient(180deg, #fff, hsl(calc(var(--th) + 352.8) calc(100% * var(--ts)) 85.29%));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-size: clamp(2.6rem, 4.4vw, 4.2rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
-  padding-bottom: 0.08em;
-  text-wrap: balance;
-}
-.wdh-p {
-  margin: 22px 0 0;
-  max-width: 520px;
-  color: #fff;
-  font-size: 1.0625rem;
-  line-height: 1.65;
-}
-.wdh-cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 34px;
-}
-.wdh-win {
-  position: relative;
-  overflow: visible;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  border-radius: 16px;
-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7% / 0.86);
-  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.45);
-}
-.wdh-bar {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 12px 16px;
-  border-bottom: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.14);
-}
-.wdh-bar i {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 40% / 0.7);
-}
-.wdh-url {
-  flex: 1;
-  height: 12px;
-  margin-left: 14px;
-  border-radius: 6px;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 30% / 0.55);
-  max-width: 220px;
-}
-.wdh-page {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-}
-.wdh-blk {
-  position: relative;
-  border-radius: 10px;
-  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 14%);
-  animation: wdh-in 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: calc(0.5s + var(--i) * 0.17s);
-}
-.wdh-ln {
-  display: block;
-  height: 8px;
-  width: 60px;
-  border-radius: 4px;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.4);
-}
-.wdh-l2 {
-  width: 70%;
-}
-.wdh-l3 {
-  width: 82%;
-}
-.wdh-pill {
-  display: block;
-  width: 64px;
-  height: 22px;
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
-}
-.wdh-pill-b {
-  width: 92px;
-  margin-top: 6px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.9);
-}
-.wdh-nav {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
-}
-.wdh-nav .wdh-pill {
-  margin-left: auto;
-}
-.wdh-logo {
-  width: 22px;
-  height: 22px;
-  border-radius: 7px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.9);
-}
-.wdh-top {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 150px;
-  align-items: center;
-  gap: 18px;
-  padding: 20px;
-  background: hsl(calc(var(--th) + 352) calc(52% * var(--ts)) 21%);
-}
-.wdh-top-t {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-.wdh-h {
-  display: block;
-  height: 14px;
-  width: 92%;
-  border-radius: 7px;
-  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 90% / 0.85);
-}
-.wdh-h2 {
-  width: 66%;
-}
-.wdh-img {
-  display: block;
-  height: 92px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55), hsl(calc(var(--th) + 20) calc(70% * var(--ts)) 60% / 0.35));
-}
-.wdh-cards {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-.wdh-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px;
-  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 17%);
-}
-.wdh-ic {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.45);
-}
-.wdh-foot {
-  display: flex;
-  gap: 22px;
-  padding: 14px 16px;
-  background: hsl(calc(var(--th) + 349) calc(40% * var(--ts)) 11%);
-}
-/* the selection outline: it walks over the menu, the hero, the first card and the footer and names each one (a 12 s loop, after the page has built) */
-.wdh-blk[data-tag]::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border: 2px solid hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
-  border-radius: 13px;
-  opacity: 0;
-  pointer-events: none;
-  animation: wdh-sel 12s linear infinite;
-  animation-delay: var(--sd, 3s);
-}
-.wdh-blk[data-tag]::before {
-  content: attr(data-tag);
-  position: absolute;
-  left: 8px;
-  top: -30px;
-  z-index: 2;
-  padding: 3px 10px;
-  border-radius: 6px;
-  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
-  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  opacity: 0;
-  pointer-events: none;
-  animation: wdh-sel 12s linear infinite;
-  animation-delay: var(--sd, 3s);
-}
-.wdh-nav {
-  --sd: 3s;
-}
-.wdh-top {
-  --sd: 6s;
-}
-.wdh-card[data-tag] {
-  --sd: 9s;
-}
-.wdh-foot {
-  --sd: 12s;
-}
 @keyframes wdh-in {
   from {
     opacity: 0;
@@ -10265,1152 +6591,6 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   to {
     opacity: 1;
     transform: none;
-  }
-}
-@keyframes wdh-sel {
-  0% {
-    opacity: 0;
-  }
-  3%,
-  22% {
-    opacity: 1;
-  }
-  27%,
-  100% {
-    opacity: 0;
-  }
-}
-@media (min-width: 1024px) and (max-height: 800px) {
-  .wdh-h1 {
-    font-size: clamp(2.5rem, 7.4vh, 3.7rem);
-  }
-  .wdh-p {
-    margin-top: 16px;
-  }
-  .wdh-cta {
-    margin-top: 26px;
-  }
-  .wdh-win {
-    transform: scale(0.9);
-    transform-origin: center right;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .wdh-blk {
-    animation: none;
-  }
-  .wdh-blk[data-tag]::after,
-  .wdh-blk[data-tag]::before {
-    animation: none;
-    opacity: 0;
-  }
-}
-
-/* Mobile App first screen (prefix mbh-, modern/mobile-hero.tsx; the words use the .wdh-* layout above): a code card splits into an iPhone-style and an Android-style
-   phone that swipe through the same three screens together. Theme colours only. Pure CSS; with "reduce motion" the phones stay on their first screen. */
-.mbh {
-  position: relative;
-  width: 540px;
-  height: 440px;
-  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: 0.5s;
-}
-.mbh-code {
-  position: absolute;
-  left: 120px;
-  top: 0;
-  width: 300px;
-  height: 92px;
-  padding: 12px 16px;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  border-radius: 14px;
-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7% / 0.86);
-  box-shadow: 0 24px 60px -28px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.5);
-}
-.mbh-dots {
-  display: flex;
-  gap: 6px;
-}
-.mbh-dots i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 40% / 0.7);
-}
-.mbh-tag {
-  position: absolute;
-  right: 14px;
-  top: 8px;
-  padding: 1px 10px;
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
-  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 22px;
-}
-.mbh-cl {
-  display: block;
-  height: 8px;
-  width: 62%;
-  margin-top: 10px;
-  border-radius: 4px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.7);
-}
-.mbh-code .mbh-dots + .mbh-tag + .mbh-cl {
-  margin-top: 14px;
-}
-.mbh-c2 {
-  width: 44%;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.4);
-}
-.mbh-c3 {
-  display: none;
-}
-.mbh-wires {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.mbh-wires path {
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.7);
-  stroke-width: 2;
-  stroke-dasharray: 5 7;
-  animation: mbh-flow 1.2s linear infinite;
-}
-.mbh-ph {
-  position: absolute;
-  top: 130px;
-  width: 168px;
-  height: 270px;
-  border: 5px solid hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 32%);
-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 6%);
-  box-shadow: 0 30px 70px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.55);
-}
-.mbh-ios {
-  left: 74px;
-  border-radius: 34px;
-}
-.mbh-and {
-  left: 298px;
-  border-radius: 22px;
-  border-width: 4px;
-}
-.mbh-isl {
-  position: absolute;
-  left: 50%;
-  top: 9px;
-  z-index: 2;
-  width: 54px;
-  height: 15px;
-  margin-left: -27px;
-  border-radius: 8px;
-  background: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 3%);
-}
-.mbh-hole {
-  position: absolute;
-  left: 50%;
-  top: 10px;
-  z-index: 2;
-  width: 11px;
-  height: 11px;
-  margin-left: -5px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 3%);
-}
-.mbh-home {
-  position: absolute;
-  left: 50%;
-  bottom: 7px;
-  width: 54px;
-  height: 4px;
-  margin-left: -27px;
-  border-radius: 2px;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.55);
-}
-.mbh-nav {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 5px;
-  display: flex;
-  justify-content: center;
-  gap: 26px;
-}
-.mbh-nav i {
-  width: 9px;
-  height: 9px;
-  border-radius: 3px;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.5);
-}
-.mbh-nav i:nth-child(2) {
-  border-radius: 50%;
-}
-.mbh-scr {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 30px;
-  bottom: 18px;
-  overflow: hidden;
-}
-.mbh-track {
-  display: flex;
-  width: 400%;
-  height: 100%;
-  animation: mbh-swipe 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-.mbh-pn {
-  display: flex;
-  width: 25%;
-  flex: none;
-  flex-direction: column;
-  gap: 8px;
-  padding: 6px 10px;
-}
-.mbh-hd {
-  display: block;
-  height: 10px;
-  width: 50%;
-  border-radius: 5px;
-  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 90% / 0.8);
-}
-.mbh-img {
-  display: block;
-  height: 86px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55), hsl(calc(var(--th) + 20) calc(70% * var(--ts)) 60% / 0.35));
-}
-.mbh-row {
-  display: block;
-  height: 30px;
-  border-radius: 8px;
-  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 17%);
-}
-.mbh-r2 {
-  width: 82%;
-}
-.mbh-r3 {
-  height: 18px;
-  width: 70%;
-  align-self: center;
-}
-.mbh-feed {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 44px;
-  padding: 0 8px;
-  border-radius: 10px;
-  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 17%);
-}
-.mbh-feed i {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6);
-}
-.mbh-feed b {
-  height: 8px;
-  flex: 1;
-  border-radius: 4px;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.4);
-}
-.mbh-ok {
-  display: block;
-  width: 56px;
-  height: 56px;
-  margin: 14px auto 6px;
-  border-radius: 50%;
-  border: 4px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.18);
-}
-.mbh-btn {
-  display: block;
-  height: 26px;
-  margin-top: 10px;
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.9);
-}
-.mbh-lab {
-  position: absolute;
-  top: 408px;
-  width: 168px;
-  color: hsl(calc(var(--th) + 353.78) calc(30% * var(--ts)) 82%);
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
-}
-.mbh-l1 {
-  left: 74px;
-}
-.mbh-l2 {
-  left: 298px;
-}
-@keyframes mbh-swipe {
-  0%,
-  22% {
-    transform: translateX(0);
-  }
-  33%,
-  55% {
-    transform: translateX(-25%);
-  }
-  66%,
-  88% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(-75%);
-  }
-}
-@keyframes mbh-flow {
-  to {
-    stroke-dashoffset: -24;
-  }
-}
-@media (min-width: 1024px) and (max-height: 800px) {
-  .mbh {
-    transform: scale(0.88);
-    transform-origin: center right;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .mbh,
-  .mbh-track,
-  .mbh-wires path {
-    animation: none;
-  }
-}
-
-/* CRM first screen (prefix crh-, modern/crm-hero.tsx; the words use the .wdh-* layout): one customer card with four tool tiles round it. A pulse runs from
-   a tile into the card every 6 s (one after the other) and that line of the customer's history fills in. Theme colours only. Pure CSS. With "reduce
-   motion" nothing moves and the history is already filled in. */
-.crh {
-  position: relative;
-  width: 540px;
-  height: 420px;
-  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: 0.5s;
-}
-.crh-wires {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.crh-wires path {
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78% / 0.4);
-  stroke-width: 2;
-  stroke-dasharray: 5 7;
-}
-.crh-dot {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 2;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 80%);
-  box-shadow: 0 0 14px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.9);
-  offset-rotate: 0deg;
-  opacity: 0;
-  animation: crh-go 6s linear infinite;
-  animation-delay: calc(1.2s + var(--i) * 1.5s);
-}
-.crh-tile {
-  position: absolute;
-  display: flex;
-  width: 150px;
-  height: 60px;
-  align-items: center;
-  gap: 10px;
-  padding: 0 16px;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  border-radius: 14px;
-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8% / 0.88);
-  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-  font-size: 14px;
-  font-weight: 500;
-  animation: crh-send 6s linear infinite;
-  animation-delay: calc(1.2s + var(--i) * 1.5s);
-}
-.crh-t1 {
-  left: 20px;
-  top: 22px;
-}
-.crh-t2 {
-  left: 370px;
-  top: 22px;
-}
-.crh-t3 {
-  left: 20px;
-  top: 338px;
-}
-.crh-t4 {
-  left: 370px;
-  top: 338px;
-}
-.crh-card {
-  position: absolute;
-  left: 165px;
-  top: 142px;
-  width: 210px;
-  height: 136px;
-  padding: 14px;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
-  border-radius: 16px;
-  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 12% / 0.95);
-  box-shadow: 0 26px 70px -28px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.55);
-}
-.crh-who {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.crh-av {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
-}
-.crh-nm {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.crh-nm i {
-  display: block;
-  width: 54px;
-  height: 7px;
-  border-radius: 4px;
-  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 90% / 0.8);
-}
-.crh-nm i + i {
-  width: 36px;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.4);
-}
-.crh-badge {
-  position: absolute;
-  right: -2px;
-  top: -34px;
-  padding: 1px 10px;
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
-  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 22px;
-  white-space: nowrap;
-}
-.crh-hist {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  margin: 14px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.crh-hist li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.crh-ic {
-  flex: none;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 78%);
-}
-.crh-bar {
-  display: block;
-  height: 8px;
-  flex: 1;
-  border-radius: 4px;
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.45);
-  transform-origin: left center;
-  animation: crh-fill 6s linear infinite;
-  animation-delay: calc(1.2s + var(--i) * 1.5s);
-}
-.crh-hist li:nth-child(2) .crh-bar {
-  flex: 0 0 78%;
-}
-.crh-hist li:nth-child(3) .crh-bar {
-  flex: 0 0 62%;
-}
-.crh-hist li:nth-child(4) .crh-bar {
-  flex: 0 0 86%;
-}
-@keyframes crh-go {
-  0% {
-    opacity: 0;
-    offset-distance: 0%;
-  }
-  3% {
-    opacity: 1;
-  }
-  22% {
-    opacity: 1;
-    offset-distance: 100%;
-  }
-  25%,
-  100% {
-    opacity: 0;
-    offset-distance: 100%;
-  }
-}
-@keyframes crh-send {
-  0%,
-  100% {
-    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  }
-  3%,
-  10% {
-    border-color: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 80%);
-  }
-  16% {
-    border-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  }
-}
-@keyframes crh-fill {
-  0%,
-  22% {
-    transform: scaleX(0.2);
-  }
-  30%,
-  88% {
-    transform: scaleX(1);
-  }
-  100% {
-    transform: scaleX(0.2);
-  }
-}
-@media (min-width: 1024px) and (max-height: 800px) {
-  .crh {
-    transform: scale(0.88);
-    transform-origin: center right;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .crh {
-    animation: none;
-  }
-  .crh-dot {
-    animation: none;
-    opacity: 0;
-  }
-  .crh-tile,
-  .crh-bar {
-    animation: none;
-  }
-}
-
-/* UI/UX first screen (prefix uxh-, modern/uiux-hero.tsx; the words use the .wdh-* layout): the same screen drawn twice, a grey wireframe underneath and the
-   finished design on top. A light line sweeps across, paints the wireframe into the finished screen, holds, and sweeps back (a 10 s loop). Theme colours
-   only. Pure CSS. With "reduce motion" the finished screen stands still. */
-.uxh {
-  position: relative;
-  width: 540px;
-  padding-top: 38px;
-  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: 0.5s;
-}
-.uxh-tag {
-  position: absolute;
-  top: 0;
-  padding: 1px 12px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 24px;
-}
-.uxh-tag1 {
-  left: 0;
-  border: 1px dashed hsl(calc(var(--th) + 352) calc(30% * var(--ts)) 70% / 0.6);
-  color: hsl(calc(var(--th) + 353.78) calc(30% * var(--ts)) 82%);
-}
-.uxh-tag2 {
-  right: 0;
-  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
-  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
-}
-.uxh-frame {
-  position: relative;
-  height: 372px;
-  overflow: hidden;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  border-radius: 16px;
-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7% / 0.88);
-  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.45);
-}
-.uxh-layer {
-  position: absolute;
-  inset: 0;
-  padding: 20px;
-}
-.uxh-f {
-  clip-path: inset(0 0 0 0);
-  animation: uxh-paint 10s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-.uxh-scan {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 3px;
-  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 84%);
-  box-shadow: 0 0 22px 4px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.8);
-  animation: uxh-line 10s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-.uxh-lay {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  height: 100%;
-}
-.uxh-nav {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  height: 34px;
-}
-.uxh-nav .uxh-pill {
-  margin-left: auto;
-}
-.uxh-top {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 170px;
-  align-items: center;
-  gap: 22px;
-  flex: 1;
-}
-.uxh-top-t {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.uxh-cards {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  height: 104px;
-}
-.uxh-card {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  padding: 14px;
-  border-radius: 12px;
-}
-.uxh-lg,
-.uxh-ic {
-  display: block;
-  flex: none;
-}
-.uxh-lg {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-}
-.uxh-ic {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-}
-.uxh-ln {
-  display: block;
-  height: 8px;
-  width: 58px;
-  border-radius: 4px;
-}
-.uxh-l2 {
-  width: 68%;
-}
-.uxh-l3 {
-  width: 88%;
-}
-.uxh-l4 {
-  width: 64%;
-}
-.uxh-h {
-  display: block;
-  height: 16px;
-  width: 92%;
-  border-radius: 8px;
-}
-.uxh-h2 {
-  width: 64%;
-}
-.uxh-pill {
-  display: block;
-  width: 66px;
-  height: 24px;
-  border-radius: 999px;
-}
-.uxh-pill-b {
-  width: 104px;
-  height: 30px;
-  margin-top: 8px;
-}
-.uxh-img {
-  display: block;
-  height: 150px;
-  border-radius: 12px;
-}
-/* the wireframe: dashed outlines and thin grey lines, no colour */
-.uxh-w .uxh-lg,
-.uxh-w .uxh-ic,
-.uxh-w .uxh-pill,
-.uxh-w .uxh-h,
-.uxh-w .uxh-card {
-  border: 1.5px dashed hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.6);
-  background: none;
-}
-.uxh-w .uxh-ln {
-  background: hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.45);
-}
-.uxh-w .uxh-img {
-  border: 1.5px dashed hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.6);
-  background:
-    linear-gradient(to top right, transparent calc(50% - 0.75px), hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.45) 50%, transparent calc(50% + 0.75px)),
-    linear-gradient(to bottom right, transparent calc(50% - 0.75px), hsl(calc(var(--th) + 352) calc(25% * var(--ts)) 62% / 0.45) 50%, transparent calc(50% + 0.75px));
-}
-/* the finished design: colour, type, buttons, a picture */
-.uxh-f {
-  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
-}
-.uxh-f .uxh-lg {
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.9);
-}
-.uxh-f .uxh-ln {
-  background: hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 72% / 0.45);
-}
-.uxh-f .uxh-pill {
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.55);
-}
-.uxh-f .uxh-pill-b {
-  background: linear-gradient(180deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%), hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 72%));
-}
-.uxh-f .uxh-h {
-  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 90% / 0.9);
-}
-.uxh-f .uxh-img {
-  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.65), hsl(calc(var(--th) + 20) calc(70% * var(--ts)) 60% / 0.4));
-}
-.uxh-f .uxh-card {
-  background: hsl(calc(var(--th) + 350) calc(44% * var(--ts)) 15%);
-}
-.uxh-f .uxh-ic {
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
-}
-@keyframes uxh-paint {
-  0%,
-  8% {
-    clip-path: inset(0 100% 0 0);
-  }
-  42%,
-  58% {
-    clip-path: inset(0 0 0 0);
-  }
-  92%,
-  100% {
-    clip-path: inset(0 100% 0 0);
-  }
-}
-@keyframes uxh-line {
-  0%,
-  8% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  42% {
-    transform: translateX(536px);
-    opacity: 1;
-  }
-  44%,
-  56% {
-    transform: translateX(536px);
-    opacity: 0;
-  }
-  58% {
-    transform: translateX(536px);
-    opacity: 1;
-  }
-  92%,
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-@media (min-width: 1024px) and (max-height: 800px) {
-  .uxh {
-    transform: scale(0.9);
-    transform-origin: center right;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .uxh {
-    animation: none;
-  }
-  .uxh-f {
-    animation: none;
-    clip-path: none;
-  }
-  .uxh-scan {
-    display: none;
-  }
-}
-
-/* Animation first screen (prefix anm-, modern/animation-hero.tsx; the words use the .wdh-* layout): the classic bouncing-ball test. The ball bounces across the
-   stage (x = across, y = bounce, b = squash and stretch), its shadow grows and fades with the height, three dashed ghost frames trail behind it. Theme
-   colours only. Pure CSS. With "reduce motion" the ball rests on the floor. */
-.anm {
-  position: relative;
-  width: 540px;
-  padding-top: 38px;
-  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: 0.5s;
-}
-.anm-tag {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 1px 12px;
-  border-radius: 999px;
-  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
-  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 24px;
-}
-.anm-panel {
-  position: relative;
-  height: 372px;
-  overflow: hidden;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  border-radius: 16px;
-  background:
-    repeating-linear-gradient(90deg, transparent 0, transparent 53px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06) 53px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06) 54px),
-    repeating-linear-gradient(0deg, transparent 0, transparent 53px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06) 53px, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.06) 54px),
-    hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 7% / 0.88);
-  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.45);
-}
-.anm-floor {
-  position: absolute;
-  left: 24px;
-  right: 24px;
-  bottom: 62px;
-  height: 2px;
-  border-radius: 1px;
-  background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.4);
-}
-.anm-x {
-  position: absolute;
-  left: 0;
-  bottom: 64px;
-  width: 56px;
-  height: 56px;
-  transform: translateX(240px);
-  animation: anm-across 3.9s linear infinite alternate;
-  animation-delay: calc(var(--d) * 0.1s);
-}
-.anm-y {
-  position: absolute;
-  inset: 0;
-  animation: anm-bounce 1.3s infinite;
-  animation-delay: calc(var(--d) * 0.1s);
-}
-.anm-b {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 92%) 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%) 28%, hsl(calc(var(--th) + 14) calc(80% * var(--ts)) 62%) 100%);
-  transform-origin: 50% 100%;
-  animation: anm-squash 1.3s linear infinite;
-  animation-delay: calc(var(--d) * 0.1s);
-}
-.anm-ghost {
-  opacity: calc(0.5 - var(--d) * 0.14);
-}
-.anm-ghost .anm-b {
-  border: 1.5px dashed hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80%);
-  background: none;
-}
-.anm-sx {
-  bottom: 54px;
-  height: 14px;
-}
-.anm-sh {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 14px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 3% / 0.85);
-  transform-origin: 50% 50%;
-  animation: anm-shadow 1.3s linear infinite;
-}
-@keyframes anm-across {
-  from {
-    transform: translateX(34px);
-  }
-  to {
-    transform: translateX(450px);
-  }
-}
-@keyframes anm-bounce {
-  0% {
-    transform: translateY(-236px);
-    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
-  }
-  50% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1);
-  }
-  100% {
-    transform: translateY(-236px);
-  }
-}
-@keyframes anm-squash {
-  0%,
-  100% {
-    transform: scale(0.96, 1.05);
-  }
-  38%,
-  62% {
-    transform: scale(0.9, 1.16);
-  }
-  48%,
-  52% {
-    transform: scale(1.42, 0.6);
-  }
-}
-@keyframes anm-shadow {
-  0%,
-  100% {
-    transform: scaleX(0.45);
-    opacity: 0.35;
-  }
-  50% {
-    transform: scaleX(1.25);
-    opacity: 1;
-  }
-}
-@media (min-width: 1024px) and (max-height: 800px) {
-  .anm {
-    transform: scale(0.9);
-    transform-origin: center right;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .anm {
-    animation: none;
-  }
-  .anm-x,
-  .anm-y,
-  .anm-b,
-  .anm-sh {
-    animation: none;
-  }
-  .anm-x {
-    transform: translateX(240px);
-  }
-  .anm-ghost {
-    display: none;
-  }
-  .anm-sh {
-    transform: scaleX(1.2);
-  }
-}
-
-/* 3D Modeling first screen (prefix mdl-, modern/modeling-hero.tsx; the words use the .wdh-* layout): a sphere that starts as a wireframe, fills with light and
-   then changes its material (matte, glossy, metal) while a light circles it. A 12 s loop, a tag names the state. Theme colours only. Pure CSS. With "reduce
-   motion" the glossy sphere stands still. */
-.mdl {
-  position: relative;
-  width: 540px;
-  padding-top: 38px;
-  animation: wdh-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: 0.5s;
-}
-.mdl-tags {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 28px;
-  width: 200px;
-}
-.mdl-tag {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 1px 12px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 24px;
-  opacity: 0;
-  background: hsl(calc(var(--th) + 14) calc(100% * var(--ts)) 78%);
-  color: hsl(calc(var(--th) + 347.58) calc(76% * var(--ts)) 6%);
-  animation: mdl-t 12s linear infinite;
-}
-.mdl-tag0 {
-  border: 1px dashed hsl(calc(var(--th) + 352) calc(30% * var(--ts)) 70% / 0.7);
-  background: none;
-  color: hsl(calc(var(--th) + 353.78) calc(30% * var(--ts)) 82%);
-  animation-name: mdl-t0;
-}
-.mdl-tag1 {
-  animation-name: mdl-t1;
-}
-.mdl-tag2 {
-  animation-name: mdl-t2;
-}
-.mdl-tag3 {
-  animation-name: mdl-t3;
-}
-.mdl-panel {
-  position: relative;
-  height: 372px;
-  overflow: hidden;
-  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.28);
-  border-radius: 16px;
-  background: radial-gradient(ellipse 60% 50% at 50% 38%, hsl(calc(var(--th) + 350) calc(46% * var(--ts)) 13% / 0.9), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 6% / 0.9));
-  box-shadow: 0 30px 80px -30px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 60% / 0.45);
-}
-.mdl-floor {
-  position: absolute;
-  left: 50%;
-  top: 304px;
-  width: 240px;
-  height: 36px;
-  margin-left: -120px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, hsl(calc(var(--th) + 347) calc(70% * var(--ts)) 2% / 0.85), transparent);
-}
-.mdl-sphere {
-  position: absolute;
-  left: 50%;
-  top: 40px;
-  width: 250px;
-  height: 250px;
-  margin-left: -125px;
-  overflow: hidden;
-  border-radius: 50%;
-}
-.mdl-m {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  opacity: 0;
-}
-.mdl-matte {
-  background: radial-gradient(circle at 36% 30%, hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 74%), hsl(calc(var(--th) + 352) calc(38% * var(--ts)) 52%) 55%, hsl(calc(var(--th) + 350) calc(40% * var(--ts)) 20%) 100%);
-  animation: mdl-a 12s linear infinite;
-}
-.mdl-gloss {
-  background: radial-gradient(circle at 36% 30%, hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 92%) 0, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%) 26%, hsl(calc(var(--th) + 14) calc(80% * var(--ts)) 52%) 68%, hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 14%) 100%);
-  animation: mdl-b 12s linear infinite;
-}
-.mdl-metal {
-  background:
-    radial-gradient(circle at 50% 50%, transparent 60%, hsl(calc(var(--th) + 347) calc(60% * var(--ts)) 6% / 0.7) 100%),
-    linear-gradient(180deg, hsl(calc(var(--th) + 352) calc(40% * var(--ts)) 90%) 0%, hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 64%) 38%, hsl(calc(var(--th) + 347) calc(50% * var(--ts)) 12%) 49%, hsl(calc(var(--th) + 354) calc(80% * var(--ts)) 44%) 53%, hsl(calc(var(--th) + 350) calc(60% * var(--ts)) 24%) 100%);
-  animation: mdl-c 12s linear infinite;
-}
-.mdl-lt {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  animation: mdl-orbit 12s linear infinite;
-}
-.mdl-glow {
-  position: absolute;
-  left: 20%;
-  top: 14%;
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 96% / 0.55), transparent);
-  opacity: 0;
-  animation: mdl-glow 12s linear infinite;
-}
-.mdl-spec {
-  position: absolute;
-  left: 28%;
-  top: 22%;
-  width: 22px;
-  height: 14px;
-  border-radius: 50%;
-  background: hsl(calc(var(--th) + 352) calc(100% * var(--ts)) 98% / 0.95);
-  filter: blur(1.5px);
-  opacity: 0;
-  animation: mdl-spec 12s linear infinite;
-}
-.mdl-wire {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.mdl-wire * {
-  stroke: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 84%);
-  stroke-width: 1;
-  opacity: 0.55;
-}
-@keyframes mdl-orbit {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes mdl-a {
-  0%,
-  8% {
-    opacity: 0;
-  }
-  14%,
-  31% {
-    opacity: 1;
-  }
-  37%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes mdl-b {
-  0%,
-  31% {
-    opacity: 0;
-  }
-  37%,
-  64% {
-    opacity: 1;
-  }
-  70%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes mdl-c {
-  0%,
-  64% {
-    opacity: 0;
-  }
-  70%,
-  92% {
-    opacity: 1;
-  }
-  98%,
-  100% {
-    opacity: 0;
   }
 }
 @keyframes mdl-glow {
@@ -11441,90 +6621,6 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
     opacity: 0;
   }
 }
-@keyframes mdl-t0 {
-  0%,
-  6% {
-    opacity: 1;
-  }
-  9%,
-  91% {
-    opacity: 0;
-  }
-  94%,
-  100% {
-    opacity: 1;
-  }
-}
-@keyframes mdl-t1 {
-  0%,
-  10% {
-    opacity: 0;
-  }
-  13%,
-  30% {
-    opacity: 1;
-  }
-  33%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes mdl-t2 {
-  0%,
-  34% {
-    opacity: 0;
-  }
-  37%,
-  63% {
-    opacity: 1;
-  }
-  66%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes mdl-t3 {
-  0%,
-  67% {
-    opacity: 0;
-  }
-  70%,
-  90% {
-    opacity: 1;
-  }
-  93%,
-  100% {
-    opacity: 0;
-  }
-}
-@media (min-width: 1024px) and (max-height: 800px) {
-  .mdl {
-    transform: scale(0.9);
-    transform-origin: center right;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .mdl {
-    animation: none;
-  }
-  .mdl-m,
-  .mdl-lt,
-  .mdl-glow,
-  .mdl-spec,
-  .mdl-tag {
-    animation: none;
-  }
-  .mdl-gloss {
-    opacity: 1;
-  }
-  .mdl-glow,
-  .mdl-spec {
-    opacity: 1;
-  }
-  .mdl-tag2 {
-    opacity: 1;
-  }
-}
 
 /* big animated sections that are off the screen pause everything inside them (data-pause-off, components/site/pause-offscreen.tsx) */
 [data-pause-off][data-off="true"] *,
@@ -11540,44 +6636,6 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   border: 1px solid var(--hair);
   border-radius: 999px;
   font-size: 0.875rem;
-}
-
-/* hero buttons (wdh-cta): each text on ONE line, both buttons the same height, the width grows with the text (a fixed 236px made "Discuss your animation project" wrap onto two lines) */
-.wdh-cta {
-  align-items: stretch;
-}
-.wdh-cta > a {
-  width: auto;
-  min-width: 236px;
-  height: auto;
-  min-height: 3rem;
-  padding: 0.75rem 1.6rem;
-  text-align: center;
-  white-space: nowrap;
-}
-@media (max-width: 520px) {
-  .wdh-cta > a {
-    width: 100%;
-    white-space: normal;
-  }
-}
-
-/* mission brief of the contact flow: a long name or text never leaves its box */
-.cf-brief {
-  min-width: 0;
-  overflow: hidden;
-}
-.cf-brief-row > span,
-.cf-brief-row > div,
-.cf-tk-note {
-  min-width: 0;
-  max-width: 100%;
-  overflow-wrap: anywhere;
-}
-.cf-brief-row > span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* contact forms: a field with a problem (red border, a line under it) and the spinner of "Sending…" (contact-form.tsx, contact-flow.tsx) */
@@ -11636,13 +6694,14 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
    class arrived the whole page (everything centred, the fixed lights) jumped 7-9 px sideways = layout shift on every page. (site)/layout.tsx puts
    sb-pre on <html> in the server HTML; the component still adds has-sb and its glass thumb. Touch screens keep their own bar (media query). */
 @media (hover: hover) and (pointer: fine) {
+
   html.sb-pre {
     scrollbar-width: none;
   }
   html.sb-pre::-webkit-scrollbar {
     display: none;
-  }
-}
+  }}
+
 
 /* ---------------------------------------------------------------------------------------------------------------------------------
    GLASS CARDS for the whole site (owner 2026-10-31, from a reference of frosted violet panels): every card that carries the shared card classes
@@ -11755,48 +6814,14 @@ div.pointer-events-none[data-mode="text"][aria-hidden] {
   -webkit-backdrop-filter: blur(0px);
   backdrop-filter: blur(0px);
   transition: opacity 1.05s cubic-bezier(0.2, 0.7, 0.2, 1), backdrop-filter 1.05s cubic-bezier(0.2, 0.7, 0.2, 1), -webkit-backdrop-filter 1.05s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
-
-/* ---------------------------------------------------------------------------------------------------------------------------------
-   bu-: ONE button feel for the whole site (owner, 2026-11-13). The main buttons of every page share the same shape (pill), the same weight, the same
-   hover (a small lift, never following the mouse), the same press and the same keyboard focus ring. Colours and sizes stay as each page has them. */
-html body .hbm-btn,
+}html body .hbm-btn,
 html body .tr-btn,
-html body .bdv-btn,
-html body .bdv-btn-g,
-html body .e2e-btn,
-html body .e2e-btn-g,
-html body .gfx-btn,
-html body .gfx-btn-g,
-html body .hl-btn,
-html body .hl-btn-g,
-html body .mkt-btn,
-html body .mkt-btn-g,
-html body .sha-btn,
-html body .sha-btn-g,
-html body .wpp-btn,
-html body .wpp-btn-g,
-html body .wpa-btn,
-html body .ws-btn,
-html body .ws-btn-ghost,
 html body .nf-btn,
 html body .nf-btn-main,
 html body .nf-btn-ghost,
-html body .sk-btn,
-html body .sk-btn-ghost,
-html body .aw-btn,
-html body .aw-btn-ghost,
-html body .bb-cta,
-html body .jb-cta,
-html body .tx-cta,
 html body .btn-primary,
 html body .hb2-m-btn,
-html body .shp-btn,
-html body .shp-btn-p,
-html body .pln-btn,
-html body .vq-btn,
-html body .mbh-btn {
+html body .pln-btn {
   border-radius: 999px;
   font-weight: 500;
   text-decoration: none;
@@ -11810,161 +6835,51 @@ html body .mbh-btn {
 }
 html body .hbm-btn:hover,
 html body .tr-btn:hover,
-html body .bdv-btn:hover,
-html body .bdv-btn-g:hover,
-html body .e2e-btn:hover,
-html body .e2e-btn-g:hover,
-html body .gfx-btn:hover,
-html body .gfx-btn-g:hover,
-html body .hl-btn:hover,
-html body .hl-btn-g:hover,
-html body .mkt-btn:hover,
-html body .mkt-btn-g:hover,
-html body .sha-btn:hover,
-html body .sha-btn-g:hover,
-html body .wpp-btn:hover,
-html body .wpp-btn-g:hover,
-html body .wpa-btn:hover,
-html body .ws-btn:hover,
-html body .ws-btn-ghost:hover,
 html body .nf-btn:hover,
 html body .nf-btn-main:hover,
 html body .nf-btn-ghost:hover,
-html body .sk-btn:hover,
-html body .sk-btn-ghost:hover,
-html body .aw-btn:hover,
-html body .aw-btn-ghost:hover,
-html body .bb-cta:hover,
-html body .jb-cta:hover,
-html body .tx-cta:hover,
 html body .btn-primary:hover,
 html body .hb2-m-btn:hover,
-html body .shp-btn:hover,
-html body .shp-btn-p:hover,
-html body .pln-btn:hover,
-html body .vq-btn:hover,
-html body .mbh-btn:hover {
+html body .pln-btn:hover {
   transform: translate3d(0, -2px, 0);
   filter: brightness(1.08);
 }
 html body .hbm-btn:active,
 html body .tr-btn:active,
-html body .bdv-btn:active,
-html body .bdv-btn-g:active,
-html body .e2e-btn:active,
-html body .e2e-btn-g:active,
-html body .gfx-btn:active,
-html body .gfx-btn-g:active,
-html body .hl-btn:active,
-html body .hl-btn-g:active,
-html body .mkt-btn:active,
-html body .mkt-btn-g:active,
-html body .sha-btn:active,
-html body .sha-btn-g:active,
-html body .wpp-btn:active,
-html body .wpp-btn-g:active,
-html body .wpa-btn:active,
-html body .ws-btn:active,
-html body .ws-btn-ghost:active,
 html body .nf-btn:active,
 html body .nf-btn-main:active,
 html body .nf-btn-ghost:active,
-html body .sk-btn:active,
-html body .sk-btn-ghost:active,
-html body .aw-btn:active,
-html body .aw-btn-ghost:active,
-html body .bb-cta:active,
-html body .jb-cta:active,
-html body .tx-cta:active,
 html body .btn-primary:active,
 html body .hb2-m-btn:active,
-html body .shp-btn:active,
-html body .shp-btn-p:active,
-html body .pln-btn:active,
-html body .vq-btn:active,
-html body .mbh-btn:active {
+html body .pln-btn:active {
   transform: translate3d(0, 0, 0) scale(0.98);
   filter: none;
 }
 html body .hbm-btn:focus-visible,
 html body .tr-btn:focus-visible,
-html body .bdv-btn:focus-visible,
-html body .bdv-btn-g:focus-visible,
-html body .e2e-btn:focus-visible,
-html body .e2e-btn-g:focus-visible,
-html body .gfx-btn:focus-visible,
-html body .gfx-btn-g:focus-visible,
-html body .hl-btn:focus-visible,
-html body .hl-btn-g:focus-visible,
-html body .mkt-btn:focus-visible,
-html body .mkt-btn-g:focus-visible,
-html body .sha-btn:focus-visible,
-html body .sha-btn-g:focus-visible,
-html body .wpp-btn:focus-visible,
-html body .wpp-btn-g:focus-visible,
-html body .wpa-btn:focus-visible,
-html body .ws-btn:focus-visible,
-html body .ws-btn-ghost:focus-visible,
 html body .nf-btn:focus-visible,
 html body .nf-btn-main:focus-visible,
 html body .nf-btn-ghost:focus-visible,
-html body .sk-btn:focus-visible,
-html body .sk-btn-ghost:focus-visible,
-html body .aw-btn:focus-visible,
-html body .aw-btn-ghost:focus-visible,
-html body .bb-cta:focus-visible,
-html body .jb-cta:focus-visible,
-html body .tx-cta:focus-visible,
 html body .btn-primary:focus-visible,
 html body .hb2-m-btn:focus-visible,
-html body .shp-btn:focus-visible,
-html body .shp-btn-p:focus-visible,
-html body .pln-btn:focus-visible,
-html body .vq-btn:focus-visible,
-html body .mbh-btn:focus-visible {
+html body .pln-btn:focus-visible {
   outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
   outline-offset: 3px;
 }
+
 @media (prefers-reduced-motion: reduce) {
 html body .hbm-btn:hover,
 html body .tr-btn:hover,
-html body .bdv-btn:hover,
-html body .bdv-btn-g:hover,
-html body .e2e-btn:hover,
-html body .e2e-btn-g:hover,
-html body .gfx-btn:hover,
-html body .gfx-btn-g:hover,
-html body .hl-btn:hover,
-html body .hl-btn-g:hover,
-html body .mkt-btn:hover,
-html body .mkt-btn-g:hover,
-html body .sha-btn:hover,
-html body .sha-btn-g:hover,
-html body .wpp-btn:hover,
-html body .wpp-btn-g:hover,
-html body .wpa-btn:hover,
-html body .ws-btn:hover,
-html body .ws-btn-ghost:hover,
 html body .nf-btn:hover,
 html body .nf-btn-main:hover,
 html body .nf-btn-ghost:hover,
-html body .sk-btn:hover,
-html body .sk-btn-ghost:hover,
-html body .aw-btn:hover,
-html body .aw-btn-ghost:hover,
-html body .bb-cta:hover,
-html body .jb-cta:hover,
-html body .tx-cta:hover,
 html body .btn-primary:hover,
 html body .hb2-m-btn:hover,
-html body .shp-btn:hover,
-html body .shp-btn-p:hover,
-html body .pln-btn:hover,
-html body .vq-btn:hover,
-html body .mbh-btn:hover {
+html body .pln-btn:hover {
     transform: none;
   }
 }
+
 
 
 /* ---------------------------------------------------------------------------------------------------------------------------------
@@ -11972,6 +6887,7 @@ html body .mbh-btn:hover {
    glide sideways by themselves (components/site/home/home-glide.tsx, mounted once in the site layout: it starts 1 second after a row comes into view);
    the intro text under a heading is hidden (the cards say it). */
 @media (max-width: 900px) {
+
   .hm-addr,
   .pln-grid {
     display: flex !important;
@@ -11995,10 +6911,11 @@ html body .mbh-btn:hover {
   }
   .aip-head .aip-intro {
     display: none;
-  }
-}
+  }}
+
 
 @media (max-width: 900px) {
+
   .pph-auto {
     display: flex !important;
     flex-direction: row !important;
@@ -12020,219 +6937,8 @@ html body .mbh-btn:hover {
     margin: 0 !important;
     opacity: 1 !important;
     transform: none !important;
-  }
-}
+  }}
 
-/* pps-: shared "modern" sections on phones and tablets (owner, 2026-11-13; Brand identity and every page that uses them): the process columns glide sideways
-   and the intro line under a heading is hidden. */
-@media (max-width: 900px) {
-  :root .vp-bd-cols {
-    display: flex;
-    gap: 12px;
-    margin-right: -20px;
-    margin-left: -20px;
-    padding: 4px 20px 6px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-  }
-  :root .vp-bd-cols::-webkit-scrollbar {
-    display: none;
-  }
-  :root .vp-bd-cols > * {
-    flex: 0 0 78%;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .vk-head .md-intro {
-    display: none;
-  }
-}
-
-/* crp-: more shared "modern" sections on phones and tablets (owner, 2026-11-13; CRM and every page that uses them): the zigzag process runs down the left with the
-   numbers on the line, and the story boxes put the number above the text. */
-@media (max-width: 900px) {
-  :root .vp-zz-list::before {
-    left: 22px;
-    transform: none;
-  }
-  :root .vp-zz-list > li {
-    grid-template-columns: 46px minmax(0, 1fr);
-    column-gap: 12px;
-    align-items: start;
-  }
-  :root .vp-zz-list li[data-side] > :not(.vp-zz-dot) {
-    grid-column: 2;
-    margin: 0;
-  }
-  :root .vp-zz-list .vp-zz-dot {
-    position: static;
-    grid-column: 1;
-    grid-row: 1;
-    transform: none;
-  }
-  :root .vy-stack {
-    grid-auto-rows: auto;
-  }
-  :root .vy-st {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.5rem;
-    padding: 1.2rem;
-    border-radius: 0 20px 20px 0;
-  }
-  :root .vy-st-no {
-    font-size: 2.4rem;
-  }
-  :root .vy-st .sy-p {
-    font-size: 1.05rem;
-    line-height: 1.6;
-  }
-}
-
-/* mrl-: "More from We3vision" (the related pages at the end of the service pages) is a row that glides sideways on phones and tablets (owner, 2026-11-13). */
-@media (max-width: 900px) {
-  :root .md-rel {
-    display: flex;
-    gap: 12px;
-    margin-right: -20px;
-    margin-left: -20px;
-    padding: 4px 20px 6px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-  }
-  :root .md-rel::-webkit-scrollbar {
-    display: none;
-  }
-  :root .md-rel > li {
-    flex: 0 0 78%;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* mfq-: the questions (accordion) of the service pages are tighter on phones and tablets (owner, 2026-11-13): shorter rows, the intro line under the heading hidden. */
-@media (max-width: 900px) {
-  :root .md-faq-item button {
-    gap: 12px;
-    padding: 16px 8px 16px 16px;
-  }
-  :root .md-faq-item button span {
-    font-size: 1.05rem;
-    line-height: 1.35;
-  }
-  :root .md-faq-side .md-intro {
-    display: none;
-  }
-  :root .md-faq-help {
-    margin-top: 16px;
-    padding: 16px 18px;
-  }
-}
-
-/* ssp-: the staircase process (.vp-ss) on phones and tablets (owner, 2026-11-13): the laptop step was worked out from a 560 px card, which went negative on a phone and made
-   every card wider than the screen. Here each card steps in a little (6 px) and keeps the full width. */
-@media (max-width: 900px) {
-  :root .vp-ss-list > li {
-    margin-left: calc(var(--i, 0) * 6px);
-    max-width: none;
-  }
-}
-
-/* mvp-: the scroll scene of the Metaverse page (the tech tunnel) on phones and tablets (owner, 2026-11-13). Their length is the scroll distance of the
-   scene (7.5 screens on a laptop); on a phone the same scene plays over 3.6 screens, so it is not a wall of empty scrolling. */
-@media (max-width: 900px) {
-  html body .vfo {
-    height: calc(100svh * 3.6);
-  }
-}
-
-/* tmp-: the Team page on phones and tablets (owner, 2026-11-13): the six steps of how a project moves (they were six columns of 103 px) are a row that glides sideways
-   (home glide component). */
-@media (max-width: 900px) {
-  :root .tj {
-    display: flex;
-    gap: 12px;
-    margin: 28px -20px 0;
-    padding: 4px 20px 6px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-  }
-  :root .tj::-webkit-scrollbar {
-    display: none;
-  }
-  :root .tj > li {
-    flex: 0 0 78%;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* twp-: the tab window picture (a menu on the left and a page on the right) of the WordPress plugin, WooCommerce, Headless CMS and Shopify pages on phones and tablets
-   (owner, 2026-11-13). On a phone the menu is a row of tabs above the page and the page uses the full width. */
-@media (max-width: 900px) {
-  html body .tw .tw-body {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr);
-  }
-  html body .tw .tw-nav {
-    flex-direction: row;
-    gap: 6px;
-    padding: 10px 12px;
-    border-right: 0;
-    border-bottom: 1px solid hsl(calc(var(--th) + 354) 40% 80% / 0.16);
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-  }
-  html body .tw .tw-nav::-webkit-scrollbar {
-    display: none;
-  }
-  html body .tw .tw-nav button {
-    flex: none;
-    white-space: nowrap;
-    padding: 9px 14px;
-    border-left: 0;
-    border-radius: 999px;
-  }
-}
-
-/* rmn-: the last squeezed blocks of the modern sections on phones and tablets (owner, 2026-11-13): the question cards (2 columns of 112 px), the tool cards (3 columns of
-   107 px), the brand layers rows, the inspector columns, the reasons rows and the design window (layers | canvas | properties) are one column on a phone;
-   the design window keeps its canvas and its properties and leaves the layers list out. */
-@media (max-width: 900px) {
-  :root .vf-cd-grid,
-  :root .vt-tb-grid,
-  :root .cv-insp-cols,
-  :root .vp-rw-in {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  :root .vp-rw-in {
-    padding-left: 24px;
-  }
-  :root .vt-ly {
-    grid-template-columns: 40px minmax(0, 1fr);
-    gap: 12px;
-  }
-  :root .vt-ly > :nth-child(3) {
-    display: none;
-  }
-  :root .fg-body {
-    grid-template-columns: minmax(0, 1fr);
-    height: auto;
-  }
-  :root .fg-layers {
-    display: none;
-  }
-  :root .fg-canvas {
-    min-height: 340px;
-  }
-  :root .fg-who,
-  :root .fg-share {
-    display: none;
-  }
-}
 
 /* ---- itg-: the "Industry training available" tag on the Careers list, the job page and the phone pages */
 .itg-tag {
@@ -12285,38 +6991,19 @@ a.itg-tag:hover {
 
 /* ---- rsp-: narrow windows (the job page and the Industry training pieces fit a small screen) */
 @media (max-width: 700px) {
-  body .jb-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
-  }
-  body .jb-side {
-    position: static;
-  }
-  body .jb-grid-form {
-    grid-template-columns: minmax(0, 1fr);
-  }
+
   .itg-box {
     padding: 12px 14px;
   }
   .itg-tag-s {
     display: inline-flex;
     margin: 6px 0 0;
-  }
-}
-@media (max-width: 560px) {
-  body .cj-role {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-    padding: 16px 18px;
-  }
-  body .cj-role-act > * {
-    flex: 1;
-    text-align: center;
-  }
-}
+  }}
+
 
 /* ---- ctm-: the Contact page on phones and tablets (owner, 2026-11-27): the form comes first (before the address cards), and every phone number and e-mail is a big tap row */
 @media (max-width: 900px) {
+
   :root:root .hb2-ct-grid {
     display: flex;
     flex-direction: column;
@@ -12356,8 +7043,8 @@ a.itg-tag:hover {
   }
   :root:root .hb2-ct-card p a:active {
     background: hsl(calc(var(--th) + 0) calc(60% * var(--ts)) 70% / 0.18);
-  }
-}
+  }}
+
 
 /* ---- ctd-: the new Contact page (owner, 2026-11-27): four topic cards, the form with its own questions, and the Partner program */
 .ctd {
@@ -12618,14 +7305,16 @@ a.itg-tag:hover {
   }
 }
 @media (max-width: 1023.98px) {
+
   .ctd-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .ctd-offices {
     grid-template-columns: minmax(0, 1fr);
-  }
-}
+  }}
+
 @media (max-width: 900px) {
+
   .ctd-panel {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
@@ -12641,16 +7330,18 @@ a.itg-tag:hover {
   }
   .ctd-pp {
     margin-top: 44px;
-  }
-}
+  }}
+
 @media (prefers-reduced-motion: reduce) {
+
   .ctd-side,
   .ctd-form {
     animation: none;
-  }
-}
+  }}
+
 @media (max-width: 900px) {
+
   :root:root .ctd-panel .hb2-ct-panel {
     order: 0;
-  }
-}
+  }}
+

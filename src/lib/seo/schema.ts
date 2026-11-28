@@ -45,7 +45,12 @@ const OFFICES: Office[] = [
 export const orgId = (base: string) => `${base}/#organization`;
 export const websiteId = (base: string) => `${base}/#website`;
 export const orgRef = (base: string) => ({ "@id": orgId(base) });
-export const AREA_SERVED = [{ "@type": "Country", name: "India" }, "Worldwide"];
+export const AREA_SERVED = [
+  { "@type": "City", name: "Surat" },
+  { "@type": "State", name: "Gujarat" },
+  { "@type": "Country", name: "India" },
+  "Worldwide",
+];
 export const logoUrl = (base: string) => `${base}/brand/logo-stacked.png`;
 
 const postal = (o: Office) => ({

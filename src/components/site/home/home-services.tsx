@@ -1,18 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SmartLink } from "@/components/site/smart-link";
-import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (mission cards)
 import { Art, SERVICES } from "./home-svc-data";
-import "@/styles/gta-device.css";
-import "@/styles/gta-mission.css";
 
 // The services of the home page: seven cards that each carry their own details (the number of real projects, one line, tags, an animated picture of the
 // service). Hovering one brings it forward and blurs the others. Branding is the hero (the widest and the most glowing). Proportions follow the
 // golden ratio: the top row is 1 : 1.618 : 1 wide and 1.618 times as tall as the bottom row (see hb2-sv in styles/home.css).
 // The pictures only move with transform and opacity, and only while the section is on screen (data-live).
-// GTA theme (task 156, gta-mission.css, GTA_ON): every card is a "mission" (Mission 01 ...), the list of what we build becomes its "objectives"
-// (shown on hover, ticked one by one) and the card ends in a "Start mission" button (the whole card is the link).
+// Services of the home page: every card is a link with its project count, one line, tags and an animated picture.
 type Stats = Record<string, { n: number; latest: string }>;
 
 export function HomeServices({ stats }: { stats: Stats }) {
@@ -46,26 +42,7 @@ export function HomeServices({ stats }: { stats: Stats }) {
           onBlur={() => setOn(null)}
         >
           <span className="hb2-sv-kick">
-            {GTA_ON ? (
-              <>
-                {/* laptop and desktop: the mission line; phones and tablets keep the original line */}
-                <span className="gt-dk">
-                  <i className="gt-m-blip" aria-hidden />
-                  <b className="gt-m-no">
-                    Mission {String(i + 1).padStart(2, "0")}
-                  </b>
-                </span>
-                <span className="gt-pk">
-                  {st && st.n > 0
-                    ? `${st.n} ${st.n === 1 ? "project" : "projects"} built`
-                    : s.kick}
-                </span>
-              </>
-            ) : st && st.n > 0 ? (
-              `${st.n} ${st.n === 1 ? "project" : "projects"} built`
-            ) : (
-              s.kick
-            )}
+            {st && st.n > 0 ? `${st.n} ${st.n === 1 ? "project" : "projects"} built` : s.kick}
           </span>
           <h3>
             <em>{s.em}</em> {s.rest}
@@ -74,23 +51,9 @@ export function HomeServices({ stats }: { stats: Stats }) {
           <div className="hb2-sv-art" aria-hidden>
             <Art k={s.key} />
           </div>
-          {GTA_ON && (
-            <div className="gt-m-obj" aria-hidden>
-              <p className="gt-m-obj-t">Objectives</p>
-              <ol>
-                {s.builds.map((b, k) => (
-                  <li key={b} style={{ "--i": k } as CSSProperties}>
-                    <i />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )}
-          {GTA_ON && <span className="gt-m-start">Start project</span>}
           {big && (
             <div className="hb2-sv-foot">
-              <span className={GTA_ON ? "hb2-sv-tags gt-pk" : "hb2-sv-tags"}>
+              <span className="hb2-sv-tags">
                 {s.tags.map((t) => (
                   <b key={t}>{t}</b>
                 ))}
@@ -114,7 +77,6 @@ export function HomeServices({ stats }: { stats: Stats }) {
       aria-labelledby="hb2-t3"
       ref={ref}
       data-live={live ? "" : undefined}
-      data-gta={GTA_ON ? "" : undefined}
     >
       <div className="hb2-wrap">
         <p className="hb2-label">Services</p>

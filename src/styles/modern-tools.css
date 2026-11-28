@@ -708,3 +708,16 @@
     animation: none;
   }
 }
+
+@media (max-width: 900px) {
+:root .vt-tb-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+:root .vt-ly {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 12px;
+  }
+:root .vt-ly > :nth-child(3) {
+    display: none;
+  }
+}

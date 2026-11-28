@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/tech-space.css";
+
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";

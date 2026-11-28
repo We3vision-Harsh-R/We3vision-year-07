@@ -2567,3 +2567,56 @@ a.rt-row:hover {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+html body .jb-cta {
+  border-radius: 999px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.25s,
+    box-shadow 0.25s,
+    background-color 0.25s,
+    border-color 0.25s;
+}
+html body .jb-cta:hover {
+  transform: translate3d(0, -2px, 0);
+  filter: brightness(1.08);
+}
+html body .jb-cta:active {
+  transform: translate3d(0, 0, 0) scale(0.98);
+  filter: none;
+}
+html body .jb-cta:focus-visible {
+  outline: 2px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 82%);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+html body .jb-cta:hover {
+    transform: none;
+  }
+}
+@media (max-width: 700px) {
+body .jb-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+body .jb-side {
+    position: static;
+  }
+body .jb-grid-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 560px) {
+body .cj-role {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px 18px;
+  }
+body .cj-role-act > * {
+    flex: 1;
+    text-align: center;
+  }
+}

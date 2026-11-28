@@ -1,4 +1,5 @@
 "use client";
+import "@/styles/timeline-boards.css";
 
 import { useEffect, useMemo, useRef } from "react";
 import { GlowEdge } from "../glow-edge";

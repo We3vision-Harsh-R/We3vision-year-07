@@ -9,13 +9,10 @@ import { HomeMetaverse } from "@/components/site/home/home-metaverse";
 import { HomeMore } from "@/components/site/home/home-more";
 import { HomeServices } from "@/components/site/home/home-services";
 import { HomeWinter } from "@/components/site/home/home-winter";
-import { HomeVice } from "@/components/site/home/home-vice";
-import { GTA_ON } from "@/lib/gta"; // the GTA theme master switch (Vice City in the two empty cells)
 import { SmartLink } from "@/components/site/smart-link";
 import { getProjects } from "@/lib/projects";
 import { getSiteSettings } from "@/lib/cms/queries";
 import "@/styles/home.css";
-import "@/styles/gta-vice.css";
 
 const POINTS = [
   { title: "Client-Centric Approach", text: "We put your needs first, ensuring every solution is tailored to your goals." },
@@ -212,8 +209,6 @@ export async function HomeMain() {
                 </svg>
               </SmartLink>
             ))}
-            {/* GTA theme (task 161): the two empty cells at the bottom left (next to WePte) are one Vice City sunset; the winter layer below stands on it */}
-            {GTA_ON && <HomeVice />}
             {/* winter world (task 154): snowmen and snowballs on the hairlines of the grid; the cards are its walls */}
             <HomeWinter />
           </div>

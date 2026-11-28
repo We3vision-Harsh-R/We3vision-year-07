@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, type FormEvent } from "react";
+import { useActionState, useRef, useState, type FormEvent } from "react";
 import { GlimmerArt } from "@/components/site/glimmer-art";
 import { submitLead, type LeadState } from "@/actions/leads";
 import { leadProblems, limitPhone, type LeadProblems, type LeadValues } from "@/lib/contact-validation";
@@ -28,14 +28,6 @@ export function HomeContact({ topic, courses = [], ticked = [] }: { topic?: Topi
     const first = ORDER.find((k) => problems[k]);
     if (first) ref.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
   };
-
-  // GTA theme (task 160): tell the message-route map (home-message-route.tsx) how far the form is: how many fields are right, and what is happening
-  useEffect(() => {
-    const p = leadProblems(v, { phoneRequired: true });
-    const done = ORDER.filter((k) => v[k].trim() && !p[k]).length;
-    const stage = state.status === "success" ? "sent" : pending ? "sending" : state.status === "error" ? "fail" : "typing";
-    window.dispatchEvent(new CustomEvent("w3v-lead", { detail: { done, stage } }));
-  }, [v, pending, state.status]);
 
   if (state.status === "success") {
     return (

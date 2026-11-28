@@ -1,3 +1,4 @@
+import "@/styles/contact-flow.css";
 import { GlowEdge } from "../glow-edge";
 import { ContactFlow, AiHead } from "../lazy";
 import { Reveal } from "../reveal";

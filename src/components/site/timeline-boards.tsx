@@ -1,3 +1,4 @@
+import "@/styles/timeline-boards.css";
 // The wall boards of the seven departments in the office of the last year (timeline-office.tsx): a small illustrated panel each,
 // with a little animation (a logo being drawn, a page being built, a tap on a phone, a network that works, a spinning 3D cube,
 // sticky notes that move, a card that travels through a pipeline). Colours are theme colours (classes .bd-*, see globals.css).

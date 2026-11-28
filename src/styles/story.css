@@ -1,0 +1,359 @@
+/* Loaded only by: src/components/site/sections/story.tsx (see tools/css-split.config.mjs). Add new "vy-, sy-" rules HERE, not in globals.css. */
+.sy {
+  --a: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%);
+  --soft: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 92% / 0.86);
+  --hair: hsl(calc(var(--th) + 354) calc(60% * var(--ts)) 85% / 0.16);
+}
+.sy-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+.sy-p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 1.1875rem;
+  line-height: 1.7;
+}
+.sy-p .text-violet {
+  font-weight: 500;
+}
+.sy-duo {
+  display: grid;
+  gap: 1.2rem;
+}
+@media (min-width: 860px) {
+.sy-duo[data-n="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.sy-card {
+  position: relative;
+  padding: 1.8rem 1.8rem 2rem;
+  border: 1px solid var(--hair);
+  border-radius: 26px;
+  background:
+    radial-gradient(130% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 62% / 0.22), transparent 62%),
+    radial-gradient(120% 100% at 100% 100%, hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 56% / 0.18), transparent 64%),
+    hsl(calc(var(--th) + 349) calc(46% * var(--ts)) 10% / 0.86);
+}
+.sy-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+}
+.sy-no {
+  -webkit-text-stroke: 1px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.4);
+  color: transparent;
+  font-size: 3.4rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.sy-card .sy-p {
+  font-size: 1.25rem;
+  line-height: 1.65;
+}
+.sy-lead-wrap {
+  max-width: 980px;
+  margin-inline: auto;
+}
+.sy-lead {
+  margin: 0;
+  background: linear-gradient(180deg, #fff 20%, hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 84%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(1.7rem, 3.2vw, 2.7rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.22;
+}
+.sy-lead .text-violet {
+  background: linear-gradient(90deg, var(--a), hsl(calc(var(--th) + 326) calc(90% * var(--ts)) 70%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.sy-lead-wrap .sy-cols {
+  margin-top: 2.4rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--hair);
+}
+.sy-cols {
+  display: grid;
+  gap: 1.4rem 3rem;
+}
+@media (min-width: 860px) {
+.sy-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.sy-rail {
+  max-width: 1040px;
+  margin-inline: auto;
+  border-top: 1px solid var(--hair);
+}
+.sy-row {
+  display: grid;
+  gap: 1rem 3rem;
+  padding: 2.2rem 0;
+  border-bottom: 1px solid var(--hair);
+}
+@media (min-width: 860px) {
+.sy-row {
+    grid-template-columns: 17rem minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.sy-row-l {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+.sy-big {
+  -webkit-text-stroke: 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
+  color: transparent;
+  font-size: clamp(3.4rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+.sy-title {
+  color: #fff;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.sy-rail .sy-p {
+  font-size: 1.3125rem;
+  line-height: 1.6;
+}
+.sy-chips-wrap {
+  max-width: 1040px;
+  margin-inline: auto;
+}
+.sy-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 0 0 2.2rem;
+  padding: 0;
+  list-style: none;
+}
+.sy-chips li {
+  padding: 0.55rem 1.1rem;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.32);
+  border-radius: 999px;
+  background: linear-gradient(135deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.16), hsl(calc(var(--th) + 326) calc(85% * var(--ts)) 56% / 0.1));
+  color: #fff;
+  font-size: 1.0625rem;
+  font-weight: 500;
+}
+.sy-chips-wrap .sy-p {
+  font-size: 1.1875rem;
+}
+.sy-card {
+  background:
+    linear-gradient(155deg, hsl(0 0% 100% / 0.075) 0%, hsl(0 0% 100% / 0.025) 42%, hsl(0 0% 100% / 0.01) 100%),
+    hsl(calc(var(--th) + 347) calc(38% * var(--ts)) 9% / 0.52);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  box-shadow:
+    inset 0 1px 0 hsl(0 0% 100% / 0.11),
+    inset 0 0 0 1px hsl(0 0% 100% / 0.035);
+}
+@media (max-width: 1023px), (hover: none) {
+.sy-card {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+.vy-stack {
+  display: grid;
+  max-width: 1040px;
+  gap: 1.2rem;
+  /* every box has the same width (the whole column) and the same height (the tallest one) */
+  grid-auto-rows: 1fr;
+  margin-inline: auto;
+}
+.vy-st {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 1.4rem;
+  align-items: center;
+  padding: 1.7rem 2rem;
+  border: 1px solid var(--hair);
+  border-left: 3px solid var(--a);
+  border-radius: 0 24px 24px 0;
+  background: linear-gradient(100deg, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.16), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 10% / 0.86) 60%);
+}
+.vy-st-no {
+  color: transparent;
+  font-size: 3.6rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  -webkit-text-stroke: 1.5px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.55);
+}
+.vy-st .sy-p {
+  font-size: 1.25rem;
+  line-height: 1.65;
+}
+.vy-quote {
+  display: grid;
+  gap: 2.4rem;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+@media (min-width: 960px) {
+.vy-quote {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 3.4rem;
+    align-items: start;
+  }
+}
+.vy-q-main {
+  position: relative;
+  margin: 0;
+  padding: 4.6rem 2.4rem 2rem;
+  border: 1px solid hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 80% / 0.3);
+  border-radius: 30px;
+  background: radial-gradient(120% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.22), transparent 62%), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 9% / 0.9);
+}
+.vy-q-mark {
+  position: absolute;
+  top: 0.6rem;
+  left: 2.2rem;
+  height: 3.4rem;
+  color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.5);
+  font-size: 7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.vy-q-main p {
+  position: relative;
+  margin: 0;
+  background: linear-gradient(180deg, #fff 20%, hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 84%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(1.45rem, 2.3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+.vy-q-main p .text-violet {
+  color: var(--a);
+  -webkit-text-fill-color: var(--a);
+}
+.vy-q-main cite {
+  display: block;
+  margin-top: 1.4rem;
+  color: var(--a);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.vy-q-notes {
+  display: grid;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vy-q-notes li {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--hair);
+}
+.vy-q-notes li:last-child {
+  border-bottom: 0;
+}
+.vy-q-notes li > span {
+  color: var(--a);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.vy-line {
+  position: relative;
+  max-width: 1040px;
+  margin-inline: auto;
+  padding: 0.5rem 0;
+}
+.vy-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6) 12%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.6) 88%, transparent);
+  transform: translateX(-1px);
+}
+.vy-ln {
+  position: relative;
+  width: calc(50% - 2.4rem);
+  margin-bottom: 1.6rem;
+}
+.vy-ln[data-side="r"] {
+  margin-left: calc(50% + 2.4rem);
+}
+.vy-ln-dot {
+  position: absolute;
+  top: 2rem;
+  width: 18px;
+  height: 18px;
+  border: 3px solid var(--a);
+  border-radius: 50%;
+  background: hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 8%);
+  box-shadow: 0 0 18px hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.7);
+}
+.vy-ln[data-side="l"] .vy-ln-dot {
+  right: -3.3rem;
+}
+.vy-ln[data-side="r"] .vy-ln-dot {
+  left: -3.3rem;
+}
+.vy-ln-card {
+  padding: 1.6rem 1.8rem 1.8rem;
+  border: 1px solid var(--hair);
+  border-radius: 24px;
+  background: radial-gradient(120% 100% at 0% 0%, hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 66% / 0.16), transparent 62%), hsl(calc(var(--th) + 347) calc(46% * var(--ts)) 10% / 0.86);
+}
+.vy-ln-no {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--a);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.vy-ln-card .sy-p {
+  font-size: 1.1875rem;
+}
+@media (max-width: 900px) {
+:root .vy-stack {
+    grid-auto-rows: auto;
+  }
+:root .vy-st {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+    padding: 1.2rem;
+    border-radius: 0 20px 20px 0;
+  }
+:root .vy-st-no {
+    font-size: 2.4rem;
+  }
+:root .vy-st .sy-p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+}

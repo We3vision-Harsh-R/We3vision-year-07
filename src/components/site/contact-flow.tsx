@@ -1,5 +1,7 @@
 "use client";
 
+import "@/styles/contact-flow.css";
+
 import { usePathname } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { submitLead, type LeadState } from "@/actions/leads";

@@ -45,7 +45,14 @@ const nextConfig: NextConfig = {
   // adds a 301 from the bare domain to www. It is off by default because it relies on the host forwarding the original Host header: if it did not, www would
   // redirect to itself. Turn it on, open https://we3vision.com/about in a private window, and remove the variable again if it does not land on www.
   async redirects() {
-    return ["07.we3vision.com", ...(process.env.FORCE_WWW === "1" ? ["we3vision.com"] : [])].map((host) => ({ source: "/:path*", has: [{ type: "host" as const, value: host }], destination: "https://www.we3vision.com/:path*", permanent: true }));
+    // three technology pages used to be indexed under mis-spelt addresses ("devlopment"): permanent redirect to the correct ones
+    const spelling = [
+      ["/custom-wordpress-devlopment-services", "/custom-wordpress-development-services"],
+      ["/custom-woocommerce-devlopment", "/custom-woocommerce-development"],
+      ["/headless-CMS-devlopment-services", "/headless-cms-development-services"],
+    ].map(([source, destination]) => ({ source, destination, permanent: true }));
+    const hosts = ["07.we3vision.com", ...(process.env.FORCE_WWW === "1" ? ["we3vision.com"] : [])].map((host) => ({ source: "/:path*", has: [{ type: "host" as const, value: host }], destination: "https://www.we3vision.com/:path*", permanent: true }));
+    return [...spelling, ...hosts];
   },
   async headers() {
     return [

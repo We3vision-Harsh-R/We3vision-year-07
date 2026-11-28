@@ -541,3 +541,20 @@
     transition: none;
   }
 }
+
+@media (max-width: 900px) {
+:root .fg-body {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+  }
+:root .fg-layers {
+    display: none;
+  }
+:root .fg-canvas {
+    min-height: 340px;
+  }
+:root .fg-who,
+:root .fg-share {
+    display: none;
+  }
+}

@@ -112,3 +112,12 @@ export const ISO = [
 ];
 
 // the links of the menu (TRAINING_LINKS) are in lib/site-menu.ts, a small file that the menu can send to the browser
+
+/** the questions on every training page (visible FAQ and FAQPage data). Only facts that are already on the training pages: fee-based, 3/6/9 months, domains, real project work. */
+export const TRAINING_FAQ: { q: string; a: string }[] = [
+  { q: "Does We3vision offer industrial training in Surat?", a: "Yes. We3vision, a software and creative company in Surat, India, runs fee-based industrial training of 3, 6 and 9 months in domains such as web development, app development, AI and machine learning, UI/UX design, graphic design, 3D modeling and animation and digital marketing." },
+  { q: "Is the training paid or free?", a: "The industrial training at We3vision is fee-based: you pay a fee and learn what the industry needs. It is a training, not a paid internship. The fee depends on the domain and on the length you choose, and we share it when you ask." },
+  { q: "Who can join the industrial training?", a: "Students of BE, BTech, BCA, MCA, diploma and other graduate courses, and freshers who want to start a career in IT, can join the training in Surat. Write to us with your course and the domain you like." },
+  { q: "Which domains can I choose?", a: "You can choose web development, app development, software development, AI and machine learning, CRM development, metaverse, VR and AR, UI/UX design, graphic and brand design, 2D/3D modeling and animation, e-commerce on Shopify and WordPress, or digital marketing." },
+  { q: "How do I apply and ask for the fee?", a: "Choose a domain and a length, then write to us on the contact page. We share the fee for that domain and length, answer your questions, confirm your batch and you start with your mentor. Internship roles, when open, are listed on our Careers page." },
+];

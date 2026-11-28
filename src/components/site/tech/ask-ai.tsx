@@ -3,13 +3,16 @@
 import "@/styles/panda-chat.css";
 
 
+
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import dynamic from "next/dynamic";
 import { askBot, getChatServices, normalizeMarkdown, type ChatMessage, type ChatService } from "@/lib/ai-chat";
 import { chatFull, openChatOverlay } from "@/lib/chat-overlay"; // every question opens the full-screen chat
 import { GlassSelect } from "../glass-select";
 import { oneLine, type TechData } from "./data";
+
+// the markdown library (~43 KB gzip) is fetched when the first answer comes, not with the page (task: optimize)
+const MenuMd = dynamic(() => import("../chat-md").then((m) => m.MenuMd), { ssr: false });
 
 // The AI box of a technology page. It is PANDA's own setup (src/lib/ai-chat.ts): the same backend, the same service list, the same session, the
 // same answer with links to the related service pages. The only difference is that the question is already scoped to the service of this page.
@@ -99,27 +102,7 @@ export function AskAi({ d }: { d: TechData }) {
         {messages.map((m, i) => (
           <div key={i} className="hl-ai-group" data-role={m.role}>
             <div className="hl-ai-msg hl-ai-md pd-msg" data-role={m.role}>
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  a: ({ ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" className="pd-msg-a" />,
-                  h1: ({ ...props }) => <h1 {...props} className="pd-msg-h1" />,
-                  h2: ({ ...props }) => <h2 {...props} className="pd-msg-h2" />,
-                  h3: ({ ...props }) => <h3 {...props} className="pd-msg-h3" />,
-                  h4: ({ ...props }) => <h4 {...props} className="pd-msg-h4" />,
-                  p: ({ ...props }) => <p {...props} className="pd-msg-p" />,
-                  ul: ({ ...props }) => <ul {...props} className="pd-msg-ul" />,
-                  ol: ({ ...props }) => <ol {...props} className="pd-msg-ol" />,
-                  li: ({ ...props }) => <li {...props} className="pd-msg-li" />,
-                  strong: ({ ...props }) => <strong {...props} className="pd-msg-strong" />,
-                  hr: () => <hr className="pd-msg-divider" />,
-                  pre: ({ ...props }) => <pre {...props} className="pd-msg-pre" />,
-                  code: ({ ...props }) => <code {...props} className="pd-msg-code" />,
-                  table: ({ ...props }) => <div className="pd-msg-table-wrap"><table {...props} className="pd-msg-table" /></div>,
-                }}
-              >
-                {normalizeMarkdown(m.text)}
-              </ReactMarkdown>
+              <MenuMd text={normalizeMarkdown(m.text)} />
             </div>
             {m.role === "assistant" && m.links?.length ? (
               <div className="hl-ai-links" aria-label="Related service pages">

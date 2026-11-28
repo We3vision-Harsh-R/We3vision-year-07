@@ -1,0 +1,49 @@
+/* Loaded only by: src/components/site/tech/stage.tsx (see tools/css-split.config.mjs). Add new "tw-" rules HERE, not in globals.css. */
+.tw { display: flex; flex-direction: column; height: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--tw-line, hsl(calc(var(--th) + 354) 40% 80% / 0.16)); background: var(--tw-bg0, hsl(calc(var(--th) + 340) calc(35% * var(--ts)) 6% / 0.88)); backdrop-filter: blur(14px); box-shadow: 0 40px 120px hsl(calc(var(--th) + 330) 60% 3% / 0.7); }
+.tw-bar { display: flex; align-items: center; gap: 7px; padding: 11px 16px; border-bottom: 1px solid var(--tw-line, hsl(calc(var(--th) + 354) 40% 80% / 0.16)); background: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 10%); font: 400 0.9rem ui-monospace, Menlo, monospace; color: hsl(calc(var(--th) + 340) calc(12% * var(--ts)) 70%); flex: none; }
+.tw-bar i { width: 11px; height: 11px; border-radius: 50%; background: hsl(8 70% 60%); }
+.tw-bar i:nth-child(2) { background: hsl(42 80% 60%); }
+.tw-bar i:nth-child(3) { background: hsl(130 55% 52%); }
+.tw-bar b { font-weight: 400; margin: 0 auto; padding-right: 54px; }
+.tw-body { flex: 1; min-height: 0; display: grid; grid-template-columns: 220px minmax(0, 1fr); }
+.tw-nav { display: flex; flex-direction: column; padding: 10px 0; border-right: 1px solid var(--tw-line, hsl(calc(var(--th) + 354) 40% 80% / 0.16)); background: hsl(calc(var(--th) + 340) calc(30% * var(--ts)) 8% / 0.9); overflow-y: auto; }
+.tw-nav button { display: flex; align-items: center; gap: 12px; padding: 11px 18px; border: 0; border-left: 3px solid transparent; background: none; text-align: left; color: hsl(calc(var(--th) + 340) calc(12% * var(--ts)) 70%); font: 400 0.98rem inherit; font-family: inherit; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.tw-nav button span { font: 500 0.875rem ui-monospace, monospace; opacity: 0.6; }
+.tw-nav button:hover { color: #fff; }
+.tw-nav button.is-on { color: #fff; background: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76% / 0.1); border-left-color: hsl(calc(var(--th) + 354) calc(100% * var(--ts)) 76%); }
+.tw-panel { min-width: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 62% / 0.7) transparent; padding: 30px 38px 40px; animation: tw-in 0.45s ease; }
+@keyframes tw-in { from { opacity: 0; transform: translateY(10px); } }
+.tw-panel::-webkit-scrollbar { width: 8px; }
+.tw-panel::-webkit-scrollbar-thumb { background: hsl(calc(var(--th) + 354) calc(70% * var(--ts)) 62% / 0.7); border-radius: 8px; }
+.tw-panel h1 { font-size: clamp(2rem, 3.3vw, 3.1rem) !important; margin: 16px 0 14px !important; }
+.tw-panel h2 { font-size: clamp(1.7rem, 2.6vw, 2.4rem) !important; }
+.tw-panel :is(.hl-coll, .hl-rows, .hl-gql > ul, .woo-grid, .woo-qa, .sha-tests ul, .sha-flip, .wpp-rbody) { max-height: none; overflow: visible; padding-right: 0; }
+@media (prefers-reduced-motion: reduce) {
+.tw-panel * { animation: none !important; }
+}
+@media (max-width: 900px) {
+html body .tw .tw-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+html body .tw .tw-nav {
+    flex-direction: row;
+    gap: 6px;
+    padding: 10px 12px;
+    border-right: 0;
+    border-bottom: 1px solid hsl(calc(var(--th) + 354) 40% 80% / 0.16);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+html body .tw .tw-nav::-webkit-scrollbar {
+    display: none;
+  }
+html body .tw .tw-nav button {
+    flex: none;
+    white-space: nowrap;
+    padding: 9px 14px;
+    border-left: 0;
+    border-radius: 999px;
+  }
+}
