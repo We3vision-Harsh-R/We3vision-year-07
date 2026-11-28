@@ -16,6 +16,16 @@ export type VersionEntry = {
 
 export const VERSION_LOG: VersionEntry[] = [
   {
+    v: 206,
+    date: "2026-11-28",
+    title: "Contact page redesign",
+    notes: [
+      "Contact page: one design for laptop and phone, with a single bar to call, WhatsApp, e-mail or visit us.",
+      "The four topics and the form are now one card; each topic shows its own questions.",
+      "Phones now open the same Contact page as laptops.",
+    ],
+  },
+  {
     v: 205,
     date: "2026-11-28",
     title: "Admin: master admins and page access, new dashboard, one-screen hiring board",
